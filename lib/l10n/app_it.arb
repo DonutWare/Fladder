@@ -178,7 +178,7 @@
             }
         }
     },
-    "loop": "Loop",
+    "loop": "Ripeti",
     "markAsUnwatched": "Contrassegna come non guardato",
     "markAsWatched": "Contrassegna come guardato",
     "masonry": "Massoneria",
@@ -290,7 +290,7 @@
     "played": "Riprodotto",
     "quickConnectAction": "Inserisci il codice di connessione rapida per",
     "quickConnectInputACode": "Inserisci un codice",
-    "quickConnectTitle": "Quick-connect",
+    "quickConnectTitle": "Connessione rapida",
     "quickConnectWrongCode": "Codice errato",
     "random": "Casuale",
     "reWatch": "Riguarda",
@@ -507,7 +507,7 @@
     "videoScalingFillScreenTitle": "Riempi lo schermo",
     "videoScalingFitHeight": "Adatta altezza",
     "videoScalingFitWidth": "Adatta larghezza",
-    "videoScalingScaleDown": "Ridimensionamento",
+    "videoScalingScaleDown": "Riduci scala",
     "viewPhotos": "Visualizza le foto",
     "watchOn": "Guarda su",
     "addToNewCollection": "Nuova collezione",
@@ -700,7 +700,7 @@
             }
         }
     },
-    "copyStreamUrl": "Copia l'URL del flusso",
+    "copyStreamUrl": "Copia url dello stream",
     "settingsLayoutSizesTitle": "Dimensioni del layout",
     "settingsLayoutSizesDesc": "Scegli quali dimensioni di layout l'app può utilizzare in base alle dimensioni della finestra",
     "settingsLayoutModesTitle": "Modalità di layout",
@@ -1206,7 +1206,7 @@
     "clientSettingsUseSystemIMEDesc": "Usa la tastiera predefinita fornita dal sistema",
     "controlPanel": "Pannello di controllo",
     "controlPanelDesc": "Server, Attività, Utenti, Libreria",
-    "controlDashboard": "Pannello di controllo",
+    "controlDashboard": "Dashboard di controllo",
     "serverName": "Nome del server",
     "serverVersion": "Versione del server",
     "webVersion": "Versione web",
@@ -1445,5 +1445,201 @@
     "downloadLanguages": "Scarica lingue",
     "subtitleDownloaders": "Scaricatori di sottotitoli",
     "onlyPerfectSubtitleMatch": "Scarica solo sottotitoli che corrispondono perfettamente al video",
-    "perfectSubtitleMatchDescription": "Richiedere una corrispondenza perfetta filtrerà i sottotitoli includendo solo quelli testati e verificati con il tuo file video specifico. Disattivando questa opzione aumenterai le probabilità di scaricare i sottotitoli, ma aumenterà anche il rischio di testi fuori sincrono o errati."
+    "perfectSubtitleMatchDescription": "Richiedere una corrispondenza perfetta filtrerà i sottotitoli includendo solo quelli testati e verificati con il tuo file video specifico. Disattivando questa opzione aumenterai le probabilità di scaricare i sottotitoli, ma aumenterà anche il rischio di testi fuori sincrono o errati.",
+    "enableNewTVLayoutDesc": "Mostra banner grandi in stile TV nella dashboard. Questo diventerà il layout predefinito in un rilascio futuro.",
+    "enableNewTVLayout": "Abilita il nuovo layout TV",
+    "allowCollections": "Consenti collezioni per questo utente",
+    "maxParentalRating": "Classificazione massima",
+    "skipSubtitlesIfAudioMatches": "Salta se la traccia audio predefinita corrisponde alla lingua di download",
+    "skipSubtitlesIfEmbedded": "Salta se il video contiene già sottotitoli incorporati",
+    "saveSubtitlesNextToMedia": "Salva i sottotitoli accanto ai media",
+    "saveArtWorkNextToMedia": "Salva le immagini dei contenuti accanto ai file multimediali",
+    "saveArtWorkNextToMediaDesc": "Salvare le immagini nelle cartelle multimediali le renderà facilmente modificabili.",
+    "select": "Seleziona",
+    "newLibrary": "Nuova libreria",
+    "contentType": "Tipo di contenuto",
+    "metadataImageLongPressTouch": "Tieni premuto per eliminare l'immagine",
+    "metadataImageLongPressClick": "Tasto destro per eliminare l'immagine",
+    "primary": "Primario",
+    "logo": "{count, plural, other{Logo} one{Logo}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, other{Sfondi} one{Sfondo}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "Seleziona la cartella per aggiungere",
+    "systemRootFolder": "Cartella radice di sistema",
+    "selectedPath": "Percorso selezionato: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "recentlyAdded": "Recentemente aggiunto",
+    "recentRequests": "Richieste recenti",
+    "trending": "In tendenza",
+    "popularMovies": "Film popolari",
+    "popularSeries": "Serie popolari",
+    "expectedMovies": "Film in arrivo",
+    "expectedSeries": "Serie in arrivo",
+    "requestConfiguration": "Richiedi configurazione",
+    "qualityProfile": "Profilo qualità",
+    "selectProfile": "Seleziona profilo",
+    "rootFolder": "Cartella radice",
+    "selectFolder": "Seleziona cartella",
+    "tags": "Tag",
+    "noTags": "Nessun tag",
+    "requestAs": "Richiedi come",
+    "requestQuotaStatus": "{remaining} di {limit} rimanenti (si azzera ogni {days} giorni)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Limite di richieste raggiunto per {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "Invia richiesta",
+    "downloading": "scaricamento",
+    "request": "Richiesta",
+    "viewRequest": "Visualizza richiesta",
+    "email": "Email",
+    "username": "Nome utente",
+    "ok": "OK",
+    "seerr": "Seerr",
+    "seerrNotConfigured": "Non configurato",
+    "seerrLoadingUser": "Caricamento utente",
+    "seerrAuthenticateLocal": "Autenticazione Seerr (locale)",
+    "rootFolderDefaultLabel": "{folder} (Predefinito)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* Questa serie è un anime.",
+    "seerrAutoApproveNotice": "Le richieste che invii sono approvate automaticamente.",
+    "seerrPermissionDenied": "Non hai il permesso di richiedere questo tipo di media.",
+    "seerrRequestStatusPending": "In attesa",
+    "seerrRequestStatusApproved": "Approvata",
+    "seerrRequestStatusDeclined": "Rifiutata",
+    "seerrRequestStatusFailed": "Fallita",
+    "seerrRequestStatusCompleted": "Completata",
+    "seerrMediaStatusProcessing": "In elaborazione",
+    "seerrMediaStatusPartiallyAvailable": "Parzialmente disponibile",
+    "seerrMediaStatusBlacklisted": "In lista nera",
+    "seerrMediaStatusDeleted": "Cancellato",
+    "seerrAuthApiKey": "Chiave API",
+    "seerrUserFetchFailed": "Impossibile recuperare l'utente da Seerr",
+    "seerrCustomHeaders": "Intestazioni personalizzate",
+    "seerrHeader": "Intestazione",
+    "seerrHeaderValue": "Valore",
+    "emailUsername": "Email/Nome utente",
+    "discover": "Esplora",
+    "sponsor": "Sostieni",
+    "sponsorMessage": "Se ti piace usare Fladder, considera di sostenere il progetto per supportarne lo sviluppo continuo e i miglioramenti. Grazie per il tuo supporto!",
+    "manageRequest": "Gestisci richiesta",
+    "requestAll": "Richiedi tutto",
+    "openInSeerr": "Apri in Seerr",
+    "openInSonarr": "Apri in Sonarr",
+    "openInRadarr": "Apri in Radarr",
+    "removeFromSonarr": "Rimuovi da Sonarr",
+    "removeFromRadarr": "Rimuovi da Radarr",
+    "markAllSeasonsAsAvailable": "Segna tutte le stagioni come disponibili",
+    "deleteData": "Elimina dati",
+    "removeSeriesFromSonarrConfirm": "Rimuovere questa serie da Sonarr? Questo eliminerà tutti i dati, INCLUSI i file.",
+    "removeMovieFromRadarrConfirm": "Rimuovere questa serie da Radarr? Questo eliminerà tutti i dati, INCLUSI i file.",
+    "removedFromSonarr": "Rimosso da Sonarr",
+    "removedFromRadarr": "Rimosso da Radarr",
+    "markAllSeasonsAsAvailableConfirm": "Segnare tutte le stagioni come disponibili?",
+    "markAsAvailableConfirm": "Segnare come disponibile?",
+    "markedAsAvailable": "Segnato come disponibile",
+    "deleteSeerrDataConfirm": "Eliminare tutti i file da Seerr? Questa azione non può essere annullata.\nSe i dati sono ancora presenti in {service}, potrebbero essere reimportati.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "Dati cancellati",
+    "pendingRequests": "{count, plural, other{Nessuna richiesta in attesa} one{{count} richiesta in attesa} two{{count} richieste in attesa}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "In elaborazione",
+    "seerrDetails": "Dettagli Seerr",
+    "watch": "Guarda",
+    "watchChannel": "Guarda {channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "Ora",
+    "noPrograms": "Nessun programma disponibile",
+    "switchChannel": "Cambia canale",
+    "switchChannelDesc": "Vuoi guardare \"{programName}\" su {channelName}?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "specialFeature": "{count, plural, other{Contenuti speciali} one{Contenuto speciale} }",
+    "@specialFeature": {
+        "description": "special feature",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "activeTvChannels": "Attiva canali TV",
+    "noOverviewAvailable": "Nessuna panoramica disponibile."
 }
