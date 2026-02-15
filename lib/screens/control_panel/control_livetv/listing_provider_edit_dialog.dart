@@ -274,14 +274,13 @@ class _TagInput extends StatelessWidget {
   final void Function(String) onRemove;
 
   const _TagInput({
-    Key? key,
     required this.label,
     required this.subLabel,
     required this.items,
     required this.controller,
     required this.onAdd,
     required this.onRemove,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
