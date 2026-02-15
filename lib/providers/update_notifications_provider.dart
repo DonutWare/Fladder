@@ -14,7 +14,7 @@ import 'package:fladder/providers/shared_provider.dart';
 
 final supportsNotificationsProvider = Provider.autoDispose<bool>((ref) {
   final leanBackMode = ref.watch(argumentsStateProvider.select((value) => value.leanBackMode));
-  return (!kIsWeb && !leanBackMode) && (Platform.isAndroid || Platform.isIOS);
+  return (!kIsWeb && !leanBackMode) && Platform.isAndroid;
 });
 
 final updateNotificationsProvider = Provider<UpdateNotifications>((ref) => UpdateNotifications(ref));
