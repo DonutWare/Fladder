@@ -58,7 +58,7 @@ class UpdateNotifications {
   Future<void> executeBackgroundTask() async {
     try {
       await Workmanager().registerOneOffTask(
-        UniqueKey().toString(),
+        updateNotificationNameDebug,
         updateTaskNameDebug,
         existingWorkPolicy: ExistingWorkPolicy.replace,
         constraints: Constraints(networkType: NetworkType.connected),

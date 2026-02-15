@@ -48,6 +48,11 @@
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+		</array>
+
 		<!-- URL scheme for deep linking (example: fladder://details?id=xyz) -->
 		<key>CFBundleURLTypes</key>
 		<array>

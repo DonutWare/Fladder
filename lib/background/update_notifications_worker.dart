@@ -17,6 +17,7 @@ import 'package:fladder/services/notification_service.dart';
 import 'package:fladder/util/notification_helpers.dart';
 
 const String updateNotificationName = 'fladder_update_notification';
+const String updateNotificationNameDebug = 'fladder_update_notification_debug';
 const String updateTaskName = 'fladder_update_notifications_check';
 const String updateTaskNameDebug = 'fladder_update_notifications_check_debug2';
 
@@ -27,8 +28,10 @@ void callbackDispatcher() {
       try {
         switch (taskName) {
           case updateTaskName:
+          case updateNotificationName:
             return await performHeadlessUpdateCheck();
           case updateTaskNameDebug:
+          case updateNotificationNameDebug:
             return await performHeadlessUpdateCheck(debug: true);
           default:
             log("Unknown task: $taskName");
