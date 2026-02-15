@@ -35,11 +35,14 @@ class UpdateNotifications {
 
     try {
       await Workmanager().registerPeriodicTask(
-        updateNotificationName,
+        updateTaskName,
         updateTaskName,
         frequency: interval,
-        existingWorkPolicy: ExistingPeriodicWorkPolicy.replace,
-        constraints: Constraints(networkType: NetworkType.connected),
+        existingWorkPolicy: ExistingPeriodicWorkPolicy.update,
+        inputData: <String, dynamic>{
+          'frequency': interval.inMinutes,
+          'timestamp': DateTime.now().toIso8601String(),
+        },
       );
     } catch (e) {
       log('Error registering background task: $e');
@@ -48,7 +51,7 @@ class UpdateNotifications {
 
   Future<void> unregisterBackgroundTask() async {
     try {
-      await Workmanager().cancelByUniqueName(updateNotificationName);
+      await Workmanager().cancelByUniqueName(updateTaskName);
     } catch (e) {
       log('Error unregistering background task: $e');
     }
@@ -58,7 +61,7 @@ class UpdateNotifications {
   Future<void> executeBackgroundTask() async {
     try {
       await Workmanager().registerOneOffTask(
-        updateNotificationNameDebug,
+        updateTaskNameDebug,
         updateTaskNameDebug,
         existingWorkPolicy: ExistingWorkPolicy.replace,
         constraints: Constraints(networkType: NetworkType.connected),
@@ -67,4 +70,6 @@ class UpdateNotifications {
       log('Error executing background task: $e');
     }
   }
+
+  Future<void> cancelAllTasks() => Workmanager().cancelAll();
 }

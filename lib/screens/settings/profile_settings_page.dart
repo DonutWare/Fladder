@@ -221,12 +221,18 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                   }
                 },
               ),
-              if (kDebugMode)
+              if (kDebugMode) ...[
                 SettingsListTile(
                   label: const Text('Show notification (debug)'),
                   subLabel: const Text('Show a native notification with the latest ~5 items for the active account'),
                   onTap: () async => await ref.read(updateNotificationsProvider).executeBackgroundTask(),
                 ),
+                SettingsListTile(
+                  label: const Text('Cancel all tasks (debug)'),
+                  subLabel: const Text('Cancel all scheduled background tasks for update notifications'),
+                  onTap: () async => await ref.read(updateNotificationsProvider).cancelAllTasks(),
+                ),
+              ],
             ],
           ),
         ],
