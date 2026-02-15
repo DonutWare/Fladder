@@ -42,7 +42,7 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
     final details = ref.watch(providerId);
 
     return DetailScaffold(
-      label: details?.localizedName(context) ?? "",
+      label: details?.localizedName(context.localized) ?? "",
       item: details,
       actions: (context) => details?.generateActions(context, ref, exclude: {
         ItemActions.details,
@@ -61,7 +61,7 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                     name: details.seriesName,
                     image: details.parentImages,
                     padding: padding,
-                    subTitle: details.localizedName(context),
+                    subTitle: details.localizedName(context.localized),
                     onTitleClicked: () => details.parentBaseModel.navigateTo(context),
                     originalTitle: details.seriesName,
                     productionYear: details.overview.productionYear?.toString(),

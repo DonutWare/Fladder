@@ -27,7 +27,9 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
   List<String> get searchQueryHistory;
   bool get quickConnectState;
   List<LibraryFiltersModel>
-      get libraryFilters; //Server values not stored in the database
+      get libraryFilters; // Update notification settings (local)
+  bool
+      get updateNotificationsEnabled; //Server values not stored in the database
   @JsonKey(includeFromJson: false, includeToJson: false)
   UserPolicy? get policy;
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -67,6 +69,8 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('searchQueryHistory', searchQueryHistory))
       ..add(DiagnosticsProperty('quickConnectState', quickConnectState))
       ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
+      ..add(DiagnosticsProperty(
+          'updateNotificationsEnabled', updateNotificationsEnabled))
       ..add(DiagnosticsProperty('policy', policy))
       ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
       ..add(DiagnosticsProperty('userConfiguration', userConfiguration))
@@ -77,7 +81,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
   }
 }
 
@@ -100,6 +104,7 @@ abstract mixin class $AccountModelCopyWith<$Res> {
       List<String> searchQueryHistory,
       bool quickConnectState,
       List<LibraryFiltersModel> libraryFilters,
+      bool updateNotificationsEnabled,
       @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
       ServerConfiguration? serverConfiguration,
@@ -139,6 +144,7 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
     Object? searchQueryHistory = null,
     Object? quickConnectState = null,
     Object? libraryFilters = null,
+    Object? updateNotificationsEnabled = null,
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
     Object? userConfiguration = freezed,
@@ -195,6 +201,10 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
           ? _self.libraryFilters
           : libraryFilters // ignore: cast_nullable_to_non_nullable
               as List<LibraryFiltersModel>,
+      updateNotificationsEnabled: null == updateNotificationsEnabled
+          ? _self.updateNotificationsEnabled
+          : updateNotificationsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       policy: freezed == policy
           ? _self.policy
           : policy // ignore: cast_nullable_to_non_nullable
@@ -368,6 +378,7 @@ extension AccountModelPatterns on AccountModel {
             List<String> searchQueryHistory,
             bool quickConnectState,
             List<LibraryFiltersModel> libraryFilters,
+            bool updateNotificationsEnabled,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserPolicy? policy,
             @JsonKey(includeFromJson: false, includeToJson: false)
@@ -398,6 +409,7 @@ extension AccountModelPatterns on AccountModel {
             _that.searchQueryHistory,
             _that.quickConnectState,
             _that.libraryFilters,
+            _that.updateNotificationsEnabled,
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
@@ -437,6 +449,7 @@ extension AccountModelPatterns on AccountModel {
             List<String> searchQueryHistory,
             bool quickConnectState,
             List<LibraryFiltersModel> libraryFilters,
+            bool updateNotificationsEnabled,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserPolicy? policy,
             @JsonKey(includeFromJson: false, includeToJson: false)
@@ -466,6 +479,7 @@ extension AccountModelPatterns on AccountModel {
             _that.searchQueryHistory,
             _that.quickConnectState,
             _that.libraryFilters,
+            _that.updateNotificationsEnabled,
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
@@ -504,6 +518,7 @@ extension AccountModelPatterns on AccountModel {
             List<String> searchQueryHistory,
             bool quickConnectState,
             List<LibraryFiltersModel> libraryFilters,
+            bool updateNotificationsEnabled,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserPolicy? policy,
             @JsonKey(includeFromJson: false, includeToJson: false)
@@ -533,6 +548,7 @@ extension AccountModelPatterns on AccountModel {
             _that.searchQueryHistory,
             _that.quickConnectState,
             _that.libraryFilters,
+            _that.updateNotificationsEnabled,
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
@@ -561,6 +577,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       final List<String> searchQueryHistory = const [],
       this.quickConnectState = false,
       final List<LibraryFiltersModel> libraryFilters = const [],
+      this.updateNotificationsEnabled = false,
       @JsonKey(includeFromJson: false, includeToJson: false) this.policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
       this.serverConfiguration,
@@ -628,6 +645,10 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
     return EqualUnmodifiableListView(_libraryFilters);
   }
 
+// Update notification settings (local)
+  @override
+  @JsonKey()
+  final bool updateNotificationsEnabled;
 //Server values not stored in the database
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -678,6 +699,8 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('searchQueryHistory', searchQueryHistory))
       ..add(DiagnosticsProperty('quickConnectState', quickConnectState))
       ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
+      ..add(DiagnosticsProperty(
+          'updateNotificationsEnabled', updateNotificationsEnabled))
       ..add(DiagnosticsProperty('policy', policy))
       ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
       ..add(DiagnosticsProperty('userConfiguration', userConfiguration))
@@ -688,7 +711,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
   }
 }
 
@@ -713,6 +736,7 @@ abstract mixin class _$AccountModelCopyWith<$Res>
       List<String> searchQueryHistory,
       bool quickConnectState,
       List<LibraryFiltersModel> libraryFilters,
+      bool updateNotificationsEnabled,
       @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
       ServerConfiguration? serverConfiguration,
@@ -756,6 +780,7 @@ class __$AccountModelCopyWithImpl<$Res>
     Object? searchQueryHistory = null,
     Object? quickConnectState = null,
     Object? libraryFilters = null,
+    Object? updateNotificationsEnabled = null,
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
     Object? userConfiguration = freezed,
@@ -812,6 +837,10 @@ class __$AccountModelCopyWithImpl<$Res>
           ? _self._libraryFilters
           : libraryFilters // ignore: cast_nullable_to_non_nullable
               as List<LibraryFiltersModel>,
+      updateNotificationsEnabled: null == updateNotificationsEnabled
+          ? _self.updateNotificationsEnabled
+          : updateNotificationsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       policy: freezed == policy
           ? _self.policy
           : policy // ignore: cast_nullable_to_non_nullable

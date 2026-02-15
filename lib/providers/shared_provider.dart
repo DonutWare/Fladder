@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/models/last_seen_notifications_model.dart';
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
@@ -104,7 +105,7 @@ class SharedUtility {
   }
 
   List<AccountModel> getAccounts() {
-    final savedAccounts = sharedPreferences.getStringList(_loginCredentialsKey);
+    final savedAccounts = sharedPreferences.getStringList(SharedKeys.loginCredentialsKey);
     try {
       return savedAccounts != null ? savedAccounts.map((e) => AccountModel.fromJson(jsonDecode(e))).toList() : [];
     } catch (_, stacktrace) {
@@ -129,11 +130,11 @@ class SharedUtility {
   }
 
   Future<bool?> saveAccounts(List<AccountModel> accounts) async =>
-      sharedPreferences.setStringList(_loginCredentialsKey, accounts.map((e) => jsonEncode(e)).toList());
+      sharedPreferences.setStringList(SharedKeys.loginCredentialsKey, accounts.map((e) => jsonEncode(e)).toList());
 
   ClientSettingsModel get clientSettings {
     try {
-      return ClientSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(_clientSettingsKey) ?? ""));
+      return ClientSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(SharedKeys.clientSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
       return ClientSettingsModel.defaultModel();
@@ -141,11 +142,11 @@ class SharedUtility {
   }
 
   set clientSettings(ClientSettingsModel settings) =>
-      sharedPreferences.setString(_clientSettingsKey, jsonEncode(settings.toJson()));
+      sharedPreferences.setString(SharedKeys.clientSettingsKey, jsonEncode(settings.toJson()));
 
   HomeSettingsModel get homeSettings {
     try {
-      return HomeSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(_homeSettingsKey) ?? ""));
+      return HomeSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(SharedKeys._homeSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
       return HomeSettingsModel.defaultModel();
@@ -153,11 +154,11 @@ class SharedUtility {
   }
 
   set homeSettings(HomeSettingsModel settings) =>
-      sharedPreferences.setString(_homeSettingsKey, jsonEncode(settings.toJson()));
+      sharedPreferences.setString(SharedKeys._homeSettingsKey, jsonEncode(settings.toJson()));
 
   BookViewerSettingsModel get bookViewSettings {
     try {
-      return BookViewerSettingsModel.fromJson(sharedPreferences.getString(_bookViewSettingsKey) ?? "");
+      return BookViewerSettingsModel.fromJson(sharedPreferences.getString(SharedKeys._bookViewSettingsKey) ?? "");
     } catch (e) {
       log(e.toString());
       return BookViewerSettingsModel();
@@ -165,7 +166,7 @@ class SharedUtility {
   }
 
   set bookViewSettings(BookViewerSettingsModel settings) {
-    sharedPreferences.setString(_bookViewSettingsKey, settings.toJson());
+    sharedPreferences.setString(SharedKeys._bookViewSettingsKey, settings.toJson());
   }
 
   Future<void> updateAccountInfo(AccountModel account) async {
@@ -183,9 +184,23 @@ class SharedUtility {
     });
   }
 
+  LastSeenNotificationsModel getLastSeenNotifications() {
+    try {
+      return LastSeenNotificationsModel.fromJson(
+          jsonDecode(sharedPreferences.getString(SharedKeys.lastSeenNotificationsKey) ?? ""));
+    } catch (e) {
+      log(e.toString());
+      return const LastSeenNotificationsModel();
+    }
+  }
+
+  Future<void> setLastSeenNotifications(LastSeenNotificationsModel serverLastSeen) async {
+    sharedPreferences.setString(SharedKeys.lastSeenNotificationsKey, jsonEncode(serverLastSeen.toJson()));
+  }
+
   SubtitleSettingsModel get subtitleSettings {
     try {
-      return SubtitleSettingsModel.fromJson(sharedPreferences.getString(_subtitleSettingsKey) ?? "");
+      return SubtitleSettingsModel.fromJson(sharedPreferences.getString(SharedKeys._subtitleSettingsKey) ?? "");
     } catch (e) {
       log(e.toString());
       return const SubtitleSettingsModel();
@@ -193,12 +208,13 @@ class SharedUtility {
   }
 
   set subtitleSettings(SubtitleSettingsModel settings) {
-    sharedPreferences.setString(_subtitleSettingsKey, settings.toJson());
+    sharedPreferences.setString(SharedKeys._subtitleSettingsKey, settings.toJson());
   }
 
   VideoPlayerSettingsModel get videoPlayerSettings {
     try {
-      return VideoPlayerSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(_videoPlayerSettingsKey) ?? ""));
+      return VideoPlayerSettingsModel.fromJson(
+          jsonDecode(sharedPreferences.getString(SharedKeys._videoPlayerSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
       return VideoPlayerSettingsModel();
@@ -206,12 +222,12 @@ class SharedUtility {
   }
 
   set videoPlayerSettings(VideoPlayerSettingsModel settings) {
-    sharedPreferences.setString(_videoPlayerSettingsKey, jsonEncode(settings.toJson()));
+    sharedPreferences.setString(SharedKeys._videoPlayerSettingsKey, jsonEncode(settings.toJson()));
   }
 
   PhotoViewSettingsModel get photoViewSettings {
     try {
-      return PhotoViewSettingsModel.fromJson(sharedPreferences.getString(_photoViewSettingsKey) ?? "");
+      return PhotoViewSettingsModel.fromJson(sharedPreferences.getString(SharedKeys._photoViewSettingsKey) ?? "");
     } catch (e) {
       log(e.toString());
       return PhotoViewSettingsModel();
@@ -219,14 +235,17 @@ class SharedUtility {
   }
 
   set photoViewSettings(PhotoViewSettingsModel settings) {
-    sharedPreferences.setString(_photoViewSettingsKey, settings.toJson());
+    sharedPreferences.setString(SharedKeys._photoViewSettingsKey, settings.toJson());
   }
 }
 
-const String _loginCredentialsKey = 'loginCredentialsKey';
-const String _clientSettingsKey = 'clientSettings';
-const String _homeSettingsKey = 'homeSettings';
-const String _videoPlayerSettingsKey = 'videoPlayerSettings';
-const String _subtitleSettingsKey = 'subtitleSettings';
-const String _bookViewSettingsKey = 'bookViewSettings';
-const String _photoViewSettingsKey = 'photoViewSettings';
+class SharedKeys {
+  static const String loginCredentialsKey = 'loginCredentialsKey';
+  static const String clientSettingsKey = 'clientSettings';
+  static const String _homeSettingsKey = 'homeSettings';
+  static const String _videoPlayerSettingsKey = 'videoPlayerSettings';
+  static const String _subtitleSettingsKey = 'subtitleSettings';
+  static const String _bookViewSettingsKey = 'bookViewSettings';
+  static const String _photoViewSettingsKey = 'photoViewSettings';
+  static const String lastSeenNotificationsKey = 'lastSeenNotifications';
+}

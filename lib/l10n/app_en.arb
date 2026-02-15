@@ -2250,5 +2250,24 @@
   },
   "activeTvChannels": "Active TV Channels",
   "enableNewTVLayout": "Enable new TV layout",
-  "enableNewTVLayoutDesc": "Show larger TV style banners on the dashboard. This will become the default layout in a future release."
+  "enableNewTVLayoutDesc": "Show larger TV style banners on the dashboard. This will become the default layout in a future release.",
+  "notifications": "Notifications",
+  "showNewItemNotificationTitle": "Check for new items",
+  "notificationChannelDescription": "Notifications for newly added items",
+  "@notificationChannelDescription": {},
+  "notificationNewEpisodes": "New episodes added",
+  "@notificationNewEpisodes": {},
+  "notificationNewItems": "{count, plural, one{{count} new item} other{{count} new items}}",
+  "@notificationNewItems": {
+    "description": "Plural for number of new items in a notification",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationTimerIOSWarning": " iOS decides when/if updates actually run, notifications may be delayed or not show up at all.",
+  "updateCheckInterval": "Update check interval",
+  "updateCheckIntervalDesc": "How often the background task runs",
+  "notificationsIntervalClientReminder": "Notification interval is set for all users."
 }

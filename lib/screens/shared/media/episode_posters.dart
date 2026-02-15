@@ -299,7 +299,7 @@ class EpisodePoster extends ConsumerWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            episode.status.label(context),
+                            episode.status.label(context.localized),
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -388,7 +388,7 @@ class EpisodePoster extends ConsumerWidget {
                   ),
                 Flexible(
                   child: Text(
-                    episode.episodeLabel(context),
+                    episode.episodeLabel(context.localized),
                     maxLines: 1,
                   ),
                 ),

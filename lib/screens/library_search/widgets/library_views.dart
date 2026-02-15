@@ -332,7 +332,7 @@ class LibraryViews extends ConsumerWidget {
       case GroupBy.name:
         return groupBy(list, (poster) => poster.name[0].capitalize());
       case GroupBy.type:
-        return groupBy(list, (poster) => poster.type.label(context));
+        return groupBy(list, (poster) => poster.type.label(context.localized));
       case GroupBy.none:
         return {};
     }

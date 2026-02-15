@@ -114,7 +114,7 @@ class PosterWidget extends ConsumerWidget {
                         Flexible(
                           child: ClickableText(
                             opacity: opacity,
-                            text: poster.subTextShort(context) ?? "",
+                            text: poster.subTextShort(context.localized) ?? "",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -125,7 +125,7 @@ class PosterWidget extends ConsumerWidget {
                   Flexible(
                     child: ClickableText(
                       opacity: opacity,
-                      text: poster.subText?.isNotEmpty ?? false ? poster.subTextShort(context) ?? "" : "",
+                      text: poster.subText?.isNotEmpty ?? false ? poster.subTextShort(context.localized) ?? "" : "",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),

@@ -374,7 +374,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: Tooltip(
-                                    message: librarySearchResults.nestedCurrentItem?.type.label(context) ??
+                                    message: librarySearchResults.nestedCurrentItem?.type.label(context.localized) ??
                                         context.localized.library(1),
                                     child: IconButton(
                                       onPressed: () async {

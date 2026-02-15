@@ -199,10 +199,10 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                         maxLines: 1,
                                       ),
                                     ),
-                                    if (item?.detailedName(context)?.isNotEmpty == true)
+                                    if (item?.detailedName(context.localized)?.isNotEmpty == true)
                                       Flexible(
                                         child: Text(
-                                          item?.detailedName(context) ?? "",
+                                          item?.detailedName(context.localized) ?? "",
                                           overflow: TextOverflow.ellipsis,
                                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                                 color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65),

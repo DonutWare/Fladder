@@ -30,7 +30,7 @@ class NextUpEpisode extends ConsumerWidget {
           label: alreadyPlayed ? context.localized.reWatch : context.localized.nextUp,
         ),
         SelectableText(
-          nextEpisode.seasonEpisodeLabelFull(context),
+          nextEpisode.seasonEpisodeLabelFull(context.localized),
           style: style?.copyWith(
             color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.75),
           ),

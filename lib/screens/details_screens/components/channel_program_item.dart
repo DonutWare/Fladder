@@ -11,6 +11,7 @@ import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
@@ -139,7 +140,7 @@ class _ChannelProgramItemState extends State<ChannelProgramItem> with SingleTick
                               ],
                             ),
                             const SizedBox(height: 4),
-                            Text(program.subLabel(context)),
+                            Text(program.subLabel(context.localized)),
                           ],
                         ),
                       ),

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -10,7 +8,7 @@ import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
-import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/l10n/generated/app_localizations.dart';
 
 part 'channel_program.freezed.dart';
 part 'channel_program.g.dart';
@@ -37,7 +35,7 @@ abstract class ChannelProgram with _$ChannelProgram {
 
   factory ChannelProgram.fromJson(Map<String, dynamic> json) => _$ChannelProgramFromJson(json);
 
-  factory ChannelProgram.fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory ChannelProgram.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return ChannelProgram(
       id: item.id ?? "",
       channelId: item.channelId ?? item.parentId ?? "",
@@ -49,7 +47,7 @@ abstract class ChannelProgram with _$ChannelProgram {
       episodeTitle: item.episodeTitle,
       startDate: (item.startDate ?? DateTime.now()).toLocal(),
       endDate: (item.endDate ?? DateTime.now()).toLocal(),
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       isSeries: item.isSeries ?? false,
       overview: item.overview,
     );
@@ -73,16 +71,16 @@ abstract class ChannelProgram with _$ChannelProgram {
         canDownload: false,
       );
 
-  String subLabel(BuildContext context) => isSeries
-      ? "$episodeTitle - ${seasonAnnotation(context)}$parentIndexNumber: ${episodeAnnotation(context)}$indexNumber"
+  String subLabel(AppLocalizations l10n) => isSeries
+      ? "$episodeTitle - ${seasonAnnotation(l10n)}$parentIndexNumber: ${episodeAnnotation(l10n)}$indexNumber"
       : name;
 
-  String seasonEpisodeLabel(BuildContext context) {
-    return "${seasonAnnotation(context)}$parentIndexNumber - ${episodeAnnotation(context)}$indexNumber";
+  String seasonEpisodeLabel(AppLocalizations l10n) {
+    return "${seasonAnnotation(l10n)}$parentIndexNumber - ${episodeAnnotation(l10n)}$indexNumber";
   }
 
-  String seasonAnnotation(BuildContext context) => context.localized.season(1)[0];
-  String episodeAnnotation(BuildContext context) => context.localized.episode(1)[0];
+  String seasonAnnotation(AppLocalizations l10n) => l10n.season(1)[0];
+  String episodeAnnotation(AppLocalizations l10n) => l10n.episode(1)[0];
 
   ItemBaseModel toItemBaseModel() {
     return ItemBaseModel(

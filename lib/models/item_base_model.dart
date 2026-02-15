@@ -7,6 +7,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
+import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
@@ -115,13 +116,13 @@ class ItemBaseModel with ItemBaseModelMappable {
 
   bool get watched => userData.played;
 
-  String? unplayedLabel(BuildContext context) => null;
+  String? unplayedLabel(AppLocalizations l10n) => null;
 
-  String? detailedName(BuildContext context) => "$name${overview.yearAired != null ? " (${overview.yearAired})" : ""}";
+  String? detailedName(AppLocalizations l10n) => "$name${overview.yearAired != null ? " (${overview.yearAired})" : ""}";
 
   String? get subText => null;
-  String? subTextShort(BuildContext context) => null;
-  String? label(BuildContext context) => null;
+  String? subTextShort(AppLocalizations l10n) => null;
+  String? label(AppLocalizations l10n) => null;
 
   ImagesData? get getPosters => images;
 
@@ -141,12 +142,12 @@ class ItemBaseModel with ItemBaseModelMappable {
 
   MediaStreamsModel? get streamModel => null;
 
-  String playText(BuildContext context) => context.localized.play(name);
+  String playText(AppLocalizations l10n) => l10n.play(name);
 
   double get progress => userData.progress;
 
-  String playButtonLabel(BuildContext context) =>
-      progress != 0 ? context.localized.resume(name.maxLength()) : context.localized.play(name.maxLength());
+  String playButtonLabel(AppLocalizations l10n) =>
+      progress != 0 ? l10n.resume(name.maxLength()) : l10n.play(name.maxLength());
 
   Widget get detailScreenWidget {
     switch (this) {
@@ -213,7 +214,7 @@ class ItemBaseModel with ItemBaseModelMappable {
     }
   }
 
-  factory ItemBaseModel.fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory ItemBaseModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return switch (item.type) {
       BaseItemKind.photo || BaseItemKind.video => PhotoModel.fromBaseDto(item, ref),
       BaseItemKind.photoalbum => PhotoAlbumModel.fromBaseDto(item, ref),
@@ -234,7 +235,7 @@ class ItemBaseModel with ItemBaseModelMappable {
     };
   }
 
-  factory ItemBaseModel._fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory ItemBaseModel._fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return ItemBaseModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -243,7 +244,7 @@ class ItemBaseModel with ItemBaseModelMappable {
       userData: UserData.fromDto(item.userData),
       parentId: item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       primaryRatio: item.primaryImageAspectRatio,
       canDelete: item.canDelete,
       canDownload: item.canDownload,
@@ -255,7 +256,7 @@ class ItemBaseModel with ItemBaseModelMappable {
     return SimpleItemModel(
       id: id,
       title: title,
-      subTitle: context != null ? label(context) : null,
+      subTitle: context != null ? label(context.localized) : null,
       overview: overview.summary,
       logoUrl: getPosters?.logo?.path ?? images?.logo?.path,
       primaryPoster: images?.primary?.path ?? getPosters?.primary?.path ?? "",
@@ -378,25 +379,25 @@ enum FladderItemType {
         FladderItemType.video,
       };
 
-  String label(BuildContext context, {int count = 1}) => switch (this) {
-        FladderItemType.baseType => context.localized.mediaTypeBase,
-        FladderItemType.audio => context.localized.audio(count),
-        FladderItemType.collectionFolder => context.localized.collectionFolder(count),
-        FladderItemType.musicAlbum => context.localized.musicAlbum(count),
-        FladderItemType.musicVideo => context.localized.video(count),
-        FladderItemType.video => context.localized.video(count),
-        FladderItemType.movie => context.localized.mediaTypeMovie(count),
-        FladderItemType.series => context.localized.mediaTypeSeries(count),
-        FladderItemType.season => context.localized.mediaTypeSeason(count),
-        FladderItemType.episode => context.localized.mediaTypeEpisode(count),
-        FladderItemType.photo => context.localized.mediaTypePhoto(count),
-        FladderItemType.person => context.localized.mediaTypePerson(count),
-        FladderItemType.photoAlbum => context.localized.mediaTypePhotoAlbum(count),
-        FladderItemType.folder => context.localized.mediaTypeFolder(count),
-        FladderItemType.boxset => context.localized.mediaTypeBoxset(count),
-        FladderItemType.playlist => context.localized.mediaTypePlaylist(count),
-        FladderItemType.book => context.localized.mediaTypeBook(count),
-        FladderItemType.tvchannel => context.localized.mediaTypeTV(count),
+  String label(AppLocalizations l10n, {int count = 1}) => switch (this) {
+        FladderItemType.baseType => l10n.mediaTypeBase,
+        FladderItemType.audio => l10n.audio(count),
+        FladderItemType.collectionFolder => l10n.collectionFolder(count),
+        FladderItemType.musicAlbum => l10n.musicAlbum(count),
+        FladderItemType.musicVideo => l10n.video(count),
+        FladderItemType.video => l10n.video(count),
+        FladderItemType.movie => l10n.mediaTypeMovie(count),
+        FladderItemType.series => l10n.mediaTypeSeries(count),
+        FladderItemType.season => l10n.mediaTypeSeason(count),
+        FladderItemType.episode => l10n.mediaTypeEpisode(count),
+        FladderItemType.photo => l10n.mediaTypePhoto(count),
+        FladderItemType.person => l10n.mediaTypePerson(count),
+        FladderItemType.photoAlbum => l10n.mediaTypePhotoAlbum(count),
+        FladderItemType.folder => l10n.mediaTypeFolder(count),
+        FladderItemType.boxset => l10n.mediaTypeBoxset(count),
+        FladderItemType.playlist => l10n.mediaTypePlaylist(count),
+        FladderItemType.book => l10n.mediaTypeBook(count),
+        FladderItemType.tvchannel => l10n.mediaTypeTV(count),
       };
 
   BaseItemKind get dtoKind => switch (this) {

@@ -1597,7 +1597,7 @@
     "@lastActivity": {},
     "activeTasks": "Actieve taken",
     "@activeTasks": {},
-    "hours": "{count, plural, one{Uur} other{Uren}}",
+    "hours": "{count, plural, one{Uur} other{Uur}}",
     "@hours": {
         "placeholders": {
             "count": {
@@ -2300,5 +2300,19 @@
     "processing": "Verwerken",
     "@processing": {},
     "seerrDetails": "Seerr details",
-    "@seerrDetails": {}
+    "@seerrDetails": {},
+    "updateNotifications": "Update notificaties",
+    "notificationChannelDescription": "Notificaties voor nieuw toegevoegde items",
+    "@notificationChannelDescription": {},
+    "notificationNewEpisodes": "Nieuwe afleveringen toegevoegd",
+    "@notificationNewEpisodes": {},
+    "notificationNewItems": "{count, plural, one{{count} nieuw item} other{{count} nieuwe items}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
 }

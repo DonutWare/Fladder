@@ -21,6 +21,11 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       nextUpDateCutoff: json['nextUpDateCutoff'] == null
           ? null
           : Duration(microseconds: (json['nextUpDateCutoff'] as num).toInt()),
+      updateNotificationsInterval: json['updateNotificationsInterval'] == null
+          ? const Duration(hours: 1)
+          : Duration(
+              microseconds:
+                  (json['updateNotificationsInterval'] as num).toInt()),
       themeMode: $enumDecodeNullable(_$ThemeModeEnumMap, json['themeMode']) ??
           ThemeMode.system,
       themeColor: $enumDecodeNullable(_$ColorThemesEnumMap, json['themeColor']),
@@ -65,6 +70,8 @@ Map<String, dynamic> _$ClientSettingsModelToJson(
       'size': instance.size,
       'timeOut': instance.timeOut?.inMicroseconds,
       'nextUpDateCutoff': instance.nextUpDateCutoff?.inMicroseconds,
+      'updateNotificationsInterval':
+          instance.updateNotificationsInterval.inMicroseconds,
       'themeMode': _$ThemeModeEnumMap[instance.themeMode]!,
       'themeColor': _$ColorThemesEnumMap[instance.themeColor],
       'deriveColorsFromItem': instance.deriveColorsFromItem,

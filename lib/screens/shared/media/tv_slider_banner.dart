@@ -13,6 +13,7 @@ import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/top_navigation_bar.dart';
@@ -288,7 +289,7 @@ class _BannerInfoOverlay extends StatelessWidget {
                 spacing: 12,
                 children: [
                   Text(
-                    episode.episodeLabel(context),
+                    episode.episodeLabel(context.localized),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)

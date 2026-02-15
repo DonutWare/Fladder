@@ -14,7 +14,7 @@ Future<Response<dynamic>?> showDeleteDialog(BuildContext context, ItemBaseModel 
     context: context,
     barrierDismissible: false,
     builder: (context) => AlertDialog(
-      title: Text(context.localized.deleteItem(item.type.label(context))),
+      title: Text(context.localized.deleteItem(item.type.label(context.localized))),
       content: Text(
         context.localized.deleteFileFromSystem(item.name),
       ),
