@@ -3,7 +3,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/last_seen_notifications_model.dart';
 
-MapEntry<String, String?> notificationTitleBodyForItem(ItemBaseModel it, [AppLocalizations? l10n]) {
+MapEntry<String, String?> notificationTitleBodyForItem(ItemBaseModel it, AppLocalizations? l10n) {
   final unknown = l10n?.unknown ?? 'Unknown';
   final newEpisodes = l10n?.notificationNewEpisodes ?? 'New episodes added';
 

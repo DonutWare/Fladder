@@ -54,12 +54,13 @@ class UpdateNotifications {
     }
   }
 
-  //Used for debug purposes, to trigger the background task immediately and show a notification if there are new items since the last check
+  //Used for debug purposes, to trigger the background task immediately and show a notification for any new items
   Future<void> executeBackgroundTask() async {
     try {
       await Workmanager().registerOneOffTask(
-        updateNotificationNameDebug,
+        UniqueKey().toString(),
         updateTaskNameDebug,
+        existingWorkPolicy: ExistingWorkPolicy.replace,
         constraints: Constraints(networkType: NetworkType.connected),
       );
     } catch (e) {

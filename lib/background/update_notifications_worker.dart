@@ -12,48 +12,48 @@ import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/last_seen_notifications_model.dart';
+import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/services/notification_service.dart';
 import 'package:fladder/util/notification_helpers.dart';
 
-const String _kAccountsKey = 'loginCredentialsKey';
-const String _kServerLastSeenKey = 'serverLastSeen';
 const String updateNotificationName = 'fladder_update_notification';
-const String updateNotificationNameDebug = 'fladder_update_notificationDebug';
 const String updateTaskName = 'fladder_update_notifications_check';
-const String updateTaskNameDebug = 'fladder_update_notifications_check_debug';
+const String updateTaskNameDebug = 'fladder_update_notifications_check_debug2';
 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    try {
-      switch (task) {
-        case updateTaskName:
-          await performHeadlessUpdateCheck();
-          break;
-        case updateTaskNameDebug:
-          await performHeadlessUpdateCheck(debug: true);
-        default:
-          break;
+  Workmanager().executeTask(
+    (taskName, inputData) async {
+      try {
+        switch (taskName) {
+          case updateTaskName:
+            return await performHeadlessUpdateCheck();
+          case updateTaskNameDebug:
+            return await performHeadlessUpdateCheck(debug: true);
+          default:
+            log("Unknown task: $taskName");
+            return false;
+        }
+      } catch (e) {
+        log("Error executing task '$taskName': $e");
+        return false;
       }
-    } catch (e) {
-      log("Error in background task '$task': $e");
-    }
-    return Future.value(true);
-  });
+    },
+  );
 }
 
 @pragma('vm:entry-point')
-Future<bool> performHeadlessUpdateCheck({int limit = 50, bool debug = false}) async {
+Future<bool> performHeadlessUpdateCheck({int limit = 25, bool debug = false}) async {
   try {
     await NotificationService.init();
 
     final prefs = await SharedPreferences.getInstance();
-    final savedAccounts = prefs.getStringList(_kAccountsKey) ?? [];
+    final savedAccounts = prefs.getStringList(SharedKeys.loginCredentialsKey) ?? [];
     if (savedAccounts.isEmpty) return true;
 
     Locale workerLocale = const Locale('en');
     try {
-      final clientSettingsJson = prefs.getString('clientSettings');
+      final clientSettingsJson = prefs.getString(SharedKeys.clientSettingsKey);
       if (clientSettingsJson != null && clientSettingsJson.isNotEmpty) {
         final map = jsonDecode(clientSettingsJson) as Map<String, dynamic>;
         final sel = map['selectedLocale'] as String?;
@@ -64,6 +64,7 @@ Future<bool> performHeadlessUpdateCheck({int limit = 50, bool debug = false}) as
       }
     } catch (e) {
       log('Error loading client locale for notifications: $e');
+      return false;
     }
 
     final l10n = await AppLocalizations.delegate.load(workerLocale);
@@ -74,7 +75,7 @@ Future<bool> performHeadlessUpdateCheck({int limit = 50, bool debug = false}) as
             return AccountModel.fromJson(jsonDecode(e) as Map<String, dynamic>);
           } catch (e) {
             log('Error parsing account JSON: $e');
-            return null;
+            return false;
           }
         })
         .whereType<AccountModel>()
@@ -82,7 +83,10 @@ Future<bool> performHeadlessUpdateCheck({int limit = 50, bool debug = false}) as
         .toList();
 
     var lastSeenSnapshot = LastSeenNotificationsModel.fromJson(
-        (prefs.getString(_kServerLastSeenKey) != null) ? jsonDecode(prefs.getString(_kServerLastSeenKey)!) : {});
+      (prefs.getString(SharedKeys.lastSeenNotificationsKey) != null)
+          ? jsonDecode(prefs.getString(SharedKeys.lastSeenNotificationsKey)!)
+          : {},
+    );
 
     if (debug) {
       log("Debug mode enabled for update notifications check - showing all items as new");
@@ -97,10 +101,14 @@ Future<bool> performHeadlessUpdateCheck({int limit = 50, bool debug = false}) as
         final items = dtoItems.map((d) => ItemBaseModel.fromBaseDto(d, null)).toList();
         if (items.isEmpty) continue;
 
+        log("Fetched ${items.length} items for account ${acc.id} (${acc.credentials.serverName}), checking against last seen data");
+
         final userKey = acc.id;
-        final prevEntry = lastSeenSnapshot.lastSeen
-            .firstWhere((s) => s.userId == userKey, orElse: () => LastSeenModel(userId: userKey, lastSeenIds: []));
+        final prevEntry = lastSeenSnapshot.lastSeen.firstWhere((s) => s.userId == userKey,
+            orElse: () => LastSeenModel(userId: userKey, lastSeenIds: items.map((e) => e.id).toList()));
         final prevIds = prevEntry.lastSeenIds;
+
+        log("Fetched ${items.length} items for account ${acc.id}. Previous seen IDs count: ${prevIds.length}");
 
         if (prevIds.isEmpty) {
           final merged = items.map((e) => e.id).toList();
@@ -110,7 +118,9 @@ Future<bool> performHeadlessUpdateCheck({int limit = 50, bool debug = false}) as
           if (!debug) continue;
         }
 
-        final unseen = debug ? items.take(5).toList() : items.where((i) => !prevIds.contains(i.id)).toList();
+        final unseen = debug ? items.take(limit).toList() : items.where((i) => !prevIds.contains(i.id)).toList();
+        log("Account ${acc.id}: ${unseen.length} new items found (debug mode: $debug)");
+
         if (unseen.isNotEmpty) {
           final newIdsOrdered = [
             ...unseen.map((e) => e.id),
@@ -152,10 +162,11 @@ Future<bool> performHeadlessUpdateCheck({int limit = 50, bool debug = false}) as
         }
       } catch (e) {
         log('Error fetching latest items for account ${acc.id}: $e');
+        return false;
       }
     }
 
-    await prefs.setString(_kServerLastSeenKey, jsonEncode(lastSeenSnapshot.toJson()));
+    await prefs.setString(SharedKeys.lastSeenNotificationsKey, jsonEncode(lastSeenSnapshot.toJson()));
 
     log("Update notifications check completed successfully");
     return true;
