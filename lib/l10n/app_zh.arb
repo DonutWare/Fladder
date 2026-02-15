@@ -1658,5 +1658,143 @@
     "speedBoostRateDesc": "加速激活时的播放速度",
     "enableDoubleTapSeekTitle": "双击即可快进/播放/暂停",
     "enableDoubleTapSeekDesc": "双击屏幕左侧/右侧可快进/快退。双击屏幕中央可播放/暂停",
-    "backgroundColor": "背景颜色"
+    "backgroundColor": "背景颜色",
+    "liveTV": "直播电视",
+    "liveTvManageTunersEpg": "管理调谐器设备和电子节目指南提供商",
+    "tunerDevices": "调谐器设备",
+    "epgGuideProviders": "电子节目指南提供商",
+    "noTunerDevicesConfigured": "未配置调谐器设备",
+    "noEpgProvidersConfigured": "未配置电子节目指南提供商",
+    "addTunerDevice": "添加调谐器设备",
+    "addProvider": "添加提供商",
+    "tunerHostAddedSuccessfully": "调谐器主机已成功添加",
+    "failedToAddTunerHost": "添加调谐器主机失败: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "调谐器主机已成功更新",
+    "failedToUpdateTunerHost": "更新调谐器主机失败: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "删除调谐器主机",
+    "deleteTunerHostConfirm": "您确定要删除\"{name}\"吗？",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "调谐器主机已成功删除",
+    "failedToDeleteTunerHost": "删除调谐器主机失败: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "电子节目指南提供商已成功添加",
+    "failedToAddEpgProvider": "添加电子节目指南提供商: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "电子节目指南提供商已成功更新",
+    "failedToUpdateEpgProvider": "更新电子节目指南提供商失败: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "删除电子节目指南提供商",
+    "deleteEpgProviderConfirm": "您确定要删除此服务提供商吗？",
+    "epgProviderDeletedSuccessfully": "电子节目指南提供商已成功删除",
+    "failedToDeleteEpgProvider": "删除电子节目指南提供商失败: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "编辑调谐器设备",
+    "friendlyName": "友好名称",
+    "url": "URL",
+    "userAgent": "用户代理",
+    "userAgentOptional": "用户代理（可选）",
+    "maxConcurrentStreams": "最大并发流",
+    "addEpgProvider": "添加电子节目指南提供商",
+    "editEpgProvider": "编辑电子节目指南提供商",
+    "xmltvPathUrl": "XMLTV 路径/URL",
+    "enableAllTuners": "对所有调谐器启用",
+    "enabledTuners": "启用调谐器",
+    "selectTuners": "选择调谐器",
+    "moviePrefix": "电影前缀",
+    "movieCategories": "电影类别",
+    "newsCategories": "新闻类别",
+    "sportsCategories": "体育类别",
+    "kidsCategories": "儿童类别",
+    "fileOrUrl": "文件或 URL",
+    "tunerIpAddress": "调谐器 IP 地址",
+    "fallbackMaxBitrate": "最大备用比特率（Mbps）",
+    "concurrentStreams": "最大并发流",
+    "concurrentStreamsHint": "0 = 无限制",
+    "allowFmp4Container": "允许 fMP4 转码容器",
+    "allowStreamSharing": "允许流共享",
+    "enableStreamLooping": "启用流循环",
+    "ignoreDts": "忽略DTS时间戳",
+    "readAtNativeFramerate": "以原生帧速率读取",
+    "importFavoritesOnly": "仅导入收藏频道",
+    "allowHWTranscoding": "允许硬件转码",
+    "detectDevices": "检测设备",
+    "discoveredDevices": "已发现的设备",
+    "noDevicesFound": "未找到设备",
+    "failedToDiscoverDevices": "设备发现失败: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "路径",
+    "maxConcurrentStreamsLabel": "最大并发流",
+    "noCategories": "无类别",
+    "moviePrefixSubLabel": "如果电影标题带有前缀，请在此处输入，以便服务器能够正确处理。",
+    "movieCategoriesSubLabel": "要分配给与电影前缀匹配的频道的类别",
+    "newsCategoriesSubLabel": "要分配给与新闻前缀匹配的频道的类别",
+    "sportsCategoriesSubLabel": "要分配给与体育前缀匹配的频道的类别",
+    "kidsCategoriesSubLabel": "要分配给与儿童前缀匹配的频道的类别",
+    "notifications": "通知",
+    "showNewItemNotificationTitle": "检查是否有新项目",
+    "notificationChannelDescription": "新增项目的通知",
+    "notificationNewEpisodes": "新增剧集",
+    "notificationNewItems": "{count, plural, one{{count} 新项目} other{{count} 新项目}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " iOS 决定何时/是否实际执行更新，通知可能会延迟或根本不显示。",
+    "updateCheckInterval": "更新检查间隔",
+    "updateCheckIntervalDesc": "后台任务运行频率",
+    "notificationsIntervalClientReminder": "已为所有用户设置通知间隔。"
 }
