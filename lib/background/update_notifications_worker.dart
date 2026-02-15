@@ -181,7 +181,8 @@ Future<List<dto.BaseItemDto>> _fetchLatestItems(String baseUrl, String userId, S
           .toList();
     }
     return [];
-  } catch (_) {
+  } catch (e) {
+    log('Error fetching latest items: $e');
     return [];
   }
 }

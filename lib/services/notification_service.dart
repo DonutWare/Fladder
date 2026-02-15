@@ -25,7 +25,7 @@ class NotificationService {
   static Future<void> init() async {
     if (kIsWeb || (!Platform.isAndroid && !Platform.isIOS)) return;
 
-    const android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const android = AndroidInitializationSettings('ic_notification');
     final ios = const DarwinInitializationSettings();
 
     await _plugin.initialize(
@@ -102,7 +102,31 @@ class NotificationService {
 
     final groupKey = 'fladder_group_$groupId';
 
-    final inboxLines = itemTitles.take(5).toList();
+    final futures = <Future<void>>[];
+    for (var i = 0; i < itemTitles.length; i++) {
+      final childId = baseId + 1 + i;
+      final androidChild = AndroidNotificationDetails(
+        _channelId,
+        _channelName,
+        channelDescription: _channelDesc,
+        importance: Importance.defaultImportance,
+        priority: Priority.defaultPriority,
+        groupKey: groupKey,
+        groupAlertBehavior: GroupAlertBehavior.summary,
+      );
+      final iosChild = DarwinNotificationDetails(threadIdentifier: groupKey);
+      futures.add(_plugin.show(
+        id: childId,
+        title: itemTitles[i],
+        body: itemBodies.elementAtOrNull(i),
+        payload: itemPayloads.elementAtOrNull(i),
+        notificationDetails: NotificationDetails(android: androidChild, iOS: iosChild),
+      ));
+    }
+
+    await Future.wait(futures);
+
+    final inboxLines = itemTitles.toList();
     final androidSummary = AndroidNotificationDetails(
       _channelId,
       _channelName,
@@ -118,6 +142,7 @@ class NotificationService {
       priority: Priority.defaultPriority,
       groupAlertBehavior: GroupAlertBehavior.summary,
     );
+
     final iosSummary = DarwinNotificationDetails(threadIdentifier: groupKey);
 
     await _plugin.show(
@@ -126,29 +151,6 @@ class NotificationService {
       body: summaryText ?? '${itemTitles.length} new item(s)',
       notificationDetails: NotificationDetails(android: androidSummary, iOS: iosSummary),
     );
-
-    final futures = <Future<void>>[];
-    for (var i = 0; i < itemTitles.length; i++) {
-      final childId = baseId + 1 + i;
-      final androidChild = AndroidNotificationDetails(
-        _channelId,
-        _channelName,
-        channelDescription: _channelDesc,
-        importance: Importance.defaultImportance,
-        priority: Priority.defaultPriority,
-        groupKey: groupKey,
-      );
-      final iosChild = DarwinNotificationDetails(threadIdentifier: groupKey);
-      futures.add(_plugin.show(
-        id: childId,
-        title: itemTitles[i],
-        body: itemBodies.elementAtOrNull(i),
-        payload: itemPayloads.elementAtOrNull(i),
-        notificationDetails: NotificationDetails(android: androidChild, iOS: iosChild),
-      ));
-    }
-
-    await Future.wait(futures);
   }
 }
 

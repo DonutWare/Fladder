@@ -26,6 +26,10 @@
         android:enableOnBackInvokedCallback="true"
         android:largeHeap="true">
 
+        <meta-data
+            android:name="com.ryanheise.audioservice.notification_icon"
+            android:resource="@drawable/ic_notification" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

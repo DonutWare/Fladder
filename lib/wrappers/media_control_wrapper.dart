@@ -68,7 +68,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
         config: const AudioServiceConfig(
           androidNotificationChannelId: 'nl.jknaapen.fladder.channel.playback',
           androidNotificationChannelName: 'Video playback',
-          androidNotificationIcon: 'ic_notification',
+          androidNotificationIcon: 'drawable/ic_notification',
           androidNotificationOngoing: true,
           androidStopForegroundOnPause: true,
           rewindInterval: Duration(seconds: 10),
