@@ -175,19 +175,15 @@ class _EditDialogSwitcherState extends ConsumerState<EditDialogSwitcher> with Ti
                 onPressed: saving
                     ? null
                     : () async {
-                        final response = await ref.read(editItemProvider.notifier).saveInformation(widget.options);
-                        if (response != null && context.mounted) {
-                          if (response.isSuccessful) {
-                            widget.itemUpdated(response.body);
-                            FladderSnack.show(
-                                context.localized.metaDataSavedFor(
-                                    currentItem?.detailedName(context.localized) ?? currentItem?.name ?? ""),
-                                context: context);
-                          } else {
-                            FladderSnack.showResponse(response: response);
-                          }
+                        final response = await FladderSnack.showResponse(
+                          ref.read(editItemProvider.notifier).saveInformation(widgets.keys.toSet()),
+                          successTitle: context.localized.metaDataSavedFor(
+                            currentItem?.detailedName(context.localized) ?? currentItem?.name ?? "",
+                          ),
+                        );
+                        if (response.isSuccess) {
+                          widget.refreshOnClose(true);
                         }
-                        widget.refreshOnClose(true);
                         Navigator.of(context).pop();
                       },
                 child: saving

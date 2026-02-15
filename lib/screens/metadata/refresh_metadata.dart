@@ -115,16 +115,15 @@ class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
                     children: [
                       FilledButton(
                           onPressed: () async {
-                            final response = await ref.read(userProvider.notifier).refreshMetaData(
-                                  widget.itemId,
-                                  metadataRefreshMode: refreshMode,
-                                  replaceAllMetadata: replaceAllMetadata,
-                                );
-                            if (!response.isSuccessful) {
-                              FladderSnack.showResponse(response: response);
-                            } else {
-                              FladderSnack.show(context.localized.scanningName(widget.name));
-                            }
+                            await FladderSnack.showResponse(
+                              ref.read(userProvider.notifier).refreshMetaData(
+                                    widget.itemId,
+                                    metadataRefreshMode: refreshMode,
+                                    replaceAllMetadata: replaceAllMetadata,
+                                  ),
+                              successTitle: context.localized.scanningName(widget.name),
+                            );
+
                             Navigator.of(context).pop();
                           },
                           child: Text(context.localized.refresh)),

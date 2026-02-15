@@ -3,8 +3,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
-import 'package:chopper/chopper.dart';
-
+import 'package:fladder/models/api_result.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -33,15 +32,6 @@ class FladderSnack {
   }
 
   int get _notificationCount => _notifications.length;
-
-  static void showResponse({Response? response, String? altTitle}) {
-    if (response != null) {
-      FladderSnack.show("(${response.base.statusCode}) ${response.base.reasonPhrase ?? "Something went wrong!"}");
-      return;
-    } else if (altTitle != null) {
-      FladderSnack.show(altTitle);
-    }
-  }
 
   static void show(
     String message, {
@@ -106,6 +96,28 @@ class FladderSnack {
     if (!permanent) {
       timer = Timer(effectiveDuration, removeNotification);
       entry.timer = timer;
+    }
+  }
+
+  static Future<ApiResult<T>> showResponse<T>(
+    Future<ApiResult<T>?> future, {
+    String? successTitle,
+    String Function(String error)? errorTitle,
+  }) async {
+    try {
+      final result = await future;
+      if (result != null && result.isSuccess) {
+        if (successTitle != null) {
+          show(successTitle);
+        }
+      } else {
+        final err = result?.errorMessage ?? "Unknown error";
+        show(errorTitle != null ? errorTitle(err) : err);
+      }
+      return result ?? ApiResult.failure(ApiError(message: "No response"));
+    } catch (e) {
+      show(errorTitle != null ? errorTitle(e.toString()) : "An error occurred: $e");
+      rethrow;
     }
   }
 

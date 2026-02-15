@@ -318,15 +318,13 @@ extension ItemBaseModelExtensions on ItemBaseModel {
             ),
           ),
           action: () async {
-            final response = await showDeleteDialog(context, this, ref);
-            if (response?.isSuccessful == true) {
+            final response = await FladderSnack.showResponse(
+              showDeleteDialog(context, this, ref),
+            );
+            if (response.isSuccess) {
               onDeleteSuccesFully?.call(this);
               if (context.mounted) {
                 context.refreshData();
-              }
-            } else {
-              if (response != null) {
-                FladderSnack.showResponse(response: response);
               }
             }
           },

@@ -9,6 +9,7 @@ analyzer:
     - packages/**
     - lib/jellyfin/**
     - lib/**/**.g.dart
+    - lib/**/**.gr.dart
     - lib/**/**.freezed.dart
     - lib/**/**.mapped.dart
     - lib/l10n/**

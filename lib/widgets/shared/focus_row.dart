@@ -10,6 +10,7 @@ class FocusRow extends StatefulWidget {
   final double ensureVisibleAlignment;
   final FocusNode? focusNode;
   final WidgetOrderTraversalPolicy? traversalPolicy;
+  final bool escapeToNavBar;
   final void Function(FocusNode groupNode)? onGroupFocused;
   final void Function(bool hasFocus)? onFocusChange;
 
@@ -20,6 +21,7 @@ class FocusRow extends StatefulWidget {
     this.traversalPolicy,
     this.onGroupFocused,
     this.onFocusChange,
+    this.escapeToNavBar = true,
     super.key,
   });
 
@@ -100,7 +102,12 @@ class _FocusRowState extends State<FocusRow> {
   @override
   Widget build(BuildContext context) {
     return FocusTraversalGroup(
-      policy: widget.traversalPolicy ?? _RowFocusPolicy(groupNode: _groupNode, onVertical: _clearOnVertical),
+      policy: widget.traversalPolicy ??
+          _RowFocusPolicy(
+            groupNode: _groupNode,
+            onVertical: _clearOnVertical,
+            escapeToNavBar: widget.escapeToNavBar,
+          ),
       child: Focus(
         focusNode: _groupNode,
         onFocusChange: (value) {
@@ -122,8 +129,9 @@ List<FocusNode> _childNodes(FocusNode node) =>
 class _RowFocusPolicy extends WidgetOrderTraversalPolicy {
   final VoidCallback? onVertical;
   final FocusNode groupNode;
+  final bool escapeToNavBar;
 
-  _RowFocusPolicy({this.onVertical, required this.groupNode});
+  _RowFocusPolicy({this.onVertical, required this.groupNode, required this.escapeToNavBar});
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
@@ -143,7 +151,7 @@ class _RowFocusPolicy extends WidgetOrderTraversalPolicy {
           nodes[index - 1].requestFocus();
         } else {
           lastMainFocus = currentNode;
-          if (navBarNode.canRequestFocus && navBarNode.context?.mounted == true) {
+          if (navBarNode.canRequestFocus && navBarNode.context?.mounted == true && escapeToNavBar) {
             final cb = FocusTraversalPolicy.defaultTraversalRequestFocusCallback;
             cb(navBarNode);
           }
