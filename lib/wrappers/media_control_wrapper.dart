@@ -223,7 +223,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       playing: true,
       controls: [
         MediaControl.pause,
-        MediaControl.stop,
       ],
       systemActions: const {
         MediaAction.seek,
