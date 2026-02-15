@@ -25,6 +25,7 @@ class UpdateNotifications {
   final Ref ref;
 
   Future<void> registerBackgroundTask() async {
+    await Future.delayed(const Duration(milliseconds: 500));
     final accounts = ref.read(sharedUtilityProvider).getAccounts().where((a) => a.updateNotificationsEnabled).toList();
     if (accounts.isEmpty) {
       await unregisterBackgroundTask();
@@ -52,6 +53,21 @@ class UpdateNotifications {
   Future<void> unregisterBackgroundTask() async {
     try {
       await Workmanager().cancelByUniqueName(updateTaskName);
+    } catch (e) {
+      log('Error unregistering background task: $e');
+    }
+  }
+
+  Future<void> conditionallyUnregisterBackgroundTask() async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 500));
+      final accounts =
+          ref.read(sharedUtilityProvider).getAccounts().where((a) => a.updateNotificationsEnabled).toList();
+      if (accounts.isEmpty) {
+        log('No accounts have update notifications enabled, unregistering background task');
+        await Workmanager().cancelByUniqueName(updateTaskName);
+        return;
+      }
     } catch (e) {
       log('Error unregistering background task: $e');
     }

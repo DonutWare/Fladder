@@ -217,7 +217,7 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                     await NotificationService.requestPermission();
                     await ref.read(updateNotificationsProvider).registerBackgroundTask();
                   } else {
-                    await ref.read(updateNotificationsProvider).unregisterBackgroundTask();
+                    await ref.read(updateNotificationsProvider).conditionallyUnregisterBackgroundTask();
                   }
                 },
               ),

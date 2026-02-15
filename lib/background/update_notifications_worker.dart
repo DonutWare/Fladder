@@ -64,7 +64,6 @@ Future<bool> performHeadlessUpdateCheck({int limit = 25, bool debug = false}) as
       }
     } catch (e) {
       log('Error loading client locale for notifications: $e');
-      return false;
     }
 
     final l10n = await AppLocalizations.delegate.load(workerLocale);
@@ -75,7 +74,6 @@ Future<bool> performHeadlessUpdateCheck({int limit = 25, bool debug = false}) as
             return AccountModel.fromJson(jsonDecode(e) as Map<String, dynamic>);
           } catch (e) {
             log('Error parsing account JSON: $e');
-            return false;
           }
         })
         .whereType<AccountModel>()
@@ -104,28 +102,27 @@ Future<bool> performHeadlessUpdateCheck({int limit = 25, bool debug = false}) as
         log("Fetched ${items.length} items for account ${acc.id} (${acc.credentials.serverName}), checking against last seen data");
 
         final userKey = acc.id;
-        final prevEntry = lastSeenSnapshot.lastSeen.firstWhere((s) => s.userId == userKey,
-            orElse: () => LastSeenModel(userId: userKey, lastSeenIds: items.map((e) => e.id).toList()));
-        final prevIds = prevEntry.lastSeenIds;
+        final existingIndex = lastSeenSnapshot.lastSeen.indexWhere((s) => s.userId == userKey);
+        List<String> prevIds = [];
 
-        log("Fetched ${items.length} items for account ${acc.id}. Previous seen IDs count: ${prevIds.length}");
-
-        if (prevIds.isEmpty) {
-          final merged = items.map((e) => e.id).toList();
-          final saved = LastSeenModel(userId: userKey, lastSeenIds: merged.take(limit).toList());
+        if (existingIndex == -1) {
+          final baselineIds = items.map((e) => e.id).take(limit).toList();
+          final saved = LastSeenModel(userId: userKey, lastSeenIds: baselineIds);
           lastSeenSnapshot =
               lastSeenSnapshot.copyWith(lastSeen: replaceOrAppendLastSeen(lastSeenSnapshot.lastSeen, saved));
           if (!debug) continue;
+          prevIds = [];
+        } else {
+          prevIds = lastSeenSnapshot.lastSeen[existingIndex].lastSeenIds;
         }
+
+        log("Fetched ${items.length} items for account ${acc.id}. Previous seen IDs count: ${prevIds.length}");
 
         final unseen = debug ? items.take(limit).toList() : items.where((i) => !prevIds.contains(i.id)).toList();
         log("Account ${acc.id}: ${unseen.length} new items found (debug mode: $debug)");
 
         if (unseen.isNotEmpty) {
           final capped = unseen.take(limit).toList();
-          final saved = LastSeenModel(userId: userKey, lastSeenIds: capped.map((e) => e.id).toList());
-          lastSeenSnapshot =
-              lastSeenSnapshot.copyWith(lastSeen: replaceOrAppendLastSeen(lastSeenSnapshot.lastSeen, saved));
 
           final serverName =
               acc.credentials.serverName.isNotEmpty ? acc.credentials.serverName : acc.credentials.serverId;
@@ -133,7 +130,7 @@ Future<bool> performHeadlessUpdateCheck({int limit = 25, bool debug = false}) as
           final itemTitles = <String>[];
           final itemBodies = <String?>[];
           final itemPayloads = <String?>[];
-          for (final item in unseen) {
+          for (final item in capped) {
             final pair = notificationTitleBodyForItem(item, l10n);
             final title = pair.key.isNotEmpty ? pair.key : (item.name.isNotEmpty ? item.name : l10n.unknown);
             itemTitles.add(title);
@@ -151,9 +148,14 @@ Future<bool> performHeadlessUpdateCheck({int limit = 25, bool debug = false}) as
             summaryText,
           );
         }
+
+        final latestIds = items.map((e) => e.id).take(limit).toList();
+        final latestSaved = LastSeenModel(userId: userKey, lastSeenIds: latestIds);
+        lastSeenSnapshot =
+            lastSeenSnapshot.copyWith(lastSeen: replaceOrAppendLastSeen(lastSeenSnapshot.lastSeen, latestSaved));
       } catch (e) {
         log('Error fetching latest items for account ${acc.id}: $e');
-        return false;
+        continue;
       }
     }
 
