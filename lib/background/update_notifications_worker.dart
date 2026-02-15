@@ -1,40 +1,49 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:ui' show Locale;
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
+import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/last_seen_notifications_model.dart';
 import 'package:fladder/services/notification_service.dart';
+import 'package:fladder/util/notification_helpers.dart';
 
 const String _kAccountsKey = 'loginCredentialsKey';
 const String _kServerLastSeenKey = 'serverLastSeen';
-const String _kTaskName = 'fladder_update_notifications_check';
+const String updateNotificationName = 'fladder_update_notification';
+const String updateNotificationNameDebug = 'fladder_update_notificationDebug';
+const String updateTaskName = 'fladder_update_notifications_check';
+const String updateTaskNameDebug = 'fladder_update_notifications_check_debug';
 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     try {
       switch (task) {
-        case _kTaskName:
+        case updateTaskName:
           await performHeadlessUpdateCheck();
           break;
+        case updateTaskNameDebug:
+          await performHeadlessUpdateCheck(debug: true);
         default:
           break;
       }
-    } catch (_) {}
+    } catch (e) {
+      log("Error in background task '$task': $e");
+    }
     return Future.value(true);
   });
 }
 
-/// Headless worker: fetch latest items for saved accounts and show native notifications.
 @pragma('vm:entry-point')
-Future<bool> performHeadlessUpdateCheck({bool ignorePreference = false, int limit = 50}) async {
+Future<bool> performHeadlessUpdateCheck({int limit = 50, bool debug = false}) async {
   try {
     await NotificationService.init();
 
@@ -42,33 +51,51 @@ Future<bool> performHeadlessUpdateCheck({bool ignorePreference = false, int limi
     final savedAccounts = prefs.getStringList(_kAccountsKey) ?? [];
     if (savedAccounts.isEmpty) return true;
 
+    Locale workerLocale = const Locale('en');
+    try {
+      final clientSettingsJson = prefs.getString('clientSettings');
+      if (clientSettingsJson != null && clientSettingsJson.isNotEmpty) {
+        final map = jsonDecode(clientSettingsJson) as Map<String, dynamic>;
+        final sel = map['selectedLocale'] as String?;
+        if (sel != null && sel.isNotEmpty) {
+          final parts = sel.split('_');
+          workerLocale = parts.length == 2 ? Locale(parts[0], parts[1]) : Locale(parts[0]);
+        }
+      }
+    } catch (e) {
+      log('Error loading client locale for notifications: $e');
+    }
+
+    final l10n = await AppLocalizations.delegate.load(workerLocale);
+
     final accounts = savedAccounts
         .map((e) {
           try {
             return AccountModel.fromJson(jsonDecode(e) as Map<String, dynamic>);
-          } catch (_) {
+          } catch (e) {
+            log('Error parsing account JSON: $e');
             return null;
           }
         })
         .whereType<AccountModel>()
+        .where((element) => element.updateNotificationsEnabled)
         .toList();
 
     var lastSeenSnapshot = LastSeenNotificationsModel.fromJson(
         (prefs.getString(_kServerLastSeenKey) != null) ? jsonDecode(prefs.getString(_kServerLastSeenKey)!) : {});
 
-    bool changed = false;
+    if (debug) {
+      log("Debug mode enabled for update notifications check - showing all items as new");
+    }
 
     for (final acc in accounts) {
-      if (!ignorePreference && acc.updateNotificationsEnabled == false) continue;
-
       final baseUrl = acc.credentials.url.isNotEmpty ? acc.credentials.url : (acc.credentials.localUrl ?? '');
       if (baseUrl.isEmpty) continue;
 
       try {
         final dtoItems = await _fetchLatestItems(baseUrl, acc.id, acc.credentials.token, limit);
         final items = dtoItems.map((d) => ItemBaseModel.fromBaseDto(d, null)).toList();
-        final unique = _uniqueById(items);
-        if (unique.isEmpty) continue;
+        if (items.isEmpty) continue;
 
         final userKey = acc.id;
         final prevEntry = lastSeenSnapshot.lastSeen
@@ -76,17 +103,15 @@ Future<bool> performHeadlessUpdateCheck({bool ignorePreference = false, int limi
         final prevIds = prevEntry.lastSeenIds;
 
         if (prevIds.isEmpty) {
-          // first-run baseline: set snapshot but do not notify
-          final merged = unique.map((e) => e.id).toList();
+          final merged = items.map((e) => e.id).toList();
           final saved = LastSeenModel(userId: userKey, lastSeenIds: merged.take(limit).toList());
-          lastSeenSnapshot = lastSeenSnapshot.copyWith(lastSeen: _replaceOrAppend(lastSeenSnapshot.lastSeen, saved));
-          changed = true;
-          continue;
+          lastSeenSnapshot =
+              lastSeenSnapshot.copyWith(lastSeen: replaceOrAppendLastSeen(lastSeenSnapshot.lastSeen, saved));
+          if (!debug) continue;
         }
 
-        final unseen = unique.where((i) => !prevIds.contains(i.id)).toList();
+        final unseen = debug ? items.take(5).toList() : items.where((i) => !prevIds.contains(i.id)).toList();
         if (unseen.isNotEmpty) {
-          // build merged snapshot: newest-first, dedupe, cap
           final newIdsOrdered = [
             ...unseen.map((e) => e.id),
             ...prevIds,
@@ -98,8 +123,8 @@ Future<bool> performHeadlessUpdateCheck({bool ignorePreference = false, int limi
           }
           final capped = deduped.take(limit).toList();
           final saved = LastSeenModel(userId: userKey, lastSeenIds: capped);
-          lastSeenSnapshot = lastSeenSnapshot.copyWith(lastSeen: _replaceOrAppend(lastSeenSnapshot.lastSeen, saved));
-          changed = true;
+          lastSeenSnapshot =
+              lastSeenSnapshot.copyWith(lastSeen: replaceOrAppendLastSeen(lastSeenSnapshot.lastSeen, saved));
 
           final serverName =
               acc.credentials.serverName.isNotEmpty ? acc.credentials.serverName : acc.credentials.serverId;
@@ -108,64 +133,42 @@ Future<bool> performHeadlessUpdateCheck({bool ignorePreference = false, int limi
           final itemBodies = <String?>[];
           final itemPayloads = <String?>[];
           for (final m in unseen) {
-            final name = m.name.isNotEmpty ? m.name : 'Unknown';
-
-            if (m is EpisodeModel) {
-              final seriesName = m.seriesName ?? name;
-              final season = m.season;
-              final episode = m.episode;
-              itemTitles.add(seriesName);
-              itemBodies.add('S${season}E$episode - $name');
-              itemPayloads.add('/details?id=${Uri.encodeComponent(m.id)}');
-            } else if (m.type == FladderItemType.movie) {
-              final productionYear = m.overview.productionYear ?? m.overview.yearAired;
-              itemTitles.add(productionYear != null ? '$name (${productionYear.toString()})' : name);
-              itemBodies.add(null);
-              itemPayloads.add('/details?id=${Uri.encodeComponent(m.id)}');
-            } else if (m.type == FladderItemType.series) {
-              itemTitles.add(name);
-              itemBodies.add('New episodes added');
-              itemPayloads.add('/details?id=${Uri.encodeComponent(m.id)}');
-            } else {
-              itemTitles.add(name);
-              itemBodies.add(null);
-              itemPayloads.add('/details?id=${Uri.encodeComponent(m.id)}');
-            }
+            final pair = notificationTitleBodyForItem(m, l10n);
+            final title = pair.key.isNotEmpty ? pair.key : (m.name.isNotEmpty ? m.name : l10n.unknown);
+            itemTitles.add(title);
+            itemBodies.add(pair.value);
+            itemPayloads.add(buildDetailsDeepLink(m.id));
           }
 
-          await NotificationService.showGroupedNotifications(acc.id, serverName, itemTitles, itemBodies, itemPayloads);
+          final summaryText = l10n.notificationNewItems(itemTitles.length);
+          await NotificationService.showGroupedNotifications(
+            acc.id,
+            serverName,
+            itemTitles,
+            itemBodies,
+            itemPayloads,
+            summaryText,
+          );
         }
-      } catch (_) {
-        // ignore per-account failures
+      } catch (e) {
+        log('Error fetching latest items for account ${acc.id}: $e');
       }
     }
 
-    if (changed) {
-      await prefs.setString(_kServerLastSeenKey, jsonEncode(lastSeenSnapshot.toJson()));
-    }
+    await prefs.setString(_kServerLastSeenKey, jsonEncode(lastSeenSnapshot.toJson()));
 
+    log("Update notifications check completed successfully");
     return true;
   } catch (e) {
+    log("Error during update notifications check: $e");
     return false;
   }
-}
-
-List<ItemBaseModel> _uniqueById(List<ItemBaseModel> items) {
-  final seen = <String>{};
-  final out = <ItemBaseModel>[];
-  for (final i in items) {
-    final id = i.id;
-    if (id.isEmpty) continue;
-    if (seen.add(id)) out.add(i);
-  }
-  return out;
 }
 
 Future<List<dto.BaseItemDto>> _fetchLatestItems(String baseUrl, String userId, String token, int limit) async {
   try {
     final trimmed = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
-    final url =
-        '$trimmed/Users/$userId/Items/Latest?Limit=$limit&EnableUserData=false&EnableImages=false&ImageTypeLimit=0&Fields=OriginalTitle,DateCreated,DateLastMediaAdded';
+    final url = buildLatestItemsUrl(trimmed, userId, limit);
     final uri = Uri.parse(url);
     final headers = {'Authorization': 'MediaBrowser Token="$token"'};
     final resp = await http.get(uri, headers: headers).timeout(const Duration(seconds: 10));
@@ -181,10 +184,4 @@ Future<List<dto.BaseItemDto>> _fetchLatestItems(String baseUrl, String userId, S
   } catch (_) {
     return [];
   }
-}
-
-List<LastSeenModel> _replaceOrAppend(List<LastSeenModel> servers, LastSeenModel saved) {
-  final exists = servers.any((s) => s.userId == saved.userId);
-  if (exists) return servers.map((s) => s.userId == saved.userId ? saved : s).toList();
-  return [...servers, saved];
 }

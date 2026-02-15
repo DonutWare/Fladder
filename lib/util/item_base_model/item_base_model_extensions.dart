@@ -123,7 +123,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           ItemActionButton(
             action: () => play(context, ref),
             icon: const Icon(IconsaxPlusLinear.play),
-            label: Text(playButtonLabel(context)),
+            label: Text(playButtonLabel(context.localized)),
           ),
       if (parentId?.isNotEmpty == true) ...[
         if (!exclude.contains(ItemActions.openShow) && this is EpisodeModel)
@@ -160,7 +160,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
                 : () => play(context, ref, startPosition: Duration.zero),
             label: Text((this is BookModel)
                 ? context.localized.readFromStart(name)
-                : context.localized.playFromStart(subTextShort(context) ?? name)),
+                : context.localized.playFromStart(subTextShort(context.localized) ?? name)),
           ),
       ItemActionDivider(),
       if (!exclude.contains(ItemActions.addCollection) && isAdmin)
@@ -243,7 +243,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
         ItemActionButton(
           icon: const Icon(IconsaxPlusLinear.global_refresh),
           action: () async {
-            showRefreshPopup(context, id, detailedName(context) ?? name);
+            showRefreshPopup(context, id, detailedName(context.localized) ?? name);
           },
           label: Text(context.localized.refreshMetadata),
         ),
@@ -286,7 +286,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           ItemActionButton(
             icon: const Icon(IconsaxPlusLinear.document_download),
             action: () => downloadFile(downloadUrl),
-            label: Text(context.localized.downloadFile(type.label(context).toLowerCase())),
+            label: Text(context.localized.downloadFile(type.label(context.localized).toLowerCase())),
           ),
           ItemActionButton(
             icon: const Icon(IconsaxPlusLinear.link_21),
@@ -346,7 +346,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           action: () async {
             showInfoScreen(context, this);
           },
-          label: Text("${type.label(context)} ${context.localized.info}"),
+          label: Text("${type.label(context.localized)} ${context.localized.info}"),
         ),
     ];
   }

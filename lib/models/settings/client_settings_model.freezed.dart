@@ -19,7 +19,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
   Vector2 get size;
   Duration? get timeOut;
   Duration? get nextUpDateCutoff;
-  Duration? get updateNotificationsInterval;
+  Duration get updateNotificationsInterval;
   ThemeMode get themeMode;
   ColorThemes? get themeColor;
   bool get deriveColorsFromItem;
@@ -112,7 +112,7 @@ abstract mixin class $ClientSettingsModelCopyWith<$Res> {
       Vector2 size,
       Duration? timeOut,
       Duration? nextUpDateCutoff,
-      Duration? updateNotificationsInterval,
+      Duration updateNotificationsInterval,
       ThemeMode themeMode,
       ColorThemes? themeColor,
       bool deriveColorsFromItem,
@@ -156,7 +156,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
     Object? size = null,
     Object? timeOut = freezed,
     Object? nextUpDateCutoff = freezed,
-    Object? updateNotificationsInterval = freezed,
+    Object? updateNotificationsInterval = null,
     Object? themeMode = null,
     Object? themeColor = freezed,
     Object? deriveColorsFromItem = null,
@@ -202,10 +202,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.nextUpDateCutoff
           : nextUpDateCutoff // ignore: cast_nullable_to_non_nullable
               as Duration?,
-      updateNotificationsInterval: freezed == updateNotificationsInterval
+      updateNotificationsInterval: null == updateNotificationsInterval
           ? _self.updateNotificationsInterval
           : updateNotificationsInterval // ignore: cast_nullable_to_non_nullable
-              as Duration?,
+              as Duration,
       themeMode: null == themeMode
           ? _self.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable
@@ -401,7 +401,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             Vector2 size,
             Duration? timeOut,
             Duration? nextUpDateCutoff,
-            Duration? updateNotificationsInterval,
+            Duration updateNotificationsInterval,
             ThemeMode themeMode,
             ColorThemes? themeColor,
             bool deriveColorsFromItem,
@@ -487,7 +487,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             Vector2 size,
             Duration? timeOut,
             Duration? nextUpDateCutoff,
-            Duration? updateNotificationsInterval,
+            Duration updateNotificationsInterval,
             ThemeMode themeMode,
             ColorThemes? themeColor,
             bool deriveColorsFromItem,
@@ -571,7 +571,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             Vector2 size,
             Duration? timeOut,
             Duration? nextUpDateCutoff,
-            Duration? updateNotificationsInterval,
+            Duration updateNotificationsInterval,
             ThemeMode themeMode,
             ColorThemes? themeColor,
             bool deriveColorsFromItem,
@@ -690,7 +690,7 @@ class _ClientSettingsModel extends ClientSettingsModel
   final Duration? nextUpDateCutoff;
   @override
   @JsonKey()
-  final Duration? updateNotificationsInterval;
+  final Duration updateNotificationsInterval;
   @override
   @JsonKey()
   final ThemeMode themeMode;
@@ -837,7 +837,7 @@ abstract mixin class _$ClientSettingsModelCopyWith<$Res>
       Vector2 size,
       Duration? timeOut,
       Duration? nextUpDateCutoff,
-      Duration? updateNotificationsInterval,
+      Duration updateNotificationsInterval,
       ThemeMode themeMode,
       ColorThemes? themeColor,
       bool deriveColorsFromItem,
@@ -881,7 +881,7 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
     Object? size = null,
     Object? timeOut = freezed,
     Object? nextUpDateCutoff = freezed,
-    Object? updateNotificationsInterval = freezed,
+    Object? updateNotificationsInterval = null,
     Object? themeMode = null,
     Object? themeColor = freezed,
     Object? deriveColorsFromItem = null,
@@ -927,10 +927,10 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.nextUpDateCutoff
           : nextUpDateCutoff // ignore: cast_nullable_to_non_nullable
               as Duration?,
-      updateNotificationsInterval: freezed == updateNotificationsInterval
+      updateNotificationsInterval: null == updateNotificationsInterval
           ? _self.updateNotificationsInterval
           : updateNotificationsInterval // ignore: cast_nullable_to_non_nullable
-              as Duration?,
+              as Duration,
       themeMode: null == themeMode
           ? _self.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable

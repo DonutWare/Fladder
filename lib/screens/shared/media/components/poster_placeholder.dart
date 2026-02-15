@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 class PosterPlaceholder extends StatelessWidget {
   final ItemBaseModel item;
@@ -37,9 +38,9 @@ class PosterPlaceholder extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                   softWrap: true,
                 ),
-                if (item.label(context) != null) ...[
+                if (item.label(context.localized) != null) ...[
                   Text(
-                    item.label(context)!,
+                    item.label(context.localized)!,
                     maxLines: 2,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(

@@ -129,7 +129,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> {
             children: [
               Expanded(
                 child: Text(
-                  widget.item.detailedName(context) ?? widget.item.name,
+                  widget.item.detailedName(context.localized) ?? widget.item.name,
                   style: Theme.of(context).textTheme.titleLarge,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,

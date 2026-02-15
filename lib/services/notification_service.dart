@@ -23,11 +23,13 @@ class NotificationService {
   }
 
   static Future<void> init() async {
+    if (kIsWeb || (!Platform.isAndroid && !Platform.isIOS)) return;
+
     const android = AndroidInitializationSettings('@mipmap/ic_launcher');
     final ios = const DarwinInitializationSettings();
 
     await _plugin.initialize(
-      settings: InitializationSettings(android: android, iOS: ios, macOS: null),
+      settings: InitializationSettings(android: android, iOS: ios),
       onDidReceiveNotificationResponse: (NotificationResponse resp) {
         _selectNotificationController.add(resp.payload);
       },
@@ -35,8 +37,12 @@ class NotificationService {
     );
 
     if (!kIsWeb && Platform.isAndroid) {
-      final channel = const AndroidNotificationChannel(_channelId, _channelName,
-          description: _channelDesc, importance: Importance.defaultImportance);
+      final channel = const AndroidNotificationChannel(
+        _channelId,
+        _channelName,
+        description: _channelDesc,
+        importance: Importance.defaultImportance,
+      );
       await _plugin
           .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
           ?.createNotificationChannel(channel);
@@ -68,7 +74,7 @@ class NotificationService {
   }
 
   static Future<void> showNewItemsNotification(String title, String body) async {
-    const androidDetails = AndroidNotificationDetails(
+    final androidDetails = const AndroidNotificationDetails(
       _channelId,
       _channelName,
       channelDescription: _channelDesc,
@@ -81,12 +87,12 @@ class NotificationService {
       id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
       title: title,
       body: body,
-      notificationDetails: const NotificationDetails(android: androidDetails, iOS: iosDetails),
+      notificationDetails: NotificationDetails(android: androidDetails, iOS: iosDetails),
     );
   }
 
   static Future<void> showGroupedNotifications(String groupId, String groupTitle, List<String> itemTitles,
-      [List<String?>? itemBodies, List<String?>? itemPayloads]) async {
+      [List<String?>? itemBodies, List<String?>? itemPayloads, String? summaryText]) async {
     if (itemTitles.isEmpty) return;
 
     itemBodies ??= List<String?>.filled(itemTitles.length, null);
@@ -96,6 +102,32 @@ class NotificationService {
 
     final groupKey = 'fladder_group_$groupId';
 
+    final inboxLines = itemTitles.take(5).toList();
+    final androidSummary = AndroidNotificationDetails(
+      _channelId,
+      _channelName,
+      channelDescription: _channelDesc,
+      styleInformation: InboxStyleInformation(
+        inboxLines,
+        contentTitle: groupTitle,
+        summaryText: summaryText ?? '${itemTitles.length} new items',
+      ),
+      groupKey: groupKey,
+      setAsGroupSummary: true,
+      importance: Importance.defaultImportance,
+      priority: Priority.defaultPriority,
+      groupAlertBehavior: GroupAlertBehavior.summary,
+    );
+    final iosSummary = DarwinNotificationDetails(threadIdentifier: groupKey);
+
+    await _plugin.show(
+      id: baseId,
+      title: groupTitle,
+      body: summaryText ?? '${itemTitles.length} new item(s)',
+      notificationDetails: NotificationDetails(android: androidSummary, iOS: iosSummary),
+    );
+
+    final futures = <Future<void>>[];
     for (var i = 0; i < itemTitles.length; i++) {
       final childId = baseId + 1 + i;
       final androidChild = AndroidNotificationDetails(
@@ -107,36 +139,16 @@ class NotificationService {
         groupKey: groupKey,
       );
       final iosChild = DarwinNotificationDetails(threadIdentifier: groupKey);
-      await _plugin.show(
+      futures.add(_plugin.show(
         id: childId,
         title: itemTitles[i],
         body: itemBodies.elementAtOrNull(i),
         payload: itemPayloads.elementAtOrNull(i),
         notificationDetails: NotificationDetails(android: androidChild, iOS: iosChild),
-      );
+      ));
     }
 
-    final inboxLines = itemTitles.take(5).toList();
-    final androidSummary = AndroidNotificationDetails(
-      _channelId,
-      _channelName,
-      channelDescription: _channelDesc,
-      styleInformation:
-          InboxStyleInformation(inboxLines, contentTitle: groupTitle, summaryText: '${itemTitles.length} new items'),
-      groupKey: groupKey,
-      setAsGroupSummary: true,
-      importance: Importance.defaultImportance,
-      priority: Priority.defaultPriority,
-    );
-    final iosSummary = DarwinNotificationDetails(threadIdentifier: groupKey);
-
-    await _plugin.show(
-      id: baseId,
-      title: groupTitle,
-      body: '${itemTitles.length} new item(s)',
-      notificationDetails: NotificationDetails(android: androidSummary, iOS: iosSummary),
-      payload: "/details?id=a9b8b3b4d20b8061b0a30aa17ba53459",
-    );
+    await Future.wait(futures);
   }
 }
 

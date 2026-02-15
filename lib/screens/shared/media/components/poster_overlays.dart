@@ -6,6 +6,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/widgets/shared/status_card.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 class SelectedPosterOverlay extends StatelessWidget {
   final ItemBaseModel poster;
@@ -120,7 +121,7 @@ class UnplayedWatchedOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (poster.unplayedLabel(context) == null && !poster.watched) {
+    if (poster.unplayedLabel(context.localized) == null && !poster.watched) {
       return const SizedBox.shrink();
     }
 
@@ -131,9 +132,9 @@ class UnplayedWatchedOverlay extends StatelessWidget {
           color: Theme.of(context).colorScheme.primaryContainer,
           child: Padding(
             padding: padding,
-            child: poster.unplayedLabel(context) != null
+            child: poster.unplayedLabel(context.localized) != null
                 ? Text(
-                    poster.unplayedLabel(context) ?? "",
+                    poster.unplayedLabel(context.localized) ?? "",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,

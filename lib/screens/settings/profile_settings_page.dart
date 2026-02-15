@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +12,7 @@ import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/cultures_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
-import 'package:fladder/providers/shared_provider.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/update_notifications_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
@@ -19,13 +21,14 @@ import 'package:fladder/screens/settings/widgets/password_reset_dialog.dart';
 import 'package:fladder/screens/settings/widgets/seerr_connection_dialog.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
+import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/screens/shared/authenticate_button_options.dart';
-import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/services/notification_service.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/simple_duration_picker.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
@@ -62,6 +65,8 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
     final user = ref.watch(userProvider);
     final seerrUser = ref.watch(seerrUserProvider);
     final cultures = ref.watch(culturesProvider);
+    final clientSettings = ref.watch(clientSettingsProvider);
+
     final allowedSubModes = {
       enums.SubtitlePlaybackMode.$default,
       enums.SubtitlePlaybackMode.smart,
@@ -155,6 +160,76 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
             ),
           ],
         ),
+        if (ref.read(supportsNotificationsProvider)) ...[
+          const SizedBox(height: 16),
+          ...settingsListGroup(
+            context,
+            SettingsLabelDivider(label: context.localized.notifications),
+            [
+              Column(
+                children: [
+                  SettingsListTile(
+                    label: Text(context.localized.updateCheckInterval),
+                    subLabel: Text(context.localized.updateCheckIntervalDesc),
+                    trailing: EnumBox(
+                      current: timePickerString(context, clientSettings.updateNotificationsInterval),
+                      itemBuilder: (context) {
+                        final durations = const [
+                          Duration(minutes: 15),
+                          Duration(minutes: 30),
+                          Duration(hours: 1),
+                          Duration(hours: 3),
+                          Duration(hours: 6),
+                          Duration(hours: 12),
+                          Duration(days: 1),
+                        ];
+                        return durations.map((duration) {
+                          return ItemActionButton(
+                            label: Text(timePickerString(context, duration)),
+                            action: () =>
+                                ref.read(clientSettingsProvider.notifier).setUpdateNotificationsInterval(duration),
+                          );
+                        }).toList();
+                      },
+                    ),
+                  ),
+                  SettingsMessageBox(
+                    context.localized.notificationsIntervalClientReminder,
+                    messageType: MessageType.info,
+                  ),
+                  if (!kIsWeb && Platform.isIOS)
+                    SettingsMessageBox(
+                      context.localized.notificationTimerIOSWarning,
+                      messageType: MessageType.info,
+                    ),
+                ],
+              ),
+              SettingsListTileCheckbox(
+                label: Text(context.localized.showNewItemNotificationTitle),
+                value: user?.updateNotificationsEnabled ?? false,
+                onChanged: (val) async {
+                  final current = ref.read(userProvider);
+                  if (current == null || val == null) return;
+
+                  ref.read(userProvider.notifier).userState = current.copyWith(updateNotificationsEnabled: val);
+
+                  if (val) {
+                    await NotificationService.requestPermission();
+                    await ref.read(updateNotificationsProvider).registerBackgroundTask();
+                  } else {
+                    await ref.read(updateNotificationsProvider).unregisterBackgroundTask();
+                  }
+                },
+              ),
+              if (kDebugMode)
+                SettingsListTile(
+                  label: const Text('Show notification (debug)'),
+                  subLabel: const Text('Show a native notification with the latest ~5 items for the active account'),
+                  onTap: () async => await ref.read(updateNotificationsProvider).executeBackgroundTask(),
+                ),
+            ],
+          ),
+        ],
         const SizedBox(height: 16),
         ...settingsListGroup(
           context,
@@ -195,52 +270,6 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
               subLabel: Text(_seerrStatusLabel(context, user?.seerrCredentials, seerrUser)),
               onTap: () => showSeerrConnectionDialog(context),
             ),
-            if (ref.read(supportsNotificationsProvider) || kDebugMode) ...[
-              SettingsListTileCheckbox(
-                label: const Text('Update notifications'),
-                value: user?.updateNotificationsEnabled ?? false,
-                onChanged: (val) async {
-                  final current = ref.read(userProvider);
-                  if (current == null || val == null) return;
-
-                  ref.read(userProvider.notifier).userState = current.copyWith(updateNotificationsEnabled: val);
-
-                  if (val) {
-                    await NotificationService.init();
-                    await NotificationService.requestPermission();
-                    await ref.read(updateNotificationsProvider).registerBackgroundTask();
-                  } else {
-                    await ref.read(updateNotificationsProvider).unregisterBackgroundTask();
-                  }
-                },
-              ),
-              SettingsListTile(
-                label: const Text('Test update notifications'),
-                subLabel: const Text('Fetch last 50 items for accessible libraries and show any new items'),
-                onTap: () async {
-                  final updateNotifications = ref.read(updateNotificationsProvider);
-                  final newLastSeen = await updateNotifications.checkAllAccountsForNewItems(ignorePreference: true);
-
-                  for (final entry in newLastSeen.lastSeen) {
-                    final account =
-                        ref.read(sharedUtilityProvider).getAccounts().firstWhereOrNull((acc) => acc.id == entry.userId);
-                    if (account == null) continue;
-
-                    final newCount = entry.lastSeenIds.length;
-                    FladderSnack.show(
-                      'New items for ${account.name} (${account.credentials.serverName}, $newCount new items)',
-                    );
-                  }
-                },
-              ),
-              SettingsListTile(
-                label: const Text('Show notification (debug)'),
-                subLabel: const Text('Show a native notification with the latest ~5 items for the active account'),
-                onTap: () async {
-                  await ref.read(updateNotificationsProvider).debugShowLatestNotificationForActiveUser();
-                },
-              ),
-            ],
           ],
         ),
       ],

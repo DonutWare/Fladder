@@ -68,6 +68,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
         config: const AudioServiceConfig(
           androidNotificationChannelId: 'nl.jknaapen.fladder.channel.playback',
           androidNotificationChannelName: 'Video playback',
+          androidNotificationIcon: 'ic_notification',
           androidNotificationOngoing: true,
           androidStopForegroundOnPause: true,
           rewindInterval: Duration(seconds: 10),
@@ -243,7 +244,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     //Windows setup
     smtc?.updateMetadata(MusicMetadata(
       title: playBackItem.title,
-      artist: mainContext != null ? playBackItem.label(mainContext) : null,
+      artist: mainContext != null ? playBackItem.label(mainContext.localized) : null,
       thumbnail: poster?.path,
     ));
     smtc?.updateTimeline(
@@ -408,7 +409,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
               endMs: p.endDate.millisecondsSinceEpoch,
               primaryPoster: p.images?.primary?.path,
               overview: p.overview,
-              subTitle: context != null ? p.subLabel(context) : null,
+              subTitle: context != null ? p.subLabel(context.localized) : null,
             ))
         .toList();
   }

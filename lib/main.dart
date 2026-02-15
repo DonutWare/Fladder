@@ -75,6 +75,8 @@ void main(List<String> args) async {
 
   await SvgUtils.preCacheSVGs();
 
+  await NotificationService.init();
+
   // Check if running on android TV
   final leanBackEnabled = !kIsWeb && Platform.isAndroid ? await NativeVideoActivity().isLeanBackEnabled() : false;
 
@@ -105,8 +107,10 @@ void main(List<String> args) async {
 
   await NotificationService.init();
   try {
-    Workmanager().initialize(update_worker.callbackDispatcher);
-  } catch (_) {}
+    await Workmanager().initialize(update_worker.callbackDispatcher);
+  } catch (e) {
+    log("Failed to initialize Workmanager for background tasks: $e");
+  }
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
 

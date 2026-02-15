@@ -44,45 +44,28 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
       label: "Fladder",
       items: [
         ...buildClientSettingsDownload(context, ref, setState),
-        ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.lockscreen), [
-          SettingsListTile(
-            label: Text(context.localized.timeOut),
-            subLabel: Text(timePickerString(context, clientSettings.timeOut)),
-            onTap: () async {
-              final timePicker = await showSimpleDurationPicker(
-                context: context,
-                initialValue: clientSettings.timeOut ?? const Duration(),
-              );
-
-              if (timePicker == null) return;
-
-              ref.read(clientSettingsProvider.notifier).setTimeOut(timePicker != Duration.zero
-                  ? Duration(minutes: timePicker.inMinutes, seconds: timePicker.inSeconds % 60)
-                  : null);
-            },
-          ),
-          SettingsListTile(
-            label: const Text('Update check interval'),
-            subLabel: Text(timePickerString(context, clientSettings.updateNotificationsInterval)),
-            onTap: () async {
-              final picked = await showSimpleDurationPicker(
-                context: context,
-                initialValue: clientSettings.updateNotificationsInterval ?? const Duration(hours: 1),
-              );
-              if (picked == null) return;
-              ref.read(clientSettingsProvider.notifier).setUpdateNotificationsInterval(
-                  picked != Duration.zero ? Duration(minutes: picked.inMinutes, seconds: picked.inSeconds % 60) : null);
-            },
-          ),
-          if (kDebugMode)
+        ...settingsListGroup(
+          context,
+          SettingsLabelDivider(label: context.localized.lockscreen),
+          [
             SettingsListTile(
-              label: const Text('Set 1 minute (debug)'),
-              subLabel: const Text('Quickly set update check interval to 1 minute (debug only)'),
+              label: Text(context.localized.timeOut),
+              subLabel: Text(timePickerString(context, clientSettings.timeOut)),
               onTap: () async {
-                ref.read(clientSettingsProvider.notifier).setUpdateNotificationsInterval(const Duration(minutes: 1));
+                final timePicker = await showSimpleDurationPicker(
+                  context: context,
+                  initialValue: clientSettings.timeOut ?? const Duration(),
+                );
+
+                if (timePicker == null) return;
+
+                ref.read(clientSettingsProvider.notifier).setTimeOut(timePicker != Duration.zero
+                    ? Duration(minutes: timePicker.inMinutes, seconds: timePicker.inSeconds % 60)
+                    : null);
               },
             ),
-        ]),
+          ],
+        ),
         if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.touch) ...[
           const SizedBox(height: 12),
           ...buildClientSettingsShortCuts(context, ref),

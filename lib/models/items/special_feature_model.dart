@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,7 +8,7 @@ import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/series_model.dart';
-import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/util/string_extensions.dart';
 
 part 'special_feature_model.mapper.dart';
@@ -37,7 +35,7 @@ class SpecialFeatureModel extends ItemStreamModel with SpecialFeatureModelMappab
   });
 
   @override
-  String? detailedName(BuildContext context) => "${subTextShort(context)} - $name";
+  String? detailedName(AppLocalizations l10n) => "${subTextShort(l10n)} - $name";
 
   @override
   SeriesModel get parentBaseModel => SeriesModel(
@@ -71,15 +69,15 @@ class SpecialFeatureModel extends ItemStreamModel with SpecialFeatureModelMappab
   String? get subText => name.isEmpty ? "TBA" : name;
 
   @override
-  String? subTextShort(BuildContext context) => name;
+  String? subTextShort(AppLocalizations l10n) => name;
 
   @override
-  String label(BuildContext context) => name;
+  String label(AppLocalizations l10n) => name;
 
   @override
-  String playButtonLabel(BuildContext context) {
+  String playButtonLabel(AppLocalizations l10n) {
     final string = name.maxLength();
-    return progress != 0 ? context.localized.resume(string) : context.localized.play(string);
+    return progress != 0 ? l10n.resume(string) : l10n.play(string);
   }
 
   @override

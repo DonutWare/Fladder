@@ -1,12 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
+import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/images_models.dart';
@@ -14,6 +14,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
+import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/screens/details_screens/movie_detail_screen.dart';
 import 'package:fladder/util/humanize_duration.dart';
@@ -61,7 +62,7 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
     super.jellyType,
   });
   @override
-  String? detailedName(BuildContext context) => "$name${overview.yearAired != null ? " (${overview.yearAired})" : ""}";
+  String? detailedName(AppLocalizations l10n) => "$name${overview.yearAired != null ? " (${overview.yearAired})" : ""}";
 
   @override
   Widget get detailScreenWidget => MovieDetailScreen(item: this);
@@ -85,7 +86,7 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
   MediaStreamsModel? get streamModel => mediaStreams;
 
   @override
-  String? label(BuildContext context) {
+  String? label(AppLocalizations l10n) {
     return name;
   }
 

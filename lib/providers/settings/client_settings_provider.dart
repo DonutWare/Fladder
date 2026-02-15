@@ -68,13 +68,9 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
 
   void setTimeOut(Duration? duration) => state = state.copyWith(timeOut: duration);
 
-  void setUpdateNotificationsInterval(Duration? duration) {
+  void setUpdateNotificationsInterval(Duration duration) {
     state = state.copyWith(updateNotificationsInterval: duration);
-
-    // If any account has notifications enabled, reschedule the background task
-    try {
-      ref.read(updateNotificationsProvider).registerBackgroundTask();
-    } catch (_) {}
+    ref.read(updateNotificationsProvider).registerBackgroundTask();
   }
 
   void setBlurEpisodes(bool value) => state = state.copyWith(blurUpcomingEpisodes: value);

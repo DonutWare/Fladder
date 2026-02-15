@@ -71,7 +71,7 @@ Map<String, dynamic> _$ClientSettingsModelToJson(
       'timeOut': instance.timeOut?.inMicroseconds,
       'nextUpDateCutoff': instance.nextUpDateCutoff?.inMicroseconds,
       'updateNotificationsInterval':
-          instance.updateNotificationsInterval?.inMicroseconds,
+          instance.updateNotificationsInterval.inMicroseconds,
       'themeMode': _$ThemeModeEnumMap[instance.themeMode]!,
       'themeColor': _$ColorThemesEnumMap[instance.themeColor],
       'deriveColorsFromItem': instance.deriveColorsFromItem,

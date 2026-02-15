@@ -13,6 +13,7 @@ import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/screens/details_screens/series_detail_screen.dart';
+import 'package:fladder/l10n/generated/app_localizations.dart';
 
 part 'series_model.mapper.dart';
 
@@ -58,7 +59,7 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   EpisodeModel? get nextUp => availableEpisodes?.nextUp ?? availableEpisodes?.firstOrNull;
 
   @override
-  String detailedName(BuildContext context) => name;
+  String detailedName(AppLocalizations l10n) => name;
 
   @override
   ItemBaseModel get parentBaseModel => copyWith(id: parentId ?? id);
@@ -87,7 +88,7 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   }
 
   @override
-  String? unplayedLabel(BuildContext context) => userData.played ? null : userData.unPlayedItemCount?.toString();
+  String? unplayedLabel(AppLocalizations l10n) => userData.played ? null : userData.unPlayedItemCount?.toString();
 
   @override
   bool get syncAble => true;

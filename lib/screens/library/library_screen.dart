@@ -175,8 +175,8 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                             posters: element.posters,
                             primaryPosters: element.name is Continue,
                             label: element.type != null
-                                ? "${element.type?.label(context)} - ${element.name.label(context)}"
-                                : element.name.label(context),
+                                ? "${element.type?.label(context.localized)} - ${element.name.label(context.localized)}"
+                                : element.name.label(context.localized),
                           ),
                         ),
                       );
@@ -225,8 +225,8 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                                 ),
                               ),
                               label: element.type != null
-                                  ? "${element.type?.label(context)} - ${element.name.label(context)}"
-                                  : element.name.label(context),
+                                  ? "${element.type?.label(context.localized)} - ${element.name.label(context.localized)}"
+                                  : element.name.label(context.localized),
                             ),
                           ),
                         ),

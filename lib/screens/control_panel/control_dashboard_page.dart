@@ -251,7 +251,7 @@ class _ItemCount extends StatelessWidget {
           if (itemCounts.movieCount != 0)
             ControlPanelInfoItem(
               icon: Icon(FladderItemType.movie.icon),
-              label: FladderItemType.movie.label(context, count: itemCounts.movieCount ?? 1),
+              label: FladderItemType.movie.label(context.localized, count: itemCounts.movieCount ?? 1),
               info: itemCounts.movieCount.toString(),
             ),
           if (itemCounts.seriesCount != 0) ...[
@@ -261,13 +261,13 @@ class _ItemCount extends StatelessWidget {
                 Icon(FladderItemType.series.icon),
                 Expanded(
                   child: ControlPanelInfoItem(
-                    label: FladderItemType.series.label(context, count: itemCounts.seriesCount ?? 1),
+                    label: FladderItemType.series.label(context.localized, count: itemCounts.seriesCount ?? 1),
                     info: itemCounts.seriesCount.toString(),
                   ),
                 ),
                 Expanded(
                   child: ControlPanelInfoItem(
-                    label: FladderItemType.episode.label(context, count: itemCounts.episodeCount ?? 1),
+                    label: FladderItemType.episode.label(context.localized, count: itemCounts.episodeCount ?? 1),
                     info: itemCounts.episodeCount.toString(),
                   ),
                 )
@@ -281,13 +281,13 @@ class _ItemCount extends StatelessWidget {
                 Icon(FladderItemType.musicAlbum.icon),
                 Expanded(
                   child: ControlPanelInfoItem(
-                    label: FladderItemType.musicAlbum.label(context, count: itemCounts.albumCount ?? 1),
+                    label: FladderItemType.musicAlbum.label(context.localized, count: itemCounts.albumCount ?? 1),
                     info: itemCounts.albumCount.toString(),
                   ),
                 ),
                 Expanded(
                   child: ControlPanelInfoItem(
-                    label: FladderItemType.audio.label(context, count: itemCounts.songCount ?? 1),
+                    label: FladderItemType.audio.label(context.localized, count: itemCounts.songCount ?? 1),
                     info: itemCounts.songCount.toString(),
                   ),
                 )
@@ -296,13 +296,13 @@ class _ItemCount extends StatelessWidget {
           if (itemCounts.bookCount != 0)
             ControlPanelInfoItem(
               icon: Icon(FladderItemType.book.icon),
-              label: FladderItemType.book.label(context, count: itemCounts.bookCount ?? 1),
+              label: FladderItemType.book.label(context.localized, count: itemCounts.bookCount ?? 1),
               info: itemCounts.bookCount.toString(),
             ),
           if (itemCounts.boxSetCount != 0)
             ControlPanelInfoItem(
               icon: Icon(FladderItemType.boxset.icon),
-              label: FladderItemType.boxset.label(context, count: itemCounts.boxSetCount ?? 1),
+              label: FladderItemType.boxset.label(context.localized, count: itemCounts.boxSetCount ?? 1),
               info: itemCounts.boxSetCount.toString(),
             ),
         ],
