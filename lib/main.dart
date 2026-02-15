@@ -225,7 +225,10 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
       if (route != null) autoRouter.push(route);
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Delay to ensure the app is fully loaded before handling the initial notification payload
+      await Future.delayed(const Duration(seconds: 5));
+
       NotificationService.getInitialNotificationPayload().then((payload) {
         if (payload == null || payload.isEmpty) return;
         final route = payloadToRoute(Uri.parse(payload));
