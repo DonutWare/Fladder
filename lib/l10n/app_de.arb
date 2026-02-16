@@ -1665,5 +1665,143 @@
     "speedBoostRateDesc": "Wiedergabegeschwindigkeit bei aktivierter Beschleunigung",
     "enableDoubleTapSeekTitle": "Doppelt tippen zum spulen/starten/pausieren",
     "enableDoubleTapSeekDesc": "Linke/Rechte Bildschirmhälfte doppelt tippen um zurück/nach vorne zu springen. Zum Abspielen/pausieren doppelt in die Bildschirmmitte tippen",
-    "backgroundColor": "Hintergrundfarbe"
+    "backgroundColor": "Hintergrundfarbe",
+    "liveTV": "Live TV",
+    "liveTvManageTunersEpg": "Tuner-Geräte und EPG-Anbieter verwalten",
+    "tunerDevices": "Tuner-Geräte",
+    "epgGuideProviders": "EPG-Anbieter",
+    "noTunerDevicesConfigured": "Keine Tuner-Geräte konfiguriert",
+    "noEpgProvidersConfigured": "Keine EPG-Anbieter konfiguriert",
+    "addTunerDevice": "Tuner-Gerät hinzufügen",
+    "addProvider": "Anbieter hinzufügen",
+    "tunerHostAddedSuccessfully": "Tuner Host erfolgreich hinzugefügt",
+    "failedToAddTunerHost": "Tuner Host konnte nicht hinzugefügt werden: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "Tuner Host erfolgreich aktualisiert",
+    "failedToUpdateTunerHost": "Tuner Host konnte nicht aktualisiert werden: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "Tuner Host löschen",
+    "deleteTunerHostConfirm": "Sind Sie sicher, dass Sie \"{name}\" löschen möchten?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "Tuner Host erfolgreich gelöscht",
+    "failedToDeleteTunerHost": "Tuner Host konnte nicht gelöscht werden: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "EPG-Anbieter erfolgreich hinzugefügt",
+    "failedToAddEpgProvider": "EPG-Anbieter konnte nicht hinzugefügt werden: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "EPG-Anbieter erfolgreich aktualisiert",
+    "failedToUpdateEpgProvider": "EPG-Anbieter konnte nicht aktualisiert werden: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "EPG-Anbieter löschen",
+    "deleteEpgProviderConfirm": "Sind Sie sicher, dass Sie diesen Anbieter löschen möchten?",
+    "epgProviderDeletedSuccessfully": "EPG-Anbieter erfolgreich gelöscht",
+    "failedToDeleteEpgProvider": "EPG-Anbieter konnte nicht gelöscht werden: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "Tuner-Gerät bearbeiten",
+    "friendlyName": "Anzeigename",
+    "url": "URL",
+    "userAgent": "User Agent",
+    "userAgentOptional": "User Agent (Optional)",
+    "maxConcurrentStreams": "Maximale gleichzeitige Streams",
+    "addEpgProvider": "EPG-Anbieter hinzufügen",
+    "editEpgProvider": "EPG-Anbieter bearbeiten",
+    "xmltvPathUrl": "XMLTV Pfad/URL",
+    "enableAllTuners": "Für alle Tuner aktivieren",
+    "enabledTuners": "Aktivierte Tuner",
+    "selectTuners": "Tuner auswählen",
+    "moviePrefix": "Filmpräfix",
+    "movieCategories": "Filmkategorien",
+    "newsCategories": "Nachrichtenkategorien",
+    "sportsCategories": "Sportkategorien",
+    "kidsCategories": "Kinderkategorien",
+    "fileOrUrl": "Datei oder URL",
+    "tunerIpAddress": "Tuner IP Adresse",
+    "fallbackMaxBitrate": "Höchste Fallback Bitrate (Mbps)",
+    "concurrentStreams": "Maximale gleichzeitige Streams",
+    "concurrentStreamsHint": "0 = Unbegrenzt",
+    "allowFmp4Container": "fMP4 Transkodierungscontainer erlauben",
+    "allowStreamSharing": "Stream Sharing erlauben",
+    "enableStreamLooping": "Steam Looping erlauben",
+    "ignoreDts": "DTS-Zeitstempel ignorieren",
+    "readAtNativeFramerate": "In nativer Bildrate abspielen",
+    "importFavoritesOnly": "Nur favorisierte Kanäle importieren",
+    "allowHWTranscoding": "Hardware-Transcodierung erlauben",
+    "detectDevices": "Geräte ermitteln",
+    "discoveredDevices": "Entdeckte Geräte",
+    "noDevicesFound": "Keine Geräte gefunden",
+    "failedToDiscoverDevices": "Es konnten keine Geräte gefunden werden: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "Pfad",
+    "maxConcurrentStreamsLabel": "Maximale gleichzeitige Streams",
+    "noCategories": "Keine Kategorien",
+    "moviePrefixSubLabel": "Wenn ein Präfix auf Filmtitel angewendet wird, geben Sie es hier ein, damit der Server es richtig verarbeiten kann.",
+    "movieCategoriesSubLabel": "Kategorien, die Kanälen mit dem Filmpräfix zugewiesen werden sollen",
+    "newsCategoriesSubLabel": "Kategorien, die Kanälen mit dem Nachrichtenpräfix zugewiesen werden sollen",
+    "sportsCategoriesSubLabel": "Kategorien, die Kanälen mit dem Sportpräfix zugewiesen werden sollen",
+    "kidsCategoriesSubLabel": "Kategorien, die Kanälen mit dem Kinderpräfix zugewiesen werden sollen",
+    "notifications": "Benachrichtigungen",
+    "showNewItemNotificationTitle": "Auf neue Einträge überprüfen",
+    "notificationChannelDescription": "Benachrichtigungen für neu hinzugefügte Einträge",
+    "notificationNewEpisodes": "Neue Episoden hinzugefügt",
+    "notificationNewItems": "{count, plural, one{{count} neuer Eintrag} other{{count} neue Einträge}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " iOS entscheidet wann/ob Updates tatsächlich ausgeführt werden, Benachrichtigungen erscheinen daher möglicherweise nicht oder nur verzögert.",
+    "updateCheckInterval": "Intervall zur Suche nach Updates",
+    "updateCheckIntervalDesc": "Wie oft die Hintergrundaufgabe läuft",
+    "notificationsIntervalClientReminder": "Das Benachrichtigungsintervall gilt für alle Benutzer."
 }
