@@ -1661,5 +1661,143 @@
     "activeTvChannels": "القنوات التلفزيونية النشطة",
     "enableNewTVLayout": "تفعيل تصميم التلفاز الجديد",
     "enableNewTVLayoutDesc": "عرض لافتات أكبر بأسلوب التلفاز في لوحة التحكم. سيصبح هذا التصميم الافتراضي في إصدار لاحق",
-    "backgroundColor": "لون الخلفية"
+    "backgroundColor": "لون الخلفية",
+    "liveTvManageTunersEpg": "إدارة أجهزة الاستقبال ومزودي دليل البرامج (EPG)",
+    "tunerDevices": "أجهزة الاستقبال",
+    "epgGuideProviders": "مزودو دليل البرامج (EPG)",
+    "noTunerDevicesConfigured": "لم يتم إعداد أي أجهزة استقبال",
+    "noEpgProvidersConfigured": "لم يتم إعداد أي مزود لدليل البرامج",
+    "addTunerDevice": "إضافة جهاز استقبال",
+    "addProvider": "إضافة مزود",
+    "tunerHostAddedSuccessfully": "تمت إضافة جهاز الاستقبال بنجاح",
+    "failedToAddTunerHost": "فشل في إضافة جهاز الاستقبال: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "تم تحديث جهاز الاستقبال بنجاح",
+    "failedToUpdateTunerHost": "فشل في تحديث جهاز الاستقبال: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "حذف جهاز الاستقبال",
+    "deleteTunerHostConfirm": "هل أنت متأكد أنك تريد حذف \"{name}\"؟",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "تم حذف جهاز الاستقبال بنجاح",
+    "failedToDeleteTunerHost": "فشل في حذف جهاز الاستقبال: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "تمت إضافة مزود دليل البرامج بنجاح",
+    "failedToAddEpgProvider": "فشل في إضافة مزود دليل البرامج: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "تم تحديث مزود دليل البرامج بنجاح",
+    "failedToUpdateEpgProvider": "فشل في تحديث مزود دليل البرامج: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "liveTV": "البث التلفزيوني المباشر",
+    "deleteEpgProvider": "حذف مزود دليل البرامج (EPG)",
+    "deleteEpgProviderConfirm": "هل أنت متأكد أنك تريد حذف هذا المزود؟",
+    "epgProviderDeletedSuccessfully": "تم حذف مزود دليل البرامج بنجاح",
+    "failedToDeleteEpgProvider": "فشل في حذف مزود دليل البرامج: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "تعديل جهاز الاستقبال",
+    "friendlyName": "الاسم المعرّف",
+    "url": "الرابط (URL)",
+    "userAgent": "وكيل المستخدم (User Agent)",
+    "userAgentOptional": "وكيل المستخدم (اختياري)",
+    "maxConcurrentStreams": "الحد الأقصى للتدفقات المتزامنة",
+    "addEpgProvider": "إضافة مزود دليل البرامج",
+    "editEpgProvider": "تعديل مزود دليل البرامج",
+    "xmltvPathUrl": "مسار/رابط XMLTV",
+    "enableAllTuners": "تفعيل لجميع أجهزة الاستقبال",
+    "enabledTuners": "الأجهزة المفعّلة",
+    "selectTuners": "اختيار أجهزة الاستقبال",
+    "moviePrefix": "بادئة الأفلام",
+    "movieCategories": "فئات الأفلام",
+    "newsCategories": "فئات الأخبار",
+    "sportsCategories": "فئات الرياضة",
+    "kidsCategories": "فئات الأطفال",
+    "fileOrUrl": "ملف أو رابط",
+    "tunerIpAddress": "عنوان IP لجهاز الاستقبال",
+    "fallbackMaxBitrate": "الحد الأقصى لمعدل البث الاحتياطي (ميجابت/ثانية)",
+    "concurrentStreams": "الحد الأقصى للتدفقات المتزامنة",
+    "concurrentStreamsHint": "0 = غير محدود",
+    "allowFmp4Container": "السماح بحاوية تحويل fMP4",
+    "allowStreamSharing": "السماح بمشاركة البث",
+    "enableStreamLooping": "تفعيل تكرار البث",
+    "ignoreDts": "تجاهل الطوابع الزمنية DTS",
+    "readAtNativeFramerate": "القراءة بالمعدل الأصلي للإطارات",
+    "importFavoritesOnly": "استيراد القنوات المفضلة فقط",
+    "allowHWTranscoding": "السماح بالتحويل باستخدام العتاد",
+    "detectDevices": "اكتشاف الأجهزة",
+    "discoveredDevices": "الأجهزة المكتشفة",
+    "noDevicesFound": "لم يتم العثور على أجهزة",
+    "failedToDiscoverDevices": "فشل في اكتشاف الأجهزة: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "المسار",
+    "maxConcurrentStreamsLabel": "الحد الأقصى للتدفقات المتزامنة",
+    "noCategories": "لا توجد فئات",
+    "moviePrefixSubLabel": "إذا تمت إضافة بادئة لعناوين الأفلام، اكتبها هنا ليتمكن الخادم من معالجتها بشكل صحيح.",
+    "movieCategoriesSubLabel": "الفئات المخصصة للقنوات التي تطابق بادئة الأفلام",
+    "newsCategoriesSubLabel": "الفئات المخصصة للقنوات التي تطابق بادئة الأخبار",
+    "sportsCategoriesSubLabel": "الفئات المخصصة للقنوات التي تطابق بادئة الرياضة",
+    "kidsCategoriesSubLabel": "الفئات المخصصة للقنوات التي تطابق بادئة الأطفال",
+    "notifications": "الإشعارات",
+    "showNewItemNotificationTitle": "التحقق من العناصر الجديدة",
+    "notificationChannelDescription": "إشعارات للعناصر المضافة حديثاً",
+    "notificationNewEpisodes": "تمت إضافة حلقات جديدة",
+    "notificationNewItems": "{count, plural, one{{count} عنصر جديد} other{{count} عناصر جديدة}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " نظام iOS يقرر متى/إذا كانت التحديثات ستعمل فعلياً، قد تتأخر الإشعارات أو لا تظهر إطلاقاً.",
+    "updateCheckInterval": "فترة التحقق من التحديثات",
+    "updateCheckIntervalDesc": "عدد مرات تشغيل المهمة في الخلفية",
+    "notificationsIntervalClientReminder": "فترة الإشعارات محددة لجميع المستخدمين."
 }
