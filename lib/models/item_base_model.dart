@@ -118,7 +118,8 @@ class ItemBaseModel with ItemBaseModelMappable {
 
   String? unplayedLabel(AppLocalizations l10n) => null;
 
-  String? detailedName(AppLocalizations l10n) => "$name${overview.yearAired != null ? " (${overview.yearAired})" : ""}";
+  String? detailedName(AppLocalizations l10n) =>
+      "$name${overview.yearAired != null || overview.productionYear != null ? " (${overview.yearAired ?? overview.productionYear})" : ""}";
 
   String? get subText => null;
   String? subTextShort(AppLocalizations l10n) => null;

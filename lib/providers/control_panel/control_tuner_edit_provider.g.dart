@@ -6,7 +6,7 @@ part of 'control_tuner_edit_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlTunerEditHash() => r'19e03b857051c10640e87c83e710ce5764535572';
+String _$controlTunerEditHash() => r'47ce244d1dac1eda518a8797f4318c35d07e9656';
 
 /// Copied from Dart SDK
 class _SystemHash {

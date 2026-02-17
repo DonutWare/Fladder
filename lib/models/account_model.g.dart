@@ -37,6 +37,8 @@ _AccountModel _$AccountModelFromJson(Map<String, dynamic> json) =>
           const [],
       updateNotificationsEnabled:
           json['updateNotificationsEnabled'] as bool? ?? false,
+      seerrRequestsEnabled: json['seerrRequestsEnabled'] as bool? ?? false,
+      includeHiddenViews: json['includeHiddenViews'] as bool? ?? false,
       userSettings: json['userSettings'] == null
           ? null
           : UserSettings.fromJson(json['userSettings'] as Map<String, dynamic>),
@@ -57,6 +59,8 @@ Map<String, dynamic> _$AccountModelToJson(_AccountModel instance) =>
       'quickConnectState': instance.quickConnectState,
       'libraryFilters': instance.libraryFilters,
       'updateNotificationsEnabled': instance.updateNotificationsEnabled,
+      'seerrRequestsEnabled': instance.seerrRequestsEnabled,
+      'includeHiddenViews': instance.includeHiddenViews,
       'userSettings': instance.userSettings,
     };
 

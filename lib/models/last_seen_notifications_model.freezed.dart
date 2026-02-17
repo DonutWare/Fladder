@@ -321,7 +321,7 @@ class __$LastSeenNotificationsModelCopyWithImpl<$Res>
 /// @nodoc
 mixin _$LastSeenModel {
   String get userId;
-  List<String> get lastSeenIds;
+  List<NotificationModel> get lastNotifications;
 
   /// Create a copy of LastSeenModel
   /// with the given fields replaced by the non-null parameter values.
@@ -336,7 +336,7 @@ mixin _$LastSeenModel {
 
   @override
   String toString() {
-    return 'LastSeenModel(userId: $userId, lastSeenIds: $lastSeenIds)';
+    return 'LastSeenModel(userId: $userId, lastNotifications: $lastNotifications)';
   }
 }
 
@@ -346,7 +346,7 @@ abstract mixin class $LastSeenModelCopyWith<$Res> {
           LastSeenModel value, $Res Function(LastSeenModel) _then) =
       _$LastSeenModelCopyWithImpl;
   @useResult
-  $Res call({String userId, List<String> lastSeenIds});
+  $Res call({String userId, List<NotificationModel> lastNotifications});
 }
 
 /// @nodoc
@@ -363,17 +363,17 @@ class _$LastSeenModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = null,
-    Object? lastSeenIds = null,
+    Object? lastNotifications = null,
   }) {
     return _then(_self.copyWith(
       userId: null == userId
           ? _self.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      lastSeenIds: null == lastSeenIds
-          ? _self.lastSeenIds
-          : lastSeenIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      lastNotifications: null == lastNotifications
+          ? _self.lastNotifications
+          : lastNotifications // ignore: cast_nullable_to_non_nullable
+              as List<NotificationModel>,
     ));
   }
 }
@@ -471,13 +471,14 @@ extension LastSeenModelPatterns on LastSeenModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String userId, List<String> lastSeenIds)? $default, {
+    TResult Function(String userId, List<NotificationModel> lastNotifications)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _LastSeenModel() when $default != null:
-        return $default(_that.userId, _that.lastSeenIds);
+        return $default(_that.userId, _that.lastNotifications);
       case _:
         return orElse();
     }
@@ -498,12 +499,13 @@ extension LastSeenModelPatterns on LastSeenModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String userId, List<String> lastSeenIds) $default,
+    TResult Function(String userId, List<NotificationModel> lastNotifications)
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LastSeenModel():
-        return $default(_that.userId, _that.lastSeenIds);
+        return $default(_that.userId, _that.lastNotifications);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -523,12 +525,13 @@ extension LastSeenModelPatterns on LastSeenModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String userId, List<String> lastSeenIds)? $default,
+    TResult? Function(String userId, List<NotificationModel> lastNotifications)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LastSeenModel() when $default != null:
-        return $default(_that.userId, _that.lastSeenIds);
+        return $default(_that.userId, _that.lastNotifications);
       case _:
         return null;
     }
@@ -539,21 +542,24 @@ extension LastSeenModelPatterns on LastSeenModel {
 @JsonSerializable()
 class _LastSeenModel extends LastSeenModel {
   const _LastSeenModel(
-      {required this.userId, final List<String> lastSeenIds = const <String>[]})
-      : _lastSeenIds = lastSeenIds,
+      {required this.userId,
+      final List<NotificationModel> lastNotifications =
+          const <NotificationModel>[]})
+      : _lastNotifications = lastNotifications,
         super._();
   factory _LastSeenModel.fromJson(Map<String, dynamic> json) =>
       _$LastSeenModelFromJson(json);
 
   @override
   final String userId;
-  final List<String> _lastSeenIds;
+  final List<NotificationModel> _lastNotifications;
   @override
   @JsonKey()
-  List<String> get lastSeenIds {
-    if (_lastSeenIds is EqualUnmodifiableListView) return _lastSeenIds;
+  List<NotificationModel> get lastNotifications {
+    if (_lastNotifications is EqualUnmodifiableListView)
+      return _lastNotifications;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_lastSeenIds);
+    return EqualUnmodifiableListView(_lastNotifications);
   }
 
   /// Create a copy of LastSeenModel
@@ -573,7 +579,7 @@ class _LastSeenModel extends LastSeenModel {
 
   @override
   String toString() {
-    return 'LastSeenModel(userId: $userId, lastSeenIds: $lastSeenIds)';
+    return 'LastSeenModel(userId: $userId, lastNotifications: $lastNotifications)';
   }
 }
 
@@ -585,7 +591,7 @@ abstract mixin class _$LastSeenModelCopyWith<$Res>
       __$LastSeenModelCopyWithImpl;
   @override
   @useResult
-  $Res call({String userId, List<String> lastSeenIds});
+  $Res call({String userId, List<NotificationModel> lastNotifications});
 }
 
 /// @nodoc
@@ -602,17 +608,17 @@ class __$LastSeenModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? userId = null,
-    Object? lastSeenIds = null,
+    Object? lastNotifications = null,
   }) {
     return _then(_LastSeenModel(
       userId: null == userId
           ? _self.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      lastSeenIds: null == lastSeenIds
-          ? _self._lastSeenIds
-          : lastSeenIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      lastNotifications: null == lastNotifications
+          ? _self._lastNotifications
+          : lastNotifications // ignore: cast_nullable_to_non_nullable
+              as List<NotificationModel>,
     ));
   }
 }

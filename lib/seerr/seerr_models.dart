@@ -1042,8 +1042,8 @@ class SeerrMediaRequest {
   final int? id;
   final int? status;
   final SeerrMedia? media;
-  final String? createdAt;
-  final String? updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final SeerrUserModel? requestedBy;
   final SeerrUserModel? modifiedBy;
   final bool? is4k;

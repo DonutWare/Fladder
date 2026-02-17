@@ -37,6 +37,8 @@ abstract class AccountModel with _$AccountModel {
 
     // Update notification settings (local)
     @Default(false) bool updateNotificationsEnabled,
+    @Default(false) bool seerrRequestsEnabled,
+    @Default(false) bool includeHiddenViews,
 
     //Server values not stored in the database
     @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,

@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'package:fladder/models/notification_model.dart';
+
 class NotificationService {
   NotificationService._();
 
@@ -91,20 +93,56 @@ class NotificationService {
     );
   }
 
-  static Future<void> showGroupedNotifications(String groupId, String groupTitle, List<String> itemTitles,
-      [List<String?>? itemBodies, List<String?>? itemPayloads, String? summaryText]) async {
-    if (itemTitles.isEmpty) return;
+  static Future<void> showGroupedNotifications(
+    String groupId,
+    String groupTitle,
+    List<NotificationModel> notifications,
+    String? summaryText,
+  ) async {
+    if (notifications.isEmpty) return;
 
-    itemBodies ??= List<String?>.filled(itemTitles.length, null);
-    itemPayloads ??= List<String?>.filled(itemTitles.length, null);
+    final baseId = DateTime.now().millisecond;
+    final groupKey = 'fladder_group_${groupId}_$baseId';
 
-    final baseId = groupId.hashCode & 0x7fffffff;
+    if (notifications.length == 1) {
+      final single = notifications.first;
 
-    final groupKey = 'fladder_group_$groupId';
+      final androidSummary = AndroidNotificationDetails(
+        _channelId,
+        _channelName,
+        channelDescription: _channelDesc,
+        styleInformation: InboxStyleInformation(
+          [single.subtitle ?? single.title],
+          contentTitle: single.title,
+          summaryText: summaryText ?? '${notifications.length} new item',
+        ),
+        subText: (summaryText?.isNotEmpty == true) ? summaryText : groupTitle,
+        groupKey: groupKey,
+        setAsGroupSummary: true,
+        importance: Importance.defaultImportance,
+        priority: Priority.defaultPriority,
+        groupAlertBehavior: GroupAlertBehavior.summary,
+      );
+
+      final iosSummary = DarwinNotificationDetails(threadIdentifier: groupKey);
+
+      await _plugin.show(
+        id: baseId,
+        title: single.title,
+        body: (summaryText?.isNotEmpty == true)
+            ? ((single.subtitle?.isNotEmpty == true) ? '${single.subtitle}' : summaryText!)
+            : (single.subtitle ?? ''),
+        payload: single.payLoad,
+        notificationDetails: NotificationDetails(android: androidSummary, iOS: iosSummary),
+      );
+
+      return;
+    }
 
     final futures = <Future<void>>[];
-    for (var i = 0; i < itemTitles.length; i++) {
+    for (var i = 0; i < notifications.length; i++) {
       final childId = baseId + 1 + i;
+      final notification = notifications[i];
       final androidChild = AndroidNotificationDetails(
         _channelId,
         _channelName,
@@ -117,24 +155,23 @@ class NotificationService {
       final iosChild = DarwinNotificationDetails(threadIdentifier: groupKey);
       futures.add(_plugin.show(
         id: childId,
-        title: itemTitles[i],
-        body: itemBodies.elementAtOrNull(i),
-        payload: itemPayloads.elementAtOrNull(i),
+        title: notification.title,
+        body: notification.subtitle,
+        payload: notification.payLoad,
         notificationDetails: NotificationDetails(android: androidChild, iOS: iosChild),
       ));
     }
 
     await Future.wait(futures);
 
-    final inboxLines = itemTitles.toList();
     final androidSummary = AndroidNotificationDetails(
       _channelId,
       _channelName,
       channelDescription: _channelDesc,
       styleInformation: InboxStyleInformation(
-        inboxLines,
+        notifications.map((n) => n.title).toList(),
         contentTitle: groupTitle,
-        summaryText: summaryText ?? '${itemTitles.length} new items',
+        summaryText: summaryText ?? '${notifications.length} new items',
       ),
       groupKey: groupKey,
       setAsGroupSummary: true,
@@ -148,7 +185,7 @@ class NotificationService {
     await _plugin.show(
       id: baseId,
       title: groupTitle,
-      body: summaryText ?? '${itemTitles.length} new item(s)',
+      body: summaryText ?? '${notifications.length} new item(s)',
       notificationDetails: NotificationDetails(android: androidSummary, iOS: iosSummary),
     );
   }

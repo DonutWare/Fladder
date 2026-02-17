@@ -7,12 +7,12 @@ import 'package:fladder/widgets/shared/ensure_visible.dart';
 class SettingsListTileCheckbox extends StatelessWidget {
   final Widget label;
   final Widget? subLabel;
-  final Function(bool?) onChanged;
+  final Function(bool?)? onChanged;
   final bool value;
   const SettingsListTileCheckbox({
     required this.label,
     this.subLabel,
-    required this.onChanged,
+    this.onChanged,
     required this.value,
     super.key,
   });
@@ -22,9 +22,11 @@ class SettingsListTileCheckbox extends StatelessWidget {
     return SettingsListTile(
       label: label,
       subLabel: subLabel,
-      onTap: () {
-        onChanged(!value);
-      },
+      onTap: onChanged != null
+          ? () {
+              onChanged!(!value);
+            }
+          : null,
       trailing: Switch(
         value: value,
         onChanged: onChanged,

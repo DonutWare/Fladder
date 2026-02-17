@@ -28,14 +28,15 @@ Map<String, dynamic> _$LastSeenNotificationsModelToJson(
 _LastSeenModel _$LastSeenModelFromJson(Map<String, dynamic> json) =>
     _LastSeenModel(
       userId: json['userId'] as String,
-      lastSeenIds: (json['lastSeenIds'] as List<dynamic>?)
-              ?.map((e) => e as String)
+      lastNotifications: (json['lastNotifications'] as List<dynamic>?)
+              ?.map(
+                  (e) => NotificationModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
-          const <String>[],
+          const <NotificationModel>[],
     );
 
 Map<String, dynamic> _$LastSeenModelToJson(_LastSeenModel instance) =>
     <String, dynamic>{
       'userId': instance.userId,
-      'lastSeenIds': instance.lastSeenIds,
+      'lastNotifications': instance.lastNotifications,
     };

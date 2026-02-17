@@ -66,6 +66,7 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
     final seerrUser = ref.watch(seerrUserProvider);
     final cultures = ref.watch(culturesProvider);
     final clientSettings = ref.watch(clientSettingsProvider);
+    final lastUpdateDate = ref.watch(notificationsProvider.select((value) => value.updatedAt));
 
     final allowedSubModes = {
       enums.SubtitlePlaybackMode.$default,
@@ -160,7 +161,7 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
             ),
           ],
         ),
-        if (ref.read(supportsNotificationsProvider)) ...[
+        if (ref.watch(supportsNotificationsProvider)) ...[
           const SizedBox(height: 16),
           ...settingsListGroup(
             context,
@@ -193,6 +194,19 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                       },
                     ),
                   ),
+                  if (lastUpdateDate != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          context.localized.lastUpdateAt(lastUpdateDate, lastUpdateDate),
+                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                color: Theme.of(context).textTheme.bodyMedium?.color?.withAlpha(155),
+                              ),
+                        ),
+                      ),
+                    ),
                   SettingsMessageBox(
                     context.localized.notificationsIntervalClientReminder,
                     messageType: MessageType.info,
@@ -221,21 +235,64 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                   }
                 },
               ),
+              SettingsListTileCheckbox(
+                label: Text(context.localized.includeHiddenItems),
+                subLabel: Text(context.localized.includeUnrecognizedItems),
+                value: user?.includeHiddenViews ?? false,
+                onChanged: user?.updateNotificationsEnabled ?? false
+                    ? (val) async {
+                        final current = ref.read(userProvider);
+                        if (current == null || val == null) return;
+                        ref.read(userProvider.notifier).userState = current.copyWith(
+                          includeHiddenViews: val,
+                        );
+                        await ref.read(updateNotificationsProvider).registerBackgroundTask();
+                      }
+                    : null,
+              ),
               if (kDebugMode) ...[
                 SettingsListTile(
                   label: const Text('Show notification (debug)'),
-                  subLabel: const Text('Show a native notification with the latest ~5 items for the active account'),
                   onTap: () async => await ref.read(updateNotificationsProvider).executeBackgroundTask(),
                 ),
                 SettingsListTile(
                   label: const Text('Cancel all tasks (debug)'),
-                  subLabel: const Text('Cancel all scheduled background tasks for update notifications'),
                   onTap: () async => await ref.read(updateNotificationsProvider).cancelAllTasks(),
                 ),
               ],
             ],
           ),
         ],
+        const SizedBox(height: 16),
+        ...settingsListGroup(
+          context,
+          const SettingsLabelDivider(label: "Seerr"),
+          [
+            SettingsListTile(
+              label: Text(context.localized.seerr),
+              subLabel: Text(_seerrStatusLabel(context, user?.seerrCredentials, seerrUser)),
+              onTap: () => showSeerrConnectionDialog(context),
+            ),
+            if (seerrUser?.canManageRequests ?? false)
+              SettingsListTileCheckbox(
+                label: Text(context.localized.seerrRequestNotifications),
+                value: user?.seerrRequestsEnabled ?? false,
+                onChanged: (val) async {
+                  final current = ref.read(userProvider);
+                  if (current == null || val == null) return;
+
+                  ref.read(userProvider.notifier).userState = current.copyWith(seerrRequestsEnabled: val);
+
+                  if (val) {
+                    await NotificationService.requestPermission();
+                    await ref.read(updateNotificationsProvider).registerBackgroundTask();
+                  } else {
+                    await ref.read(updateNotificationsProvider).conditionallyUnregisterBackgroundTask();
+                  }
+                },
+              ),
+          ],
+        ),
         const SizedBox(height: 16),
         ...settingsListGroup(
           context,
@@ -270,11 +327,6 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                   context.localized.settingsLocalUrlSetDesc,
                 );
               },
-            ),
-            SettingsListTile(
-              label: Text(context.localized.seerr),
-              subLabel: Text(_seerrStatusLabel(context, user?.seerrCredentials, seerrUser)),
-              onTap: () => showSeerrConnectionDialog(context),
             ),
           ],
         ),

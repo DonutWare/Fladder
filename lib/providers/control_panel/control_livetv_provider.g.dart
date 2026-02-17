@@ -6,7 +6,7 @@ part of 'control_livetv_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlLiveTvHash() => r'50cffc5c663f2831984ddf2faa29fab92f254276';
+String _$controlLiveTvHash() => r'f82b3b1ae56471d190aa7fa8fb5a34a6ccd73761';
 
 /// See also [ControlLiveTv].
 @ProviderFor(ControlLiveTv)

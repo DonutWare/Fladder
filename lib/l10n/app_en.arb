@@ -2424,9 +2424,11 @@
   "kidsCategoriesSubLabel": "Categories to assign to channels matching the kids prefix",
   "enableNewTVLayoutDesc": "Show larger TV style banners on the dashboard. This will become the default layout in a future release.",
   "notifications": "Notifications",
-  "showNewItemNotificationTitle": "Check for new items",
+  "showNewItemNotificationTitle": "Notifications for library items",
   "notificationChannelDescription": "Notifications for newly added items",
   "@notificationChannelDescription": {},
+  "seerrRequestNotifications": "Notifications for Seerr requests",
+  "@seerrRequestNotifications": {},
   "notificationNewEpisodes": "New episodes added",
   "@notificationNewEpisodes": {},
   "notificationNewItems": "{count, plural, one{{count} new item} other{{count} new items}}",
@@ -2438,8 +2440,33 @@
       }
     }
   },
+  "notificationNewRequests": "{count, plural, one{{count} new request} other{{count} new requests}}",
+  "@notificationNewRequests": {
+    "description": "Plural for number of new Seerr requests in a notification",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "notificationTimerIOSWarning": " iOS decides when/if updates actually run, notifications may be delayed or not show up at all.",
   "updateCheckInterval": "Update check interval",
   "updateCheckIntervalDesc": "How often the background task runs",
-  "notificationsIntervalClientReminder": "Notification interval is set for all users."
+  "notificationsIntervalClientReminder": "Notification interval is set for all users.",
+  "lastUpdateAt": "Last updated on {date} at {time}",
+  "@lastUpdateAt": {
+    "description": "lastUpdateAt",
+    "placeholders": {
+      "time": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
+  "includeHiddenItems": "Include hidden library items",
+  "includeUnrecognizedItems": "Include items from hidden views in update notifications"
 }
