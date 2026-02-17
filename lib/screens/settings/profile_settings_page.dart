@@ -218,60 +218,81 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                     ),
                 ],
               ),
-              Column(
-                children: [
-                  SettingsListTileCheckbox(
-                    label: Text(context.localized.showNewItemNotificationTitle),
-                    value: user?.updateNotificationsEnabled ?? false,
-                    onChanged: (val) async {
-                      final current = ref.read(userProvider);
-                      if (current == null || val == null) return;
+              SettingsListTileCheckbox(
+                label: Text(context.localized.showNewItemNotificationTitle),
+                value: user?.updateNotificationsEnabled ?? false,
+                onChanged: (val) async {
+                  final current = ref.read(userProvider);
+                  if (current == null || val == null) return;
 
-                      ref.read(userProvider.notifier).userState = current.copyWith(updateNotificationsEnabled: val);
+                  ref.read(userProvider.notifier).userState = current.copyWith(updateNotificationsEnabled: val);
 
-                      if (val) {
-                        await NotificationService.requestPermission();
+                  if (val) {
+                    await NotificationService.requestPermission();
+                    await ref.read(updateNotificationsProvider).registerBackgroundTask();
+                  } else {
+                    await ref.read(updateNotificationsProvider).conditionallyUnregisterBackgroundTask();
+                  }
+                },
+              ),
+              SettingsListTileCheckbox(
+                label: Text(context.localized.includeHiddenItems),
+                subLabel: Text(context.localized.includeUnrecognizedItems),
+                value: user?.includeHiddenViews ?? false,
+                onChanged: user?.updateNotificationsEnabled ?? false
+                    ? (val) async {
+                        final current = ref.read(userProvider);
+                        if (current == null || val == null) return;
+                        ref.read(userProvider.notifier).userState = current.copyWith(
+                          includeHiddenViews: val,
+                        );
                         await ref.read(updateNotificationsProvider).registerBackgroundTask();
-                      } else {
-                        await ref.read(updateNotificationsProvider).conditionallyUnregisterBackgroundTask();
                       }
-                    },
-                  ),
-                  const SizedBox(
-                    width: 128,
-                    child: Divider(),
-                  ),
-                  SettingsListTileCheckbox(
-                    label: Text(context.localized.includeHiddenItems),
-                    subLabel: Text(context.localized.includeUnrecognizedItems),
-                    value: user?.includeHiddenViews ?? false,
-                    onChanged: (val) async {
-                      final current = ref.read(userProvider);
-                      if (current == null || val == null) return;
-                      ref.read(userProvider.notifier).userState = current.copyWith(
-                        includeHiddenViews: val,
-                        lastUpdateCheck: DateTime.now(),
-                      );
-                      await ref.read(updateNotificationsProvider).registerBackgroundTask();
-                    },
-                  ),
-                ],
+                    : null,
               ),
               if (kDebugMode) ...[
                 SettingsListTile(
                   label: const Text('Show notification (debug)'),
-                  subLabel: const Text('Show a native notification with the latest ~5 items for the active account'),
                   onTap: () async => await ref.read(updateNotificationsProvider).executeBackgroundTask(),
                 ),
                 SettingsListTile(
                   label: const Text('Cancel all tasks (debug)'),
-                  subLabel: const Text('Cancel all scheduled background tasks for update notifications'),
                   onTap: () async => await ref.read(updateNotificationsProvider).cancelAllTasks(),
                 ),
               ],
             ],
           ),
         ],
+        const SizedBox(height: 16),
+        ...settingsListGroup(
+          context,
+          const SettingsLabelDivider(label: "Seerr"),
+          [
+            SettingsListTile(
+              label: Text(context.localized.seerr),
+              subLabel: Text(_seerrStatusLabel(context, user?.seerrCredentials, seerrUser)),
+              onTap: () => showSeerrConnectionDialog(context),
+            ),
+            if (seerrUser?.canManageRequests ?? false)
+              SettingsListTileCheckbox(
+                label: Text(context.localized.seerrRequestNotifications),
+                value: user?.seerrRequestsEnabled ?? false,
+                onChanged: (val) async {
+                  final current = ref.read(userProvider);
+                  if (current == null || val == null) return;
+
+                  ref.read(userProvider.notifier).userState = current.copyWith(seerrRequestsEnabled: val);
+
+                  if (val) {
+                    await NotificationService.requestPermission();
+                    await ref.read(updateNotificationsProvider).registerBackgroundTask();
+                  } else {
+                    await ref.read(updateNotificationsProvider).conditionallyUnregisterBackgroundTask();
+                  }
+                },
+              ),
+          ],
+        ),
         const SizedBox(height: 16),
         ...settingsListGroup(
           context,
@@ -306,11 +327,6 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                   context.localized.settingsLocalUrlSetDesc,
                 );
               },
-            ),
-            SettingsListTile(
-              label: Text(context.localized.seerr),
-              subLabel: Text(_seerrStatusLabel(context, user?.seerrCredentials, seerrUser)),
-              onTap: () => showSeerrConnectionDialog(context),
             ),
           ],
         ),

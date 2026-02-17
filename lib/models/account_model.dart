@@ -37,7 +37,7 @@ abstract class AccountModel with _$AccountModel {
 
     // Update notification settings (local)
     @Default(false) bool updateNotificationsEnabled,
-    DateTime? lastUpdateCheck,
+    @Default(false) bool seerrRequestsEnabled,
     @Default(false) bool includeHiddenViews,
 
     //Server values not stored in the database

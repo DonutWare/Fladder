@@ -29,7 +29,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
   List<LibraryFiltersModel>
       get libraryFilters; // Update notification settings (local)
   bool get updateNotificationsEnabled;
-  DateTime? get lastUpdateCheck;
+  bool get seerrRequestsEnabled;
   bool get includeHiddenViews; //Server values not stored in the database
   @JsonKey(includeFromJson: false, includeToJson: false)
   UserPolicy? get policy;
@@ -72,7 +72,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
       ..add(DiagnosticsProperty(
           'updateNotificationsEnabled', updateNotificationsEnabled))
-      ..add(DiagnosticsProperty('lastUpdateCheck', lastUpdateCheck))
+      ..add(DiagnosticsProperty('seerrRequestsEnabled', seerrRequestsEnabled))
       ..add(DiagnosticsProperty('includeHiddenViews', includeHiddenViews))
       ..add(DiagnosticsProperty('policy', policy))
       ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
@@ -84,7 +84,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, lastUpdateCheck: $lastUpdateCheck, includeHiddenViews: $includeHiddenViews, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, seerrRequestsEnabled: $seerrRequestsEnabled, includeHiddenViews: $includeHiddenViews, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
   }
 }
 
@@ -108,7 +108,7 @@ abstract mixin class $AccountModelCopyWith<$Res> {
       bool quickConnectState,
       List<LibraryFiltersModel> libraryFilters,
       bool updateNotificationsEnabled,
-      DateTime? lastUpdateCheck,
+      bool seerrRequestsEnabled,
       bool includeHiddenViews,
       @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
@@ -150,7 +150,7 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
     Object? quickConnectState = null,
     Object? libraryFilters = null,
     Object? updateNotificationsEnabled = null,
-    Object? lastUpdateCheck = freezed,
+    Object? seerrRequestsEnabled = null,
     Object? includeHiddenViews = null,
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
@@ -212,10 +212,10 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
           ? _self.updateNotificationsEnabled
           : updateNotificationsEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
-      lastUpdateCheck: freezed == lastUpdateCheck
-          ? _self.lastUpdateCheck
-          : lastUpdateCheck // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      seerrRequestsEnabled: null == seerrRequestsEnabled
+          ? _self.seerrRequestsEnabled
+          : seerrRequestsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       includeHiddenViews: null == includeHiddenViews
           ? _self.includeHiddenViews
           : includeHiddenViews // ignore: cast_nullable_to_non_nullable
@@ -394,7 +394,7 @@ extension AccountModelPatterns on AccountModel {
             bool quickConnectState,
             List<LibraryFiltersModel> libraryFilters,
             bool updateNotificationsEnabled,
-            DateTime? lastUpdateCheck,
+            bool seerrRequestsEnabled,
             bool includeHiddenViews,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserPolicy? policy,
@@ -427,7 +427,7 @@ extension AccountModelPatterns on AccountModel {
             _that.quickConnectState,
             _that.libraryFilters,
             _that.updateNotificationsEnabled,
-            _that.lastUpdateCheck,
+            _that.seerrRequestsEnabled,
             _that.includeHiddenViews,
             _that.policy,
             _that.serverConfiguration,
@@ -469,7 +469,7 @@ extension AccountModelPatterns on AccountModel {
             bool quickConnectState,
             List<LibraryFiltersModel> libraryFilters,
             bool updateNotificationsEnabled,
-            DateTime? lastUpdateCheck,
+            bool seerrRequestsEnabled,
             bool includeHiddenViews,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserPolicy? policy,
@@ -501,7 +501,7 @@ extension AccountModelPatterns on AccountModel {
             _that.quickConnectState,
             _that.libraryFilters,
             _that.updateNotificationsEnabled,
-            _that.lastUpdateCheck,
+            _that.seerrRequestsEnabled,
             _that.includeHiddenViews,
             _that.policy,
             _that.serverConfiguration,
@@ -542,7 +542,7 @@ extension AccountModelPatterns on AccountModel {
             bool quickConnectState,
             List<LibraryFiltersModel> libraryFilters,
             bool updateNotificationsEnabled,
-            DateTime? lastUpdateCheck,
+            bool seerrRequestsEnabled,
             bool includeHiddenViews,
             @JsonKey(includeFromJson: false, includeToJson: false)
             UserPolicy? policy,
@@ -574,7 +574,7 @@ extension AccountModelPatterns on AccountModel {
             _that.quickConnectState,
             _that.libraryFilters,
             _that.updateNotificationsEnabled,
-            _that.lastUpdateCheck,
+            _that.seerrRequestsEnabled,
             _that.includeHiddenViews,
             _that.policy,
             _that.serverConfiguration,
@@ -605,7 +605,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       this.quickConnectState = false,
       final List<LibraryFiltersModel> libraryFilters = const [],
       this.updateNotificationsEnabled = false,
-      this.lastUpdateCheck,
+      this.seerrRequestsEnabled = false,
       this.includeHiddenViews = false,
       @JsonKey(includeFromJson: false, includeToJson: false) this.policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
@@ -679,7 +679,8 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
   @JsonKey()
   final bool updateNotificationsEnabled;
   @override
-  final DateTime? lastUpdateCheck;
+  @JsonKey()
+  final bool seerrRequestsEnabled;
   @override
   @JsonKey()
   final bool includeHiddenViews;
@@ -735,7 +736,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
       ..add(DiagnosticsProperty(
           'updateNotificationsEnabled', updateNotificationsEnabled))
-      ..add(DiagnosticsProperty('lastUpdateCheck', lastUpdateCheck))
+      ..add(DiagnosticsProperty('seerrRequestsEnabled', seerrRequestsEnabled))
       ..add(DiagnosticsProperty('includeHiddenViews', includeHiddenViews))
       ..add(DiagnosticsProperty('policy', policy))
       ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
@@ -747,7 +748,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, lastUpdateCheck: $lastUpdateCheck, includeHiddenViews: $includeHiddenViews, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, seerrRequestsEnabled: $seerrRequestsEnabled, includeHiddenViews: $includeHiddenViews, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
   }
 }
 
@@ -773,7 +774,7 @@ abstract mixin class _$AccountModelCopyWith<$Res>
       bool quickConnectState,
       List<LibraryFiltersModel> libraryFilters,
       bool updateNotificationsEnabled,
-      DateTime? lastUpdateCheck,
+      bool seerrRequestsEnabled,
       bool includeHiddenViews,
       @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
       @JsonKey(includeFromJson: false, includeToJson: false)
@@ -819,7 +820,7 @@ class __$AccountModelCopyWithImpl<$Res>
     Object? quickConnectState = null,
     Object? libraryFilters = null,
     Object? updateNotificationsEnabled = null,
-    Object? lastUpdateCheck = freezed,
+    Object? seerrRequestsEnabled = null,
     Object? includeHiddenViews = null,
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
@@ -881,10 +882,10 @@ class __$AccountModelCopyWithImpl<$Res>
           ? _self.updateNotificationsEnabled
           : updateNotificationsEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
-      lastUpdateCheck: freezed == lastUpdateCheck
-          ? _self.lastUpdateCheck
-          : lastUpdateCheck // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      seerrRequestsEnabled: null == seerrRequestsEnabled
+          ? _self.seerrRequestsEnabled
+          : seerrRequestsEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       includeHiddenViews: null == includeHiddenViews
           ? _self.includeHiddenViews
           : includeHiddenViews // ignore: cast_nullable_to_non_nullable

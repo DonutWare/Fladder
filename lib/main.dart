@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:auto_route/auto_route.dart' show DeepLink, PageRouteInfo;
+import 'package:auto_route/auto_route.dart' show DeepLink;
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,6 +44,7 @@ import 'package:fladder/src/video_player_helper.g.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/application_info.dart';
+import 'package:fladder/util/deep_link_helper.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/macos_window_helpers.dart';
@@ -421,26 +422,6 @@ FutureOr<DeepLink> deepLinkBuilder(Uri? payload) {
     return DeepLink.path(pageRouteInfoToPath(route));
   }
   return DeepLink.defaultPath;
-}
-
-PageRouteInfo? payloadToRoute(Uri? payload) {
-  if (payload == null) return null;
-  if (payload.path.contains('/details')) {
-    return DetailsRoute(id: payload.queryParameters['id']!);
-  }
-  return null;
-}
-
-String pageRouteInfoToPath(PageRouteInfo route) {
-  try {
-    return switch (route) {
-      DetailsRoute() => '/details?id=${route.queryParams.get('id')}',
-      _ => '/',
-    };
-  } catch (e) {
-    log("Failed to convert route to path: $e");
-    return route.routeName;
-  }
 }
 
 final currentTitleProvider = StateProvider<String>((ref) => "Fladder");

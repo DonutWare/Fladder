@@ -29,7 +29,11 @@ class UpdateNotifications {
 
   Future<void> registerBackgroundTask() async {
     await Future.delayed(const Duration(milliseconds: 500));
-    final accounts = ref.read(sharedUtilityProvider).getAccounts().where((a) => a.updateNotificationsEnabled).toList();
+    final accounts = ref
+        .read(sharedUtilityProvider)
+        .getAccounts()
+        .where((a) => a.updateNotificationsEnabled || a.seerrRequestsEnabled)
+        .toList();
     if (accounts.isEmpty) {
       await unregisterBackgroundTask();
       return;
@@ -64,8 +68,11 @@ class UpdateNotifications {
   Future<void> conditionallyUnregisterBackgroundTask() async {
     try {
       await Future.delayed(const Duration(milliseconds: 500));
-      final accounts =
-          ref.read(sharedUtilityProvider).getAccounts().where((a) => a.updateNotificationsEnabled).toList();
+      final accounts = ref
+          .read(sharedUtilityProvider)
+          .getAccounts()
+          .where((a) => a.updateNotificationsEnabled || a.seerrRequestsEnabled)
+          .toList();
       if (accounts.isEmpty) {
         log('No accounts have update notifications enabled, unregistering background task');
         await Workmanager().cancelByUniqueName(updateTaskName);
@@ -79,15 +86,15 @@ class UpdateNotifications {
   //Used for debug purposes, to trigger the background task immediately and show a notification for any new items
   Future<void> executeBackgroundTask() async {
     try {
-      performHeadlessUpdateCheck(
-        debug: true,
-      );
-      // await Workmanager().registerOneOffTask(
-      //   updateTaskNameDebug,
-      //   updateTaskNameDebug,
-      //   existingWorkPolicy: ExistingWorkPolicy.replace,
-      //   constraints: Constraints(networkType: NetworkType.connected),
+      // performHeadlessUpdateCheck(
+      //   debug: true,
       // );
+      await Workmanager().registerOneOffTask(
+        updateTaskNameDebug,
+        updateTaskNameDebug,
+        existingWorkPolicy: ExistingWorkPolicy.replace,
+        constraints: Constraints(networkType: NetworkType.connected),
+      );
     } catch (e) {
       log('Error executing background task: $e');
     }
