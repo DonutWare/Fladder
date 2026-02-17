@@ -2469,5 +2469,5 @@
     }
   },
   "includeHiddenItems": "Include hidden libraries",
-  "includeUnrecognizedItems": "Include items from hidden views in update notifications"
+  "includeHiddenItemsDesc": "Include libraries hidden from the dashboard"
 }

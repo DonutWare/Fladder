@@ -237,7 +237,7 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
               ),
               SettingsListTileCheckbox(
                 label: Text(context.localized.includeHiddenItems),
-                subLabel: Text(context.localized.includeUnrecognizedItems),
+                subLabel: Text(context.localized.includeHiddenItemsDesc),
                 value: user?.includeHiddenViews ?? false,
                 onChanged: user?.updateNotificationsEnabled ?? false
                     ? (val) async {
