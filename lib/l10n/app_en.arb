@@ -2468,6 +2468,6 @@
       }
     }
   },
-  "includeHiddenItems": "Include hidden library items",
+  "includeHiddenItems": "Include hidden libraries",
   "includeUnrecognizedItems": "Include items from hidden views in update notifications"
 }
