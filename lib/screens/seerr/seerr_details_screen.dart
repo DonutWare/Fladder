@@ -78,8 +78,7 @@ class SeerrDetailsScreen extends ConsumerWidget {
     final canRequestMore = hasKnownStatus
         ? switch (currentPoster?.type) {
             SeerrMediaType.movie => false,
-            SeerrMediaType.tvshow =>
-              state.seasonStatuses.entries.any((entry) => entry.value == SeerrMediaStatus.unknown),
+            SeerrMediaType.tvshow => true,
             _ => false,
           }
         : true;
