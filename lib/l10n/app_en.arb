@@ -2441,5 +2441,21 @@
   "notificationTimerIOSWarning": " iOS decides when/if updates actually run, notifications may be delayed or not show up at all.",
   "updateCheckInterval": "Update check interval",
   "updateCheckIntervalDesc": "How often the background task runs",
-  "notificationsIntervalClientReminder": "Notification interval is set for all users."
+  "notificationsIntervalClientReminder": "Notification interval is set for all users.",
+  "lastUpdateAt": "Last updated on {date} at {time}",
+  "@lastUpdateAt": {
+    "description": "lastUpdateAt",
+    "placeholders": {
+      "time": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
+  "includeHiddenItems": "Include hidden library items",
+  "includeUnrecognizedItems": "Include items from hidden views in update notifications"
 }

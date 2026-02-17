@@ -8,16 +8,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'package:fladder/background/update_notifications_worker.dart';
+import 'package:fladder/models/last_seen_notifications_model.dart';
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 
 final supportsNotificationsProvider = Provider.autoDispose<bool>((ref) {
   final leanBackMode = ref.watch(argumentsStateProvider.select((value) => value.leanBackMode));
-  return (!kIsWeb && !leanBackMode) && Platform.isAndroid;
+  return (!kIsWeb && !leanBackMode) && Platform.isAndroid || Platform.isIOS;
 });
 
 final updateNotificationsProvider = Provider<UpdateNotifications>((ref) => UpdateNotifications(ref));
+
+final notificationsProvider = StateProvider<LastSeenNotificationsModel>((ref) => const LastSeenNotificationsModel());
 
 class UpdateNotifications {
   UpdateNotifications(this.ref);
@@ -76,12 +79,15 @@ class UpdateNotifications {
   //Used for debug purposes, to trigger the background task immediately and show a notification for any new items
   Future<void> executeBackgroundTask() async {
     try {
-      await Workmanager().registerOneOffTask(
-        updateTaskNameDebug,
-        updateTaskNameDebug,
-        existingWorkPolicy: ExistingWorkPolicy.replace,
-        constraints: Constraints(networkType: NetworkType.connected),
+      performHeadlessUpdateCheck(
+        debug: true,
       );
+      // await Workmanager().registerOneOffTask(
+      //   updateTaskNameDebug,
+      //   updateTaskNameDebug,
+      //   existingWorkPolicy: ExistingWorkPolicy.replace,
+      //   constraints: Constraints(networkType: NetworkType.connected),
+      // );
     } catch (e) {
       log('Error executing background task: $e');
     }
