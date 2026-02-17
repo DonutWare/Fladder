@@ -128,25 +128,45 @@ class LocaleConvert implements JsonConverter<Locale?, String?> {
 
   @override
   Locale? fromJson(String? json) {
-    if (json == null) return null;
+    if (json == null || json.isEmpty) return null;
+
     final parts = json.split('_');
-    if (parts.length == 1) {
-      return Locale(parts[0]);
-    } else if (parts.length == 2) {
-      return Locale(parts[0], parts[1]);
-    } else {
-      log("Invalid Locale format");
+
+    if (parts.isEmpty) return null;
+
+    final languageCode = parts[0].toLowerCase();
+    String? scriptCode;
+    String? countryCode;
+
+    if (parts.length >= 2) {
+      final second = parts[1];
+
+      if (second.length == 4) {
+        scriptCode = second[0].toUpperCase() + second.substring(1).toLowerCase();
+      } else {
+        countryCode = second.toUpperCase();
+      }
+    }
+
+    if (parts.length >= 3) {
+      countryCode = parts[2].toUpperCase();
+    }
+
+    if (parts.length > 3) {
+      log('Invalid Locale format: $json');
       return null;
     }
+
+    return Locale.fromSubtags(
+      languageCode: languageCode,
+      scriptCode: scriptCode,
+      countryCode: countryCode,
+    );
   }
 
   @override
   String? toJson(Locale? object) {
-    if (object == null) return null;
-    if (object.countryCode == null || object.countryCode?.isEmpty == true) {
-      return object.languageCode;
-    }
-    return '${object.languageCode}_${object.countryCode}';
+    return object?.toDisplayCode();
   }
 }
 

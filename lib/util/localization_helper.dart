@@ -60,9 +60,19 @@ class _LocalizationContextWrapperState extends ConsumerState<LocalizationContext
 
 extension LocaleDisplayCodeExtension on Locale {
   String toDisplayCode() {
-    return countryCode != null && countryCode!.isNotEmpty
-        ? "${languageCode.toUpperCase()}-${countryCode!.toUpperCase()}"
-        : languageCode.toUpperCase();
+    final buffer = StringBuffer();
+
+    buffer.write(languageCode.toLowerCase());
+
+    if (scriptCode != null && scriptCode!.isNotEmpty) {
+      buffer.write('_${scriptCode![0].toUpperCase()}${scriptCode!.substring(1).toLowerCase()}');
+    }
+
+    if (countryCode != null && countryCode!.isNotEmpty) {
+      buffer.write('_${countryCode!.toUpperCase()}');
+    }
+
+    return buffer.toString();
   }
 }
 
