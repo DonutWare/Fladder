@@ -5,6 +5,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
+import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
@@ -76,6 +77,8 @@ class _MediaManagementActionsState extends ConsumerState<_MediaManagementActions
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    final canManageRequest = ref.watch(seerrUserProvider.select((value) => value?.canManageRequests ?? false));
+
     final mediaInfo = widget.poster.mediaInfo;
     final itemModel = widget.poster.itemBaseModel;
 
@@ -107,36 +110,38 @@ class _MediaManagementActionsState extends ConsumerState<_MediaManagementActions
             itemModel.navigateTo(context);
           },
         ),
-      if (mediaInfo.serviceUrl != null) ...[
+      if (canManageRequest) ...[
+        if (mediaInfo.serviceUrl != null) ...[
+          ItemActionDivider(),
+          ItemActionButton(
+            icon: const Icon(IconsaxPlusLinear.export_1),
+            label: Text(isTvSeries ? context.localized.openInSonarr : context.localized.openInRadarr),
+            action: _isLoading ? null : _openInExternalService,
+          ),
+          ItemActionButton(
+            icon: const Icon(IconsaxPlusLinear.close_circle),
+            backgroundColor: theme.colorScheme.errorContainer,
+            foregroundColor: theme.colorScheme.onErrorContainer,
+            label: Text(isTvSeries ? context.localized.removeFromSonarr : context.localized.removeFromRadarr),
+            action: _isLoading ? null : _removeFromService,
+          ),
+        ],
         ItemActionDivider(),
+        if (widget.poster.mediaStatus != SeerrMediaStatus.available)
+          ItemActionButton(
+            icon: const Icon(IconsaxPlusLinear.tick_circle),
+            backgroundColor: Colors.green.shade900,
+            label: Text(isTvSeries ? context.localized.markAllSeasonsAsAvailable : context.localized.markAsAvailable),
+            action: _isLoading ? null : _markAsAvailable,
+          ),
         ItemActionButton(
-          icon: const Icon(IconsaxPlusLinear.export_1),
-          label: Text(isTvSeries ? context.localized.openInSonarr : context.localized.openInRadarr),
-          action: _isLoading ? null : _openInExternalService,
-        ),
-        ItemActionButton(
-          icon: const Icon(IconsaxPlusLinear.close_circle),
+          icon: const Icon(IconsaxPlusLinear.trash),
+          label: Text(context.localized.deleteData),
           backgroundColor: theme.colorScheme.errorContainer,
           foregroundColor: theme.colorScheme.onErrorContainer,
-          label: Text(isTvSeries ? context.localized.removeFromSonarr : context.localized.removeFromRadarr),
-          action: _isLoading ? null : _removeFromService,
+          action: _isLoading ? null : _deleteData,
         ),
       ],
-      ItemActionDivider(),
-      if (widget.poster.mediaStatus != SeerrMediaStatus.available)
-        ItemActionButton(
-          icon: const Icon(IconsaxPlusLinear.tick_circle),
-          backgroundColor: Colors.green.shade900,
-          label: Text(isTvSeries ? context.localized.markAllSeasonsAsAvailable : context.localized.markAsAvailable),
-          action: _isLoading ? null : _markAsAvailable,
-        ),
-      ItemActionButton(
-        icon: const Icon(IconsaxPlusLinear.trash),
-        label: Text(context.localized.deleteData),
-        backgroundColor: theme.colorScheme.errorContainer,
-        foregroundColor: theme.colorScheme.onErrorContainer,
-        action: _isLoading ? null : _deleteData,
-      ),
     ];
 
     return ListView(

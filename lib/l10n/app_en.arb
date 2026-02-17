@@ -2060,6 +2060,7 @@
   "@downloading": {},
   "request": "Request",
   "@request": {},
+  "requestMore": "Request more",
   "viewRequest": "View request",
   "@viewRequest": {},
   "email": "Email",

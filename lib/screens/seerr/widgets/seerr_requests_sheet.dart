@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
+import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_banner_card.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -46,7 +48,7 @@ Future<void> showSeerrRequestsSheet({
   context.refreshData();
 }
 
-class _SeerrRequestsSheet extends StatelessWidget {
+class _SeerrRequestsSheet extends ConsumerWidget {
   const _SeerrRequestsSheet({
     required this.poster,
     required this.requests,
@@ -62,8 +64,9 @@ class _SeerrRequestsSheet extends StatelessWidget {
   final ScrollController? scrollController;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final useParentScroll = scrollController != null;
+    final currentSeerrUser = ref.watch(seerrUserProvider);
 
     return ListView.separated(
       controller: useParentScroll ? scrollController : null,
@@ -75,6 +78,7 @@ class _SeerrRequestsSheet extends StatelessWidget {
         final requestStatus = SeerrRequestStatus.fromRaw(request.status);
         final requestId = request.id;
         final isPending = requestStatus == SeerrRequestStatus.pending;
+        final myRequest = request.requestedBy?.id == currentSeerrUser?.id;
 
         final requestPoster = poster.copyWith(
           requestStatus: requestStatus,
@@ -109,8 +113,8 @@ class _SeerrRequestsSheet extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton.icon(
                         icon: const Icon(IconsaxPlusBold.close_circle),
-                        label: Text(context.localized.decline),
-                        onPressed: requestId != null
+                        label: Text(myRequest ? context.localized.delete : context.localized.decline),
+                        onPressed: requestId != null && isPending
                             ? () {
                                 onDecline(requestId);
                                 Navigator.of(context).pop();
@@ -121,23 +125,24 @@ class _SeerrRequestsSheet extends StatelessWidget {
                           foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
                         )),
                   ),
-                  Expanded(
-                    child: FilledButton.icon(
-                      autofocus: index == 0 && AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
-                      icon: const Icon(IconsaxPlusBold.tick_circle),
-                      label: Text(context.localized.approve),
-                      onPressed: isPending && requestId != null
-                          ? () {
-                              onApprove(requestId);
-                              Navigator.of(context).pop();
-                            }
-                          : null,
-                      style: FilledButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                        foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                  if (!myRequest)
+                    Expanded(
+                      child: FilledButton.icon(
+                        autofocus: index == 0 && AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+                        icon: const Icon(IconsaxPlusBold.tick_circle),
+                        label: Text(context.localized.approve),
+                        onPressed: isPending && requestId != null
+                            ? () {
+                                onApprove(requestId);
+                                Navigator.of(context).pop();
+                              }
+                            : null,
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                          foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
