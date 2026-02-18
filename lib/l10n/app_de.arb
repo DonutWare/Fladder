@@ -1830,5 +1830,6 @@
         }
     },
     "includeHiddenItems": "Versteckte Bibliotheken einschließen",
-    "includeHiddenItemsDesc": "Bibliotheken einschließen, die in der Übersicht ausgeblendet sind"
+    "includeHiddenItemsDesc": "Bibliotheken einschließen, die in der Übersicht ausgeblendet sind",
+    "batteryOptimizationDesc": "Batterieoptimierungen können Hintergrundbenachrichtigungen für Fladder verzögern. \nTippe hier, um die Systemeinstellungen zu öffnen und die Optimierungen für Fladder zu deaktivieren, um die Zuverlässigkeit der Benachrichtigungen zu verbessern."
 }
