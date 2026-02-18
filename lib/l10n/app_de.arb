@@ -1803,5 +1803,32 @@
     "notificationTimerIOSWarning": " iOS entscheidet wann/ob Updates tatsächlich ausgeführt werden, Benachrichtigungen erscheinen daher möglicherweise nicht oder nur verzögert.",
     "updateCheckInterval": "Intervall zur Suche nach Updates",
     "updateCheckIntervalDesc": "Wie oft die Hintergrundaufgabe läuft",
-    "notificationsIntervalClientReminder": "Das Benachrichtigungsintervall gilt für alle Benutzer."
+    "notificationsIntervalClientReminder": "Das Benachrichtigungsintervall gilt für alle Benutzer.",
+    "requestMore": "Mehr Anfragen",
+    "seerrRequestNotifications": "Benachrichtigungen für Seerr Anfragen",
+    "notificationNewRequests": "{count, plural, one{{count} neue Anfrage} other{{count} neue Anfragen}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "lastUpdateAt": "Letzte Aktualisierung am {date} um {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "Versteckte Bibliotheken einschließen",
+    "includeHiddenItemsDesc": "Bibliotheken einschließen, die in der Übersicht ausgeblendet sind"
 }
