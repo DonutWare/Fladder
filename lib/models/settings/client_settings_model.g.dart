@@ -40,6 +40,7 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       pinchPosterZoom: json['pinchPosterZoom'] as bool? ?? false,
       mouseDragSupport: json['mouseDragSupport'] as bool? ?? false,
       requireWifi: json['requireWifi'] as bool? ?? true,
+      expandSideBar: json['expandSideBar'] as bool? ?? false,
       showAllCollectionTypes: json['showAllCollectionTypes'] as bool? ?? false,
       maxConcurrentDownloads:
           (json['maxConcurrentDownloads'] as num?)?.toInt() ?? 2,
@@ -49,6 +50,7 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       backgroundImage: $enumDecodeNullable(
               _$BackgroundTypeEnumMap, json['backgroundImage']) ??
           BackgroundType.blurred,
+      enableBlurEffects: json['enableBlurEffects'] as bool? ?? false,
       checkForUpdates: json['checkForUpdates'] as bool? ?? true,
       usePosterForLibrary: json['usePosterForLibrary'] as bool? ?? false,
       useSystemIME: json['useSystemIME'] as bool? ?? false,
@@ -84,10 +86,12 @@ Map<String, dynamic> _$ClientSettingsModelToJson(
       'pinchPosterZoom': instance.pinchPosterZoom,
       'mouseDragSupport': instance.mouseDragSupport,
       'requireWifi': instance.requireWifi,
+      'expandSideBar': instance.expandSideBar,
       'showAllCollectionTypes': instance.showAllCollectionTypes,
       'maxConcurrentDownloads': instance.maxConcurrentDownloads,
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
       'backgroundImage': _$BackgroundTypeEnumMap[instance.backgroundImage]!,
+      'enableBlurEffects': instance.enableBlurEffects,
       'checkForUpdates': instance.checkForUpdates,
       'usePosterForLibrary': instance.usePosterForLibrary,
       'useSystemIME': instance.useSystemIME,

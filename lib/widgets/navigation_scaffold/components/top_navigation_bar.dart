@@ -46,9 +46,10 @@ class TopNavigationBar extends ConsumerWidget {
     final height = barHeight + (MediaQuery.paddingOf(context).top + padding);
     final buttonShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
 
-    final useBlurredBackground =
-        ref.watch(clientSettingsProvider.select((value) => value.backgroundImage == BackgroundType.blurred)) &&
-            !topBarNoBlurRoutes.contains(currentLocation);
+    final useBlurredBackground = ref.watch(clientSettingsProvider.select(
+          (value) => value.backgroundImage == BackgroundType.blurred && value.enableBlurEffects,
+        )) &&
+        !topBarNoBlurRoutes.contains(currentLocation);
 
     return Stack(
       children: [

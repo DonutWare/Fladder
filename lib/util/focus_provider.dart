@@ -48,6 +48,7 @@ class FocusButton extends StatefulWidget {
   final FocusNode? focusNode;
   final List<Widget> focusedOverlays;
   final List<Widget> overlays;
+  final Function(bool value)? onHover;
   final Function()? onTap;
   final Function()? onLongPress;
   final Function(TapDownDetails)? onSecondaryTapDown;
@@ -64,6 +65,7 @@ class FocusButton extends StatefulWidget {
     this.focusNode,
     this.focusedOverlays = const [],
     this.overlays = const [],
+    this.onHover,
     this.onTap,
     this.onLongPress,
     this.onSecondaryTapDown,
@@ -144,7 +146,9 @@ class FocusButtonState extends State<FocusButton> {
     if (lastMainFocus == focusNode) {
       lastMainFocus = null;
     }
-    focusNode.dispose();
+    if (widget.focusNode == null) {
+      focusNode.dispose();
+    }
     super.dispose();
   }
 
@@ -169,6 +173,7 @@ class FocusButtonState extends State<FocusButton> {
       cursor: SystemMouseCursors.click,
       onEnter: (event) => onHover.value = true,
       onExit: (event) => onHover.value = false,
+      onHover: widget.onHover != null ? (event) => widget.onHover?.call(true) : null,
       child: Focus(
         focusNode: focusNode,
         autofocus: widget.autoFocus,

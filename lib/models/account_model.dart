@@ -34,8 +34,6 @@ abstract class AccountModel with _$AccountModel {
     @Default([]) List<String> searchQueryHistory,
     @Default(false) bool quickConnectState,
     @Default([]) List<LibraryFiltersModel> libraryFilters,
-
-    // Update notification settings (local)
     @Default(false) bool updateNotificationsEnabled,
     @Default(false) bool seerrRequestsEnabled,
     @Default(false) bool includeHiddenViews,

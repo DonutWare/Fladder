@@ -71,6 +71,15 @@ List<Widget> buildClientSettingsVisual(
         ),
       ),
       SettingsListTile(
+        label: Text(context.localized.settingsBlurEffectsTitle),
+        subLabel: Text(context.localized.settingsBlurEffectsDesc),
+        onTap: () => ref.read(clientSettingsProvider.notifier).setBlurEffects(!clientSettings.enableBlurEffects),
+        trailing: Switch(
+          value: clientSettings.enableBlurEffects,
+          onChanged: (value) => ref.read(clientSettingsProvider.notifier).setBlurEffects(value),
+        ),
+      ),
+      SettingsListTile(
         label: Text(context.localized.settingsBlurEpisodesTitle),
         subLabel: Text(context.localized.settingsBlurEpisodesDesc),
         onTap: () => ref.read(clientSettingsProvider.notifier).setBlurEpisodes(!clientSettings.blurUpcomingEpisodes),

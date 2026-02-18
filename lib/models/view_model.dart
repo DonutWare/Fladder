@@ -159,6 +159,7 @@ class ViewModel {
     bool expanded,
     FutureOr Function() action, {
     FutureOr Function()? onLongPress,
+    FutureOr Function(TapDownDetails details)? onSecondaryTapDown,
     List<ItemAction>? trailing,
     Widget? customIcon,
   }) {
@@ -167,6 +168,7 @@ class ViewModel {
       selected: selected,
       onPressed: action,
       onLongPress: onLongPress,
+      onSecondaryTapDown: onSecondaryTapDown,
       horizontal: horizontal,
       expanded: expanded,
       customIcon: customIcon,

@@ -77,10 +77,12 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool pinchPosterZoom,
     @Default(false) bool mouseDragSupport,
     @Default(true) bool requireWifi,
+    @Default(false) bool expandSideBar,
     @Default(false) bool showAllCollectionTypes,
     @Default(2) int maxConcurrentDownloads,
     @Default(DynamicSchemeVariant.rainbow) DynamicSchemeVariant schemeVariant,
     @Default(BackgroundType.blurred) BackgroundType backgroundImage,
+    @Default(false) bool enableBlurEffects,
     @Default(true) bool checkForUpdates,
     @Default(false) bool usePosterForLibrary,
     @Default(false) bool useSystemIME,
@@ -95,6 +97,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
       blurPlaceHolders: leanBackMode ? false : true,
       backgroundImage: leanBackMode ? BackgroundType.disabled : BackgroundType.blurred,
       themeMode: leanBackMode ? ThemeMode.dark : ThemeMode.system,
+      enableBlurEffects: leanBackMode ? false : true,
       useTVExpandedLayout: false,
     );
   }

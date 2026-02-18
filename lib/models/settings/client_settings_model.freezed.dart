@@ -33,10 +33,12 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
   bool get pinchPosterZoom;
   bool get mouseDragSupport;
   bool get requireWifi;
+  bool get expandSideBar;
   bool get showAllCollectionTypes;
   int get maxConcurrentDownloads;
   DynamicSchemeVariant get schemeVariant;
   BackgroundType get backgroundImage;
+  bool get enableBlurEffects;
   bool get checkForUpdates;
   bool get usePosterForLibrary;
   bool get useSystemIME;
@@ -79,12 +81,14 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('pinchPosterZoom', pinchPosterZoom))
       ..add(DiagnosticsProperty('mouseDragSupport', mouseDragSupport))
       ..add(DiagnosticsProperty('requireWifi', requireWifi))
+      ..add(DiagnosticsProperty('expandSideBar', expandSideBar))
       ..add(
           DiagnosticsProperty('showAllCollectionTypes', showAllCollectionTypes))
       ..add(
           DiagnosticsProperty('maxConcurrentDownloads', maxConcurrentDownloads))
       ..add(DiagnosticsProperty('schemeVariant', schemeVariant))
       ..add(DiagnosticsProperty('backgroundImage', backgroundImage))
+      ..add(DiagnosticsProperty('enableBlurEffects', enableBlurEffects))
       ..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))
       ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
       ..add(DiagnosticsProperty('useSystemIME', useSystemIME))
@@ -96,7 +100,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -125,10 +129,12 @@ abstract mixin class $ClientSettingsModelCopyWith<$Res> {
       bool pinchPosterZoom,
       bool mouseDragSupport,
       bool requireWifi,
+      bool expandSideBar,
       bool showAllCollectionTypes,
       int maxConcurrentDownloads,
       DynamicSchemeVariant schemeVariant,
       BackgroundType backgroundImage,
+      bool enableBlurEffects,
       bool checkForUpdates,
       bool usePosterForLibrary,
       bool useSystemIME,
@@ -169,10 +175,12 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
     Object? pinchPosterZoom = null,
     Object? mouseDragSupport = null,
     Object? requireWifi = null,
+    Object? expandSideBar = null,
     Object? showAllCollectionTypes = null,
     Object? maxConcurrentDownloads = null,
     Object? schemeVariant = null,
     Object? backgroundImage = null,
+    Object? enableBlurEffects = null,
     Object? checkForUpdates = null,
     Object? usePosterForLibrary = null,
     Object? useSystemIME = null,
@@ -254,6 +262,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.requireWifi
           : requireWifi // ignore: cast_nullable_to_non_nullable
               as bool,
+      expandSideBar: null == expandSideBar
+          ? _self.expandSideBar
+          : expandSideBar // ignore: cast_nullable_to_non_nullable
+              as bool,
       showAllCollectionTypes: null == showAllCollectionTypes
           ? _self.showAllCollectionTypes
           : showAllCollectionTypes // ignore: cast_nullable_to_non_nullable
@@ -270,6 +282,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.backgroundImage
           : backgroundImage // ignore: cast_nullable_to_non_nullable
               as BackgroundType,
+      enableBlurEffects: null == enableBlurEffects
+          ? _self.enableBlurEffects
+          : enableBlurEffects // ignore: cast_nullable_to_non_nullable
+              as bool,
       checkForUpdates: null == checkForUpdates
           ? _self.checkForUpdates
           : checkForUpdates // ignore: cast_nullable_to_non_nullable
@@ -414,10 +430,12 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool pinchPosterZoom,
             bool mouseDragSupport,
             bool requireWifi,
+            bool expandSideBar,
             bool showAllCollectionTypes,
             int maxConcurrentDownloads,
             DynamicSchemeVariant schemeVariant,
             BackgroundType backgroundImage,
+            bool enableBlurEffects,
             bool checkForUpdates,
             bool usePosterForLibrary,
             bool useSystemIME,
@@ -450,10 +468,12 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.pinchPosterZoom,
             _that.mouseDragSupport,
             _that.requireWifi,
+            _that.expandSideBar,
             _that.showAllCollectionTypes,
             _that.maxConcurrentDownloads,
             _that.schemeVariant,
             _that.backgroundImage,
+            _that.enableBlurEffects,
             _that.checkForUpdates,
             _that.usePosterForLibrary,
             _that.useSystemIME,
@@ -500,10 +520,12 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool pinchPosterZoom,
             bool mouseDragSupport,
             bool requireWifi,
+            bool expandSideBar,
             bool showAllCollectionTypes,
             int maxConcurrentDownloads,
             DynamicSchemeVariant schemeVariant,
             BackgroundType backgroundImage,
+            bool enableBlurEffects,
             bool checkForUpdates,
             bool usePosterForLibrary,
             bool useSystemIME,
@@ -535,10 +557,12 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.pinchPosterZoom,
             _that.mouseDragSupport,
             _that.requireWifi,
+            _that.expandSideBar,
             _that.showAllCollectionTypes,
             _that.maxConcurrentDownloads,
             _that.schemeVariant,
             _that.backgroundImage,
+            _that.enableBlurEffects,
             _that.checkForUpdates,
             _that.usePosterForLibrary,
             _that.useSystemIME,
@@ -584,10 +608,12 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool pinchPosterZoom,
             bool mouseDragSupport,
             bool requireWifi,
+            bool expandSideBar,
             bool showAllCollectionTypes,
             int maxConcurrentDownloads,
             DynamicSchemeVariant schemeVariant,
             BackgroundType backgroundImage,
+            bool enableBlurEffects,
             bool checkForUpdates,
             bool usePosterForLibrary,
             bool useSystemIME,
@@ -619,10 +645,12 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.pinchPosterZoom,
             _that.mouseDragSupport,
             _that.requireWifi,
+            _that.expandSideBar,
             _that.showAllCollectionTypes,
             _that.maxConcurrentDownloads,
             _that.schemeVariant,
             _that.backgroundImage,
+            _that.enableBlurEffects,
             _that.checkForUpdates,
             _that.usePosterForLibrary,
             _that.useSystemIME,
@@ -659,10 +687,12 @@ class _ClientSettingsModel extends ClientSettingsModel
       this.pinchPosterZoom = false,
       this.mouseDragSupport = false,
       this.requireWifi = true,
+      this.expandSideBar = false,
       this.showAllCollectionTypes = false,
       this.maxConcurrentDownloads = 2,
       this.schemeVariant = DynamicSchemeVariant.rainbow,
       this.backgroundImage = BackgroundType.blurred,
+      this.enableBlurEffects = false,
       this.checkForUpdates = true,
       this.usePosterForLibrary = false,
       this.useSystemIME = false,
@@ -728,6 +758,9 @@ class _ClientSettingsModel extends ClientSettingsModel
   final bool requireWifi;
   @override
   @JsonKey()
+  final bool expandSideBar;
+  @override
+  @JsonKey()
   final bool showAllCollectionTypes;
   @override
   @JsonKey()
@@ -738,6 +771,9 @@ class _ClientSettingsModel extends ClientSettingsModel
   @override
   @JsonKey()
   final BackgroundType backgroundImage;
+  @override
+  @JsonKey()
+  final bool enableBlurEffects;
   @override
   @JsonKey()
   final bool checkForUpdates;
@@ -802,12 +838,14 @@ class _ClientSettingsModel extends ClientSettingsModel
       ..add(DiagnosticsProperty('pinchPosterZoom', pinchPosterZoom))
       ..add(DiagnosticsProperty('mouseDragSupport', mouseDragSupport))
       ..add(DiagnosticsProperty('requireWifi', requireWifi))
+      ..add(DiagnosticsProperty('expandSideBar', expandSideBar))
       ..add(
           DiagnosticsProperty('showAllCollectionTypes', showAllCollectionTypes))
       ..add(
           DiagnosticsProperty('maxConcurrentDownloads', maxConcurrentDownloads))
       ..add(DiagnosticsProperty('schemeVariant', schemeVariant))
       ..add(DiagnosticsProperty('backgroundImage', backgroundImage))
+      ..add(DiagnosticsProperty('enableBlurEffects', enableBlurEffects))
       ..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))
       ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
       ..add(DiagnosticsProperty('useSystemIME', useSystemIME))
@@ -819,7 +857,7 @@ class _ClientSettingsModel extends ClientSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -850,10 +888,12 @@ abstract mixin class _$ClientSettingsModelCopyWith<$Res>
       bool pinchPosterZoom,
       bool mouseDragSupport,
       bool requireWifi,
+      bool expandSideBar,
       bool showAllCollectionTypes,
       int maxConcurrentDownloads,
       DynamicSchemeVariant schemeVariant,
       BackgroundType backgroundImage,
+      bool enableBlurEffects,
       bool checkForUpdates,
       bool usePosterForLibrary,
       bool useSystemIME,
@@ -894,10 +934,12 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
     Object? pinchPosterZoom = null,
     Object? mouseDragSupport = null,
     Object? requireWifi = null,
+    Object? expandSideBar = null,
     Object? showAllCollectionTypes = null,
     Object? maxConcurrentDownloads = null,
     Object? schemeVariant = null,
     Object? backgroundImage = null,
+    Object? enableBlurEffects = null,
     Object? checkForUpdates = null,
     Object? usePosterForLibrary = null,
     Object? useSystemIME = null,
@@ -979,6 +1021,10 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.requireWifi
           : requireWifi // ignore: cast_nullable_to_non_nullable
               as bool,
+      expandSideBar: null == expandSideBar
+          ? _self.expandSideBar
+          : expandSideBar // ignore: cast_nullable_to_non_nullable
+              as bool,
       showAllCollectionTypes: null == showAllCollectionTypes
           ? _self.showAllCollectionTypes
           : showAllCollectionTypes // ignore: cast_nullable_to_non_nullable
@@ -995,6 +1041,10 @@ class __$ClientSettingsModelCopyWithImpl<$Res>
           ? _self.backgroundImage
           : backgroundImage // ignore: cast_nullable_to_non_nullable
               as BackgroundType,
+      enableBlurEffects: null == enableBlurEffects
+          ? _self.enableBlurEffects
+          : enableBlurEffects // ignore: cast_nullable_to_non_nullable
+              as bool,
       checkForUpdates: null == checkForUpdates
           ? _self.checkForUpdates
           : checkForUpdates // ignore: cast_nullable_to_non_nullable

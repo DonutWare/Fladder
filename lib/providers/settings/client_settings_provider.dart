@@ -109,4 +109,6 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
   Future<void> closeDirectory() => DirectoryBookmark().closeDirectory(syncPathKey);
 
   void setExpandedTVLayout(bool value) => state = state.copyWith(useTVExpandedLayout: value);
+
+  void setBlurEffects(bool value) => state = state.copyWith(enableBlurEffects: value);
 }

@@ -26,8 +26,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
   List<String> get latestItemsExcludes;
   List<String> get searchQueryHistory;
   bool get quickConnectState;
-  List<LibraryFiltersModel>
-      get libraryFilters; // Update notification settings (local)
+  List<LibraryFiltersModel> get libraryFilters;
   bool get updateNotificationsEnabled;
   bool get seerrRequestsEnabled;
   bool get includeHiddenViews; //Server values not stored in the database
@@ -674,7 +673,6 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
     return EqualUnmodifiableListView(_libraryFilters);
   }
 
-// Update notification settings (local)
   @override
   @JsonKey()
   final bool updateNotificationsEnabled;

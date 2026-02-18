@@ -125,9 +125,6 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     final amoledBlack = ref.watch(clientSettingsProvider.select((value) => value.amoledBlack));
     final amoledOverwrite = amoledBlack ? Colors.black : null;
 
-    final useTVExpandedLayout = ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout)) &&
-        AdaptiveLayout.viewSizeOf(context) == ViewSize.television;
-
     final themeData =
         newColorScheme != null && ref.watch(clientSettingsProvider.select((value) => value.deriveColorsFromItem))
             ? FladderTheme.theme(newColorScheme, schemeVariant).copyWith(
@@ -182,22 +179,17 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: EdgeInsets.only(
-                                left: (sideBarPadding - 25).clamp(0, double.infinity), top: topBarPadding),
+                            padding: EdgeInsets.only(top: topBarPadding),
                             child: RepaintBoundary(
-                              child: FadeEdges(
-                                topFade: topBarPadding > 0 ? 0.1 : 0.0,
-                                leftFade:
-                                    AdaptiveLayout.layoutModeOf(context) != LayoutMode.single && !useTVExpandedLayout
-                                        ? 0.05
-                                        : 0.0,
-                                bottomFade: 0.3,
-                                child: ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                    minWidth: double.infinity,
-                                    minHeight: minHeight - 20,
-                                    maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
-                                  ),
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minWidth: double.infinity,
+                                  minHeight: minHeight - 22,
+                                  maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
+                                ),
+                                child: FadeEdges(
+                                  topFade: topBarPadding > 0 ? 0.1 : 0.0,
+                                  bottomFade: 0.2,
                                   child: FadeInImage(
                                     placeholder: ResizeImage(
                                       backgroundImage!.imageProvider,
