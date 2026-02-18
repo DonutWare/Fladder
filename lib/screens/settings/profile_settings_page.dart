@@ -8,6 +8,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as enums;
+import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/cultures_provider.dart';
@@ -136,6 +137,18 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
                   ref.read(userProvider.notifier).updateUser(newUser);
                 },
               ),
+            ),
+            SettingsListTileCheckbox(
+              label: Text(context.localized.profileSettingsOpenAuthAtLaunch),
+              value: user?.askForAuthOnLaunch ?? false,
+              onChanged: user?.authMethod != Authentication.none
+                  ? (val) async {
+                      if (user == null || val == null) return;
+                      ref.read(userProvider.notifier).updateUser(
+                            user.copyWith(askForAuthOnLaunch: val),
+                          );
+                    }
+                  : null,
             ),
             SettingsListTile(
               label: Text(context.localized.password),

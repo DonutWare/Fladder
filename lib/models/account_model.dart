@@ -27,6 +27,7 @@ abstract class AccountModel with _$AccountModel {
     required String avatar,
     required DateTime lastUsed,
     @Default(Authentication.autoLogin) Authentication authMethod,
+    @Default(false) bool askForAuthOnLaunch,
     @Default("") String localPin,
     @CredentialsConverter() required CredentialsModel credentials,
     SeerrCredentialsModel? seerrCredentials,

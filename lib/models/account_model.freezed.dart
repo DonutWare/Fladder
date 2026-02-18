@@ -19,6 +19,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
   String get avatar;
   DateTime get lastUsed;
   Authentication get authMethod;
+  bool get askForAuthOnLaunch;
   String get localPin;
   @CredentialsConverter()
   CredentialsModel get credentials;
@@ -62,6 +63,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('avatar', avatar))
       ..add(DiagnosticsProperty('lastUsed', lastUsed))
       ..add(DiagnosticsProperty('authMethod', authMethod))
+      ..add(DiagnosticsProperty('askForAuthOnLaunch', askForAuthOnLaunch))
       ..add(DiagnosticsProperty('localPin', localPin))
       ..add(DiagnosticsProperty('credentials', credentials))
       ..add(DiagnosticsProperty('seerrCredentials', seerrCredentials))
@@ -83,7 +85,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, seerrRequestsEnabled: $seerrRequestsEnabled, includeHiddenViews: $includeHiddenViews, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, askForAuthOnLaunch: $askForAuthOnLaunch, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, seerrRequestsEnabled: $seerrRequestsEnabled, includeHiddenViews: $includeHiddenViews, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
   }
 }
 
@@ -99,6 +101,7 @@ abstract mixin class $AccountModelCopyWith<$Res> {
       String avatar,
       DateTime lastUsed,
       Authentication authMethod,
+      bool askForAuthOnLaunch,
       String localPin,
       @CredentialsConverter() CredentialsModel credentials,
       SeerrCredentialsModel? seerrCredentials,
@@ -141,6 +144,7 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
     Object? avatar = null,
     Object? lastUsed = null,
     Object? authMethod = null,
+    Object? askForAuthOnLaunch = null,
     Object? localPin = null,
     Object? credentials = null,
     Object? seerrCredentials = freezed,
@@ -179,6 +183,10 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
           ? _self.authMethod
           : authMethod // ignore: cast_nullable_to_non_nullable
               as Authentication,
+      askForAuthOnLaunch: null == askForAuthOnLaunch
+          ? _self.askForAuthOnLaunch
+          : askForAuthOnLaunch // ignore: cast_nullable_to_non_nullable
+              as bool,
       localPin: null == localPin
           ? _self.localPin
           : localPin // ignore: cast_nullable_to_non_nullable
@@ -385,6 +393,7 @@ extension AccountModelPatterns on AccountModel {
             String avatar,
             DateTime lastUsed,
             Authentication authMethod,
+            bool askForAuthOnLaunch,
             String localPin,
             @CredentialsConverter() CredentialsModel credentials,
             SeerrCredentialsModel? seerrCredentials,
@@ -418,6 +427,7 @@ extension AccountModelPatterns on AccountModel {
             _that.avatar,
             _that.lastUsed,
             _that.authMethod,
+            _that.askForAuthOnLaunch,
             _that.localPin,
             _that.credentials,
             _that.seerrCredentials,
@@ -460,6 +470,7 @@ extension AccountModelPatterns on AccountModel {
             String avatar,
             DateTime lastUsed,
             Authentication authMethod,
+            bool askForAuthOnLaunch,
             String localPin,
             @CredentialsConverter() CredentialsModel credentials,
             SeerrCredentialsModel? seerrCredentials,
@@ -492,6 +503,7 @@ extension AccountModelPatterns on AccountModel {
             _that.avatar,
             _that.lastUsed,
             _that.authMethod,
+            _that.askForAuthOnLaunch,
             _that.localPin,
             _that.credentials,
             _that.seerrCredentials,
@@ -533,6 +545,7 @@ extension AccountModelPatterns on AccountModel {
             String avatar,
             DateTime lastUsed,
             Authentication authMethod,
+            bool askForAuthOnLaunch,
             String localPin,
             @CredentialsConverter() CredentialsModel credentials,
             SeerrCredentialsModel? seerrCredentials,
@@ -565,6 +578,7 @@ extension AccountModelPatterns on AccountModel {
             _that.avatar,
             _that.lastUsed,
             _that.authMethod,
+            _that.askForAuthOnLaunch,
             _that.localPin,
             _that.credentials,
             _that.seerrCredentials,
@@ -596,6 +610,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       required this.avatar,
       required this.lastUsed,
       this.authMethod = Authentication.autoLogin,
+      this.askForAuthOnLaunch = false,
       this.localPin = "",
       @CredentialsConverter() required this.credentials,
       this.seerrCredentials,
@@ -633,6 +648,9 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final Authentication authMethod;
+  @override
+  @JsonKey()
+  final bool askForAuthOnLaunch;
   @override
   @JsonKey()
   final String localPin;
@@ -725,6 +743,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('avatar', avatar))
       ..add(DiagnosticsProperty('lastUsed', lastUsed))
       ..add(DiagnosticsProperty('authMethod', authMethod))
+      ..add(DiagnosticsProperty('askForAuthOnLaunch', askForAuthOnLaunch))
       ..add(DiagnosticsProperty('localPin', localPin))
       ..add(DiagnosticsProperty('credentials', credentials))
       ..add(DiagnosticsProperty('seerrCredentials', seerrCredentials))
@@ -746,7 +765,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, seerrRequestsEnabled: $seerrRequestsEnabled, includeHiddenViews: $includeHiddenViews, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, askForAuthOnLaunch: $askForAuthOnLaunch, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, seerrRequestsEnabled: $seerrRequestsEnabled, includeHiddenViews: $includeHiddenViews, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
   }
 }
 
@@ -764,6 +783,7 @@ abstract mixin class _$AccountModelCopyWith<$Res>
       String avatar,
       DateTime lastUsed,
       Authentication authMethod,
+      bool askForAuthOnLaunch,
       String localPin,
       @CredentialsConverter() CredentialsModel credentials,
       SeerrCredentialsModel? seerrCredentials,
@@ -810,6 +830,7 @@ class __$AccountModelCopyWithImpl<$Res>
     Object? avatar = null,
     Object? lastUsed = null,
     Object? authMethod = null,
+    Object? askForAuthOnLaunch = null,
     Object? localPin = null,
     Object? credentials = null,
     Object? seerrCredentials = freezed,
@@ -848,6 +869,10 @@ class __$AccountModelCopyWithImpl<$Res>
           ? _self.authMethod
           : authMethod // ignore: cast_nullable_to_non_nullable
               as Authentication,
+      askForAuthOnLaunch: null == askForAuthOnLaunch
+          ? _self.askForAuthOnLaunch
+          : askForAuthOnLaunch // ignore: cast_nullable_to_non_nullable
+              as bool,
       localPin: null == localPin
           ? _self.localPin
           : localPin // ignore: cast_nullable_to_non_nullable
