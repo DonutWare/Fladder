@@ -1806,5 +1806,6 @@
         }
     },
     "includeHiddenItems": "Includi librerie nascoste",
-    "includeHiddenItemsDesc": "Includi librerie nascoste dalla dashboard"
+    "includeHiddenItemsDesc": "Includi librerie nascoste dalla dashboard",
+    "batteryOptimizationDesc": "Le ottimizzazioni della batteria possono ritardare le notifiche in background per Fladder.\nTocca per aprire le impostazioni di sistema e disattivare le ottimizzazioni per Fladder per migliorare l'affidabilità delle notifiche."
 }
