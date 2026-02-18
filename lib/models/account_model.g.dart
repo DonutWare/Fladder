@@ -15,6 +15,7 @@ _AccountModel _$AccountModelFromJson(Map<String, dynamic> json) =>
       authMethod:
           $enumDecodeNullable(_$AuthenticationEnumMap, json['authMethod']) ??
               Authentication.autoLogin,
+      askForAuthOnLaunch: json['askForAuthOnLaunch'] as bool? ?? false,
       localPin: json['localPin'] as String? ?? "",
       credentials: const CredentialsConverter().fromJson(json['credentials']),
       seerrCredentials: json['seerrCredentials'] == null
@@ -51,6 +52,7 @@ Map<String, dynamic> _$AccountModelToJson(_AccountModel instance) =>
       'avatar': instance.avatar,
       'lastUsed': instance.lastUsed.toIso8601String(),
       'authMethod': _$AuthenticationEnumMap[instance.authMethod]!,
+      'askForAuthOnLaunch': instance.askForAuthOnLaunch,
       'localPin': instance.localPin,
       'credentials': const CredentialsConverter().toJson(instance.credentials),
       'seerrCredentials': instance.seerrCredentials,

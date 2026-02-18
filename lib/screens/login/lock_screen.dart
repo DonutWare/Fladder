@@ -51,8 +51,12 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    Future.microtask(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(lockScreenActiveProvider.notifier).update((state) => true);
+      final user = ref.read(userProvider);
+      if (user != null && user.authMethod != Authentication.none && user.askForAuthOnLaunch) {
+        tapLoggedInAccount(user);
+      }
     });
     hackyFixForBlackNavbar();
   }
