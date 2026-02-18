@@ -64,12 +64,15 @@ extension LocaleDisplayCodeExtension on Locale {
 
     buffer.write(languageCode.toLowerCase());
 
-    if (scriptCode != null && scriptCode!.isNotEmpty) {
-      buffer.write('_${scriptCode![0].toUpperCase()}${scriptCode!.substring(1).toLowerCase()}');
+    final scriptCode = this.scriptCode;
+    final countryCode = this.countryCode;
+
+    if (scriptCode != null && scriptCode.isNotEmpty) {
+      buffer.write('_${scriptCode[0].toUpperCase()}${scriptCode.substring(1).toLowerCase()}');
     }
 
-    if (countryCode != null && countryCode!.isNotEmpty) {
-      buffer.write('_${countryCode!.toUpperCase()}');
+    if (countryCode != null && countryCode.isNotEmpty) {
+      buffer.write('_${countryCode.toUpperCase()}');
     }
 
     return buffer.toString();
