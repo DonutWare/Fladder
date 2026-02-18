@@ -1622,5 +1622,17 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "homeBannerDetailed": "Detallado",
+    "homeBannerTV": "TV",
+    "backgroundColor": "Color de fondo",
+    "enableSpeedBoostTitle": "Activar aumento de velocidad",
+    "enableSpeedBoostDesc": "Mantén pulsada la pantalla (móvil) o la barra espaciadora (escritorio) para aumentar temporalmente la velocidad de reproducción",
+    "speedBoostRateTitle": "Velocidad acelerada",
+    "speedBoostRateDesc": "Velocidad con aceleración activada",
+    "enableDoubleTapSeekTitle": "Doble toque para buscar / reproducir / pausar",
+    "enableDoubleTapSeekDesc": "Doble toque en el lado izquierdo/derecho de la pantalla para retroceder/avanzar. Doble toque en el centro para reproducir/pausar",
+    "showLess": "Mostrar menos",
+    "requestMore": "Solicitar más",
+    "activeTvChannels": "Canales de TV activos"
 }
