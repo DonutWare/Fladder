@@ -106,11 +106,13 @@ void main(List<String> args) async {
 
   final sharedPreferences = await SharedPreferences.getInstance();
 
-  await NotificationService.init();
-  try {
-    await Workmanager().initialize(update_worker.callbackDispatcher);
-  } catch (e) {
-    log("Failed to initialize Workmanager for background tasks: $e");
+  await NotificationService.init().timeout(const Duration(seconds: 5));
+  if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+    try {
+      await Workmanager().initialize(update_worker.callbackDispatcher).timeout(const Duration(seconds: 3));
+    } catch (e) {
+      log("Failed to initialize Workmanager for background tasks: $e");
+    }
   }
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
