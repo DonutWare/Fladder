@@ -79,7 +79,8 @@ void main(List<String> args) async {
   await NotificationService.init();
 
   // Check if running on android TV
-  final leanBackEnabled = !kIsWeb && Platform.isAndroid ? await NativeVideoActivity().isLeanBackEnabled() : false;
+  final leanBackEnabled =
+      defaultTargetPlatform == TargetPlatform.android ? await NativeVideoActivity().isLeanBackEnabled() : false;
 
   if (defaultTargetPlatform == TargetPlatform.windows) {
     await SMTCWindows.initialize();
@@ -93,7 +94,7 @@ void main(List<String> args) async {
 
   String windowArguments = "";
 
-  if (!kIsWeb && Platform.isMacOS) {
+  if (defaultTargetPlatform == TargetPlatform.macOS) {
     await WindowManipulator.initialize(enableWindowDelegate: true);
   }
 
@@ -105,15 +106,6 @@ void main(List<String> args) async {
   }
 
   final sharedPreferences = await SharedPreferences.getInstance();
-
-  await NotificationService.init().timeout(const Duration(seconds: 5));
-  if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-    try {
-      await Workmanager().initialize(update_worker.callbackDispatcher).timeout(const Duration(seconds: 3));
-    } catch (e) {
-      log("Failed to initialize Workmanager for background tasks: $e");
-    }
-  }
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
@@ -222,15 +214,21 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     WidgetsBinding.instance.addObserver(this);
     windowManager.addListener(this);
 
-    _notificationSub = NotificationService.notificationTapStream.listen((payload) {
-      if (payload == null || payload.isEmpty) return;
-      final route = payloadToRoute(Uri.parse(payload));
-      if (route != null) autoRouter.push(route);
-    });
-
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // Delay to ensure the app is fully loaded before handling the initial notification payload
-      await Future.delayed(const Duration(seconds: 5));
+      await NotificationService.init().timeout(const Duration(seconds: 5));
+      if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+        try {
+          await Workmanager().initialize(update_worker.callbackDispatcher).timeout(const Duration(seconds: 3));
+        } catch (e) {
+          log("Failed to initialize Workmanager for background tasks: $e");
+        }
+      }
+
+      _notificationSub = NotificationService.notificationTapStream.listen((payload) {
+        if (payload == null || payload.isEmpty) return;
+        final route = payloadToRoute(Uri.parse(payload));
+        if (route != null) autoRouter.push(route);
+      });
 
       NotificationService.getInitialNotificationPayload().then((payload) {
         if (payload == null || payload.isEmpty) return;
