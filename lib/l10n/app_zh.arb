@@ -1781,7 +1781,7 @@
     "sportsCategoriesSubLabel": "要分配给与体育前缀匹配的频道的类别",
     "kidsCategoriesSubLabel": "要分配给与儿童前缀匹配的频道的类别",
     "notifications": "通知",
-    "showNewItemNotificationTitle": "检查是否有新项目",
+    "showNewItemNotificationTitle": "媒体库项目通知",
     "notificationChannelDescription": "新增项目的通知",
     "notificationNewEpisodes": "新增剧集",
     "notificationNewItems": "{count, plural, one{{count} 新项目} other{{count} 新项目}}",
@@ -1796,5 +1796,32 @@
     "notificationTimerIOSWarning": " iOS 决定何时/是否实际执行更新，通知可能会延迟或根本不显示。",
     "updateCheckInterval": "更新检查间隔",
     "updateCheckIntervalDesc": "后台任务运行频率",
-    "notificationsIntervalClientReminder": "已为所有用户设置通知间隔。"
+    "notificationsIntervalClientReminder": "已为所有用户设置通知间隔。",
+    "requestMore": "请求更多",
+    "seerrRequestNotifications": "Seerr 请求的通知",
+    "notificationNewRequests": "{count, plural, one{{count} 新请求} other{{count} 新请求}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "lastUpdateAt": "最后更新于 {date}，时间为 {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "包含隐藏媒体库",
+    "includeHiddenItemsDesc": "包含控制台中隐藏的媒体库"
 }
