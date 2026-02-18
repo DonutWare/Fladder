@@ -13,6 +13,7 @@ import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/cultures_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/update_notifications_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
@@ -25,6 +26,7 @@ import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/screens/shared/authenticate_button_options.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/services/battery_optimization.dart';
 import 'package:fladder/services/notification_service.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -40,7 +42,10 @@ class ProfileSettingsPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _UserSettingsPageState();
 }
 
-class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
+class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with WidgetsBindingObserver {
+  bool? enabledBatteryOptimization;
+  DateTime? lastUpdateDate;
+
   String _seerrStatusLabel(
     BuildContext context,
     SeerrCredentialsModel? credentials,
@@ -61,12 +66,51 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkBatteryOptimization();
+      checkLastUpdateDate();
+    });
+  }
+
+  Future<bool> checkBatteryOptimization() async {
+    if (!kIsWeb && Platform.isAndroid) {
+      final optimizing = !(await BatteryOptimization.isIgnoringBatteryOptimizations());
+      setState(() {
+        enabledBatteryOptimization = optimizing;
+      });
+      return optimizing;
+    }
+    return true;
+  }
+
+  void checkLastUpdateDate() {
+    lastUpdateDate = ref.read(sharedUtilityProvider).getLastSeenNotifications().updatedAt;
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      checkBatteryOptimization();
+      checkLastUpdateDate();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     final seerrUser = ref.watch(seerrUserProvider);
     final cultures = ref.watch(culturesProvider);
     final clientSettings = ref.watch(clientSettingsProvider);
-    final lastUpdateDate = ref.watch(notificationsProvider.select((value) => value.updatedAt));
 
     final allowedSubModes = {
       enums.SubtitlePlaybackMode.$default,
@@ -200,7 +244,7 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          context.localized.lastUpdateAt(lastUpdateDate, lastUpdateDate),
+                          context.localized.lastUpdateAt(lastUpdateDate!, lastUpdateDate!),
                           style: Theme.of(context).textTheme.labelMedium?.copyWith(
                                 color: Theme.of(context).textTheme.bodyMedium?.color?.withAlpha(155),
                               ),
@@ -211,6 +255,16 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                     context.localized.notificationsIntervalClientReminder,
                     messageType: MessageType.info,
                   ),
+                  if (enabledBatteryOptimization == true)
+                    SettingsMessageBox(
+                      context.localized.batteryOptimizationDesc,
+                      messageType: MessageType.warning,
+                      onTap: () async {
+                        await BatteryOptimization.openBatteryOptimizationSettings();
+                        if (!mounted) return;
+                        await checkBatteryOptimization();
+                      },
+                    ),
                   if (!kIsWeb && Platform.isIOS)
                     SettingsMessageBox(
                       context.localized.notificationTimerIOSWarning,

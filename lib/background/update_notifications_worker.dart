@@ -151,7 +151,7 @@ Future<List<NotificationModel>> _fetchAndNotifyLatestItemsForAccount(
       account.credentials.token,
       limit,
       includeHiddenViews: includeHiddenViews,
-      since: debug ? lastUpdateCheck.subtract(const Duration(days: 32)) : lastUpdateCheck,
+      since: debug ? lastUpdateCheck.subtract(const Duration(days: 3)) : lastUpdateCheck,
     );
 
     final items = dtoItems.map((d) => ItemBaseModel.fromBaseDto(d, null)).toList();

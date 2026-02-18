@@ -2451,6 +2451,8 @@
     }
   },
   "notificationTimerIOSWarning": " iOS decides when/if updates actually run, notifications may be delayed or not show up at all.",
+  "batteryOptimizationDesc": "Battery optimizations may delay background notifications for Fladder.\nTap to open system settings and disable optimizations for Fladder to improve notification reliability.",
+  "@batteryOptimizationDesc": {},
   "updateCheckInterval": "Update check interval",
   "updateCheckIntervalDesc": "How often the background task runs",
   "notificationsIntervalClientReminder": "Notification interval is set for all users.",
