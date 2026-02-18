@@ -1764,7 +1764,7 @@
     "sportsCategoriesSubLabel": "Categorie da assegnare ai canali che corrispondono al prefisso sport",
     "kidsCategoriesSubLabel": "Categorie da assegnare ai canali che corrispondono al prefisso bambini",
     "notifications": "Notifiche",
-    "showNewItemNotificationTitle": "Controlla nuovi elementi",
+    "showNewItemNotificationTitle": "Notifiche per elementi della libreria",
     "notificationChannelDescription": "Notifiche per gli elementi aggiunti di recente",
     "notificationNewEpisodes": "Nuovi episodi aggiunti",
     "notificationNewItems": "{count, plural, one{{count} nuovo elemento} other{{count} nuovi elementi}}",
@@ -1779,5 +1779,32 @@
     "notificationTimerIOSWarning": " iOS decide quando e se eseguire gli aggiornamenti; le notifiche potrebbero subire ritardi o non essere visualizzate affatto.",
     "updateCheckInterval": "Intervallo controllo aggiornamenti",
     "updateCheckIntervalDesc": "Frequenza di esecuzione del processo in background",
-    "notificationsIntervalClientReminder": "L'intervallo di notifica è impostato per tutti gli utenti."
+    "notificationsIntervalClientReminder": "L'intervallo di notifica è impostato per tutti gli utenti.",
+    "requestMore": "Richiedi altro",
+    "seerrRequestNotifications": "Notifiche per le richieste Seerr",
+    "notificationNewRequests": "{count, plural, one{{count} nuova richiesta} other{{count} nuove richieste}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "lastUpdateAt": "Ultimo aggiornamento il {date} alle {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "Includi librerie nascoste",
+    "includeHiddenItemsDesc": "Includi librerie nascoste dalla dashboard"
 }
