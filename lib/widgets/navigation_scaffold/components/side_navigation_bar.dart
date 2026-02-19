@@ -19,6 +19,7 @@ import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/collapse_button.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
@@ -117,7 +118,7 @@ class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
                             Colors.white.withAlpha(0),
                           ],
                         ).createShader(
-                          Rect.fromLTRB(0, 10, blurWidth, bounds.height),
+                          Rect.fromLTRB(0, 0, blurWidth, bounds.height),
                         );
                       },
                       blendMode: BlendMode.dstIn,
@@ -144,26 +145,20 @@ class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 14),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (shouldExpand) ...[
-                              Expanded(child: Text(context.localized.navigation)),
-                            ],
-                            IconButton(
-                              onPressed: !largeBar
-                                  ? () => widget.scaffoldKey.currentState?.openDrawer()
-                                  : () => ref
-                                      .read(clientSettingsProvider.notifier)
-                                      .update((state) => state.copyWith(expandSideBar: !state.expandSideBar)),
-                              icon: Icon(
-                                largeBar && expandedSideBar ? IconsaxPlusLinear.sidebar_left : IconsaxPlusLinear.menu,
-                              ),
-                              color: Theme.of(context).colorScheme.onSurface.withValues(
-                                    alpha: largeBar && expandedSideBar ? 0.65 : 1,
-                                  ),
-                            )
-                          ],
+                        child: CollapseButton(
+                          label: shouldExpand ? Expanded(child: Text(context.localized.navigation)) : null,
+                          keepVisible: !(largeBar && expandedSideBar),
+                          icon: Icon(
+                            largeBar && expandedSideBar ? IconsaxPlusLinear.sidebar_left : IconsaxPlusLinear.menu,
+                            color: Theme.of(context).colorScheme.onSurface.withValues(
+                                  alpha: largeBar && expandedSideBar ? 0.65 : 1,
+                                ),
+                          ),
+                          onPressed: !largeBar
+                              ? () => widget.scaffoldKey.currentState?.openDrawer()
+                              : () => ref
+                                  .read(clientSettingsProvider.notifier)
+                                  .update((state) => state.copyWith(expandSideBar: !state.expandSideBar)),
                         ),
                       ),
                       if (largeBar) ...[

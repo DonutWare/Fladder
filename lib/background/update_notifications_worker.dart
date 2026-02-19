@@ -1,6 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
-import 'dart:ui' show Locale;
+import 'dart:ui' show Locale, IsolateNameServer;
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
@@ -17,6 +18,7 @@ import 'package:fladder/util/notification_helpers.dart';
 
 const String updateTaskName = 'nl.jknaapen.fladder.update_notifications_check';
 const String updateTaskNameDebug = 'nl.jknaapen.fladder.update_notifications_check_debug';
+const String updateWorkerPortName = 'fladder_notification_update_worker_port';
 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
@@ -26,9 +28,9 @@ void callbackDispatcher() {
       try {
         switch (taskName) {
           case updateTaskName:
-            return await performHeadlessUpdateCheck();
+            return await performHeadlessUpdateCheck() != null;
           case updateTaskNameDebug:
-            return await performHeadlessUpdateCheck(debug: true);
+            return await performHeadlessUpdateCheck(debug: true) != null;
           default:
             log("Unknown task: $taskName");
             return false;
@@ -42,20 +44,20 @@ void callbackDispatcher() {
 }
 
 @pragma('vm:entry-point')
-Future<bool> performHeadlessUpdateCheck({int limit = 50, bool debug = false, bool includeHiddenViews = false}) async {
+Future<LastSeenNotificationsModel?> performHeadlessUpdateCheck(
+    {int limit = 50, bool debug = false, bool includeHiddenViews = false}) async {
   try {
-    await NotificationService.init();
-
     final currentDate = DateTime.now();
     log("Starting background update check at $currentDate (debug: $debug, includeHiddenViews: $includeHiddenViews)");
 
     final prefs = await SharedPreferences.getInstance();
     final sharedHelper = SharedHelper(sharedPreferences: prefs);
+
     final accounts = sharedHelper
         .getAccounts()
         .where((element) => element.updateNotificationsEnabled || element.seerrRequestsEnabled)
         .toList();
-    if (accounts.isEmpty) return true;
+    if (accounts.isEmpty) return null;
 
     Locale workerLocale = const Locale('en');
     try {
@@ -67,7 +69,7 @@ Future<bool> performHeadlessUpdateCheck({int limit = 50, bool debug = false, boo
 
     final l10n = await AppLocalizations.delegate.load(workerLocale);
 
-    var lastSeenStore = sharedHelper.getLastSeenNotifications();
+    var lastSeenStore = sharedHelper.lastSeenNotifications;
 
     for (final account in accounts) {
       final baseUrl =
@@ -120,16 +122,26 @@ Future<bool> performHeadlessUpdateCheck({int limit = 50, bool debug = false, boo
       }
     }
 
-    sharedHelper.setLastSeenNotifications(lastSeenStore.copyWith(
-      lastSeen: [],
+    lastSeenStore = lastSeenStore.copyWith(
       updatedAt: currentDate,
-    ));
+    );
 
-    log("Background update completed successfully");
-    return true;
+    await sharedHelper.setLastSeenNotifications(lastSeenStore);
+
+    try {
+      final sendPort = IsolateNameServer.lookupPortByName(updateWorkerPortName);
+      if (sendPort != null) {
+        sendPort.send(jsonEncode(lastSeenStore.toJson()));
+      }
+    } catch (e) {
+      log('Error sending worker update to main isolate: $e');
+    }
+
+    log("Background update completed successfully ${lastSeenStore.updatedAt}");
+    return lastSeenStore;
   } catch (e) {
     log("Error during background update check: $e");
-    return false;
+    return null;
   }
 }
 

@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io' show Platform;
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 
@@ -21,21 +24,27 @@ final supportsNotificationsProvider = Provider.autoDispose<bool>((ref) {
 
 final updateNotificationsProvider = Provider<UpdateNotifications>((ref) => UpdateNotifications(ref));
 
-final notificationsProvider = StateProvider.autoDispose<LastSeenNotificationsModel>((ref) {
-  final shared = ref.watch(sharedUtilityProvider);
-  return shared.getLastSeenNotifications();
+final notificationsProvider = StateProvider<LastSeenNotificationsModel>((ref) {
+  return const LastSeenNotificationsModel();
 });
 
 class UpdateNotifications {
   UpdateNotifications(this.ref) {
+    registerBackgroundTask();
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+      startWorkerListener();
+    }
+
     ref.onDispose(() {
       _desktopTimer?.cancel();
       _desktopTimer = null;
+      stopWorkerListener();
     });
   }
 
   final Ref ref;
   Timer? _desktopTimer;
+  ReceivePort? _workerReceivePort;
 
   Future<void> registerBackgroundTask() async {
     await Future.delayed(const Duration(milliseconds: 500));
@@ -65,7 +74,10 @@ class UpdateNotifications {
         updateTaskName,
         updateTaskName,
         frequency: interval,
-        existingWorkPolicy: ExistingPeriodicWorkPolicy.update,
+        existingWorkPolicy: ExistingPeriodicWorkPolicy.replace,
+        constraints: Constraints(
+          networkType: NetworkType.connected,
+        ),
         inputData: <String, dynamic>{
           'frequency': interval.inMinutes,
           'timestamp': DateTime.now().toIso8601String(),
@@ -120,7 +132,9 @@ class UpdateNotifications {
           updateTaskNameDebug,
           updateTaskNameDebug,
           existingWorkPolicy: ExistingWorkPolicy.replace,
-          constraints: Constraints(networkType: NetworkType.connected),
+          constraints: Constraints(
+            networkType: NetworkType.connected,
+          ),
         );
       }
     } catch (e) {
@@ -134,5 +148,29 @@ class UpdateNotifications {
     if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       await Workmanager().cancelAll();
     }
+  }
+
+  void startWorkerListener() {
+    if (_workerReceivePort != null) return;
+    _workerReceivePort = ReceivePort();
+    IsolateNameServer.removePortNameMapping(updateWorkerPortName);
+    IsolateNameServer.registerPortWithName(_workerReceivePort!.sendPort, updateWorkerPortName);
+    _workerReceivePort?.listen(_updateProvider);
+  }
+
+  void _updateProvider(dynamic value) {
+    final lastSeenStore = LastSeenNotificationsModel.fromJson(jsonDecode(value));
+    try {
+      ref.read(notificationsProvider.notifier).state = lastSeenStore;
+    } catch (e) {
+      log('Error updating notifications from worker: $e');
+    }
+  }
+
+  void stopWorkerListener() {
+    if (_workerReceivePort == null) return;
+    IsolateNameServer.removePortNameMapping(updateWorkerPortName);
+    _workerReceivePort?.close();
+    _workerReceivePort = null;
   }
 }

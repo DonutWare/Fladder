@@ -97,15 +97,17 @@ List<Widget> buildClientSettingsVisual(
           onChanged: (value) => ref.read(clientSettingsProvider.notifier).setMediaKeys(value),
         ),
       ),
-      SettingsListTile(
-        label: Text(context.localized.enableNewTVLayout),
-        subLabel: Text(context.localized.enableNewTVLayoutDesc),
-        onTap: () => ref.read(clientSettingsProvider.notifier).setExpandedTVLayout(!clientSettings.useTVExpandedLayout),
-        trailing: Switch(
-          value: clientSettings.useTVExpandedLayout,
-          onChanged: (value) => ref.read(clientSettingsProvider.notifier).setExpandedTVLayout(value),
+      if (AdaptiveLayout.viewSizeOf(context) == ViewSize.television)
+        SettingsListTile(
+          label: Text(context.localized.enableNewTVLayout),
+          subLabel: Text(context.localized.enableNewTVLayoutDesc),
+          onTap: () =>
+              ref.read(clientSettingsProvider.notifier).setExpandedTVLayout(!clientSettings.useTVExpandedLayout),
+          trailing: Switch(
+            value: clientSettings.useTVExpandedLayout,
+            onChanged: (value) => ref.read(clientSettingsProvider.notifier).setExpandedTVLayout(value),
+          ),
         ),
-      ),
       SettingsListTile(
         label: Text(context.localized.enableBackgroundPostersTitle),
         subLabel: Text(context.localized.enableBackgroundPostersDesc),

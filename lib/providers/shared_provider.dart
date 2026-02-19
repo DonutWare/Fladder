@@ -52,7 +52,7 @@ class SharedUtility extends SharedHelper {
       await Future.delayed(const Duration(milliseconds: 500));
       switch (key) {
         case SharedKeys.lastSeenNotificationsKey:
-          _ref.read(notificationsProvider.notifier).state = getLastSeenNotifications();
+          _ref.read(notificationsProvider.notifier).state = lastSeenNotifications;
           break;
       }
     });
@@ -66,7 +66,7 @@ class SharedUtility extends SharedHelper {
       _ref.read(subtitleSettingsProvider.notifier).state = subtitleSettings;
       _ref.read(bookViewerSettingsProvider.notifier).state = bookViewSettings;
       _ref.read(photoViewSettingsProvider.notifier).state = photoViewSettings;
-      _ref.read(notificationsProvider.notifier).state = getLastSeenNotifications();
+      _ref.read(notificationsProvider.notifier).state = lastSeenNotifications;
       return true;
     } catch (e) {
       return false;
@@ -225,7 +225,7 @@ class SharedHelper {
     });
   }
 
-  LastSeenNotificationsModel getLastSeenNotifications() {
+  LastSeenNotificationsModel get lastSeenNotifications {
     try {
       return LastSeenNotificationsModel.fromJson(
           jsonDecode(sharedPreferences.getString(SharedKeys.lastSeenNotificationsKey) ?? ""));
@@ -236,8 +236,8 @@ class SharedHelper {
   }
 
   Future<void> setLastSeenNotifications(LastSeenNotificationsModel serverLastSeen) async {
+    await sharedPreferences.setString(SharedKeys.lastSeenNotificationsKey, jsonEncode(serverLastSeen.toJson()));
     SharedKeys.instance._keyChanged.add(SharedKeys.lastSeenNotificationsKey);
-    sharedPreferences.setString(SharedKeys.lastSeenNotificationsKey, jsonEncode(serverLastSeen.toJson()));
   }
 
   SubtitleSettingsModel get subtitleSettings {

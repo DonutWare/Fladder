@@ -208,36 +208,47 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     }
   }
 
+  Future<void> initializeNotifications() async {
+    await NotificationService.init().timeout(const Duration(seconds: 5));
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+      try {
+        await Workmanager().initialize(update_worker.callbackDispatcher).timeout(const Duration(seconds: 3));
+      } catch (e) {
+        log("Failed to initialize Workmanager for background tasks: $e");
+      }
+    }
+
+    _notificationSub = NotificationService.notificationTapStream.listen((payload) {
+      if (payload == null || payload.isEmpty) return;
+      final route = payloadToRoute(Uri.parse(payload));
+      if (route != null) autoRouter.push(route);
+    });
+
+    NotificationService.getInitialNotificationPayload().then((payload) {
+      if (payload == null || payload.isEmpty) return;
+      final route = payloadToRoute(Uri.parse(payload));
+      if (route != null) autoRouter.push(route);
+    });
+
+    // Ensure update notifications background job is registered if enabled
+    try {
+      await ref.read(updateNotificationsProvider).registerBackgroundTask().timeout(const Duration(seconds: 3));
+    } catch (e) {
+      log("Failed to register background task for update notifications: $e");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     windowManager.addListener(this);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await NotificationService.init().timeout(const Duration(seconds: 5));
-      if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-        try {
-          await Workmanager().initialize(update_worker.callbackDispatcher).timeout(const Duration(seconds: 3));
-        } catch (e) {
-          log("Failed to initialize Workmanager for background tasks: $e");
-        }
-      }
-
-      _notificationSub = NotificationService.notificationTapStream.listen((payload) {
-        if (payload == null || payload.isEmpty) return;
-        final route = payloadToRoute(Uri.parse(payload));
-        if (route != null) autoRouter.push(route);
-      });
-
-      NotificationService.getInitialNotificationPayload().then((payload) {
-        if (payload == null || payload.isEmpty) return;
-        final route = payloadToRoute(Uri.parse(payload));
-        if (route != null) autoRouter.push(route);
-      });
-    });
-
     _init();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      initializeNotifications();
+    });
   }
 
   @override
@@ -301,13 +312,6 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
     ref.read(sharedUtilityProvider).loadSettings();
-
-    // Ensure update notifications background job is registered if enabled
-    try {
-      await ref.read(updateNotificationsProvider).registerBackgroundTask();
-    } catch (e) {
-      log("Failed to register background task for update notifications: $e");
-    }
 
     final clientSettings = ref.read(clientSettingsProvider);
     final startupArguments = ref.read(argumentsStateProvider);

@@ -8,13 +8,11 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as enums;
-import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/cultures_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/update_notifications_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
@@ -45,7 +43,6 @@ class ProfileSettingsPage extends ConsumerStatefulWidget {
 
 class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with WidgetsBindingObserver {
   bool? enabledBatteryOptimization;
-  DateTime? lastUpdateDate;
 
   String _seerrStatusLabel(
     BuildContext context,
@@ -72,7 +69,6 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkBatteryOptimization();
-      checkLastUpdateDate();
     });
   }
 
@@ -87,16 +83,11 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
     return true;
   }
 
-  void checkLastUpdateDate() {
-    lastUpdateDate = ref.read(sharedUtilityProvider).getLastSeenNotifications().updatedAt;
-  }
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       checkBatteryOptimization();
-      checkLastUpdateDate();
     }
   }
 
@@ -112,6 +103,7 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
     final seerrUser = ref.watch(seerrUserProvider);
     final cultures = ref.watch(culturesProvider);
     final clientSettings = ref.watch(clientSettingsProvider);
+    final lastUpdateAt = ref.watch(notificationsProvider).updatedAt;
 
     final allowedSubModes = {
       enums.SubtitlePlaybackMode.$default,
@@ -141,7 +133,7 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
             SettingsListTileCheckbox(
               label: Text(context.localized.profileSettingsOpenAuthAtLaunch),
               value: user?.askForAuthOnLaunch ?? false,
-              onChanged: user?.authMethod != Authentication.none
+              onChanged: user?.authMethod.shouldLock == true
                   ? (val) async {
                       if (user == null || val == null) return;
                       ref.read(userProvider.notifier).updateUser(
@@ -251,13 +243,13 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
                       },
                     ),
                   ),
-                  if (lastUpdateDate != null)
+                  if (lastUpdateAt != null)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          context.localized.lastUpdateAt(lastUpdateDate!, lastUpdateDate!),
+                          context.localized.lastUpdateAt(lastUpdateAt, lastUpdateAt),
                           style: Theme.of(context).textTheme.labelMedium?.copyWith(
                                 color: Theme.of(context).textTheme.bodyMedium?.color?.withAlpha(155),
                               ),

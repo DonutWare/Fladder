@@ -40,10 +40,9 @@ class TopNavigationBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final padding = 12.0;
-    final barHeight = 55.0;
+    final barHeight = 80.0;
 
-    final height = barHeight + (MediaQuery.paddingOf(context).top + padding);
+    final height = barHeight + (MediaQuery.paddingOf(context).top + 32);
     final buttonShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
 
     final useBlurredBackground = ref.watch(clientSettingsProvider.select(
@@ -78,7 +77,7 @@ class TopNavigationBar extends ConsumerWidget {
               },
               child: AdaptiveLayoutBuilder(
                 adaptiveLayout: AdaptiveLayout.of(context).copyWith(
-                  topBarHeight: barHeight + padding,
+                  topBarHeight: barHeight,
                 ),
                 child: (context) => child,
               ),
@@ -176,7 +175,7 @@ class TopNavigationBar extends ConsumerWidget {
                                                       : Theme.of(context).iconTheme.color,
                                                 ),
                                             child: Row(
-                                              spacing: 6,
+                                              spacing: 8,
                                               children: [
                                                 if (icon != null) icon,
                                                 Text(

@@ -146,36 +146,36 @@ class LibraryScreen extends _$LibraryScreen {
               ) ??
               [])
           .toList();
-    } else {
-      final nextUp = await api.showsNextUpGet(
-        parentId: viewModel.id,
-        limit: 9,
-        imageTypeLimit: 1,
-        fields: [
-          ItemFields.mediasourcecount,
-          ItemFields.primaryimageaspectratio,
-          ItemFields.overview,
-        ],
-      );
-      final latest = await api.usersUserIdItemsGet(
-        parentId: viewModel.id,
-        sortBy: [ItemSortBy.datelastcontentadded, ItemSortBy.datecreated, ItemSortBy.sortname],
-        sortOrder: [SortOrder.descending],
-        limit: 9,
-        includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
-      );
-      latestRecommendations = RecommendedModel(
-        name: const Latest(),
-        posters: latest.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
-        type: null,
-      );
-
-      nextUpRecommendations = RecommendedModel(
-        name: const NextUp(),
-        posters: nextUp.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
-        type: null,
-      );
     }
+
+    final nextUp = await api.showsNextUpGet(
+      parentId: viewModel.id,
+      limit: 9,
+      imageTypeLimit: 1,
+      fields: [
+        ItemFields.mediasourcecount,
+        ItemFields.primaryimageaspectratio,
+        ItemFields.overview,
+      ],
+    );
+    final latest = await api.usersUserIdItemsGet(
+      parentId: viewModel.id,
+      sortBy: [ItemSortBy.datelastcontentadded, ItemSortBy.datecreated, ItemSortBy.sortname],
+      sortOrder: [SortOrder.descending],
+      limit: 9,
+      includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
+    );
+    latestRecommendations = RecommendedModel(
+      name: const Latest(),
+      posters: latest.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
+      type: null,
+    );
+
+    nextUpRecommendations = RecommendedModel(
+      name: const NextUp(),
+      posters: nextUp.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
+      type: null,
+    );
 
     state = state.copyWith(
       recommendations: [

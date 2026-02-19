@@ -2474,5 +2474,5 @@
   "includeHiddenItemsDesc": "Include libraries hidden from the dashboard",
   "settingsBlurEffectsTitle": "Enable blur effects",
   "settingsBlurEffectsDesc": "Enable blur effects in the UI. Disabling this can improve performance on lower-end devices.",
-  "profileSettingsOpenAuthAtLaunch": "Open authentication at launch"
+  "profileSettingsOpenAuthAtLaunch": "Show auth-method on app lock"
 }
