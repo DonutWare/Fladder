@@ -366,7 +366,7 @@ class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
                         expanded: shouldExpand,
                         icon: const SizedBox.shrink(),
                         customIcon: const ExcludeFocusTraversal(
-                            child: SizedBox.square(dimension: 45, child: SettingsUserIcon())),
+                            child: SizedBox.square(dimension: 40, child: SettingsUserIcon())),
                         onPressed: () {
                           if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) {
                             context.router.push(const SettingsRoute());

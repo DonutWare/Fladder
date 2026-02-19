@@ -42,7 +42,7 @@ class TopNavigationBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final barHeight = 80.0;
 
-    final height = barHeight + (MediaQuery.paddingOf(context).top + 32);
+    final height = barHeight + (MediaQuery.paddingOf(context).top + 6);
     final buttonShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
 
     final useBlurredBackground = ref.watch(clientSettingsProvider.select(
