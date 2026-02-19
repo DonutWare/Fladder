@@ -92,39 +92,43 @@ class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
           child: widget.child,
         ),
         RepaintBoundary(
-          child: IgnorePointer(
-            child: Container(
-              width: blurWidth,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    surfaceColor.withAlpha(255),
-                    surfaceColor.withAlpha(175),
-                    surfaceColor.withAlpha(0),
-                  ],
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 250),
+            opacity: !fullScreenChildRoute ? 1 : 0,
+            child: IgnorePointer(
+              child: Container(
+                width: blurWidth,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      surfaceColor.withAlpha(255),
+                      surfaceColor.withAlpha(175),
+                      surfaceColor.withAlpha(0),
+                    ],
+                  ),
                 ),
+                child: useBlurredBackground
+                    ? ShaderMask(
+                        shaderCallback: (bounds) {
+                          return LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Colors.white.withAlpha(255),
+                              Colors.white.withAlpha(175),
+                              Colors.white.withAlpha(0),
+                            ],
+                          ).createShader(
+                            Rect.fromLTRB(0, 0, blurWidth, bounds.height),
+                          );
+                        },
+                        blendMode: BlendMode.dstIn,
+                        child: const BackgroundImage(),
+                      )
+                    : null,
               ),
-              child: useBlurredBackground
-                  ? ShaderMask(
-                      shaderCallback: (bounds) {
-                        return LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            Colors.white.withAlpha(255),
-                            Colors.white.withAlpha(175),
-                            Colors.white.withAlpha(0),
-                          ],
-                        ).createShader(
-                          Rect.fromLTRB(0, 0, blurWidth, bounds.height),
-                        );
-                      },
-                      blendMode: BlendMode.dstIn,
-                      child: const BackgroundImage(),
-                    )
-                  : null,
             ),
           ),
         ),
