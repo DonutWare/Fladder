@@ -251,6 +251,7 @@ jobs:
         uses: subosito/flutter-action@v2.19.0
         with:
           channel: "master"
+          flutter-version: '010cd4f383' # Newer version may having breaking change with page_transition / CupertinoPageTransitionsBuilder
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
