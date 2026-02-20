@@ -1834,5 +1834,6 @@
     "batteryOptimizationDesc": "Batterieoptimierungen können Hintergrundbenachrichtigungen für Fladder verzögern. \nTippe hier, um die Systemeinstellungen zu öffnen und die Optimierungen für Fladder zu deaktivieren, um die Zuverlässigkeit der Benachrichtigungen zu verbessern.",
     "settingsBlurEffectsTitle": "Unschärfe Effekt aktivieren",
     "settingsBlurEffectsDesc": "Aktiviert den Unschärfeeffekte in der Benutzeroberfläche. Das Deaktivieren kann die Leistung auf Geräten mit niedrigerer Leistung verbessern.",
-    "profileSettingsOpenAuthAtLaunch": "Authentifizierungsmethode beim App sperren anzeigen"
+    "profileSettingsOpenAuthAtLaunch": "Authentifizierungsmethode beim App sperren anzeigen",
+    "toggleSidebar": "Seitenleiste umschalten"
 }
