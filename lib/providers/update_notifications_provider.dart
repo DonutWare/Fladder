@@ -61,7 +61,8 @@ class UpdateNotifications {
     final interval = ref.read(clientSettingsProvider).updateNotificationsInterval;
 
     try {
-      if (!kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux)) {
+      if (kIsWeb) return;
+      if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
         _desktopTimer?.cancel();
         _desktopTimer = Timer.periodic(interval, (_) {
           performHeadlessUpdateCheck();
