@@ -1827,5 +1827,6 @@
     "batteryOptimizationDesc": "电池优化可能会延迟 Fladder 的后台通知。\n点击打开系统设置，关闭 Fladder 的电池优化功能，以提高通知的可靠性。",
     "settingsBlurEffectsTitle": "启用模糊效果",
     "settingsBlurEffectsDesc": "启用用户界面中的模糊效果。禁用此功能可以提高低端设备的性能。",
-    "profileSettingsOpenAuthAtLaunch": "在应用锁上显示身份验证方法"
+    "profileSettingsOpenAuthAtLaunch": "在应用锁上显示身份验证方法",
+    "toggleSidebar": "切换侧边栏"
 }
