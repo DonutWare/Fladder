@@ -79,10 +79,11 @@ void main(List<String> args) async {
   await NotificationService.init();
 
   // Check if running on android TV
-  final leanBackEnabled =
-      defaultTargetPlatform == TargetPlatform.android ? await NativeVideoActivity().isLeanBackEnabled() : false;
+  final leanBackEnabled = (!kIsWeb && defaultTargetPlatform == TargetPlatform.android)
+      ? await NativeVideoActivity().isLeanBackEnabled()
+      : false;
 
-  if (defaultTargetPlatform == TargetPlatform.windows) {
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
     await SMTCWindows.initialize();
   }
 
@@ -94,7 +95,7 @@ void main(List<String> args) async {
 
   String windowArguments = "";
 
-  if (defaultTargetPlatform == TargetPlatform.macOS) {
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.macOS) {
     await WindowManipulator.initialize(enableWindowDelegate: true);
   }
 
