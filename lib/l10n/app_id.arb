@@ -110,7 +110,7 @@
             }
         }
     },
-    "library": "{count, plural, other{Pustaka} one{Pustaka}}",
+    "library": "{count, plural, other{Perpustakaan} one{Perpustakaan}}",
     "@library": {
         "description": "Plural",
         "placeholders": {
@@ -122,7 +122,7 @@
     },
     "libraryFetchNoItemsFound": "Tidak ada item yang ditemukan. Coba setelan lain.",
     "libraryPageSizeDesc": "Atur jumlah yang dimuat setiap kali. 0 akan menonaktifkan pemuatan bertahap.",
-    "libraryPageSizeTitle": "Ukuran kalaman pustaka",
+    "libraryPageSizeTitle": "Ukuran kalaman perpustakaan",
     "light": "Terang",
     "list": "Daftar",
     "lockscreen": "Layar Kunci",
@@ -242,9 +242,9 @@
     "playCount": "Jumlah diputar",
     "playVideos": "Putar video",
     "played": "Diputar",
-    "quickConnectAction": "Masukkan kode sambungan cepat untuk",
+    "quickConnectAction": "Masukkan kode Quick Connect untuk",
     "quickConnectInputACode": "Masukkan kode",
-    "quickConnectTitle": "Sambungan Cepat",
+    "quickConnectTitle": "Quick Connect",
     "quickConnectWrongCode": "Kode salah",
     "random": "Acak",
     "popularity": "Popularitas",
@@ -271,7 +271,7 @@
     "save": "Simpan",
     "saved": "Tersimpan",
     "scanBiometricHint": "Verifikasi identitas Anda",
-    "scanLibrary": "Pindai Pustaka",
+    "scanLibrary": "Pindai Perpustakaan",
     "scrollToTop": "Gulir ke Atas",
     "search": "Cari",
     "selectAll": "Pilih Semua",
@@ -325,7 +325,7 @@
     "subtitlePlaybackModeOnlyForced": "Hanya yang dipaksa",
     "subtitlePlaybackModeNone": "Tidak Ada",
     "subtitlePlaybackModeSmart": "Cerdas",
-    "settingsQuickConnectTitle": "Sambungan Cepat",
+    "settingsQuickConnectTitle": "Quick Connect",
     "settingsSecurity": "Keamanan",
     "settingsShowScaleSlider": "Tampilkan slide ukuran poster",
     "settingsVisual": "Visual",
@@ -410,7 +410,7 @@
     "unableToPlayMedia": "Tidak dapat memutar media",
     "errorOpeningMedia": "Kesalahan saat membuka media",
     "unableToPlayBooksOnWeb": "Buku saat ini belum didukung di web",
-    "defaultFilterForLibrary": "Filter default untuk pustaka",
+    "defaultFilterForLibrary": "Filter default untuk perpustakaan",
     "updateFilterForLibrary": "Perbarui filter",
     "deleteFilterConfirmation": "Apakah Anda yakin ingin menghapus filter ini?",
     "deleteRequestConfirmation": "Apakah Anda yakin ingin menghapus permintaan ini?",
@@ -562,8 +562,8 @@
     "speedBoostRateDesc": "Kecepatan pemutaran saat peningkat kecepatan aktif",
     "enableDoubleTapSeekTitle": "Ketuk dua kali untuk maju/putar/jeda",
     "enableDoubleTapSeekDesc": "Ketuk dua kali di sisi kiri/kanan layar untuk mundur/maju. Ketuk dua kali di tengah layar untuk putar/jeda",
-    "quickConnectPostFailed": "Gagal mendapatkan kode sambungan cepat",
-    "quickConnectLoginUsingCode": "Gunakan sambungan cepat",
+    "quickConnectPostFailed": "Gagal mendapatkan kode Quick Connect",
+    "quickConnectLoginUsingCode": "Gunakan Quick Connect",
     "quickConnectEnterCodeDescription": "Masukkan kode yang ditampilkan di perangkat Anda",
     "showMore": "Tampilkan lebih banyak",
     "showLess": "Tampilkan lebih sedikit",
@@ -604,7 +604,7 @@
     "logs": "Log",
     "transcodingTemp": "Temp Transkode",
     "count": "Jumlah",
-    "scanAllLibraries": "Pindai semua pustaka",
+    "scanAllLibraries": "Pindai semua perpustakaan",
     "restartServer": "Mulai ulang server",
     "shutDownServer": "Matikan server",
     "dashboardDesc": "Server, Jumlah, Perangkat, Penyimpanan",
@@ -632,7 +632,7 @@
     "maxConcurrentLibraryScanDesc": "Jumlah maksimum tugas paralel saat pemindaian perpustakaan. Biarkan kosong untuk memilih batas berdasarkan jumlah inti sistem Anda. PERINGATAN: Menetapkan angka terlalu tinggi dapat menyebabkan masalah dengan sistem file jaringan; jika mengalami masalah, turunkan angkanya.",
     "maxImageDecodingThreadsLabel": "Jumlah maksimum thread decoding gambar",
     "maxImageDecodingThreadsDesc": "Jumlah maksimum pengkodean gambar yang diperbolehkan berjalan secara paralel. Biarkan kosong untuk memilih batas berdasarkan jumlah inti sistem Anda.",
-    "controlPanelServerDesc": "Nama server, Sambungan Cepat, Kinerja",
+    "controlPanelServerDesc": "Nama server, Quick Connect, Kinerja",
     "userInformation": "Informasi Pengguna",
     "allowManageServer": "Izinkan pengguna ini untuk mengelola server",
     "allowCollections": "Izinkan pengguna ini mengelola koleksi",
@@ -652,8 +652,8 @@
     "syncplayAccessJoinGroups": "Gabung Grup",
     "syncplayAccessNone": "Tidak Ada",
     "allowMediaDeletion": "Izinkan penghapusan media",
-    "allLibraries": "Semua pustaka",
-    "libraryAccess": "Akses Pustaka",
+    "allLibraries": "Semua perpustakaan",
+    "libraryAccess": "Akses Perpustakaan",
     "enableAllLibraries": "Aktifkan akses ke semua perpustakaan",
     "enableAllDevices": "Aktifkan akses ke semua perangkat",
     "parentalControl": "Kontrol Orang Tua",
@@ -674,7 +674,7 @@
     "general": "Umum",
     "access": "Akses",
     "endTimeMustBeAfter": "Waktu selesai harus setelah waktu mulai",
-    "assignLibraries": "Tetapkan Pustaka",
+    "assignLibraries": "Tetapkan Perpustakaan",
     "enableAccessAllLibraries": "Aktifkan akses ke semua perpustakaan",
     "currentPassword": "Kata sandi saat ini",
     "newPassword": "Kata sandi baru",
@@ -685,8 +685,8 @@
     "passwordMismatch": "Kata sandi baru dan konfirmasi kata sandi tidak cocok",
     "passwordChangeSuccess": "Kata sandi berhasil diubah",
     "savePassword": "Simpan kata sandi",
-    "deleteLibraryConfirmTitle": "Hapus pustaka?",
-    "noLibrarySelected": "Tidak ada pustaka yang dipilih",
+    "deleteLibraryConfirmTitle": "Hapus perpustakaan?",
+    "noLibrarySelected": "Tidak ada perpustakaan yang dipilih",
     "enabledPhotos": "Foto diaktifkan",
     "enabledLUFSScan": "Pemindaian LUFS diaktifkan",
     "enabledRealtimeMonitoring": "Pemantauan waktu nyata diaktifkan",
@@ -704,11 +704,11 @@
     "enableAndRankMediaSegmentProviders": "Aktifkan dan atur peringkat penyedia segmen media pilihan Anda berdasarkan urutan prioritas.",
     "trickplay": "Trickplay",
     "enableTrickplayImageExtraction": "Aktifkan ekstraksi gambar trickplay",
-    "extractTrickplayImagesDuringLibraryScan": "Ekstrak gambar trickplay selama pemindaian pustaka",
+    "extractTrickplayImagesDuringLibraryScan": "Ekstrak gambar trickplay selama pemindaian perpustakaan",
     "saveTrickplayImagesNextToMedia": "Simpan gambar trickplay di samping media",
     "chapterImages": "Gambar bagian",
     "enableChapterImageExtraction": "Aktifkan ekstraksi bambar bagian",
-    "extractChapterImagesDuringLibraryScan": "Ekstrak gambar bagian selama pemindaian pustaka",
+    "extractChapterImagesDuringLibraryScan": "Ekstrak gambar bagian selama pemindaian perpustakaan",
     "subtitleDownloads": "Unduhan Subtitle",
     "downloadLanguages": "Unduh bahasa",
     "subtitleDownloaders": "Pengunduh subtitle",
@@ -720,7 +720,7 @@
     "saveArtWorkNextToMedia": "Simpan artwork di samping media",
     "saveArtWorkNextToMediaDesc": "Menyimpan artwork ke dalam folder media akan menempatkannya di lokasi yang mudah untuk diedit.",
     "select": "Pilih",
-    "newLibrary": "Pustaka Baru",
+    "newLibrary": "Perpustakaan Baru",
     "contentType": "Tipe Konten",
     "metadataImageLongPressTouch": "Tekan lama untuk menghapus gambar",
     "metadataImageLongPressClick": "Klik kanan untuk menghapus gambar",
@@ -1775,5 +1775,176 @@
                 "example": "1"
             }
         }
-    }
+    },
+    "backgroundColor": "Warna latar belakang",
+    "requestMore": "Ajukan lebih banyak",
+    "liveTV": "Siaran langsung TV",
+    "liveTvManageTunersEpg": "Kelola perangkat tuner dan penyedia EPG",
+    "tunerDevices": "Perangkat Tuner",
+    "epgGuideProviders": "Penyedia Panduan EPG",
+    "noTunerDevicesConfigured": "Tidak ada perangkat tuner yang diatur",
+    "noEpgProvidersConfigured": "Tidak ada penyedia EPG yang diatur",
+    "addTunerDevice": "Tambah Perangkat Tuner",
+    "addProvider": "Tambah Penyedia",
+    "tunerHostAddedSuccessfully": "Host tuner berhasil ditambahkan",
+    "failedToAddTunerHost": "Gagal menambahkan host tuner: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "Host tuner berhasil diperbarui",
+    "failedToUpdateTunerHost": "Gagal memperbarui host tuner: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "Hapus Host Tuner",
+    "deleteTunerHostConfirm": "Apakah Anda yakin ingin menghapus \"{name}\"?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "Host tuner berhasil dihapus",
+    "failedToDeleteTunerHost": "Gagal menghapus host tuner: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "Penyedia EPG berhasil ditambahkan",
+    "failedToAddEpgProvider": "Gagal menambahkan penyedia EPG: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "Penyedia EPG berhasil diperbarui",
+    "failedToUpdateEpgProvider": "Gagal memperbarui penyedua EPG: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "Hapus Penyedia EPG",
+    "deleteEpgProviderConfirm": "Apakah Anda yakin ingin menghapus penyedia ini?",
+    "epgProviderDeletedSuccessfully": "Penyedia EPG berhasil dihapus",
+    "failedToDeleteEpgProvider": "Gagal menghapus penyedia EPG: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "Edit Perangkat Runer",
+    "friendlyName": "Nama Tampilan",
+    "url": "URL",
+    "userAgent": "Agen Pengguna",
+    "userAgentOptional": "Agen Pengguna (opsional)",
+    "maxConcurrentStreams": "Jumlah Maksimum Streaming Bersamaan",
+    "addEpgProvider": "Tambah Penyedia EPG",
+    "editEpgProvider": "Edit Penyedia EPG",
+    "xmltvPathUrl": "Path/URL XMLTV",
+    "enableAllTuners": "Aktifkan untuk semua tuner",
+    "enabledTuners": "Tuner yang aktif",
+    "selectTuners": "Pilih tuner",
+    "moviePrefix": "Awalan Film",
+    "movieCategories": "Kategori Film",
+    "newsCategories": "Kategori Berita",
+    "sportsCategories": "Kategori Olahraga",
+    "kidsCategories": "Kategori Anak-anak",
+    "fileOrUrl": "File atau URL",
+    "tunerIpAddress": "Alamat IP Tuner",
+    "fallbackMaxBitrate": "Bitrate Fallback Maksimum (Mbps)",
+    "concurrentStreams": "Jumlah Maksimum Streaming Bersamaan",
+    "concurrentStreamsHint": "0 = Tidak terbatas",
+    "allowFmp4Container": "Izinkan container transcoding fMP4",
+    "allowStreamSharing": "Izinkan berbagi stream",
+    "enableStreamLooping": "Aktifkan perulangan stream",
+    "ignoreDts": "Abaikan timestamp DTS",
+    "readAtNativeFramerate": "Baca pada framerate asli",
+    "importFavoritesOnly": "Impor hanya saluran favorit",
+    "detectDevices": "Cari Perangkat",
+    "allowHWTranscoding": "Izinkan transcoding perangkat keras",
+    "discoveredDevices": "Perangkat yang Ditemukan",
+    "noDevicesFound": "Tidak Perangkat yang Ditemukan",
+    "failedToDiscoverDevices": "Gagal menemukan perangkat: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "Path",
+    "maxConcurrentStreamsLabel": "Jumlah Maksimum Streaming Bersamaan",
+    "noCategories": "Tidak ada kategori",
+    "moviePrefixSubLabel": "Jika awalan diterapkan pada judul film, masukkan di sini agar server dapat memprosesnya dengan benar.",
+    "movieCategoriesSubLabel": "Kategori yang akan diterapkan pada saluran yang cocok dengan awalan film",
+    "newsCategoriesSubLabel": "Kategori yang akan diterapkan pada saluran yang cocok dengan awalan berita",
+    "sportsCategoriesSubLabel": "Kategori yang akan diterapkan pada saluran yang cocok dengan awalan olahraga",
+    "kidsCategoriesSubLabel": "Kategori yang akan diterapkan pada saluran yang cocok dengan awalan anak-anak",
+    "notifications": "Notifikasi",
+    "showNewItemNotificationTitle": "Notifikasi untuk item perpustakaan",
+    "notificationChannelDescription": "Notifikasi untuk item yang baru ditambahkan",
+    "seerrRequestNotifications": "Notifikasi untuk permintaan Seerr",
+    "notificationNewEpisodes": "Episode baru ditambahkan",
+    "notificationNewItems": "{count, plural, one{{count} item baru} other{{count} item baru}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationNewRequests": "{count, plural, one{{count} permintaan baru} other{{count} permintaan baru}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " iOS menentukan kapan/jika pembaruan benar-benar dijalankan, sehingga notifikasi mungkin tertunda atau tidak muncul sama sekali.",
+    "batteryOptimizationDesc": "Optimasi baterai dapat menunda notifikasi latar belakang untuk Fladder.\nKetuk untuk membuka pengaturan sistem dan nonaktifkan optimasi untuk Fladder agar keandalan notifikasi meningkat.",
+    "updateCheckInterval": "Interval pemeriksaan pembaruan",
+    "updateCheckIntervalDesc": "Seberapa sering tugas latar belakang dijalankan",
+    "notificationsIntervalClientReminder": "Interval notifikasi diatur untuk semua pengguna.",
+    "lastUpdateAt": "Terakhir diperbarui pada {date} pukul {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "Sertakan perpustakaan tersembunyi",
+    "includeHiddenItemsDesc": "Sertakan perpustakaan yang disembunyikan dari dasbor",
+    "settingsBlurEffectsTitle": "Aktifkan efek blur",
+    "settingsBlurEffectsDesc": "Aktifkan efek blur pada antarmuka. Menonaktifkan ini dapat meningkatkan performa pada perangkat dengan spesifikasi rendah.",
+    "profileSettingsOpenAuthAtLaunch": "Tampilkan metode autentikasi saat kunci aplikasi",
+    "toggleSidebar": "Alihkan sidebar"
 }
