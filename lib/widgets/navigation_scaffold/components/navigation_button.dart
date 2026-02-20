@@ -142,10 +142,12 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            widget.label!,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
+                                          Flexible(
+                                            child: Text(
+                                              widget.label!,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                           ),
                                           if (widget.badge != null) widget.badge!,
                                         ],
