@@ -370,69 +370,71 @@ class _NotificationCard extends StatelessWidget {
     final viewSize = AdaptiveLayout.viewSizeOf(context);
     final isPhone = viewSize == ViewSize.phone;
 
+    final dismissDirection = isPhone ? DismissDirection.vertical : DismissDirection.horizontal;
+
     final radius = FladderTheme.defaultShape.borderRadius;
 
     final backgroundColor = Theme.of(context).colorScheme.primary;
-    final borderColor = Theme.of(context).colorScheme.onPrimary.withAlpha(150);
     final foregroundColor = Theme.of(context).colorScheme.onPrimary;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        border: Border.all(
-          color: borderColor,
-          width: 1.5,
-        ),
-        borderRadius: radius,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(75),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Row(
-          mainAxisSize: isPhone ? MainAxisSize.max : MainAxisSize.min,
-          spacing: 12,
-          children: [
-            if (isPhone)
-              Expanded(
-                child: Text(
-                  message,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: foregroundColor,
-                      ),
-                ),
-              )
-            else
-              Flexible(
-                child: Text(
-                  message,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: foregroundColor,
-                      ),
-                ),
-              ),
-            if (showAction)
-              FilledButton(
-                onPressed: () {
-                  onActionPressed!();
-                  onDismiss();
-                },
-                child: Text(actionLabel!),
-              ),
-            if (showCloseButton && !showAction)
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: onDismiss,
-                color: foregroundColor,
-              ),
+    return Dismissible(
+      key: ValueKey(message),
+      direction: dismissDirection,
+      onDismissed: (_) => onDismiss(),
+      child: Container(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: radius,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(75),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
           ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Row(
+            mainAxisSize: isPhone ? MainAxisSize.max : MainAxisSize.min,
+            spacing: 12,
+            children: [
+              if (isPhone)
+                Expanded(
+                  child: Text(
+                    message,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: foregroundColor,
+                        ),
+                  ),
+                )
+              else
+                Flexible(
+                  child: Text(
+                    message,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: foregroundColor,
+                        ),
+                  ),
+                ),
+              if (showAction)
+                FilledButton(
+                  onPressed: () {
+                    onActionPressed!();
+                    onDismiss();
+                  },
+                  child: Text(actionLabel!),
+                ),
+              if (showCloseButton && !showAction)
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: onDismiss,
+                  color: foregroundColor,
+                ),
+            ],
+          ),
         ),
       ),
     );
