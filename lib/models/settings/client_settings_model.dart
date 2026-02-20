@@ -20,7 +20,8 @@ part 'client_settings_model.g.dart';
 
 enum GlobalHotKeys {
   search,
-  exit;
+  exit,
+  toggleSideBar;
 
   const GlobalHotKeys();
 
@@ -28,6 +29,7 @@ enum GlobalHotKeys {
     return switch (this) {
       GlobalHotKeys.search => context.localized.search,
       GlobalHotKeys.exit => context.localized.exitFladderTitle,
+      GlobalHotKeys.toggleSideBar => context.localized.toggleSidebar,
     };
   }
 }
@@ -210,6 +212,7 @@ class Vector2 {
 Map<GlobalHotKeys, KeyCombination> get _defaultGlobalHotKeys => {
       for (var hotKey in GlobalHotKeys.values)
         hotKey: switch (hotKey) {
+          GlobalHotKeys.toggleSideBar => KeyCombination(key: LogicalKeyboardKey.keyQ),
           GlobalHotKeys.search =>
             KeyCombination(key: LogicalKeyboardKey.keyK, modifier: LogicalKeyboardKey.controlLeft),
           GlobalHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.keyQ, modifier: LogicalKeyboardKey.controlLeft),

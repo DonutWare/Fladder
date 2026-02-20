@@ -172,6 +172,9 @@ class HomeScreen extends ConsumerWidget {
         autoFocus: false,
         keyMapResult: (result) {
           switch (result) {
+            case GlobalHotKeys.toggleSideBar:
+              ref.read(clientSettingsProvider.notifier).toggleSideBar();
+              return true;
             case GlobalHotKeys.search:
               context.navigateTo(LibrarySearchRoute());
               return true;
