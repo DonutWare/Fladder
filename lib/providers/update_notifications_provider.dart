@@ -30,11 +30,6 @@ final notificationsProvider = StateProvider<LastSeenNotificationsModel>((ref) {
 
 class UpdateNotifications {
   UpdateNotifications(this.ref) {
-    registerBackgroundTask();
-    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-      startWorkerListener();
-    }
-
     ref.onDispose(() {
       _desktopTimer?.cancel();
       _desktopTimer = null;
@@ -71,6 +66,8 @@ class UpdateNotifications {
         return;
       }
 
+      startWorkerListener();
+
       await Workmanager().registerPeriodicTask(
         updateTaskName,
         updateTaskName,
@@ -79,6 +76,7 @@ class UpdateNotifications {
         constraints: Constraints(
           networkType: NetworkType.connected,
         ),
+        initialDelay: const Duration(seconds: 5),
         inputData: <String, dynamic>{
           'frequency': interval.inMinutes,
           'timestamp': DateTime.now().toIso8601String(),

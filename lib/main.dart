@@ -210,10 +210,11 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
   }
 
   Future<void> initializeNotifications() async {
-    await NotificationService.init().timeout(const Duration(seconds: 5));
+    await NotificationService.init();
+
     if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       try {
-        await Workmanager().initialize(update_worker.callbackDispatcher).timeout(const Duration(seconds: 3));
+        await Workmanager().initialize(update_worker.callbackDispatcher);
       } catch (e) {
         log("Failed to initialize Workmanager for background tasks: $e");
       }
@@ -233,7 +234,7 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
 
     // Ensure update notifications background job is registered if enabled
     try {
-      await ref.read(updateNotificationsProvider).registerBackgroundTask().timeout(const Duration(seconds: 3));
+      await ref.read(updateNotificationsProvider).registerBackgroundTask();
     } catch (e) {
       log("Failed to register background task for update notifications: $e");
     }
