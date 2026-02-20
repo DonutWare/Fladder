@@ -76,7 +76,7 @@ class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
     final useBlurredBackground = ref.watch(clientSettingsProvider.select(
           (value) => value.backgroundImage == BackgroundType.blurred && value.enableBlurEffects,
         )) &&
-        !topBarNoBlurRoutes.contains(widget.currentLocation);
+        !topBarNoBlurRoutes.contains(context.router.current.name);
 
     final blurWidth = (shouldExpand ? expandedWidth : collapsedWidth) + 25;
 
