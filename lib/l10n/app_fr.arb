@@ -1632,5 +1632,8 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "backgroundColor": "Couleur d'arrière plan",
+    "enableSpeedBoostTitle": "Activer la vitesse accélérée",
+    "speedBoostRateTitle": "Vitesse de lecture"
 }

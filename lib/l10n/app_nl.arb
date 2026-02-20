@@ -1105,7 +1105,6 @@
     "dashboardDesc": "Server, Aantal, Apparaten, Opslag",
     "lastActivity": "Laatste activiteit",
     "activeTasks": "Actieve taken",
-    "@activeTasks": {},
     "hours": "{count, plural, one{Uur} other{Uur}}",
     "@hours": {
         "placeholders": {
@@ -1590,12 +1589,9 @@
     },
     "processing": "Verwerken",
     "seerrDetails": "Seerr details",
-    "@seerrDetails": {},
     "updateNotifications": "Update notificaties",
     "notificationChannelDescription": "Notificaties voor nieuw toegevoegde items",
-    "@notificationChannelDescription": {},
     "notificationNewEpisodes": "Nieuwe afleveringen toegevoegd",
-    "@notificationNewEpisodes": {},
     "notificationNewItems": "{count, plural, one{{count} nieuw item} other{{count} nieuwe items}}",
     "@notificationNewItems": {
         "description": "Plural for number of new items in a notification",
@@ -1604,5 +1600,223 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "homeBannerDetailed": "Details",
+    "homeBannerTV": "TV",
+    "mediaTypeTV": "{count, plural, one{TV Kanaal} other{TV Kanalen}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backgroundColor": "Achtergrond kleur",
+    "playbackTypeTV": "TV",
+    "enableSpeedBoostTitle": "Speed boost inschakelen",
+    "enableSpeedBoostDesc": "Houd het scherm (mobiel) of de spatiebalk (desktop) ingedrukt om de afspeelsnelheid tijdelijk te verhogen.",
+    "speedBoostRateTitle": "Snelheidsverhoging",
+    "speedBoostRateDesc": "Afspeelsnelheid wanneer de snelheidsboost is geactiveerd",
+    "enableDoubleTapSeekTitle": "Dubbeltik om vooruit/achteruit te spoelen/af te spelen/pauzeren",
+    "enableDoubleTapSeekDesc": "Tik twee keer op de linker- of rechterkant van het scherm om terug/vooruit te spoelen. Tik twee keer op het midden om af te spelen/pauzeren.",
+    "showLess": "Minder laten zien",
+    "seerrCustomHeaders": "Custom headers",
+    "seerrHeader": "Header",
+    "seerrHeaderValue": "Waarde",
+    "watch": "Bekijken",
+    "watchChannel": "{channel} bekijken",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "Nu",
+    "noPrograms": "Geen programma's beschikbaar",
+    "switchChannel": "Kanaal wisselen",
+    "switchChannelDesc": "Wil je \"{programName}\" kijken op {channelName}?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "specialFeature": "{count, plural, other{Speciale Features} one{Speciale Feature} }",
+    "@specialFeature": {
+        "description": "special feature",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "activeTvChannels": "Actieve TV kanalen",
+    "enableNewTVLayout": "Schakel nieuwe TV-indeling in",
+    "liveTV": "Live TV",
+    "liveTvManageTunersEpg": "Beheer tuners en EPG-aanbieders",
+    "tunerDevices": "Tuner apparaten",
+    "epgGuideProviders": "EPG Gids aanbieders",
+    "noTunerDevicesConfigured": "Geen tunerapparaten geconfigureerd",
+    "noEpgProvidersConfigured": "Geen EPG-providers geconfigureerd",
+    "addTunerDevice": "Voeg een tunerapparaat toe",
+    "addProvider": "Aanbieder toevoegen",
+    "tunerHostAddedSuccessfully": "Tunerhost succesvol toegevoegd",
+    "failedToAddTunerHost": "Het toevoegen van de tunerhost is mislukt: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "De tunerhost is succesvol bijgewerkt",
+    "failedToUpdateTunerHost": "Het bijwerken van de tunerhost is mislukt: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "Verwijder tunerhost",
+    "deleteTunerHostConfirm": "Weet je zeker dat je \"{name}\" wilt verwijderen?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "Tunerhost succesvol verwijderd",
+    "failedToDeleteTunerHost": "Het verwijderen van de tunerhost is mislukt: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "EPG-aanbieder succesvol toegevoegd",
+    "failedToAddEpgProvider": "Het toevoegen van de EPG-aanbieder is mislukt: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "EPG-aanbieder succesvol bijgewerkt",
+    "failedToUpdateEpgProvider": "EPG-provider bijwerken mislukt: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "EPG-aanbieder verwijderen",
+    "deleteEpgProviderConfirm": "Weet je zeker dat je deze provider wilt verwijderen?",
+    "epgProviderDeletedSuccessfully": "EPG-aanbieder succesvol verwijderd",
+    "failedToDeleteEpgProvider": "Het verwijderen van de EPG-aanbieder is mislukt: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "Bewerk tunerapparaat",
+    "friendlyName": "Vriendelijke naam",
+    "url": "URL",
+    "userAgent": "User Agent",
+    "userAgentOptional": "User Agent (optioneel)",
+    "maxConcurrentStreams": "Maximaal aantal gelijktijdige streams",
+    "addEpgProvider": "Voeg EPG-aanbieder toe",
+    "editEpgProvider": "EPG-aanbieder bewerken",
+    "xmltvPathUrl": "XMLTV-pad/URL",
+    "enableAllTuners": "Inschakelen voor alle tuners",
+    "enabledTuners": "Ingeschakelde tuners",
+    "selectTuners": "Selecteer tuners",
+    "moviePrefix": "Filmvoorvoegsel",
+    "movieCategories": "Filmcategorieën",
+    "newsCategories": "Nieuwscategorieën",
+    "sportsCategories": "Sportcategorieën",
+    "kidsCategories": "Kindercategorieën",
+    "fileOrUrl": "Bestand of URL",
+    "tunerIpAddress": "IP-adres van de tuner",
+    "fallbackMaxBitrate": "Maximale terugvalbitsnelheid (Mbps)",
+    "concurrentStreams": "Maximaal aantal gelijktijdige streams",
+    "concurrentStreamsHint": "0 = Onbeperkt",
+    "allowFmp4Container": "Transcodering van fMP4 toestaan",
+    "allowStreamSharing": "Streamdeling toestaan",
+    "enableStreamLooping": "Schakel stream-looping in",
+    "ignoreDts": "Negeer DTS-tijdstempels",
+    "readAtNativeFramerate": "Lees met de native framesnelheid",
+    "importFavoritesOnly": "Importeer alleen favoriete kanalen",
+    "allowHWTranscoding": "Schakel hardwaretranscodering in",
+    "detectDevices": "Apparaten detecteren",
+    "discoveredDevices": "Ontdekte apparaten",
+    "noDevicesFound": "Geen apparaten gevonden",
+    "failedToDiscoverDevices": "Apparaten konden niet worden gevonden: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "Pad",
+    "maxConcurrentStreamsLabel": "Maximaal aantal gelijktijdige streams",
+    "noCategories": "Geen categorieën",
+    "moviePrefixSubLabel": "Als er een voorvoegsel aan filmtitels wordt toegevoegd, typ dit dan hier in zodat de server het correct kan verwerken.",
+    "movieCategoriesSubLabel": "Categorieën die moeten worden toegewezen aan kanalen die overeenkomen met het filmvoorvoegsel",
+    "newsCategoriesSubLabel": "Categorieën die moeten worden toegewezen aan kanalen die overeenkomen met het nieuwsvoorvoegsel",
+    "sportsCategoriesSubLabel": "Categorieën toe te wijzen aan kanalen die overeenkomen met het sportvoorvoegsel",
+    "kidsCategoriesSubLabel": "Categorieën toe te wijzen aan kanalen die overeenkomen met het kinderprefix",
+    "enableNewTVLayoutDesc": "Toon grotere banners in tv-stijl op het dashboard. Dit wordt de standaardindeling in een toekomstige release.",
+    "notifications": "Meldingen",
+    "showNewItemNotificationTitle": "Notificaties voor bibliotheek items",
+    "notificationTimerIOSWarning": " iOS bepaalt zelf wanneer/of updates daadwerkelijk worden uitgevoerd; meldingen kunnen vertraagd zijn of helemaal niet verschijnen.",
+    "updateCheckInterval": "Update controle-interval",
+    "updateCheckIntervalDesc": "Hoe vaak de achtergrondtaak wordt uitgevoerd",
+    "notificationsIntervalClientReminder": "Het meldingsinterval is ingesteld voor alle gebruikers.",
+    "requestMore": "Meer aanvragen",
+    "seerrRequestNotifications": "Notificaties voor Seerr verzoeken",
+    "notificationNewRequests": "{count, plural, one{{count} nieuwe verzoek} other{{count} nieuwe verzoeken}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "batteryOptimizationDesc": "Batterijoptimalisaties kunnen achtergrondmeldingen voor Fladder vertragen.\nTik om de systeeminstellingen te openen en optimalisaties voor Fladder uit te schakelen om de betrouwbaarheid van meldingen te verbeteren.",
+    "lastUpdateAt": "Laatste update op {date} om {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "Inclusief verborgen bibliotheken",
+    "includeHiddenItemsDesc": "Inclusief bibliotheken verborgen van dashboard scherm",
+    "settingsBlurEffectsTitle": "Blur effecten aanzetten",
+    "settingsBlurEffectsDesc": "Schakel vervagingseffecten in de gebruikersinterface in. Het uitschakelen hiervan kan de prestaties op minder krachtige apparaten verbeteren.",
+    "profileSettingsOpenAuthAtLaunch": "Toon authenticatiemethode bij app-vergrendeling"
 }
