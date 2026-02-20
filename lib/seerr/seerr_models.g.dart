@@ -551,8 +551,12 @@ SeerrMediaRequest _$SeerrMediaRequestFromJson(Map<String, dynamic> json) =>
       media: json['media'] == null
           ? null
           : SeerrMedia.fromJson(json['media'] as Map<String, dynamic>),
-      createdAt: json['createdAt'] as String?,
-      updatedAt: json['updatedAt'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       requestedBy: json['requestedBy'] == null
           ? null
           : SeerrUserModel.fromJson(
@@ -572,8 +576,8 @@ Map<String, dynamic> _$SeerrMediaRequestToJson(SeerrMediaRequest instance) =>
       'id': instance.id,
       'status': instance.status,
       'media': instance.media,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'requestedBy': instance.requestedBy,
       'modifiedBy': instance.modifiedBy,
       'is4k': instance.is4k,
@@ -825,6 +829,9 @@ SeerrAuthJellyfinBody _$SeerrAuthJellyfinBodyFromJson(
     SeerrAuthJellyfinBody(
       username: json['username'] as String,
       password: json['password'] as String,
+      customHeaders: (json['customHeaders'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       hostname: json['hostname'] as String?,
     );
 
@@ -833,6 +840,7 @@ Map<String, dynamic> _$SeerrAuthJellyfinBodyToJson(
     <String, dynamic>{
       'username': instance.username,
       'password': instance.password,
+      if (instance.customHeaders case final value?) 'customHeaders': value,
       if (instance.hostname case final value?) 'hostname': value,
     };
 

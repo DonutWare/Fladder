@@ -20,7 +20,8 @@ part 'client_settings_model.g.dart';
 
 enum GlobalHotKeys {
   search,
-  exit;
+  exit,
+  toggleSideBar;
 
   const GlobalHotKeys();
 
@@ -28,6 +29,7 @@ enum GlobalHotKeys {
     return switch (this) {
       GlobalHotKeys.search => context.localized.search,
       GlobalHotKeys.exit => context.localized.exitFladderTitle,
+      GlobalHotKeys.toggleSideBar => context.localized.toggleSidebar,
     };
   }
 }
@@ -41,8 +43,8 @@ enum BackgroundType {
 
   double get opacityValues => switch (this) {
         BackgroundType.disabled => 1.0,
-        BackgroundType.enabled => 0.7,
-        BackgroundType.blurred => 0.5,
+        BackgroundType.enabled => 0.75,
+        BackgroundType.blurred => 0.75,
       };
 
   String label(BuildContext context) {
@@ -64,6 +66,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(Vector2(x: 1280, y: 720)) Vector2 size,
     @Default(Duration(seconds: 30)) Duration? timeOut,
     Duration? nextUpDateCutoff,
+    @Default(Duration(hours: 1)) Duration updateNotificationsInterval,
     @Default(ThemeMode.system) ThemeMode themeMode,
     ColorThemes? themeColor,
     @Default(true) bool deriveColorsFromItem,
@@ -76,13 +79,16 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool pinchPosterZoom,
     @Default(false) bool mouseDragSupport,
     @Default(true) bool requireWifi,
+    @Default(false) bool expandSideBar,
     @Default(false) bool showAllCollectionTypes,
     @Default(2) int maxConcurrentDownloads,
     @Default(DynamicSchemeVariant.rainbow) DynamicSchemeVariant schemeVariant,
     @Default(BackgroundType.blurred) BackgroundType backgroundImage,
+    @Default(false) bool enableBlurEffects,
     @Default(true) bool checkForUpdates,
     @Default(false) bool usePosterForLibrary,
     @Default(false) bool useSystemIME,
+    @Default(false) bool useTVExpandedLayout,
     String? lastViewedUpdate,
     int? libraryPageSize,
     @Default({}) Map<GlobalHotKeys, KeyCombination> shortcuts,
@@ -93,6 +99,8 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
       blurPlaceHolders: leanBackMode ? false : true,
       backgroundImage: leanBackMode ? BackgroundType.disabled : BackgroundType.blurred,
       themeMode: leanBackMode ? ThemeMode.dark : ThemeMode.system,
+      enableBlurEffects: leanBackMode ? false : true,
+      useTVExpandedLayout: false,
     );
   }
 
@@ -125,25 +133,45 @@ class LocaleConvert implements JsonConverter<Locale?, String?> {
 
   @override
   Locale? fromJson(String? json) {
-    if (json == null) return null;
+    if (json == null || json.isEmpty) return null;
+
     final parts = json.split('_');
-    if (parts.length == 1) {
-      return Locale(parts[0]);
-    } else if (parts.length == 2) {
-      return Locale(parts[0], parts[1]);
-    } else {
-      log("Invalid Locale format");
+
+    if (parts.isEmpty) return null;
+
+    final languageCode = parts[0].toLowerCase();
+    String? scriptCode;
+    String? countryCode;
+
+    if (parts.length >= 2) {
+      final second = parts[1];
+
+      if (second.length == 4) {
+        scriptCode = second[0].toUpperCase() + second.substring(1).toLowerCase();
+      } else {
+        countryCode = second.toUpperCase();
+      }
+    }
+
+    if (parts.length >= 3) {
+      countryCode = parts[2].toUpperCase();
+    }
+
+    if (parts.length > 3) {
+      log('Invalid Locale format: $json');
       return null;
     }
+
+    return Locale.fromSubtags(
+      languageCode: languageCode,
+      scriptCode: scriptCode,
+      countryCode: countryCode,
+    );
   }
 
   @override
   String? toJson(Locale? object) {
-    if (object == null) return null;
-    if (object.countryCode == null || object.countryCode?.isEmpty == true) {
-      return object.languageCode;
-    }
-    return '${object.languageCode}_${object.countryCode}';
+    return object?.toDisplayCode();
   }
 }
 
@@ -204,6 +232,7 @@ class Vector2 {
 Map<GlobalHotKeys, KeyCombination> get _defaultGlobalHotKeys => {
       for (var hotKey in GlobalHotKeys.values)
         hotKey: switch (hotKey) {
+          GlobalHotKeys.toggleSideBar => KeyCombination(key: LogicalKeyboardKey.keyQ),
           GlobalHotKeys.search =>
             KeyCombination(key: LogicalKeyboardKey.keyK, modifier: LogicalKeyboardKey.controlLeft),
           GlobalHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.keyQ, modifier: LogicalKeyboardKey.controlLeft),

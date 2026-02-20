@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:chinese_font_library/chinese_font_library.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 
 import 'package:fladder/theme/fonts.dart';
@@ -199,5 +200,28 @@ class FladderTheme {
 
   static ColorScheme defaultScheme(Brightness brightness) {
     return ColorScheme.fromSeed(seedColor: ColorThemes.fladder.color, brightness: brightness);
+  }
+
+  /// Apply Chinese system font to a light theme (for Windows, macOS, Android, iOS)
+  static ThemeData applyChineseFontToTheme({
+    required ThemeData lightTheme,
+    required ThemeData darkTheme,
+  }) {
+    return lightTheme.copyWith(
+      textTheme: lightTheme.textTheme.useSystemChineseFont(Brightness.light),
+      primaryTextTheme: lightTheme.primaryTextTheme.useSystemChineseFont(
+        Brightness.light,
+      ),
+    );
+  }
+
+  /// Apply Chinese system font to a dark theme (for Windows, macOS, Android, iOS)
+  static ThemeData applyChineseFontToDarkTheme({required ThemeData darkTheme}) {
+    return darkTheme.copyWith(
+      textTheme: darkTheme.textTheme.useSystemChineseFont(Brightness.dark),
+      primaryTextTheme: darkTheme.primaryTextTheme.useSystemChineseFont(
+        Brightness.dark,
+      ),
+    );
   }
 }

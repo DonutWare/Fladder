@@ -77,7 +77,7 @@ Open a terminal and `cd` to the directory where you extracted Fladder to. Run `.
 ## Android
 
 > [!IMPORTANT]
-> This app is currently not compatible with Android TV, however contributions to add support are always appreciated.
+> Alpha support added in v0.8.0 and contributions to add further support are always appreciated.
 ### Play Store
 
 This is the recommended way to install Fladder on Android.

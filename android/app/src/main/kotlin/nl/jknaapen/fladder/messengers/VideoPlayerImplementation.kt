@@ -1,6 +1,8 @@
 package nl.jknaapen.fladder.messengers
 
 import PlayableData
+import SubtitleSettings
+import TVGuideModel
 import VideoPlayerApi
 import android.os.Handler
 import android.os.Looper
@@ -10,7 +12,11 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MimeTypes
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearAudioTrack
 import nl.jknaapen.fladder.utility.clearSubtitleTrack
@@ -25,6 +31,12 @@ class VideoPlayerImplementation(
 ) : VideoPlayerApi {
     var player: ExoPlayer? = null
     val playbackData: MutableStateFlow<PlayableData?> = MutableStateFlow(null)
+
+    var subsInitialized = false
+
+    val isTVMode: Flow<Boolean> = playbackData.asStateFlow().map {
+        it?.mediaInfo?.playbackType == PlaybackType.TV
+    }
 
     override fun sendPlayableModel(
         playableData: PlayableData,
@@ -42,6 +54,24 @@ class VideoPlayerImplementation(
         }
     }
 
+    override fun sendTVGuideModel(guide: TVGuideModel, callback: (Result<Boolean>) -> Unit) {
+        try {
+            VideoPlayerObject.tvGuide.value = guide
+            callback(Result.success(true))
+        } catch (e: Exception) {
+            println("Error sending TV guide model: $e")
+            callback(Result.success(false))
+        }
+    }
+
+    override fun setSubtitleSettings(settings: SubtitleSettings) {
+        try {
+            PlayerSettingsObject.subtitleSettings.value = settings
+        } catch (e: Exception) {
+            println("Error setting subtitle settings: $e")
+        }
+    }
+
     override fun open(url: String, play: Boolean, callback: (Result<Boolean>) -> Unit) {
         Handler(Looper.getMainLooper()).postDelayed(delayInMillis = 1.seconds.inWholeMilliseconds) {
             try {
@@ -50,8 +80,12 @@ class VideoPlayerImplementation(
                     VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
                 }
 
+                val isHls = url.contains("streamMode=hls", ignoreCase = true) || url.endsWith(
+                    ".m3u8",
+                    ignoreCase = true
+                )
                 val subTitles = playbackData.value?.subtitleTracks ?: listOf()
-                val mediaItem = MediaItem.Builder()
+                val mediaItemBuilder = MediaItem.Builder()
                     .setUri(url)
                     .setTag(playbackData.value?.currentItem?.title)
                     .setMediaId(playbackData.value?.currentItem?.id ?: "")
@@ -64,7 +98,12 @@ class VideoPlayerImplementation(
                                 .build()
                         }
                     )
-                    .build()
+
+                if (isHls) {
+                    mediaItemBuilder.setMimeType(MimeTypes.APPLICATION_M3U8)
+                }
+
+                val mediaItem = mediaItemBuilder.build()
 
                 player?.stop()
                 player?.clearMediaItems()
@@ -77,6 +116,7 @@ class VideoPlayerImplementation(
                 }
                 player?.playWhenReady = play
                 callback(Result.success(true))
+                subsInitialized = false
                 return@postDelayed
             } catch (e: Exception) {
                 println("Error playing video $e")
@@ -117,11 +157,12 @@ class VideoPlayerImplementation(
 
     fun init(exoPlayer: ExoPlayer?) {
         player = exoPlayer
+        subsInitialized = false
         //exoPlayer initializes after the playbackData is set for the first load
-        playbackData.value?.let {
-            VideoPlayerObject.setAudioTrackIndex(it.defaultAudioTrack.toInt(), true)
-            VideoPlayerObject.setSubtitleTrackIndex(it.defaultSubtrack.toInt(), true)
-            open(it.url, true, callback = {})
+        playbackData.value?.let { playData ->
+            VideoPlayerObject.setAudioTrackIndex(playData.defaultAudioTrack.toInt(), true)
+            VideoPlayerObject.setSubtitleTrackIndex(playData.defaultSubtrack.toInt(), true)
+            open(playData.url, true, callback = {})
         }
     }
 }
@@ -134,6 +175,10 @@ fun guessSubtitleMimeType(fileName: String): String = when {
 }
 
 fun ExoPlayer.properlySetSubAndAudioTracks(playableData: PlayableData) {
+    if (playableData.mediaInfo.playbackType == PlaybackType.TV) {
+        // In TV mode, do not set tracks here as they are handled differently
+        return
+    }
     try {
         val currentSubIndex = playableData.defaultSubtrack
         val indexOfSubtitleTrack =

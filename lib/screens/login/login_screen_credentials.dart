@@ -19,7 +19,7 @@ import 'package:fladder/screens/login/login_user_grid.dart';
 import 'package:fladder/screens/login/widgets/advanced_login_options_dialog.dart';
 import 'package:fladder/screens/login/widgets/discover_servers_widget.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
 import 'package:fladder/util/auth_service.dart';
@@ -237,7 +237,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                             },
                           );
                         } else {
-                          fladderSnackbar(context, title: context.localized.quickConnectPostFailed);
+                          FladderSnack.show(context.localized.quickConnectPostFailed, context: context);
                         }
                       },
                       child: Row(
@@ -279,9 +279,9 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
         );
 
     if (response?.isSuccessful == false) {
-      fladderSnackbar(context,
-          title:
-              "(${response?.base.statusCode}) ${response?.base.reasonPhrase ?? context.localized.somethingWentWrongPasswordCheck}");
+      FladderSnack.show(
+          "(${response?.base.statusCode}) ${response?.base.reasonPhrase ?? context.localized.somethingWentWrongPasswordCheck}",
+          context: context);
       setState(() {
         loggingIn = false;
       });
@@ -324,13 +324,13 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       ref.read(authProvider.notifier).setTempSeerrSessionCookie(null);
 
       if (context.mounted) {
-        fladderSnackbar(context, title: context.localized.seerrLoggedIn);
+        FladderSnack.show(context.localized.seerrLoggedIn, context: context);
       }
     } catch (e) {
       if (context.mounted) {
-        fladderSnackbar(
-          context,
-          title: "${context.localized.seerrAuthenticateLocal}: ${e.toString()}",
+        FladderSnack.show(
+          "${context.localized.seerrAuthenticateLocal}: ${e.toString()}",
+          context: context,
         );
       }
     }
@@ -340,12 +340,10 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     setState(() {
       loggingIn = true;
     });
-    final response = await ref.read(authProvider.notifier).authenticateUsingSecret(secret);
-    if (response?.isSuccessful == false) {
-      fladderSnackbar(context,
-          title:
-              "(${response?.base.statusCode}) ${response?.base.reasonPhrase ?? context.localized.somethingWentWrongPasswordCheck}");
-    } else if (response?.body != null) {
+    final response = await FladderSnack.showResponse(
+      ref.read(authProvider.notifier).authenticateUsingSecret(secret),
+    );
+    if (response.isSuccess && context.mounted) {
       loggedInGoToHome(context, ref);
     }
     setState(() {
@@ -391,7 +389,7 @@ void tapLoggedInAccount(BuildContext context, AccountModel user, WidgetRef ref) 
           if (newPin == user.localPin) {
             loginFunction();
           } else {
-            fladderSnackbar(context, title: context.localized.incorrectPinTryAgain);
+            FladderSnack.show(context.localized.incorrectPinTryAgain, context: context);
           }
         });
       }

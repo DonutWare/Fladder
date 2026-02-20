@@ -10,7 +10,7 @@ import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/focused_outlined_text_field.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/seerr/seerr_models.dart';
@@ -49,6 +49,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   late final TextEditingController localPasswordController;
   late final TextEditingController jfUsernameController;
   late final TextEditingController jfPasswordController;
+  late final TextEditingController headerKeyController;
+  late final TextEditingController headerValueController;
 
   SeerrAuthTab selectedTab = SeerrAuthTab.jellyfin;
   SeerrUserModel? seerrUser;
@@ -66,6 +68,9 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     localPasswordController = TextEditingController();
     jfUsernameController = TextEditingController();
     jfPasswordController = TextEditingController();
+    headerKeyController = TextEditingController();
+    headerValueController = TextEditingController();
+    customHeaders.addAll(creds?.customHeaders ?? {});
     Future.microtask(_refreshSession);
   }
 
@@ -77,7 +82,30 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     localPasswordController.dispose();
     jfUsernameController.dispose();
     jfPasswordController.dispose();
+    headerKeyController.dispose();
+    headerValueController.dispose();
     super.dispose();
+  }
+
+  final Map<String, String> customHeaders = {};
+
+  void _addHeader() {
+    final key = headerKeyController.text.trim();
+    final value = headerValueController.text.trim();
+    if (key.isEmpty) return;
+    setState(() {
+      customHeaders[key] = value;
+      headerKeyController.text = '';
+      headerValueController.text = '';
+    });
+    ref.read(userProvider.notifier).setSeerrCustomHeaders(customHeaders);
+  }
+
+  void _removeHeader(String key) {
+    setState(() {
+      customHeaders.remove(key);
+    });
+    ref.read(userProvider.notifier).setSeerrCustomHeaders(customHeaders);
   }
 
   Future<void> _refreshSession() async {
@@ -156,7 +184,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     await _refreshSession();
 
     if (mounted) {
-      fladderSnackbar(context, title: context.localized.seerrApiKeySaved);
+      FladderSnack.show(context.localized.seerrApiKeySaved, context: context);
     }
 
     if (mounted) {
@@ -178,17 +206,18 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       final cookie = await ref.read(seerrApiProvider).authenticateLocal(
             email: localEmailController.text.trim(),
             password: localPasswordController.text,
+            headers: customHeaders.isEmpty ? null : customHeaders,
           );
       ref.read(userProvider.notifier).setSeerrSessionCookie(cookie);
       ref.read(userProvider.notifier).setSeerrApiKey('');
       await _refreshSession();
       if (mounted) {
-        fladderSnackbar(context, title: context.localized.seerrLoggedIn);
+        FladderSnack.show(context.localized.seerrLoggedIn, context: context);
       }
     } catch (e) {
       if (mounted) {
         error = e.toString();
-        fladderSnackbar(context, title: e.toString());
+        FladderSnack.show(e.toString(), context: context);
       }
     } finally {
       if (mounted) {
@@ -211,17 +240,18 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       final cookie = await ref.read(seerrApiProvider).authenticateJellyfin(
             username: jfUsernameController.text.trim(),
             password: jfPasswordController.text,
+            headers: customHeaders.isEmpty ? null : customHeaders,
           );
       ref.read(userProvider.notifier).setSeerrSessionCookie(cookie);
       ref.read(userProvider.notifier).setSeerrApiKey('');
       await _refreshSession();
       if (mounted) {
-        fladderSnackbar(context, title: context.localized.seerrLoggedIn);
+        FladderSnack.show(context.localized.seerrLoggedIn, context: context);
       }
     } catch (e) {
       if (mounted) {
         error = e.toString();
-        fladderSnackbar(context, title: e.toString());
+        FladderSnack.show(e.toString(), context: context);
       }
     } finally {
       if (mounted) {
@@ -245,7 +275,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     } catch (e) {
       if (mounted) {
         error = e.toString();
-        fladderSnackbar(context, title: e.toString());
+        FladderSnack.show(e.toString(), context: context);
       }
     } finally {
       ref.read(userProvider.notifier).logoutSeerr();
@@ -360,6 +390,57 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
             _applyServerUrl();
             _refreshSession();
           },
+        ),
+        const SizedBox(height: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text(
+                context.localized.seerrCustomHeaders,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: OutlinedTextField(
+                    label: context.localized.seerrHeader,
+                    controller: headerKeyController,
+                    textInputAction: TextInputAction.next,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 4,
+                  child: OutlinedTextField(
+                    label: context.localized.seerrHeaderValue,
+                    controller: headerValueController,
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) => _addHeader(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                IconButton(onPressed: _addHeader, icon: const Icon(IconsaxPlusBold.add_circle)),
+              ],
+            ),
+            const SizedBox(height: 8),
+            if (customHeaders.isNotEmpty)
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: customHeaders.entries
+                    .map(
+                      (e) => InputChip(
+                        label: Text('${e.key}: ${e.value}'),
+                        onDeleted: () => _removeHeader(e.key),
+                      ),
+                    )
+                    .toList(),
+              ),
+          ],
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),

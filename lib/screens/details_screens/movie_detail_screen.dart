@@ -13,10 +13,11 @@ import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/chapter_row.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
-import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/expanding_text.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
+import 'package:fladder/screens/shared/media/special_features_row.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
@@ -64,7 +65,7 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
       ),
       onRefresh: () async => await ref.read(providerInstance.notifier).fetchDetails(widget.item),
       backDrops: details?.images,
-      content: (context, padding) => details != null
+      content: (detailsContext, padding) => details != null
           ? Padding(
               padding: const EdgeInsets.only(bottom: 64),
               child: Column(
@@ -79,7 +80,7 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                       item: details,
                       onLongPressed: (restart) async {
                         await details.play(
-                          context,
+                          detailsContext,
                           ref,
                           showPlaybackOption: true,
                           startPosition: restart ? Duration.zero : null,
@@ -88,7 +89,7 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                       },
                       onPressed: (restart) async {
                         await details.play(
-                          context,
+                          detailsContext,
                           ref,
                           startPosition: restart ? Duration.zero : null,
                         );
@@ -120,13 +121,15 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                           icon: IconsaxPlusLinear.tick_circle,
                         ),
                         SelectableIconButton(
+                          refreshOnEnd: false,
                           onPressed: () async {
                             await showBottomSheetPill(
-                              context: context,
+                              context: detailsContext,
                               content: (context, scrollController) => ListView(
                                 controller: scrollController,
                                 shrinkWrap: true,
-                                children: details.generateActions(context, ref).listTileItems(context, useIcons: true),
+                                children:
+                                    details.generateActions(detailsContext, ref).listTileItems(context, useIcons: true),
                               ),
                             );
                           },
@@ -142,22 +145,17 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     studios: details.overview.studios,
                     officialRating: details.overview.parentalRating,
                     communityRating: details.overview.communityRating,
+                    mediaStreamHelper: details.mediaStreams.isNotEmpty
+                        ? MediaStreamHelper(
+                            mediaStream: details.mediaStreams,
+                            onItemChanged: (changed) {
+                              ref.read(providerInstance.notifier).setMediaStreamHelper(changed);
+                            },
+                          )
+                        : null,
                   ),
-                  if (details.mediaStreams.isNotEmpty)
-                    MediaStreamInformation(
-                      onVersionIndexChanged: (index) {
-                        ref.read(providerInstance.notifier).setVersionIndex(index);
-                      },
-                      onSubIndexChanged: (index) {
-                        ref.read(providerInstance.notifier).setSubIndex(index);
-                      },
-                      onAudioIndexChanged: (index) {
-                        ref.read(providerInstance.notifier).setAudioIndex(index);
-                      },
-                      mediaStream: details.mediaStreams,
-                    ).padding(padding),
                   if (details.overview.summary.isNotEmpty == true)
-                    ExpandingOverview(
+                    ExpandingText(
                       text: details.overview.summary,
                     ).padding(padding),
                   if (details.chapters.isNotEmpty)
@@ -166,7 +164,7 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                       contentPadding: padding,
                       onPressed: (chapter) {
                         details.play(
-                          context,
+                          detailsContext,
                           ref,
                           startPosition: chapter.startPosition,
                         );
@@ -177,18 +175,28 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                       people: details.overview.people,
                       contentPadding: padding,
                     ),
+                  if (details.specialFeatures.isNotEmpty)
+                    SpecialFeaturesRow(
+                        contentPadding: padding,
+                        label: detailsContext.localized.specialFeature(details.specialFeatures.length),
+                        specialFeatures: details.specialFeatures),
                   if (details.related.isNotEmpty)
-                    PosterRow(posters: details.related, contentPadding: padding, label: "Related"),
+                    PosterRow(
+                      posters: details.related,
+                      contentPadding: padding,
+                      label: detailsContext.localized.related,
+                    ),
                   if (details.seerrRecommended.isNotEmpty)
                     SeerrPosterRow(
                       posters: details.seerrRecommended,
-                      label: "${context.localized.discover} ${context.localized.recommended.toLowerCase()}",
+                      label:
+                          "${detailsContext.localized.discover} ${detailsContext.localized.recommended.toLowerCase()}",
                       contentPadding: padding,
                     ),
                   if (details.seerrRelated.isNotEmpty)
                     SeerrPosterRow(
                       posters: details.seerrRelated,
-                      label: "${context.localized.discover} ${context.localized.related.toLowerCase()}",
+                      label: "${detailsContext.localized.discover} ${detailsContext.localized.related.toLowerCase()}",
                       contentPadding: padding,
                     ),
                   if (details.overview.externalUrls?.isNotEmpty == true)

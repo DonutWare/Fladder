@@ -21,6 +21,11 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       nextUpDateCutoff: json['nextUpDateCutoff'] == null
           ? null
           : Duration(microseconds: (json['nextUpDateCutoff'] as num).toInt()),
+      updateNotificationsInterval: json['updateNotificationsInterval'] == null
+          ? const Duration(hours: 1)
+          : Duration(
+              microseconds:
+                  (json['updateNotificationsInterval'] as num).toInt()),
       themeMode: $enumDecodeNullable(_$ThemeModeEnumMap, json['themeMode']) ??
           ThemeMode.system,
       themeColor: $enumDecodeNullable(_$ColorThemesEnumMap, json['themeColor']),
@@ -35,6 +40,7 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       pinchPosterZoom: json['pinchPosterZoom'] as bool? ?? false,
       mouseDragSupport: json['mouseDragSupport'] as bool? ?? false,
       requireWifi: json['requireWifi'] as bool? ?? true,
+      expandSideBar: json['expandSideBar'] as bool? ?? false,
       showAllCollectionTypes: json['showAllCollectionTypes'] as bool? ?? false,
       maxConcurrentDownloads:
           (json['maxConcurrentDownloads'] as num?)?.toInt() ?? 2,
@@ -44,9 +50,11 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       backgroundImage: $enumDecodeNullable(
               _$BackgroundTypeEnumMap, json['backgroundImage']) ??
           BackgroundType.blurred,
+      enableBlurEffects: json['enableBlurEffects'] as bool? ?? false,
       checkForUpdates: json['checkForUpdates'] as bool? ?? true,
       usePosterForLibrary: json['usePosterForLibrary'] as bool? ?? false,
       useSystemIME: json['useSystemIME'] as bool? ?? false,
+      useTVExpandedLayout: json['useTVExpandedLayout'] as bool? ?? false,
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
       shortcuts: (json['shortcuts'] as Map<String, dynamic>?)?.map(
@@ -64,6 +72,8 @@ Map<String, dynamic> _$ClientSettingsModelToJson(
       'size': instance.size,
       'timeOut': instance.timeOut?.inMicroseconds,
       'nextUpDateCutoff': instance.nextUpDateCutoff?.inMicroseconds,
+      'updateNotificationsInterval':
+          instance.updateNotificationsInterval.inMicroseconds,
       'themeMode': _$ThemeModeEnumMap[instance.themeMode]!,
       'themeColor': _$ColorThemesEnumMap[instance.themeColor],
       'deriveColorsFromItem': instance.deriveColorsFromItem,
@@ -76,13 +86,16 @@ Map<String, dynamic> _$ClientSettingsModelToJson(
       'pinchPosterZoom': instance.pinchPosterZoom,
       'mouseDragSupport': instance.mouseDragSupport,
       'requireWifi': instance.requireWifi,
+      'expandSideBar': instance.expandSideBar,
       'showAllCollectionTypes': instance.showAllCollectionTypes,
       'maxConcurrentDownloads': instance.maxConcurrentDownloads,
       'schemeVariant': _$DynamicSchemeVariantEnumMap[instance.schemeVariant]!,
       'backgroundImage': _$BackgroundTypeEnumMap[instance.backgroundImage]!,
+      'enableBlurEffects': instance.enableBlurEffects,
       'checkForUpdates': instance.checkForUpdates,
       'usePosterForLibrary': instance.usePosterForLibrary,
       'useSystemIME': instance.useSystemIME,
+      'useTVExpandedLayout': instance.useTVExpandedLayout,
       'lastViewedUpdate': instance.lastViewedUpdate,
       'libraryPageSize': instance.libraryPageSize,
       'shortcuts': instance.shortcuts

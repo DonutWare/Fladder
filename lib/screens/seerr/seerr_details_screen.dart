@@ -17,7 +17,7 @@ import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_requests_sheet.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
-import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/expanding_text.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/seerr/seerr_models.dart';
@@ -70,6 +70,22 @@ class SeerrDetailsScreen extends ConsumerWidget {
     final pendingRequests = requests.where((request) => request.requestStatus == SeerrRequestStatus.pending).toList();
 
     final rottenTomatoes = state.ratings?.rt;
+
+    final canManageRequest = state.currentUser?.canManageRequests ?? false;
+    final hasUsersRequests = requests.any((request) => request.requestedBy?.id == state.currentUser?.id);
+    final hasVisibleRequests = (canManageRequest || hasUsersRequests) && requests.isNotEmpty;
+
+    final canRequestMore = hasKnownStatus
+        ? switch (currentPoster?.type) {
+            SeerrMediaType.movie => false,
+            SeerrMediaType.tvshow => true,
+            _ => false,
+          }
+        : true;
+
+    final mainButtonLabel = currentPoster?.type == SeerrMediaType.movie
+        ? context.localized.request
+        : (canRequestMore ? context.localized.requestMore : context.localized.request);
 
     return DetailScaffold(
       label: currentPoster?.title ?? context.localized.request,
@@ -135,170 +151,175 @@ class SeerrDetailsScreen extends ConsumerWidget {
                     officialRating: state.contentRating,
                     communityRating: state.voteAverage,
                     additionalLabels: [
-                      if (rottenTomatoes != null) ...[
-                        SimpleLabel(
-                          label: Text("${rottenTomatoes.criticsScore}%"),
-                          iconWidget: SvgPicture.asset(
-                            'icons/tomato.svg',
-                            width: 16,
-                            height: 16,
-                            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                      if (rottenTomatoes != null)
+                        if (rottenTomatoes.criticsScore != null) ...[
+                          SimpleLabel(
+                            label: Text("${rottenTomatoes.criticsScore}%"),
+                            iconWidget: SvgPicture.asset(
+                              'icons/tomato.svg',
+                              width: 16,
+                              height: 16,
+                              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                            ),
+                            iconColor: Colors.white,
+                            color: Colors.redAccent.shade700,
                           ),
-                          iconColor: Colors.white,
-                          color: Colors.redAccent.shade700,
-                        ),
-                        SimpleLabel(
-                          label: Text("${rottenTomatoes.audienceScore}%"),
-                          iconWidget: SvgPicture.asset(
-                            'icons/popcorn_bucket.svg',
-                            width: 16,
-                            height: 16,
-                            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                          ),
-                          iconColor: Colors.white,
-                          color: Colors.orange.shade700,
-                        ),
-                      ],
+                          if (rottenTomatoes.audienceScore != null)
+                            SimpleLabel(
+                              label: Text("${rottenTomatoes.audienceScore}%"),
+                              iconWidget: SvgPicture.asset(
+                                'icons/popcorn_bucket.svg',
+                                width: 16,
+                                height: 16,
+                                colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                              ),
+                              iconColor: Colors.white,
+                              color: Colors.orange.shade700,
+                            ),
+                        ],
                     ],
                     genres:
                         state.genres.map((e) => GenreItems(id: e.id?.toString() ?? "", name: e.name ?? "")).toList(),
-                    mainButton: Builder(builder: (context) {
-                      return FocusButton(
-                        autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
-                        onTap: () => openSeerrRequestPopup(context, currentPoster),
-                        borderRadius: radius,
-                        onFocusChanged: (value) {
-                          if (value) {
-                            context.ensureVisible(
-                              alignment: 1.0,
-                            );
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primaryContainer,
-                            borderRadius: radius,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              spacing: 8,
-                              children: [
-                                Flexible(
-                                  child: Text(
-                                    context.localized.request,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.fade,
-                                    style: theme.textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: theme.colorScheme.onPrimaryContainer,
+                    mainButton: Builder(
+                      builder: (context) {
+                        return FocusButton(
+                          autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+                          onTap: canRequestMore ? () => openSeerrRequestPopup(context, currentPoster) : null,
+                          borderRadius: radius,
+                          onFocusChanged: (value) {
+                            if (value) {
+                              context.ensureVisible(
+                                alignment: 1.0,
+                              );
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primaryContainer.withAlpha(canRequestMore ? 255 : 100),
+                              borderRadius: radius,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 8,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      mainButtonLabel,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.fade,
+                                      style: theme.textTheme.titleMedium?.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        color:
+                                            theme.colorScheme.onPrimaryContainer.withAlpha(canRequestMore ? 255 : 100),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Icon(
-                                  IconsaxPlusLinear.add,
-                                  color: theme.colorScheme.onPrimaryContainer,
-                                ),
-                              ],
+                                  Icon(
+                                    IconsaxPlusLinear.add,
+                                    color: theme.colorScheme.onPrimaryContainer.withAlpha(canRequestMore ? 255 : 100),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }),
-                    centerButtons: Builder(
-                      builder: (context) {
-                        final canManageRequests = state.currentUser?.canManageRequests ?? false;
-                        final canApproveOtherRequests = canManageRequests && requests.isNotEmpty;
-                        return Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          alignment: wrapAlignment,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            if (canApproveOtherRequests)
-                              FocusButton(
-                                autoFocus: false,
-                                onTap: () async {
-                                  await showSeerrRequestsSheet(
-                                    context: context,
-                                    poster: currentPoster,
-                                    requests: requests,
-                                    onApprove: notifier.approveRequest,
-                                    onDecline: notifier.declineRequest,
-                                  );
-                                },
-                                borderRadius: radius,
-                                onFocusChanged: (value) {
-                                  if (value) {
-                                    context.ensureVisible(
-                                      alignment: 1.0,
-                                    );
-                                  }
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: theme.colorScheme.tertiaryContainer,
-                                    borderRadius: radius,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      spacing: 8,
-                                      children: [
-                                        Text(
-                                          context.localized.pendingRequests(pendingRequests.length),
-                                          style: theme.textTheme.titleMedium?.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                            color: theme.colorScheme.onTertiaryContainer,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            if (canManageRequests && currentPoster.mediaInfo != null)
-                              FocusButton(
-                                autoFocus: false,
-                                onTap: () async {
-                                  await showMediaManagementSheet(
-                                    context: context,
-                                    mediaInfo: currentPoster,
-                                    onActionComplete: () => context.refreshData(),
-                                  );
-                                },
-                                borderRadius: radius,
-                                onFocusChanged: (value) {
-                                  if (value) {
-                                    context.ensureVisible(
-                                      alignment: 1.0,
-                                    );
-                                  }
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: theme.colorScheme.tertiaryContainer,
-                                    borderRadius: radius,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Icon(
-                                      IconsaxPlusLinear.setting_4,
-                                      color: theme.colorScheme.onTertiaryContainer,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                          ],
                         );
                       },
                     ),
+                    centerButtons: hasVisibleRequests
+                        ? Builder(
+                            builder: (context) {
+                              return Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                alignment: wrapAlignment,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  if (hasVisibleRequests)
+                                    FocusButton(
+                                      autoFocus: false,
+                                      onTap: () async {
+                                        await showSeerrRequestsSheet(
+                                          context: context,
+                                          poster: currentPoster,
+                                          requests: requests,
+                                          onApprove: notifier.approveRequest,
+                                          onDecline: notifier.declineRequest,
+                                        );
+                                      },
+                                      borderRadius: radius,
+                                      onFocusChanged: (value) {
+                                        if (value) {
+                                          context.ensureVisible(
+                                            alignment: 1.0,
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: theme.colorScheme.tertiaryContainer,
+                                          borderRadius: radius,
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            spacing: 8,
+                                            children: [
+                                              Text(
+                                                context.localized.pendingRequests(pendingRequests.length),
+                                                style: theme.textTheme.titleMedium?.copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: theme.colorScheme.onTertiaryContainer,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  if (currentPoster.mediaInfo != null)
+                                    FocusButton(
+                                      autoFocus: false,
+                                      onTap: () async {
+                                        await showMediaManagementSheet(
+                                          context: context,
+                                          mediaInfo: currentPoster,
+                                          onActionComplete: () => context.refreshData(),
+                                        );
+                                      },
+                                      borderRadius: radius,
+                                      onFocusChanged: (value) {
+                                        if (value) {
+                                          context.ensureVisible(
+                                            alignment: 1.0,
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: theme.colorScheme.tertiaryContainer,
+                                          borderRadius: radius,
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Icon(
+                                            IconsaxPlusLinear.setting_4,
+                                            color: theme.colorScheme.onTertiaryContainer,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
+                          )
+                        : null,
                   ),
-                  ExpandingOverview(
+                  ExpandingText(
                     text: currentPoster.overview.trim().isEmpty
                         ? context.localized.noOverviewAvailable
                         : currentPoster.overview,

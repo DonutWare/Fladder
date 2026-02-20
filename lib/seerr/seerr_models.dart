@@ -283,6 +283,8 @@ extension SeerrUserPermissions on SeerrUserModel {
   bool get canManageRequests =>
       hasPermission(SeerrPermission.manageRequests) || hasPermission(SeerrPermission.requestAdvanced);
 
+  bool get canManageUsers => hasPermission(SeerrPermission.manageUsers);
+
   bool get canViewRecent => hasPermission(SeerrPermission.recentView);
 
   bool canRequestMedia({required bool isTv}) {
@@ -1040,8 +1042,8 @@ class SeerrMediaRequest {
   final int? id;
   final int? status;
   final SeerrMedia? media;
-  final String? createdAt;
-  final String? updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final SeerrUserModel? requestedBy;
   final SeerrUserModel? modifiedBy;
   final bool? is4k;
@@ -1401,12 +1403,14 @@ class SeerrAuthLocalBody {
 class SeerrAuthJellyfinBody {
   final String username;
   final String password;
+  final Map<String, String>? customHeaders;
   @JsonKey(includeIfNull: false)
   final String? hostname;
 
   SeerrAuthJellyfinBody({
     required this.username,
     required this.password,
+    this.customHeaders,
     this.hostname,
   });
 

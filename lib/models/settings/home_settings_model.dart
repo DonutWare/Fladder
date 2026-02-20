@@ -23,7 +23,7 @@ abstract class HomeSettingsModel with _$HomeSettingsModel {
 
   static HomeSettingsModel defaultModel() {
     return HomeSettingsModel(
-      homeBanner: leanBackMode ? HomeBanner.detailedBanner : HomeBanner.carousel,
+      homeBanner: leanBackMode ? HomeBanner.tvSliderBanner : HomeBanner.carousel,
     );
   }
 
@@ -50,7 +50,8 @@ enum HomeBanner {
   hide,
   carousel,
   banner,
-  detailedBanner;
+  detailedBanner,
+  tvSliderBanner;
 
   const HomeBanner();
 
@@ -58,7 +59,8 @@ enum HomeBanner {
         HomeBanner.hide => context.localized.hide,
         HomeBanner.carousel => context.localized.homeBannerCarousel,
         HomeBanner.banner => context.localized.homeBannerSlideshow,
-        HomeBanner.detailedBanner => 'Detailed banner'
+        HomeBanner.detailedBanner => context.localized.homeBannerDetailed,
+        HomeBanner.tvSliderBanner => context.localized.homeBannerTV,
       };
 }
 

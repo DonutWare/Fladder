@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
@@ -70,6 +70,7 @@ class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: EnumBox(
                   current: refreshMode.label(context),
+                  autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
                   itemBuilder: (context) => MetadataRefresh.values
                       .map((value) => ItemActionButton(
                             label: Text(value.label(context)),
@@ -114,16 +115,15 @@ class _RefreshPopupDialogState extends ConsumerState<RefreshPopupDialog> {
                     children: [
                       FilledButton(
                           onPressed: () async {
-                            final response = await ref.read(userProvider.notifier).refreshMetaData(
-                                  widget.itemId,
-                                  metadataRefreshMode: refreshMode,
-                                  replaceAllMetadata: replaceAllMetadata,
-                                );
-                            if (!response.isSuccessful) {
-                              fladderSnackbarResponse(context, response);
-                            } else {
-                              fladderSnackbar(context, title: context.localized.scanningName(widget.name));
-                            }
+                            await FladderSnack.showResponse(
+                              ref.read(userProvider.notifier).refreshMetaData(
+                                    widget.itemId,
+                                    metadataRefreshMode: refreshMode,
+                                    replaceAllMetadata: replaceAllMetadata,
+                                  ),
+                              successTitle: context.localized.scanningName(widget.name),
+                            );
+
                             Navigator.of(context).pop();
                           },
                           child: Text(context.localized.refresh)),

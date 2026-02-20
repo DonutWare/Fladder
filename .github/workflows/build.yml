@@ -131,6 +131,7 @@ jobs:
           echo "ARTIFACT_SUFFIX=${{ needs.fetch-info.outputs.build_type }}" >> $GITHUB_OUTPUT
 
       - name: Decode Keystore for release
+        if: needs.fetch-info.outputs.build_type != 'development'
         env:
           ENCODED_STRING: ${{ secrets.KEYSTORE_BASE_64 }}
           RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
@@ -167,12 +168,25 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Build Android APK (PRs)
+        if: needs.fetch-info.outputs.build_type == 'development'
+        run: |
+          flutter build apk --debug --build-number=${{github.run_number}} --flavor production
+
       - name: Build Android APK and AAB
+        if: needs.fetch-info.outputs.build_type != 'development'
         run: |
           flutter build apk --release --build-number=${{github.run_number}} --flavor production
           flutter build appbundle --release --build-number=${{github.run_number}} --flavor production
 
+      - name: Rename APK for PR
+        if: needs.fetch-info.outputs.build_type == 'development'
+        run: |
+          mkdir -p build/app/outputs/android_artifacts
+          mv build/app/outputs/flutter-apk/app-production-debug.apk "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.apk"
+
       - name: Rename APK and AAB
+        if: needs.fetch-info.outputs.build_type != 'development'
         run: |
           mkdir -p build/app/outputs/android_artifacts
           mv build/app/outputs/flutter-apk/app-production-release.apk "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.apk"
@@ -651,16 +665,7 @@ jobs:
             Fladder-Linux-${{ steps.version.outputs.version }}.zip
             Fladder-Linux-${{ steps.version.outputs.version }}.AppImage
             Fladder-Linux-${{ steps.version.outputs.version }}.AppImage.zsync
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Add Flatpak to release
-        if: needs.fetch-info.outputs.build_type == 'release'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: |
-            Fladder-Linux-${{ steps.version.outputs.version }}.flatpak
+            ${{ needs.fetch-info.outputs.build_type == 'release' && format('Fladder-Linux-{0}.flatpak', steps.version.outputs.version) || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

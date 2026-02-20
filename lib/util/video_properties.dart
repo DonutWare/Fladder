@@ -52,6 +52,7 @@ enum DisplayProfile {
   hdr10Plus("HDR10+"),
   dolbyVision("Dolby Vision"),
   dolbyVisionHdr10("DoVi/HDR10"),
+  dolbyVisionHdr10Plus("DoVi/HDR10+"),
   dolbyVisionHlg("DoVi/Hlg"),
   hlg("HLG");
 
@@ -92,7 +93,15 @@ enum DisplayProfile {
       dto.VideoRangeType.hdr10 => DisplayProfile.hdr10,
       dto.VideoRangeType.doviwithhlg => DisplayProfile.dolbyVisionHlg,
       dto.VideoRangeType.hdr10plus => DisplayProfile.hdr10Plus,
-      _ => DisplayProfile.sdr
+      dto.VideoRangeType.doviwithel => DisplayProfile.dolbyVision,
+      dto.VideoRangeType.doviwithhdr10plus => DisplayProfile.dolbyVisionHdr10Plus,
+      dto.VideoRangeType.doviwithelhdr10plus => DisplayProfile.dolbyVisionHdr10Plus,
+      dto.VideoRangeType.sdr ||
+      dto.VideoRangeType.swaggerGeneratedUnknown ||
+      dto.VideoRangeType.unknown ||
+      dto.VideoRangeType.doviinvalid ||
+      null =>
+        DisplayProfile.sdr,
     };
   }
 }

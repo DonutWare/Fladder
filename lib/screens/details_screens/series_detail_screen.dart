@@ -8,24 +8,25 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/providers/items/series_details_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
-import 'package:fladder/screens/shared/media/components/next_up_episode.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
-import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/expanding_text.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/season_row.dart';
+import 'package:fladder/screens/shared/media/special_features_row.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/router_extension.dart';
-import 'package:fladder/util/widget_extensions.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/selectable_icon_button.dart';
@@ -48,6 +49,8 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
     final wrapAlignment =
         AdaptiveLayout.viewSizeOf(context) != ViewSize.phone ? WrapAlignment.start : WrapAlignment.center;
 
+    final currentEpisode = details?.nextUp;
+
     return DetailScaffold(
       label: details?.name ?? "",
       item: details,
@@ -67,7 +70,7 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
       ),
       onRefresh: () => ref.read(providerId.notifier).fetchDetails(widget.item),
       backDrops: details?.images,
-      content: (context, padding) => details != null
+      content: (detailsContext, padding) => details != null
           ? Padding(
               padding: const EdgeInsets.only(bottom: 64),
               child: Column(
@@ -77,20 +80,20 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                   OverviewHeader(
                     name: details.name,
                     image: details.images,
-                    mainButton: details.nextUp != null
+                    mainButton: currentEpisode != null
                         ? MediaPlayButton(
-                            item: details.nextUp,
+                            item: currentEpisode,
                             onPressed: (restart) async {
-                              await details.nextUp.play(
-                                context,
+                              await currentEpisode.play(
+                                detailsContext,
                                 ref,
                                 startPosition: restart ? Duration.zero : null,
                               );
                               ref.read(providerId.notifier).fetchDetails(widget.item);
                             },
                             onLongPressed: (restart) async {
-                              await details.nextUp.play(
-                                context,
+                              await currentEpisode.play(
+                                detailsContext,
                                 ref,
                                 showPlaybackOption: true,
                                 startPosition: restart ? Duration.zero : null,
@@ -100,8 +103,8 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                           )
                         : null,
                     centerButtons: Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
+                      spacing: 4,
+                      runSpacing: 4,
                       alignment: wrapAlignment,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
@@ -124,17 +127,22 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                           icon: IconsaxPlusLinear.tick_circle,
                         ),
                         SelectableIconButton(
-                          onPressed: () async {
-                            await showBottomSheetPill(
-                              context: context,
+                          onPressed: () {
+                            showBottomSheetPill(
+                              context: detailsContext,
+                              item: details,
                               content: (context, scrollController) => ListView(
                                 controller: scrollController,
                                 shrinkWrap: true,
-                                children: details.generateActions(context, ref).listTileItems(context, useIcons: true),
+                                children: details.generateActions(detailsContext, ref, exclude: {
+                                  ItemActions.openParent,
+                                  ItemActions.details
+                                }).listTileItems(context, useIcons: true),
                               ),
                             );
                           },
                           selected: false,
+                          refreshOnEnd: false,
                           icon: IconsaxPlusLinear.more,
                         ),
                       ],
@@ -146,30 +154,58 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                     studios: details.overview.studios,
                     officialRating: details.overview.parentalRating,
                     genres: details.overview.genreItems,
+                    mediaStreamHelper: currentEpisode?.mediaStreams != null
+                        ? MediaStreamHelper(
+                            mediaStream: currentEpisode!.mediaStreams,
+                            onItemChanged: (changed) {
+                              final updateEpisode = currentEpisode.copyWith(
+                                mediaStreams: changed,
+                              );
+                              ref.read(providerId.notifier).updateEpisodeInfo(updateEpisode);
+                            },
+                          )
+                        : null,
                     communityRating: details.overview.communityRating,
                   ),
-                  if (details.nextUp != null)
-                    NextUpEpisode(
-                      nextEpisode: details.nextUp!,
-                      onChanged: (episode) => ref.read(providerId.notifier).updateEpisodeInfo(episode),
-                    ).padding(padding),
                   if (details.overview.summary.isNotEmpty)
-                    ExpandingOverview(
-                      text: details.overview.summary,
-                    ).padding(padding),
-                  if (details.availableEpisodes?.isNotEmpty ?? false)
-                    EpisodePosters(
-                      contentPadding: padding,
-                      label: context.localized.episode(details.availableEpisodes?.length ?? 2),
-                      playEpisode: (episode) async {
-                        await episode.play(
-                          context,
-                          ref,
+                    Padding(
+                      padding: padding,
+                      child: Builder(builder: (context) {
+                        return ExpandingText(
+                          text: details.overview.summary,
+                          onFocusChange: (onFocus) {
+                            if (onFocus) {
+                              context.ensureVisible(alignment: 1);
+                            }
+                          },
                         );
-                        ref.read(providerId.notifier).fetchDetails(widget.item);
-                      },
-                      episodes: details.availableEpisodes ?? [],
+                      }),
                     ),
+                  if (details.availableEpisodes?.isNotEmpty ?? false)
+                    Builder(builder: (context) {
+                      return EpisodePosters(
+                        contentPadding: padding,
+                        selectedEpisode: currentEpisode,
+                        seasons: details.seasons ?? [],
+                        titleActionsPosition:
+                            AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? null : VerticalDirection.down,
+                        label: context.localized.episode(details.availableEpisodes?.length ?? 2),
+                        onFocused: (episode) {
+                          context.ensureVisible(alignment: 0.8);
+                        },
+                        onEpisodeTap: (action, episode) async {
+                          action();
+                        },
+                        playEpisode: (episode) async {
+                          await episode.play(
+                            context,
+                            ref,
+                          );
+                          ref.read(providerId.notifier).fetchDetails(widget.item);
+                        },
+                        episodes: details.availableEpisodes ?? [],
+                      );
+                    }),
                   if (details.seasons?.isNotEmpty ?? false)
                     SeasonsRow(
                       contentPadding: padding,
@@ -180,18 +216,25 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                       people: details.overview.people,
                       contentPadding: padding,
                     ),
+                  if (details.specialFeatures?.isNotEmpty ?? false)
+                    SpecialFeaturesRow(
+                        contentPadding: padding,
+                        label: detailsContext.localized.specialFeature(details.specialFeatures?.length ?? 2),
+                        specialFeatures: details.specialFeatures ?? []),
                   if (details.related.isNotEmpty)
-                    PosterRow(posters: details.related, contentPadding: padding, label: context.localized.related),
+                    PosterRow(
+                        posters: details.related, contentPadding: padding, label: detailsContext.localized.related),
                   if (details.seerrRecommended.isNotEmpty)
                     SeerrPosterRow(
                       posters: details.seerrRecommended,
-                      label: "${context.localized.discover} ${context.localized.recommended.toLowerCase()}",
+                      label:
+                          "${detailsContext.localized.discover} ${detailsContext.localized.recommended.toLowerCase()}",
                       contentPadding: padding,
                     ),
                   if (details.seerrRelated.isNotEmpty)
                     SeerrPosterRow(
                       posters: details.seerrRelated,
-                      label: "${context.localized.discover} ${context.localized.related.toLowerCase()}",
+                      label: "${detailsContext.localized.discover} ${detailsContext.localized.related.toLowerCase()}",
                       contentPadding: padding,
                     ),
                   if (details.overview.externalUrls?.isNotEmpty == true)

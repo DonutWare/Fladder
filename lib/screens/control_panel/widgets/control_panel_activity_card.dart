@@ -169,14 +169,14 @@ class _ControlPanelActivityCardState extends State<ControlPanelActivityCard> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      nowPlayingItem?.label(context) ?? "",
+                                      nowPlayingItem?.label(context.localized) ?? "",
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   if (playState != null && nowPlayingItem != null) ...[
                                     Text(
-                                      "${playState.currentPosition.humanizeSmall ?? ""} / -${(nowPlayingItem.overview.runTime! - playState.currentPosition).humanizeSmall}",
+                                      "${playState.currentPosition.humanizeSmall ?? ""} / -${(nowPlayingItem.overview.runTime ?? Duration.zero - playState.currentPosition).humanizeSmall}",
                                     ),
                                   ]
                                 ],
@@ -245,9 +245,9 @@ class _ControlPanelActivityCardState extends State<ControlPanelActivityCard> {
                               textAlign: TextAlign.start,
                               maxLines: 1,
                             ),
-                            if (nowPlayingItem.label(context) != nowPlayingItem.title)
+                            if (nowPlayingItem.label(context.localized) != nowPlayingItem.title)
                               Text(
-                                nowPlayingItem.label(context) ?? "",
+                                nowPlayingItem.label(context.localized) ?? "",
                                 style: Theme.of(context).textTheme.bodyMedium,
                                 textAlign: TextAlign.start,
                                 maxLines: 2,

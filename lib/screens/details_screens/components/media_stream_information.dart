@@ -8,6 +8,15 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
+class MediaStreamHelper {
+  final MediaStreamsModel mediaStream;
+  final Function(MediaStreamsModel changed)? onItemChanged;
+  MediaStreamHelper({
+    required this.mediaStream,
+    this.onItemChanged,
+  });
+}
+
 class MediaStreamInformation extends ConsumerWidget {
   final MediaStreamsModel mediaStream;
   final Function(int index)? onVersionIndexChanged;

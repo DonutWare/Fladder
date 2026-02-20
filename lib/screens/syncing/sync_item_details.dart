@@ -64,7 +64,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
           syncedItem = newItem;
         });
       },
-      child: (context) =>  Padding(
+      child: (context) => Padding(
         padding: const EdgeInsets.all(12.0),
         child: SyncStatusOverlay(
           syncedItem: syncedItem,
@@ -78,7 +78,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                         elevation: 1,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: Text(baseItem?.type.label(context) ?? ""),
+                          child: Text(baseItem?.type.label(context.localized) ?? ""),
                         )),
                     Text(
                       context.localized.navigationSync,
@@ -126,7 +126,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                                           children: [
                                             Flexible(
                                               child: Text(
-                                                baseItem.detailedName(context) ?? "",
+                                                baseItem.detailedName(context.localized) ?? "",
                                                 maxLines: 3,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: Theme.of(context).textTheme.titleMedium,
@@ -217,7 +217,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                         showDefaultAlertDialog(
                           context,
                           context.localized.syncDeleteItemTitle,
-                          context.localized.syncDeleteItemDesc(baseItem?.detailedName(context) ?? ""),
+                          context.localized.syncDeleteItemDesc(baseItem?.detailedName(context.localized) ?? ""),
                           (localContext) async {
                             await ref.read(syncProvider.notifier).removeSync(context, syncedItem);
                             Navigator.pop(localContext);

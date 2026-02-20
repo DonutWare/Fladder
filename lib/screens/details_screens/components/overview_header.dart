@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 
+import 'package:collection/collection.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
 import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/small_detail_widgets.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/list_padding.dart';
+import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/position_provider.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
+import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/focus_row.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 class OverviewHeader extends ConsumerWidget {
   final String name;
@@ -28,12 +37,13 @@ class OverviewHeader extends ConsumerWidget {
   final Function()? onTitleClicked;
   final List<SimpleLabel> additionalLabels;
   final String? productionYear;
-  final String? summary;
+  final Widget? summary;
   final Duration? runTime;
   final String? officialRating;
   final double? communityRating;
   final List<Studio> studios;
   final List<GenreItems> genres;
+  final MediaStreamHelper? mediaStreamHelper;
   const OverviewHeader({
     required this.name,
     this.minHeight,
@@ -55,6 +65,7 @@ class OverviewHeader extends ConsumerWidget {
     this.communityRating,
     this.genres = const [],
     this.studios = const [],
+    this.mediaStreamHelper,
     super.key,
   });
 
@@ -68,11 +79,121 @@ class OverviewHeader extends ConsumerWidget {
         );
 
     final fullHeight =
-        (MediaQuery.sizeOf(context).height - (MediaQuery.paddingOf(context).top + 150)).clamp(50, 1250).toDouble();
+        (MediaQuery.sizeOf(context).height - (MediaQuery.paddingOf(context).top + 50)).clamp(50, 1250).toDouble();
 
     final isPhone = AdaptiveLayout.viewSizeOf(context) == ViewSize.phone;
 
     final crossAlignment = !isPhone ? CrossAxisAlignment.start : CrossAxisAlignment.stretch;
+
+    final streamHeight = 43.0;
+
+    final streamOptionsButtons = [
+      SizedBox(
+        height: streamHeight,
+        child: EnumBox(
+          onFocusChanged: (focused) {
+            if (focused) {
+              context.ensureVisible(alignment: 1.0);
+            }
+          },
+          currentWidget: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: [
+              Icon(
+                IconsaxPlusLinear.video_square,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+              Text(
+                mediaStreamHelper?.mediaStream.currentVersionStream?.detailedResolutionLabel ?? "",
+              ),
+            ],
+          ),
+          itemBuilder: (context) => mediaStreamHelper!.mediaStream.versionStreams
+              .mapIndexed((index, e) => ItemActionButton(
+                    selected: mediaStreamHelper!.mediaStream.currentVersionStream == e,
+                    label: Text(e.name),
+                    action: () {
+                      final newItem = mediaStreamHelper!.mediaStream.copyWith(
+                        versionStreamIndex: e.index,
+                      );
+                      mediaStreamHelper!.onItemChanged?.call(newItem);
+                    },
+                  ))
+              .toList(),
+        ),
+      ),
+      SizedBox(
+        height: streamHeight,
+        child: EnumBox(
+          onFocusChanged: (focused) {
+            if (focused) {
+              context.ensureVisible(alignment: 1.0);
+            }
+          },
+          currentWidget: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: [
+              Icon(
+                IconsaxPlusLinear.audio_square,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+              Text(
+                mediaStreamHelper?.mediaStream.currentAudioStream?.shortTitle ?? "",
+              ),
+            ],
+          ),
+          itemBuilder: (context) => [AudioStreamModel.no(), ...mediaStreamHelper!.mediaStream.audioStreams]
+              .mapIndexed((index, e) => ItemActionButton(
+                    selected: mediaStreamHelper!.mediaStream.currentAudioStream == e,
+                    label: Text(e.displayTitle),
+                    action: () {
+                      final newItem = mediaStreamHelper!.mediaStream.copyWith(
+                        defaultAudioStreamIndex: e.index,
+                      );
+                      mediaStreamHelper!.onItemChanged?.call(newItem);
+                    },
+                  ))
+              .toList(),
+        ),
+      ),
+      SizedBox(
+        height: streamHeight,
+        child: EnumBox(
+          onFocusChanged: (focused) {
+            if (focused) {
+              context.ensureVisible(alignment: 1.0);
+            }
+          },
+          currentWidget: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 8,
+            children: [
+              Icon(
+                IconsaxPlusLinear.subtitle,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+              Text(
+                (mediaStreamHelper?.mediaStream.currentSubStream?.shortTitle ?? context.localized.off).toUpperCase(),
+              ),
+            ],
+          ),
+          itemBuilder: (context) => [SubStreamModel.no(), ...mediaStreamHelper!.mediaStream.subStreams]
+              .mapIndexed((index, e) => ItemActionButton(
+                    selected: mediaStreamHelper!.mediaStream.currentSubStream == e,
+                    label: Text(e.displayTitle),
+                    action: () {
+                      final newItem = mediaStreamHelper!.mediaStream.copyWith(
+                        defaultSubStreamIndex: e.index,
+                      );
+                      mediaStreamHelper!.onItemChanged?.call(newItem);
+                    },
+                  ))
+              .toList(),
+        ),
+      )
+    ].withPositionProvider();
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -84,7 +205,7 @@ class OverviewHeader extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: crossAlignment,
           mainAxisSize: MainAxisSize.min,
-          spacing: 16,
+          spacing: 12,
           children: [
             if (!isPhone)
               Flexible(
@@ -95,11 +216,13 @@ class OverviewHeader extends ConsumerWidget {
                     if (poster != null) poster!,
                     Flexible(
                       child: ExcludeFocus(
-                        child: MediaHeader(
-                          name: name,
-                          logo: image?.logo,
-                          onTap: onTitleClicked,
-                          alignment: logoAlignment,
+                        child: Center(
+                          child: MediaHeader(
+                            name: name,
+                            logo: image?.logo,
+                            onTap: onTitleClicked,
+                            alignment: logoAlignment,
+                          ),
                         ),
                       ),
                     )
@@ -115,44 +238,54 @@ class OverviewHeader extends ConsumerWidget {
                 children: [
                   if (poster != null) poster!,
                   ExcludeFocus(
-                    child: MediaHeader(
-                      name: name,
-                      logo: image?.logo,
-                      onTap: onTitleClicked,
-                      alignment: logoAlignment,
+                    child: Center(
+                      child: MediaHeader(
+                        name: name,
+                        logo: image?.logo,
+                        onTap: onTitleClicked,
+                        alignment: logoAlignment,
+                      ),
                     ),
                   )
                 ],
               ),
-            ExcludeFocus(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: crossAlignment,
-                children: [
-                  if (subTitle != null && name.toLowerCase() != subTitle!.toLowerCase())
-                    Flexible(
-                      child: SelectableText(
-                        subTitle ?? "",
-                        textAlign: TextAlign.center,
-                        style: mainStyle,
-                        maxLines: 1,
-                      ),
-                    ),
-                  if (name.toLowerCase() != originalTitle?.toLowerCase() && originalTitle != null)
-                    SelectableText(
-                      originalTitle.toString(),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: crossAlignment,
+              children: [
+                if (subTitle != null && name.toLowerCase() != subTitle!.toLowerCase())
+                  Flexible(
+                    child: SelectableText(
+                      subTitle ?? "",
                       textAlign: TextAlign.center,
-                      style: subStyle,
+                      style: mainStyle,
+                      maxLines: 1,
                     ),
-                ].addInBetween(const SizedBox(height: 4)),
-              ),
+                  ),
+                if (name.toLowerCase() != originalTitle?.toLowerCase() && originalTitle != null)
+                  SelectableText(
+                    originalTitle.toString(),
+                    textAlign: TextAlign.center,
+                    style: subStyle,
+                  ),
+              ].addInBetween(const SizedBox(height: 4)),
             ),
-            ExcludeFocus(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: crossAlignment,
-                spacing: 10,
-                children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: crossAlignment,
+              spacing: 10,
+              children: [
+                MetadataLabels(
+                  officialRating: officialRating,
+                  productionYear: productionYear,
+                  runTime: runTime,
+                  communityRating: communityRating,
+                ),
+                if (genres.isNotEmpty)
+                  Genres(
+                    genres: genres.take(6).toList(),
+                  ),
+                if (additionalLabels.isNotEmpty)
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
@@ -160,92 +293,69 @@ class OverviewHeader extends ConsumerWidget {
                     alignment: WrapAlignment.center,
                     runAlignment: WrapAlignment.center,
                     crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      if (officialRating != null)
-                        SimpleLabel(
-                          icon: null,
-                          label: Text(officialRating.toString()),
-                        ),
-                      if (productionYear != null)
-                        SimpleLabel(
-                          icon: IconsaxPlusBold.calendar,
-                          color: Theme.of(context).colorScheme.surfaceBright,
-                          label: SelectableText(
-                            productionYear.toString(),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      if (runTime != null && (runTime?.inSeconds ?? 0) > 1)
-                        SimpleLabel(
-                          icon: IconsaxPlusBold.timer,
-                          color: Theme.of(context).colorScheme.surfaceBright,
-                          iconColor: Theme.of(context).colorScheme.onSurface,
-                          label: SelectableText(
-                            runTime.humanize.toString(),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      if (communityRating != null && communityRating != 0.0)
-                        SimpleLabel(
-                          icon: IconsaxPlusBold.star_1,
-                          color: Theme.of(context).colorScheme.tertiaryContainer,
-                          iconColor: Theme.of(context).colorScheme.onTertiaryContainer,
-                          label: Text(
-                            communityRating?.toStringAsFixed(2) ?? "",
-                          ),
-                        ),
-                    ].addInBetween(CircleAvatar(
-                      radius: 3,
-                      backgroundColor: Theme.of(context).colorScheme.onSurface,
-                    )),
+                    children: additionalLabels,
                   ),
-                  if (summary?.isNotEmpty == true)
-                    Flexible(
-                      child: Text(
-                        summary ?? "",
-                        style: Theme.of(context).textTheme.titleMedium,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
+              ],
+            ),
+            if (summary != null) summary!,
+            if (AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone)
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 6,
+                children: [
+                  if (mainButton != null) mainButton!,
+                  if (mediaStreamHelper != null)
+                    Center(
+                      child: FittedBox(
+                        child: Row(
+                          spacing: 4,
+                          mainAxisSize: MainAxisSize.min,
+                          children: streamOptionsButtons,
+                        ),
                       ),
                     ),
-                  if (genres.isNotEmpty)
-                    Genres(
-                      genres: genres.take(6).toList(),
+                  if (centerButtons != null) centerButtons!,
+                ].addInBetween(
+                  Center(
+                    child: Container(
+                      width: 12,
+                      height: 2,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.onSurface.withAlpha(64),
+                        borderRadius: FladderTheme.smallShape.borderRadius,
+                      ),
                     ),
-                  if (additionalLabels.isNotEmpty)
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      direction: Axis.horizontal,
-                      alignment: WrapAlignment.center,
-                      runAlignment: WrapAlignment.center,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: additionalLabels,
-                    ),
-                ],
-              ),
-            ),
-            if (AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone) ...[
-              if (mainButton != null) mainButton!,
-              if (centerButtons != null) centerButtons!,
-            ] else
+                  ),
+                ),
+              )
+            else
               Flexible(
-                child: Row(
-                  spacing: 16,
-                  children: [
-                    if (mainButton != null) ...[
-                      mainButton!,
-                      Container(
-                        width: 2,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.onSurface.withAlpha(64),
-                          borderRadius: FladderTheme.smallShape.borderRadius,
+                child: FocusRow(
+                  ensureVisibleAlignment: 1.0,
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      mainButton,
+                      if (mediaStreamHelper != null)
+                        Row(
+                          spacing: 4,
+                          mainAxisSize: MainAxisSize.min,
+                          children: streamOptionsButtons,
                         ),
-                      )
-                    ],
-                    if (centerButtons != null) centerButtons!,
-                  ],
+                      centerButtons,
+                    ].nonNulls.toList().addInBetween(
+                          Container(
+                            width: 4,
+                            height: 12,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.onSurface.withAlpha(64),
+                              borderRadius: FladderTheme.smallShape.borderRadius,
+                            ),
+                          ),
+                        ),
+                  ),
                 ),
               ),
           ],
@@ -255,16 +365,97 @@ class OverviewHeader extends ConsumerWidget {
   }
 }
 
+class MetadataLabels extends StatelessWidget {
+  final bool? favourite;
+  final String? officialRating;
+  final String? productionYear;
+  final Duration? runTime;
+  final double? communityRating;
+  final bool? watched;
+
+  const MetadataLabels({
+    this.favourite,
+    this.officialRating,
+    this.productionYear,
+    this.runTime,
+    this.communityRating,
+    this.watched,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      direction: Axis.horizontal,
+      alignment: WrapAlignment.center,
+      runAlignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        if (officialRating != null)
+          SimpleLabel(
+            icon: null,
+            label: Text(officialRating.toString()),
+          ),
+        if (productionYear != null)
+          SimpleLabel(
+            icon: IconsaxPlusBold.calendar,
+            color: Theme.of(context).colorScheme.surfaceBright,
+            label: SelectableText(
+              productionYear.toString(),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        if (runTime != null && (runTime?.inSeconds ?? 0) > 1)
+          SimpleLabel(
+            icon: IconsaxPlusBold.timer,
+            color: Theme.of(context).colorScheme.surfaceBright,
+            iconColor: Theme.of(context).colorScheme.onSurface,
+            label: SelectableText(
+              runTime.humanize.toString(),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        if (communityRating != null && communityRating != 0.0)
+          SimpleLabel(
+            icon: IconsaxPlusBold.star_1,
+            color: Theme.of(context).colorScheme.tertiaryContainer,
+            iconColor: Theme.of(context).colorScheme.onTertiaryContainer,
+            label: Text(
+              communityRating?.toStringAsFixed(2) ?? "",
+            ),
+          ),
+        if (watched != null)
+          SimpleLabel(
+            icon: watched == true ? IconsaxPlusBold.eye : IconsaxPlusLinear.eye_slash,
+            color: Theme.of(context).colorScheme.primary,
+            iconColor: Theme.of(context).colorScheme.onPrimary,
+          ),
+        if (favourite != null)
+          SimpleLabel(
+            icon: favourite == true ? IconsaxPlusBold.heart : IconsaxPlusLinear.heart,
+            color: Theme.of(context).colorScheme.error,
+            iconColor: Theme.of(context).colorScheme.onError,
+          ),
+      ].addInBetween(CircleAvatar(
+        radius: 3,
+        backgroundColor: Theme.of(context).colorScheme.onSurface,
+      )),
+    );
+  }
+}
+
 class SimpleLabel extends StatelessWidget {
   final IconData? icon;
   final Widget? iconWidget;
-  final Widget label;
+  final Widget? label;
   final Color? color;
   final Color? iconColor;
   const SimpleLabel({
     this.icon,
     this.iconWidget,
-    required this.label,
+    this.label,
     this.color,
     this.iconColor,
     super.key,
@@ -289,20 +480,16 @@ class SimpleLabel extends StatelessWidget {
             ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          spacing: 4,
           children: [
-            if (icon != null) ...[
+            if (icon != null)
               Icon(
                 icon,
-                size: 18,
+                size: 21,
                 color: iconColor ?? Theme.of(context).colorScheme.onSurface,
               ),
-              const SizedBox(width: 4),
-            ],
-            if (iconWidget != null) ...[
-              iconWidget!,
-              const SizedBox(width: 4),
-            ],
-            label,
+            if (iconWidget != null) iconWidget!,
+            if (label != null) label!
           ],
         ),
       ),

@@ -10,7 +10,8 @@ import 'package:fladder/screens/metadata/edit_screens/edit_fields.dart';
 import 'package:fladder/screens/metadata/edit_screens/edit_image_content.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 
@@ -122,13 +123,18 @@ class _EditDialogSwitcherState extends ConsumerState<EditDialogSwitcher> with Ti
             children: [
               Expanded(
                 child: Text(
-                  currentItem?.detailedName(context) ?? currentItem?.name ?? "",
+                  currentItem?.detailedName(context.localized) ?? currentItem?.name ?? "",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              IconButton(onPressed: () => refreshEditor(), icon: const Icon(IconsaxPlusLinear.refresh))
+              IconButton(
+                  autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+                  onPressed: () => refreshEditor(),
+                  icon: const Icon(
+                    IconsaxPlusLinear.refresh,
+                  ))
             ],
           ),
         ),
@@ -169,18 +175,15 @@ class _EditDialogSwitcherState extends ConsumerState<EditDialogSwitcher> with Ti
                 onPressed: saving
                     ? null
                     : () async {
-                        final response = await ref.read(editItemProvider.notifier).saveInformation(widget.options);
-                        if (response != null && context.mounted) {
-                          if (response.isSuccessful) {
-                            widget.itemUpdated(response.body);
-                            fladderSnackbar(context,
-                                title: context.localized
-                                    .metaDataSavedFor(currentItem?.detailedName(context) ?? currentItem?.name ?? ""));
-                          } else {
-                            fladderSnackbarResponse(context, response);
-                          }
+                        final response = await FladderSnack.showResponse(
+                          ref.read(editItemProvider.notifier).saveInformation(widgets.keys.toSet()),
+                          successTitle: context.localized.metaDataSavedFor(
+                            currentItem?.detailedName(context.localized) ?? currentItem?.name ?? "",
+                          ),
+                        );
+                        if (response.isSuccess) {
+                          widget.refreshOnClose(true);
                         }
-                        widget.refreshOnClose(true);
                         Navigator.of(context).pop();
                       },
                 child: saving

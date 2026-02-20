@@ -8,7 +8,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/items/identify_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/focused_outlined_text_field.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -129,7 +129,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> {
             children: [
               Expanded(
                 child: Text(
-                  widget.item.detailedName(context) ?? widget.item.name,
+                  widget.item.detailedName(context.localized) ?? widget.item.name,
                   style: Theme.of(context).textTheme.titleLarge,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
@@ -277,15 +277,10 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> {
                             child: IconButton(
                               onPressed: !processing
                                   ? () async {
-                                      final response = await ref.read(provider.notifier).setIdentity(result);
-                                      if (response?.isSuccessful == true && context.mounted) {
-                                        fladderSnackbar(context,
-                                            title: context.localized.setIdentityTo(result.name ?? ""));
-                                      } else if (context.mounted) {
-                                        fladderSnackbarResponse(context, response,
-                                            altTitle: context.localized.somethingWentWrong);
-                                      }
-
+                                      await FladderSnack.showResponse(
+                                        ref.read(provider.notifier).setIdentity(result),
+                                        successTitle: context.localized.setIdentityTo(result.name ?? ""),
+                                      );
                                       if (context.mounted) {
                                         Navigator.of(context).pop();
                                       }

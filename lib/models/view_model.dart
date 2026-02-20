@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,6 +11,8 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/models/library_filter_model.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
@@ -134,12 +137,29 @@ class ViewModel {
     return id.hashCode ^ serverId.hashCode;
   }
 
+  Future<void> navigateToView(BuildContext context) async {
+    if (collectionType == CollectionType.livetv) {
+      context.pushRoute(
+        LiveTvRoute(
+          viewId: id,
+        ),
+      );
+      return;
+    }
+    context.pushRoute(
+      LibrarySearchRoute(
+        viewModelId: id,
+      ).withFilter(collectionType.defaultFilters),
+    );
+  }
+
   NavigationButton toNavigationButton(
     bool selected,
     bool horizontal,
     bool expanded,
     FutureOr Function() action, {
     FutureOr Function()? onLongPress,
+    FutureOr Function(TapDownDetails details)? onSecondaryTapDown,
     List<ItemAction>? trailing,
     Widget? customIcon,
   }) {
@@ -148,6 +168,7 @@ class ViewModel {
       selected: selected,
       onPressed: action,
       onLongPress: onLongPress,
+      onSecondaryTapDown: onSecondaryTapDown,
       horizontal: horizontal,
       expanded: expanded,
       customIcon: customIcon,

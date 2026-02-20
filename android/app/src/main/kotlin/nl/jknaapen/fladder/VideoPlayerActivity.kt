@@ -46,7 +46,6 @@ class VideoPlayerActivity : ComponentActivity() {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(UnstableApi::class)
 @Composable
 fun VideoPlayerScreen(
@@ -56,7 +55,7 @@ fun VideoPlayerScreen(
         ExoPlayer { player ->
             ScaledContent(
                 scale = if (leanBackEnabled) 0.75f else 1f,
-                fontScale = if(leanBackEnabled) 1.2f else 1f,
+                fontScale = if (leanBackEnabled) 1.2f else 1f,
             ) {
                 CustomVideoControls(player)
             }

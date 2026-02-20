@@ -277,7 +277,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
       shrinkWrap: true,
       controller: widget.controller,
       children: [
-        navTitle(currentItem?.title, currentItem?.subTextShort(context)),
+        navTitle(currentItem?.title, currentItem?.subTextShort(context.localized)),
         if (currentItem != null) ...{
           if (currentItem.type == FladderItemType.episode)
             ListTile(

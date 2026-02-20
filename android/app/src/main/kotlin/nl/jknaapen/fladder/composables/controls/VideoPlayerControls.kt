@@ -1,10 +1,8 @@
 package nl.jknaapen.fladder.composables.controls
 
-import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.annotation.OptIn
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -50,10 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEvent
-import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.util.UnstableApi
@@ -66,6 +61,7 @@ import io.github.rabehx.iconsax.filled.Flash
 import io.github.rabehx.iconsax.filled.Forward
 import io.github.rabehx.iconsax.filled.Pause
 import io.github.rabehx.iconsax.filled.Play
+import io.github.rabehx.iconsax.filled.SliderVertical
 import io.github.rabehx.iconsax.filled.Subtitle
 import io.github.rabehx.iconsax.outline.CloseSquare
 import io.github.rabehx.iconsax.outline.Refresh
@@ -79,27 +75,12 @@ import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.ImmersiveSystemBars
 import nl.jknaapen.fladder.utility.defaultSelected
+import nl.jknaapen.fladder.utility.keyEvent
 import nl.jknaapen.fladder.utility.leanBackEnabled
 import nl.jknaapen.fladder.utility.visible
 import kotlin.time.Duration.Companion.seconds
 
 
-private val KEY_MAPPING = setOf(
-    Key.MediaStop,
-    Key.X,
-    Key.MediaPlay,
-    Key.MediaPlayPause,
-    Key.MediaPause,
-    Key.P,
-    Key.Back,
-    Key.Escape,
-    Key.ButtonB,
-    Key.Backspace,
-    Key.DirectionLeft,
-    Key.DirectionRight,
-)
-
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(UnstableApi::class)
 @Composable
 fun CustomVideoControls(
@@ -114,6 +95,8 @@ fun CustomVideoControls(
     var showSpeedDialog by remember { mutableStateOf(false) }
 
     val interactionSource = remember { MutableInteractionSource() }
+
+    val isTVMode by VideoPlayerObject.implementation.isTVMode.collectAsState(false)
 
     val activity = LocalActivity.current
 
@@ -181,18 +164,16 @@ fun CustomVideoControls(
                     bottomControlFocusRequester.requestFocus()
                 }
             }
-            .onKeyEvent { keyEvent: KeyEvent ->
-                val ignoreKeys = keyEvent.type != KeyEventType.KeyDown && !KEY_MAPPING.contains(keyEvent.key)
-                if (ignoreKeys) return@onKeyEvent false
+            .keyEvent { keyEvent: KeyEvent ->
                 when (keyEvent.key) {
                     Key.MediaStop, Key.X -> {
                         activity?.finish()
-                        return@onKeyEvent true
+                        return@keyEvent true
                     }
 
                     Key.MediaPlay -> {
                         player?.play()
-                        return@onKeyEvent true
+                        return@keyEvent true
                     }
 
                     Key.MediaPlayPause -> {
@@ -204,46 +185,47 @@ fun CustomVideoControls(
                                 it.play()
                             }
                         }
-                        return@onKeyEvent true
+                        return@keyEvent true
+
                     }
 
                     Key.MediaPause, Key.P -> {
                         player?.pause()
                         updateLastInteraction()
-                        return@onKeyEvent true
+                        return@keyEvent true
                     }
 
                     Key.Back, Key.Escape, Key.ButtonB, Key.Backspace -> {
                         if (showControls) {
                             hideControls()
-                            return@onKeyEvent true
+                            return@keyEvent true
                         } else {
                             activity?.finish()
-                            return@onKeyEvent true
+                            return@keyEvent true
                         }
                     }
                 }
 
-                if (!showControls) {
+                if (!showControls && !isTVMode) {
                     when (keyEvent.key) {
                         Key.DirectionLeft -> {
                             currentSkipTime -= backwardSpeed.inWholeMilliseconds
                             updateSeekInteraction()
-                            return@onKeyEvent true
+                            return@keyEvent true
                         }
 
                         Key.DirectionRight -> {
                             currentSkipTime += forwardSpeed.inWholeMilliseconds
                             updateSeekInteraction()
-                            return@onKeyEvent true
+                            return@keyEvent true
                         }
                     }
                     bottomControlFocusRequester.requestFocus()
                     updateLastInteraction()
-                    return@onKeyEvent true
+                    return@keyEvent true
                 } else {
                     updateLastInteraction()
-                    return@onKeyEvent false
+                    return@keyEvent false
                 }
             }
             .clickable(
@@ -438,6 +420,8 @@ fun PlaybackButtons(
 
     val isPlaying = state?.playing ?: false
 
+    val isTVMode by VideoPlayerObject.implementation.isTVMode.collectAsState(false)
+
     Row(
         modifier = Modifier
             .padding(horizontal = 4.dp, vertical = 6.dp)
@@ -448,36 +432,38 @@ fun PlaybackButtons(
         ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        CustomButton(
-            onClick = { VideoPlayerObject.videoPlayerControls?.loadPreviousVideo {} },
-            enabled = previousVideo != null,
-        ) {
-            Icon(
-                Iconsax.Filled.Backward,
-                contentDescription = previousVideo?.title,
-            )
-        }
-        CustomButton(
-            onClick = {
-                player.seekTo(
-                    player.currentPosition - backwardSpeed.inWholeMilliseconds
-                )
-            },
-        ) {
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(),
-                contentAlignment = Alignment.Center,
+        if (!isTVMode) {
+            CustomButton(
+                onClick = { VideoPlayerObject.videoPlayerControls?.loadPreviousVideo {} },
+                enabled = previousVideo != null,
             ) {
                 Icon(
-                    Iconsax.Outline.Refresh,
-                    modifier = Modifier.size(42.dp),
-                    contentDescription = "Backwards",
+                    Iconsax.Filled.Backward,
+                    contentDescription = previousVideo?.title,
                 )
-                Text(
-                    "-${backwardSpeed.inWholeSeconds}",
-                    style = MaterialTheme.typography.bodySmall
-                )
+            }
+            CustomButton(
+                onClick = {
+                    player.seekTo(
+                        player.currentPosition - backwardSpeed.inWholeMilliseconds
+                    )
+                },
+            ) {
+                Box(
+                    modifier = Modifier
+                        .wrapContentSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        Iconsax.Outline.Refresh,
+                        modifier = Modifier.size(42.dp),
+                        contentDescription = "Backwards",
+                    )
+                    Text(
+                        "-${backwardSpeed.inWholeSeconds}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
             }
         }
         CustomButton(
@@ -500,40 +486,42 @@ fun PlaybackButtons(
                 contentDescription = if (isPlaying) "Pause" else "Play",
             )
         }
-        CustomButton(
-            onClick = {
-                player.seekTo(
-                    player.currentPosition + forwardSpeed.inWholeMilliseconds
-                )
-            },
-        ) {
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(),
-                contentAlignment = Alignment.Center,
+        if (!isTVMode) {
+            CustomButton(
+                onClick = {
+                    player.seekTo(
+                        player.currentPosition + forwardSpeed.inWholeMilliseconds
+                    )
+                },
+            ) {
+                Box(
+                    modifier = Modifier
+                        .wrapContentSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        Iconsax.Outline.Refresh,
+                        contentDescription = "Forward",
+                        modifier = Modifier
+                            .size(42.dp)
+                            .scale(scaleX = -1f, scaleY = 1f),
+                    )
+                    Text(
+                        forwardSpeed.inWholeSeconds.toString(),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            }
+
+            CustomButton(
+                onClick = { VideoPlayerObject.videoPlayerControls?.loadNextVideo {} },
+                enabled = nextVideo != null,
             ) {
                 Icon(
-                    Iconsax.Outline.Refresh,
-                    contentDescription = "Forward",
-                    modifier = Modifier
-                        .size(42.dp)
-                        .scale(scaleX = -1f, scaleY = 1f),
-                )
-                Text(
-                    forwardSpeed.inWholeSeconds.toString(),
-                    style = MaterialTheme.typography.bodySmall
+                    Iconsax.Filled.Forward,
+                    contentDescription = nextVideo?.title,
                 )
             }
-        }
-
-        CustomButton(
-            onClick = { VideoPlayerObject.videoPlayerControls?.loadNextVideo {} },
-            enabled = nextVideo != null,
-        ) {
-            Icon(
-                Iconsax.Filled.Forward,
-                contentDescription = nextVideo?.title,
-            )
         }
     }
 }
@@ -544,29 +532,33 @@ internal fun RowScope.LeftButtons(
     openPlaybackSpeedPicker: () -> Unit,
 ) {
     val chapters by VideoPlayerObject.chapters.collectAsState(emptyList())
+    val isTVMode by VideoPlayerObject.implementation.isTVMode.collectAsState(false)
+
 
     Row(
         modifier = Modifier.weight(1f),
         horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start)
     ) {
-        CustomButton(
-            onClick = openChapterSelection,
-            enabled = chapters?.isNotEmpty() == true
-        ) {
-            Icon(
-                Iconsax.Filled.Check,
-                contentDescription = "Show chapters",
-            )
-        }
+        if (!isTVMode) {
+            CustomButton(
+                onClick = openChapterSelection,
+                enabled = chapters?.isNotEmpty() == true
+            ) {
+                Icon(
+                    Iconsax.Filled.Check,
+                    contentDescription = "Show chapters",
+                )
+            }
 
-        CustomButton(
-            onClick = openPlaybackSpeedPicker,
-            enabled = true
-        ) {
-            Icon(
-                Iconsax.Filled.Flash,
-                contentDescription = "Playback Speed",
-            )
+            CustomButton(
+                onClick = openPlaybackSpeedPicker,
+                enabled = true
+            ) {
+                Icon(
+                    Iconsax.Filled.Flash,
+                    contentDescription = "Playback Speed",
+                )
+            }
         }
     }
 }
@@ -579,31 +571,46 @@ internal fun RowScope.RightButtons(
     val hasSubtitles by VideoPlayerObject.hasSubtracks.collectAsState(false)
     val hasAudioTracks by VideoPlayerObject.hasAudioTracks.collectAsState(false)
 
+    val isTVMode by VideoPlayerObject.implementation.isTVMode.collectAsState(false)
+
     Row(
         modifier = Modifier.weight(1f),
         horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.End)
     ) {
-        CustomButton(
-            enabled = hasAudioTracks,
-            onClick = {
-                showAudioDialog.value = true
-            },
-        ) {
-            Icon(
-                Iconsax.Filled.AudioSquare,
-                contentDescription = "Audio Track",
-            )
-        }
-        CustomButton(
-            enabled = hasSubtitles,
-            onClick = {
-                showSubDialog.value = true
-            },
-        ) {
-            Icon(
-                Iconsax.Filled.Subtitle,
-                contentDescription = "Subtitles",
-            )
+        if (isTVMode) {
+            CustomButton(
+                onClick = {
+                    VideoPlayerObject.toggleGuideVisibility()
+                },
+            ) {
+                Icon(
+                    Iconsax.Filled.SliderVertical,
+                    contentDescription = "TV Guide",
+                )
+            }
+        } else {
+            CustomButton(
+                enabled = hasAudioTracks,
+                onClick = {
+                    showAudioDialog.value = true
+                },
+            ) {
+                Icon(
+                    Iconsax.Filled.AudioSquare,
+                    contentDescription = "Audio Track",
+                )
+            }
+            CustomButton(
+                enabled = hasSubtitles,
+                onClick = {
+                    showSubDialog.value = true
+                },
+            ) {
+                Icon(
+                    Iconsax.Filled.Subtitle,
+                    contentDescription = "Subtitles",
+                )
+            }
         }
     }
 }

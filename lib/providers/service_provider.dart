@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
@@ -675,6 +676,10 @@ class JellyService {
     return response.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [];
   }
 
+  Future<Response<List<BaseItemDto>>> itemsItemIdSpecialFeaturesGet({required String itemId}) async {
+    return api.itemsItemIdSpecialFeaturesGet(itemId: itemId, userId: account?.id);
+  }
+
   Future<Response<BaseItemDtoQueryResult>> itemsItemIdSimilarGet({
     String? itemId,
     int? limit,
@@ -949,10 +954,7 @@ class JellyService {
         seriesId: seriesId,
         isMissing: isMissing,
         enableUserData: enableUserData,
-        fields: [
-          ...?fields,
-          ItemFields.parentid,
-        ],
+        fields: fields,
       );
       return response;
     } catch (e) {
@@ -1394,6 +1396,91 @@ class JellyService {
         libraryOptions: newFolder.libraryOptions,
       ),
     );
+  }
+
+  Future<Response<BaseItemDtoQueryResult>> liveTvChannelsGet({
+    int? limit,
+  }) async {
+    return await api.liveTvChannelsGet(
+      limit: limit,
+      userId: account?.id,
+      addCurrentProgram: true,
+    );
+  }
+
+  Future<Response<BaseItemDtoQueryResult>> liveTvChannelPrograms({
+    required List<String> channelIds,
+    DateTime? minStartDate,
+    DateTime? maxStartDate,
+    DateTime? minEndDate,
+    DateTime? maxEndDate,
+  }) async {
+    return await api.liveTvProgramsGet(
+      channelIds: channelIds,
+      userId: account?.id,
+      minStartDate: minStartDate,
+      maxStartDate: maxStartDate,
+      minEndDate: minEndDate,
+      maxEndDate: maxEndDate,
+      enableUserData: false,
+      sortBy: [ItemSortBy.startdate],
+      fields: [
+        ItemFields.overview,
+        ItemFields.parentid,
+      ],
+      enableTotalRecordCount: false,
+    );
+  }
+
+  Future<Response<LiveTvOptions>> getLiveTvConfiguration() async {
+    final response = await api.systemConfigurationKeyGet(key: 'livetv');
+    if (response.body == null) {
+      return Response(response.base, null);
+    }
+    try {
+      final jsonData = jsonDecode(response.body!) as Map<String, dynamic>;
+      final liveTvOptions = LiveTvOptions.fromJsonFactory(jsonData);
+      return Response(response.base, liveTvOptions);
+    } catch (e) {
+      log('Failed to parse LiveTvOptions: $e');
+      return Response(response.base, null);
+    }
+  }
+
+  Future<Response> updateLiveTvConfiguration(LiveTvOptions liveTvOptions) async {
+    return api.systemConfigurationKeyPost(key: 'livetv', body: liveTvOptions);
+  }
+
+  // Tuner Hosts
+  Future<Response<TunerHostInfo>> addTunerHost(TunerHostInfo tunerHost) async {
+    return api.liveTvTunerHostsPost(body: tunerHost);
+  }
+
+  Future<Response> deleteTunerHost(String id) async {
+    return api.liveTvTunerHostsDelete(id: id);
+  }
+
+  Future<Response<List<TunerHostInfo>>> discoverTuners({bool? newDevicesOnly}) async {
+    return api.liveTvTunersDiscoverGet(newDevicesOnly: newDevicesOnly);
+  }
+
+  // Listing Providers
+  Future<Response<ListingsProviderInfo>> addListingProvider(
+    ListingsProviderInfo provider, {
+    String? pw,
+    bool? validateListings,
+    bool? validateLogin,
+  }) async {
+    return api.liveTvListingProvidersPost(
+      body: provider,
+      pw: pw,
+      validateListings: validateListings,
+      validateLogin: validateLogin,
+    );
+  }
+
+  Future<Response> deleteListingProvider(String id) async {
+    return api.liveTvListingProvidersDelete(id: id);
   }
 }
 

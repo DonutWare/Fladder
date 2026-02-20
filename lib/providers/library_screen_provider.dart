@@ -19,6 +19,10 @@ import 'package:fladder/util/localization_helper.dart';
 part 'library_screen_provider.freezed.dart';
 part 'library_screen_provider.g.dart';
 
+Set<CollectionType> get excludedTypes => {
+      CollectionType.folders,
+    };
+
 enum LibraryViewType {
   recommended,
   favourites,
@@ -67,7 +71,8 @@ class LibraryScreen extends _$LibraryScreen {
   Future<void> fetchAllLibraries() async {
     final views = await ref.read(viewsProvider.notifier).fetchViews();
     state = state.copyWith(
-        views: views?.views.where((element) => element.collectionType != CollectionType.folders).toList() ?? []);
+      views: views?.views.where((element) => !excludedTypes.contains(element.collectionType)).toList() ?? [],
+    );
     if (state.views.isEmpty) return;
     final viewModel = state.selectedViewModel ?? state.views.firstOrNull;
     if (viewModel == null) return;
@@ -99,12 +104,19 @@ class LibraryScreen extends _$LibraryScreen {
   Future<void> loadResume(ViewModel viewModel) async {}
 
   Future<void> loadRecommendations(ViewModel viewModel) async {
-    List<RecommendedModel> newRecommendations = [];
+    RecommendedModel continueRecommendations = RecommendedModel(name: const Continue(), posters: []);
+    RecommendedModel nextUpRecommendations = RecommendedModel(name: const NextUp(), posters: []);
+    RecommendedModel latestRecommendations = RecommendedModel(name: const Latest(), posters: []);
+    List<RecommendedModel> otherRecommendations = [];
 
     final resume = await api.usersUserIdItemsResumeGet(
       parentId: viewModel.id,
       limit: 9,
       enableUserData: true,
+      fields: [
+        ItemFields.overview,
+        ItemFields.primaryimageaspectratio,
+      ],
       enableImageTypes: [
         ImageType.primary,
         ImageType.banner,
@@ -113,54 +125,39 @@ class LibraryScreen extends _$LibraryScreen {
       mediaTypes: [MediaType.video],
       enableTotalRecordCount: false,
     );
-    newRecommendations = [
-      ...newRecommendations,
-      RecommendedModel(
-        name: const Resume(),
-        posters: resume.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
-        type: null,
-      ),
-    ];
+    continueRecommendations = RecommendedModel(
+      name: const Continue(),
+      posters: resume.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
+      type: null,
+    );
 
     if (viewModel.collectionType == CollectionType.movies) {
       final response = await api.moviesRecommendationsGet(
         parentId: viewModel.id,
         categoryLimit: 6,
+        fields: [
+          ItemFields.overview,
+          ItemFields.primaryimageaspectratio,
+        ],
         itemLimit: 9,
-        fields: [ItemFields.mediasourcecount],
       );
-      newRecommendations = [
-        ...newRecommendations,
-        ...(response.body?.map(
-              (e) => RecommendedModel.fromBaseDto(e, ref),
-            ) ??
-            [])
-      ];
-    } else {
-      final nextUp = await api.showsNextUpGet(
-        parentId: viewModel.id,
-        limit: 9,
-        imageTypeLimit: 1,
-        fields: [ItemFields.mediasourcecount, ItemFields.primaryimageaspectratio],
-      );
-      newRecommendations = [
-        ...newRecommendations,
-        RecommendedModel(
-          name: const NextUp(),
-          posters: nextUp.body?.items
-                  ?.map(
-                    (e) => ItemBaseModel.fromBaseDto(
-                      e,
-                      ref,
-                    ),
-                  )
-                  .toList() ??
-              [],
-          type: null,
-        )
-      ];
+      otherRecommendations = (response.body?.map(
+                (e) => RecommendedModel.fromBaseDto(e, ref),
+              ) ??
+              [])
+          .toList();
     }
 
+    final nextUp = await api.showsNextUpGet(
+      parentId: viewModel.id,
+      limit: 9,
+      imageTypeLimit: 1,
+      fields: [
+        ItemFields.mediasourcecount,
+        ItemFields.primaryimageaspectratio,
+        ItemFields.overview,
+      ],
+    );
     final latest = await api.usersUserIdItemsGet(
       parentId: viewModel.id,
       sortBy: [ItemSortBy.datelastcontentadded, ItemSortBy.datecreated, ItemSortBy.sortname],
@@ -168,17 +165,25 @@ class LibraryScreen extends _$LibraryScreen {
       limit: 9,
       includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
     );
-    newRecommendations = [
-      RecommendedModel(
-        name: const Latest(),
-        posters: latest.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
-        type: null,
-      ),
-      ...newRecommendations,
-    ];
+    latestRecommendations = RecommendedModel(
+      name: const Latest(),
+      posters: latest.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
+      type: null,
+    );
+
+    nextUpRecommendations = RecommendedModel(
+      name: const NextUp(),
+      posters: nextUp.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [],
+      type: null,
+    );
 
     state = state.copyWith(
-      recommendations: newRecommendations,
+      recommendations: [
+        continueRecommendations,
+        nextUpRecommendations,
+        latestRecommendations,
+        ...otherRecommendations,
+      ]..removeWhere((element) => element.posters.isEmpty),
     );
   }
 
@@ -191,8 +196,9 @@ class LibraryScreen extends _$LibraryScreen {
       includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
       enableImageTypes: [ImageType.primary],
       fields: [
-        ItemFields.primaryimageaspectratio,
         ItemFields.mediasourcecount,
+        ItemFields.primaryimageaspectratio,
+        ItemFields.overview,
       ],
       enableTotalRecordCount: false,
     );
@@ -228,8 +234,9 @@ class LibraryScreen extends _$LibraryScreen {
         includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
         enableImageTypes: [ImageType.primary],
         fields: [
-          ItemFields.primaryimageaspectratio,
           ItemFields.mediasourcecount,
+          ItemFields.primaryimageaspectratio,
+          ItemFields.overview,
         ],
         sortBy: [ItemSortBy.random],
         enableTotalRecordCount: false,

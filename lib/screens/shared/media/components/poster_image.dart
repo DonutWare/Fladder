@@ -1,4 +1,3 @@
-// poster_image.dart
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,20 +5,18 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
-import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/screens/shared/media/components/poster_overlays.dart';
 import 'package:fladder/screens/shared/media/components/poster_placeholder.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
-import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
-import 'package:fladder/widgets/shared/status_card.dart';
 
 class PosterImage extends ConsumerWidget {
   final ItemBaseModel poster;
@@ -93,148 +90,28 @@ class PosterImage extends ConsumerWidget {
         ),
         overlays: [
           if (selected == true)
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.15),
-                border: Border.all(width: 3, color: Theme.of(context).colorScheme.primary),
-                borderRadius: radius,
-              ),
-              clipBehavior: Clip.hardEdge,
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Container(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: Text(
-                        poster.name,
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelMedium
-                            ?.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+            SelectedPosterOverlay(
+              poster: poster,
+              radius: radius as BorderRadius,
             ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (poster.userData.isFavourite)
-                  const Row(
-                    children: [
-                      StatusCard(
-                        color: Colors.red,
-                        child: Icon(
-                          IconsaxPlusBold.heart,
-                          size: 21,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                if ((poster.userData.progress > 0 && poster.userData.progress < 100) &&
-                    poster.type != FladderItemType.book) ...{
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3).copyWith(bottom: 3).add(padding),
-                    child: Card(
-                      color: Colors.transparent,
-                      elevation: 3,
-                      shadowColor: Colors.transparent,
-                      child: LinearProgressIndicator(
-                        minHeight: 7.5,
-                        backgroundColor: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.5),
-                        value: poster.userData.progress / 100,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                },
-              ],
-            ),
+          BottomOverlaysContainer(
+            showFavourite: poster.userData.isFavourite,
+            showProgress: true,
+            progress: poster.progress,
+            itemType: poster.type,
+            progressPadding: padding,
           ),
           if (inlineTitle)
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  poster.title.maxLength(limitTo: 25),
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
+            InlineTitleOverlay(
+              title: poster.title.maxLength(limitTo: 25),
             ),
-          if (poster.unplayedLabel(context) != null || poster.watched)
-            IgnorePointer(
-              child: Align(
-                alignment: Alignment.topRight,
-                child: StatusCard(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  child: Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: poster.unplayedLabel(context) != null
-                        ? Text(
-                            poster.unplayedLabel(context) ?? "",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                              overflow: TextOverflow.visible,
-                              fontSize: 14,
-                            ),
-                          )
-                        : Icon(
-                            Icons.check_rounded,
-                            size: 20,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                  ),
-                ),
-              ),
-            ),
-          if (poster.overview.runTime != null &&
-              ((poster is PhotoModel) && (poster as PhotoModel).internalType == FladderItemType.video)) ...{
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: padding,
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          poster.overview.runTime.humanizeSmall ?? "",
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                        ),
-                        const SizedBox(width: 2),
-                        Icon(
-                          Icons.play_arrow_rounded,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            )
-          },
+          UnplayedWatchedOverlay(
+            poster: poster,
+          ),
+          VideoDurationOverlay(
+            poster: poster,
+            padding: padding,
+          ),
         ],
         focusedOverlays: [
           if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer) ...[

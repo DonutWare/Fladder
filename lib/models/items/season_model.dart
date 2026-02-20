@@ -7,13 +7,14 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
+import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/series_model.dart';
-import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/models/items/special_feature_model.dart';
 
 part 'season_model.mapper.dart';
 
@@ -22,6 +23,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
   final ImagesData? parentImages;
   final String seasonName;
   final List<EpisodeModel> episodes;
+  final List<SpecialFeatureModel> specialFeatures;
   final int episodeCount;
   final String seriesId;
   final int season;
@@ -30,6 +32,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
     required this.parentImages,
     required this.seasonName,
     this.episodes = const [],
+    this.specialFeatures = const [],
     required this.episodeCount,
     required this.seriesId,
     required this.season,
@@ -47,7 +50,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
     required super.canDownload,
     super.jellyType,
   });
-  factory SeasonModel.fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory SeasonModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return SeasonModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -57,11 +60,11 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
       userData: UserData.fromDto(item.userData),
       parentId: item.seasonId ?? item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       primaryRatio: item.primaryImageAspectRatio,
       seasonName: item.seasonName ?? "",
       episodeCount: item.episodeCount ?? 0,
-      parentImages: ImagesData.fromBaseItemParent(item, ref, primary: const Size(2000, 2000)),
+      parentImages: ref != null ? ImagesData.fromBaseItemParent(item, ref, primary: const Size(2000, 2000)) : null,
       seriesId: item.seriesId ?? item.parentId ?? item.id ?? "",
       canDelete: item.canDelete,
       canDownload: item.canDownload,
@@ -80,10 +83,10 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
   @override
   ImagesData? get getPosters => images ?? parentImages;
 
-  String localizedName(BuildContext context) => name.replaceFirst("Season", context.localized.season(1));
+  String localizedName(AppLocalizations l10n) => name.replaceFirst("Season", l10n.season(1));
 
   @override
-  String? unplayedLabel(BuildContext context) => userData.played ? null : userData.unPlayedItemCount?.toString();
+  String? unplayedLabel(AppLocalizations l10n) => userData.played ? null : userData.unPlayedItemCount?.toString();
 
   @override
   SeriesModel get parentBaseModel => SeriesModel(
@@ -101,7 +104,7 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
         userData: const UserData(),
       );
 
-  static List<SeasonModel> seasonsFromDto(List<dto.BaseItemDto>? dto, Ref ref) {
+  static List<SeasonModel> seasonsFromDto(List<dto.BaseItemDto>? dto, Ref? ref) {
     return dto?.map((e) => SeasonModel.fromBaseDto(e, ref)).toList() ?? [];
   }
 }

@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/home_model.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/live_tv_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
@@ -35,7 +37,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
       ImageType.banner,
     }.toList();
 
-    final fieldsToFetch = [
+    final fieldsToFetch = {
       ItemFields.parentid,
       ItemFields.mediastreams,
       ItemFields.mediasources,
@@ -43,13 +45,35 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
       ItemFields.candownload,
       ItemFields.primaryimageaspectratio,
       ItemFields.overview,
-      ItemFields.genres,
-    ];
+      ItemFields.airtime,
+    };
+
+    if (viewTypes.containsAny([CollectionType.livetv])) {
+      List<ChannelModel> channels = (await api.liveTvChannelsGet(limit: limit))
+              .body
+              ?.items
+              ?.map((e) => ChannelModel.fromBaseDto(e, ref))
+              .toList() ??
+          [];
+
+      channels = await Future.wait(
+        channels.map(
+          (e) async {
+            final programs = await ref.read(liveTvProvider.notifier).fetchProgramsForChannel(e);
+            return e.copyChannelWith(
+              programs: programs,
+            );
+          },
+        ),
+      );
+
+      state = state.copyWith(activePrograms: channels);
+    }
 
     if (viewTypes.containsAny([CollectionType.movies, CollectionType.tvshows])) {
       final resumeVideoResponse = await api.usersUserIdItemsResumeGet(
         enableImageTypes: imagesToFetch,
-        fields: fieldsToFetch,
+        fields: fieldsToFetch.toList(),
         mediaTypes: [MediaType.video],
         enableTotalRecordCount: false,
         limit: limit,
@@ -63,7 +87,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     if (viewTypes.contains(CollectionType.music)) {
       final resumeAudioResponse = await api.usersUserIdItemsResumeGet(
         enableImageTypes: imagesToFetch,
-        fields: fieldsToFetch,
+        fields: fieldsToFetch.toList(),
         mediaTypes: [MediaType.audio],
         enableTotalRecordCount: false,
         limit: limit,
@@ -77,7 +101,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     if (viewTypes.contains(CollectionType.books)) {
       final resumeBookResponse = await api.usersUserIdItemsResumeGet(
         enableImageTypes: imagesToFetch,
-        fields: fieldsToFetch,
+        fields: fieldsToFetch.toList(),
         mediaTypes: [MediaType.book],
         enableTotalRecordCount: false,
         limit: limit,
@@ -91,7 +115,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     final nextResponse = await api.showsNextUpGet(
       nextUpDateCutoff: DateTime.now().subtract(
           ref.read(clientSettingsProvider.select((value) => value.nextUpDateCutoff ?? const Duration(days: 28)))),
-      fields: fieldsToFetch,
+      fields: fieldsToFetch.toList(),
     );
 
     final next = nextResponse.body?.items

@@ -29,8 +29,8 @@ import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 Future<Color?> getDominantColor(ImageProvider imageProvider) async {
   final paletteGenerator = await PaletteGeneratorMaster.fromImageProvider(
     imageProvider,
-    size: const Size(200, 200),
-    maximumColorCount: 20,
+    size: const Size(16, 16),
+    maximumColorCount: 2,
   );
 
   return paletteGenerator.dominantColor?.color;
@@ -62,17 +62,22 @@ class DetailScaffold extends ConsumerStatefulWidget {
 }
 
 class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
+  late ItemBaseModel? item = widget.item;
   List<ImageData>? lastImages;
   ImageData? backgroundImage;
   Color? dominantColor;
 
   ImageProvider? _lastRequestedImage;
+  ImageData? _lastColorImage;
 
   @override
   void didUpdateWidget(covariant DetailScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
     updateImage();
     _updateDominantColor();
+    if (widget.item != null && widget.item?.id != item?.id) {
+      item = widget.item;
+    }
   }
 
   void updateImage() {
@@ -85,14 +90,15 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   Future<void> _updateDominantColor() async {
     if (!ref.read(clientSettingsProvider.select((value) => value.deriveColorsFromItem))) return;
     final newImage = widget.item?.getPosters?.logo;
-    if (newImage == null) return;
+    if (newImage == null || identical(newImage, _lastColorImage)) return;
+    _lastColorImage = newImage;
 
     final provider = newImage.imageProvider;
     _lastRequestedImage = provider;
 
     final newColor = await getDominantColor(provider);
 
-    if (!mounted || _lastRequestedImage != provider) return;
+    if (!mounted || !identical(_lastRequestedImage, provider)) return;
 
     setState(() {
       dominantColor = newColor;
@@ -107,6 +113,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     final minHeight = 450.0.clamp(0, size.height).toDouble();
     final maxHeight = size.height - 10;
     final sideBarPadding = AdaptiveLayout.of(context).sideBarWidth;
+    final topBarPadding = AdaptiveLayout.of(context).topBarHeight;
     final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
     final newColorScheme = dominantColor != null
         ? ColorScheme.fromSeed(
@@ -172,29 +179,32 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: EdgeInsets.only(left: (sideBarPadding - 25).clamp(0, double.infinity)),
-                            child: FadeEdges(
-                              leftFade: AdaptiveLayout.layoutModeOf(context) != LayoutMode.single ? 0.05 : 0.0,
-                              bottomFade: 0.3,
+                            padding: EdgeInsets.only(left: sideBarPadding / 1.5, top: topBarPadding),
+                            child: RepaintBoundary(
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
                                   minWidth: double.infinity,
-                                  minHeight: minHeight - 20,
+                                  minHeight: minHeight - 22,
                                   maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
                                 ),
-                                child: FadeInImage(
-                                  placeholder: ResizeImage(
-                                    backgroundImage!.imageProvider,
-                                    height: maxHeight ~/ 1.5,
-                                  ),
-                                  placeholderColor: Colors.transparent,
-                                  fit: BoxFit.cover,
-                                  alignment: Alignment.topCenter,
-                                  placeholderFit: BoxFit.cover,
-                                  excludeFromSemantics: true,
-                                  image: ResizeImage(
-                                    backgroundImage!.imageProvider,
-                                    height: maxHeight ~/ 1.5,
+                                child: FadeEdges(
+                                  leftFade: sideBarPadding > 0 ? 0.05 : 0.0,
+                                  topFade: topBarPadding > 0 ? 0.1 : 0.0,
+                                  bottomFade: 0.2,
+                                  child: FadeInImage(
+                                    placeholder: ResizeImage(
+                                      backgroundImage!.imageProvider,
+                                      height: maxHeight ~/ 1.5,
+                                    ),
+                                    placeholderColor: Colors.transparent,
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.topCenter,
+                                    placeholderFit: BoxFit.cover,
+                                    excludeFromSemantics: true,
+                                    image: ResizeImage(
+                                      backgroundImage!.imageProvider,
+                                      height: maxHeight ~/ 1.5,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -229,23 +239,17 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         width: size.width,
                         color: widget.backgroundColor,
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          bottom: 0,
-                          top: MediaQuery.of(context).padding.top,
-                        ),
-                        child: FocusScope(
-                          autofocus: true,
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              minHeight: size.height,
-                              maxWidth: size.width,
-                            ),
-                            child: widget.content(
-                              context,
-                              padding.copyWith(
-                                left: sideBarPadding + 25 + MediaQuery.paddingOf(context).left,
-                              ),
+                      FocusScope(
+                        autofocus: true,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: size.height,
+                            maxWidth: size.width,
+                          ),
+                          child: widget.content(
+                            context,
+                            padding.copyWith(
+                              left: sideBarPadding + 25 + MediaQuery.paddingOf(context).left,
                             ),
                           ),
                         ),
@@ -262,6 +266,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                           .copyWith(left: sideBarPadding + MediaQuery.paddingOf(context).left)
                           .add(
                             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          )
+                          .add(
+                            EdgeInsets.only(top: topBarPadding),
                           ),
                       child: Row(
                         children: [
@@ -285,18 +292,18 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  if (widget.item != null) ...[
-                                    ref.watch(syncedItemProvider(widget.item)).when(
+                                  if (item != null) ...[
+                                    ref.watch(syncedItemProvider(item)).when(
                                           error: (error, stackTrace) => const SizedBox.shrink(),
                                           data: (syncedItem) {
                                             if (syncedItem == null &&
                                                 ref.read(userProvider.select(
                                                   (value) => value?.canDownload ?? false,
                                                 )) &&
-                                                widget.item?.syncAble == true) {
+                                                item?.syncAble == true) {
                                               return IconButton(
                                                 onPressed: () =>
-                                                    ref.read(syncProvider.notifier).addSyncItem(context, widget.item!),
+                                                    ref.read(syncProvider.notifier).addSyncItem(context, item!),
                                                 icon: const Icon(
                                                   IconsaxPlusLinear.arrow_down_2,
                                                 ),
@@ -304,7 +311,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                             } else if (syncedItem != null) {
                                               return IconButton(
                                                 onPressed: () => showSyncItemDetails(context, syncedItem, ref),
-                                                icon: SyncButton(item: widget.item!, syncedItem: syncedItem),
+                                                icon: SyncButton(item: item!, syncedItem: syncedItem),
                                               );
                                             }
                                             return const SizedBox.shrink();
@@ -319,7 +326,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                             tooltip: context.localized.moreOptions,
                                             enabled: newActions?.isNotEmpty == true,
                                             icon: Icon(
-                                              widget.item!.type.icon,
+                                              item!.type.icon,
                                               color: Theme.of(context).colorScheme.onSurface,
                                             ),
                                             itemBuilder: (context) => newActions?.popupMenuItems(useIcons: true) ?? [],
@@ -335,7 +342,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                               ),
                                             ),
                                             icon: Icon(
-                                              widget.item!.type.icon,
+                                              item!.type.icon,
                                             ),
                                           );
                                         }

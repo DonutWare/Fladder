@@ -27,6 +27,7 @@ abstract class AccountModel with _$AccountModel {
     required String avatar,
     required DateTime lastUsed,
     @Default(Authentication.autoLogin) Authentication authMethod,
+    @Default(false) bool askForAuthOnLaunch,
     @Default("") String localPin,
     @CredentialsConverter() required CredentialsModel credentials,
     SeerrCredentialsModel? seerrCredentials,
@@ -34,6 +35,10 @@ abstract class AccountModel with _$AccountModel {
     @Default([]) List<String> searchQueryHistory,
     @Default(false) bool quickConnectState,
     @Default([]) List<LibraryFiltersModel> libraryFilters,
+    @Default(false) bool updateNotificationsEnabled,
+    @Default(false) bool seerrRequestsEnabled,
+    @Default(false) bool includeHiddenViews,
+
     //Server values not stored in the database
     @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
     @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,

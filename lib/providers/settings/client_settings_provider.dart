@@ -10,6 +10,7 @@ import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/providers/update_notifications_provider.dart';
 import 'package:fladder/src/directory_bookmark.g.dart';
 import 'package:fladder/util/custom_color_themes.dart';
 import 'package:fladder/util/debouncer.dart';
@@ -67,6 +68,11 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
 
   void setTimeOut(Duration? duration) => state = state.copyWith(timeOut: duration);
 
+  void setUpdateNotificationsInterval(Duration duration) {
+    state = state.copyWith(updateNotificationsInterval: duration);
+    ref.read(updateNotificationsProvider).registerBackgroundTask();
+  }
+
   void setBlurEpisodes(bool value) => state = state.copyWith(blurUpcomingEpisodes: value);
 
   void setMediaKeys(bool value) => state = state.copyWith(enableMediaKeys: value);
@@ -101,4 +107,10 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
       state = state.copyWith(shortcuts: state.shortcuts.setOrRemove(newEntry, state.defaultShortCuts));
 
   Future<void> closeDirectory() => DirectoryBookmark().closeDirectory(syncPathKey);
+
+  void setExpandedTVLayout(bool value) => state = state.copyWith(useTVExpandedLayout: value);
+
+  void setBlurEffects(bool value) => state = state.copyWith(enableBlurEffects: value);
+
+  void toggleSideBar() => state = state.copyWith(expandSideBar: !state.expandSideBar);
 }

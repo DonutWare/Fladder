@@ -16,6 +16,7 @@ class SeriesModelMapper extends SubClassMapperBase<SeriesModel> {
       ItemBaseModelMapper.ensureInitialized().addSubMapper(_instance!);
       EpisodeModelMapper.ensureInitialized();
       SeasonModelMapper.ensureInitialized();
+      SpecialFeatureModelMapper.ensureInitialized();
       ItemBaseModelMapper.ensureInitialized();
       OverviewModelMapper.ensureInitialized();
       UserDataMapper.ensureInitialized();
@@ -33,6 +34,14 @@ class SeriesModelMapper extends SubClassMapperBase<SeriesModel> {
   static List<SeasonModel>? _$seasons(SeriesModel v) => v.seasons;
   static const Field<SeriesModel, List<SeasonModel>> _f$seasons =
       Field('seasons', _$seasons, opt: true);
+  static EpisodeModel? _$selectedEpisode(SeriesModel v) => v.selectedEpisode;
+  static const Field<SeriesModel, EpisodeModel> _f$selectedEpisode =
+      Field('selectedEpisode', _$selectedEpisode, opt: true);
+  static List<SpecialFeatureModel>? _$specialFeatures(SeriesModel v) =>
+      v.specialFeatures;
+  static const Field<SeriesModel, List<SpecialFeatureModel>>
+      _f$specialFeatures =
+      Field('specialFeatures', _$specialFeatures, opt: true);
   static String _$originalTitle(SeriesModel v) => v.originalTitle;
   static const Field<SeriesModel, String> _f$originalTitle =
       Field('originalTitle', _$originalTitle);
@@ -96,6 +105,8 @@ class SeriesModelMapper extends SubClassMapperBase<SeriesModel> {
   final MappableFields<SeriesModel> fields = const {
     #availableEpisodes: _f$availableEpisodes,
     #seasons: _f$seasons,
+    #selectedEpisode: _f$selectedEpisode,
+    #specialFeatures: _f$specialFeatures,
     #originalTitle: _f$originalTitle,
     #sortName: _f$sortName,
     #status: _f$status,
@@ -131,6 +142,8 @@ class SeriesModelMapper extends SubClassMapperBase<SeriesModel> {
     return SeriesModel(
         availableEpisodes: data.dec(_f$availableEpisodes),
         seasons: data.dec(_f$seasons),
+        selectedEpisode: data.dec(_f$selectedEpisode),
+        specialFeatures: data.dec(_f$specialFeatures),
         originalTitle: data.dec(_f$originalTitle),
         sortName: data.dec(_f$sortName),
         status: data.dec(_f$status),
@@ -175,6 +188,12 @@ abstract class SeriesModelCopyWith<$R, $In extends SeriesModel, $Out>
       get availableEpisodes;
   ListCopyWith<$R, SeasonModel,
       SeasonModelCopyWith<$R, SeasonModel, SeasonModel>>? get seasons;
+  EpisodeModelCopyWith<$R, EpisodeModel, EpisodeModel>? get selectedEpisode;
+  ListCopyWith<
+      $R,
+      SpecialFeatureModel,
+      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
+          SpecialFeatureModel>>? get specialFeatures;
   ListCopyWith<$R, ItemBaseModel,
       ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>> get related;
   ListCopyWith<
@@ -197,6 +216,8 @@ abstract class SeriesModelCopyWith<$R, $In extends SeriesModel, $Out>
   $R call(
       {List<EpisodeModel>? availableEpisodes,
       List<SeasonModel>? seasons,
+      EpisodeModel? selectedEpisode,
+      List<SpecialFeatureModel>? specialFeatures,
       String? originalTitle,
       String? sortName,
       String? status,
@@ -242,6 +263,19 @@ class _SeriesModelCopyWithImpl<$R, $Out>
               (v) => call(seasons: v))
           : null;
   @override
+  EpisodeModelCopyWith<$R, EpisodeModel, EpisodeModel>? get selectedEpisode =>
+      $value.selectedEpisode?.copyWith.$chain((v) => call(selectedEpisode: v));
+  @override
+  ListCopyWith<
+      $R,
+      SpecialFeatureModel,
+      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
+          SpecialFeatureModel>>? get specialFeatures =>
+      $value.specialFeatures != null
+          ? ListCopyWith($value.specialFeatures!,
+              (v, t) => v.copyWith.$chain(t), (v) => call(specialFeatures: v))
+          : null;
+  @override
   ListCopyWith<$R, ItemBaseModel,
           ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>>
       get related => ListCopyWith($value.related,
@@ -282,6 +316,8 @@ class _SeriesModelCopyWithImpl<$R, $Out>
   $R call(
           {Object? availableEpisodes = $none,
           Object? seasons = $none,
+          Object? selectedEpisode = $none,
+          Object? specialFeatures = $none,
           String? originalTitle,
           String? sortName,
           String? status,
@@ -304,6 +340,8 @@ class _SeriesModelCopyWithImpl<$R, $Out>
       $apply(FieldCopyWithData({
         if (availableEpisodes != $none) #availableEpisodes: availableEpisodes,
         if (seasons != $none) #seasons: seasons,
+        if (selectedEpisode != $none) #selectedEpisode: selectedEpisode,
+        if (specialFeatures != $none) #specialFeatures: specialFeatures,
         if (originalTitle != null) #originalTitle: originalTitle,
         if (sortName != null) #sortName: sortName,
         if (status != null) #status: status,
@@ -329,6 +367,8 @@ class _SeriesModelCopyWithImpl<$R, $Out>
       availableEpisodes:
           data.get(#availableEpisodes, or: $value.availableEpisodes),
       seasons: data.get(#seasons, or: $value.seasons),
+      selectedEpisode: data.get(#selectedEpisode, or: $value.selectedEpisode),
+      specialFeatures: data.get(#specialFeatures, or: $value.specialFeatures),
       originalTitle: data.get(#originalTitle, or: $value.originalTitle),
       sortName: data.get(#sortName, or: $value.sortName),
       status: data.get(#status, or: $value.status),

@@ -148,9 +148,9 @@ class PosterListItem extends ConsumerWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          if ((poster.subText ?? poster.subTextShort(context))?.isNotEmpty == true)
+                          if ((poster.subText ?? poster.subTextShort(context.localized))?.isNotEmpty == true)
                             Text(
-                              poster.subText ?? poster.subTextShort(context) ?? "",
+                              poster.subText ?? poster.subTextShort(context.localized) ?? "",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),

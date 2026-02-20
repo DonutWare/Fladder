@@ -1,22 +1,18 @@
 package nl.jknaapen.fladder.objects
 
 import PlaybackState
+import TVGuideModel
 import VideoPlayerControlsCallback
 import VideoPlayerListenerCallback
-import android.os.Build
-import androidx.annotation.RequiresApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import nl.jknaapen.fladder.VideoPlayerActivity
+import nl.jknaapen.fladder.fake.FakeHelperObjects
 import nl.jknaapen.fladder.messengers.VideoPlayerImplementation
 import nl.jknaapen.fladder.utility.InternalTrack
-import java.time.ZoneId
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
-import kotlin.time.toJavaInstant
 
 object VideoPlayerObject {
     val implementation: VideoPlayerImplementation = VideoPlayerImplementation()
@@ -33,17 +29,27 @@ object VideoPlayerObject {
 
     val nextUpVideo = implementation.playbackData.map { it?.nextVideo }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    @OptIn(ExperimentalTime::class)
     val endTime = combine(position, duration) { pos, dur ->
-        val now = Clock.System.now().toJavaInstant()
-        val zone = ZoneId.systemDefault()
+        val nowMs = System.currentTimeMillis()
         val remainingMs = (dur - pos).coerceAtLeast(0L)
-        val endInstant = now.plusMillis(remainingMs)
-
-        val endZoned = endInstant.atZone(zone)
-
-        endZoned.toOffsetDateTime().toString()
+        val endMs = nowMs + remainingMs
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val instant = java.time.Instant.ofEpochMilli(endMs)
+            val zoneId = java.time.ZoneId.systemDefault()
+            java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME
+                .withZone(zoneId)
+                .format(instant)
+        } else {
+            val calendar = java.util.Calendar.getInstance()
+            calendar.timeInMillis = endMs
+            val tz = calendar.timeZone
+            val sdf = java.text.SimpleDateFormat(
+                "yyyy-MM-dd'T'HH:mm:ssXXX",
+                java.util.Locale.getDefault()
+            )
+            sdf.timeZone = tz
+            sdf.format(calendar.time)
+        }
     }
 
     val currentSubtitleTrackIndex =
@@ -90,5 +96,13 @@ object VideoPlayerObject {
 
     var videoPlayerListener: VideoPlayerListenerCallback? = null
     var videoPlayerControls: VideoPlayerControlsCallback? = null
+
+    var tvGuide = MutableStateFlow<TVGuideModel?>(null)
+    val guideVisible = MutableStateFlow(false)
+
+    fun toggleGuideVisibility() {
+        guideVisible.value = !guideVisible.value
+    }
+
     var currentActivity: VideoPlayerActivity? = null
 }

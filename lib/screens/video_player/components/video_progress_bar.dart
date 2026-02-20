@@ -107,7 +107,7 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                           ),
                       onChangeEnd: (e) async {
                         currentDuration = Duration(milliseconds: e.toInt());
-                        await player.seek(Duration(milliseconds: e ~/ 1));
+                        widget.onPositionChanged.call(Duration(milliseconds: e.toInt()));
                         await Future.delayed(const Duration(milliseconds: 250));
                         if (widget.wasPlaying) {
                           player.play();

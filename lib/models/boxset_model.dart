@@ -28,7 +28,7 @@ class BoxSetModel extends ItemBaseModel with BoxSetModelMappable {
     super.jellyType,
   });
 
-  factory BoxSetModel.fromBaseDto(BaseItemDto item, Ref ref) {
+  factory BoxSetModel.fromBaseDto(BaseItemDto item, Ref? ref) {
     return BoxSetModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -37,7 +37,7 @@ class BoxSetModel extends ItemBaseModel with BoxSetModelMappable {
       userData: UserData.fromDto(item.userData),
       parentId: item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       primaryRatio: item.primaryImageAspectRatio,
       canDelete: item.canDelete,
       canDownload: item.canDownload,

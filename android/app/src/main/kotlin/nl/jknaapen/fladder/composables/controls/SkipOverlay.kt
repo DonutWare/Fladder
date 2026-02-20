@@ -43,7 +43,6 @@ import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.leanBackEnabled
 import kotlin.time.Duration.Companion.milliseconds
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 internal fun BoxScope.SegmentSkipOverlay(
     modifier: Modifier = Modifier,
@@ -77,7 +76,10 @@ internal fun BoxScope.SegmentSkipOverlay(
     LaunchedEffect(activeSegment, position, skipMap) {
         if (skipMap.isEmpty()) return@LaunchedEffect
         if (activeSegment != null && currentSegmentId != null) {
-            if (skip == SegmentSkip.SKIP || (skip == SegmentSkip.SKIP_ONCE && !skippedSegments.contains(currentSegmentId)) ) {
+            if (skip == SegmentSkip.SKIP || (skip == SegmentSkip.SKIP_ONCE && !skippedSegments.contains(
+                    currentSegmentId
+                ))
+            ) {
                 skipSegment(activeSegment, currentSegmentId)
             }
         }

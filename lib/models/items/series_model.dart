@@ -10,8 +10,10 @@ import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/season_model.dart';
+import 'package:fladder/models/items/special_feature_model.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/screens/details_screens/series_detail_screen.dart';
+import 'package:fladder/l10n/generated/app_localizations.dart';
 
 part 'series_model.mapper.dart';
 
@@ -19,6 +21,8 @@ part 'series_model.mapper.dart';
 class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   final List<EpisodeModel>? availableEpisodes;
   final List<SeasonModel>? seasons;
+  final EpisodeModel? selectedEpisode;
+  final List<SpecialFeatureModel>? specialFeatures;
   final String originalTitle;
   final String sortName;
   final String status;
@@ -29,6 +33,8 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   const SeriesModel({
     this.availableEpisodes,
     this.seasons,
+    this.selectedEpisode,
+    this.specialFeatures,
     required this.originalTitle,
     required this.sortName,
     required this.status,
@@ -53,10 +59,10 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   EpisodeModel? get nextUp => availableEpisodes?.nextUp ?? availableEpisodes?.firstOrNull;
 
   @override
-  String detailedName(BuildContext context) => name;
+  String detailedName(AppLocalizations l10n) => name;
 
   @override
-  ItemBaseModel get parentBaseModel => this;
+  ItemBaseModel get parentBaseModel => copyWith(id: parentId ?? id);
 
   @override
   Widget get detailScreenWidget => SeriesDetailScreen(item: this);
@@ -82,20 +88,28 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   }
 
   @override
-  String? unplayedLabel(BuildContext context) => userData.played ? null : userData.unPlayedItemCount?.toString();
+  String? unplayedLabel(AppLocalizations l10n) => userData.played ? null : userData.unPlayedItemCount?.toString();
 
   @override
   bool get syncAble => true;
 
-  factory SeriesModel.fromBaseDto(dto.BaseItemDto item, Ref ref) => SeriesModel(
+  factory SeriesModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
+    if (ref == null) {
+      return SeriesModel(
         name: item.name ?? "",
         id: item.id ?? "",
         childCount: item.childCount,
-        overview: OverviewModel.fromBaseItemDto(item, ref),
+        overview: OverviewModel(
+          summary: item.overview ?? "",
+          yearAired: item.productionYear,
+          productionYear: item.productionYear,
+          dateAdded: item.dateCreated,
+          genres: item.genres ?? [],
+        ),
         userData: UserData.fromDto(item.userData),
         parentId: item.parentId,
         playlistId: item.playlistItemId,
-        images: ImagesData.fromBaseItem(item, ref),
+        images: null,
         primaryRatio: item.primaryImageAspectRatio,
         originalTitle: item.originalTitle ?? "",
         sortName: item.sortName ?? "",
@@ -106,4 +120,26 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
         seerrRecommended: const [],
         providerIds: item.providerIds,
       );
+    }
+
+    return SeriesModel(
+      name: item.name ?? "",
+      id: item.id ?? "",
+      childCount: item.childCount,
+      overview: OverviewModel.fromBaseItemDto(item, ref),
+      userData: UserData.fromDto(item.userData),
+      parentId: item.parentId,
+      playlistId: item.playlistItemId,
+      images: ImagesData.fromBaseItem(item, ref),
+      primaryRatio: item.primaryImageAspectRatio,
+      originalTitle: item.originalTitle ?? "",
+      sortName: item.sortName ?? "",
+      canDelete: item.canDelete,
+      canDownload: item.canDownload,
+      status: item.status ?? "Continuing",
+      seerrRelated: const [],
+      seerrRecommended: const [],
+      providerIds: item.providerIds,
+    );
+  }
 }

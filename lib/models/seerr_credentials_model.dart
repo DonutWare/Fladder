@@ -13,6 +13,7 @@ abstract class SeerrCredentialsModel with _$SeerrCredentialsModel {
     @Default("") String serverUrl,
     @Default("") String apiKey,
     @Default("") String sessionCookie,
+    @Default({}) Map<String, String> customHeaders,
   }) = _SeerrCredentialsModel;
 
   bool get isConfigured {

@@ -285,6 +285,9 @@
   "@homeBannerSlideshow": {},
   "homeBannerCarousel": "Carousel",
   "@homeBannerCarousel": {},
+  "homeBannerDetailed": "Detailed",
+  "@homeBannerDetailed": {},
+  "homeBannerTV": "TV",
   "identify": "Identify",
   "@identify": {},
   "immediately": "Immediately",
@@ -476,6 +479,16 @@
   "mediaTypeSeries": "{count, plural, one{Series} other{Series}}",
   "@mediaTypeSeries": {
     "description": "Series (plural, same singular/plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeTV": "{count, plural, one{TV Channel} other{TV Channels}}",
+  "@mediaTypeTV": {
+    "description": "TV Channel (plural)",
     "placeholders": {
       "count": {
         "type": "int",
@@ -932,6 +945,7 @@
   "@settingsVisual": {},
   "shadow": "Shadow",
   "@shadow": {},
+  "backgroundColor": "Background color",
   "showAlbum": "Show album",
   "@showAlbum": {},
   "showDetails": "Show details",
@@ -1384,6 +1398,7 @@
   "playbackTypeDirect": "Direct",
   "playbackTypeTranscode": "Transcode",
   "playbackTypeOffline": "Offline",
+  "playbackTypeTV": "TV",
   "latestReleases": "Latest releases",
   "autoCheckForUpdates": "Periodically check for updates",
   "newReleaseFoundTitle": "Update {newRelease} available!",
@@ -1495,10 +1510,23 @@
       }
     }
   },
+  "enableSpeedBoostTitle": "Enable speed boost",
+  "@enableSpeedBoostTitle": {},
+  "enableSpeedBoostDesc": "Hold screen (mobile) or spacebar (desktop) to temporarily increase playback speed",
+  "@enableSpeedBoostDesc": {},
+  "speedBoostRateTitle": "Speed boost rate",
+  "@speedBoostRateTitle": {},
+  "speedBoostRateDesc": "Playback speed when speed boost is activated",
+  "@speedBoostRateDesc": {},
+  "enableDoubleTapSeekTitle": "Double-tap to seek/play/pause",
+  "@enableDoubleTapSeekTitle": {},
+  "enableDoubleTapSeekDesc": "Double-tap left/right side of the screen to seek backward/forward. Double-tap center to play/pause",
+  "@enableDoubleTapSeekDesc": {},
   "quickConnectPostFailed": "Failed to get quick connect code",
   "quickConnectLoginUsingCode": "Using quick connect",
   "quickConnectEnterCodeDescription": "Enter the code below to login",
   "showMore": "Show more",
+  "showLess": "Show less",
   "itemColorsTitle": "Item colors",
   "itemColorsDesc": "Use item's primary color to theme the details page",
   "mediaTunnelingTitle": "Media tunneling",
@@ -2032,6 +2060,7 @@
   "@downloading": {},
   "request": "Request",
   "@request": {},
+  "requestMore": "Request more",
   "viewRequest": "View request",
   "@viewRequest": {},
   "email": "Email",
@@ -2116,6 +2145,12 @@
       }
     }
   },
+  "seerrCustomHeaders": "Custom headers",
+  "@seerrCustomHeaders": {},
+  "seerrHeader": "Header",
+  "@seerrHeader": {},
+  "seerrHeaderValue": "Value",
+  "@seerrHeaderValue": {},
   "emailUsername": "Email/Username",
   "@emailUsername": {},
   "discover": "Discover",
@@ -2180,5 +2215,265 @@
     }
   },
   "processing": "Processing",
-  "seerrDetails": "Seerr details"
+  "seerrDetails": "Seerr details",
+  "watch": "Watch",
+  "watchChannel": "Watch {channel}",
+  "@watchChannel": {
+    "placeholders": {
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "now": "Now",
+  "noPrograms": "No programs available",
+  "switchChannel": "Switch channel",
+  "switchChannelDesc": "Do you want to watch \"{programName}\" on {channelName}?",
+  "@switchChannelDesc": {
+    "placeholders": {
+      "programName": {
+        "type": "String"
+      },
+      "channelName": {
+        "type": "String"
+      }
+    }
+  },
+  "specialFeature": "{count, plural, other{Special Features} one{Special Feature} }",
+  "@specialFeature": {
+    "description": "special feature",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "activeTvChannels": "Active TV Channels",
+  "enableNewTVLayout": "Enable new TV layout",
+  "liveTV": "Live TV",
+  "@liveTV": {},
+  "liveTvManageTunersEpg": "Manage tuner devices and EPG providers",
+  "@liveTvManageTunersEpg": {},
+  "tunerDevices": "Tuner Devices",
+  "@tunerDevices": {},
+  "epgGuideProviders": "EPG Guide Providers",
+  "@epgGuideProviders": {},
+  "noTunerDevicesConfigured": "No tuner devices configured",
+  "@noTunerDevicesConfigured": {},
+  "noEpgProvidersConfigured": "No EPG providers configured",
+  "@noEpgProvidersConfigured": {},
+  "addTunerDevice": "Add Tuner Device",
+  "@addTunerDevice": {},
+  "addProvider": "Add Provider",
+  "@addProvider": {},
+  "tunerHostAddedSuccessfully": "Tuner host added successfully",
+  "@tunerHostAddedSuccessfully": {},
+  "failedToAddTunerHost": "Failed to add tuner host: {error}",
+  "@failedToAddTunerHost": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "tunerHostUpdatedSuccessfully": "Tuner host updated successfully",
+  "@tunerHostUpdatedSuccessfully": {},
+  "failedToUpdateTunerHost": "Failed to update tuner host: {error}",
+  "@failedToUpdateTunerHost": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteTunerHost": "Delete Tuner Host",
+  "@deleteTunerHost": {},
+  "deleteTunerHostConfirm": "Are you sure you want to delete \"{name}\"?",
+  "@deleteTunerHostConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "tunerHostDeletedSuccessfully": "Tuner host deleted successfully",
+  "@tunerHostDeletedSuccessfully": {},
+  "failedToDeleteTunerHost": "Failed to delete tuner host: {error}",
+  "@failedToDeleteTunerHost": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "epgProviderAddedSuccessfully": "EPG provider added successfully",
+  "@epgProviderAddedSuccessfully": {},
+  "failedToAddEpgProvider": "Failed to add EPG provider: {error}",
+  "@failedToAddEpgProvider": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "epgProviderUpdatedSuccessfully": "EPG provider updated successfully",
+  "@epgProviderUpdatedSuccessfully": {},
+  "failedToUpdateEpgProvider": "Failed to update EPG provider: {error}",
+  "@failedToUpdateEpgProvider": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteEpgProvider": "Delete EPG Provider",
+  "@deleteEpgProvider": {},
+  "deleteEpgProviderConfirm": "Are you sure you want to delete this provider?",
+  "@deleteEpgProviderConfirm": {},
+  "epgProviderDeletedSuccessfully": "EPG provider deleted successfully",
+  "@epgProviderDeletedSuccessfully": {},
+  "failedToDeleteEpgProvider": "Failed to delete EPG provider: {error}",
+  "@failedToDeleteEpgProvider": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "editTunerDevice": "Edit Tuner Device",
+  "@editTunerDevice": {},
+  "friendlyName": "Friendly Name",
+  "@friendlyName": {},
+  "url": "URL",
+  "@url": {},
+  "userAgent": "User Agent",
+  "@userAgent": {},
+  "userAgentOptional": "User Agent (optional)",
+  "@userAgentOptional": {},
+  "maxConcurrentStreams": "Max Concurrent Streams",
+  "@maxConcurrentStreams": {},
+  "addEpgProvider": "Add EPG Provider",
+  "@addEpgProvider": {},
+  "editEpgProvider": "Edit EPG Provider",
+  "@editEpgProvider": {},
+  "xmltvPathUrl": "XMLTV Path/URL",
+  "@xmltvPathUrl": {},
+  "enableAllTuners": "Enable for all tuners",
+  "@enableAllTuners": {},
+  "enabledTuners": "Enabled tuners",
+  "@enabledTuners": {},
+  "selectTuners": "Select tuners",
+  "@selectTuners": {},
+  "moviePrefix": "Movie prefix",
+  "@moviePrefix": {},
+  "movieCategories": "Movie categories",
+  "@movieCategories": {},
+  "newsCategories": "News categories",
+  "@newsCategories": {},
+  "sportsCategories": "Sports categories",
+  "@sportsCategories": {},
+  "kidsCategories": "Kids categories",
+  "@kidsCategories": {},
+  "fileOrUrl": "File or URL",
+  "@fileOrUrl": {},
+  "tunerIpAddress": "Tuner IP Address",
+  "@tunerIpAddress": {},
+  "fallbackMaxBitrate": "Maximum Fallback Bitrate (Mbps)",
+  "@fallbackMaxBitrate": {},
+  "concurrentStreams": "Max Concurrent Streams",
+  "@concurrentStreams": {},
+  "concurrentStreamsHint": "0 = Unlimited",
+  "@concurrentStreamsHint": {},
+  "allowFmp4Container": "Allow fMP4 transcoding container",
+  "@allowFmp4Container": {},
+  "allowStreamSharing": "Allow stream sharing",
+  "@allowStreamSharing": {},
+  "enableStreamLooping": "Enable stream looping",
+  "@enableStreamLooping": {},
+  "ignoreDts": "Ignore DTS timestamps",
+  "@ignoreDts": {},
+  "readAtNativeFramerate": "Read at native framerate",
+  "@readAtNativeFramerate": {},
+  "importFavoritesOnly": "Import only favorite channels",
+  "@importFavoritesOnly": {},
+  "allowHWTranscoding": "Allow hardware transcoding",
+  "@allowHWTranscoding": {},
+  "detectDevices": "Detect Devices",
+  "@detectDevices": {},
+  "discoveredDevices": "Discovered Devices",
+  "@discoveredDevices": {},
+  "noDevicesFound": "No devices found",
+  "@noDevicesFound": {},
+  "failedToDiscoverDevices": "Failed to discover devices: {error}",
+  "@failedToDiscoverDevices": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "path": "Path",
+  "@path": {},
+  "maxConcurrentStreamsLabel": "Max Concurrent Streams",
+  "@maxConcurrentStreamsLabel": {},
+  "noCategories": "No categories",
+  "moviePrefixSubLabel": "If a prefix is ​​applied to movie titles, type it here so the server can process it properly.",
+  "movieCategoriesSubLabel": "Categories to assign to channels matching the movie prefix",
+  "newsCategoriesSubLabel": "Categories to assign to channels matching the news prefix",
+  "sportsCategoriesSubLabel": "Categories to assign to channels matching the sports prefix",
+  "kidsCategoriesSubLabel": "Categories to assign to channels matching the kids prefix",
+  "enableNewTVLayoutDesc": "Show larger TV style banners on the dashboard. This will become the default layout in a future release.",
+  "notifications": "Notifications",
+  "showNewItemNotificationTitle": "Notifications for library items",
+  "notificationChannelDescription": "Notifications for newly added items",
+  "@notificationChannelDescription": {},
+  "seerrRequestNotifications": "Notifications for Seerr requests",
+  "@seerrRequestNotifications": {},
+  "notificationNewEpisodes": "New episodes added",
+  "@notificationNewEpisodes": {},
+  "notificationNewItems": "{count, plural, one{{count} new item} other{{count} new items}}",
+  "@notificationNewItems": {
+    "description": "Plural for number of new items in a notification",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationNewRequests": "{count, plural, one{{count} new request} other{{count} new requests}}",
+  "@notificationNewRequests": {
+    "description": "Plural for number of new Seerr requests in a notification",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationTimerIOSWarning": " iOS decides when/if updates actually run, notifications may be delayed or not show up at all.",
+  "batteryOptimizationDesc": "Battery optimizations may delay background notifications for Fladder.\nTap to open system settings and disable optimizations for Fladder to improve notification reliability.",
+  "@batteryOptimizationDesc": {},
+  "updateCheckInterval": "Update check interval",
+  "updateCheckIntervalDesc": "How often the background task runs",
+  "notificationsIntervalClientReminder": "Notification interval is set for all users.",
+  "lastUpdateAt": "Last updated on {date} at {time}",
+  "@lastUpdateAt": {
+    "description": "lastUpdateAt",
+    "placeholders": {
+      "time": {
+        "type": "DateTime",
+        "format": "jm"
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
+  "includeHiddenItems": "Include hidden libraries",
+  "includeHiddenItemsDesc": "Include libraries hidden from the dashboard",
+  "settingsBlurEffectsTitle": "Enable blur effects",
+  "settingsBlurEffectsDesc": "Enable blur effects in the UI. Disabling this can improve performance on lower-end devices.",
+  "profileSettingsOpenAuthAtLaunch": "Show auth-method on app lock",
+  "toggleSidebar": "Toggle sidebar"
 }

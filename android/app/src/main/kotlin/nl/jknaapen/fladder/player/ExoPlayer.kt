@@ -45,6 +45,8 @@ import androidx.media3.ui.PlayerView
 import io.github.peerless2012.ass.media.kt.buildWithAssSupport
 import io.github.peerless2012.ass.media.type.AssRenderType
 import kotlinx.coroutines.delay
+
+import nl.jknaapen.fladder.composables.overlays.guide.GuideOverlay
 import nl.jknaapen.fladder.composables.overlays.NextUpOverlay
 import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
@@ -157,7 +159,6 @@ internal fun ExoPlayer(
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {
-
                 videoHost.setPlaybackState(
                     PlaybackState(
                         position = exoPlayer.currentPosition,
@@ -181,22 +182,22 @@ internal fun ExoPlayer(
                 val subTracks = exoPlayer.getSubtitleTracks()
                 val audioTracks = exoPlayer.getAudioTracks()
 
+                val subsInitialized = VideoPlayerObject.implementation.subsInitialized
+
                 if (subTracks.isEmpty() && audioTracks.isEmpty()) return
 
-                if (subTracks != VideoPlayerObject.exoSubTracks.value || audioTracks != VideoPlayerObject.exoAudioTracks.value) {
+                if (!subsInitialized) {
+                    VideoPlayerObject.implementation.subsInitialized = true
                     val playbackData = VideoPlayerObject.implementation.playbackData.value
-                    if (playbackData != null) {
-                        exoPlayer.properlySetSubAndAudioTracks(playbackData)
-                    } else {
-                        Handler(Looper.getMainLooper()).postDelayed(delayInMillis = 1.seconds.inWholeMilliseconds) {
-                            VideoPlayerObject.implementation.playbackData.value?.let {
-                                exoPlayer.properlySetSubAndAudioTracks(it)
-                            }
+                    Handler(Looper.getMainLooper()).postDelayed(delayInMillis = 1.seconds.inWholeMilliseconds) {
+                        playbackData?.let {
+                            exoPlayer.properlySetSubAndAudioTracks(it)
                         }
+                        VideoPlayerObject.exoSubTracks.value = subTracks
+                        VideoPlayerObject.exoAudioTracks.value = audioTracks
                     }
-                    VideoPlayerObject.exoSubTracks.value = subTracks
-                    VideoPlayerObject.exoAudioTracks.value = audioTracks
                 }
+
             }
         }
         exoPlayer.addListener(listener)
@@ -218,49 +219,93 @@ internal fun ExoPlayer(
     val fillScreen by PlayerSettingsObject.fillScreen.collectAsState(false)
     val videoFit by PlayerSettingsObject.videoFit.collectAsState(AspectRatioFrameLayout.RESIZE_MODE_FIT)
 
+    val isTVPlayback by VideoPlayerObject.implementation.isTVMode.collectAsState(false)
+    val nativeSubtitleSettings by PlayerSettingsObject.subtitleSettings.collectAsState(null)
+
+    @Composable
+    fun createPlayer(showControls: Boolean) {
+        AndroidView(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.Black)
+                .conditional(!fillScreen) {
+                    displayCutoutPadding()
+                },
+            factory = {
+                PlayerView(it).apply {
+                    player = exoPlayer
+                    useController = false
+                    resizeMode = videoFit
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                    )
+                    keepScreenOn = false
+                    subtitleView?.apply {
+                        setStyle(
+                            CaptionStyleCompat(
+                                android.graphics.Color.WHITE,
+                                android.graphics.Color.TRANSPARENT,
+                                android.graphics.Color.TRANSPARENT,
+                                CaptionStyleCompat.EDGE_TYPE_OUTLINE,
+                                android.graphics.Color.BLACK,
+                                null
+                            )
+                        )
+                    }
+                }
+            },
+            update = { view ->
+                nativeSubtitleSettings?.let { subtitleSettings ->
+                    view.subtitleView?.apply {
+                        setApplyEmbeddedFontSizes(false)
+
+                        val frac =
+                            (subtitleSettings.fontSize / 1080.0).toFloat().coerceIn(0.01f, 1f)
+                        setFractionalTextSize(frac)
+
+                        setBottomPaddingFraction(
+                            subtitleSettings.verticalOffset.toFloat().coerceIn(0f, 0.5f)
+                        )
+
+                        setStyle(
+                            CaptionStyleCompat(
+                                subtitleSettings.color.toInt(),
+                                subtitleSettings.backgroundColor.toInt(),
+                                android.graphics.Color.TRANSPARENT,
+                                CaptionStyleCompat.EDGE_TYPE_OUTLINE,
+                                subtitleSettings.outlineColor.toInt(),
+                                if (subtitleSettings.fontWeight >= 700) android.graphics.Typeface.DEFAULT_BOLD else android.graphics.Typeface.DEFAULT
+                            )
+                        )
+                    }
+                }
+            },
+        )
+        if (showControls)
+            CompositionLocalProvider(LocalPlayer provides exoPlayer) {
+                controls(exoPlayer)
+            }
+    }
+
     AllowedOrientations(
         acceptedOrientations
     ) {
-        NextUpOverlay(
-            modifier = Modifier
-                .fillMaxSize()
-        ) { showControls ->
-            AndroidView(
+        when (isTVPlayback) {
+            true -> GuideOverlay(
+                modifier = Modifier.fillMaxSize(),
+                overlay = {
+                    createPlayer(showControls = it)
+                }
+            )
+
+            false -> NextUpOverlay(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = Color.Black)
-                    .conditional(!fillScreen) {
-                        displayCutoutPadding()
-                    },
-                factory = {
-                    PlayerView(it).apply {
-                        player = exoPlayer
-                        useController = false
-                        resizeMode = videoFit
-                        layoutParams = ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                        )
-                        keepScreenOn = false
-                        subtitleView?.apply {
-                            setStyle(
-                                CaptionStyleCompat(
-                                    android.graphics.Color.WHITE,
-                                    android.graphics.Color.TRANSPARENT,
-                                    android.graphics.Color.TRANSPARENT,
-                                    CaptionStyleCompat.EDGE_TYPE_OUTLINE,
-                                    android.graphics.Color.BLACK,
-                                    null
-                                )
-                            )
-                        }
-                    }
+                    .fillMaxSize(),
+                overlay = {
+                    createPlayer(showControls = it)
                 },
             )
-            if (showControls)
-                CompositionLocalProvider(LocalPlayer provides exoPlayer) {
-                    controls(exoPlayer)
-                }
         }
     }
 }

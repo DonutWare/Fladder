@@ -7,7 +7,7 @@
   <br>
 </h1>
 
-<h4 align="center">A Simple Jellyfin Frontend built on top of <a href="https://flutter.dev/" target="_blank">Flutter</a>.</h4>
+<h4 align="center">A cross-platform Jellyfin Frontend built on top of <a href="https://flutter.dev/" target="_blank">Flutter</a>.</h4>
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
@@ -45,6 +45,8 @@
 * Keyboard shortcuts
 * Adaptive layout for all platforms
 * Next-up overview when watching a queue
+* Server management
+* Seerr/Jellyseerr integration
 * Platforms
   - Android + TV
   - Web + Docker
@@ -101,7 +103,7 @@ Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 ## Planned Features
 
 * Music playback
-* And more???
+* [And more???](https://github.com/DonutWare/Fladder/discussions/categories/ideas)
 
 ## Download
 

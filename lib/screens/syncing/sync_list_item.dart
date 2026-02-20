@@ -51,7 +51,7 @@ class SyncListItem extends ConsumerWidget {
           confirmDismiss: (direction) async {
             await showDefaultAlertDialog(
                 context,
-                context.localized.deleteItem(baseItem?.detailedName(context) ?? ""),
+                context.localized.deleteItem(baseItem?.detailedName(context.localized) ?? ""),
                 context.localized.syncDeletePopupPermanent,
                 (context) async {
                   ref.read(syncProvider.notifier).removeSync(context, syncedItem);
@@ -107,7 +107,7 @@ class SyncListItem extends ConsumerWidget {
                                   Flexible(
                                     child: IgnorePointer(
                                       child: Text(
-                                        baseItem?.detailedName(context) ?? "",
+                                        baseItem?.detailedName(context.localized) ?? "",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: Theme.of(context).textTheme.titleMedium,

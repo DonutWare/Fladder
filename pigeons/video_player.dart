@@ -31,6 +31,7 @@ enum PlaybackType {
   direct,
   transcoded,
   offline,
+  tv,
 }
 
 class MediaInfo {
@@ -188,6 +189,9 @@ abstract class VideoPlayerApi {
   bool sendPlayableModel(PlayableData playableData);
 
   @async
+  bool sendTVGuideModel(TVGuideModel guide);
+
+  @async
   bool open(String url, bool play);
 
   void setLooping(bool looping);
@@ -207,6 +211,8 @@ abstract class VideoPlayerApi {
   void seekTo(int position);
 
   void stop();
+
+  void setSubtitleSettings(SubtitleSettings settings);
 }
 
 class PlaybackState {
@@ -232,6 +238,80 @@ class PlaybackState {
   });
 }
 
+class SubtitleSettings {
+  final double fontSize;
+  final int fontWeight;
+  final double verticalOffset;
+  final int color;
+  final int outlineColor;
+  final double outlineSize;
+  final int backgroundColor;
+  final double shadow;
+
+  const SubtitleSettings({
+    required this.fontSize,
+    required this.fontWeight,
+    required this.verticalOffset,
+    required this.color,
+    required this.outlineColor,
+    required this.outlineSize,
+    required this.backgroundColor,
+    required this.shadow,
+  });
+}
+
+class TVGuideModel {
+  final List<GuideChannel> channels;
+  final int startMs;
+  final int endMs;
+  final GuideProgram? currentProgram;
+
+  const TVGuideModel({
+    this.channels = const [],
+    required this.startMs,
+    required this.endMs,
+    required this.currentProgram,
+  });
+}
+
+class GuideChannel {
+  final String channelId;
+  final String name;
+  final String? logoUrl;
+  final List<GuideProgram> programs;
+  final bool programsLoaded;
+
+  const GuideChannel({
+    required this.channelId,
+    required this.name,
+    this.logoUrl,
+    this.programs = const [],
+    required this.programsLoaded,
+  });
+}
+
+class GuideProgram {
+  final String id;
+  final String channelId;
+  final String name;
+  final int startMs;
+  final int endMs;
+  final String? primaryPoster;
+  final String? overview;
+  final String? subTitle;
+
+  const GuideProgram({
+    required this.id,
+    required this.channelId,
+    required this.name,
+    required this.startMs,
+    required this.endMs,
+    this.primaryPoster,
+    this.overview,
+    this.subTitle,
+  });
+}
+
 @FlutterApi()
 abstract class VideoPlayerListenerCallback {
   void onPlaybackStateChanged(PlaybackState state);
@@ -244,4 +324,7 @@ abstract class VideoPlayerControlsCallback {
   void onStop();
   void swapSubtitleTrack(int value);
   void swapAudioTrack(int value);
+  void loadProgram(GuideChannel selection);
+  @async
+  List<GuideProgram> fetchProgramsForChannel(String channelId);
 }

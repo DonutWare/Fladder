@@ -14,11 +14,13 @@ import 'package:fladder/util/sticky_header_text.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
+import 'package:fladder/widgets/shared/focus_row.dart';
 
 class HorizontalList<T> extends ConsumerStatefulWidget {
   final bool autoFocus;
   final String? label;
   final List<Widget> titleActions;
+  final VerticalDirection? titleActionsPosition;
   final Function()? onLabelClick;
   final String? subtext;
   final List<T> items;
@@ -30,6 +32,9 @@ class HorizontalList<T> extends ConsumerStatefulWidget {
   final double? dominantRatio;
   final double? height;
   final bool shrinkWrap;
+  final double Function(int index)? itemWidthBuilder;
+  final ValueChanged<bool>? onFocusChange;
+
   const HorizontalList({
     this.autoFocus = false,
     required this.items,
@@ -39,12 +44,15 @@ class HorizontalList<T> extends ConsumerStatefulWidget {
     this.height,
     this.label,
     this.titleActions = const [],
+    this.titleActionsPosition = VerticalDirection.up,
     this.onLabelClick,
     this.scrollToEnd = false,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 16),
     this.subtext,
     this.shrinkWrap = false,
     this.dominantRatio,
+    this.itemWidthBuilder,
+    this.onFocusChange,
     super.key,
   });
 
@@ -72,6 +80,16 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
   }
 
   @override
+  void didUpdateWidget(covariant HorizontalList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.height != widget.height) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _measureFirstItem();
+      });
+    }
+  }
+
+  @override
   void dispose() {
     _scrollAnimation?.dispose();
     super.dispose();
@@ -95,16 +113,50 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
     });
   }
 
-  Future<void> _scrollToPosition(int index) async {
+  final Duration scrollMinDuration = const Duration(milliseconds: 75);
+  final Duration scrollMaxDuration = const Duration(milliseconds: 275);
+
+  Duration _durationForInterval(int? intervalMillis) {
+    if (intervalMillis == null) return scrollMaxDuration;
+
+    const minInterval = 50;
+    const maxInterval = 300;
+
+    final clamped = intervalMillis.clamp(minInterval, maxInterval);
+    final t = (clamped - minInterval) / (maxInterval - minInterval);
+    final minMs = scrollMinDuration.inMilliseconds;
+    final maxMs = scrollMaxDuration.inMilliseconds;
+    final ms = (minMs + t * (maxMs - minMs)).round();
+    return Duration(milliseconds: ms);
+  }
+
+  double _cumulativeOffset(int index) {
+    final widthBuilder = widget.itemWidthBuilder;
+    if (widthBuilder == null) {
+      return index * ((_firstItemWidth ?? 0) + contentPadding);
+    }
+    double offset = 0;
+    for (var i = 0; i < index; i++) {
+      offset += widthBuilder(i) + contentPadding;
+    }
+    return offset;
+  }
+
+  Future<void> _scrollToPosition(int index, {Duration? duration, bool instant = false}) async {
     if (_firstItemWidth == null || !_scrollController.hasClients) return;
 
-    final target = (index * (_firstItemWidth! + contentPadding)).clamp(0, _scrollController.position.maxScrollExtent);
+    final target = _cumulativeOffset(index).clamp(0, _scrollController.position.maxScrollExtent);
 
     _scrollAnimation?.stop();
 
+    if (instant) {
+      if (_scrollController.hasClients) _scrollController.jumpTo(target.toDouble());
+      return;
+    }
+
     final controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 275),
+      duration: duration ?? scrollMaxDuration,
     );
 
     _scrollAnimation = controller;
@@ -151,104 +203,144 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
   @override
   Widget build(BuildContext context) {
     final hasPointer = AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: widget.contentPadding,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
+    final titleBarWidget = Padding(
+      padding: widget.contentPadding,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Flexible(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (widget.label != null)
+                  Flexible(
+                    child: ExcludeFocus(
+                      child: StickyHeaderText(
+                        label: widget.label ?? "",
+                        onClick: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? null : widget.onLabelClick,
+                      ),
+                    ),
+                  ),
+                if (widget.subtext != null)
+                  Flexible(
+                    child: ExcludeFocus(
+                      child: Text(
+                        widget.subtext!,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                            ),
+                      ),
+                    ),
+                  ),
+                ...widget.titleActions
+              ],
+            ),
+          ),
+          if (widget.items.length > 1)
+            ExcludeFocus(
+              child: Card(
+                elevation: 5,
+                color: Theme.of(context).colorScheme.surface,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (widget.label != null)
-                      Flexible(
-                        child: ExcludeFocus(
-                          child: StickyHeaderText(
-                            label: widget.label ?? "",
-                            onClick:
-                                AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? null : widget.onLabelClick,
-                          ),
-                        ),
+                    if (hasPointer)
+                      GestureDetector(
+                        onLongPress: () => _scrollToStart(),
+                        child: IconButton(
+                            onPressed: () {
+                              _scrollController.animateTo(
+                                  _scrollController.offset + -(MediaQuery.of(context).size.width / 1.75),
+                                  duration: const Duration(milliseconds: 250),
+                                  curve: Curves.easeInOut);
+                            },
+                            icon: const Icon(
+                              IconsaxPlusLinear.arrow_left_1,
+                              size: 20,
+                            )),
                       ),
-                    if (widget.subtext != null)
-                      Flexible(
-                        child: ExcludeFocus(
-                          child: Text(
-                            widget.subtext!,
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
-                                ),
-                          ),
-                        ),
+                    if (widget.startIndex != null)
+                      IconButton(
+                          tooltip: "Scroll to current",
+                          onPressed: () => _scrollToPosition(widget.startIndex!),
+                          icon: const Icon(
+                            Icons.circle,
+                            size: 16,
+                          )),
+                    if (hasPointer)
+                      GestureDetector(
+                        onLongPress: () => _scrollToEnd(),
+                        child: IconButton(
+                            onPressed: () {
+                              _scrollController.animateTo(
+                                  _scrollController.offset + (MediaQuery.of(context).size.width / 1.75),
+                                  duration: const Duration(milliseconds: 250),
+                                  curve: Curves.easeInOut);
+                            },
+                            icon: const Icon(
+                              IconsaxPlusLinear.arrow_right_3,
+                              size: 20,
+                            )),
                       ),
-                    ...widget.titleActions
                   ],
                 ),
               ),
-              if (widget.items.length > 1)
-                ExcludeFocus(
-                  child: Card(
-                    elevation: 5,
-                    color: Theme.of(context).colorScheme.surface,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        if (hasPointer)
-                          GestureDetector(
-                            onLongPress: () => _scrollToStart(),
-                            child: IconButton(
-                                onPressed: () {
-                                  _scrollController.animateTo(
-                                      _scrollController.offset + -(MediaQuery.of(context).size.width / 1.75),
-                                      duration: const Duration(milliseconds: 250),
-                                      curve: Curves.easeInOut);
-                                },
-                                icon: const Icon(
-                                  IconsaxPlusLinear.arrow_left_1,
-                                  size: 20,
-                                )),
-                          ),
-                        if (widget.startIndex != null)
-                          IconButton(
-                              tooltip: "Scroll to current",
-                              onPressed: () => _scrollToPosition(widget.startIndex!),
-                              icon: const Icon(
-                                Icons.circle,
-                                size: 16,
-                              )),
-                        if (hasPointer)
-                          GestureDetector(
-                            onLongPress: () => _scrollToEnd(),
-                            child: IconButton(
-                                onPressed: () {
-                                  _scrollController.animateTo(
-                                      _scrollController.offset + (MediaQuery.of(context).size.width / 1.75),
-                                      duration: const Duration(milliseconds: 250),
-                                      curve: Curves.easeInOut);
-                                },
-                                icon: const Icon(
-                                  IconsaxPlusLinear.arrow_right_3,
-                                  size: 20,
-                                )),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-            ].addPadding(const EdgeInsets.symmetric(horizontal: 6)),
-          ),
-        ),
-        const SizedBox(height: 8),
-        Focus(
-          focusNode: parentNode,
-          onFocusChange: (value) {
-            if (value && hasFocus != value) {
-              hasFocus = value;
+            ),
+        ].addPadding(const EdgeInsets.symmetric(horizontal: 6)),
+      ),
+    );
+    final hasLabel = widget.label != null || widget.titleActions.isNotEmpty;
+    return RepaintBoundary(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 8,
+        children: [
+          if (hasLabel && widget.titleActionsPosition == VerticalDirection.up) titleBarWidget,
+          FocusRow(
+            focusNode: parentNode,
+            traversalPolicy: HorizontalRailFocus(
+              parentNode: parentNode,
+              scrollController: _scrollController,
+              firstItemWidth: _firstItemWidth ?? 250,
+              onFocused: (node, {int? intervalMillis}) {
+                lastFocused = node;
+                final correctIndex = _getCorrectIndexForNode(node);
+                if (correctIndex != -1) {
+                  widget.onFocused?.call(correctIndex);
+                  final duration = _durationForInterval(intervalMillis);
+                  _scrollToPosition(correctIndex, duration: duration);
+                }
+              },
+            ),
+            onFocusChange: (value) {
+              widget.onFocusChange?.call(value);
+              if (value && hasFocus != value) {
+                hasFocus = value;
+                final nodesOnSameRow = _nodesInRow(parentNode);
+                final currentNode = nodesOnSameRow.contains(lastFocused)
+                    ? lastFocused
+                    : _firstFullyVisibleNode(context, nodesOnSameRow);
+
+                if (currentNode != null) {
+                  lastFocused = currentNode;
+                  final correctIndex = _getCorrectIndexForNode(currentNode);
+
+                  if (widget.onFocused != null) {
+                    if (correctIndex != -1) {
+                      widget.onFocused!(correctIndex);
+                    }
+                  } else {
+                    context.ensureVisible();
+                  }
+                  currentNode.requestFocus();
+                }
+              } else {
+                hasFocus = false;
+              }
+            },
+            onGroupFocused: (groupNode) {
               final nodesOnSameRow = _nodesInRow(parentNode);
               final currentNode =
                   nodesOnSameRow.contains(lastFocused) ? lastFocused : _firstFullyVisibleNode(context, nodesOnSameRow);
@@ -256,47 +348,27 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
               if (currentNode != null) {
                 lastFocused = currentNode;
                 final correctIndex = _getCorrectIndexForNode(currentNode);
-
                 if (widget.onFocused != null) {
-                  if (correctIndex != -1) {
-                    widget.onFocused!(correctIndex);
-                  }
+                  if (correctIndex != -1) widget.onFocused!(correctIndex);
                 } else {
                   context.ensureVisible();
                 }
                 currentNode.requestFocus();
               }
-            } else {
-              hasFocus = false;
-            }
-          },
-          child: SizedBox(
-            height: widget.height ??
-                ((AdaptiveLayout.poster(context).size *
-                            ref.watch(clientSettingsProvider.select((value) => value.posterSize))) /
-                        math.pow((widget.dominantRatio ?? 1.0), 0.55)) *
-                    0.72,
-            child: FocusTraversalGroup(
-              policy: HorizontalRailFocus(
-                parentNode: parentNode,
-                scrollController: _scrollController,
-                firstItemWidth: _firstItemWidth ?? 250,
-                onFocused: (node) {
-                  lastFocused = node;
-                  final correctIndex = _getCorrectIndexForNode(node);
-                  if (correctIndex != -1) {
-                    widget.onFocused?.call(correctIndex);
-                    _scrollToPosition(correctIndex);
-                  }
-                },
-              ),
+            },
+            child: SizedBox(
+              height: widget.height ??
+                  ((AdaptiveLayout.poster(context).size *
+                              ref.watch(clientSettingsProvider.select((value) => value.posterSize))) /
+                          math.pow((widget.dominantRatio ?? 1.0), 0.55)) *
+                      0.72,
               child: ListView.separated(
                 key: _listViewKey,
                 controller: _scrollController,
                 clipBehavior: Clip.none,
                 scrollDirection: Axis.horizontal,
                 padding: widget.contentPadding,
-                cacheExtent: _firstItemWidth ?? 250 * 3,
+                cacheExtent: _firstItemWidth ?? 250,
                 itemBuilder: (context, index) => index == widget.items.length
                     ? PosterPlaceHolder(
                         onTap: widget.onLabelClick ?? () {},
@@ -313,8 +385,9 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
               ),
             ),
           ),
-        ),
-      ],
+          if (hasLabel && widget.titleActionsPosition == VerticalDirection.down) titleBarWidget,
+        ],
+      ),
     );
   }
 
@@ -329,10 +402,19 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
     if (scrollableBox == null || itemBox == null) return -1;
 
     final dx = itemBox.localToGlobal(Offset.zero, ancestor: scrollableBox).dx;
-
-    final totalItemWidth = _firstItemWidth! + contentPadding;
     final offset = dx + _scrollController.offset - widget.contentPadding.left;
 
+    if (widget.itemWidthBuilder != null) {
+      double cumulative = 0;
+      for (var i = 0; i < widget.items.length; i++) {
+        final w = widget.itemWidthBuilder!(i);
+        if (offset < cumulative + w + contentPadding / 2) return i;
+        cumulative += w + contentPadding;
+      }
+      return widget.items.length - 1;
+    }
+
+    final totalItemWidth = _firstItemWidth! + contentPadding;
     final index = ((offset + totalItemWidth / 2) ~/ totalItemWidth).clamp(0, widget.items.length - 1);
 
     return index;
@@ -379,9 +461,11 @@ List<FocusNode> _nodesInRow(FocusNode parentNode) {
 
 class HorizontalRailFocus extends WidgetOrderTraversalPolicy {
   final FocusNode parentNode;
-  final void Function(FocusNode node) onFocused;
+  final void Function(FocusNode node, {int? intervalMillis}) onFocused;
   final ScrollController scrollController;
   final double firstItemWidth;
+  static DateTime? _lastMoveTime;
+  static TraversalDirection? _lastDirection;
 
   HorizontalRailFocus({
     required this.parentNode,
@@ -397,28 +481,45 @@ class HorizontalRailFocus extends WidgetOrderTraversalPolicy {
     if (index == -1) return false;
 
     if (direction == TraversalDirection.left) {
-      final shouldAllowNavBarFocus =
-          scrollController.hasClients && (scrollController.offset <= firstItemWidth * 0.5) && (index == 0);
+      if (index == 0) {
+        if (scrollController.hasClients && scrollController.offset > firstItemWidth * 0.5) {
+          if (scrollController.hasClients) scrollController.jumpTo(0);
+          return true;
+        }
 
-      if (shouldAllowNavBarFocus) {
         lastMainFocus = currentNode;
-        navBarNode.requestFocus();
-        return true;
+        if (navBarNode.canRequestFocus && navBarNode.context?.mounted == true) {
+          navBarNode.requestFocus();
+          return true;
+        }
+        return false;
       }
 
-      if (index > 0) {
-        final target = rowNodes[index - 1];
-        target.requestFocus();
-        onFocused(target);
-      }
+      final target = rowNodes[index - 1];
+      final now = DateTime.now();
+      final interval = _lastMoveTime == null || _lastDirection != TraversalDirection.left
+          ? null
+          : now.difference(_lastMoveTime!).inMilliseconds;
+      _lastMoveTime = now;
+      _lastDirection = TraversalDirection.left;
+
+      target.requestFocus();
+      onFocused(target, intervalMillis: interval);
       return true;
     }
 
     if (direction == TraversalDirection.right) {
       if (index < rowNodes.length - 1) {
         final target = rowNodes[index + 1];
+        final now = DateTime.now();
+        final interval = _lastMoveTime == null || _lastDirection != TraversalDirection.right
+            ? null
+            : now.difference(_lastMoveTime!).inMilliseconds;
+        _lastMoveTime = now;
+        _lastDirection = TraversalDirection.right;
+
         target.requestFocus();
-        onFocused(target);
+        onFocused(target, intervalMillis: interval);
       }
       return true;
     }

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
+import 'package:fladder/models/api_result.dart';
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/login_screen_model.dart';
 import 'package:fladder/providers/api_provider.dart';
@@ -19,7 +20,7 @@ import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -34,10 +35,9 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
 
   late final JellyService api = ref.read(jellyApiProvider);
 
-  BuildContext? context;
+  BuildContext? get localContext => ref.read(localizationContextProvider);
 
-  Future<void> initModel(BuildContext newContext) async {
-    context ??= newContext;
+  Future<void> initModel() async {
     ref.read(userProvider.notifier).clear();
     final currentAccounts = ref.read(authProvider.notifier).getSavedAccounts();
     ref.read(lockScreenActiveProvider.notifier).update((state) => true);
@@ -88,12 +88,10 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       setTempSeerrUrl(seerrUrl);
     } catch (e) {
       state = state.copyWith(
-        errorMessage: context?.localized.invalidUrl,
+        errorMessage: localContext?.localized.invalidUrl,
         loading: false,
       );
-      if (context != null) {
-        fladderSnackbar(context!, title: context!.localized.unableToConnectHost);
-      }
+      FladderSnack.show(localContext?.localized.unableToConnectHost ?? "");
     }
   }
 
@@ -120,10 +118,10 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     }
   }
 
-  Future<Response<AccountModel>?> authenticateUsingSecret(String secret) async {
+  Future<ApiResult<AccountModel>> authenticateUsingSecret(String secret) async {
     clearAllProviders();
     var response = await api.quickConnectAuthenticate(secret);
-    return _createAccountModel(response);
+    return _createAccountModel(response).apiResult;
   }
 
   Future<Response<AccountModel>?> authenticateByName(String userName, String password) async {
@@ -132,9 +130,9 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     return _createAccountModel(response);
   }
 
-  Future<Response<AccountModel>?> _createAccountModel(Response<AuthenticationResult> response) async {
+  Future<Response<AccountModel>> _createAccountModel(Response<AuthenticationResult> response) async {
     CredentialsModel? credentials = state.serverLoginModel?.tempCredentials;
-    if (credentials == null) return null;
+    if (credentials == null) return Response(response.base, null);
     if (response.isSuccessful && (response.body?.accessToken?.isNotEmpty ?? false)) {
       var serverResponse = await api.systemInfoPublicGet();
       credentials = credentials.copyWith(

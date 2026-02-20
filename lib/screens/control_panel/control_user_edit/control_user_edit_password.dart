@@ -6,7 +6,7 @@ import 'package:fladder/providers/control_panel/control_users_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
@@ -72,14 +72,14 @@ class _ControlUserEditPasswordState extends ConsumerState<ControlUserEditPasswor
                   onPressed: () async {
                     final success = await ref.read(controlUsersProvider.notifier).resetUserPassword();
                     if (success) {
-                      fladderSnackbar(
-                        context,
-                        title: context.localized.passwordResetSuccess,
+                      FladderSnack.show(
+                        context.localized.passwordResetSuccess,
+                        context: context,
                       );
                     } else {
-                      fladderSnackbar(
-                        context,
-                        title: context.localized.passwordResetFailed,
+                      FladderSnack.show(
+                        context.localized.passwordResetFailed,
+                        context: context,
                       );
                     }
                     await context.refreshData();
@@ -89,9 +89,9 @@ class _ControlUserEditPasswordState extends ConsumerState<ControlUserEditPasswor
                 FilledButtonAwait(
                   onPressed: () async {
                     if (newPasswordController.text != confirmPasswordController.text) {
-                      fladderSnackbar(
-                        context,
-                        title: context.localized.passwordMismatch,
+                      FladderSnack.show(
+                        context.localized.passwordMismatch,
+                        context: context,
                       );
                       return;
                     }
@@ -102,17 +102,17 @@ class _ControlUserEditPasswordState extends ConsumerState<ControlUserEditPasswor
                           confirmPassword: confirmPasswordController.text,
                         );
                     if (responseMessage == null) {
-                      fladderSnackbar(
-                        context,
-                        title: context.localized.passwordChangeSuccess,
+                      FladderSnack.show(
+                        context.localized.passwordChangeSuccess,
+                        context: context,
                       );
                       currentPasswordController.clear();
                       newPasswordController.clear();
                       confirmPasswordController.clear();
                     } else {
-                      fladderSnackbar(
-                        context,
-                        title: responseMessage,
+                      FladderSnack.show(
+                        responseMessage,
+                        context: context,
                       );
                     }
                     await context.refreshData();

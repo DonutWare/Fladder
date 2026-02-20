@@ -30,6 +30,8 @@ class FavouritesScreen extends ConsumerWidget {
     final favourites = ref.watch(favouritesProvider);
     final padding = AdaptiveLayout.adaptivePadding(context);
 
+    final useTVExpandedLayout = ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout));
+
     return PullToRefresh(
       onRefresh: () async => await ref.read(favouritesProvider.notifier).fetchFavourites(),
       child: (context) => NestedScaffold(
@@ -59,6 +61,7 @@ class FavouritesScreen extends ConsumerWidget {
               ...[
                 ...favourites.favourites.entries.where((element) => element.value.isNotEmpty).map(
                       (e) => PosterRow(
+                        tvMode: useTVExpandedLayout,
                         contentPadding: padding,
                         onLabelClick: () => context.pushRoute(
                           LibrarySearchRoute().withFilter(
@@ -69,13 +72,14 @@ class FavouritesScreen extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        label: e.key.label(context),
+                        label: e.key.label(context.localized),
                         posters: e.value,
                       ),
                     ),
                 if (favourites.people.isNotEmpty)
                   PosterRow(
                     contentPadding: padding,
+                    tvMode: useTVExpandedLayout,
                     label: context.localized.actor(favourites.people.length),
                     posters: favourites.people,
                   ),

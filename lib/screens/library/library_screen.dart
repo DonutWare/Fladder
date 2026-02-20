@@ -11,6 +11,7 @@ import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/recommended_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/library_screen_provider.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/metadata/refresh_metadata.dart';
@@ -59,6 +60,9 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
     final viewTypes = libraryScreenState.viewType;
     final genres = libraryScreenState.genres;
     final padding = AdaptiveLayout.adaptivePadding(context);
+
+    final useTVExpandedLayout = ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout));
+
     return NestedScaffold(
       background: BackgroundImage(
         items: [
@@ -166,12 +170,13 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: PosterRow(
+                            tvMode: useTVExpandedLayout,
                             contentPadding: padding,
                             posters: element.posters,
-                            primaryPosters: element.name is Resume,
+                            primaryPosters: element.name is Continue,
                             label: element.type != null
-                                ? "${element.type?.label(context)} - ${element.name.label(context)}"
-                                : element.name.label(context),
+                                ? "${element.type?.label(context.localized)} - ${element.name.label(context.localized)}"
+                                : element.name.label(context.localized),
                           ),
                         ),
                       );
@@ -183,6 +188,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: PosterRow(
+                        tvMode: useTVExpandedLayout,
                         contentPadding: padding,
                         onLabelClick: () => context.pushRoute(
                           LibrarySearchRoute(
@@ -205,6 +211,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: PosterRow(
+                              tvMode: useTVExpandedLayout,
                               contentPadding: padding,
                               posters: element.posters,
                               onLabelClick: () => context.pushRoute(
@@ -218,8 +225,8 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                                 ),
                               ),
                               label: element.type != null
-                                  ? "${element.type?.label(context)} - ${element.name.label(context)}"
-                                  : element.name.label(context),
+                                  ? "${element.type?.label(context.localized)} - ${element.name.label(context.localized)}"
+                                  : element.name.label(context.localized),
                             ),
                           ),
                         ),

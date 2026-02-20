@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/gestures.dart';
 
 import 'package:auto_route/auto_route.dart';
 
@@ -15,25 +16,34 @@ class BackIntentDpad extends StatelessWidget {
     if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch) {
       return child;
     }
-    return Focus(
-      canRequestFocus: false,
-      onKeyEvent: (FocusNode node, KeyEvent event) {
-        if (event is! KeyDownEvent) {
-          return KeyEventResult.ignored;
-        }
-
-        if (event.logicalKey == LogicalKeyboardKey.backspace) {
-          if (isEditableTextFocused()) {
-            return KeyEventResult.ignored;
-          } else {
+    return Listener(
+      onPointerDown: (event) {
+        if ((event.buttons & kBackMouseButton) != 0) {
+          if (!isEditableTextFocused()) {
             context.maybePop();
-            return KeyEventResult.handled;
+          }
+        }
+      },
+      child: Focus(
+        canRequestFocus: false,
+        onKeyEvent: (FocusNode node, KeyEvent event) {
+          if (event is! KeyDownEvent) {
+            return KeyEventResult.ignored;
+          }
+
+          if (event.logicalKey == LogicalKeyboardKey.backspace) {
+            if (isEditableTextFocused()) {
+              return KeyEventResult.ignored;
+          } else {
+              context.maybePop();
+              return KeyEventResult.handled;
           }
         }
 
-        return KeyEventResult.ignored;
-      },
-      child: child,
+          return KeyEventResult.ignored;
+        },
+        child: child,
+      ),
     );
   }
 }

@@ -10,10 +10,11 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/episode_details_list.dart';
-import 'package:fladder/screens/shared/media/expanding_overview.dart';
+import 'package:fladder/screens/shared/media/expanding_text.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/person_list_.dart';
+import 'package:fladder/screens/shared/media/special_features_row.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -41,7 +42,7 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
     final details = ref.watch(providerId);
 
     return DetailScaffold(
-      label: details?.localizedName(context) ?? "",
+      label: details?.localizedName(context.localized) ?? "",
       item: details,
       actions: (context) => details?.generateActions(context, ref, exclude: {
         ItemActions.details,
@@ -60,10 +61,10 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                     name: details.seriesName,
                     image: details.parentImages,
                     padding: padding,
-                    subTitle: details.localizedName(context),
+                    subTitle: details.localizedName(context.localized),
                     onTitleClicked: () => details.parentBaseModel.navigateTo(context),
                     originalTitle: details.seriesName,
-                    productionYear: details.overview.productionYear.toString(),
+                    productionYear: details.overview.productionYear?.toString(),
                     runTime: details.overview.runTime,
                     studios: details.overview.studios,
                     officialRating: details.overview.parentalRating,
@@ -139,7 +140,7 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                     ],
                   ).padding(padding),
                   if (details.overview.summary.isNotEmpty)
-                    ExpandingOverview(
+                    ExpandingText(
                       text: details.overview.summary,
                     ).padding(padding),
                   if (details.overview.directors.isNotEmpty)
@@ -165,6 +166,11 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                       people: details.overview.people.guestActors,
                       contentPadding: padding,
                     ),
+                  if (details.specialFeatures.isNotEmpty)
+                    SpecialFeaturesRow(
+                        contentPadding: padding,
+                        label: context.localized.specialFeature(details.specialFeatures.length),
+                        specialFeatures: details.specialFeatures),
                   if (details.overview.externalUrls?.isNotEmpty == true)
                     Padding(
                       padding: padding,
