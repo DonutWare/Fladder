@@ -147,4 +147,5 @@ const _$BackgroundTypeEnumMap = {
 const _$GlobalHotKeysEnumMap = {
   GlobalHotKeys.search: 'search',
   GlobalHotKeys.exit: 'exit',
+  GlobalHotKeys.toggleSideBar: 'toggleSideBar',
 };
