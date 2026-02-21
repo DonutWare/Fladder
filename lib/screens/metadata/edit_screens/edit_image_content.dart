@@ -230,7 +230,7 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
                   ),
                   children: allImageCards,
                 ),
-                if (loading) const Center(child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round)),
+                if (loading) const Center(child: CircularProgressIndicator(strokeCap: StrokeCap.round)),
                 if (!loading && allImageCards.isEmpty) Center(child: Text("No ${widget.type.value}s found"))
               ],
             ),

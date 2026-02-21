@@ -192,7 +192,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                                         if (widget.loadingMoreItems)
                                           const SizedBox.square(
                                             dimension: 16,
-                                            child: CircularProgressIndicator.adaptive(
+                                            child: CircularProgressIndicator(
                                               strokeCap: StrokeCap.round,
                                             ),
                                           ),

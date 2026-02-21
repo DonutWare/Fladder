@@ -256,7 +256,7 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                         ),
                       switch (state.extendedImageLoadState) {
                         LoadState.loading => const Center(
-                            child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
+                            child: CircularProgressIndicator(strokeCap: StrokeCap.round),
                           ),
                         LoadState.completed => switch (photo.internalType) {
                             FladderItemType.video => SimpleVideoPlayer(

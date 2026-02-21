@@ -700,7 +700,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
                 mainAxisSize: MainAxisSize.min,
                 spacing: 16,
                 children: [
-                  const CircularProgressIndicator.adaptive(),
+                  const CircularProgressIndicator(),
                   Text(context.localized.fetchingLibrary, style: Theme.of(context).textTheme.titleMedium),
                   IconButton(
                     onPressed: () {

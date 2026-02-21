@@ -590,7 +590,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
             if (loading)
               const Padding(
                 padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
+                child: CircularProgressIndicator(strokeCap: StrokeCap.round),
               )
             else
               AnimatedFadeSize(child: seerrUser != null ? _loggedInContent() : _authContent()),
