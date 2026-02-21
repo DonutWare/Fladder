@@ -17,10 +17,10 @@ PODS:
   - flutter_local_notifications (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
-  - fvp (0.35.0):
+  - fvp (0.35.2):
     - Flutter
     - FlutterMacOS
-    - mdk (~> 0.35.0)
+    - mdk (~> 0.35.1)
   - just_audio (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -29,7 +29,7 @@ PODS:
     - FlutterMacOS
   - macos_window_utils (1.0.0):
     - FlutterMacOS
-  - mdk (0.35.0)
+  - mdk (0.35.1)
   - media_kit_libs_macos_video (1.0.4):
     - FlutterMacOS
   - media_kit_video (0.0.1):
@@ -51,25 +51,25 @@ PODS:
   - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
-  - sqlite3 (3.50.4):
-    - sqlite3/common (= 3.50.4)
-  - sqlite3/common (3.50.4)
-  - sqlite3/dbstatvtab (3.50.4):
+  - sqlite3 (3.51.1):
+    - sqlite3/common (= 3.51.1)
+  - sqlite3/common (3.51.1)
+  - sqlite3/dbstatvtab (3.51.1):
     - sqlite3/common
-  - sqlite3/fts5 (3.50.4):
+  - sqlite3/fts5 (3.51.1):
     - sqlite3/common
-  - sqlite3/math (3.50.4):
+  - sqlite3/math (3.51.1):
     - sqlite3/common
-  - sqlite3/perf-threadsafe (3.50.4):
+  - sqlite3/perf-threadsafe (3.51.1):
     - sqlite3/common
-  - sqlite3/rtree (3.50.4):
+  - sqlite3/rtree (3.51.1):
     - sqlite3/common
-  - sqlite3/session (3.50.4):
+  - sqlite3/session (3.51.1):
     - sqlite3/common
   - sqlite3_flutter_libs (0.0.1):
     - Flutter
     - FlutterMacOS
-    - sqlite3 (~> 3.50.4)
+    - sqlite3 (~> 3.51.1)
     - sqlite3/dbstatvtab
     - sqlite3/fts5
     - sqlite3/math
@@ -192,11 +192,11 @@ SPEC CHECKSUMS:
   file_picker: e716a70a9fe5fd9e09ebc922d7541464289443af
   flutter_local_notifications: 4ccab5b7a22835214a6672e3f9c5e8ae207dab36
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
-  fvp: f4fdb89279e863eb09869bde7ba7fce9e81a16ab
+  fvp: 56f8d6682e0282ded5b0f9c485ab8d50123400b8
   just_audio: a42c63806f16995daf5b219ae1d679deb76e6a79
   local_auth_darwin: 63c73d6d28cc3e239be2b6aa460ea6e317cd5100
   macos_window_utils: 721df4da91cb4bde7b2b7b6ae93cdead4851118f
-  mdk: baa616b93f696c7066df0e5ebe057badfa9c462b
+  mdk: 59bbe9e2ac2a052455ab1b076c245680d66cf6c0
   media_kit_libs_macos_video: b3e2bbec2eef97c285f2b1baa7963c67c753fb82
   media_kit_video: c75b07f14d59706c775778e4dd47dd027de8d1e5
   package_info_plus: 12f1c5c2cfe8727ca46cbd0b26677728972d9a5b
@@ -206,8 +206,8 @@ SPEC CHECKSUMS:
   share_plus: 1fa619de8392a4398bfaf176d441853922614e89
   shared_preferences_foundation: 5086985c1d43c5ba4d5e69a4e8083a389e2909e6
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
-  sqlite3: 73513155ec6979715d3904ef53a8d68892d4032b
-  sqlite3_flutter_libs: 86f82662868ee26ff3451f73cac9c5fc2a1f57fa
+  sqlite3: 8d708bc63e9f4ce48f0ad9d6269e478c5ced1d9b
+  sqlite3_flutter_libs: c7b32a4d17d2cbad19895873ccc815f276b1f125
   url_launcher_macos: 175a54c831f4375a6cf895875f716ee5af3888ce
   video_player_avfoundation: 7993f492ae0bd77edaea24d9dc051d8bb2cd7c86
   wakelock_plus: 9d63063ffb7af1c215209769067c57103bde719d
