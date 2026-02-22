@@ -1747,5 +1747,13 @@
                 "type": "String"
             }
         }
+    },
+    "deleteTunerHostConfirm": "Ви впевнені, що ви хочете видалити \"X33X\"?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
     }
 }
