@@ -21,10 +21,9 @@ mixin _$LastSeenNotificationsModel {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $LastSeenNotificationsModelCopyWith<LastSeenNotificationsModel>
-      get copyWith =>
-          _$LastSeenNotificationsModelCopyWithImpl<LastSeenNotificationsModel>(
-              this as LastSeenNotificationsModel, _$identity);
+  $LastSeenNotificationsModelCopyWith<LastSeenNotificationsModel> get copyWith =>
+      _$LastSeenNotificationsModelCopyWithImpl<LastSeenNotificationsModel>(
+          this as LastSeenNotificationsModel, _$identity);
 
   /// Serializes this LastSeenNotificationsModel to a JSON map.
   Map<String, dynamic> toJson();
@@ -37,16 +36,15 @@ mixin _$LastSeenNotificationsModel {
 
 /// @nodoc
 abstract mixin class $LastSeenNotificationsModelCopyWith<$Res> {
-  factory $LastSeenNotificationsModelCopyWith(LastSeenNotificationsModel value,
-          $Res Function(LastSeenNotificationsModel) _then) =
+  factory $LastSeenNotificationsModelCopyWith(
+          LastSeenNotificationsModel value, $Res Function(LastSeenNotificationsModel) _then) =
       _$LastSeenNotificationsModelCopyWithImpl;
   @useResult
   $Res call({List<LastSeenModel> lastSeen, DateTime? updatedAt});
 }
 
 /// @nodoc
-class _$LastSeenNotificationsModelCopyWithImpl<$Res>
-    implements $LastSeenNotificationsModelCopyWith<$Res> {
+class _$LastSeenNotificationsModelCopyWithImpl<$Res> implements $LastSeenNotificationsModelCopyWith<$Res> {
   _$LastSeenNotificationsModelCopyWithImpl(this._self, this._then);
 
   final LastSeenNotificationsModel _self;
@@ -166,8 +164,7 @@ extension LastSeenNotificationsModelPatterns on LastSeenNotificationsModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<LastSeenModel> lastSeen, DateTime? updatedAt)?
-        $default, {
+    TResult Function(List<LastSeenModel> lastSeen, DateTime? updatedAt)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
@@ -194,8 +191,7 @@ extension LastSeenNotificationsModelPatterns on LastSeenNotificationsModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<LastSeenModel> lastSeen, DateTime? updatedAt)
-        $default,
+    TResult Function(List<LastSeenModel> lastSeen, DateTime? updatedAt) $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -220,8 +216,7 @@ extension LastSeenNotificationsModelPatterns on LastSeenNotificationsModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<LastSeenModel> lastSeen, DateTime? updatedAt)?
-        $default,
+    TResult? Function(List<LastSeenModel> lastSeen, DateTime? updatedAt)? $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -236,12 +231,10 @@ extension LastSeenNotificationsModelPatterns on LastSeenNotificationsModel {
 /// @nodoc
 @JsonSerializable()
 class _LastSeenNotificationsModel extends LastSeenNotificationsModel {
-  const _LastSeenNotificationsModel(
-      {final List<LastSeenModel> lastSeen = const [], this.updatedAt})
+  const _LastSeenNotificationsModel({final List<LastSeenModel> lastSeen = const [], this.updatedAt})
       : _lastSeen = lastSeen,
         super._();
-  factory _LastSeenNotificationsModel.fromJson(Map<String, dynamic> json) =>
-      _$LastSeenNotificationsModelFromJson(json);
+  factory _LastSeenNotificationsModel.fromJson(Map<String, dynamic> json) => _$LastSeenNotificationsModelFromJson(json);
 
   final List<LastSeenModel> _lastSeen;
   @override
@@ -260,9 +253,8 @@ class _LastSeenNotificationsModel extends LastSeenNotificationsModel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$LastSeenNotificationsModelCopyWith<_LastSeenNotificationsModel>
-      get copyWith => __$LastSeenNotificationsModelCopyWithImpl<
-          _LastSeenNotificationsModel>(this, _$identity);
+  _$LastSeenNotificationsModelCopyWith<_LastSeenNotificationsModel> get copyWith =>
+      __$LastSeenNotificationsModelCopyWithImpl<_LastSeenNotificationsModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -278,11 +270,9 @@ class _LastSeenNotificationsModel extends LastSeenNotificationsModel {
 }
 
 /// @nodoc
-abstract mixin class _$LastSeenNotificationsModelCopyWith<$Res>
-    implements $LastSeenNotificationsModelCopyWith<$Res> {
+abstract mixin class _$LastSeenNotificationsModelCopyWith<$Res> implements $LastSeenNotificationsModelCopyWith<$Res> {
   factory _$LastSeenNotificationsModelCopyWith(
-          _LastSeenNotificationsModel value,
-          $Res Function(_LastSeenNotificationsModel) _then) =
+          _LastSeenNotificationsModel value, $Res Function(_LastSeenNotificationsModel) _then) =
       __$LastSeenNotificationsModelCopyWithImpl;
   @override
   @useResult
@@ -290,8 +280,7 @@ abstract mixin class _$LastSeenNotificationsModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$LastSeenNotificationsModelCopyWithImpl<$Res>
-    implements _$LastSeenNotificationsModelCopyWith<$Res> {
+class __$LastSeenNotificationsModelCopyWithImpl<$Res> implements _$LastSeenNotificationsModelCopyWith<$Res> {
   __$LastSeenNotificationsModelCopyWithImpl(this._self, this._then);
 
   final _LastSeenNotificationsModel _self;
@@ -328,8 +317,7 @@ mixin _$LastSeenModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $LastSeenModelCopyWith<LastSeenModel> get copyWith =>
-      _$LastSeenModelCopyWithImpl<LastSeenModel>(
-          this as LastSeenModel, _$identity);
+      _$LastSeenModelCopyWithImpl<LastSeenModel>(this as LastSeenModel, _$identity);
 
   /// Serializes this LastSeenModel to a JSON map.
   Map<String, dynamic> toJson();
@@ -342,16 +330,13 @@ mixin _$LastSeenModel {
 
 /// @nodoc
 abstract mixin class $LastSeenModelCopyWith<$Res> {
-  factory $LastSeenModelCopyWith(
-          LastSeenModel value, $Res Function(LastSeenModel) _then) =
-      _$LastSeenModelCopyWithImpl;
+  factory $LastSeenModelCopyWith(LastSeenModel value, $Res Function(LastSeenModel) _then) = _$LastSeenModelCopyWithImpl;
   @useResult
   $Res call({String userId, List<NotificationModel> lastNotifications});
 }
 
 /// @nodoc
-class _$LastSeenModelCopyWithImpl<$Res>
-    implements $LastSeenModelCopyWith<$Res> {
+class _$LastSeenModelCopyWithImpl<$Res> implements $LastSeenModelCopyWith<$Res> {
   _$LastSeenModelCopyWithImpl(this._self, this._then);
 
   final LastSeenModel _self;
@@ -471,8 +456,7 @@ extension LastSeenModelPatterns on LastSeenModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String userId, List<NotificationModel> lastNotifications)?
-        $default, {
+    TResult Function(String userId, List<NotificationModel> lastNotifications)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
@@ -499,8 +483,7 @@ extension LastSeenModelPatterns on LastSeenModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String userId, List<NotificationModel> lastNotifications)
-        $default,
+    TResult Function(String userId, List<NotificationModel> lastNotifications) $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -525,8 +508,7 @@ extension LastSeenModelPatterns on LastSeenModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String userId, List<NotificationModel> lastNotifications)?
-        $default,
+    TResult? Function(String userId, List<NotificationModel> lastNotifications)? $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -542,13 +524,10 @@ extension LastSeenModelPatterns on LastSeenModel {
 @JsonSerializable()
 class _LastSeenModel extends LastSeenModel {
   const _LastSeenModel(
-      {required this.userId,
-      final List<NotificationModel> lastNotifications =
-          const <NotificationModel>[]})
+      {required this.userId, final List<NotificationModel> lastNotifications = const <NotificationModel>[]})
       : _lastNotifications = lastNotifications,
         super._();
-  factory _LastSeenModel.fromJson(Map<String, dynamic> json) =>
-      _$LastSeenModelFromJson(json);
+  factory _LastSeenModel.fromJson(Map<String, dynamic> json) => _$LastSeenModelFromJson(json);
 
   @override
   final String userId;
@@ -556,8 +535,7 @@ class _LastSeenModel extends LastSeenModel {
   @override
   @JsonKey()
   List<NotificationModel> get lastNotifications {
-    if (_lastNotifications is EqualUnmodifiableListView)
-      return _lastNotifications;
+    if (_lastNotifications is EqualUnmodifiableListView) return _lastNotifications;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_lastNotifications);
   }
@@ -584,10 +562,8 @@ class _LastSeenModel extends LastSeenModel {
 }
 
 /// @nodoc
-abstract mixin class _$LastSeenModelCopyWith<$Res>
-    implements $LastSeenModelCopyWith<$Res> {
-  factory _$LastSeenModelCopyWith(
-          _LastSeenModel value, $Res Function(_LastSeenModel) _then) =
+abstract mixin class _$LastSeenModelCopyWith<$Res> implements $LastSeenModelCopyWith<$Res> {
+  factory _$LastSeenModelCopyWith(_LastSeenModel value, $Res Function(_LastSeenModel) _then) =
       __$LastSeenModelCopyWithImpl;
   @override
   @useResult
@@ -595,8 +571,7 @@ abstract mixin class _$LastSeenModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$LastSeenModelCopyWithImpl<$Res>
-    implements _$LastSeenModelCopyWith<$Res> {
+class __$LastSeenModelCopyWithImpl<$Res> implements _$LastSeenModelCopyWith<$Res> {
   __$LastSeenModelCopyWithImpl(this._self, this._then);
 
   final _LastSeenModel _self;

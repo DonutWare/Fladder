@@ -1,14 +1,13 @@
 import 'dart:io';
 
 import 'package:chopper/chopper.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/models/seerr/seerr_item_models.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_chopper_service.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const tmbdUrl = 'https://image.tmdb.org/t/p/original';
 
@@ -231,7 +230,9 @@ class SeerrService {
         );
       } else {
         final movieResponse = await movieDetails(tmdbId: tmdbId, language: language);
-        if (!movieResponse.isSuccessful || movieResponse.body == null) return null;
+        if (!movieResponse.isSuccessful || movieResponse.body == null) {
+          return null;
+        }
         final details = movieResponse.body!;
         String? releaseYear;
         final releaseDate = details.releaseDate;
@@ -632,7 +633,8 @@ class SeerrService {
 
   SeerrDashboardPosterModel? posterFromDiscoverItem(SeerrDiscoverItem item) => _posterFromDiscoverItem(item);
 
-  Future<String> authenticateLocal({required String email, required String password, Map<String, String>? headers}) async {
+  Future<String> authenticateLocal(
+      {required String email, required String password, Map<String, String>? headers}) async {
     final response = await _api.authenticateLocal(
       SeerrAuthLocalBody(email: email, password: password),
       headers: headers,
@@ -647,14 +649,16 @@ class SeerrService {
     return cookie;
   }
 
-  Future<String> authenticateJellyfin({required String username, required String password, Map<String, String>? headers}) async {
+  Future<String> authenticateJellyfin(
+      {required String username, required String password, Map<String, String>? headers}) async {
     final response = await _authenticateJellyfin(username: username, password: password, headers: headers);
     return _requireSessionCookie(response, label: 'Jellyfin');
   }
 
   Future<void> logout() async => await _api.logout();
 
-  Future<Response<dynamic>> _authenticateJellyfin({required String username, required String password, Map<String, String>? headers}) async {
+  Future<Response<dynamic>> _authenticateJellyfin(
+      {required String username, required String password, Map<String, String>? headers}) async {
     var response = await _api.authenticateJellyfin(
       SeerrAuthJellyfinBody(username: username, password: password),
       headers: headers,

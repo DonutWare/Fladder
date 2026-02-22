@@ -6,8 +6,7 @@
 
 part of 'special_feature_model.dart';
 
-class SpecialFeatureModelMapper
-    extends SubClassMapperBase<SpecialFeatureModel> {
+class SpecialFeatureModelMapper extends SubClassMapperBase<SpecialFeatureModel> {
   SpecialFeatureModelMapper._();
 
   static SpecialFeatureModelMapper? _instance;
@@ -25,50 +24,35 @@ class SpecialFeatureModelMapper
   final String id = 'SpecialFeatureModel';
 
   static DateTime? _$dateAired(SpecialFeatureModel v) => v.dateAired;
-  static const Field<SpecialFeatureModel, DateTime> _f$dateAired =
-      Field('dateAired', _$dateAired, opt: true);
+  static const Field<SpecialFeatureModel, DateTime> _f$dateAired = Field('dateAired', _$dateAired, opt: true);
   static String _$name(SpecialFeatureModel v) => v.name;
-  static const Field<SpecialFeatureModel, String> _f$name =
-      Field('name', _$name);
+  static const Field<SpecialFeatureModel, String> _f$name = Field('name', _$name);
   static String _$id(SpecialFeatureModel v) => v.id;
   static const Field<SpecialFeatureModel, String> _f$id = Field('id', _$id);
   static OverviewModel _$overview(SpecialFeatureModel v) => v.overview;
-  static const Field<SpecialFeatureModel, OverviewModel> _f$overview =
-      Field('overview', _$overview);
+  static const Field<SpecialFeatureModel, OverviewModel> _f$overview = Field('overview', _$overview);
   static String? _$parentId(SpecialFeatureModel v) => v.parentId;
-  static const Field<SpecialFeatureModel, String> _f$parentId =
-      Field('parentId', _$parentId);
+  static const Field<SpecialFeatureModel, String> _f$parentId = Field('parentId', _$parentId);
   static String? _$playlistId(SpecialFeatureModel v) => v.playlistId;
-  static const Field<SpecialFeatureModel, String> _f$playlistId =
-      Field('playlistId', _$playlistId);
+  static const Field<SpecialFeatureModel, String> _f$playlistId = Field('playlistId', _$playlistId);
   static ImagesData? _$images(SpecialFeatureModel v) => v.images;
-  static const Field<SpecialFeatureModel, ImagesData> _f$images =
-      Field('images', _$images);
+  static const Field<SpecialFeatureModel, ImagesData> _f$images = Field('images', _$images);
   static int? _$childCount(SpecialFeatureModel v) => v.childCount;
-  static const Field<SpecialFeatureModel, int> _f$childCount =
-      Field('childCount', _$childCount);
+  static const Field<SpecialFeatureModel, int> _f$childCount = Field('childCount', _$childCount);
   static double? _$primaryRatio(SpecialFeatureModel v) => v.primaryRatio;
-  static const Field<SpecialFeatureModel, double> _f$primaryRatio =
-      Field('primaryRatio', _$primaryRatio);
+  static const Field<SpecialFeatureModel, double> _f$primaryRatio = Field('primaryRatio', _$primaryRatio);
   static UserData _$userData(SpecialFeatureModel v) => v.userData;
-  static const Field<SpecialFeatureModel, UserData> _f$userData =
-      Field('userData', _$userData);
+  static const Field<SpecialFeatureModel, UserData> _f$userData = Field('userData', _$userData);
   static ImagesData? _$parentImages(SpecialFeatureModel v) => v.parentImages;
-  static const Field<SpecialFeatureModel, ImagesData> _f$parentImages =
-      Field('parentImages', _$parentImages);
-  static MediaStreamsModel _$mediaStreams(SpecialFeatureModel v) =>
-      v.mediaStreams;
-  static const Field<SpecialFeatureModel, MediaStreamsModel> _f$mediaStreams =
-      Field('mediaStreams', _$mediaStreams);
+  static const Field<SpecialFeatureModel, ImagesData> _f$parentImages = Field('parentImages', _$parentImages);
+  static MediaStreamsModel _$mediaStreams(SpecialFeatureModel v) => v.mediaStreams;
+  static const Field<SpecialFeatureModel, MediaStreamsModel> _f$mediaStreams = Field('mediaStreams', _$mediaStreams);
   static bool? _$canDelete(SpecialFeatureModel v) => v.canDelete;
-  static const Field<SpecialFeatureModel, bool> _f$canDelete =
-      Field('canDelete', _$canDelete, opt: true);
+  static const Field<SpecialFeatureModel, bool> _f$canDelete = Field('canDelete', _$canDelete, opt: true);
   static bool? _$canDownload(SpecialFeatureModel v) => v.canDownload;
-  static const Field<SpecialFeatureModel, bool> _f$canDownload =
-      Field('canDownload', _$canDownload, opt: true);
+  static const Field<SpecialFeatureModel, bool> _f$canDownload = Field('canDownload', _$canDownload, opt: true);
   static dto.BaseItemKind? _$jellyType(SpecialFeatureModel v) => v.jellyType;
-  static const Field<SpecialFeatureModel, dto.BaseItemKind> _f$jellyType =
-      Field('jellyType', _$jellyType, opt: true);
+  static const Field<SpecialFeatureModel, dto.BaseItemKind> _f$jellyType = Field('jellyType', _$jellyType, opt: true);
 
   @override
   final MappableFields<SpecialFeatureModel> fields = const {
@@ -96,8 +80,7 @@ class SpecialFeatureModelMapper
   @override
   final dynamic discriminatorValue = 'SpecialFeatureModel';
   @override
-  late final ClassMapperBase superMapper =
-      ItemStreamModelMapper.ensureInitialized();
+  late final ClassMapperBase superMapper = ItemStreamModelMapper.ensureInitialized();
 
   static SpecialFeatureModel _instantiate(DecodingData data) {
     return SpecialFeatureModel(
@@ -123,21 +106,18 @@ class SpecialFeatureModelMapper
 }
 
 mixin SpecialFeatureModelMappable {
-  SpecialFeatureModelCopyWith<SpecialFeatureModel, SpecialFeatureModel,
-      SpecialFeatureModel> get copyWith => _SpecialFeatureModelCopyWithImpl<
-          SpecialFeatureModel, SpecialFeatureModel>(
-      this as SpecialFeatureModel, $identity, $identity);
+  SpecialFeatureModelCopyWith<SpecialFeatureModel, SpecialFeatureModel, SpecialFeatureModel> get copyWith =>
+      _SpecialFeatureModelCopyWithImpl<SpecialFeatureModel, SpecialFeatureModel>(
+          this as SpecialFeatureModel, $identity, $identity);
 }
 
-extension SpecialFeatureModelValueCopy<$R, $Out>
-    on ObjectCopyWith<$R, SpecialFeatureModel, $Out> {
-  SpecialFeatureModelCopyWith<$R, SpecialFeatureModel, $Out>
-      get $asSpecialFeatureModel => $base.as(
-          (v, t, t2) => _SpecialFeatureModelCopyWithImpl<$R, $Out>(v, t, t2));
+extension SpecialFeatureModelValueCopy<$R, $Out> on ObjectCopyWith<$R, SpecialFeatureModel, $Out> {
+  SpecialFeatureModelCopyWith<$R, SpecialFeatureModel, $Out> get $asSpecialFeatureModel =>
+      $base.as((v, t, t2) => _SpecialFeatureModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class SpecialFeatureModelCopyWith<$R, $In extends SpecialFeatureModel,
-    $Out> implements ItemStreamModelCopyWith<$R, $In, $Out> {
+abstract class SpecialFeatureModelCopyWith<$R, $In extends SpecialFeatureModel, $Out>
+    implements ItemStreamModelCopyWith<$R, $In, $Out> {
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
   @override
@@ -159,24 +139,20 @@ abstract class SpecialFeatureModelCopyWith<$R, $In extends SpecialFeatureModel,
       bool? canDelete,
       bool? canDownload,
       dto.BaseItemKind? jellyType});
-  SpecialFeatureModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
-      Then<$Out2, $R2> t);
+  SpecialFeatureModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _SpecialFeatureModelCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, SpecialFeatureModel, $Out>
+class _SpecialFeatureModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, SpecialFeatureModel, $Out>
     implements SpecialFeatureModelCopyWith<$R, SpecialFeatureModel, $Out> {
   _SpecialFeatureModelCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<SpecialFeatureModel> $mapper =
-      SpecialFeatureModelMapper.ensureInitialized();
+  late final ClassMapperBase<SpecialFeatureModel> $mapper = SpecialFeatureModelMapper.ensureInitialized();
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
-  UserDataCopyWith<$R, UserData, UserData> get userData =>
-      $value.userData.copyWith.$chain((v) => call(userData: v));
+  UserDataCopyWith<$R, UserData, UserData> get userData => $value.userData.copyWith.$chain((v) => call(userData: v));
   @override
   $R call(
           {Object? dateAired = $none,
@@ -230,7 +206,6 @@ class _SpecialFeatureModelCopyWithImpl<$R, $Out>
       jellyType: data.get(#jellyType, or: $value.jellyType));
 
   @override
-  SpecialFeatureModelCopyWith<$R2, SpecialFeatureModel, $Out2>
-      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
-          _SpecialFeatureModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
+  SpecialFeatureModelCopyWith<$R2, SpecialFeatureModel, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+      _SpecialFeatureModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

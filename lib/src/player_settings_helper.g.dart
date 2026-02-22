@@ -14,20 +14,18 @@ PlatformException _createConnectionError(String channelName) {
     message: 'Unable to establish connection on channel: "$channelName".',
   );
 }
+
 bool _deepEquals(Object? a, Object? b) {
   if (a is List && b is List) {
-    return a.length == b.length &&
-        a.indexed
-        .every(((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]));
+    return a.length == b.length && a.indexed.every(((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]));
   }
   if (a is Map && b is Map) {
-    return a.length == b.length && a.entries.every((MapEntry<Object?, Object?> entry) =>
-        (b as Map<Object?, Object?>).containsKey(entry.key) &&
-        _deepEquals(entry.value, b[entry.key]));
+    return a.length == b.length &&
+        a.entries.every((MapEntry<Object?, Object?> entry) =>
+            (b as Map<Object?, Object?>).containsKey(entry.key) && _deepEquals(entry.value, b[entry.key]));
   }
   return a == b;
 }
-
 
 enum Screensaver {
   disabled,
@@ -125,7 +123,8 @@ class PlayerSettings {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static PlayerSettings decode(Object result) {
     result as List<Object?>;
@@ -157,10 +156,8 @@ class PlayerSettings {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
-
 
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
@@ -169,25 +166,25 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is Screensaver) {
+    } else if (value is Screensaver) {
       buffer.putUint8(129);
       writeValue(buffer, value.index);
-    }    else if (value is VideoPlayerFit) {
+    } else if (value is VideoPlayerFit) {
       buffer.putUint8(130);
       writeValue(buffer, value.index);
-    }    else if (value is PlayerOrientations) {
+    } else if (value is PlayerOrientations) {
       buffer.putUint8(131);
       writeValue(buffer, value.index);
-    }    else if (value is AutoNextType) {
+    } else if (value is AutoNextType) {
       buffer.putUint8(132);
       writeValue(buffer, value.index);
-    }    else if (value is SegmentType) {
+    } else if (value is SegmentType) {
       buffer.putUint8(133);
       writeValue(buffer, value.index);
-    }    else if (value is SegmentSkip) {
+    } else if (value is SegmentSkip) {
       buffer.putUint8(134);
       writeValue(buffer, value.index);
-    }    else if (value is PlayerSettings) {
+    } else if (value is PlayerSettings) {
       buffer.putUint8(135);
       writeValue(buffer, value.encode());
     } else {
@@ -198,25 +195,25 @@ class _PigeonCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 129: 
+      case 129:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : Screensaver.values[value];
-      case 130: 
+      case 130:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : VideoPlayerFit.values[value];
-      case 131: 
+      case 131:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : PlayerOrientations.values[value];
-      case 132: 
+      case 132:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : AutoNextType.values[value];
-      case 133: 
+      case 133:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : SegmentType.values[value];
-      case 134: 
+      case 134:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : SegmentSkip.values[value];
-      case 135: 
+      case 135:
         return PlayerSettings.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -238,15 +235,15 @@ class PlayerSettingsPigeon {
   final String pigeonVar_messageChannelSuffix;
 
   Future<void> sendPlayerSettings(PlayerSettings playerSettings) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.settings.PlayerSettingsPigeon.sendPlayerSettings$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.settings.PlayerSettingsPigeon.sendPlayerSettings$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[playerSettings]);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {

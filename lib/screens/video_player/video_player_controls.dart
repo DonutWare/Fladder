@@ -1,15 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:async/async.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:screen_brightness/screen_brightness.dart';
-
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
@@ -21,6 +12,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/screens/shared/media/components/item_logo.dart';
+import 'package:fladder/screens/video_player/components/syncplay_command_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_playback_information.dart';
 import 'package:fladder/screens/video_player/components/video_player_controls_extras.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
@@ -38,6 +30,14 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
+import 'package:fladder/widgets/syncplay/syncplay_badge.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 
 class DesktopControls extends ConsumerStatefulWidget {
   const DesktopControls({super.key});
@@ -123,7 +123,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
               children: [
                 Positioned.fill(
                   child: GestureDetector(
-                    onTap: initInputDevice == InputDevice.pointer ? () => player.playOrPause() : () => toggleOverlay(),
+                    onTap: initInputDevice == InputDevice.pointer
+                        ? () => ref.read(videoPlayerProvider.notifier).userPlayOrPause()
+                        : () => toggleOverlay(),
                     onDoubleTapDown: initInputDevice == InputDevice.touch ? _handleDoubleTapDown : null,
                     onDoubleTap: initInputDevice == InputDevice.pointer
                         ? () => fullScreenHelper.toggleFullScreen(ref)
@@ -157,6 +159,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 const VideoPlayerVolumeIndicator(),
                 const VideoPlayerSpeedIndicator(),
                 const VideoPlayerScreenshotIndicator(),
+                const SyncPlayCommandIndicator(),
                 Consumer(
                   builder: (context, ref, child) {
                     final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
@@ -216,7 +219,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 : 1,
         duration: const Duration(milliseconds: 250),
         child: IconButton.outlined(
-          onPressed: () => ref.read(videoPlayerProvider).play(),
+          onPressed: () => ref.read(videoPlayerProvider.notifier).userPlay(),
           isSelected: true,
           iconSize: 65,
           tooltip: "Resume video",
@@ -282,6 +285,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           ],
                         ),
                       ),
+                    const SyncPlayBadge(),
                     if (initInputDevice == InputDevice.touch)
                       Align(
                         alignment: Alignment.centerRight,
@@ -386,7 +390,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                   IconButton.filledTonal(
                     iconSize: 38,
                     onPressed: () {
-                      ref.read(videoPlayerProvider).playOrPause();
+                      ref.read(videoPlayerProvider.notifier).userPlayOrPause();
                     },
                     icon: Icon(
                       mediaPlayback.playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play,
@@ -466,9 +470,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 ),
                 const Spacer(),
                 if (playbackModel != null)
-                  InkWell(
-                    onTap: () => showVideoPlaybackInformation(context),
-                    child: Card(
+                  Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: InkWell(
+                      onTap: () => showVideoPlaybackInformation(context),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         child: Text(
@@ -500,7 +505,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 buffer: mediaPlayback.buffer,
                 buffering: mediaPlayback.buffering,
                 timerReset: () => timer.reset(),
-                onPositionChanged: (position) => ref.read(videoPlayerProvider).seek(position),
+                onPositionChanged: (position) => ref.read(videoPlayerProvider.notifier).userSeek(position),
               ),
             ),
             const SizedBox(height: 4),
@@ -643,7 +648,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     final end = mediaSegment?.end;
     if (end != null) {
       resetTimer();
-      ref.read(videoPlayerProvider).seek(end);
+      ref.read(videoPlayerProvider.notifier).userSeek(end);
 
       if (segmentId != null) {
         Future(() {
@@ -662,14 +667,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     final mediaPlayback = ref.read(mediaPlaybackProvider);
     resetTimer();
     final newPosition = (mediaPlayback.position.inSeconds - seconds).clamp(0, mediaPlayback.duration.inSeconds);
-    ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
+    ref.read(videoPlayerProvider.notifier).userSeek(Duration(seconds: newPosition));
   }
 
   void seekForward(WidgetRef ref, {int seconds = 15}) {
     final mediaPlayback = ref.read(mediaPlaybackProvider);
     resetTimer();
     final newPosition = (mediaPlayback.position.inSeconds + seconds).clamp(0, mediaPlayback.duration.inSeconds);
-    ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
+    ref.read(videoPlayerProvider.notifier).userSeek(Duration(seconds: newPosition));
   }
 
   void seekBackWithIndicator() {
@@ -843,7 +848,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         if (_speedBoostActive) {
           return false;
         }
-        ref.read(videoPlayerProvider).playOrPause();
+        ref.read(videoPlayerProvider.notifier).userPlayOrPause();
         return true;
       case VideoHotKeys.volumeUp:
         resetTimer();

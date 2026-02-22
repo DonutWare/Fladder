@@ -21,27 +21,20 @@ class UserDataMapper extends ClassMapperBase<UserData> {
   final String id = 'UserData';
 
   static bool _$isFavourite(UserData v) => v.isFavourite;
-  static const Field<UserData, bool> _f$isFavourite =
-      Field('isFavourite', _$isFavourite, opt: true, def: false);
+  static const Field<UserData, bool> _f$isFavourite = Field('isFavourite', _$isFavourite, opt: true, def: false);
   static int _$playCount(UserData v) => v.playCount;
-  static const Field<UserData, int> _f$playCount =
-      Field('playCount', _$playCount, opt: true, def: 0);
+  static const Field<UserData, int> _f$playCount = Field('playCount', _$playCount, opt: true, def: 0);
   static int? _$unPlayedItemCount(UserData v) => v.unPlayedItemCount;
-  static const Field<UserData, int> _f$unPlayedItemCount =
-      Field('unPlayedItemCount', _$unPlayedItemCount, opt: true);
+  static const Field<UserData, int> _f$unPlayedItemCount = Field('unPlayedItemCount', _$unPlayedItemCount, opt: true);
   static int _$playbackPositionTicks(UserData v) => v.playbackPositionTicks;
-  static const Field<UserData, int> _f$playbackPositionTicks = Field(
-      'playbackPositionTicks', _$playbackPositionTicks,
-      opt: true, def: 0);
+  static const Field<UserData, int> _f$playbackPositionTicks =
+      Field('playbackPositionTicks', _$playbackPositionTicks, opt: true, def: 0);
   static double _$progress(UserData v) => v.progress;
-  static const Field<UserData, double> _f$progress =
-      Field('progress', _$progress, opt: true, def: 0);
+  static const Field<UserData, double> _f$progress = Field('progress', _$progress, opt: true, def: 0);
   static DateTime? _$lastPlayed(UserData v) => v.lastPlayed;
-  static const Field<UserData, DateTime> _f$lastPlayed =
-      Field('lastPlayed', _$lastPlayed, opt: true);
+  static const Field<UserData, DateTime> _f$lastPlayed = Field('lastPlayed', _$lastPlayed, opt: true);
   static bool _$played(UserData v) => v.played;
-  static const Field<UserData, bool> _f$played =
-      Field('played', _$played, opt: true, def: false);
+  static const Field<UserData, bool> _f$played = Field('played', _$played, opt: true, def: false);
 
   @override
   final MappableFields<UserData> fields = const {
@@ -81,18 +74,15 @@ class UserDataMapper extends ClassMapperBase<UserData> {
 
 mixin UserDataMappable {
   String toJson() {
-    return UserDataMapper.ensureInitialized()
-        .encodeJson<UserData>(this as UserData);
+    return UserDataMapper.ensureInitialized().encodeJson<UserData>(this as UserData);
   }
 
   Map<String, dynamic> toMap() {
-    return UserDataMapper.ensureInitialized()
-        .encodeMap<UserData>(this as UserData);
+    return UserDataMapper.ensureInitialized().encodeMap<UserData>(this as UserData);
   }
 
   UserDataCopyWith<UserData, UserData, UserData> get copyWith =>
-      _UserDataCopyWithImpl<UserData, UserData>(
-          this as UserData, $identity, $identity);
+      _UserDataCopyWithImpl<UserData, UserData>(this as UserData, $identity, $identity);
 }
 
 extension UserDataValueCopy<$R, $Out> on ObjectCopyWith<$R, UserData, $Out> {
@@ -100,8 +90,7 @@ extension UserDataValueCopy<$R, $Out> on ObjectCopyWith<$R, UserData, $Out> {
       $base.as((v, t, t2) => _UserDataCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class UserDataCopyWith<$R, $In extends UserData, $Out>
-    implements ClassCopyWith<$R, $In, $Out> {
+abstract class UserDataCopyWith<$R, $In extends UserData, $Out> implements ClassCopyWith<$R, $In, $Out> {
   $R call(
       {bool? isFavourite,
       int? playCount,
@@ -113,14 +102,12 @@ abstract class UserDataCopyWith<$R, $In extends UserData, $Out>
   UserDataCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _UserDataCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, UserData, $Out>
+class _UserDataCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, UserData, $Out>
     implements UserDataCopyWith<$R, UserData, $Out> {
   _UserDataCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<UserData> $mapper =
-      UserDataMapper.ensureInitialized();
+  late final ClassMapperBase<UserData> $mapper = UserDataMapper.ensureInitialized();
   @override
   $R call(
           {bool? isFavourite,
@@ -134,8 +121,7 @@ class _UserDataCopyWithImpl<$R, $Out>
         if (isFavourite != null) #isFavourite: isFavourite,
         if (playCount != null) #playCount: playCount,
         if (unPlayedItemCount != $none) #unPlayedItemCount: unPlayedItemCount,
-        if (playbackPositionTicks != null)
-          #playbackPositionTicks: playbackPositionTicks,
+        if (playbackPositionTicks != null) #playbackPositionTicks: playbackPositionTicks,
         if (progress != null) #progress: progress,
         if (lastPlayed != $none) #lastPlayed: lastPlayed,
         if (played != null) #played: played
@@ -144,16 +130,13 @@ class _UserDataCopyWithImpl<$R, $Out>
   UserData $make(CopyWithData data) => UserData(
       isFavourite: data.get(#isFavourite, or: $value.isFavourite),
       playCount: data.get(#playCount, or: $value.playCount),
-      unPlayedItemCount:
-          data.get(#unPlayedItemCount, or: $value.unPlayedItemCount),
-      playbackPositionTicks:
-          data.get(#playbackPositionTicks, or: $value.playbackPositionTicks),
+      unPlayedItemCount: data.get(#unPlayedItemCount, or: $value.unPlayedItemCount),
+      playbackPositionTicks: data.get(#playbackPositionTicks, or: $value.playbackPositionTicks),
       progress: data.get(#progress, or: $value.progress),
       lastPlayed: data.get(#lastPlayed, or: $value.lastPlayed),
       played: data.get(#played, or: $value.played));
 
   @override
-  UserDataCopyWith<$R2, UserData, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
+  UserDataCopyWith<$R2, UserData, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _UserDataCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

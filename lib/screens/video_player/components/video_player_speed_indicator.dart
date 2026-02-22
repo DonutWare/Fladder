@@ -71,8 +71,8 @@ class _VideoPlayerSpeedIndicatorState extends ConsumerState<VideoPlayerSpeedIndi
                   Text(
                     context.localized.speedIndicator(currentSpeed),
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.white,
-                    ),
+                          color: Colors.white,
+                        ),
                   ),
                 ],
               ),

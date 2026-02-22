@@ -115,7 +115,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                   resizeToAvoidBottomInset: false,
                   extendBody: true,
                   floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && isHomeScreen
-                      ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
+                      ? widget.destinations.elementAtOrNull(currentIndex)?.fabWidget
                       : null,
                   drawer: homeRoutes.any((element) => element.name.contains(currentLocation))
                       ? NestedNavigationDrawer(

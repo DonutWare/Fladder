@@ -24,45 +24,33 @@ class ItemStreamModelMapper extends SubClassMapperBase<ItemStreamModel> {
   final String id = 'ItemStreamModel';
 
   static ImagesData? _$parentImages(ItemStreamModel v) => v.parentImages;
-  static const Field<ItemStreamModel, ImagesData> _f$parentImages =
-      Field('parentImages', _$parentImages);
+  static const Field<ItemStreamModel, ImagesData> _f$parentImages = Field('parentImages', _$parentImages);
   static MediaStreamsModel _$mediaStreams(ItemStreamModel v) => v.mediaStreams;
-  static const Field<ItemStreamModel, MediaStreamsModel> _f$mediaStreams =
-      Field('mediaStreams', _$mediaStreams);
+  static const Field<ItemStreamModel, MediaStreamsModel> _f$mediaStreams = Field('mediaStreams', _$mediaStreams);
   static String _$name(ItemStreamModel v) => v.name;
   static const Field<ItemStreamModel, String> _f$name = Field('name', _$name);
   static String _$id(ItemStreamModel v) => v.id;
   static const Field<ItemStreamModel, String> _f$id = Field('id', _$id);
   static OverviewModel _$overview(ItemStreamModel v) => v.overview;
-  static const Field<ItemStreamModel, OverviewModel> _f$overview =
-      Field('overview', _$overview);
+  static const Field<ItemStreamModel, OverviewModel> _f$overview = Field('overview', _$overview);
   static String? _$parentId(ItemStreamModel v) => v.parentId;
-  static const Field<ItemStreamModel, String> _f$parentId =
-      Field('parentId', _$parentId);
+  static const Field<ItemStreamModel, String> _f$parentId = Field('parentId', _$parentId);
   static String? _$playlistId(ItemStreamModel v) => v.playlistId;
-  static const Field<ItemStreamModel, String> _f$playlistId =
-      Field('playlistId', _$playlistId);
+  static const Field<ItemStreamModel, String> _f$playlistId = Field('playlistId', _$playlistId);
   static ImagesData? _$images(ItemStreamModel v) => v.images;
-  static const Field<ItemStreamModel, ImagesData> _f$images =
-      Field('images', _$images);
+  static const Field<ItemStreamModel, ImagesData> _f$images = Field('images', _$images);
   static int? _$childCount(ItemStreamModel v) => v.childCount;
-  static const Field<ItemStreamModel, int> _f$childCount =
-      Field('childCount', _$childCount);
+  static const Field<ItemStreamModel, int> _f$childCount = Field('childCount', _$childCount);
   static double? _$primaryRatio(ItemStreamModel v) => v.primaryRatio;
-  static const Field<ItemStreamModel, double> _f$primaryRatio =
-      Field('primaryRatio', _$primaryRatio);
+  static const Field<ItemStreamModel, double> _f$primaryRatio = Field('primaryRatio', _$primaryRatio);
   static UserData _$userData(ItemStreamModel v) => v.userData;
-  static const Field<ItemStreamModel, UserData> _f$userData =
-      Field('userData', _$userData);
+  static const Field<ItemStreamModel, UserData> _f$userData = Field('userData', _$userData);
   static bool? _$canDelete(ItemStreamModel v) => v.canDelete;
-  static const Field<ItemStreamModel, bool> _f$canDelete =
-      Field('canDelete', _$canDelete);
+  static const Field<ItemStreamModel, bool> _f$canDelete = Field('canDelete', _$canDelete);
   static bool? _$canDownload(ItemStreamModel v) => v.canDownload;
-  static const Field<ItemStreamModel, bool> _f$canDownload =
-      Field('canDownload', _$canDownload);
+  static const Field<ItemStreamModel, bool> _f$canDownload = Field('canDownload', _$canDownload);
   static dto.BaseItemKind? _$jellyType(ItemStreamModel v) => v.jellyType;
-  static const Field<ItemStreamModel, dto.BaseItemKind> _f$jellyType =
-      Field('jellyType', _$jellyType, opt: true);
+  static const Field<ItemStreamModel, dto.BaseItemKind> _f$jellyType = Field('jellyType', _$jellyType, opt: true);
 
   @override
   final MappableFields<ItemStreamModel> fields = const {
@@ -89,8 +77,7 @@ class ItemStreamModelMapper extends SubClassMapperBase<ItemStreamModel> {
   @override
   final dynamic discriminatorValue = 'ItemStreamModel';
   @override
-  late final ClassMapperBase superMapper =
-      ItemBaseModelMapper.ensureInitialized();
+  late final ClassMapperBase superMapper = ItemBaseModelMapper.ensureInitialized();
 
   static ItemStreamModel _instantiate(DecodingData data) {
     return ItemStreamModel(
@@ -115,14 +102,11 @@ class ItemStreamModelMapper extends SubClassMapperBase<ItemStreamModel> {
 }
 
 mixin ItemStreamModelMappable {
-  ItemStreamModelCopyWith<ItemStreamModel, ItemStreamModel, ItemStreamModel>
-      get copyWith =>
-          _ItemStreamModelCopyWithImpl<ItemStreamModel, ItemStreamModel>(
-              this as ItemStreamModel, $identity, $identity);
+  ItemStreamModelCopyWith<ItemStreamModel, ItemStreamModel, ItemStreamModel> get copyWith =>
+      _ItemStreamModelCopyWithImpl<ItemStreamModel, ItemStreamModel>(this as ItemStreamModel, $identity, $identity);
 }
 
-extension ItemStreamModelValueCopy<$R, $Out>
-    on ObjectCopyWith<$R, ItemStreamModel, $Out> {
+extension ItemStreamModelValueCopy<$R, $Out> on ObjectCopyWith<$R, ItemStreamModel, $Out> {
   ItemStreamModelCopyWith<$R, ItemStreamModel, $Out> get $asItemStreamModel =>
       $base.as((v, t, t2) => _ItemStreamModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
@@ -149,24 +133,20 @@ abstract class ItemStreamModelCopyWith<$R, $In extends ItemStreamModel, $Out>
       bool? canDelete,
       bool? canDownload,
       dto.BaseItemKind? jellyType});
-  ItemStreamModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
-      Then<$Out2, $R2> t);
+  ItemStreamModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _ItemStreamModelCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, ItemStreamModel, $Out>
+class _ItemStreamModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, ItemStreamModel, $Out>
     implements ItemStreamModelCopyWith<$R, ItemStreamModel, $Out> {
   _ItemStreamModelCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<ItemStreamModel> $mapper =
-      ItemStreamModelMapper.ensureInitialized();
+  late final ClassMapperBase<ItemStreamModel> $mapper = ItemStreamModelMapper.ensureInitialized();
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
-  UserDataCopyWith<$R, UserData, UserData> get userData =>
-      $value.userData.copyWith.$chain((v) => call(userData: v));
+  UserDataCopyWith<$R, UserData, UserData> get userData => $value.userData.copyWith.$chain((v) => call(userData: v));
   @override
   $R call(
           {Object? parentImages = $none,
@@ -217,7 +197,6 @@ class _ItemStreamModelCopyWithImpl<$R, $Out>
       jellyType: data.get(#jellyType, or: $value.jellyType));
 
   @override
-  ItemStreamModelCopyWith<$R2, ItemStreamModel, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
+  ItemStreamModelCopyWith<$R2, ItemStreamModel, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _ItemStreamModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

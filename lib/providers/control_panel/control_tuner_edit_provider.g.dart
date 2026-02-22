@@ -29,8 +29,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$ControlTunerEdit
-    extends BuildlessAutoDisposeNotifier<ControlTunerEditModel> {
+abstract class _$ControlTunerEdit extends BuildlessAutoDisposeNotifier<ControlTunerEditModel> {
   late final TunerHostInfo? initialTuner;
 
   ControlTunerEditModel build(
@@ -73,16 +72,14 @@ class ControlTunerEditFamily extends Family<ControlTunerEditModel> {
   static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies => _allTransitiveDependencies;
 
   @override
   String? get name => r'controlTunerEditProvider';
 }
 
 /// See also [ControlTunerEdit].
-class ControlTunerEditProvider extends AutoDisposeNotifierProviderImpl<
-    ControlTunerEdit, ControlTunerEditModel> {
+class ControlTunerEditProvider extends AutoDisposeNotifierProviderImpl<ControlTunerEdit, ControlTunerEditModel> {
   /// See also [ControlTunerEdit].
   ControlTunerEditProvider(
     TunerHostInfo? initialTuner,
@@ -90,13 +87,9 @@ class ControlTunerEditProvider extends AutoDisposeNotifierProviderImpl<
           () => ControlTunerEdit()..initialTuner = initialTuner,
           from: controlTunerEditProvider,
           name: r'controlTunerEditProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$controlTunerEditHash,
+          debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$controlTunerEditHash,
           dependencies: ControlTunerEditFamily._dependencies,
-          allTransitiveDependencies:
-              ControlTunerEditFamily._allTransitiveDependencies,
+          allTransitiveDependencies: ControlTunerEditFamily._allTransitiveDependencies,
           initialTuner: initialTuner,
         );
 
@@ -138,15 +131,13 @@ class ControlTunerEditProvider extends AutoDisposeNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeNotifierProviderElement<ControlTunerEdit, ControlTunerEditModel>
-      createElement() {
+  AutoDisposeNotifierProviderElement<ControlTunerEdit, ControlTunerEditModel> createElement() {
     return _ControlTunerEditProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is ControlTunerEditProvider &&
-        other.initialTuner == initialTuner;
+    return other is ControlTunerEditProvider && other.initialTuner == initialTuner;
   }
 
   @override
@@ -160,20 +151,17 @@ class ControlTunerEditProvider extends AutoDisposeNotifierProviderImpl<
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin ControlTunerEditRef
-    on AutoDisposeNotifierProviderRef<ControlTunerEditModel> {
+mixin ControlTunerEditRef on AutoDisposeNotifierProviderRef<ControlTunerEditModel> {
   /// The parameter `initialTuner` of this provider.
   TunerHostInfo? get initialTuner;
 }
 
 class _ControlTunerEditProviderElement
-    extends AutoDisposeNotifierProviderElement<ControlTunerEdit,
-        ControlTunerEditModel> with ControlTunerEditRef {
+    extends AutoDisposeNotifierProviderElement<ControlTunerEdit, ControlTunerEditModel> with ControlTunerEditRef {
   _ControlTunerEditProviderElement(super.provider);
 
   @override
-  TunerHostInfo? get initialTuner =>
-      (origin as ControlTunerEditProvider).initialTuner;
+  TunerHostInfo? get initialTuner => (origin as ControlTunerEditProvider).initialTuner;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

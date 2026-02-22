@@ -1,13 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
-
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:fladder/fake/fake_jellyfin_open_api.dart';
 import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -25,6 +20,9 @@ import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 const _userSettings = "usersettings";
 const _client = "fladder";
@@ -1218,7 +1216,9 @@ class JellyService {
                     (e) {
                       final parsed = Uri.tryParse(e);
                       if (parsed == null) return '';
-                      if (parsed.hasScheme && parsed.host.isNotEmpty) return parsed.toString();
+                      if (parsed.hasScheme && parsed.host.isNotEmpty) {
+                        return parsed.toString();
+                      }
                       return buildServerUrl(
                         ref,
                         pathSegments: [

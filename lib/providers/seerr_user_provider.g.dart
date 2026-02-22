@@ -10,12 +10,10 @@ String _$seerrUserHash() => r'99fd98d6e4f32a4d7eda0567f970714f32023896';
 
 /// See also [SeerrUser].
 @ProviderFor(SeerrUser)
-final seerrUserProvider =
-    AutoDisposeNotifierProvider<SeerrUser, SeerrUserModel?>.internal(
+final seerrUserProvider = AutoDisposeNotifierProvider<SeerrUser, SeerrUserModel?>.internal(
   SeerrUser.new,
   name: r'seerrUserProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$seerrUserHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$seerrUserHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

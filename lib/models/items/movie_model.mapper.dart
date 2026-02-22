@@ -26,82 +26,59 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
   final String id = 'MovieModel';
 
   static String _$originalTitle(MovieModel v) => v.originalTitle;
-  static const Field<MovieModel, String> _f$originalTitle =
-      Field('originalTitle', _$originalTitle);
+  static const Field<MovieModel, String> _f$originalTitle = Field('originalTitle', _$originalTitle);
   static String? _$path(MovieModel v) => v.path;
-  static const Field<MovieModel, String> _f$path =
-      Field('path', _$path, opt: true);
+  static const Field<MovieModel, String> _f$path = Field('path', _$path, opt: true);
   static List<Chapter> _$chapters(MovieModel v) => v.chapters;
-  static const Field<MovieModel, List<Chapter>> _f$chapters =
-      Field('chapters', _$chapters, opt: true, def: const []);
-  static List<SpecialFeatureModel> _$specialFeatures(MovieModel v) =>
-      v.specialFeatures;
+  static const Field<MovieModel, List<Chapter>> _f$chapters = Field('chapters', _$chapters, opt: true, def: const []);
+  static List<SpecialFeatureModel> _$specialFeatures(MovieModel v) => v.specialFeatures;
   static const Field<MovieModel, List<SpecialFeatureModel>> _f$specialFeatures =
       Field('specialFeatures', _$specialFeatures, opt: true, def: const []);
   static DateTime _$premiereDate(MovieModel v) => v.premiereDate;
-  static const Field<MovieModel, DateTime> _f$premiereDate =
-      Field('premiereDate', _$premiereDate);
+  static const Field<MovieModel, DateTime> _f$premiereDate = Field('premiereDate', _$premiereDate);
   static String _$sortName(MovieModel v) => v.sortName;
-  static const Field<MovieModel, String> _f$sortName =
-      Field('sortName', _$sortName);
+  static const Field<MovieModel, String> _f$sortName = Field('sortName', _$sortName);
   static String _$status(MovieModel v) => v.status;
   static const Field<MovieModel, String> _f$status = Field('status', _$status);
   static List<ItemBaseModel> _$related(MovieModel v) => v.related;
   static const Field<MovieModel, List<ItemBaseModel>> _f$related =
       Field('related', _$related, opt: true, def: const []);
-  static List<SeerrDashboardPosterModel> _$seerrRelated(MovieModel v) =>
-      v.seerrRelated;
-  static const Field<MovieModel, List<SeerrDashboardPosterModel>>
-      _f$seerrRelated =
+  static List<SeerrDashboardPosterModel> _$seerrRelated(MovieModel v) => v.seerrRelated;
+  static const Field<MovieModel, List<SeerrDashboardPosterModel>> _f$seerrRelated =
       Field('seerrRelated', _$seerrRelated, opt: true, def: const []);
-  static List<SeerrDashboardPosterModel> _$seerrRecommended(MovieModel v) =>
-      v.seerrRecommended;
-  static const Field<MovieModel, List<SeerrDashboardPosterModel>>
-      _f$seerrRecommended =
+  static List<SeerrDashboardPosterModel> _$seerrRecommended(MovieModel v) => v.seerrRecommended;
+  static const Field<MovieModel, List<SeerrDashboardPosterModel>> _f$seerrRecommended =
       Field('seerrRecommended', _$seerrRecommended, opt: true, def: const []);
   static Map<String, dynamic>? _$providerIds(MovieModel v) => v.providerIds;
-  static const Field<MovieModel, Map<String, dynamic>> _f$providerIds =
-      Field('providerIds', _$providerIds, opt: true);
+  static const Field<MovieModel, Map<String, dynamic>> _f$providerIds = Field('providerIds', _$providerIds, opt: true);
   static String _$name(MovieModel v) => v.name;
   static const Field<MovieModel, String> _f$name = Field('name', _$name);
   static String _$id(MovieModel v) => v.id;
   static const Field<MovieModel, String> _f$id = Field('id', _$id);
   static OverviewModel _$overview(MovieModel v) => v.overview;
-  static const Field<MovieModel, OverviewModel> _f$overview =
-      Field('overview', _$overview);
+  static const Field<MovieModel, OverviewModel> _f$overview = Field('overview', _$overview);
   static String? _$parentId(MovieModel v) => v.parentId;
-  static const Field<MovieModel, String> _f$parentId =
-      Field('parentId', _$parentId);
+  static const Field<MovieModel, String> _f$parentId = Field('parentId', _$parentId);
   static String? _$playlistId(MovieModel v) => v.playlistId;
-  static const Field<MovieModel, String> _f$playlistId =
-      Field('playlistId', _$playlistId);
+  static const Field<MovieModel, String> _f$playlistId = Field('playlistId', _$playlistId);
   static ImagesData? _$images(MovieModel v) => v.images;
-  static const Field<MovieModel, ImagesData> _f$images =
-      Field('images', _$images);
+  static const Field<MovieModel, ImagesData> _f$images = Field('images', _$images);
   static int? _$childCount(MovieModel v) => v.childCount;
-  static const Field<MovieModel, int> _f$childCount =
-      Field('childCount', _$childCount);
+  static const Field<MovieModel, int> _f$childCount = Field('childCount', _$childCount);
   static double? _$primaryRatio(MovieModel v) => v.primaryRatio;
-  static const Field<MovieModel, double> _f$primaryRatio =
-      Field('primaryRatio', _$primaryRatio);
+  static const Field<MovieModel, double> _f$primaryRatio = Field('primaryRatio', _$primaryRatio);
   static UserData _$userData(MovieModel v) => v.userData;
-  static const Field<MovieModel, UserData> _f$userData =
-      Field('userData', _$userData);
+  static const Field<MovieModel, UserData> _f$userData = Field('userData', _$userData);
   static ImagesData? _$parentImages(MovieModel v) => v.parentImages;
-  static const Field<MovieModel, ImagesData> _f$parentImages =
-      Field('parentImages', _$parentImages);
+  static const Field<MovieModel, ImagesData> _f$parentImages = Field('parentImages', _$parentImages);
   static MediaStreamsModel _$mediaStreams(MovieModel v) => v.mediaStreams;
-  static const Field<MovieModel, MediaStreamsModel> _f$mediaStreams =
-      Field('mediaStreams', _$mediaStreams);
+  static const Field<MovieModel, MediaStreamsModel> _f$mediaStreams = Field('mediaStreams', _$mediaStreams);
   static bool? _$canDownload(MovieModel v) => v.canDownload;
-  static const Field<MovieModel, bool> _f$canDownload =
-      Field('canDownload', _$canDownload);
+  static const Field<MovieModel, bool> _f$canDownload = Field('canDownload', _$canDownload);
   static bool? _$canDelete(MovieModel v) => v.canDelete;
-  static const Field<MovieModel, bool> _f$canDelete =
-      Field('canDelete', _$canDelete);
+  static const Field<MovieModel, bool> _f$canDelete = Field('canDelete', _$canDelete);
   static dto.BaseItemKind? _$jellyType(MovieModel v) => v.jellyType;
-  static const Field<MovieModel, dto.BaseItemKind> _f$jellyType =
-      Field('jellyType', _$jellyType, opt: true);
+  static const Field<MovieModel, dto.BaseItemKind> _f$jellyType = Field('jellyType', _$jellyType, opt: true);
 
   @override
   final MappableFields<MovieModel> fields = const {
@@ -139,8 +116,7 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
   @override
   final dynamic discriminatorValue = 'MovieModel';
   @override
-  late final ClassMapperBase superMapper =
-      ItemStreamModelMapper.ensureInitialized();
+  late final ClassMapperBase superMapper = ItemStreamModelMapper.ensureInitialized();
 
   static MovieModel _instantiate(DecodingData data) {
     return MovieModel(
@@ -177,38 +153,24 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
 
 mixin MovieModelMappable {
   MovieModelCopyWith<MovieModel, MovieModel, MovieModel> get copyWith =>
-      _MovieModelCopyWithImpl<MovieModel, MovieModel>(
-          this as MovieModel, $identity, $identity);
+      _MovieModelCopyWithImpl<MovieModel, MovieModel>(this as MovieModel, $identity, $identity);
 }
 
-extension MovieModelValueCopy<$R, $Out>
-    on ObjectCopyWith<$R, MovieModel, $Out> {
+extension MovieModelValueCopy<$R, $Out> on ObjectCopyWith<$R, MovieModel, $Out> {
   MovieModelCopyWith<$R, MovieModel, $Out> get $asMovieModel =>
       $base.as((v, t, t2) => _MovieModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class MovieModelCopyWith<$R, $In extends MovieModel, $Out>
-    implements ItemStreamModelCopyWith<$R, $In, $Out> {
+abstract class MovieModelCopyWith<$R, $In extends MovieModel, $Out> implements ItemStreamModelCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, Chapter, ObjectCopyWith<$R, Chapter, Chapter>> get chapters;
-  ListCopyWith<
-      $R,
-      SpecialFeatureModel,
-      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
-          SpecialFeatureModel>> get specialFeatures;
-  ListCopyWith<$R, ItemBaseModel,
-      ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>> get related;
-  ListCopyWith<
-      $R,
-      SeerrDashboardPosterModel,
-      ObjectCopyWith<$R, SeerrDashboardPosterModel,
-          SeerrDashboardPosterModel>> get seerrRelated;
-  ListCopyWith<
-      $R,
-      SeerrDashboardPosterModel,
-      ObjectCopyWith<$R, SeerrDashboardPosterModel,
-          SeerrDashboardPosterModel>> get seerrRecommended;
-  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>?
-      get providerIds;
+  ListCopyWith<$R, SpecialFeatureModel, SpecialFeatureModelCopyWith<$R, SpecialFeatureModel, SpecialFeatureModel>>
+      get specialFeatures;
+  ListCopyWith<$R, ItemBaseModel, ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>> get related;
+  ListCopyWith<$R, SeerrDashboardPosterModel, ObjectCopyWith<$R, SeerrDashboardPosterModel, SeerrDashboardPosterModel>>
+      get seerrRelated;
+  ListCopyWith<$R, SeerrDashboardPosterModel, ObjectCopyWith<$R, SeerrDashboardPosterModel, SeerrDashboardPosterModel>>
+      get seerrRecommended;
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>? get providerIds;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
   @override
@@ -243,64 +205,39 @@ abstract class MovieModelCopyWith<$R, $In extends MovieModel, $Out>
   MovieModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _MovieModelCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, MovieModel, $Out>
+class _MovieModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, MovieModel, $Out>
     implements MovieModelCopyWith<$R, MovieModel, $Out> {
   _MovieModelCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<MovieModel> $mapper =
-      MovieModelMapper.ensureInitialized();
+  late final ClassMapperBase<MovieModel> $mapper = MovieModelMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, Chapter, ObjectCopyWith<$R, Chapter, Chapter>>
-      get chapters => ListCopyWith($value.chapters,
-          (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(chapters: v));
+  ListCopyWith<$R, Chapter, ObjectCopyWith<$R, Chapter, Chapter>> get chapters =>
+      ListCopyWith($value.chapters, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(chapters: v));
   @override
-  ListCopyWith<
-      $R,
-      SpecialFeatureModel,
-      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
-          SpecialFeatureModel>> get specialFeatures => ListCopyWith(
-      $value.specialFeatures,
-      (v, t) => v.copyWith.$chain(t),
-      (v) => call(specialFeatures: v));
+  ListCopyWith<$R, SpecialFeatureModel, SpecialFeatureModelCopyWith<$R, SpecialFeatureModel, SpecialFeatureModel>>
+      get specialFeatures =>
+          ListCopyWith($value.specialFeatures, (v, t) => v.copyWith.$chain(t), (v) => call(specialFeatures: v));
   @override
-  ListCopyWith<$R, ItemBaseModel,
-          ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>>
-      get related => ListCopyWith($value.related,
-          (v, t) => v.copyWith.$chain(t), (v) => call(related: v));
+  ListCopyWith<$R, ItemBaseModel, ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>> get related =>
+      ListCopyWith($value.related, (v, t) => v.copyWith.$chain(t), (v) => call(related: v));
   @override
-  ListCopyWith<
-      $R,
-      SeerrDashboardPosterModel,
-      ObjectCopyWith<$R, SeerrDashboardPosterModel,
-          SeerrDashboardPosterModel>> get seerrRelated => ListCopyWith(
-      $value.seerrRelated,
-      (v, t) => ObjectCopyWith(v, $identity, t),
-      (v) => call(seerrRelated: v));
+  ListCopyWith<$R, SeerrDashboardPosterModel, ObjectCopyWith<$R, SeerrDashboardPosterModel, SeerrDashboardPosterModel>>
+      get seerrRelated =>
+          ListCopyWith($value.seerrRelated, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(seerrRelated: v));
   @override
-  ListCopyWith<
-      $R,
-      SeerrDashboardPosterModel,
-      ObjectCopyWith<$R, SeerrDashboardPosterModel,
-          SeerrDashboardPosterModel>> get seerrRecommended => ListCopyWith(
-      $value.seerrRecommended,
-      (v, t) => ObjectCopyWith(v, $identity, t),
-      (v) => call(seerrRecommended: v));
+  ListCopyWith<$R, SeerrDashboardPosterModel, ObjectCopyWith<$R, SeerrDashboardPosterModel, SeerrDashboardPosterModel>>
+      get seerrRecommended => ListCopyWith(
+          $value.seerrRecommended, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(seerrRecommended: v));
   @override
-  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>?
-      get providerIds => $value.providerIds != null
-          ? MapCopyWith(
-              $value.providerIds!,
-              (v, t) => ObjectCopyWith(v, $identity, t),
-              (v) => call(providerIds: v))
-          : null;
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>? get providerIds => $value.providerIds != null
+      ? MapCopyWith($value.providerIds!, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(providerIds: v))
+      : null;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
-  UserDataCopyWith<$R, UserData, UserData> get userData =>
-      $value.userData.copyWith.$chain((v) => call(userData: v));
+  UserDataCopyWith<$R, UserData, UserData> get userData => $value.userData.copyWith.$chain((v) => call(userData: v));
   @override
   $R call(
           {String? originalTitle,
@@ -366,8 +303,7 @@ class _MovieModelCopyWithImpl<$R, $Out>
       status: data.get(#status, or: $value.status),
       related: data.get(#related, or: $value.related),
       seerrRelated: data.get(#seerrRelated, or: $value.seerrRelated),
-      seerrRecommended:
-          data.get(#seerrRecommended, or: $value.seerrRecommended),
+      seerrRecommended: data.get(#seerrRecommended, or: $value.seerrRecommended),
       providerIds: data.get(#providerIds, or: $value.providerIds),
       name: data.get(#name, or: $value.name),
       id: data.get(#id, or: $value.id),
@@ -385,7 +321,6 @@ class _MovieModelCopyWithImpl<$R, $Out>
       jellyType: data.get(#jellyType, or: $value.jellyType));
 
   @override
-  MovieModelCopyWith<$R2, MovieModel, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
+  MovieModelCopyWith<$R2, MovieModel, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _MovieModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

@@ -10,13 +10,10 @@ String _$directoryBrowserHash() => r'baecaa63893df6dcbcf6c940bee81f92a7cd5c92';
 
 /// See also [DirectoryBrowser].
 @ProviderFor(DirectoryBrowser)
-final directoryBrowserProvider = AutoDisposeNotifierProvider<DirectoryBrowser,
-    DirectoryBrowserModel>.internal(
+final directoryBrowserProvider = AutoDisposeNotifierProvider<DirectoryBrowser, DirectoryBrowserModel>.internal(
   DirectoryBrowser.new,
   name: r'directoryBrowserProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$directoryBrowserHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$directoryBrowserHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

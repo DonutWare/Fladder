@@ -1,10 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
-
 import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
@@ -28,6 +23,10 @@ import 'package:fladder/widgets/shared/custom_tooltip.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/simple_overflow_widget.dart';
+import 'package:fladder/widgets/syncplay/syncplay_fab.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 final navBarNode = FocusNode();
 
@@ -170,7 +169,7 @@ class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
                           padding: const EdgeInsets.symmetric(horizontal: 4).copyWith(bottom: expandedSideBar ? 10 : 0),
                           child: AnimatedFadeSize(
                             duration: const Duration(milliseconds: 250),
-                            child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
+                            child: actionButtonWidget(context, shouldExpand),
                           ),
                         ),
                       ],
@@ -410,6 +409,28 @@ class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
           onPressed: () => context.router.navigate(LibrarySearchRoute()),
           child: const Icon(IconsaxPlusLinear.search_normal_1),
         );
+  }
+
+  Widget actionButtonWidget(BuildContext context, bool expanded) {
+    final destination = (widget.currentIndex >= 0 && widget.currentIndex < widget.destinations.length)
+        ? widget.destinations[widget.currentIndex]
+        : null;
+
+    // If there's a custom FAB widget, use it (already includes SyncPlay for dashboard)
+    if (destination?.customFab != null) {
+      return destination!.customFab!;
+    }
+
+    // Otherwise show SyncPlay + action button (same pattern as DashboardFabs)
+    final fab = actionButton(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 8,
+      children: [
+        const SyncPlayFab(),
+        expanded ? fab.extended : fab.normal,
+      ],
+    );
   }
 }
 

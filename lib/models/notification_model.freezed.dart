@@ -124,16 +124,15 @@ extension NotificationModelPatterns on NotificationModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String key, String id, int? childCount, String? image,
-            String title, String? subtitle, String payLoad)?
+    TResult Function(
+            String key, String id, int? childCount, String? image, String title, String? subtitle, String payLoad)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _NotificationModel() when $default != null:
-        return $default(_that.key, _that.id, _that.childCount, _that.image,
-            _that.title, _that.subtitle, _that.payLoad);
+        return $default(_that.key, _that.id, _that.childCount, _that.image, _that.title, _that.subtitle, _that.payLoad);
       case _:
         return orElse();
     }
@@ -154,15 +153,14 @@ extension NotificationModelPatterns on NotificationModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String key, String id, int? childCount, String? image,
-            String title, String? subtitle, String payLoad)
+    TResult Function(
+            String key, String id, int? childCount, String? image, String title, String? subtitle, String payLoad)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _NotificationModel():
-        return $default(_that.key, _that.id, _that.childCount, _that.image,
-            _that.title, _that.subtitle, _that.payLoad);
+        return $default(_that.key, _that.id, _that.childCount, _that.image, _that.title, _that.subtitle, _that.payLoad);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -182,15 +180,14 @@ extension NotificationModelPatterns on NotificationModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String key, String id, int? childCount, String? image,
-            String title, String? subtitle, String payLoad)?
+    TResult? Function(
+            String key, String id, int? childCount, String? image, String title, String? subtitle, String payLoad)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _NotificationModel() when $default != null:
-        return $default(_that.key, _that.id, _that.childCount, _that.image,
-            _that.title, _that.subtitle, _that.payLoad);
+        return $default(_that.key, _that.id, _that.childCount, _that.image, _that.title, _that.subtitle, _that.payLoad);
       case _:
         return null;
     }
@@ -208,8 +205,7 @@ class _NotificationModel implements NotificationModel {
       required this.title,
       this.subtitle,
       required this.payLoad});
-  factory _NotificationModel.fromJson(Map<String, dynamic> json) =>
-      _$NotificationModelFromJson(json);
+  factory _NotificationModel.fromJson(Map<String, dynamic> json) => _$NotificationModelFromJson(json);
 
   @override
   final String key;

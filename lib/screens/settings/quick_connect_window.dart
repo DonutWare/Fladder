@@ -9,16 +9,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 Future<void> openQuickConnectDialog(
   BuildContext context,
 ) async {
-  return showDialog(
-      context: context, builder: (context) => const QuickConnectDialog());
+  return showDialog(context: context, builder: (context) => const QuickConnectDialog());
 }
 
 class QuickConnectDialog extends ConsumerStatefulWidget {
   const QuickConnectDialog({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _QuickConnectDialogState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _QuickConnectDialogState();
 }
 
 class _QuickConnectDialogState extends ConsumerState<QuickConnectDialog> {
@@ -105,8 +103,7 @@ class _QuickConnectDialogState extends ConsumerState<QuickConnectDialog> {
       error = null;
       loading = true;
     });
-    final response =
-        await ref.read(userProvider.notifier).quickConnect(controller.text);
+    final response = await ref.read(userProvider.notifier).quickConnect(controller.text);
     if (response.isSuccessful) {
       setState(
         () {

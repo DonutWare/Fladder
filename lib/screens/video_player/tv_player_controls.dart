@@ -34,7 +34,9 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/screens/video_player/components/syncplay_command_indicator.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
+import 'package:fladder/widgets/syncplay/syncplay_badge.dart';
 
 class TvPlayerControls extends ConsumerStatefulWidget {
   final Function(bool value) showGuide;
@@ -126,6 +128,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                 const VideoPlayerSeekIndicator(),
                 const VideoPlayerVolumeIndicator(),
                 const VideoPlayerScreenshotIndicator(),
+                const SyncPlayCommandIndicator(),
               ],
             ),
           ),
@@ -205,6 +208,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                           ],
                         ),
                       ),
+                    const SyncPlayBadge(),
                     if (initInputDevice == InputDevice.touch)
                       Align(
                         alignment: Alignment.centerRight,

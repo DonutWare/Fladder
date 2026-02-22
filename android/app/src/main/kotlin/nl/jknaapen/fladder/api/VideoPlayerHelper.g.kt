@@ -2,6 +2,7 @@
 // See also: https://pub.dev/packages/pigeon
 @file:Suppress("UNCHECKED_CAST", "ArrayInDataClass")
 
+package nl.jknaapen.fladder.api
 
 import android.util.Log
 import io.flutter.plugin.common.BasicMessageChannel
@@ -102,6 +103,22 @@ enum class MediaSegmentType(val raw: Int) {
 
   companion object {
     fun ofRaw(raw: Int): MediaSegmentType? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
+
+/** Source of the last playback state change (for SyncPlay: infer user actions from stream). */
+enum class PlaybackChangeSource(val raw: Int) {
+  /** No specific source (e.g. periodic update, buffering). */
+  NONE(0),
+  /** User tapped play/pause/seek on native; Flutter should send SyncPlay if active. */
+  USER(1),
+  /** Change was caused by applying a SyncPlay command; do not send again. */
+  SYNCPLAY(2);
+
+  companion object {
+    fun ofRaw(raw: Int): PlaybackChangeSource? {
       return values().firstOrNull { it.raw == raw }
     }
   }
@@ -487,7 +504,9 @@ data class PlaybackState (
   val playing: Boolean,
   val buffering: Boolean,
   val completed: Boolean,
-  val failed: Boolean
+  val failed: Boolean,
+  /** When set, indicates who caused this state update (for SyncPlay inference). */
+  val changeSource: PlaybackChangeSource? = null
 )
  {
   companion object {
@@ -499,7 +518,8 @@ data class PlaybackState (
       val buffering = pigeonVar_list[4] as Boolean
       val completed = pigeonVar_list[5] as Boolean
       val failed = pigeonVar_list[6] as Boolean
-      return PlaybackState(position, buffered, duration, playing, buffering, completed, failed)
+      val changeSource = pigeonVar_list[7] as PlaybackChangeSource?
+      return PlaybackState(position, buffered, duration, playing, buffering, completed, failed, changeSource)
     }
   }
   fun toList(): List<Any?> {
@@ -511,6 +531,7 @@ data class PlaybackState (
       buffering,
       completed,
       failed,
+      changeSource,
     )
   }
   override fun equals(other: Any?): Boolean {
@@ -713,66 +734,71 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
         }
       }
       131.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
-          SimpleItemModel.fromList(it)
+        return (readValue(buffer) as Long?)?.let {
+          PlaybackChangeSource.ofRaw(it.toInt())
         }
       }
       132.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MediaInfo.fromList(it)
+          SimpleItemModel.fromList(it)
         }
       }
       133.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          PlayableData.fromList(it)
+          MediaInfo.fromList(it)
         }
       }
       134.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          MediaSegment.fromList(it)
+          PlayableData.fromList(it)
         }
       }
       135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          AudioTrack.fromList(it)
+          MediaSegment.fromList(it)
         }
       }
       136.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          SubtitleTrack.fromList(it)
+          AudioTrack.fromList(it)
         }
       }
       137.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Chapter.fromList(it)
+          SubtitleTrack.fromList(it)
         }
       }
       138.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          TrickPlayModel.fromList(it)
+          Chapter.fromList(it)
         }
       }
       139.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          StartResult.fromList(it)
+          TrickPlayModel.fromList(it)
         }
       }
       140.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          PlaybackState.fromList(it)
+          StartResult.fromList(it)
         }
       }
       141.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          SubtitleSettings.fromList(it)
+          PlaybackState.fromList(it)
         }
       }
       142.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          TVGuideModel.fromList(it)
+          SubtitleSettings.fromList(it)
         }
       }
       143.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          TVGuideModel.fromList(it)
+        }
+      }
+      144.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           GuideChannel.fromList(it)
         }
@@ -795,44 +821,48 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
         stream.write(130)
         writeValue(stream, value.raw.toLong())
       }
-      is SimpleItemModel -> {
+      is PlaybackChangeSource -> {
         stream.write(131)
-        writeValue(stream, value.toList())
+        writeValue(stream, value.raw.toLong())
       }
-      is MediaInfo -> {
+      is SimpleItemModel -> {
         stream.write(132)
         writeValue(stream, value.toList())
       }
-      is PlayableData -> {
+      is MediaInfo -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
-      is MediaSegment -> {
+      is PlayableData -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
-      is AudioTrack -> {
+      is MediaSegment -> {
         stream.write(135)
         writeValue(stream, value.toList())
       }
-      is SubtitleTrack -> {
+      is AudioTrack -> {
         stream.write(136)
         writeValue(stream, value.toList())
       }
-      is Chapter -> {
+      is SubtitleTrack -> {
         stream.write(137)
         writeValue(stream, value.toList())
       }
-      is TrickPlayModel -> {
+      is Chapter -> {
         stream.write(138)
         writeValue(stream, value.toList())
       }
-      is StartResult -> {
+      is TrickPlayModel -> {
         stream.write(139)
         writeValue(stream, value.toList())
       }
-      is PlaybackState -> {
+      is StartResult -> {
         stream.write(140)
+        writeValue(stream, value.toList())
+      }
+      is PlaybackState -> {
+        stream.write(141)
         writeValue(stream, value.toList())
       }
       is SubtitleSettings -> {
@@ -941,6 +971,12 @@ interface VideoPlayerApi {
   fun seekTo(position: Long)
   fun stop()
   fun setSubtitleSettings(settings: SubtitleSettings)
+  /**
+   * Sets the SyncPlay command state for the native player overlay.
+   * [processing] indicates if a SyncPlay command is being processed.
+   * [commandType] is the type of command (e.g., "Pause", "Unpause", "Seek", "Stop").
+   */
+  fun setSyncPlayCommandState(processing: Boolean, commandType: String?)
 
   companion object {
     /** The codec used by VideoPlayerApi. */
@@ -1150,6 +1186,25 @@ interface VideoPlayerApi {
           channel.setMessageHandler(null)
         }
       }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSyncPlayCommandState$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val processingArg = args[0] as Boolean
+            val commandTypeArg = args[1] as String?
+            val wrapped: List<Any?> = try {
+              api.setSyncPlayCommandState(processingArg, commandTypeArg)
+              listOf(null)
+            } catch (exception: Throwable) {
+              VideoPlayerHelperPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
     }
   }
 }
@@ -1303,6 +1358,63 @@ class VideoPlayerControlsCallback(private val binaryMessenger: BinaryMessenger, 
         } else {
           val output = it[0] as List<GuideProgram>
           callback(Result.success(output))
+        }
+      } else {
+        callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
+      }
+    }
+  }
+  /** User-initiated play action from native player (for SyncPlay integration) */
+  fun onUserPlay(callback: (Result<Unit>) -> Unit)
+{
+    val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
+    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPlay$separatedMessageChannelSuffix"
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
+    channel.send(null) {
+      if (it is List<*>) {
+        if (it.size > 1) {
+          callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))
+        } else {
+          callback(Result.success(Unit))
+        }
+      } else {
+        callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
+      }
+    }
+  }
+  /** User-initiated pause action from native player (for SyncPlay integration) */
+  fun onUserPause(callback: (Result<Unit>) -> Unit)
+{
+    val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
+    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPause$separatedMessageChannelSuffix"
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
+    channel.send(null) {
+      if (it is List<*>) {
+        if (it.size > 1) {
+          callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))
+        } else {
+          callback(Result.success(Unit))
+        }
+      } else {
+        callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
+      }
+    }
+  }
+  /**
+   * User-initiated seek action from native player (for SyncPlay integration)
+   * Position is in milliseconds
+   */
+  fun onUserSeek(positionMsArg: Long, callback: (Result<Unit>) -> Unit)
+{
+    val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
+    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek$separatedMessageChannelSuffix"
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
+    channel.send(listOf(positionMsArg)) {
+      if (it is List<*>) {
+        if (it.size > 1) {
+          callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))
+        } else {
+          callback(Result.success(Unit))
         }
       } else {
         callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))

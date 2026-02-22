@@ -10,13 +10,10 @@ String _$controlLibrariesHash() => r'e3da05dc3d283260923cedee26a2069ad6ec2ab0';
 
 /// See also [ControlLibraries].
 @ProviderFor(ControlLibraries)
-final controlLibrariesProvider = AutoDisposeNotifierProvider<ControlLibraries,
-    ControlLibrariesModel>.internal(
+final controlLibrariesProvider = AutoDisposeNotifierProvider<ControlLibraries, ControlLibrariesModel>.internal(
   ControlLibraries.new,
   name: r'controlLibrariesProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$controlLibrariesHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$controlLibrariesHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

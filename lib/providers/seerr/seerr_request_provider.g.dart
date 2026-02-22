@@ -10,12 +10,10 @@ String _$seerrRequestHash() => r'89604c3fa7ae8c3cd68218b8fe89c1df284aea5d';
 
 /// See also [SeerrRequest].
 @ProviderFor(SeerrRequest)
-final seerrRequestProvider =
-    AutoDisposeNotifierProvider<SeerrRequest, SeerrRequestModel>.internal(
+final seerrRequestProvider = AutoDisposeNotifierProvider<SeerrRequest, SeerrRequestModel>.internal(
   SeerrRequest.new,
   name: r'seerrRequestProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$seerrRequestHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$seerrRequestHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

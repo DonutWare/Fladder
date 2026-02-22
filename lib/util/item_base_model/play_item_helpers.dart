@@ -1,15 +1,8 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-
 import 'package:async/async.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:square_progress_indicator/square_progress_indicator.dart';
-
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
@@ -21,6 +14,7 @@ import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/book_viewer_provider.dart';
 import 'package:fladder/providers/items/book_details_provider.dart';
+import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_screen.dart';
@@ -32,6 +26,13 @@ import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:square_progress_indicator/square_progress_indicator.dart';
+
+import '../../models/syncplay/syncplay_models.dart';
 
 extension BookBaseModelExtension on BookModel? {
   Future<void> play(
@@ -198,6 +199,13 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
 
     await ref.read(videoPlayerProvider.notifier).init();
 
+    // If in SyncPlay group, set the queue via SyncPlay instead of playing directly
+    final isSyncPlayActive = ref.read(isSyncPlayActiveProvider);
+    if (isSyncPlayActive) {
+      await _playSyncPlay(context, itemModel, ref, startPosition: startPosition);
+      return;
+    }
+
     final op = CancelableOperation.fromFuture(ref.read(playbackModelHelper).createPlaybackModel(
           context,
           itemModel,
@@ -224,6 +232,25 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
   }
 }
 
+/// Play item through SyncPlay - sets the queue and lets SyncPlay handle synchronized playback
+Future<void> _playSyncPlay(
+  BuildContext context,
+  ItemBaseModel itemModel,
+  WidgetRef ref, {
+  Duration? startPosition,
+}) async {
+  final startPositionTicks = startPosition != null ? secondsToTicks(startPosition.inMilliseconds / 1000) : 0;
+
+  // Set the new queue via SyncPlay - server will broadcast to all clients
+  await ref.read(syncPlayProvider.notifier).setNewQueue(
+    itemIds: [itemModel.id],
+    playingItemPosition: 0,
+    startPositionTicks: startPositionTicks,
+  );
+
+  // The PlayQueue update from server will trigger playback via _handlePlayQueue
+}
+
 extension ItemBaseModelsBooleans on List<ItemBaseModel> {
   Future<void> playLibraryItems(BuildContext context, WidgetRef ref, {bool shuffle = false}) async {
     if (isEmpty) return;
@@ -245,6 +272,18 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
 
       if (shuffle) {
         expandedList.shuffle();
+      }
+
+      // If in SyncPlay group, set the queue via SyncPlay
+      final isSyncPlayActive = ref.read(isSyncPlayActiveProvider);
+      if (isSyncPlayActive) {
+        Navigator.of(context, rootNavigator: true).pop(); // Pop loading indicator
+        await ref.read(syncPlayProvider.notifier).setNewQueue(
+              itemIds: expandedList.map((e) => e.id).toList(),
+              playingItemPosition: 0,
+              startPositionTicks: 0,
+            );
+        return (null, expandedList);
       }
 
       PlaybackModel? model = await ref.read(playbackModelHelper).createPlaybackModel(
@@ -273,6 +312,14 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
 
     final PlaybackModel? model = result.$1;
     final List<ItemBaseModel> expandedList = result.$2;
+
+    // SyncPlay path: queue was set via setNewQueue, no local PlaybackModel
+    if (model == null && expandedList.isNotEmpty) {
+      if (context.mounted) {
+        RefreshState.maybeOf(context)?.refresh();
+      }
+      return;
+    }
 
     if (context.mounted) {
       await _playVideo(context, ref: ref, queue: expandedList, current: model, cancelOperation: op);

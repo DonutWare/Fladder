@@ -293,8 +293,7 @@ class _ChannelProgram extends ChannelProgram {
       required this.isSeries,
       this.overview})
       : super._();
-  factory _ChannelProgram.fromJson(Map<String, dynamic> json) =>
-      _$ChannelProgramFromJson(json);
+  factory _ChannelProgram.fromJson(Map<String, dynamic> json) => _$ChannelProgramFromJson(json);
 
   @override
   final String id;

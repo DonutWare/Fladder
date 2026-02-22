@@ -18,28 +18,28 @@ String? resolveImageUrl({
 }) {
   if (path == null || path.trim().isEmpty) return path;
   final trimmed = path.trim();
-  
+
   if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
     return trimmed;
   }
-  
+
   final tmdb = tmdbUrl(tmdbBase, trimmed);
   if (tmdb != null) return tmdb;
-  
+
   return resolveServerUrl(path: trimmed, serverUrl: serverUrl);
 }
 
 String? resolveServerUrl({required String? path, required String? serverUrl}) {
   if (path == null || path.trim().isEmpty) return path;
   final trimmed = path.trim();
-  
+
   if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
     return trimmed;
   }
-  
+
   if (serverUrl == null || serverUrl.trim().isEmpty) return trimmed;
   final cleanServerUrl = serverUrl.trim();
-  
+
   final needsSlash = !cleanServerUrl.endsWith('/') && !trimmed.startsWith('/');
   return '$cleanServerUrl${needsSlash ? '/' : ''}$trimmed';
 }

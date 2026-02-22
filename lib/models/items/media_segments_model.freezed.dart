@@ -188,8 +188,7 @@ class _MediaSegmentsModel extends MediaSegmentsModel {
   _MediaSegmentsModel({final List<MediaSegment> segments = const []})
       : _segments = segments,
         super._();
-  factory _MediaSegmentsModel.fromJson(Map<String, dynamic> json) =>
-      _$MediaSegmentsModelFromJson(json);
+  factory _MediaSegmentsModel.fromJson(Map<String, dynamic> json) => _$MediaSegmentsModelFromJson(json);
 
   final List<MediaSegment> _segments;
   @override
@@ -321,8 +320,7 @@ extension MediaSegmentPatterns on MediaSegment {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(MediaSegmentType type, Duration start, Duration end)?
-        $default, {
+    TResult Function(MediaSegmentType type, Duration start, Duration end)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
@@ -349,8 +347,7 @@ extension MediaSegmentPatterns on MediaSegment {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(MediaSegmentType type, Duration start, Duration end)
-        $default,
+    TResult Function(MediaSegmentType type, Duration start, Duration end) $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -375,8 +372,7 @@ extension MediaSegmentPatterns on MediaSegment {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(MediaSegmentType type, Duration start, Duration end)?
-        $default,
+    TResult? Function(MediaSegmentType type, Duration start, Duration end)? $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -391,10 +387,8 @@ extension MediaSegmentPatterns on MediaSegment {
 /// @nodoc
 @JsonSerializable()
 class _MediaSegment extends MediaSegment {
-  _MediaSegment({required this.type, required this.start, required this.end})
-      : super._();
-  factory _MediaSegment.fromJson(Map<String, dynamic> json) =>
-      _$MediaSegmentFromJson(json);
+  _MediaSegment({required this.type, required this.start, required this.end}) : super._();
+  factory _MediaSegment.fromJson(Map<String, dynamic> json) => _$MediaSegmentFromJson(json);
 
   @override
   final MediaSegmentType type;

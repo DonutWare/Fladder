@@ -1,12 +1,8 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart' hide ConnectionState;
-
 import 'package:background_downloader/background_downloader.dart';
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
@@ -25,6 +21,7 @@ import 'package:fladder/models/playback/transcode_playback_model.dart';
 import 'package:fladder/models/playback/tv_playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
+import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
@@ -32,6 +29,7 @@ import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/bitrate_helper.dart';
@@ -40,6 +38,8 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/streams_selection.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
+import 'package:flutter/material.dart' hide ConnectionState;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Media {
   final String url;
@@ -490,7 +490,25 @@ class PlaybackModelHelper {
     final userId = ref.read(userProvider)?.id;
     if (userId?.isEmpty == true) return;
 
-    final currentPosition = ref.read(mediaPlaybackProvider.select((value) => value.position));
+    // Check if syncplay is active and get position from syncplay if so
+    final isSyncPlayActive = ref.read(isSyncPlayActiveProvider);
+    final Duration currentPosition;
+
+    if (isSyncPlayActive) {
+      // Set reloading state in the player notifier to prevent premature ready reporting
+      ref.read(videoPlayerProvider.notifier).setReloading(true);
+
+      // Get syncplay position FIRST before any state changes
+      final syncPlayState = ref.read(syncPlayProvider);
+      final positionTicks = syncPlayState.positionTicks;
+      // Convert ticks to Duration: 1 tick = 100 nanoseconds, 10000 ticks = 1 millisecond
+      currentPosition = Duration(milliseconds: ticksToMilliseconds(positionTicks));
+
+      // Report buffering to syncplay BEFORE stopping/reloading to pause other group members
+      await ref.read(syncPlayProvider.notifier).reportBuffering();
+    } else {
+      currentPosition = ref.read(mediaPlaybackProvider.select((value) => value.position));
+    }
 
     final audioIndex = selectAudioStream(
         ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
@@ -580,9 +598,17 @@ class PlaybackModelHelper {
         bitRateOptions: playbackModel.bitRateOptions,
       );
     }
-    if (newModel == null) return;
+    if (newModel == null) {
+      if (isSyncPlayActive) {
+        ref.read(videoPlayerProvider.notifier).setReloading(false);
+      }
+      return;
+    }
     if (newModel.runtimeType != playbackModel.runtimeType || newModel is TranscodePlaybackModel) {
       ref.read(videoPlayerProvider.notifier).loadPlaybackItem(newModel, currentPosition);
+    } else if (isSyncPlayActive) {
+      // If we didn't call loadPlaybackItem, we must reset reloading state
+      ref.read(videoPlayerProvider.notifier).setReloading(false);
     }
   }
 }

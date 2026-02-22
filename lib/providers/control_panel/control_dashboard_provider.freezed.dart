@@ -26,8 +26,7 @@ mixin _$ControlDashboardModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ControlDashboardModelCopyWith<ControlDashboardModel> get copyWith =>
-      _$ControlDashboardModelCopyWithImpl<ControlDashboardModel>(
-          this as ControlDashboardModel, _$identity);
+      _$ControlDashboardModelCopyWithImpl<ControlDashboardModel>(this as ControlDashboardModel, _$identity);
 
   @override
   String toString() {
@@ -37,8 +36,7 @@ mixin _$ControlDashboardModel {
 
 /// @nodoc
 abstract mixin class $ControlDashboardModelCopyWith<$Res> {
-  factory $ControlDashboardModelCopyWith(ControlDashboardModel value,
-          $Res Function(ControlDashboardModel) _then) =
+  factory $ControlDashboardModelCopyWith(ControlDashboardModel value, $Res Function(ControlDashboardModel) _then) =
       _$ControlDashboardModelCopyWithImpl;
   @useResult
   $Res call(
@@ -51,8 +49,7 @@ abstract mixin class $ControlDashboardModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ControlDashboardModelCopyWithImpl<$Res>
-    implements $ControlDashboardModelCopyWith<$Res> {
+class _$ControlDashboardModelCopyWithImpl<$Res> implements $ControlDashboardModelCopyWith<$Res> {
   _$ControlDashboardModelCopyWithImpl(this._self, this._then);
 
   final ControlDashboardModel _self;
@@ -192,21 +189,16 @@ extension ControlDashboardModelPatterns on ControlDashboardModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            String? serverName,
-            String? serverVersion,
-            String? webVersion,
-            bool isShuttingDown,
-            jelly.ItemCounts? itemCounts,
-            jelly.SystemStorageDto? storagePaths)?
+    TResult Function(String? serverName, String? serverVersion, String? webVersion, bool isShuttingDown,
+            jelly.ItemCounts? itemCounts, jelly.SystemStorageDto? storagePaths)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ControlDashboardModel() when $default != null:
-        return $default(_that.serverName, _that.serverVersion, _that.webVersion,
-            _that.isShuttingDown, _that.itemCounts, _that.storagePaths);
+        return $default(_that.serverName, _that.serverVersion, _that.webVersion, _that.isShuttingDown, _that.itemCounts,
+            _that.storagePaths);
       case _:
         return orElse();
     }
@@ -227,20 +219,15 @@ extension ControlDashboardModelPatterns on ControlDashboardModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(
-            String? serverName,
-            String? serverVersion,
-            String? webVersion,
-            bool isShuttingDown,
-            jelly.ItemCounts? itemCounts,
-            jelly.SystemStorageDto? storagePaths)
+    TResult Function(String? serverName, String? serverVersion, String? webVersion, bool isShuttingDown,
+            jelly.ItemCounts? itemCounts, jelly.SystemStorageDto? storagePaths)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ControlDashboardModel():
-        return $default(_that.serverName, _that.serverVersion, _that.webVersion,
-            _that.isShuttingDown, _that.itemCounts, _that.storagePaths);
+        return $default(_that.serverName, _that.serverVersion, _that.webVersion, _that.isShuttingDown, _that.itemCounts,
+            _that.storagePaths);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -260,20 +247,15 @@ extension ControlDashboardModelPatterns on ControlDashboardModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            String? serverName,
-            String? serverVersion,
-            String? webVersion,
-            bool isShuttingDown,
-            jelly.ItemCounts? itemCounts,
-            jelly.SystemStorageDto? storagePaths)?
+    TResult? Function(String? serverName, String? serverVersion, String? webVersion, bool isShuttingDown,
+            jelly.ItemCounts? itemCounts, jelly.SystemStorageDto? storagePaths)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ControlDashboardModel() when $default != null:
-        return $default(_that.serverName, _that.serverVersion, _that.webVersion,
-            _that.isShuttingDown, _that.itemCounts, _that.storagePaths);
+        return $default(_that.serverName, _that.serverVersion, _that.webVersion, _that.isShuttingDown, _that.itemCounts,
+            _that.storagePaths);
       case _:
         return null;
     }
@@ -311,8 +293,7 @@ class _ControlDashboardModel implements ControlDashboardModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   _$ControlDashboardModelCopyWith<_ControlDashboardModel> get copyWith =>
-      __$ControlDashboardModelCopyWithImpl<_ControlDashboardModel>(
-          this, _$identity);
+      __$ControlDashboardModelCopyWithImpl<_ControlDashboardModel>(this, _$identity);
 
   @override
   String toString() {
@@ -321,10 +302,8 @@ class _ControlDashboardModel implements ControlDashboardModel {
 }
 
 /// @nodoc
-abstract mixin class _$ControlDashboardModelCopyWith<$Res>
-    implements $ControlDashboardModelCopyWith<$Res> {
-  factory _$ControlDashboardModelCopyWith(_ControlDashboardModel value,
-          $Res Function(_ControlDashboardModel) _then) =
+abstract mixin class _$ControlDashboardModelCopyWith<$Res> implements $ControlDashboardModelCopyWith<$Res> {
+  factory _$ControlDashboardModelCopyWith(_ControlDashboardModel value, $Res Function(_ControlDashboardModel) _then) =
       __$ControlDashboardModelCopyWithImpl;
   @override
   @useResult
@@ -338,8 +317,7 @@ abstract mixin class _$ControlDashboardModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$ControlDashboardModelCopyWithImpl<$Res>
-    implements _$ControlDashboardModelCopyWith<$Res> {
+class __$ControlDashboardModelCopyWithImpl<$Res> implements _$ControlDashboardModelCopyWith<$Res> {
   __$ControlDashboardModelCopyWithImpl(this._self, this._then);
 
   final _ControlDashboardModel _self;

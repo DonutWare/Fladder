@@ -25,42 +25,31 @@ class FolderModelMapper extends SubClassMapperBase<FolderModel> {
   final String id = 'FolderModel';
 
   static List<ItemBaseModel> _$items(FolderModel v) => v.items;
-  static const Field<FolderModel, List<ItemBaseModel>> _f$items =
-      Field('items', _$items);
+  static const Field<FolderModel, List<ItemBaseModel>> _f$items = Field('items', _$items);
   static OverviewModel _$overview(FolderModel v) => v.overview;
-  static const Field<FolderModel, OverviewModel> _f$overview =
-      Field('overview', _$overview);
+  static const Field<FolderModel, OverviewModel> _f$overview = Field('overview', _$overview);
   static String? _$parentId(FolderModel v) => v.parentId;
-  static const Field<FolderModel, String> _f$parentId =
-      Field('parentId', _$parentId);
+  static const Field<FolderModel, String> _f$parentId = Field('parentId', _$parentId);
   static String? _$playlistId(FolderModel v) => v.playlistId;
-  static const Field<FolderModel, String> _f$playlistId =
-      Field('playlistId', _$playlistId);
+  static const Field<FolderModel, String> _f$playlistId = Field('playlistId', _$playlistId);
   static ImagesData? _$images(FolderModel v) => v.images;
-  static const Field<FolderModel, ImagesData> _f$images =
-      Field('images', _$images);
+  static const Field<FolderModel, ImagesData> _f$images = Field('images', _$images);
   static int? _$childCount(FolderModel v) => v.childCount;
-  static const Field<FolderModel, int> _f$childCount =
-      Field('childCount', _$childCount);
+  static const Field<FolderModel, int> _f$childCount = Field('childCount', _$childCount);
   static double? _$primaryRatio(FolderModel v) => v.primaryRatio;
-  static const Field<FolderModel, double> _f$primaryRatio =
-      Field('primaryRatio', _$primaryRatio);
+  static const Field<FolderModel, double> _f$primaryRatio = Field('primaryRatio', _$primaryRatio);
   static UserData _$userData(FolderModel v) => v.userData;
-  static const Field<FolderModel, UserData> _f$userData =
-      Field('userData', _$userData);
+  static const Field<FolderModel, UserData> _f$userData = Field('userData', _$userData);
   static String _$name(FolderModel v) => v.name;
   static const Field<FolderModel, String> _f$name = Field('name', _$name);
   static String _$id(FolderModel v) => v.id;
   static const Field<FolderModel, String> _f$id = Field('id', _$id);
   static bool? _$canDownload(FolderModel v) => v.canDownload;
-  static const Field<FolderModel, bool> _f$canDownload =
-      Field('canDownload', _$canDownload, opt: true);
+  static const Field<FolderModel, bool> _f$canDownload = Field('canDownload', _$canDownload, opt: true);
   static bool? _$canDelete(FolderModel v) => v.canDelete;
-  static const Field<FolderModel, bool> _f$canDelete =
-      Field('canDelete', _$canDelete, opt: true);
+  static const Field<FolderModel, bool> _f$canDelete = Field('canDelete', _$canDelete, opt: true);
   static BaseItemKind? _$jellyType(FolderModel v) => v.jellyType;
-  static const Field<FolderModel, BaseItemKind> _f$jellyType =
-      Field('jellyType', _$jellyType, opt: true);
+  static const Field<FolderModel, BaseItemKind> _f$jellyType = Field('jellyType', _$jellyType, opt: true);
 
   @override
   final MappableFields<FolderModel> fields = const {
@@ -86,8 +75,7 @@ class FolderModelMapper extends SubClassMapperBase<FolderModel> {
   @override
   final dynamic discriminatorValue = 'FolderModel';
   @override
-  late final ClassMapperBase superMapper =
-      ItemBaseModelMapper.ensureInitialized();
+  late final ClassMapperBase superMapper = ItemBaseModelMapper.ensureInitialized();
 
   static FolderModel _instantiate(DecodingData data) {
     return FolderModel(
@@ -112,20 +100,16 @@ class FolderModelMapper extends SubClassMapperBase<FolderModel> {
 
 mixin FolderModelMappable {
   FolderModelCopyWith<FolderModel, FolderModel, FolderModel> get copyWith =>
-      _FolderModelCopyWithImpl<FolderModel, FolderModel>(
-          this as FolderModel, $identity, $identity);
+      _FolderModelCopyWithImpl<FolderModel, FolderModel>(this as FolderModel, $identity, $identity);
 }
 
-extension FolderModelValueCopy<$R, $Out>
-    on ObjectCopyWith<$R, FolderModel, $Out> {
+extension FolderModelValueCopy<$R, $Out> on ObjectCopyWith<$R, FolderModel, $Out> {
   FolderModelCopyWith<$R, FolderModel, $Out> get $asFolderModel =>
       $base.as((v, t, t2) => _FolderModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class FolderModelCopyWith<$R, $In extends FolderModel, $Out>
-    implements ItemBaseModelCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, ItemBaseModel,
-      ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>> get items;
+abstract class FolderModelCopyWith<$R, $In extends FolderModel, $Out> implements ItemBaseModelCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, ItemBaseModel, ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>> get items;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
   @override
@@ -148,25 +132,20 @@ abstract class FolderModelCopyWith<$R, $In extends FolderModel, $Out>
   FolderModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _FolderModelCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, FolderModel, $Out>
+class _FolderModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, FolderModel, $Out>
     implements FolderModelCopyWith<$R, FolderModel, $Out> {
   _FolderModelCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<FolderModel> $mapper =
-      FolderModelMapper.ensureInitialized();
+  late final ClassMapperBase<FolderModel> $mapper = FolderModelMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, ItemBaseModel,
-          ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>>
-      get items => ListCopyWith(
-          $value.items, (v, t) => v.copyWith.$chain(t), (v) => call(items: v));
+  ListCopyWith<$R, ItemBaseModel, ItemBaseModelCopyWith<$R, ItemBaseModel, ItemBaseModel>> get items =>
+      ListCopyWith($value.items, (v, t) => v.copyWith.$chain(t), (v) => call(items: v));
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
-  UserDataCopyWith<$R, UserData, UserData> get userData =>
-      $value.userData.copyWith.$chain((v) => call(userData: v));
+  UserDataCopyWith<$R, UserData, UserData> get userData => $value.userData.copyWith.$chain((v) => call(userData: v));
   @override
   $R call(
           {List<ItemBaseModel>? items,
@@ -214,7 +193,6 @@ class _FolderModelCopyWithImpl<$R, $Out>
       jellyType: data.get(#jellyType, or: $value.jellyType));
 
   @override
-  FolderModelCopyWith<$R2, FolderModel, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
+  FolderModelCopyWith<$R2, FolderModel, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _FolderModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

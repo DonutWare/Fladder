@@ -70,7 +70,9 @@ import nl.jknaapen.fladder.composables.dialogs.AudioPicker
 import nl.jknaapen.fladder.composables.dialogs.ChapterSelectionSheet
 import nl.jknaapen.fladder.composables.dialogs.PlaybackSpeedPicker
 import nl.jknaapen.fladder.composables.dialogs.SubtitlePicker
+import nl.jknaapen.fladder.composables.overlays.SyncPlayCommandOverlay
 import nl.jknaapen.fladder.composables.shared.CurrentTime
+import nl.jknaapen.fladder.api.PlaybackChangeSource
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.ImmersiveSystemBars
@@ -147,6 +149,8 @@ fun CustomVideoControls(
     LaunchedEffect(lastSeekInteraction.longValue) {
         delay(1.seconds)
         if (currentSkipTime == 0L) return@LaunchedEffect
+        // SyncPlay: user action is applied locally; Flutter infers from playback state stream and sends to server.
+        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
         player?.seekTo(position + currentSkipTime)
         currentSkipTime = 0L
     }
@@ -172,12 +176,14 @@ fun CustomVideoControls(
                     }
 
                     Key.MediaPlay -> {
-                        player?.play()
+                        // Route through Flutter for SyncPlay support
+                        VideoPlayerObject.videoPlayerControls?.onUserPlay {}
                         return@keyEvent true
                     }
 
                     Key.MediaPlayPause -> {
                         player?.let {
+                            VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
                             if (it.isPlaying) {
                                 it.pause()
                                 updateLastInteraction()
@@ -186,10 +192,10 @@ fun CustomVideoControls(
                             }
                         }
                         return@keyEvent true
-
                     }
 
                     Key.MediaPause, Key.P -> {
+                        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
                         player?.pause()
                         updateLastInteraction()
                         return@keyEvent true
@@ -351,6 +357,7 @@ fun CustomVideoControls(
         }
         SegmentSkipOverlay()
         SeekOverlay(value = currentSkipTime)
+        SyncPlayCommandOverlay()
         if (buffering && !playing) {
             CircularProgressIndicator(
                 modifier = Modifier
@@ -383,7 +390,8 @@ fun CustomVideoControls(
     if (showChapterDialog) {
         ChapterSelectionSheet(
             onSelected = {
-                exoPlayer.seekTo(it.time)
+                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                exoPlayer.seekTo(it.time.toLong())
                 showChapterDialog = false
             },
             onDismiss = {
@@ -444,9 +452,8 @@ fun PlaybackButtons(
             }
             CustomButton(
                 onClick = {
-                    player.seekTo(
-                        player.currentPosition - backwardSpeed.inWholeMilliseconds
-                    )
+                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                    player.seekTo((player.currentPosition - backwardSpeed.inWholeMilliseconds).coerceAtLeast(0L))
                 },
             ) {
                 Box(
@@ -472,6 +479,7 @@ fun PlaybackButtons(
                 .defaultSelected(true),
             enableScaledFocus = true,
             onClick = {
+                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
                 if (player.isPlaying) {
                     player.pause()
                     onPause()
@@ -489,9 +497,8 @@ fun PlaybackButtons(
         if (!isTVMode) {
             CustomButton(
                 onClick = {
-                    player.seekTo(
-                        player.currentPosition + forwardSpeed.inWholeMilliseconds
-                    )
+                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                    player.seekTo(player.currentPosition + forwardSpeed.inWholeMilliseconds)
                 },
             ) {
                 Box(

@@ -10,13 +10,10 @@ String _$controlDashboardHash() => r'5d6d925acafc9a0e837351cf5d29952cb1f507eb';
 
 /// See also [ControlDashboard].
 @ProviderFor(ControlDashboard)
-final controlDashboardProvider = AutoDisposeNotifierProvider<ControlDashboard,
-    ControlDashboardModel>.internal(
+final controlDashboardProvider = AutoDisposeNotifierProvider<ControlDashboard, ControlDashboardModel>.internal(
   ControlDashboard.new,
   name: r'controlDashboardProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$controlDashboardHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$controlDashboardHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

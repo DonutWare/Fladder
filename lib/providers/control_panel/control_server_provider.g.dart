@@ -10,13 +10,10 @@ String _$controlServerHash() => r'6b0310b063bd0de6ba7b332f056dd5da50648af4';
 
 /// See also [ControlServer].
 @ProviderFor(ControlServer)
-final controlServerProvider =
-    AutoDisposeNotifierProvider<ControlServer, ControlServerModel>.internal(
+final controlServerProvider = AutoDisposeNotifierProvider<ControlServer, ControlServerModel>.internal(
   ControlServer.new,
   name: r'controlServerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$controlServerHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$controlServerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

@@ -21,8 +21,7 @@ mixin _$ControlLiveTvModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ControlLiveTvModelCopyWith<ControlLiveTvModel> get copyWith =>
-      _$ControlLiveTvModelCopyWithImpl<ControlLiveTvModel>(
-          this as ControlLiveTvModel, _$identity);
+      _$ControlLiveTvModelCopyWithImpl<ControlLiveTvModel>(this as ControlLiveTvModel, _$identity);
 
   @override
   String toString() {
@@ -32,16 +31,14 @@ mixin _$ControlLiveTvModel {
 
 /// @nodoc
 abstract mixin class $ControlLiveTvModelCopyWith<$Res> {
-  factory $ControlLiveTvModelCopyWith(
-          ControlLiveTvModel value, $Res Function(ControlLiveTvModel) _then) =
+  factory $ControlLiveTvModelCopyWith(ControlLiveTvModel value, $Res Function(ControlLiveTvModel) _then) =
       _$ControlLiveTvModelCopyWithImpl;
   @useResult
   $Res call({LiveTvOptions? liveTvOptions});
 }
 
 /// @nodoc
-class _$ControlLiveTvModelCopyWithImpl<$Res>
-    implements $ControlLiveTvModelCopyWith<$Res> {
+class _$ControlLiveTvModelCopyWithImpl<$Res> implements $ControlLiveTvModelCopyWith<$Res> {
   _$ControlLiveTvModelCopyWithImpl(this._self, this._then);
 
   final ControlLiveTvModel _self;
@@ -243,10 +240,8 @@ class _ControlLiveTvModel implements ControlLiveTvModel {
 }
 
 /// @nodoc
-abstract mixin class _$ControlLiveTvModelCopyWith<$Res>
-    implements $ControlLiveTvModelCopyWith<$Res> {
-  factory _$ControlLiveTvModelCopyWith(
-          _ControlLiveTvModel value, $Res Function(_ControlLiveTvModel) _then) =
+abstract mixin class _$ControlLiveTvModelCopyWith<$Res> implements $ControlLiveTvModelCopyWith<$Res> {
+  factory _$ControlLiveTvModelCopyWith(_ControlLiveTvModel value, $Res Function(_ControlLiveTvModel) _then) =
       __$ControlLiveTvModelCopyWithImpl;
   @override
   @useResult
@@ -254,8 +249,7 @@ abstract mixin class _$ControlLiveTvModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$ControlLiveTvModelCopyWithImpl<$Res>
-    implements _$ControlLiveTvModelCopyWith<$Res> {
+class __$ControlLiveTvModelCopyWithImpl<$Res> implements _$ControlLiveTvModelCopyWith<$Res> {
   __$ControlLiveTvModelCopyWithImpl(this._self, this._then);
 
   final _ControlLiveTvModel _self;
