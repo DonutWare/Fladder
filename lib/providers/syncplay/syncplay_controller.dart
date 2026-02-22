@@ -26,13 +26,14 @@ class SyncPlayController {
     );
     _messageHandler = SyncPlayMessageHandler(
       onStateUpdate: _updateStateWith,
-      reportReady: ({bool isPlaying = true}) =>
-          reportReady(isPlaying: isPlaying),
+      reportReady: ({bool isPlaying = true}) => reportReady(isPlaying: isPlaying),
       startPlayback: _startPlayback,
       isBuffering: () => _commandHandler.isBuffering?.call() ?? false,
       getContext: () => getNavigatorKey(_ref)?.currentContext,
       onGroupJoined: _onGroupJoined,
       onGroupJoinFailed: _onGroupJoinFailed,
+      onGroupLeftOrKicked: _onGroupLeftOrKicked,
+      onStateUpdateToPlaying: _onStateUpdateToPlaying,
     );
   }
 
@@ -59,24 +60,15 @@ class SyncPlayController {
   Completer<bool>? _joinGroupCompleter;
 
   // Player callbacks (delegated to command handler)
-  set onPlay(SyncPlayPlayerCallback? callback) =>
-      _commandHandler.onPlay = callback;
-  set onPause(SyncPlayPlayerCallback? callback) =>
-      _commandHandler.onPause = callback;
-  set onSeek(SyncPlaySeekCallback? callback) =>
-      _commandHandler.onSeek = callback;
-  set onStop(SyncPlayPlayerCallback? callback) =>
-      _commandHandler.onStop = callback;
-  set getPositionTicks(SyncPlayPositionCallback? callback) =>
-      _commandHandler.getPositionTicks = callback;
-  set isPlaying(bool Function()? callback) =>
-      _commandHandler.isPlaying = callback;
-  set isBuffering(bool Function()? callback) =>
-      _commandHandler.isBuffering = callback;
-  set onSeekRequested(SyncPlaySeekCallback? callback) =>
-      _commandHandler.onSeekRequested = callback;
-  set onReportReady(SyncPlayReportReadyCallback? callback) =>
-      _commandHandler.onReportReady = callback;
+  set onPlay(SyncPlayPlayerCallback? callback) => _commandHandler.onPlay = callback;
+  set onPause(SyncPlayPlayerCallback? callback) => _commandHandler.onPause = callback;
+  set onSeek(SyncPlaySeekCallback? callback) => _commandHandler.onSeek = callback;
+  set onStop(SyncPlayPlayerCallback? callback) => _commandHandler.onStop = callback;
+  set getPositionTicks(SyncPlayPositionCallback? callback) => _commandHandler.getPositionTicks = callback;
+  set isPlaying(bool Function()? callback) => _commandHandler.isPlaying = callback;
+  set isBuffering(bool Function()? callback) => _commandHandler.isBuffering = callback;
+  set onSeekRequested(SyncPlaySeekCallback? callback) => _commandHandler.onSeekRequested = callback;
+  set onReportReady(SyncPlayReportReadyCallback? callback) => _commandHandler.onReportReady = callback;
 
   JellyfinOpenApi get _api => _ref.read(jellyApiProvider).api;
 
@@ -106,8 +98,7 @@ class SyncPlayController {
       deviceId: user.credentials.deviceId,
     );
 
-    _wsStateSubscription =
-        _wsManager!.connectionState.listen(_handleConnectionState);
+    _wsStateSubscription = _wsManager!.connectionState.listen(_handleConnectionState);
     _wsMessageSubscription = _wsManager!.messages.listen(_handleMessage);
 
     await _wsManager!.connect();
@@ -214,21 +205,56 @@ class SyncPlayController {
     _joinGroupCompleter?.complete(false);
   }
 
-  /// Leave the current SyncPlay group
+  /// Called when we leave or are kicked; cancel pending commands and clear processing so playback is not stuck.
+  void _onGroupLeftOrKicked() {
+    _commandHandler.cancelPendingCommands();
+    _updateStateWith((s) => s.copyWith(
+          isProcessingCommand: false,
+          processingCommandType: null,
+        ));
+  }
+
+  /// When server reports Playing, ensure player is actually playing (per docs: recover if Unpause command was missed).
+  void _onStateUpdateToPlaying() {
+    if (_commandHandler.isPlaying?.call() != true) {
+      log('SyncPlay: State is Playing but player not playing, triggering play');
+      _commandHandler.onPlay?.call();
+    }
+  }
+
+  /// Leave the current SyncPlay group.
+  /// Resets processing state and cancels pending commands so playback is not stuck (per docs).
   Future<void> leaveGroup() async {
     if (!_state.isInGroup) return;
     try {
       await _api.syncPlayLeavePost();
       _lastGroupId = null;
+      _commandHandler.cancelPendingCommands();
       _updateState(_state.copyWith(
         isInGroup: false,
         groupId: null,
         groupName: null,
         groupState: SyncPlayGroupState.idle,
         participants: [],
+        isProcessingCommand: false,
+        processingCommandType: null,
+        positionTicks: 0,
+        playlistItemId: null,
       ));
+      log('SyncPlay: Left group, state reset');
     } catch (e) {
       log('SyncPlay: Failed to leave group: $e');
+      // Still reset local state so we are not stuck
+      _commandHandler.cancelPendingCommands();
+      _updateState(_state.copyWith(
+        isInGroup: false,
+        groupId: null,
+        groupName: null,
+        groupState: SyncPlayGroupState.idle,
+        participants: [],
+        isProcessingCommand: false,
+        processingCommandType: null,
+      ));
     }
   }
 
@@ -242,10 +268,11 @@ class SyncPlayController {
     }
   }
 
-  /// Request unpause/play
+  /// Request unpause/play (server will move to Waiting until all clients report Ready, then broadcast Unpause).
   Future<void> requestUnpause() async {
     if (!_state.isInGroup) return;
     try {
+      log('SyncPlay: Sending Unpause request');
       await _api.syncPlayUnpausePost();
     } catch (e) {
       log('SyncPlay: Failed to request unpause: $e');
@@ -282,15 +309,17 @@ class SyncPlayController {
     }
   }
 
-  /// Report ready state
+  /// Report ready state (required for server to broadcast Unpause when in Waiting).
   Future<void> reportReady({bool isPlaying = true}) async {
     if (!_state.isInGroup) return;
     try {
       final when = _timeSync?.localDateToRemote(DateTime.now().toUtc());
+      final ticks = _commandHandler.getPositionTicks?.call() ?? 0;
+      log('SyncPlay: Reporting Ready (isPlaying=$isPlaying, positionTicks=$ticks)');
       await _api.syncPlayReadyPost(
         body: ReadyRequestDto(
           when: when,
-          positionTicks: _commandHandler.getPositionTicks?.call() ?? 0,
+          positionTicks: ticks,
           isPlaying: isPlaying,
           playlistItemId: _state.playlistItemId,
         ),
@@ -351,7 +380,9 @@ class SyncPlayController {
 
     switch (messageType) {
       case 'SyncPlayCommand':
-        _commandHandler.handleCommand(data as Map<String, dynamic>, _state);
+        final cmd = (data as Map<String, dynamic>)['Command'] as String?;
+        log('SyncPlay: Received SyncPlayCommand: $cmd');
+        _commandHandler.handleCommand(data, _state);
         break;
       case 'SyncPlayGroupUpdate':
         log('SyncPlay: GroupUpdate data: $data');
@@ -401,11 +432,10 @@ class SyncPlayController {
 
       // Load and play
       log('SyncPlay: Loading playback item...');
-      final loadedCorrectly =
-          await _ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
-                playbackModel,
-                startPosition,
-              );
+      final loadedCorrectly = await _ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
+            playbackModel,
+            startPosition,
+          );
 
       if (!loadedCorrectly) {
         log('SyncPlay: Failed to load playback item $itemId');
@@ -453,8 +483,7 @@ class SyncPlayController {
 
   /// Handle app lifecycle state changes
   /// Call this from a WidgetsBindingObserver when app state changes
-  Future<void> handleAppLifecycleChange(
-      AppLifecycleState lifecycleState) async {
+  Future<void> handleAppLifecycleChange(AppLifecycleState lifecycleState) async {
     // On web, we want to stay connected even in background and avoid forced reconnection on resume.
     if (kIsWeb) return;
 
@@ -462,8 +491,7 @@ class SyncPlayController {
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
         // App going to background - remember state for reconnection
-        _wasConnected =
-            _wsManager?.currentState == WebSocketConnectionState.connected;
+        _wasConnected = _wsManager?.currentState == WebSocketConnectionState.connected;
         log('SyncPlay: App paused, wasConnected=$_wasConnected, lastGroupId=$_lastGroupId');
         break;
 

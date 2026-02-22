@@ -10,12 +10,10 @@ String _$seerrSearchHash() => r'5daff3516f1e839326485a9c763549829172f194';
 
 /// See also [SeerrSearch].
 @ProviderFor(SeerrSearch)
-final seerrSearchProvider =
-    AutoDisposeNotifierProvider<SeerrSearch, SeerrSearchModel>.internal(
+final seerrSearchProvider = AutoDisposeNotifierProvider<SeerrSearch, SeerrSearchModel>.internal(
   SeerrSearch.new,
   name: r'seerrSearchProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$seerrSearchHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$seerrSearchHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

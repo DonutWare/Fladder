@@ -4,9 +4,8 @@ import 'package:pigeon/pigeon.dart';
   PigeonOptions(
     dartOut: 'lib/src/video_player_helper.g.dart',
     dartOptions: DartOptions(),
-    kotlinOut:
-        'android/app/src/main/kotlin/nl/jknaapen/fladder/api/VideoPlayerHelper.g.kt',
-    kotlinOptions: KotlinOptions(),
+    kotlinOut: 'android/app/src/main/kotlin/nl/jknaapen/fladder/api/VideoPlayerHelper.g.kt',
+    kotlinOptions: KotlinOptions(package: 'nl.jknaapen.fladder.api'),
     dartPackageName: 'nl_jknaapen_fladder.video',
   ),
 )
@@ -219,6 +218,18 @@ abstract class VideoPlayerApi {
   void setSyncPlayCommandState(bool processing, String? commandType);
 }
 
+/// Source of the last playback state change (for SyncPlay: infer user actions from stream).
+enum PlaybackChangeSource {
+  /// No specific source (e.g. periodic update, buffering).
+  none,
+
+  /// User tapped play/pause/seek on native; Flutter should send SyncPlay if active.
+  user,
+
+  /// Change was caused by applying a SyncPlay command; do not send again.
+  syncplay,
+}
+
 class PlaybackState {
   //Milliseconds
   final int position;
@@ -231,6 +242,9 @@ class PlaybackState {
   final bool completed;
   final bool failed;
 
+  /// When set, indicates who caused this state update (for SyncPlay inference).
+  final PlaybackChangeSource? changeSource;
+
   const PlaybackState({
     required this.position,
     required this.buffered,
@@ -239,6 +253,7 @@ class PlaybackState {
     required this.buffering,
     required this.completed,
     required this.failed,
+    this.changeSource,
   });
 }
 

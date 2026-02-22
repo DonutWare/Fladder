@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/syncplay/syncplay_extensions.dart';
 
 /// Centered overlay showing SyncPlay command being processed
 class SyncPlayCommandIndicator extends ConsumerWidget {
@@ -49,7 +49,7 @@ class SyncPlayCommandIndicator extends ConsumerWidget {
                   _CommandIcon(commandType: commandType),
                   const SizedBox(height: 12),
                   Text(
-                    _getCommandLabel(context, commandType),
+                    commandType.syncPlayCommandOverlayLabel(context),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
@@ -84,16 +84,6 @@ class SyncPlayCommandIndicator extends ConsumerWidget {
       ),
     );
   }
-
-  String _getCommandLabel(BuildContext context, String? command) {
-    return switch (command) {
-      'Pause' => context.localized.syncPlayCommandPausing,
-      'Unpause' => context.localized.syncPlayCommandPlaying,
-      'Seek' => context.localized.syncPlayCommandSeeking,
-      'Stop' => context.localized.syncPlayCommandStopping,
-      _ => context.localized.syncPlayCommandSyncing,
-    };
-  }
 }
 
 class _CommandIcon extends StatelessWidget {
@@ -103,28 +93,7 @@ class _CommandIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (icon, color) = switch (commandType) {
-      'Pause' => (
-          IconsaxPlusBold.pause,
-          Theme.of(context).colorScheme.secondary,
-        ),
-      'Unpause' => (
-          IconsaxPlusBold.play,
-          Theme.of(context).colorScheme.primary,
-        ),
-      'Seek' => (
-          IconsaxPlusBold.forward,
-          Theme.of(context).colorScheme.tertiary,
-        ),
-      'Stop' => (
-          IconsaxPlusBold.stop,
-          Theme.of(context).colorScheme.error,
-        ),
-      _ => (
-          IconsaxPlusBold.refresh,
-          Theme.of(context).colorScheme.primary,
-        ),
-    };
+    final (icon, color) = commandType.syncPlayCommandIconAndColor(context);
 
     return Container(
       padding: const EdgeInsets.all(16),

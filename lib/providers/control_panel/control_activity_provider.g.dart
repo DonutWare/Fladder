@@ -10,13 +10,10 @@ String _$controlActivityHash() => r'6bf669b9917ca9c694b6e0d498c57bbf1e77748c';
 
 /// See also [ControlActivity].
 @ProviderFor(ControlActivity)
-final controlActivityProvider = AutoDisposeNotifierProvider<ControlActivity,
-    List<ControlActivityModel>>.internal(
+final controlActivityProvider = AutoDisposeNotifierProvider<ControlActivity, List<ControlActivityModel>>.internal(
   ControlActivity.new,
   name: r'controlActivityProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$controlActivityHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$controlActivityHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

@@ -6,8 +6,10 @@ import 'package:fladder/providers/syncplay/syncplay_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+part 'syncplay_provider.freezed.dart';
 part 'syncplay_provider.g.dart';
 
 /// Lifecycle observer for SyncPlay - handles app background/resume
@@ -78,8 +80,7 @@ class SyncPlay extends _$SyncPlay {
   Future<List<GroupInfoDto>> listGroups() => controller.listGroups();
 
   /// Create a new SyncPlay group
-  Future<GroupInfoDto?> createGroup(String groupName) =>
-      controller.createGroup(groupName);
+  Future<GroupInfoDto?> createGroup(String groupName) => controller.createGroup(groupName);
 
   /// Join an existing group
   Future<bool> joinGroup(String groupId) => controller.joinGroup(groupId);
@@ -94,15 +95,13 @@ class SyncPlay extends _$SyncPlay {
   Future<void> requestUnpause() async => await controller.requestUnpause();
 
   /// Request seek
-  Future<void> requestSeek(int positionTicks) =>
-      controller.requestSeek(positionTicks);
+  Future<void> requestSeek(int positionTicks) => controller.requestSeek(positionTicks);
 
   /// Report buffering state
   Future<void> reportBuffering() => controller.reportBuffering();
 
   /// Report ready state
-  Future<void> reportReady({bool isPlaying = true}) =>
-      controller.reportReady(isPlaying: isPlaying);
+  Future<void> reportReady({bool isPlaying = true}) => controller.reportReady(isPlaying: isPlaying);
 
   /// Set a new queue/playlist
   Future<void> setNewQueue({
@@ -169,4 +168,40 @@ String? syncPlayGroupName(Ref ref) {
 @riverpod
 SyncPlayGroupState syncPlayGroupState(Ref ref) {
   return ref.watch(syncPlayProvider.select((s) => s.groupState));
+}
+
+/// Immutable state for the SyncPlay groups list (used by group sheet).
+/// Lists are stored unmodifiable so the state cannot be mutated.
+@Freezed(copyWith: true)
+abstract class SyncPlayGroupsState with _$SyncPlayGroupsState {
+  const factory SyncPlayGroupsState({
+    List<GroupInfoDto>? groups,
+    @Default(false) bool isLoading,
+    String? error,
+  }) = _SyncPlayGroupsState;
+}
+
+/// Provider for the list of SyncPlay groups (load/refresh from sheet).
+@Riverpod(keepAlive: false)
+class SyncPlayGroups extends _$SyncPlayGroups {
+  @override
+  SyncPlayGroupsState build() => const SyncPlayGroupsState(isLoading: true);
+
+  Future<void> loadGroups() async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      await ref.read(syncPlayProvider.notifier).connect();
+      final groups = await ref.read(syncPlayProvider.notifier).listGroups();
+      state = state.copyWith(
+        groups: List.unmodifiable(groups),
+        isLoading: false,
+      );
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: e.toString());
+    }
+  }
+
+  void setLoading(bool isLoading) {
+    state = state.copyWith(isLoading: isLoading);
+  }
 }

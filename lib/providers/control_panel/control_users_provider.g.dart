@@ -10,12 +10,10 @@ String _$controlUsersHash() => r'c75c30523c95aa41812bcdb4c6d34873cbf2bca6';
 
 /// See also [ControlUsers].
 @ProviderFor(ControlUsers)
-final controlUsersProvider =
-    AutoDisposeNotifierProvider<ControlUsers, ControlUsersModel>.internal(
+final controlUsersProvider = AutoDisposeNotifierProvider<ControlUsers, ControlUsersModel>.internal(
   ControlUsers.new,
   name: r'controlUsersProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$controlUsersHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$controlUsersHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

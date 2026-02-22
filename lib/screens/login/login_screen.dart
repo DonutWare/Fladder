@@ -24,8 +24,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginScreen> {
-  late final TextEditingController serverTextController =
-      TextEditingController(text: '');
+  late final TextEditingController serverTextController = TextEditingController(text: '');
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final FocusNode focusNode = FocusNode();
@@ -58,12 +57,9 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                     context: context,
                     key: const Key("edit_user_button"),
                     heroTag: "edit_user_button",
-                    backgroundColor: editUsersMode
-                        ? Theme.of(context).colorScheme.errorContainer
-                        : null,
+                    backgroundColor: editUsersMode ? Theme.of(context).colorScheme.errorContainer : null,
                     child: const Icon(IconsaxPlusLinear.edit_2),
-                    onPressed: () =>
-                        setState(() => editUsersMode = !editUsersMode),
+                    onPressed: () => setState(() => editUsersMode = !editUsersMode),
                   ).normal,
                 AdaptiveFab(
                   context: context,
@@ -83,23 +79,18 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
             ),
             child: ListView(
               shrinkWrap: true,
-              padding: MediaQuery.paddingOf(context)
-                  .add(const EdgeInsetsGeometry.all(16)),
+              padding: MediaQuery.paddingOf(context).add(const EdgeInsetsGeometry.all(16)),
               children: [
                 const FladderLogo(),
                 const SizedBox(height: 24),
                 AnimatedFadeSize(
                   child: switch (screen) {
-                    LoginScreenType.login ||
-                    LoginScreenType.code =>
-                      const LoginScreenCredentials(),
+                    LoginScreenType.login || LoginScreenType.code => const LoginScreenCredentials(),
                     _ => LoginUserGrid(
                         users: accounts,
                         editMode: editUsersMode,
-                        onPressed: (user) =>
-                            tapLoggedInAccount(context, user, ref),
-                        onLongPress: (user) =>
-                            openUserEditDialogue(context, user),
+                        onPressed: (user) => tapLoggedInAccount(context, user, ref),
+                        onLongPress: (user) => openUserEditDialogue(context, user),
                       ),
                   },
                 )

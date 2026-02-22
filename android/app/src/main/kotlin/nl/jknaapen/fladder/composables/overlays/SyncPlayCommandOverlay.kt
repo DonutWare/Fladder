@@ -25,7 +25,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -38,6 +40,7 @@ import io.github.rabehx.iconsax.filled.Pause
 import io.github.rabehx.iconsax.filled.Play
 import io.github.rabehx.iconsax.filled.Refresh
 import io.github.rabehx.iconsax.filled.Stop
+import nl.jknaapen.fladder.api.SyncPlayCommandType
 import nl.jknaapen.fladder.objects.Localized
 import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
@@ -51,7 +54,11 @@ fun BoxScope.SyncPlayCommandOverlay(
     modifier: Modifier = Modifier
 ) {
     val syncPlayState by VideoPlayerObject.syncPlayCommandState.collectAsState()
-    val visible = syncPlayState.processing && syncPlayState.commandType != null
+    val visible by remember(syncPlayState) {
+        derivedStateOf {
+            syncPlayState.processing && syncPlayState.commandType != SyncPlayCommandType.NONE
+        }
+    }
 
     AnimatedVisibility(
         visible = visible,
@@ -89,10 +96,10 @@ fun BoxScope.SyncPlayCommandOverlay(
                 Translate(
                     callback = { cb ->
                         when (syncPlayState.commandType) {
-                            "Pause" -> Localized.syncPlayCommandPausing(cb)
-                            "Unpause" -> Localized.syncPlayCommandPlaying(cb)
-                            "Seek" -> Localized.syncPlayCommandSeeking(cb)
-                            "Stop" -> Localized.syncPlayCommandStopping(cb)
+                            SyncPlayCommandType.PAUSE -> Localized.syncPlayCommandPausing(cb)
+                            SyncPlayCommandType.UNPAUSE -> Localized.syncPlayCommandPlaying(cb)
+                            SyncPlayCommandType.SEEK -> Localized.syncPlayCommandSeeking(cb)
+                            SyncPlayCommandType.STOP -> Localized.syncPlayCommandStopping(cb)
                             else -> Localized.syncPlayCommandSyncing(cb)
                         }
                     },
@@ -136,12 +143,12 @@ fun BoxScope.SyncPlayCommandOverlay(
 }
 
 @Composable
-private fun CommandIcon(commandType: String?) {
+private fun CommandIcon(commandType: SyncPlayCommandType) {
     val (icon, color) = when (commandType) {
-        "Pause" -> Pair(Iconsax.Filled.Pause, MaterialTheme.colorScheme.secondary)
-        "Unpause" -> Pair(Iconsax.Filled.Play, MaterialTheme.colorScheme.primary)
-        "Seek" -> Pair(Iconsax.Filled.Forward, MaterialTheme.colorScheme.tertiary)
-        "Stop" -> Pair(Iconsax.Filled.Stop, MaterialTheme.colorScheme.error)
+        SyncPlayCommandType.PAUSE -> Pair(Iconsax.Filled.Pause, MaterialTheme.colorScheme.secondary)
+        SyncPlayCommandType.UNPAUSE -> Pair(Iconsax.Filled.Play, MaterialTheme.colorScheme.primary)
+        SyncPlayCommandType.SEEK -> Pair(Iconsax.Filled.Forward, MaterialTheme.colorScheme.tertiary)
+        SyncPlayCommandType.STOP -> Pair(Iconsax.Filled.Stop, MaterialTheme.colorScheme.error)
         else -> Pair(Iconsax.Filled.Refresh, MaterialTheme.colorScheme.primary)
     }
 
@@ -156,7 +163,7 @@ private fun CommandIcon(commandType: String?) {
     ) {
         Icon(
             imageVector = icon,
-            contentDescription = commandType ?: "Syncing",
+            contentDescription = commandType.name,
             modifier = Modifier.size(48.dp),
             tint = color
         )

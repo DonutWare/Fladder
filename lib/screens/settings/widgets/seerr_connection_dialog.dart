@@ -204,9 +204,9 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
 
     try {
       final cookie = await ref.read(seerrApiProvider).authenticateLocal(
-        email: localEmailController.text.trim(),
-        password: localPasswordController.text,
-        headers: customHeaders.isEmpty ? null : customHeaders,
+            email: localEmailController.text.trim(),
+            password: localPasswordController.text,
+            headers: customHeaders.isEmpty ? null : customHeaders,
           );
       ref.read(userProvider.notifier).setSeerrSessionCookie(cookie);
       ref.read(userProvider.notifier).setSeerrApiKey('');
@@ -238,9 +238,9 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
 
     try {
       final cookie = await ref.read(seerrApiProvider).authenticateJellyfin(
-        username: jfUsernameController.text.trim(),
-        password: jfPasswordController.text,
-        headers: customHeaders.isEmpty ? null : customHeaders,
+            username: jfUsernameController.text.trim(),
+            password: jfPasswordController.text,
+            headers: customHeaders.isEmpty ? null : customHeaders,
           );
       ref.read(userProvider.notifier).setSeerrSessionCookie(cookie);
       ref.read(userProvider.notifier).setSeerrApiKey('');

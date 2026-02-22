@@ -119,8 +119,7 @@ extension SessionInfoModelPatterns on SessionInfoModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String? playbackModel, TranscodingInfo? transCodeInfo)?
-        $default, {
+    TResult Function(String? playbackModel, TranscodingInfo? transCodeInfo)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
@@ -147,8 +146,7 @@ extension SessionInfoModelPatterns on SessionInfoModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String? playbackModel, TranscodingInfo? transCodeInfo)
-        $default,
+    TResult Function(String? playbackModel, TranscodingInfo? transCodeInfo) $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -173,8 +171,7 @@ extension SessionInfoModelPatterns on SessionInfoModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String? playbackModel, TranscodingInfo? transCodeInfo)?
-        $default,
+    TResult? Function(String? playbackModel, TranscodingInfo? transCodeInfo)? $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -190,8 +187,7 @@ extension SessionInfoModelPatterns on SessionInfoModel {
 @JsonSerializable()
 class _SessionInfoModel extends SessionInfoModel {
   _SessionInfoModel({this.playbackModel, this.transCodeInfo}) : super._();
-  factory _SessionInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$SessionInfoModelFromJson(json);
+  factory _SessionInfoModel.fromJson(Map<String, dynamic> json) => _$SessionInfoModelFromJson(json);
 
   @override
   final String? playbackModel;

@@ -106,6 +106,8 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
       position: Duration(milliseconds: state.position),
       buffer: Duration(milliseconds: state.buffered),
       buffering: state.buffering,
+      changeSource: state.changeSource,
+      updateChangeSource: true,
     );
     _stateController.add(lastState);
   }

@@ -24,8 +24,7 @@ mixin _$TimeSyncMeasurement {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $TimeSyncMeasurementCopyWith<TimeSyncMeasurement> get copyWith =>
-      _$TimeSyncMeasurementCopyWithImpl<TimeSyncMeasurement>(
-          this as TimeSyncMeasurement, _$identity);
+      _$TimeSyncMeasurementCopyWithImpl<TimeSyncMeasurement>(this as TimeSyncMeasurement, _$identity);
 
   @override
   String toString() {
@@ -35,20 +34,14 @@ mixin _$TimeSyncMeasurement {
 
 /// @nodoc
 abstract mixin class $TimeSyncMeasurementCopyWith<$Res> {
-  factory $TimeSyncMeasurementCopyWith(
-          TimeSyncMeasurement value, $Res Function(TimeSyncMeasurement) _then) =
+  factory $TimeSyncMeasurementCopyWith(TimeSyncMeasurement value, $Res Function(TimeSyncMeasurement) _then) =
       _$TimeSyncMeasurementCopyWithImpl;
   @useResult
-  $Res call(
-      {DateTime requestSent,
-      DateTime requestReceived,
-      DateTime responseSent,
-      DateTime responseReceived});
+  $Res call({DateTime requestSent, DateTime requestReceived, DateTime responseSent, DateTime responseReceived});
 }
 
 /// @nodoc
-class _$TimeSyncMeasurementCopyWithImpl<$Res>
-    implements $TimeSyncMeasurementCopyWith<$Res> {
+class _$TimeSyncMeasurementCopyWithImpl<$Res> implements $TimeSyncMeasurementCopyWith<$Res> {
   _$TimeSyncMeasurementCopyWithImpl(this._self, this._then);
 
   final TimeSyncMeasurement _self;
@@ -178,16 +171,14 @@ extension TimeSyncMeasurementPatterns on TimeSyncMeasurement {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(DateTime requestSent, DateTime requestReceived,
-            DateTime responseSent, DateTime responseReceived)?
+    TResult Function(DateTime requestSent, DateTime requestReceived, DateTime responseSent, DateTime responseReceived)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _TimeSyncMeasurement() when $default != null:
-        return $default(_that.requestSent, _that.requestReceived,
-            _that.responseSent, _that.responseReceived);
+        return $default(_that.requestSent, _that.requestReceived, _that.responseSent, _that.responseReceived);
       case _:
         return orElse();
     }
@@ -208,15 +199,13 @@ extension TimeSyncMeasurementPatterns on TimeSyncMeasurement {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(DateTime requestSent, DateTime requestReceived,
-            DateTime responseSent, DateTime responseReceived)
+    TResult Function(DateTime requestSent, DateTime requestReceived, DateTime responseSent, DateTime responseReceived)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _TimeSyncMeasurement():
-        return $default(_that.requestSent, _that.requestReceived,
-            _that.responseSent, _that.responseReceived);
+        return $default(_that.requestSent, _that.requestReceived, _that.responseSent, _that.responseReceived);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -236,15 +225,13 @@ extension TimeSyncMeasurementPatterns on TimeSyncMeasurement {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(DateTime requestSent, DateTime requestReceived,
-            DateTime responseSent, DateTime responseReceived)?
+    TResult? Function(DateTime requestSent, DateTime requestReceived, DateTime responseSent, DateTime responseReceived)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _TimeSyncMeasurement() when $default != null:
-        return $default(_that.requestSent, _that.requestReceived,
-            _that.responseSent, _that.responseReceived);
+        return $default(_that.requestSent, _that.requestReceived, _that.responseSent, _that.responseReceived);
       case _:
         return null;
     }
@@ -276,8 +263,7 @@ class _TimeSyncMeasurement extends TimeSyncMeasurement {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   _$TimeSyncMeasurementCopyWith<_TimeSyncMeasurement> get copyWith =>
-      __$TimeSyncMeasurementCopyWithImpl<_TimeSyncMeasurement>(
-          this, _$identity);
+      __$TimeSyncMeasurementCopyWithImpl<_TimeSyncMeasurement>(this, _$identity);
 
   @override
   String toString() {
@@ -286,23 +272,16 @@ class _TimeSyncMeasurement extends TimeSyncMeasurement {
 }
 
 /// @nodoc
-abstract mixin class _$TimeSyncMeasurementCopyWith<$Res>
-    implements $TimeSyncMeasurementCopyWith<$Res> {
-  factory _$TimeSyncMeasurementCopyWith(_TimeSyncMeasurement value,
-          $Res Function(_TimeSyncMeasurement) _then) =
+abstract mixin class _$TimeSyncMeasurementCopyWith<$Res> implements $TimeSyncMeasurementCopyWith<$Res> {
+  factory _$TimeSyncMeasurementCopyWith(_TimeSyncMeasurement value, $Res Function(_TimeSyncMeasurement) _then) =
       __$TimeSyncMeasurementCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {DateTime requestSent,
-      DateTime requestReceived,
-      DateTime responseSent,
-      DateTime responseReceived});
+  $Res call({DateTime requestSent, DateTime requestReceived, DateTime responseSent, DateTime responseReceived});
 }
 
 /// @nodoc
-class __$TimeSyncMeasurementCopyWithImpl<$Res>
-    implements _$TimeSyncMeasurementCopyWith<$Res> {
+class __$TimeSyncMeasurementCopyWithImpl<$Res> implements _$TimeSyncMeasurementCopyWith<$Res> {
   __$TimeSyncMeasurementCopyWithImpl(this._self, this._then);
 
   final _TimeSyncMeasurement _self;
@@ -364,8 +343,7 @@ mixin _$SyncPlayState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $SyncPlayStateCopyWith<SyncPlayState> get copyWith =>
-      _$SyncPlayStateCopyWithImpl<SyncPlayState>(
-          this as SyncPlayState, _$identity);
+      _$SyncPlayStateCopyWithImpl<SyncPlayState>(this as SyncPlayState, _$identity);
 
   @override
   String toString() {
@@ -375,9 +353,7 @@ mixin _$SyncPlayState {
 
 /// @nodoc
 abstract mixin class $SyncPlayStateCopyWith<$Res> {
-  factory $SyncPlayStateCopyWith(
-          SyncPlayState value, $Res Function(SyncPlayState) _then) =
-      _$SyncPlayStateCopyWithImpl;
+  factory $SyncPlayStateCopyWith(SyncPlayState value, $Res Function(SyncPlayState) _then) = _$SyncPlayStateCopyWithImpl;
   @useResult
   $Res call(
       {bool isConnected,
@@ -396,8 +372,7 @@ abstract mixin class $SyncPlayStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SyncPlayStateCopyWithImpl<$Res>
-    implements $SyncPlayStateCopyWith<$Res> {
+class _$SyncPlayStateCopyWithImpl<$Res> implements $SyncPlayStateCopyWith<$Res> {
   _$SyncPlayStateCopyWithImpl(this._self, this._then);
 
   final SyncPlayState _self;
@@ -795,10 +770,8 @@ class _SyncPlayState extends SyncPlayState {
 }
 
 /// @nodoc
-abstract mixin class _$SyncPlayStateCopyWith<$Res>
-    implements $SyncPlayStateCopyWith<$Res> {
-  factory _$SyncPlayStateCopyWith(
-          _SyncPlayState value, $Res Function(_SyncPlayState) _then) =
+abstract mixin class _$SyncPlayStateCopyWith<$Res> implements $SyncPlayStateCopyWith<$Res> {
+  factory _$SyncPlayStateCopyWith(_SyncPlayState value, $Res Function(_SyncPlayState) _then) =
       __$SyncPlayStateCopyWithImpl;
   @override
   @useResult
@@ -819,8 +792,7 @@ abstract mixin class _$SyncPlayStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$SyncPlayStateCopyWithImpl<$Res>
-    implements _$SyncPlayStateCopyWith<$Res> {
+class __$SyncPlayStateCopyWithImpl<$Res> implements _$SyncPlayStateCopyWith<$Res> {
   __$SyncPlayStateCopyWithImpl(this._self, this._then);
 
   final _SyncPlayState _self;
@@ -914,8 +886,7 @@ mixin _$LastSyncPlayCommand {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $LastSyncPlayCommandCopyWith<LastSyncPlayCommand> get copyWith =>
-      _$LastSyncPlayCommandCopyWithImpl<LastSyncPlayCommand>(
-          this as LastSyncPlayCommand, _$identity);
+      _$LastSyncPlayCommandCopyWithImpl<LastSyncPlayCommand>(this as LastSyncPlayCommand, _$identity);
 
   @override
   String toString() {
@@ -925,17 +896,14 @@ mixin _$LastSyncPlayCommand {
 
 /// @nodoc
 abstract mixin class $LastSyncPlayCommandCopyWith<$Res> {
-  factory $LastSyncPlayCommandCopyWith(
-          LastSyncPlayCommand value, $Res Function(LastSyncPlayCommand) _then) =
+  factory $LastSyncPlayCommandCopyWith(LastSyncPlayCommand value, $Res Function(LastSyncPlayCommand) _then) =
       _$LastSyncPlayCommandCopyWithImpl;
   @useResult
-  $Res call(
-      {String when, int positionTicks, String command, String playlistItemId});
+  $Res call({String when, int positionTicks, String command, String playlistItemId});
 }
 
 /// @nodoc
-class _$LastSyncPlayCommandCopyWithImpl<$Res>
-    implements $LastSyncPlayCommandCopyWith<$Res> {
+class _$LastSyncPlayCommandCopyWithImpl<$Res> implements $LastSyncPlayCommandCopyWith<$Res> {
   _$LastSyncPlayCommandCopyWithImpl(this._self, this._then);
 
   final LastSyncPlayCommand _self;
@@ -1065,16 +1033,13 @@ extension LastSyncPlayCommandPatterns on LastSyncPlayCommand {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String when, int positionTicks, String command,
-            String playlistItemId)?
-        $default, {
+    TResult Function(String when, int positionTicks, String command, String playlistItemId)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _LastSyncPlayCommand() when $default != null:
-        return $default(_that.when, _that.positionTicks, _that.command,
-            _that.playlistItemId);
+        return $default(_that.when, _that.positionTicks, _that.command, _that.playlistItemId);
       case _:
         return orElse();
     }
@@ -1095,15 +1060,12 @@ extension LastSyncPlayCommandPatterns on LastSyncPlayCommand {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String when, int positionTicks, String command,
-            String playlistItemId)
-        $default,
+    TResult Function(String when, int positionTicks, String command, String playlistItemId) $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LastSyncPlayCommand():
-        return $default(_that.when, _that.positionTicks, _that.command,
-            _that.playlistItemId);
+        return $default(_that.when, _that.positionTicks, _that.command, _that.playlistItemId);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -1123,15 +1085,12 @@ extension LastSyncPlayCommandPatterns on LastSyncPlayCommand {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String when, int positionTicks, String command,
-            String playlistItemId)?
-        $default,
+    TResult? Function(String when, int positionTicks, String command, String playlistItemId)? $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LastSyncPlayCommand() when $default != null:
-        return $default(_that.when, _that.positionTicks, _that.command,
-            _that.playlistItemId);
+        return $default(_that.when, _that.positionTicks, _that.command, _that.playlistItemId);
       case _:
         return null;
     }
@@ -1142,10 +1101,7 @@ extension LastSyncPlayCommandPatterns on LastSyncPlayCommand {
 
 class _LastSyncPlayCommand implements LastSyncPlayCommand {
   _LastSyncPlayCommand(
-      {required this.when,
-      required this.positionTicks,
-      required this.command,
-      required this.playlistItemId});
+      {required this.when, required this.positionTicks, required this.command, required this.playlistItemId});
 
   @override
   final String when;
@@ -1162,8 +1118,7 @@ class _LastSyncPlayCommand implements LastSyncPlayCommand {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   _$LastSyncPlayCommandCopyWith<_LastSyncPlayCommand> get copyWith =>
-      __$LastSyncPlayCommandCopyWithImpl<_LastSyncPlayCommand>(
-          this, _$identity);
+      __$LastSyncPlayCommandCopyWithImpl<_LastSyncPlayCommand>(this, _$identity);
 
   @override
   String toString() {
@@ -1172,20 +1127,16 @@ class _LastSyncPlayCommand implements LastSyncPlayCommand {
 }
 
 /// @nodoc
-abstract mixin class _$LastSyncPlayCommandCopyWith<$Res>
-    implements $LastSyncPlayCommandCopyWith<$Res> {
-  factory _$LastSyncPlayCommandCopyWith(_LastSyncPlayCommand value,
-          $Res Function(_LastSyncPlayCommand) _then) =
+abstract mixin class _$LastSyncPlayCommandCopyWith<$Res> implements $LastSyncPlayCommandCopyWith<$Res> {
+  factory _$LastSyncPlayCommandCopyWith(_LastSyncPlayCommand value, $Res Function(_LastSyncPlayCommand) _then) =
       __$LastSyncPlayCommandCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {String when, int positionTicks, String command, String playlistItemId});
+  $Res call({String when, int positionTicks, String command, String playlistItemId});
 }
 
 /// @nodoc
-class __$LastSyncPlayCommandCopyWithImpl<$Res>
-    implements _$LastSyncPlayCommandCopyWith<$Res> {
+class __$LastSyncPlayCommandCopyWithImpl<$Res> implements _$LastSyncPlayCommandCopyWith<$Res> {
   __$LastSyncPlayCommandCopyWithImpl(this._self, this._then);
 
   final _LastSyncPlayCommand _self;

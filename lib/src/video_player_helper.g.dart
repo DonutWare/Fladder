@@ -24,20 +24,18 @@ List<Object?> wrapResponse({Object? result, PlatformException? error, bool empty
   }
   return <Object?>[error.code, error.message, error.details];
 }
+
 bool _deepEquals(Object? a, Object? b) {
   if (a is List && b is List) {
-    return a.length == b.length &&
-        a.indexed
-        .every(((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]));
+    return a.length == b.length && a.indexed.every(((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]));
   }
   if (a is Map && b is Map) {
-    return a.length == b.length && a.entries.every((MapEntry<Object?, Object?> entry) =>
-        (b as Map<Object?, Object?>).containsKey(entry.key) &&
-        _deepEquals(entry.value, b[entry.key]));
+    return a.length == b.length &&
+        a.entries.every((MapEntry<Object?, Object?> entry) =>
+            (b as Map<Object?, Object?>).containsKey(entry.key) && _deepEquals(entry.value, b[entry.key]));
   }
   return a == b;
 }
-
 
 enum PlaybackType {
   direct,
@@ -52,6 +50,18 @@ enum MediaSegmentType {
   recap,
   intro,
   outro,
+}
+
+/// Source of the last playback state change (for SyncPlay: infer user actions from stream).
+enum PlaybackChangeSource {
+  /// No specific source (e.g. periodic update, buffering).
+  none,
+
+  /// User tapped play/pause/seek on native; Flutter should send SyncPlay if active.
+  user,
+
+  /// Change was caused by applying a SyncPlay command; do not send again.
+  syncplay,
 }
 
 class SimpleItemModel {
@@ -88,7 +98,8 @@ class SimpleItemModel {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static SimpleItemModel decode(Object result) {
     result as List<Object?>;
@@ -116,8 +127,7 @@ class SimpleItemModel {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class MediaInfo {
@@ -138,7 +148,8 @@ class MediaInfo {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static MediaInfo decode(Object result) {
     result as List<Object?>;
@@ -162,8 +173,7 @@ class MediaInfo {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class PlayableData {
@@ -232,7 +242,8 @@ class PlayableData {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static PlayableData decode(Object result) {
     result as List<Object?>;
@@ -268,8 +279,7 @@ class PlayableData {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class MediaSegment {
@@ -298,7 +308,8 @@ class MediaSegment {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static MediaSegment decode(Object result) {
     result as List<Object?>;
@@ -324,8 +335,7 @@ class MediaSegment {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class AudioTrack {
@@ -362,7 +372,8 @@ class AudioTrack {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static AudioTrack decode(Object result) {
     result as List<Object?>;
@@ -390,8 +401,7 @@ class AudioTrack {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class SubtitleTrack {
@@ -428,7 +438,8 @@ class SubtitleTrack {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static SubtitleTrack decode(Object result) {
     result as List<Object?>;
@@ -456,8 +467,7 @@ class SubtitleTrack {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class Chapter {
@@ -482,7 +492,8 @@ class Chapter {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static Chapter decode(Object result) {
     result as List<Object?>;
@@ -507,8 +518,7 @@ class Chapter {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class TrickPlayModel {
@@ -549,7 +559,8 @@ class TrickPlayModel {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static TrickPlayModel decode(Object result) {
     result as List<Object?>;
@@ -578,8 +589,7 @@ class TrickPlayModel {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class StartResult {
@@ -596,7 +606,8 @@ class StartResult {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static StartResult decode(Object result) {
     result as List<Object?>;
@@ -619,8 +630,7 @@ class StartResult {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class PlaybackState {
@@ -632,6 +642,7 @@ class PlaybackState {
     required this.buffering,
     required this.completed,
     required this.failed,
+    this.changeSource,
   });
 
   int position;
@@ -648,6 +659,9 @@ class PlaybackState {
 
   bool failed;
 
+  /// When set, indicates who caused this state update (for SyncPlay inference).
+  PlaybackChangeSource? changeSource;
+
   List<Object?> _toList() {
     return <Object?>[
       position,
@@ -657,11 +671,13 @@ class PlaybackState {
       buffering,
       completed,
       failed,
+      changeSource,
     ];
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static PlaybackState decode(Object result) {
     result as List<Object?>;
@@ -673,6 +689,7 @@ class PlaybackState {
       buffering: result[4]! as bool,
       completed: result[5]! as bool,
       failed: result[6]! as bool,
+      changeSource: result[7] as PlaybackChangeSource?,
     );
   }
 
@@ -690,8 +707,7 @@ class PlaybackState {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class TVGuideModel {
@@ -720,7 +736,8 @@ class TVGuideModel {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static TVGuideModel decode(Object result) {
     result as List<Object?>;
@@ -746,8 +763,7 @@ class TVGuideModel {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class GuideChannel {
@@ -780,7 +796,8 @@ class GuideChannel {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static GuideChannel decode(Object result) {
     result as List<Object?>;
@@ -807,8 +824,7 @@ class GuideChannel {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class GuideProgram {
@@ -853,7 +869,8 @@ class GuideProgram {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static GuideProgram decode(Object result) {
     result as List<Object?>;
@@ -883,10 +900,8 @@ class GuideProgram {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
-
 
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
@@ -895,50 +910,53 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is PlaybackType) {
+    } else if (value is PlaybackType) {
       buffer.putUint8(129);
       writeValue(buffer, value.index);
-    }    else if (value is MediaSegmentType) {
+    } else if (value is MediaSegmentType) {
       buffer.putUint8(130);
       writeValue(buffer, value.index);
-    }    else if (value is SimpleItemModel) {
+    } else if (value is PlaybackChangeSource) {
       buffer.putUint8(131);
-      writeValue(buffer, value.encode());
-    }    else if (value is MediaInfo) {
+      writeValue(buffer, value.index);
+    } else if (value is SimpleItemModel) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    }    else if (value is PlayableData) {
+    } else if (value is MediaInfo) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    }    else if (value is MediaSegment) {
+    } else if (value is PlayableData) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
-    }    else if (value is AudioTrack) {
+    } else if (value is MediaSegment) {
       buffer.putUint8(135);
       writeValue(buffer, value.encode());
-    }    else if (value is SubtitleTrack) {
+    } else if (value is AudioTrack) {
       buffer.putUint8(136);
       writeValue(buffer, value.encode());
-    }    else if (value is Chapter) {
+    } else if (value is SubtitleTrack) {
       buffer.putUint8(137);
       writeValue(buffer, value.encode());
-    }    else if (value is TrickPlayModel) {
+    } else if (value is Chapter) {
       buffer.putUint8(138);
       writeValue(buffer, value.encode());
-    }    else if (value is StartResult) {
+    } else if (value is TrickPlayModel) {
       buffer.putUint8(139);
       writeValue(buffer, value.encode());
-    }    else if (value is PlaybackState) {
+    } else if (value is StartResult) {
       buffer.putUint8(140);
       writeValue(buffer, value.encode());
-    }    else if (value is TVGuideModel) {
+    } else if (value is PlaybackState) {
       buffer.putUint8(141);
       writeValue(buffer, value.encode());
-    }    else if (value is GuideChannel) {
+    } else if (value is TVGuideModel) {
       buffer.putUint8(142);
       writeValue(buffer, value.encode());
-    }    else if (value is GuideProgram) {
+    } else if (value is GuideChannel) {
       buffer.putUint8(143);
+      writeValue(buffer, value.encode());
+    } else if (value is GuideProgram) {
+      buffer.putUint8(144);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -948,37 +966,40 @@ class _PigeonCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 129: 
+      case 129:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : PlaybackType.values[value];
-      case 130: 
+      case 130:
         final int? value = readValue(buffer) as int?;
         return value == null ? null : MediaSegmentType.values[value];
-      case 131: 
+      case 131:
+        final int? value = readValue(buffer) as int?;
+        return value == null ? null : PlaybackChangeSource.values[value];
+      case 132:
         return SimpleItemModel.decode(readValue(buffer)!);
-      case 132: 
+      case 133:
         return MediaInfo.decode(readValue(buffer)!);
-      case 133: 
+      case 134:
         return PlayableData.decode(readValue(buffer)!);
-      case 134: 
+      case 135:
         return MediaSegment.decode(readValue(buffer)!);
-      case 135: 
+      case 136:
         return AudioTrack.decode(readValue(buffer)!);
-      case 136: 
+      case 137:
         return SubtitleTrack.decode(readValue(buffer)!);
-      case 137: 
+      case 138:
         return Chapter.decode(readValue(buffer)!);
-      case 138: 
+      case 139:
         return TrickPlayModel.decode(readValue(buffer)!);
-      case 139: 
+      case 140:
         return StartResult.decode(readValue(buffer)!);
-      case 140: 
+      case 141:
         return PlaybackState.decode(readValue(buffer)!);
-      case 141: 
+      case 142:
         return TVGuideModel.decode(readValue(buffer)!);
-      case 142: 
+      case 143:
         return GuideChannel.decode(readValue(buffer)!);
-      case 143: 
+      case 144:
         return GuideProgram.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -1000,15 +1021,15 @@ class NativeVideoActivity {
   final String pigeonVar_messageChannelSuffix;
 
   Future<StartResult> launchActivity() async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.NativeVideoActivity.launchActivity$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.NativeVideoActivity.launchActivity$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1028,15 +1049,15 @@ class NativeVideoActivity {
   }
 
   Future<void> disposeActivity() async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.NativeVideoActivity.disposeActivity$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.NativeVideoActivity.disposeActivity$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1051,15 +1072,15 @@ class NativeVideoActivity {
   }
 
   Future<bool> isLeanBackEnabled() async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.NativeVideoActivity.isLeanBackEnabled$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.NativeVideoActivity.isLeanBackEnabled$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1093,15 +1114,15 @@ class VideoPlayerApi {
   final String pigeonVar_messageChannelSuffix;
 
   Future<bool> sendPlayableModel(PlayableData playableData) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.sendPlayableModel$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.sendPlayableModel$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[playableData]);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1121,15 +1142,15 @@ class VideoPlayerApi {
   }
 
   Future<bool> sendTVGuideModel(TVGuideModel guide) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.sendTVGuideModel$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.sendTVGuideModel$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[guide]);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1149,15 +1170,15 @@ class VideoPlayerApi {
   }
 
   Future<bool> open(String url, bool play) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.open$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.open$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[url, play]);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1177,15 +1198,15 @@ class VideoPlayerApi {
   }
 
   Future<void> setLooping(bool looping) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setLooping$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setLooping$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[looping]);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1201,15 +1222,15 @@ class VideoPlayerApi {
 
   /// Sets the volume, with 0.0 being muted and 1.0 being full volume.
   Future<void> setVolume(double volume) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setVolume$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setVolume$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[volume]);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1225,15 +1246,15 @@ class VideoPlayerApi {
 
   /// Sets the playback speed as a multiple of normal speed.
   Future<void> setPlaybackSpeed(double speed) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setPlaybackSpeed$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setPlaybackSpeed$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[speed]);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1248,15 +1269,15 @@ class VideoPlayerApi {
   }
 
   Future<void> play() async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.play$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.play$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1272,15 +1293,15 @@ class VideoPlayerApi {
 
   /// Pauses playback if the video is currently playing.
   Future<void> pause() async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.pause$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.pause$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1296,15 +1317,15 @@ class VideoPlayerApi {
 
   /// Seeks to the given playback position, in milliseconds.
   Future<void> seekTo(int position) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.seekTo$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.seekTo$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[position]);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1319,15 +1340,15 @@ class VideoPlayerApi {
   }
 
   Future<void> stop() async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.stop$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.stop$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1345,15 +1366,15 @@ class VideoPlayerApi {
   /// [processing] indicates if a SyncPlay command is being processed.
   /// [commandType] is the type of command (e.g., "Pause", "Unpause", "Seek", "Stop").
   Future<void> setSyncPlayCommandState(bool processing, String? commandType) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSyncPlayCommandState$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSyncPlayCommandState$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[processing, commandType]);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {
@@ -1373,18 +1394,23 @@ abstract class VideoPlayerListenerCallback {
 
   void onPlaybackStateChanged(PlaybackState state);
 
-  static void setUp(VideoPlayerListenerCallback? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
+  static void setUp(
+    VideoPlayerListenerCallback? api, {
+    BinaryMessenger? binaryMessenger,
+    String messageChannelSuffix = '',
+  }) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListenerCallback.onPlaybackStateChanged$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListenerCallback.onPlaybackStateChanged$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListenerCallback.onPlaybackStateChanged was null.');
+              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerListenerCallback.onPlaybackStateChanged was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final PlaybackState? arg_state = (args[0] as PlaybackState?);
           assert(arg_state != null,
@@ -1394,7 +1420,7 @@ abstract class VideoPlayerListenerCallback {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
+          } catch (e) {
             return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
@@ -1430,11 +1456,16 @@ abstract class VideoPlayerControlsCallback {
   /// Position is in milliseconds
   void onUserSeek(int positionMs);
 
-  static void setUp(VideoPlayerControlsCallback? api, {BinaryMessenger? binaryMessenger, String messageChannelSuffix = '',}) {
+  static void setUp(
+    VideoPlayerControlsCallback? api, {
+    BinaryMessenger? binaryMessenger,
+    String messageChannelSuffix = '',
+  }) {
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadNextVideo$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadNextVideo$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
@@ -1445,7 +1476,7 @@ abstract class VideoPlayerControlsCallback {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
+          } catch (e) {
             return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
@@ -1453,7 +1484,8 @@ abstract class VideoPlayerControlsCallback {
     }
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadPreviousVideo$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadPreviousVideo$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
@@ -1464,7 +1496,7 @@ abstract class VideoPlayerControlsCallback {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
+          } catch (e) {
             return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
@@ -1472,7 +1504,8 @@ abstract class VideoPlayerControlsCallback {
     }
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onStop$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onStop$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
@@ -1483,7 +1516,7 @@ abstract class VideoPlayerControlsCallback {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
+          } catch (e) {
             return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
@@ -1491,14 +1524,15 @@ abstract class VideoPlayerControlsCallback {
     }
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.swapSubtitleTrack$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.swapSubtitleTrack$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.swapSubtitleTrack was null.');
+              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.swapSubtitleTrack was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_value = (args[0] as int?);
           assert(arg_value != null,
@@ -1508,7 +1542,7 @@ abstract class VideoPlayerControlsCallback {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
+          } catch (e) {
             return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
@@ -1516,14 +1550,15 @@ abstract class VideoPlayerControlsCallback {
     }
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.swapAudioTrack$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.swapAudioTrack$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.swapAudioTrack was null.');
+              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.swapAudioTrack was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_value = (args[0] as int?);
           assert(arg_value != null,
@@ -1533,7 +1568,7 @@ abstract class VideoPlayerControlsCallback {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
+          } catch (e) {
             return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
@@ -1541,14 +1576,15 @@ abstract class VideoPlayerControlsCallback {
     }
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadProgram$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadProgram$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadProgram was null.');
+              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.loadProgram was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final GuideChannel? arg_selection = (args[0] as GuideChannel?);
           assert(arg_selection != null,
@@ -1558,7 +1594,7 @@ abstract class VideoPlayerControlsCallback {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
+          } catch (e) {
             return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
@@ -1566,14 +1602,15 @@ abstract class VideoPlayerControlsCallback {
     }
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.fetchProgramsForChannel$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.fetchProgramsForChannel$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.fetchProgramsForChannel was null.');
+              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.fetchProgramsForChannel was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final String? arg_channelId = (args[0] as String?);
           assert(arg_channelId != null,
@@ -1583,7 +1620,7 @@ abstract class VideoPlayerControlsCallback {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
+          } catch (e) {
             return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
@@ -1591,7 +1628,8 @@ abstract class VideoPlayerControlsCallback {
     }
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPlay$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPlay$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
@@ -1602,7 +1640,7 @@ abstract class VideoPlayerControlsCallback {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
+          } catch (e) {
             return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
@@ -1610,7 +1648,8 @@ abstract class VideoPlayerControlsCallback {
     }
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPause$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPause$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
@@ -1621,7 +1660,7 @@ abstract class VideoPlayerControlsCallback {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
+          } catch (e) {
             return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
@@ -1629,14 +1668,15 @@ abstract class VideoPlayerControlsCallback {
     }
     {
       final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek$messageChannelSuffix', pigeonChannelCodec,
+          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek$messageChannelSuffix',
+          pigeonChannelCodec,
           binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek was null.');
+              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final int? arg_positionMs = (args[0] as int?);
           assert(arg_positionMs != null,
@@ -1646,7 +1686,7 @@ abstract class VideoPlayerControlsCallback {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          }          catch (e) {
+          } catch (e) {
             return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });

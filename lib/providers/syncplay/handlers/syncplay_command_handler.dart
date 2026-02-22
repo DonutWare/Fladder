@@ -77,8 +77,7 @@ class SyncPlayCommandHandler {
     _scheduleCommand(command, when, positionTicks);
   }
 
-  bool _isDuplicateCommand(
-      String when, int positionTicks, String command, String playlistItemId) {
+  bool _isDuplicateCommand(String when, int positionTicks, String command, String playlistItemId) {
     if (_lastCommand == null) return false;
 
     // For Unpause commands, if we are not currently playing, we should NEVER treat it as a duplicate
@@ -93,8 +92,7 @@ class SyncPlayCommandHandler {
         _lastCommand!.playlistItemId == playlistItemId;
   }
 
-  void _scheduleCommand(
-      String command, DateTime serverTime, int positionTicks) {
+  void _scheduleCommand(String command, DateTime serverTime, int positionTicks) {
     final timeSyncService = timeSync();
     if (timeSyncService == null) {
       log('SyncPlay: Cannot schedule command without time sync');
@@ -123,12 +121,10 @@ class SyncPlayCommandHandler {
     } else if (delay.inMilliseconds > 5000) {
       // Suspiciously large delay - might indicate time sync issue
       log('SyncPlay: Warning - large delay: ${delay.inMilliseconds}ms');
-      _commandTimer =
-          Timer(delay, () => _executeCommand(command, positionTicks));
+      _commandTimer = Timer(delay, () => _executeCommand(command, positionTicks));
     } else {
       log('SyncPlay: Scheduling command: $command in ${delay.inMilliseconds}ms');
-      _commandTimer =
-          Timer(delay, () => _executeCommand(command, positionTicks));
+      _commandTimer = Timer(delay, () => _executeCommand(command, positionTicks));
     }
   }
 

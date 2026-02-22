@@ -35,9 +35,7 @@ mixin _$LiveTvModel {
 
 /// @nodoc
 abstract mixin class $LiveTvModelCopyWith<$Res> {
-  factory $LiveTvModelCopyWith(
-          LiveTvModel value, $Res Function(LiveTvModel) _then) =
-      _$LiveTvModelCopyWithImpl;
+  factory $LiveTvModelCopyWith(LiveTvModel value, $Res Function(LiveTvModel) _then) = _$LiveTvModelCopyWithImpl;
   @useResult
   $Res call(
       {DateTime startDate,
@@ -183,11 +181,7 @@ extension LiveTvModelPatterns on LiveTvModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            DateTime startDate,
-            DateTime endDate,
-            List<ChannelModel> channels,
-            Set<String> loadedChannelIds,
+    TResult Function(DateTime startDate, DateTime endDate, List<ChannelModel> channels, Set<String> loadedChannelIds,
             Set<String> loadingChannelIds)?
         $default, {
     required TResult orElse(),
@@ -195,8 +189,8 @@ extension LiveTvModelPatterns on LiveTvModel {
     final _that = this;
     switch (_that) {
       case _LiveTvModel() when $default != null:
-        return $default(_that.startDate, _that.endDate, _that.channels,
-            _that.loadedChannelIds, _that.loadingChannelIds);
+        return $default(
+            _that.startDate, _that.endDate, _that.channels, _that.loadedChannelIds, _that.loadingChannelIds);
       case _:
         return orElse();
     }
@@ -217,19 +211,15 @@ extension LiveTvModelPatterns on LiveTvModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(
-            DateTime startDate,
-            DateTime endDate,
-            List<ChannelModel> channels,
-            Set<String> loadedChannelIds,
+    TResult Function(DateTime startDate, DateTime endDate, List<ChannelModel> channels, Set<String> loadedChannelIds,
             Set<String> loadingChannelIds)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LiveTvModel():
-        return $default(_that.startDate, _that.endDate, _that.channels,
-            _that.loadedChannelIds, _that.loadingChannelIds);
+        return $default(
+            _that.startDate, _that.endDate, _that.channels, _that.loadedChannelIds, _that.loadingChannelIds);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -249,19 +239,15 @@ extension LiveTvModelPatterns on LiveTvModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            DateTime startDate,
-            DateTime endDate,
-            List<ChannelModel> channels,
-            Set<String> loadedChannelIds,
+    TResult? Function(DateTime startDate, DateTime endDate, List<ChannelModel> channels, Set<String> loadedChannelIds,
             Set<String> loadingChannelIds)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LiveTvModel() when $default != null:
-        return $default(_that.startDate, _that.endDate, _that.channels,
-            _that.loadedChannelIds, _that.loadingChannelIds);
+        return $default(
+            _that.startDate, _that.endDate, _that.channels, _that.loadedChannelIds, _that.loadingChannelIds);
       case _:
         return null;
     }
@@ -307,8 +293,7 @@ class _LiveTvModel implements LiveTvModel {
   @override
   @JsonKey()
   Set<String> get loadingChannelIds {
-    if (_loadingChannelIds is EqualUnmodifiableSetView)
-      return _loadingChannelIds;
+    if (_loadingChannelIds is EqualUnmodifiableSetView) return _loadingChannelIds;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(_loadingChannelIds);
   }
@@ -318,8 +303,7 @@ class _LiveTvModel implements LiveTvModel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$LiveTvModelCopyWith<_LiveTvModel> get copyWith =>
-      __$LiveTvModelCopyWithImpl<_LiveTvModel>(this, _$identity);
+  _$LiveTvModelCopyWith<_LiveTvModel> get copyWith => __$LiveTvModelCopyWithImpl<_LiveTvModel>(this, _$identity);
 
   @override
   String toString() {
@@ -328,11 +312,8 @@ class _LiveTvModel implements LiveTvModel {
 }
 
 /// @nodoc
-abstract mixin class _$LiveTvModelCopyWith<$Res>
-    implements $LiveTvModelCopyWith<$Res> {
-  factory _$LiveTvModelCopyWith(
-          _LiveTvModel value, $Res Function(_LiveTvModel) _then) =
-      __$LiveTvModelCopyWithImpl;
+abstract mixin class _$LiveTvModelCopyWith<$Res> implements $LiveTvModelCopyWith<$Res> {
+  factory _$LiveTvModelCopyWith(_LiveTvModel value, $Res Function(_LiveTvModel) _then) = __$LiveTvModelCopyWithImpl;
   @override
   @useResult
   $Res call(

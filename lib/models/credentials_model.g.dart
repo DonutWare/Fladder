@@ -6,8 +6,7 @@ part of 'credentials_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_CredentialsModel _$CredentialsModelFromJson(Map<String, dynamic> json) =>
-    _CredentialsModel(
+_CredentialsModel _$CredentialsModelFromJson(Map<String, dynamic> json) => _CredentialsModel(
       token: json['token'] as String? ?? "",
       url: json['url'] as String? ?? "",
       localUrl: json['localUrl'] as String?,
@@ -16,8 +15,7 @@ _CredentialsModel _$CredentialsModelFromJson(Map<String, dynamic> json) =>
       deviceId: json['deviceId'] as String? ?? "",
     );
 
-Map<String, dynamic> _$CredentialsModelToJson(_CredentialsModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$CredentialsModelToJson(_CredentialsModel instance) => <String, dynamic>{
       'token': instance.token,
       'url': instance.url,
       'localUrl': instance.localUrl,

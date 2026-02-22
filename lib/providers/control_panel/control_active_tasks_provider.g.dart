@@ -6,18 +6,14 @@ part of 'control_active_tasks_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlActiveTasksHash() =>
-    r'afe69c1b45a2b1492d99f539fe8322d2c891942a';
+String _$controlActiveTasksHash() => r'afe69c1b45a2b1492d99f539fe8322d2c891942a';
 
 /// See also [ControlActiveTasks].
 @ProviderFor(ControlActiveTasks)
-final controlActiveTasksProvider =
-    AutoDisposeNotifierProvider<ControlActiveTasks, List<TaskInfo>>.internal(
+final controlActiveTasksProvider = AutoDisposeNotifierProvider<ControlActiveTasks, List<TaskInfo>>.internal(
   ControlActiveTasks.new,
   name: r'controlActiveTasksProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$controlActiveTasksHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$controlActiveTasksHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

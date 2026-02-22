@@ -27,8 +27,7 @@ mixin _$TrickPlayModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $TrickPlayModelCopyWith<TrickPlayModel> get copyWith =>
-      _$TrickPlayModelCopyWithImpl<TrickPlayModel>(
-          this as TrickPlayModel, _$identity);
+      _$TrickPlayModelCopyWithImpl<TrickPlayModel>(this as TrickPlayModel, _$identity);
 
   /// Serializes this TrickPlayModel to a JSON map.
   Map<String, dynamic> toJson();
@@ -41,8 +40,7 @@ mixin _$TrickPlayModel {
 
 /// @nodoc
 abstract mixin class $TrickPlayModelCopyWith<$Res> {
-  factory $TrickPlayModelCopyWith(
-          TrickPlayModel value, $Res Function(TrickPlayModel) _then) =
+  factory $TrickPlayModelCopyWith(TrickPlayModel value, $Res Function(TrickPlayModel) _then) =
       _$TrickPlayModelCopyWithImpl;
   @useResult
   $Res call(
@@ -56,8 +54,7 @@ abstract mixin class $TrickPlayModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TrickPlayModelCopyWithImpl<$Res>
-    implements $TrickPlayModelCopyWith<$Res> {
+class _$TrickPlayModelCopyWithImpl<$Res> implements $TrickPlayModelCopyWith<$Res> {
   _$TrickPlayModelCopyWithImpl(this._self, this._then);
 
   final TrickPlayModel _self;
@@ -202,22 +199,16 @@ extension TrickPlayModelPatterns on TrickPlayModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int width, int height, int tileWidth, int tileHeight,
-            int thumbnailCount, Duration interval, List<String> images)?
+    TResult Function(int width, int height, int tileWidth, int tileHeight, int thumbnailCount, Duration interval,
+            List<String> images)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _TrickPlayModel() when $default != null:
-        return $default(
-            _that.width,
-            _that.height,
-            _that.tileWidth,
-            _that.tileHeight,
-            _that.thumbnailCount,
-            _that.interval,
-            _that.images);
+        return $default(_that.width, _that.height, _that.tileWidth, _that.tileHeight, _that.thumbnailCount,
+            _that.interval, _that.images);
       case _:
         return orElse();
     }
@@ -238,21 +229,15 @@ extension TrickPlayModelPatterns on TrickPlayModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int width, int height, int tileWidth, int tileHeight,
-            int thumbnailCount, Duration interval, List<String> images)
+    TResult Function(int width, int height, int tileWidth, int tileHeight, int thumbnailCount, Duration interval,
+            List<String> images)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _TrickPlayModel():
-        return $default(
-            _that.width,
-            _that.height,
-            _that.tileWidth,
-            _that.tileHeight,
-            _that.thumbnailCount,
-            _that.interval,
-            _that.images);
+        return $default(_that.width, _that.height, _that.tileWidth, _that.tileHeight, _that.thumbnailCount,
+            _that.interval, _that.images);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -272,21 +257,15 @@ extension TrickPlayModelPatterns on TrickPlayModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int width, int height, int tileWidth, int tileHeight,
-            int thumbnailCount, Duration interval, List<String> images)?
+    TResult? Function(int width, int height, int tileWidth, int tileHeight, int thumbnailCount, Duration interval,
+            List<String> images)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _TrickPlayModel() when $default != null:
-        return $default(
-            _that.width,
-            _that.height,
-            _that.tileWidth,
-            _that.tileHeight,
-            _that.thumbnailCount,
-            _that.interval,
-            _that.images);
+        return $default(_that.width, _that.height, _that.tileWidth, _that.tileHeight, _that.thumbnailCount,
+            _that.interval, _that.images);
       case _:
         return null;
     }
@@ -306,8 +285,7 @@ class _TrickPlayModel extends TrickPlayModel {
       final List<String> images = const []})
       : _images = images,
         super._();
-  factory _TrickPlayModel.fromJson(Map<String, dynamic> json) =>
-      _$TrickPlayModelFromJson(json);
+  factory _TrickPlayModel.fromJson(Map<String, dynamic> json) => _$TrickPlayModelFromJson(json);
 
   @override
   final int width;
@@ -352,10 +330,8 @@ class _TrickPlayModel extends TrickPlayModel {
 }
 
 /// @nodoc
-abstract mixin class _$TrickPlayModelCopyWith<$Res>
-    implements $TrickPlayModelCopyWith<$Res> {
-  factory _$TrickPlayModelCopyWith(
-          _TrickPlayModel value, $Res Function(_TrickPlayModel) _then) =
+abstract mixin class _$TrickPlayModelCopyWith<$Res> implements $TrickPlayModelCopyWith<$Res> {
+  factory _$TrickPlayModelCopyWith(_TrickPlayModel value, $Res Function(_TrickPlayModel) _then) =
       __$TrickPlayModelCopyWithImpl;
   @override
   @useResult
@@ -370,8 +346,7 @@ abstract mixin class _$TrickPlayModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$TrickPlayModelCopyWithImpl<$Res>
-    implements _$TrickPlayModelCopyWith<$Res> {
+class __$TrickPlayModelCopyWithImpl<$Res> implements _$TrickPlayModelCopyWith<$Res> {
   __$TrickPlayModelCopyWithImpl(this._self, this._then);
 
   final _TrickPlayModel _self;

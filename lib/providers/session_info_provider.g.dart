@@ -6,17 +6,14 @@ part of 'session_info_provider.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_SessionInfoModel _$SessionInfoModelFromJson(Map<String, dynamic> json) =>
-    _SessionInfoModel(
+_SessionInfoModel _$SessionInfoModelFromJson(Map<String, dynamic> json) => _SessionInfoModel(
       playbackModel: json['playbackModel'] as String?,
       transCodeInfo: json['transCodeInfo'] == null
           ? null
-          : TranscodingInfo.fromJson(
-              json['transCodeInfo'] as Map<String, dynamic>),
+          : TranscodingInfo.fromJson(json['transCodeInfo'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$SessionInfoModelToJson(_SessionInfoModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SessionInfoModelToJson(_SessionInfoModel instance) => <String, dynamic>{
       'playbackModel': instance.playbackModel,
       'transCodeInfo': instance.transCodeInfo,
     };
@@ -29,12 +26,10 @@ String _$sessionInfoHash() => r'024da7f8d05fb98f6e2e5395ed06c1cc9d003f79';
 
 /// See also [SessionInfo].
 @ProviderFor(SessionInfo)
-final sessionInfoProvider =
-    AutoDisposeNotifierProvider<SessionInfo, SessionInfoModel>.internal(
+final sessionInfoProvider = AutoDisposeNotifierProvider<SessionInfo, SessionInfoModel>.internal(
   SessionInfo.new,
   name: r'sessionInfoProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$sessionInfoHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$sessionInfoHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

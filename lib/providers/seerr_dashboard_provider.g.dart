@@ -10,13 +10,10 @@ String _$seerrDashboardHash() => r'e04260df2673014d673f2bf6a715ac638c6bdc4e';
 
 /// See also [SeerrDashboard].
 @ProviderFor(SeerrDashboard)
-final seerrDashboardProvider =
-    AutoDisposeNotifierProvider<SeerrDashboard, SeerrDashboardModel>.internal(
+final seerrDashboardProvider = AutoDisposeNotifierProvider<SeerrDashboard, SeerrDashboardModel>.internal(
   SeerrDashboard.new,
   name: r'seerrDashboardProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$seerrDashboardHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$seerrDashboardHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

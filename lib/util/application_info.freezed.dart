@@ -113,9 +113,7 @@ extension ApplicationInfoPatterns on ApplicationInfo {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            String name, String version, String buildNumber, String os)?
-        $default, {
+    TResult Function(String name, String version, String buildNumber, String os)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
@@ -142,8 +140,7 @@ extension ApplicationInfoPatterns on ApplicationInfo {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String name, String version, String buildNumber, String os)
-        $default,
+    TResult Function(String name, String version, String buildNumber, String os) $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -168,9 +165,7 @@ extension ApplicationInfoPatterns on ApplicationInfo {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            String name, String version, String buildNumber, String os)?
-        $default,
+    TResult? Function(String name, String version, String buildNumber, String os)? $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -185,11 +180,7 @@ extension ApplicationInfoPatterns on ApplicationInfo {
 /// @nodoc
 
 class _ApplicationInfo extends ApplicationInfo {
-  _ApplicationInfo(
-      {required this.name,
-      required this.version,
-      required this.buildNumber,
-      required this.os})
+  _ApplicationInfo({required this.name, required this.version, required this.buildNumber, required this.os})
       : super._();
 
   @override

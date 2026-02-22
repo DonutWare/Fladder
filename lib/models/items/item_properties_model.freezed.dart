@@ -183,8 +183,7 @@ extension ItemPropertiesModelPatterns on ItemPropertiesModel {
 /// @nodoc
 
 class _ItemPropertiesModel extends ItemPropertiesModel {
-  _ItemPropertiesModel({required this.canDelete, required this.canDownload})
-      : super._();
+  _ItemPropertiesModel({required this.canDelete, required this.canDownload}) : super._();
 
   @override
   final bool canDelete;

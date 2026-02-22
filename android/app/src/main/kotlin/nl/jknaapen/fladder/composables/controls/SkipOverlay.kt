@@ -5,6 +5,8 @@ import MediaSegmentType
 import SegmentSkip
 import SegmentType
 import android.os.Build
+import nl.jknaapen.fladder.api.PlaybackChangeSource
+import nl.jknaapen.fladder.objects.VideoPlayerObject
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -69,8 +71,8 @@ internal fun BoxScope.SegmentSkipOverlay(
     val currentSegmentId = activeSegment?.let { "${it.type}-${it.start}-${it.end}" }
 
     fun skipSegment(segment: MediaSegment, segmentId: String) {
-        // Route through Flutter for SyncPlay support
-        VideoPlayerObject.videoPlayerControls?.onUserSeek(segment.end + 250.milliseconds.inWholeMilliseconds) {}
+        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+        VideoPlayerObject.implementation.player?.seekTo(segment.end + 250.milliseconds.inWholeMilliseconds)
         skippedSegments.add(segmentId)
     }
 
@@ -109,8 +111,8 @@ internal fun BoxScope.SegmentSkipOverlay(
             enableScaledFocus = true,
             onClick = {
                 activeSegment?.let {
-                    // Route through Flutter for SyncPlay support
-                    VideoPlayerObject.videoPlayerControls?.onUserSeek(it.end) {}
+                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                    VideoPlayerObject.implementation.player?.seekTo(it.end.toLong())
                 }
             }
         ) {

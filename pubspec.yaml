@@ -46,6 +46,7 @@ dependencies:
   flutter_cache_manager: ^3.4.1
   connectivity_plus: ^7.0.0
   punycoder: ^0.2.2
+  web_socket_channel: ^3.0.3
 
   # State Management
   flutter_riverpod: ^2.6.1
@@ -135,7 +136,6 @@ dependencies:
   dart_mappable: ^4.6.0
   flutter_native_splash: ^2.4.7
   macos_window_utils: ^1.9.0
-  web_socket_channel: ^3.0.3
 
   # Fix cjk font rendering issue on Windows
   chinese_font_library: ^1.2.0

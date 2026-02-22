@@ -93,9 +93,7 @@ class TimeSyncService {
       if (!_isActive) return;
 
       _pingCount++;
-      final interval = _pingCount <= _greedyPingCount 
-          ? _greedyInterval 
-          : _lowProfileInterval;
+      final interval = _pingCount <= _greedyPingCount ? _greedyInterval : _lowProfileInterval;
 
       _pollingTimer?.cancel();
       _pollingTimer = Timer(interval, _poll);

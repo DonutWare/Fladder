@@ -68,6 +68,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.delay
+import nl.jknaapen.fladder.api.PlaybackChangeSource
 import nl.jknaapen.fladder.objects.Localized
 import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
@@ -450,8 +451,8 @@ internal fun RowScope.SimpleProgressBar(
                     val clickRelativeOffset = offset.x / width.toFloat()
                     val newPosition =
                         effectiveDuration.milliseconds * clickRelativeOffset.toDouble()
-                    // Route through Flutter for SyncPlay support
-                    VideoPlayerObject.videoPlayerControls?.onUserSeek(newPosition.toLong(DurationUnit.MILLISECONDS)) {}
+                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                    player.seekTo(newPosition.toLong(DurationUnit.MILLISECONDS))
                 }
             }
             .pointerInput(Unit) {
@@ -474,8 +475,8 @@ internal fun RowScope.SimpleProgressBar(
                     },
                     onDragEnd = {
                         onScrubbingChanged(false)
-                        // Route through Flutter for SyncPlay support
-                        VideoPlayerObject.videoPlayerControls?.onUserSeek(internalTempPosition) {}
+                        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                        player.seekTo(internalTempPosition)
                     },
                     onDragCancel = {
                         onScrubbingChanged(false)
@@ -654,8 +655,8 @@ internal fun RowScope.SimpleProgressBar(
                             if (!scrubbingTimeLine) {
                                 onTempPosChanged(effectivePosition)
                                 onScrubbingChanged(true)
-                                // Route through Flutter for SyncPlay support
-                                VideoPlayerObject.videoPlayerControls?.onUserPause {}
+                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                                player.pause()
                             }
                             val newPos = max(
                                 0L,
@@ -676,8 +677,8 @@ internal fun RowScope.SimpleProgressBar(
                             if (!scrubbingTimeLine) {
                                 onTempPosChanged(effectivePosition)
                                 onScrubbingChanged(true)
-                                // Route through Flutter for SyncPlay support
-                                VideoPlayerObject.videoPlayerControls?.onUserPause {}
+                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                                player.pause()
                             }
                             val newPos = min(player.duration.takeIf { it > 0 } ?: 1L,
                                 tempPosition + scrubSpeedResult())
@@ -688,9 +689,9 @@ internal fun RowScope.SimpleProgressBar(
 
                         Enter, Spacebar, ButtonSelect, DirectionCenter -> {
                             if (scrubbingTimeLine) {
-                                // Route through Flutter for SyncPlay support
-                                VideoPlayerObject.videoPlayerControls?.onUserSeek(tempPosition) {}
-                                VideoPlayerObject.videoPlayerControls?.onUserPlay {}
+                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                                player.seekTo(tempPosition)
+                                player.play()
                                 onScrubbingChanged(false)
                                 true
                             } else false
@@ -699,8 +700,8 @@ internal fun RowScope.SimpleProgressBar(
                         Escape, Back -> {
                             if (scrubbingTimeLine) {
                                 onScrubbingChanged(false)
-                                // Route through Flutter for SyncPlay support
-                                VideoPlayerObject.videoPlayerControls?.onUserPlay {}
+                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                                player.play()
                                 true
                             }
                             false

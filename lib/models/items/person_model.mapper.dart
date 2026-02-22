@@ -26,51 +26,37 @@ class PersonModelMapper extends SubClassMapperBase<PersonModel> {
   final String id = 'PersonModel';
 
   static DateTime? _$dateOfBirth(PersonModel v) => v.dateOfBirth;
-  static const Field<PersonModel, DateTime> _f$dateOfBirth =
-      Field('dateOfBirth', _$dateOfBirth, opt: true);
+  static const Field<PersonModel, DateTime> _f$dateOfBirth = Field('dateOfBirth', _$dateOfBirth, opt: true);
   static List<String> _$birthPlace(PersonModel v) => v.birthPlace;
-  static const Field<PersonModel, List<String>> _f$birthPlace =
-      Field('birthPlace', _$birthPlace);
+  static const Field<PersonModel, List<String>> _f$birthPlace = Field('birthPlace', _$birthPlace);
   static List<MovieModel> _$movies(PersonModel v) => v.movies;
-  static const Field<PersonModel, List<MovieModel>> _f$movies =
-      Field('movies', _$movies);
+  static const Field<PersonModel, List<MovieModel>> _f$movies = Field('movies', _$movies);
   static List<SeriesModel> _$series(PersonModel v) => v.series;
-  static const Field<PersonModel, List<SeriesModel>> _f$series =
-      Field('series', _$series);
+  static const Field<PersonModel, List<SeriesModel>> _f$series = Field('series', _$series);
   static String _$name(PersonModel v) => v.name;
   static const Field<PersonModel, String> _f$name = Field('name', _$name);
   static String _$id(PersonModel v) => v.id;
   static const Field<PersonModel, String> _f$id = Field('id', _$id);
   static OverviewModel _$overview(PersonModel v) => v.overview;
-  static const Field<PersonModel, OverviewModel> _f$overview =
-      Field('overview', _$overview);
+  static const Field<PersonModel, OverviewModel> _f$overview = Field('overview', _$overview);
   static String? _$parentId(PersonModel v) => v.parentId;
-  static const Field<PersonModel, String> _f$parentId =
-      Field('parentId', _$parentId);
+  static const Field<PersonModel, String> _f$parentId = Field('parentId', _$parentId);
   static String? _$playlistId(PersonModel v) => v.playlistId;
-  static const Field<PersonModel, String> _f$playlistId =
-      Field('playlistId', _$playlistId);
+  static const Field<PersonModel, String> _f$playlistId = Field('playlistId', _$playlistId);
   static ImagesData? _$images(PersonModel v) => v.images;
-  static const Field<PersonModel, ImagesData> _f$images =
-      Field('images', _$images);
+  static const Field<PersonModel, ImagesData> _f$images = Field('images', _$images);
   static int? _$childCount(PersonModel v) => v.childCount;
-  static const Field<PersonModel, int> _f$childCount =
-      Field('childCount', _$childCount);
+  static const Field<PersonModel, int> _f$childCount = Field('childCount', _$childCount);
   static double? _$primaryRatio(PersonModel v) => v.primaryRatio;
-  static const Field<PersonModel, double> _f$primaryRatio =
-      Field('primaryRatio', _$primaryRatio);
+  static const Field<PersonModel, double> _f$primaryRatio = Field('primaryRatio', _$primaryRatio);
   static UserData _$userData(PersonModel v) => v.userData;
-  static const Field<PersonModel, UserData> _f$userData =
-      Field('userData', _$userData);
+  static const Field<PersonModel, UserData> _f$userData = Field('userData', _$userData);
   static bool? _$canDownload(PersonModel v) => v.canDownload;
-  static const Field<PersonModel, bool> _f$canDownload =
-      Field('canDownload', _$canDownload, opt: true);
+  static const Field<PersonModel, bool> _f$canDownload = Field('canDownload', _$canDownload, opt: true);
   static bool? _$canDelete(PersonModel v) => v.canDelete;
-  static const Field<PersonModel, bool> _f$canDelete =
-      Field('canDelete', _$canDelete, opt: true);
+  static const Field<PersonModel, bool> _f$canDelete = Field('canDelete', _$canDelete, opt: true);
   static BaseItemKind? _$jellyType(PersonModel v) => v.jellyType;
-  static const Field<PersonModel, BaseItemKind> _f$jellyType =
-      Field('jellyType', _$jellyType, opt: true);
+  static const Field<PersonModel, BaseItemKind> _f$jellyType = Field('jellyType', _$jellyType, opt: true);
 
   @override
   final MappableFields<PersonModel> fields = const {
@@ -99,8 +85,7 @@ class PersonModelMapper extends SubClassMapperBase<PersonModel> {
   @override
   final dynamic discriminatorValue = 'PersonModel';
   @override
-  late final ClassMapperBase superMapper =
-      ItemBaseModelMapper.ensureInitialized();
+  late final ClassMapperBase superMapper = ItemBaseModelMapper.ensureInitialized();
 
   static PersonModel _instantiate(DecodingData data) {
     return PersonModel(
@@ -128,23 +113,18 @@ class PersonModelMapper extends SubClassMapperBase<PersonModel> {
 
 mixin PersonModelMappable {
   PersonModelCopyWith<PersonModel, PersonModel, PersonModel> get copyWith =>
-      _PersonModelCopyWithImpl<PersonModel, PersonModel>(
-          this as PersonModel, $identity, $identity);
+      _PersonModelCopyWithImpl<PersonModel, PersonModel>(this as PersonModel, $identity, $identity);
 }
 
-extension PersonModelValueCopy<$R, $Out>
-    on ObjectCopyWith<$R, PersonModel, $Out> {
+extension PersonModelValueCopy<$R, $Out> on ObjectCopyWith<$R, PersonModel, $Out> {
   PersonModelCopyWith<$R, PersonModel, $Out> get $asPersonModel =>
       $base.as((v, t, t2) => _PersonModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class PersonModelCopyWith<$R, $In extends PersonModel, $Out>
-    implements ItemBaseModelCopyWith<$R, $In, $Out> {
+abstract class PersonModelCopyWith<$R, $In extends PersonModel, $Out> implements ItemBaseModelCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get birthPlace;
-  ListCopyWith<$R, MovieModel, MovieModelCopyWith<$R, MovieModel, MovieModel>>
-      get movies;
-  ListCopyWith<$R, SeriesModel,
-      SeriesModelCopyWith<$R, SeriesModel, SeriesModel>> get series;
+  ListCopyWith<$R, MovieModel, MovieModelCopyWith<$R, MovieModel, MovieModel>> get movies;
+  ListCopyWith<$R, SeriesModel, SeriesModelCopyWith<$R, SeriesModel, SeriesModel>> get series;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
   @override
@@ -170,33 +150,26 @@ abstract class PersonModelCopyWith<$R, $In extends PersonModel, $Out>
   PersonModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _PersonModelCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, PersonModel, $Out>
+class _PersonModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, PersonModel, $Out>
     implements PersonModelCopyWith<$R, PersonModel, $Out> {
   _PersonModelCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<PersonModel> $mapper =
-      PersonModelMapper.ensureInitialized();
+  late final ClassMapperBase<PersonModel> $mapper = PersonModelMapper.ensureInitialized();
   @override
   ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get birthPlace =>
-      ListCopyWith($value.birthPlace, (v, t) => ObjectCopyWith(v, $identity, t),
-          (v) => call(birthPlace: v));
+      ListCopyWith($value.birthPlace, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(birthPlace: v));
   @override
-  ListCopyWith<$R, MovieModel, MovieModelCopyWith<$R, MovieModel, MovieModel>>
-      get movies => ListCopyWith($value.movies, (v, t) => v.copyWith.$chain(t),
-          (v) => call(movies: v));
+  ListCopyWith<$R, MovieModel, MovieModelCopyWith<$R, MovieModel, MovieModel>> get movies =>
+      ListCopyWith($value.movies, (v, t) => v.copyWith.$chain(t), (v) => call(movies: v));
   @override
-  ListCopyWith<$R, SeriesModel,
-          SeriesModelCopyWith<$R, SeriesModel, SeriesModel>>
-      get series => ListCopyWith($value.series, (v, t) => v.copyWith.$chain(t),
-          (v) => call(series: v));
+  ListCopyWith<$R, SeriesModel, SeriesModelCopyWith<$R, SeriesModel, SeriesModel>> get series =>
+      ListCopyWith($value.series, (v, t) => v.copyWith.$chain(t), (v) => call(series: v));
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
-  UserDataCopyWith<$R, UserData, UserData> get userData =>
-      $value.userData.copyWith.$chain((v) => call(userData: v));
+  UserDataCopyWith<$R, UserData, UserData> get userData => $value.userData.copyWith.$chain((v) => call(userData: v));
   @override
   $R call(
           {Object? dateOfBirth = $none,
@@ -253,7 +226,6 @@ class _PersonModelCopyWithImpl<$R, $Out>
       jellyType: data.get(#jellyType, or: $value.jellyType));
 
   @override
-  PersonModelCopyWith<$R2, PersonModel, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
+  PersonModelCopyWith<$R2, PersonModel, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _PersonModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

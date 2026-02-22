@@ -9,8 +9,7 @@ import 'package:flutter/material.dart';
 typedef ReportReadyCallback = Future<void> Function({bool isPlaying});
 
 /// Callback for starting playback of an item
-typedef StartPlaybackCallback = Future<void> Function(
-    String itemId, int startPositionTicks);
+typedef StartPlaybackCallback = Future<void> Function(String itemId, int startPositionTicks);
 
 /// Handles SyncPlay group update messages from WebSocket
 class SyncPlayMessageHandler {
@@ -22,6 +21,8 @@ class SyncPlayMessageHandler {
     required this.getContext,
     required this.onGroupJoined,
     required this.onGroupJoinFailed,
+    this.onGroupLeftOrKicked,
+    this.onStateUpdateToPlaying,
   });
 
   final void Function(SyncPlayState Function(SyncPlayState)) onStateUpdate;
@@ -32,9 +33,14 @@ class SyncPlayMessageHandler {
   final void Function() onGroupJoined;
   final void Function() onGroupJoinFailed;
 
+  /// Called when we leave or are kicked so controller can cancel pending commands and clear processing state.
+  final void Function()? onGroupLeftOrKicked;
+
+  /// Called when group state becomes Playing so controller can ensure player is actually playing (per docs).
+  final void Function()? onStateUpdateToPlaying;
+
   /// Handle group update message
-  void handleGroupUpdate(
-      Map<String, dynamic> data, SyncPlayState currentState) {
+  void handleGroupUpdate(Map<String, dynamic> data, SyncPlayState currentState) {
     final updateType = data['Type'] as String?;
     final updateData = data['Data'];
 
@@ -93,22 +99,19 @@ class SyncPlayMessageHandler {
 
     final context = getContext();
     if (context != null) {
-      fladderSnackbar(context,
-          title: context.localized.syncPlayUserJoined(userId));
+      fladderSnackbar(context, title: context.localized.syncPlayUserJoined(userId));
     }
     log('SyncPlay: User joined: $userId');
   }
 
   void _handleUserLeft(String? userId, SyncPlayState currentState) {
     if (userId == null) return;
-    final participants =
-        currentState.participants.where((p) => p != userId).toList();
+    final participants = currentState.participants.where((p) => p != userId).toList();
     onStateUpdate((state) => state.copyWith(participants: participants));
 
     final context = getContext();
     if (context != null) {
-      fladderSnackbar(context,
-          title: context.localized.syncPlayUserLeft(userId));
+      fladderSnackbar(context, title: context.localized.syncPlayUserLeft(userId));
     }
     log('SyncPlay: User left: $userId');
   }
@@ -120,7 +123,10 @@ class SyncPlayMessageHandler {
           groupName: null,
           groupState: SyncPlayGroupState.idle,
           participants: [],
+          isProcessingCommand: false,
+          processingCommandType: null,
         ));
+    onGroupLeftOrKicked?.call();
     log('SyncPlay: Left group');
   }
 
@@ -131,7 +137,10 @@ class SyncPlayMessageHandler {
           groupName: null,
           groupState: SyncPlayGroupState.idle,
           participants: [],
+          isProcessingCommand: false,
+          processingCommandType: null,
         ));
+    onGroupLeftOrKicked?.call();
     log('SyncPlay: Group does not exist');
 
     // Notify controller that group join failed
@@ -145,7 +154,10 @@ class SyncPlayMessageHandler {
           groupName: null,
           groupState: SyncPlayGroupState.idle,
           participants: [],
+          isProcessingCommand: false,
+          processingCommandType: null,
         ));
+    onGroupLeftOrKicked?.call();
     log('SyncPlay: Not in group - server rejected operation');
 
     // Notify controller that group join failed
@@ -156,18 +168,24 @@ class SyncPlayMessageHandler {
     final stateStr = data['State'] as String?;
     final reason = data['Reason'] as String?;
     final positionTicks = data['PositionTicks'] as int? ?? 0;
+    final newGroupState = _parseGroupState(stateStr);
 
     onStateUpdate((state) => state.copyWith(
-          groupState: _parseGroupState(stateStr),
+          groupState: newGroupState,
           stateReason: reason,
           positionTicks: positionTicks,
         ));
 
     log('SyncPlay: State update: $stateStr (reason: $reason)');
 
-    // Handle waiting state
-    if (_parseGroupState(stateStr) == SyncPlayGroupState.waiting) {
+    // Handle waiting state (per docs: report Ready for Unpause/Buffer so server can broadcast Unpause)
+    if (newGroupState == SyncPlayGroupState.waiting) {
       _handleWaitingState(reason);
+    }
+
+    // Per docs: when state becomes Playing, ensure player is actually playing (recover if Unpause was missed)
+    if (newGroupState == SyncPlayGroupState.playing) {
+      onStateUpdateToPlaying?.call();
     }
   }
 
@@ -212,9 +230,7 @@ class SyncPlayMessageHandler {
     // Trigger playback for NewPlaylist/SetCurrentItem regardless of whether item changed
     // (the same user who set the queue also receives the update and needs to start playing)
     final shouldTrigger = playingItemId != null &&
-        (reason == 'NewPlaylist' ||
-            reason == 'SetCurrentItem' ||
-            (playingItemId != previousItemId && isPlayingNow));
+        (reason == 'NewPlaylist' || reason == 'SetCurrentItem' || (playingItemId != previousItemId && isPlayingNow));
 
     log('SyncPlay: shouldTrigger=$shouldTrigger (reason: $reason)');
 

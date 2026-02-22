@@ -27,35 +27,25 @@ class ItemBaseModelMapper extends ClassMapperBase<ItemBaseModel> {
   static String _$id(ItemBaseModel v) => v.id;
   static const Field<ItemBaseModel, String> _f$id = Field('id', _$id);
   static OverviewModel _$overview(ItemBaseModel v) => v.overview;
-  static const Field<ItemBaseModel, OverviewModel> _f$overview =
-      Field('overview', _$overview);
+  static const Field<ItemBaseModel, OverviewModel> _f$overview = Field('overview', _$overview);
   static String? _$parentId(ItemBaseModel v) => v.parentId;
-  static const Field<ItemBaseModel, String> _f$parentId =
-      Field('parentId', _$parentId);
+  static const Field<ItemBaseModel, String> _f$parentId = Field('parentId', _$parentId);
   static String? _$playlistId(ItemBaseModel v) => v.playlistId;
-  static const Field<ItemBaseModel, String> _f$playlistId =
-      Field('playlistId', _$playlistId);
+  static const Field<ItemBaseModel, String> _f$playlistId = Field('playlistId', _$playlistId);
   static ImagesData? _$images(ItemBaseModel v) => v.images;
-  static const Field<ItemBaseModel, ImagesData> _f$images =
-      Field('images', _$images);
+  static const Field<ItemBaseModel, ImagesData> _f$images = Field('images', _$images);
   static int? _$childCount(ItemBaseModel v) => v.childCount;
-  static const Field<ItemBaseModel, int> _f$childCount =
-      Field('childCount', _$childCount);
+  static const Field<ItemBaseModel, int> _f$childCount = Field('childCount', _$childCount);
   static double? _$primaryRatio(ItemBaseModel v) => v.primaryRatio;
-  static const Field<ItemBaseModel, double> _f$primaryRatio =
-      Field('primaryRatio', _$primaryRatio);
+  static const Field<ItemBaseModel, double> _f$primaryRatio = Field('primaryRatio', _$primaryRatio);
   static UserData _$userData(ItemBaseModel v) => v.userData;
-  static const Field<ItemBaseModel, UserData> _f$userData =
-      Field('userData', _$userData);
+  static const Field<ItemBaseModel, UserData> _f$userData = Field('userData', _$userData);
   static bool? _$canDownload(ItemBaseModel v) => v.canDownload;
-  static const Field<ItemBaseModel, bool> _f$canDownload =
-      Field('canDownload', _$canDownload);
+  static const Field<ItemBaseModel, bool> _f$canDownload = Field('canDownload', _$canDownload);
   static bool? _$canDelete(ItemBaseModel v) => v.canDelete;
-  static const Field<ItemBaseModel, bool> _f$canDelete =
-      Field('canDelete', _$canDelete);
+  static const Field<ItemBaseModel, bool> _f$canDelete = Field('canDelete', _$canDelete);
   static dto.BaseItemKind? _$jellyType(ItemBaseModel v) => v.jellyType;
-  static const Field<ItemBaseModel, dto.BaseItemKind> _f$jellyType =
-      Field('jellyType', _$jellyType);
+  static const Field<ItemBaseModel, dto.BaseItemKind> _f$jellyType = Field('jellyType', _$jellyType);
 
   @override
   final MappableFields<ItemBaseModel> fields = const {
@@ -96,19 +86,16 @@ class ItemBaseModelMapper extends ClassMapperBase<ItemBaseModel> {
 }
 
 mixin ItemBaseModelMappable {
-  ItemBaseModelCopyWith<ItemBaseModel, ItemBaseModel, ItemBaseModel>
-      get copyWith => _ItemBaseModelCopyWithImpl<ItemBaseModel, ItemBaseModel>(
-          this as ItemBaseModel, $identity, $identity);
+  ItemBaseModelCopyWith<ItemBaseModel, ItemBaseModel, ItemBaseModel> get copyWith =>
+      _ItemBaseModelCopyWithImpl<ItemBaseModel, ItemBaseModel>(this as ItemBaseModel, $identity, $identity);
 }
 
-extension ItemBaseModelValueCopy<$R, $Out>
-    on ObjectCopyWith<$R, ItemBaseModel, $Out> {
+extension ItemBaseModelValueCopy<$R, $Out> on ObjectCopyWith<$R, ItemBaseModel, $Out> {
   ItemBaseModelCopyWith<$R, ItemBaseModel, $Out> get $asItemBaseModel =>
       $base.as((v, t, t2) => _ItemBaseModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class ItemBaseModelCopyWith<$R, $In extends ItemBaseModel, $Out>
-    implements ClassCopyWith<$R, $In, $Out> {
+abstract class ItemBaseModelCopyWith<$R, $In extends ItemBaseModel, $Out> implements ClassCopyWith<$R, $In, $Out> {
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
   UserDataCopyWith<$R, UserData, UserData> get userData;
   $R call(
@@ -127,20 +114,17 @@ abstract class ItemBaseModelCopyWith<$R, $In extends ItemBaseModel, $Out>
   ItemBaseModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _ItemBaseModelCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, ItemBaseModel, $Out>
+class _ItemBaseModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, ItemBaseModel, $Out>
     implements ItemBaseModelCopyWith<$R, ItemBaseModel, $Out> {
   _ItemBaseModelCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<ItemBaseModel> $mapper =
-      ItemBaseModelMapper.ensureInitialized();
+  late final ClassMapperBase<ItemBaseModel> $mapper = ItemBaseModelMapper.ensureInitialized();
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
-  UserDataCopyWith<$R, UserData, UserData> get userData =>
-      $value.userData.copyWith.$chain((v) => call(userData: v));
+  UserDataCopyWith<$R, UserData, UserData> get userData => $value.userData.copyWith.$chain((v) => call(userData: v));
   @override
   $R call(
           {String? name,
@@ -185,7 +169,6 @@ class _ItemBaseModelCopyWithImpl<$R, $Out>
       jellyType: data.get(#jellyType, or: $value.jellyType));
 
   @override
-  ItemBaseModelCopyWith<$R2, ItemBaseModel, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
+  ItemBaseModelCopyWith<$R2, ItemBaseModel, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _ItemBaseModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

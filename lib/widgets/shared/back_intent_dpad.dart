@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/gestures.dart';
-
 import 'package:auto_route/auto_route.dart';
-
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_helper.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BackIntentDpad extends StatelessWidget {
   final Widget child;
@@ -34,11 +32,11 @@ class BackIntentDpad extends StatelessWidget {
           if (event.logicalKey == LogicalKeyboardKey.backspace) {
             if (isEditableTextFocused()) {
               return KeyEventResult.ignored;
-          } else {
+            } else {
               context.maybePop();
               return KeyEventResult.handled;
+            }
           }
-        }
 
           return KeyEventResult.ignored;
         },

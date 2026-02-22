@@ -2,9 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:web_socket_channel/web_socket_channel.dart';
-
 import 'package:fladder/models/syncplay/syncplay_models.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 /// Manages WebSocket connection to Jellyfin server for SyncPlay
 class WebSocketManager {
@@ -52,8 +51,7 @@ class WebSocketManager {
 
   /// Connect to WebSocket
   Future<void> connect() async {
-    if (_currentState == WebSocketConnectionState.connected ||
-        _currentState == WebSocketConnectionState.connecting) {
+    if (_currentState == WebSocketConnectionState.connected || _currentState == WebSocketConnectionState.connecting) {
       return;
     }
 
@@ -125,7 +123,7 @@ class WebSocketManager {
     try {
       final message = json.decode(data as String) as Map<String, dynamic>;
       final messageType = message['MessageType'] as String?;
-      
+
       // Log all received messages for debugging (except KeepAlive spam)
       if (messageType != 'KeepAlive') {
         log('WebSocket: Received message: $message');

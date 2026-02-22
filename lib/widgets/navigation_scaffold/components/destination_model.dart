@@ -14,6 +14,7 @@ class DestinationModel {
   final String? tooltip;
   final Widget? badge;
   final AdaptiveFab? floatingActionButton;
+
   /// Custom FAB widget - takes precedence over floatingActionButton if provided
   final Widget? customFab;
 

@@ -13,8 +13,7 @@ String _$liveTvHash() => r'06fb75eeafd5f2d1bc860c2da7b7ca493a58d743';
 final liveTvProvider = NotifierProvider<LiveTv, LiveTvModel>.internal(
   LiveTv.new,
   name: r'liveTvProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$liveTvHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$liveTvHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

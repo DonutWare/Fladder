@@ -34,8 +34,7 @@ mixin _$LibraryFilterModel implements DiagnosticableTreeMixin {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $LibraryFilterModelCopyWith<LibraryFilterModel> get copyWith =>
-      _$LibraryFilterModelCopyWithImpl<LibraryFilterModel>(
-          this as LibraryFilterModel, _$identity);
+      _$LibraryFilterModelCopyWithImpl<LibraryFilterModel>(this as LibraryFilterModel, _$identity);
 
   /// Serializes this LibraryFilterModel to a JSON map.
   Map<String, dynamic> toJson();
@@ -67,8 +66,7 @@ mixin _$LibraryFilterModel implements DiagnosticableTreeMixin {
 
 /// @nodoc
 abstract mixin class $LibraryFilterModelCopyWith<$Res> {
-  factory $LibraryFilterModelCopyWith(
-          LibraryFilterModel value, $Res Function(LibraryFilterModel) _then) =
+  factory $LibraryFilterModelCopyWith(LibraryFilterModel value, $Res Function(LibraryFilterModel) _then) =
       _$LibraryFilterModelCopyWithImpl;
   @useResult
   $Res call(
@@ -88,8 +86,7 @@ abstract mixin class $LibraryFilterModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$LibraryFilterModelCopyWithImpl<$Res>
-    implements $LibraryFilterModelCopyWith<$Res> {
+class _$LibraryFilterModelCopyWithImpl<$Res> implements $LibraryFilterModelCopyWith<$Res> {
   _$LibraryFilterModelCopyWithImpl(this._self, this._then);
 
   final LibraryFilterModel _self;
@@ -411,8 +408,7 @@ extension LibraryFilterModelPatterns on LibraryFilterModel {
 
 /// @nodoc
 @JsonSerializable()
-class _LibraryFilterModel extends LibraryFilterModel
-    with DiagnosticableTreeMixin {
+class _LibraryFilterModel extends LibraryFilterModel with DiagnosticableTreeMixin {
   const _LibraryFilterModel(
       {final Map<String, bool> genres = const {},
       final Map<ItemFilter, bool> itemFilters = const {
@@ -454,8 +450,7 @@ class _LibraryFilterModel extends LibraryFilterModel
         _officialRatings = officialRatings,
         _types = types,
         super._();
-  factory _LibraryFilterModel.fromJson(Map<String, dynamic> json) =>
-      _$LibraryFilterModelFromJson(json);
+  factory _LibraryFilterModel.fromJson(Map<String, dynamic> json) => _$LibraryFilterModelFromJson(json);
 
   final Map<String, bool> _genres;
   @override
@@ -581,10 +576,8 @@ class _LibraryFilterModel extends LibraryFilterModel
 }
 
 /// @nodoc
-abstract mixin class _$LibraryFilterModelCopyWith<$Res>
-    implements $LibraryFilterModelCopyWith<$Res> {
-  factory _$LibraryFilterModelCopyWith(
-          _LibraryFilterModel value, $Res Function(_LibraryFilterModel) _then) =
+abstract mixin class _$LibraryFilterModelCopyWith<$Res> implements $LibraryFilterModelCopyWith<$Res> {
+  factory _$LibraryFilterModelCopyWith(_LibraryFilterModel value, $Res Function(_LibraryFilterModel) _then) =
       __$LibraryFilterModelCopyWithImpl;
   @override
   @useResult
@@ -605,8 +598,7 @@ abstract mixin class _$LibraryFilterModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$LibraryFilterModelCopyWithImpl<$Res>
-    implements _$LibraryFilterModelCopyWith<$Res> {
+class __$LibraryFilterModelCopyWithImpl<$Res> implements _$LibraryFilterModelCopyWith<$Res> {
   __$LibraryFilterModelCopyWithImpl(this._self, this._then);
 
   final _LibraryFilterModel _self;

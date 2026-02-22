@@ -55,7 +55,7 @@ extension StringExtensions on String {
   /// Instead of the [path.basename] method, which returns the last part of the path for the current client platform.
   String get universalBasename {
     final parts = split(RegExp(r'[\\/]+'));
-    return parts.where((s)=>s.isNotEmpty).lastOrNull ?? '';
+    return parts.where((s) => s.isNotEmpty).lastOrNull ?? '';
   }
 }
 

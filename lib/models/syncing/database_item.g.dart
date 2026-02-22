@@ -3,114 +3,85 @@
 part of 'database_item.dart';
 
 // ignore_for_file: type=lint
-class $DatabaseItemsTable extends DatabaseItems
-    with TableInfo<$DatabaseItemsTable, DatabaseItem> {
+class $DatabaseItemsTable extends DatabaseItems with TableInfo<$DatabaseItemsTable, DatabaseItem> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $DatabaseItemsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
   @override
-  late final GeneratedColumn<String> userId =
-      GeneratedColumn<String>('user_id', aliasedName, false,
-          additionalChecks: GeneratedColumn.checkTextLength(
-            minTextLength: 1,
-          ),
-          type: DriftSqlType.string,
-          requiredDuringInsert: true);
+  late final GeneratedColumn<String> userId = GeneratedColumn<String>('user_id', aliasedName, false,
+      additionalChecks: GeneratedColumn.checkTextLength(
+        minTextLength: 1,
+      ),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id =
-      GeneratedColumn<String>('id', aliasedName, false,
-          additionalChecks: GeneratedColumn.checkTextLength(
-            minTextLength: 1,
-          ),
-          type: DriftSqlType.string,
-          requiredDuringInsert: true);
-  static const VerificationMeta _syncingMeta =
-      const VerificationMeta('syncing');
+  late final GeneratedColumn<String> id = GeneratedColumn<String>('id', aliasedName, false,
+      additionalChecks: GeneratedColumn.checkTextLength(
+        minTextLength: 1,
+      ),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _syncingMeta = const VerificationMeta('syncing');
   @override
-  late final GeneratedColumn<bool> syncing = GeneratedColumn<bool>(
-      'syncing', aliasedName, false,
+  late final GeneratedColumn<bool> syncing = GeneratedColumn<bool>('syncing', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("syncing" IN (0, 1))'),
+      defaultConstraints: GeneratedColumn.constraintIsAlways('CHECK ("syncing" IN (0, 1))'),
       defaultValue: const Constant(false));
-  static const VerificationMeta _sortNameMeta =
-      const VerificationMeta('sortName');
+  static const VerificationMeta _sortNameMeta = const VerificationMeta('sortName');
   @override
-  late final GeneratedColumn<String> sortName = GeneratedColumn<String>(
-      'sort_name', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _parentIdMeta =
-      const VerificationMeta('parentId');
+  late final GeneratedColumn<String> sortName =
+      GeneratedColumn<String>('sort_name', aliasedName, true, type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _parentIdMeta = const VerificationMeta('parentId');
   @override
-  late final GeneratedColumn<String> parentId = GeneratedColumn<String>(
-      'parent_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<String> parentId =
+      GeneratedColumn<String>('parent_id', aliasedName, true, type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _pathMeta = const VerificationMeta('path');
   @override
-  late final GeneratedColumn<String> path = GeneratedColumn<String>(
-      'path', aliasedName, true,
+  late final GeneratedColumn<String> path =
+      GeneratedColumn<String>('path', aliasedName, true, type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _fileSizeMeta = const VerificationMeta('fileSize');
+  @override
+  late final GeneratedColumn<int> fileSize =
+      GeneratedColumn<int>('file_size', aliasedName, true, type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _videoFileNameMeta = const VerificationMeta('videoFileName');
+  @override
+  late final GeneratedColumn<String> videoFileName = GeneratedColumn<String>('video_file_name', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _fileSizeMeta =
-      const VerificationMeta('fileSize');
+  static const VerificationMeta _trickPlayModelMeta = const VerificationMeta('trickPlayModel');
   @override
-  late final GeneratedColumn<int> fileSize = GeneratedColumn<int>(
-      'file_size', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _videoFileNameMeta =
-      const VerificationMeta('videoFileName');
-  @override
-  late final GeneratedColumn<String> videoFileName = GeneratedColumn<String>(
-      'video_file_name', aliasedName, true,
+  late final GeneratedColumn<String> trickPlayModel = GeneratedColumn<String>('trick_play_model', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _trickPlayModelMeta =
-      const VerificationMeta('trickPlayModel');
+  static const VerificationMeta _mediaSegmentsMeta = const VerificationMeta('mediaSegments');
   @override
-  late final GeneratedColumn<String> trickPlayModel = GeneratedColumn<String>(
-      'trick_play_model', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _mediaSegmentsMeta =
-      const VerificationMeta('mediaSegments');
-  @override
-  late final GeneratedColumn<String> mediaSegments = GeneratedColumn<String>(
-      'media_segments', aliasedName, true,
+  late final GeneratedColumn<String> mediaSegments = GeneratedColumn<String>('media_segments', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _imagesMeta = const VerificationMeta('images');
   @override
-  late final GeneratedColumn<String> images = GeneratedColumn<String>(
-      'images', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _chaptersMeta =
-      const VerificationMeta('chapters');
+  late final GeneratedColumn<String> images =
+      GeneratedColumn<String>('images', aliasedName, true, type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _chaptersMeta = const VerificationMeta('chapters');
   @override
-  late final GeneratedColumn<String> chapters = GeneratedColumn<String>(
-      'chapters', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _subtitlesMeta =
-      const VerificationMeta('subtitles');
+  late final GeneratedColumn<String> chapters =
+      GeneratedColumn<String>('chapters', aliasedName, true, type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _subtitlesMeta = const VerificationMeta('subtitles');
   @override
-  late final GeneratedColumn<String> subtitles = GeneratedColumn<String>(
-      'subtitles', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _unSyncedDataMeta =
-      const VerificationMeta('unSyncedData');
+  late final GeneratedColumn<String> subtitles =
+      GeneratedColumn<String>('subtitles', aliasedName, true, type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _unSyncedDataMeta = const VerificationMeta('unSyncedData');
   @override
-  late final GeneratedColumn<bool> unSyncedData = GeneratedColumn<bool>(
-      'un_synced_data', aliasedName, false,
+  late final GeneratedColumn<bool> unSyncedData = GeneratedColumn<bool>('un_synced_data', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'CHECK ("un_synced_data" IN (0, 1))'),
+      defaultConstraints: GeneratedColumn.constraintIsAlways('CHECK ("un_synced_data" IN (0, 1))'),
       defaultValue: const Constant(false));
-  static const VerificationMeta _userDataMeta =
-      const VerificationMeta('userData');
+  static const VerificationMeta _userDataMeta = const VerificationMeta('userData');
   @override
-  late final GeneratedColumn<String> userData = GeneratedColumn<String>(
-      'user_data', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<String> userData =
+      GeneratedColumn<String>('user_data', aliasedName, true, type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns => [
         userId,
@@ -135,13 +106,11 @@ class $DatabaseItemsTable extends DatabaseItems
   String get actualTableName => $name;
   static const String $name = 'database_items';
   @override
-  VerificationContext validateIntegrity(Insertable<DatabaseItem> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<DatabaseItem> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('user_id')) {
-      context.handle(_userIdMeta,
-          userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
+      context.handle(_userIdMeta, userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
     } else if (isInserting) {
       context.missing(_userIdMeta);
     }
@@ -151,64 +120,46 @@ class $DatabaseItemsTable extends DatabaseItems
       context.missing(_idMeta);
     }
     if (data.containsKey('syncing')) {
-      context.handle(_syncingMeta,
-          syncing.isAcceptableOrUnknown(data['syncing']!, _syncingMeta));
+      context.handle(_syncingMeta, syncing.isAcceptableOrUnknown(data['syncing']!, _syncingMeta));
     }
     if (data.containsKey('sort_name')) {
-      context.handle(_sortNameMeta,
-          sortName.isAcceptableOrUnknown(data['sort_name']!, _sortNameMeta));
+      context.handle(_sortNameMeta, sortName.isAcceptableOrUnknown(data['sort_name']!, _sortNameMeta));
     }
     if (data.containsKey('parent_id')) {
-      context.handle(_parentIdMeta,
-          parentId.isAcceptableOrUnknown(data['parent_id']!, _parentIdMeta));
+      context.handle(_parentIdMeta, parentId.isAcceptableOrUnknown(data['parent_id']!, _parentIdMeta));
     }
     if (data.containsKey('path')) {
-      context.handle(
-          _pathMeta, path.isAcceptableOrUnknown(data['path']!, _pathMeta));
+      context.handle(_pathMeta, path.isAcceptableOrUnknown(data['path']!, _pathMeta));
     }
     if (data.containsKey('file_size')) {
-      context.handle(_fileSizeMeta,
-          fileSize.isAcceptableOrUnknown(data['file_size']!, _fileSizeMeta));
+      context.handle(_fileSizeMeta, fileSize.isAcceptableOrUnknown(data['file_size']!, _fileSizeMeta));
     }
     if (data.containsKey('video_file_name')) {
       context.handle(
-          _videoFileNameMeta,
-          videoFileName.isAcceptableOrUnknown(
-              data['video_file_name']!, _videoFileNameMeta));
+          _videoFileNameMeta, videoFileName.isAcceptableOrUnknown(data['video_file_name']!, _videoFileNameMeta));
     }
     if (data.containsKey('trick_play_model')) {
       context.handle(
-          _trickPlayModelMeta,
-          trickPlayModel.isAcceptableOrUnknown(
-              data['trick_play_model']!, _trickPlayModelMeta));
+          _trickPlayModelMeta, trickPlayModel.isAcceptableOrUnknown(data['trick_play_model']!, _trickPlayModelMeta));
     }
     if (data.containsKey('media_segments')) {
       context.handle(
-          _mediaSegmentsMeta,
-          mediaSegments.isAcceptableOrUnknown(
-              data['media_segments']!, _mediaSegmentsMeta));
+          _mediaSegmentsMeta, mediaSegments.isAcceptableOrUnknown(data['media_segments']!, _mediaSegmentsMeta));
     }
     if (data.containsKey('images')) {
-      context.handle(_imagesMeta,
-          images.isAcceptableOrUnknown(data['images']!, _imagesMeta));
+      context.handle(_imagesMeta, images.isAcceptableOrUnknown(data['images']!, _imagesMeta));
     }
     if (data.containsKey('chapters')) {
-      context.handle(_chaptersMeta,
-          chapters.isAcceptableOrUnknown(data['chapters']!, _chaptersMeta));
+      context.handle(_chaptersMeta, chapters.isAcceptableOrUnknown(data['chapters']!, _chaptersMeta));
     }
     if (data.containsKey('subtitles')) {
-      context.handle(_subtitlesMeta,
-          subtitles.isAcceptableOrUnknown(data['subtitles']!, _subtitlesMeta));
+      context.handle(_subtitlesMeta, subtitles.isAcceptableOrUnknown(data['subtitles']!, _subtitlesMeta));
     }
     if (data.containsKey('un_synced_data')) {
-      context.handle(
-          _unSyncedDataMeta,
-          unSyncedData.isAcceptableOrUnknown(
-              data['un_synced_data']!, _unSyncedDataMeta));
+      context.handle(_unSyncedDataMeta, unSyncedData.isAcceptableOrUnknown(data['un_synced_data']!, _unSyncedDataMeta));
     }
     if (data.containsKey('user_data')) {
-      context.handle(_userDataMeta,
-          userData.isAcceptableOrUnknown(data['user_data']!, _userDataMeta));
+      context.handle(_userDataMeta, userData.isAcceptableOrUnknown(data['user_data']!, _userDataMeta));
     }
     return context;
   }
@@ -219,36 +170,22 @@ class $DatabaseItemsTable extends DatabaseItems
   DatabaseItem map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return DatabaseItem(
-      userId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}user_id'])!,
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      syncing: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}syncing'])!,
-      sortName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}sort_name']),
-      parentId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}parent_id']),
-      path: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}path']),
-      fileSize: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}file_size']),
-      videoFileName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}video_file_name']),
-      trickPlayModel: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}trick_play_model']),
-      mediaSegments: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}media_segments']),
-      images: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}images']),
-      chapters: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}chapters']),
-      subtitles: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}subtitles']),
-      unSyncedData: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}un_synced_data'])!,
-      userData: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}user_data']),
+      userId: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}user_id'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      syncing: attachedDatabase.typeMapping.read(DriftSqlType.bool, data['${effectivePrefix}syncing'])!,
+      sortName: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}sort_name']),
+      parentId: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}parent_id']),
+      path: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}path']),
+      fileSize: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}file_size']),
+      videoFileName: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}video_file_name']),
+      trickPlayModel:
+          attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}trick_play_model']),
+      mediaSegments: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}media_segments']),
+      images: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}images']),
+      chapters: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}chapters']),
+      subtitles: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}subtitles']),
+      unSyncedData: attachedDatabase.typeMapping.read(DriftSqlType.bool, data['${effectivePrefix}un_synced_data'])!,
+      userData: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}user_data']),
     );
   }
 
@@ -338,42 +275,22 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       userId: Value(userId),
       id: Value(id),
       syncing: Value(syncing),
-      sortName: sortName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(sortName),
-      parentId: parentId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(parentId),
+      sortName: sortName == null && nullToAbsent ? const Value.absent() : Value(sortName),
+      parentId: parentId == null && nullToAbsent ? const Value.absent() : Value(parentId),
       path: path == null && nullToAbsent ? const Value.absent() : Value(path),
-      fileSize: fileSize == null && nullToAbsent
-          ? const Value.absent()
-          : Value(fileSize),
-      videoFileName: videoFileName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(videoFileName),
-      trickPlayModel: trickPlayModel == null && nullToAbsent
-          ? const Value.absent()
-          : Value(trickPlayModel),
-      mediaSegments: mediaSegments == null && nullToAbsent
-          ? const Value.absent()
-          : Value(mediaSegments),
-      images:
-          images == null && nullToAbsent ? const Value.absent() : Value(images),
-      chapters: chapters == null && nullToAbsent
-          ? const Value.absent()
-          : Value(chapters),
-      subtitles: subtitles == null && nullToAbsent
-          ? const Value.absent()
-          : Value(subtitles),
+      fileSize: fileSize == null && nullToAbsent ? const Value.absent() : Value(fileSize),
+      videoFileName: videoFileName == null && nullToAbsent ? const Value.absent() : Value(videoFileName),
+      trickPlayModel: trickPlayModel == null && nullToAbsent ? const Value.absent() : Value(trickPlayModel),
+      mediaSegments: mediaSegments == null && nullToAbsent ? const Value.absent() : Value(mediaSegments),
+      images: images == null && nullToAbsent ? const Value.absent() : Value(images),
+      chapters: chapters == null && nullToAbsent ? const Value.absent() : Value(chapters),
+      subtitles: subtitles == null && nullToAbsent ? const Value.absent() : Value(subtitles),
       unSyncedData: Value(unSyncedData),
-      userData: userData == null && nullToAbsent
-          ? const Value.absent()
-          : Value(userData),
+      userData: userData == null && nullToAbsent ? const Value.absent() : Value(userData),
     );
   }
 
-  factory DatabaseItem.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory DatabaseItem.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DatabaseItem(
       userId: serializer.fromJson<String>(json['userId']),
@@ -439,12 +356,9 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
         parentId: parentId.present ? parentId.value : this.parentId,
         path: path.present ? path.value : this.path,
         fileSize: fileSize.present ? fileSize.value : this.fileSize,
-        videoFileName:
-            videoFileName.present ? videoFileName.value : this.videoFileName,
-        trickPlayModel:
-            trickPlayModel.present ? trickPlayModel.value : this.trickPlayModel,
-        mediaSegments:
-            mediaSegments.present ? mediaSegments.value : this.mediaSegments,
+        videoFileName: videoFileName.present ? videoFileName.value : this.videoFileName,
+        trickPlayModel: trickPlayModel.present ? trickPlayModel.value : this.trickPlayModel,
+        mediaSegments: mediaSegments.present ? mediaSegments.value : this.mediaSegments,
         images: images.present ? images.value : this.images,
         chapters: chapters.present ? chapters.value : this.chapters,
         subtitles: subtitles.present ? subtitles.value : this.subtitles,
@@ -460,21 +374,13 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       parentId: data.parentId.present ? data.parentId.value : this.parentId,
       path: data.path.present ? data.path.value : this.path,
       fileSize: data.fileSize.present ? data.fileSize.value : this.fileSize,
-      videoFileName: data.videoFileName.present
-          ? data.videoFileName.value
-          : this.videoFileName,
-      trickPlayModel: data.trickPlayModel.present
-          ? data.trickPlayModel.value
-          : this.trickPlayModel,
-      mediaSegments: data.mediaSegments.present
-          ? data.mediaSegments.value
-          : this.mediaSegments,
+      videoFileName: data.videoFileName.present ? data.videoFileName.value : this.videoFileName,
+      trickPlayModel: data.trickPlayModel.present ? data.trickPlayModel.value : this.trickPlayModel,
+      mediaSegments: data.mediaSegments.present ? data.mediaSegments.value : this.mediaSegments,
       images: data.images.present ? data.images.value : this.images,
       chapters: data.chapters.present ? data.chapters.value : this.chapters,
       subtitles: data.subtitles.present ? data.subtitles.value : this.subtitles,
-      unSyncedData: data.unSyncedData.present
-          ? data.unSyncedData.value
-          : this.unSyncedData,
+      unSyncedData: data.unSyncedData.present ? data.unSyncedData.value : this.unSyncedData,
       userData: data.userData.present ? data.userData.value : this.userData,
     );
   }
@@ -502,22 +408,8 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
   }
 
   @override
-  int get hashCode => Object.hash(
-      userId,
-      id,
-      syncing,
-      sortName,
-      parentId,
-      path,
-      fileSize,
-      videoFileName,
-      trickPlayModel,
-      mediaSegments,
-      images,
-      chapters,
-      subtitles,
-      unSyncedData,
-      userData);
+  int get hashCode => Object.hash(userId, id, syncing, sortName, parentId, path, fileSize, videoFileName,
+      trickPlayModel, mediaSegments, images, chapters, subtitles, unSyncedData, userData);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -750,18 +642,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $DatabaseItemsTable databaseItems = $DatabaseItemsTable(this);
-  late final Index databaseId = Index('database_id',
-      'CREATE INDEX database_id ON database_items (user_id, id)');
+  late final Index databaseId = Index('database_id', 'CREATE INDEX database_id ON database_items (user_id, id)');
   @override
-  Iterable<TableInfo<Table, Object?>> get allTables =>
-      allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+  Iterable<TableInfo<Table, Object?>> get allTables => allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [databaseItems, databaseId];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [databaseItems, databaseId];
 }
 
-typedef $$DatabaseItemsTableCreateCompanionBuilder = DatabaseItemsCompanion
-    Function({
+typedef $$DatabaseItemsTableCreateCompanionBuilder = DatabaseItemsCompanion Function({
   required String userId,
   required String id,
   Value<bool> syncing,
@@ -779,8 +667,7 @@ typedef $$DatabaseItemsTableCreateCompanionBuilder = DatabaseItemsCompanion
   Value<String?> userData,
   Value<int> rowid,
 });
-typedef $$DatabaseItemsTableUpdateCompanionBuilder = DatabaseItemsCompanion
-    Function({
+typedef $$DatabaseItemsTableUpdateCompanionBuilder = DatabaseItemsCompanion Function({
   Value<String> userId,
   Value<String> id,
   Value<bool> syncing,
@@ -799,8 +686,7 @@ typedef $$DatabaseItemsTableUpdateCompanionBuilder = DatabaseItemsCompanion
   Value<int> rowid,
 });
 
-class $$DatabaseItemsTableFilterComposer
-    extends Composer<_$AppDatabase, $DatabaseItemsTable> {
+class $$DatabaseItemsTableFilterComposer extends Composer<_$AppDatabase, $DatabaseItemsTable> {
   $$DatabaseItemsTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -808,55 +694,51 @@ class $$DatabaseItemsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get userId => $composableBuilder(
-      column: $table.userId, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get id => $composableBuilder(column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<bool> get syncing => $composableBuilder(
-      column: $table.syncing, builder: (column) => ColumnFilters(column));
+  ColumnFilters<bool> get syncing =>
+      $composableBuilder(column: $table.syncing, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get sortName => $composableBuilder(
-      column: $table.sortName, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get sortName =>
+      $composableBuilder(column: $table.sortName, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get parentId => $composableBuilder(
-      column: $table.parentId, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get parentId =>
+      $composableBuilder(column: $table.parentId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get path => $composableBuilder(
-      column: $table.path, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get path => $composableBuilder(column: $table.path, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get fileSize => $composableBuilder(
-      column: $table.fileSize, builder: (column) => ColumnFilters(column));
+  ColumnFilters<int> get fileSize =>
+      $composableBuilder(column: $table.fileSize, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get videoFileName => $composableBuilder(
-      column: $table.videoFileName, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get videoFileName =>
+      $composableBuilder(column: $table.videoFileName, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get trickPlayModel => $composableBuilder(
-      column: $table.trickPlayModel,
-      builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get trickPlayModel =>
+      $composableBuilder(column: $table.trickPlayModel, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get mediaSegments => $composableBuilder(
-      column: $table.mediaSegments, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get mediaSegments =>
+      $composableBuilder(column: $table.mediaSegments, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get images => $composableBuilder(
-      column: $table.images, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get images =>
+      $composableBuilder(column: $table.images, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get chapters => $composableBuilder(
-      column: $table.chapters, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get chapters =>
+      $composableBuilder(column: $table.chapters, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get subtitles => $composableBuilder(
-      column: $table.subtitles, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get subtitles =>
+      $composableBuilder(column: $table.subtitles, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<bool> get unSyncedData => $composableBuilder(
-      column: $table.unSyncedData, builder: (column) => ColumnFilters(column));
+  ColumnFilters<bool> get unSyncedData =>
+      $composableBuilder(column: $table.unSyncedData, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get userData => $composableBuilder(
-      column: $table.userData, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get userData =>
+      $composableBuilder(column: $table.userData, builder: (column) => ColumnFilters(column));
 }
 
-class $$DatabaseItemsTableOrderingComposer
-    extends Composer<_$AppDatabase, $DatabaseItemsTable> {
+class $$DatabaseItemsTableOrderingComposer extends Composer<_$AppDatabase, $DatabaseItemsTable> {
   $$DatabaseItemsTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -864,58 +746,52 @@ class $$DatabaseItemsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get userId => $composableBuilder(
-      column: $table.userId, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get id => $composableBuilder(column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<bool> get syncing => $composableBuilder(
-      column: $table.syncing, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<bool> get syncing =>
+      $composableBuilder(column: $table.syncing, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get sortName => $composableBuilder(
-      column: $table.sortName, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get sortName =>
+      $composableBuilder(column: $table.sortName, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get parentId => $composableBuilder(
-      column: $table.parentId, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get parentId =>
+      $composableBuilder(column: $table.parentId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get path => $composableBuilder(
-      column: $table.path, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get path =>
+      $composableBuilder(column: $table.path, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get fileSize => $composableBuilder(
-      column: $table.fileSize, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<int> get fileSize =>
+      $composableBuilder(column: $table.fileSize, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get videoFileName => $composableBuilder(
-      column: $table.videoFileName,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get videoFileName =>
+      $composableBuilder(column: $table.videoFileName, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get trickPlayModel => $composableBuilder(
-      column: $table.trickPlayModel,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get trickPlayModel =>
+      $composableBuilder(column: $table.trickPlayModel, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get mediaSegments => $composableBuilder(
-      column: $table.mediaSegments,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get mediaSegments =>
+      $composableBuilder(column: $table.mediaSegments, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get images => $composableBuilder(
-      column: $table.images, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get images =>
+      $composableBuilder(column: $table.images, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get chapters => $composableBuilder(
-      column: $table.chapters, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get chapters =>
+      $composableBuilder(column: $table.chapters, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get subtitles => $composableBuilder(
-      column: $table.subtitles, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get subtitles =>
+      $composableBuilder(column: $table.subtitles, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<bool> get unSyncedData => $composableBuilder(
-      column: $table.unSyncedData,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<bool> get unSyncedData =>
+      $composableBuilder(column: $table.unSyncedData, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get userData => $composableBuilder(
-      column: $table.userData, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get userData =>
+      $composableBuilder(column: $table.userData, builder: (column) => ColumnOrderings(column));
 }
 
-class $$DatabaseItemsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $DatabaseItemsTable> {
+class $$DatabaseItemsTableAnnotationComposer extends Composer<_$AppDatabase, $DatabaseItemsTable> {
   $$DatabaseItemsTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -923,50 +799,39 @@ class $$DatabaseItemsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get userId =>
-      $composableBuilder(column: $table.userId, builder: (column) => column);
+  GeneratedColumn<String> get userId => $composableBuilder(column: $table.userId, builder: (column) => column);
 
-  GeneratedColumn<String> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
+  GeneratedColumn<String> get id => $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<bool> get syncing =>
-      $composableBuilder(column: $table.syncing, builder: (column) => column);
+  GeneratedColumn<bool> get syncing => $composableBuilder(column: $table.syncing, builder: (column) => column);
 
-  GeneratedColumn<String> get sortName =>
-      $composableBuilder(column: $table.sortName, builder: (column) => column);
+  GeneratedColumn<String> get sortName => $composableBuilder(column: $table.sortName, builder: (column) => column);
 
-  GeneratedColumn<String> get parentId =>
-      $composableBuilder(column: $table.parentId, builder: (column) => column);
+  GeneratedColumn<String> get parentId => $composableBuilder(column: $table.parentId, builder: (column) => column);
 
-  GeneratedColumn<String> get path =>
-      $composableBuilder(column: $table.path, builder: (column) => column);
+  GeneratedColumn<String> get path => $composableBuilder(column: $table.path, builder: (column) => column);
 
-  GeneratedColumn<int> get fileSize =>
-      $composableBuilder(column: $table.fileSize, builder: (column) => column);
+  GeneratedColumn<int> get fileSize => $composableBuilder(column: $table.fileSize, builder: (column) => column);
 
-  GeneratedColumn<String> get videoFileName => $composableBuilder(
-      column: $table.videoFileName, builder: (column) => column);
+  GeneratedColumn<String> get videoFileName =>
+      $composableBuilder(column: $table.videoFileName, builder: (column) => column);
 
-  GeneratedColumn<String> get trickPlayModel => $composableBuilder(
-      column: $table.trickPlayModel, builder: (column) => column);
+  GeneratedColumn<String> get trickPlayModel =>
+      $composableBuilder(column: $table.trickPlayModel, builder: (column) => column);
 
-  GeneratedColumn<String> get mediaSegments => $composableBuilder(
-      column: $table.mediaSegments, builder: (column) => column);
+  GeneratedColumn<String> get mediaSegments =>
+      $composableBuilder(column: $table.mediaSegments, builder: (column) => column);
 
-  GeneratedColumn<String> get images =>
-      $composableBuilder(column: $table.images, builder: (column) => column);
+  GeneratedColumn<String> get images => $composableBuilder(column: $table.images, builder: (column) => column);
 
-  GeneratedColumn<String> get chapters =>
-      $composableBuilder(column: $table.chapters, builder: (column) => column);
+  GeneratedColumn<String> get chapters => $composableBuilder(column: $table.chapters, builder: (column) => column);
 
-  GeneratedColumn<String> get subtitles =>
-      $composableBuilder(column: $table.subtitles, builder: (column) => column);
+  GeneratedColumn<String> get subtitles => $composableBuilder(column: $table.subtitles, builder: (column) => column);
 
-  GeneratedColumn<bool> get unSyncedData => $composableBuilder(
-      column: $table.unSyncedData, builder: (column) => column);
+  GeneratedColumn<bool> get unSyncedData =>
+      $composableBuilder(column: $table.unSyncedData, builder: (column) => column);
 
-  GeneratedColumn<String> get userData =>
-      $composableBuilder(column: $table.userData, builder: (column) => column);
+  GeneratedColumn<String> get userData => $composableBuilder(column: $table.userData, builder: (column) => column);
 }
 
 class $$DatabaseItemsTableTableManager extends RootTableManager<
@@ -978,22 +843,16 @@ class $$DatabaseItemsTableTableManager extends RootTableManager<
     $$DatabaseItemsTableAnnotationComposer,
     $$DatabaseItemsTableCreateCompanionBuilder,
     $$DatabaseItemsTableUpdateCompanionBuilder,
-    (
-      DatabaseItem,
-      BaseReferences<_$AppDatabase, $DatabaseItemsTable, DatabaseItem>
-    ),
+    (DatabaseItem, BaseReferences<_$AppDatabase, $DatabaseItemsTable, DatabaseItem>),
     DatabaseItem,
     PrefetchHooks Function()> {
   $$DatabaseItemsTableTableManager(_$AppDatabase db, $DatabaseItemsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          createFilteringComposer: () =>
-              $$DatabaseItemsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$DatabaseItemsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$DatabaseItemsTableAnnotationComposer($db: db, $table: table),
+          createFilteringComposer: () => $$DatabaseItemsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () => $$DatabaseItemsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () => $$DatabaseItemsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> userId = const Value.absent(),
             Value<String> id = const Value.absent(),
@@ -1066,9 +925,7 @@ class $$DatabaseItemsTableTableManager extends RootTableManager<
             userData: userData,
             rowid: rowid,
           ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
+          withReferenceMapper: (p0) => p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
           prefetchHooksCallback: null,
         ));
 }
@@ -1082,16 +939,12 @@ typedef $$DatabaseItemsTableProcessedTableManager = ProcessedTableManager<
     $$DatabaseItemsTableAnnotationComposer,
     $$DatabaseItemsTableCreateCompanionBuilder,
     $$DatabaseItemsTableUpdateCompanionBuilder,
-    (
-      DatabaseItem,
-      BaseReferences<_$AppDatabase, $DatabaseItemsTable, DatabaseItem>
-    ),
+    (DatabaseItem, BaseReferences<_$AppDatabase, $DatabaseItemsTable, DatabaseItem>),
     DatabaseItem,
     PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$DatabaseItemsTableTableManager get databaseItems =>
-      $$DatabaseItemsTableTableManager(_db, _db.databaseItems);
+  $$DatabaseItemsTableTableManager get databaseItems => $$DatabaseItemsTableTableManager(_db, _db.databaseItems);
 }

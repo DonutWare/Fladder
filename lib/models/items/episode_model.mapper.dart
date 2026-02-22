@@ -24,65 +24,47 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
   final String id = 'EpisodeModel';
 
   static String? _$seriesName(EpisodeModel v) => v.seriesName;
-  static const Field<EpisodeModel, String> _f$seriesName =
-      Field('seriesName', _$seriesName);
+  static const Field<EpisodeModel, String> _f$seriesName = Field('seriesName', _$seriesName);
   static int _$season(EpisodeModel v) => v.season;
   static const Field<EpisodeModel, int> _f$season = Field('season', _$season);
   static int _$episode(EpisodeModel v) => v.episode;
-  static const Field<EpisodeModel, int> _f$episode =
-      Field('episode', _$episode);
+  static const Field<EpisodeModel, int> _f$episode = Field('episode', _$episode);
   static int? _$episodeEnd(EpisodeModel v) => v.episodeEnd;
-  static const Field<EpisodeModel, int> _f$episodeEnd =
-      Field('episodeEnd', _$episodeEnd);
+  static const Field<EpisodeModel, int> _f$episodeEnd = Field('episodeEnd', _$episodeEnd);
   static List<Chapter> _$chapters(EpisodeModel v) => v.chapters;
-  static const Field<EpisodeModel, List<Chapter>> _f$chapters =
-      Field('chapters', _$chapters, opt: true, def: const []);
+  static const Field<EpisodeModel, List<Chapter>> _f$chapters = Field('chapters', _$chapters, opt: true, def: const []);
   static ItemLocation? _$location(EpisodeModel v) => v.location;
-  static const Field<EpisodeModel, ItemLocation> _f$location =
-      Field('location', _$location, opt: true);
+  static const Field<EpisodeModel, ItemLocation> _f$location = Field('location', _$location, opt: true);
   static DateTime? _$dateAired(EpisodeModel v) => v.dateAired;
-  static const Field<EpisodeModel, DateTime> _f$dateAired =
-      Field('dateAired', _$dateAired, opt: true);
+  static const Field<EpisodeModel, DateTime> _f$dateAired = Field('dateAired', _$dateAired, opt: true);
   static String _$name(EpisodeModel v) => v.name;
   static const Field<EpisodeModel, String> _f$name = Field('name', _$name);
   static String _$id(EpisodeModel v) => v.id;
   static const Field<EpisodeModel, String> _f$id = Field('id', _$id);
   static OverviewModel _$overview(EpisodeModel v) => v.overview;
-  static const Field<EpisodeModel, OverviewModel> _f$overview =
-      Field('overview', _$overview);
+  static const Field<EpisodeModel, OverviewModel> _f$overview = Field('overview', _$overview);
   static String? _$parentId(EpisodeModel v) => v.parentId;
-  static const Field<EpisodeModel, String> _f$parentId =
-      Field('parentId', _$parentId);
+  static const Field<EpisodeModel, String> _f$parentId = Field('parentId', _$parentId);
   static String? _$playlistId(EpisodeModel v) => v.playlistId;
-  static const Field<EpisodeModel, String> _f$playlistId =
-      Field('playlistId', _$playlistId);
+  static const Field<EpisodeModel, String> _f$playlistId = Field('playlistId', _$playlistId);
   static ImagesData? _$images(EpisodeModel v) => v.images;
-  static const Field<EpisodeModel, ImagesData> _f$images =
-      Field('images', _$images);
+  static const Field<EpisodeModel, ImagesData> _f$images = Field('images', _$images);
   static int? _$childCount(EpisodeModel v) => v.childCount;
-  static const Field<EpisodeModel, int> _f$childCount =
-      Field('childCount', _$childCount);
+  static const Field<EpisodeModel, int> _f$childCount = Field('childCount', _$childCount);
   static double? _$primaryRatio(EpisodeModel v) => v.primaryRatio;
-  static const Field<EpisodeModel, double> _f$primaryRatio =
-      Field('primaryRatio', _$primaryRatio);
+  static const Field<EpisodeModel, double> _f$primaryRatio = Field('primaryRatio', _$primaryRatio);
   static UserData _$userData(EpisodeModel v) => v.userData;
-  static const Field<EpisodeModel, UserData> _f$userData =
-      Field('userData', _$userData);
+  static const Field<EpisodeModel, UserData> _f$userData = Field('userData', _$userData);
   static ImagesData? _$parentImages(EpisodeModel v) => v.parentImages;
-  static const Field<EpisodeModel, ImagesData> _f$parentImages =
-      Field('parentImages', _$parentImages);
+  static const Field<EpisodeModel, ImagesData> _f$parentImages = Field('parentImages', _$parentImages);
   static MediaStreamsModel _$mediaStreams(EpisodeModel v) => v.mediaStreams;
-  static const Field<EpisodeModel, MediaStreamsModel> _f$mediaStreams =
-      Field('mediaStreams', _$mediaStreams);
+  static const Field<EpisodeModel, MediaStreamsModel> _f$mediaStreams = Field('mediaStreams', _$mediaStreams);
   static bool? _$canDelete(EpisodeModel v) => v.canDelete;
-  static const Field<EpisodeModel, bool> _f$canDelete =
-      Field('canDelete', _$canDelete, opt: true);
+  static const Field<EpisodeModel, bool> _f$canDelete = Field('canDelete', _$canDelete, opt: true);
   static bool? _$canDownload(EpisodeModel v) => v.canDownload;
-  static const Field<EpisodeModel, bool> _f$canDownload =
-      Field('canDownload', _$canDownload, opt: true);
+  static const Field<EpisodeModel, bool> _f$canDownload = Field('canDownload', _$canDownload, opt: true);
   static dto.BaseItemKind? _$jellyType(EpisodeModel v) => v.jellyType;
-  static const Field<EpisodeModel, dto.BaseItemKind> _f$jellyType =
-      Field('jellyType', _$jellyType, opt: true);
+  static const Field<EpisodeModel, dto.BaseItemKind> _f$jellyType = Field('jellyType', _$jellyType, opt: true);
 
   @override
   final MappableFields<EpisodeModel> fields = const {
@@ -116,8 +98,7 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
   @override
   final dynamic discriminatorValue = 'EpisodeModel';
   @override
-  late final ClassMapperBase superMapper =
-      ItemStreamModelMapper.ensureInitialized();
+  late final ClassMapperBase superMapper = ItemStreamModelMapper.ensureInitialized();
 
   static EpisodeModel _instantiate(DecodingData data) {
     return EpisodeModel(
@@ -150,12 +131,10 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
 
 mixin EpisodeModelMappable {
   EpisodeModelCopyWith<EpisodeModel, EpisodeModel, EpisodeModel> get copyWith =>
-      _EpisodeModelCopyWithImpl<EpisodeModel, EpisodeModel>(
-          this as EpisodeModel, $identity, $identity);
+      _EpisodeModelCopyWithImpl<EpisodeModel, EpisodeModel>(this as EpisodeModel, $identity, $identity);
 }
 
-extension EpisodeModelValueCopy<$R, $Out>
-    on ObjectCopyWith<$R, EpisodeModel, $Out> {
+extension EpisodeModelValueCopy<$R, $Out> on ObjectCopyWith<$R, EpisodeModel, $Out> {
   EpisodeModelCopyWith<$R, EpisodeModel, $Out> get $asEpisodeModel =>
       $base.as((v, t, t2) => _EpisodeModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
@@ -193,24 +172,20 @@ abstract class EpisodeModelCopyWith<$R, $In extends EpisodeModel, $Out>
   EpisodeModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _EpisodeModelCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, EpisodeModel, $Out>
+class _EpisodeModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, EpisodeModel, $Out>
     implements EpisodeModelCopyWith<$R, EpisodeModel, $Out> {
   _EpisodeModelCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<EpisodeModel> $mapper =
-      EpisodeModelMapper.ensureInitialized();
+  late final ClassMapperBase<EpisodeModel> $mapper = EpisodeModelMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, Chapter, ObjectCopyWith<$R, Chapter, Chapter>>
-      get chapters => ListCopyWith($value.chapters,
-          (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(chapters: v));
+  ListCopyWith<$R, Chapter, ObjectCopyWith<$R, Chapter, Chapter>> get chapters =>
+      ListCopyWith($value.chapters, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(chapters: v));
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
-  UserDataCopyWith<$R, UserData, UserData> get userData =>
-      $value.userData.copyWith.$chain((v) => call(userData: v));
+  UserDataCopyWith<$R, UserData, UserData> get userData => $value.userData.copyWith.$chain((v) => call(userData: v));
   @override
   $R call(
           {Object? seriesName = $none,
@@ -282,7 +257,6 @@ class _EpisodeModelCopyWithImpl<$R, $Out>
       jellyType: data.get(#jellyType, or: $value.jellyType));
 
   @override
-  EpisodeModelCopyWith<$R2, EpisodeModel, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
+  EpisodeModelCopyWith<$R2, EpisodeModel, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _EpisodeModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

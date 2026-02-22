@@ -20,55 +20,30 @@ class SyncPlayGroupSheet extends ConsumerStatefulWidget {
 }
 
 class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
-  List<GroupInfoDto>? _groups;
-  bool _isLoading = true;
-  String? _error;
-
   @override
   void initState() {
     super.initState();
-    _loadGroups();
-  }
-
-  Future<void> _loadGroups() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
+    // Defer so we don't modify a provider during the widget lifecycle (Riverpod disallows this).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        ref.read(syncPlayGroupsProvider.notifier).loadGroups();
+      }
     });
-
-    try {
-      // Ensure we're connected first
-      await ref.read(syncPlayProvider.notifier).connect();
-      final groups = await ref.read(syncPlayProvider.notifier).listGroups();
-      if (mounted) {
-        setState(() {
-          _groups = groups;
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _error = e.toString();
-          _isLoading = false;
-        });
-      }
-    }
   }
 
   Future<void> _createGroup() async {
     final name = await _showCreateGroupDialog();
     if (name == null || name.isEmpty) return;
 
-    setState(() => _isLoading = true);
+    ref.read(syncPlayGroupsProvider.notifier).setLoading(true);
 
     final group = await ref.read(syncPlayProvider.notifier).createGroup(name);
     if (group != null && mounted) {
       fladderSnackbar(context, title: context.localized.syncPlayCreatedGroup(group.groupName ?? ''));
       Navigator.of(context).pop();
     } else {
-      setState(() => _isLoading = false);
       if (mounted) {
+        ref.read(syncPlayGroupsProvider.notifier).setLoading(false);
         fladderSnackbar(context, title: context.localized.syncPlayFailedToCreateGroup);
       }
     }
@@ -104,15 +79,15 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
   }
 
   Future<void> _joinGroup(GroupInfoDto group) async {
-    setState(() => _isLoading = true);
+    ref.read(syncPlayGroupsProvider.notifier).setLoading(true);
 
     final success = await ref.read(syncPlayProvider.notifier).joinGroup(group.groupId ?? '');
     if (success && mounted) {
       fladderSnackbar(context, title: context.localized.syncPlayJoinedGroup(group.groupName ?? ''));
       Navigator.of(context).pop();
     } else {
-      setState(() => _isLoading = false);
       if (mounted) {
+        ref.read(syncPlayGroupsProvider.notifier).setLoading(false);
         fladderSnackbar(context, title: context.localized.syncPlayFailedToJoinGroup);
       }
     }
@@ -129,6 +104,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
   @override
   Widget build(BuildContext context) {
     final syncPlayState = ref.watch(syncPlayProvider);
+    final groupsState = ref.watch(syncPlayGroupsProvider);
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -195,7 +171,12 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
 
               // Content
               Flexible(
-                child: _buildContent(syncPlayState),
+                child: _SyncPlaySheetContent(
+                  syncPlayState: syncPlayState,
+                  groupsState: groupsState,
+                  onCreateGroup: _createGroup,
+                  onJoinGroup: _joinGroup,
+                ),
               ),
             ],
           ),
@@ -203,15 +184,28 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
       ),
     );
   }
+}
 
-  Widget _buildContent(SyncPlayState syncPlayState) {
-    // If already in a group, show group info
+/// Content area of the SyncPlay group sheet (loading, error, empty, list, or active group).
+class _SyncPlaySheetContent extends ConsumerWidget {
+  const _SyncPlaySheetContent({
+    required this.syncPlayState,
+    required this.groupsState,
+    required this.onCreateGroup,
+    required this.onJoinGroup,
+  });
+
+  final SyncPlayState syncPlayState;
+  final SyncPlayGroupsState groupsState;
+  final VoidCallback onCreateGroup;
+  final void Function(GroupInfoDto) onJoinGroup;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     if (syncPlayState.isInGroup) {
-      return _buildActiveGroupView(syncPlayState);
+      return _ActiveGroupView(state: syncPlayState);
     }
-
-    // Loading state
-    if (_isLoading) {
+    if (groupsState.isLoading) {
       return const Center(
         child: Padding(
           padding: EdgeInsets.all(32),
@@ -219,9 +213,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
         ),
       );
     }
-
-    // Error state
-    if (_error != null) {
+    if (groupsState.error != null) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(32),
@@ -240,7 +232,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
               ),
               const SizedBox(height: 8),
               TextButton(
-                onPressed: _loadGroups,
+                onPressed: () => ref.read(syncPlayGroupsProvider.notifier).loadGroups(),
                 child: Text(context.localized.retry),
               ),
             ],
@@ -248,9 +240,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
         ),
       );
     }
-
-    // Empty state
-    if (_groups == null || _groups!.isEmpty) {
+    if (groupsState.groups == null || groupsState.groups!.isEmpty) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(32),
@@ -276,8 +266,8 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
               ),
               const SizedBox(height: 16),
               FilledButton.icon(
-                autofocus: true, // Focus for TV navigation
-                onPressed: _createGroup,
+                autofocus: true,
+                onPressed: onCreateGroup,
                 icon: const Icon(IconsaxPlusLinear.add),
                 label: Text(context.localized.syncPlayCreateGroupButton),
               ),
@@ -286,24 +276,30 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
         ),
       );
     }
-
-    // Group list
+    final groups = groupsState.groups!;
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: _groups!.length,
+      itemCount: groups.length,
       padding: const EdgeInsets.only(bottom: 16),
       itemBuilder: (context, index) {
-        final group = _groups![index];
+        final group = groups[index];
         return _GroupListTile(
           group: group,
-          onTap: () => _joinGroup(group),
-          autofocus: index == 0, // Focus first item for TV navigation
+          onTap: () => onJoinGroup(group),
+          autofocus: index == 0,
         );
       },
     );
   }
+}
 
-  Widget _buildActiveGroupView(SyncPlayState state) {
+class _ActiveGroupView extends StatelessWidget {
+  const _ActiveGroupView({required this.state});
+
+  final SyncPlayState state;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -346,13 +342,8 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
           ),
 
           const SizedBox(height: 16),
-
-          // State indicator
-          _buildStateIndicator(state),
-
+          _StateIndicator(state: state),
           const SizedBox(height: 16),
-
-          // Instructions
           Text(
             context.localized.syncPlayInstructions,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -363,8 +354,15 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
       ),
     );
   }
+}
 
-  Widget _buildStateIndicator(SyncPlayState state) {
+class _StateIndicator extends StatelessWidget {
+  const _StateIndicator({required this.state});
+
+  final SyncPlayState state;
+
+  @override
+  Widget build(BuildContext context) {
     final (icon, label, color) = switch (state.groupState) {
       SyncPlayGroupState.idle => (
           IconsaxPlusLinear.pause_circle,
@@ -387,7 +385,6 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
           Theme.of(context).colorScheme.primary,
         ),
     };
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(

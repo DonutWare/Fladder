@@ -13,8 +13,7 @@ String _$updateHash() => r'e22205cb13e6b43df1296de90e39059f09bb80a8';
 final updateProvider = NotifierProvider<Update, UpdatesModel>.internal(
   Update.new,
   name: r'updateProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$updateHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$updateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

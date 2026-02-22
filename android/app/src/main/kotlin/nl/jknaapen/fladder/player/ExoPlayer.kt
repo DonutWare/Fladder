@@ -130,7 +130,8 @@ internal fun ExoPlayer(
                 playing = exoPlayer.isPlaying,
                 buffering = exoPlayer.playbackState == Player.STATE_BUFFERING,
                 completed = exoPlayer.playbackState == Player.STATE_ENDED,
-                failed = exoPlayer.playbackState == Player.STATE_IDLE
+                failed = exoPlayer.playbackState == Player.STATE_IDLE,
+                changeSource = videoHost.getAndClearPendingPlaybackChangeSource()
             )
         )
     }
@@ -158,7 +159,6 @@ internal fun ExoPlayer(
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {
-
                 videoHost.setPlaybackState(
                     PlaybackState(
                         position = exoPlayer.currentPosition,
@@ -167,7 +167,8 @@ internal fun ExoPlayer(
                         playing = exoPlayer.isPlaying,
                         buffering = playbackState == Player.STATE_BUFFERING,
                         completed = playbackState == Player.STATE_ENDED,
-                        failed = playbackState == Player.STATE_IDLE
+                        failed = playbackState == Player.STATE_IDLE,
+                        changeSource = videoHost.getAndClearPendingPlaybackChangeSource()
                     )
                 )
             }

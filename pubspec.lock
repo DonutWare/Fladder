@@ -517,10 +517,10 @@ packages:
     dependency: "direct main"
     description:
       name: drift_sync
-      sha256: f358c39bdfa474c020ddd6022ef91540d30b21ef0faab6be331f1e0349e585e5
+      sha256: "2ddb41cfe92a0d644ec2cb9cd25a6273bf0940693dddb9411c2c350f5f1cdb3f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.0"
+    version: "0.14.1"
   dynamic_color:
     dependency: "direct main"
     description:

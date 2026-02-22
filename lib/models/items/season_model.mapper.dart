@@ -26,64 +26,47 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
   final String id = 'SeasonModel';
 
   static ImagesData? _$parentImages(SeasonModel v) => v.parentImages;
-  static const Field<SeasonModel, ImagesData> _f$parentImages =
-      Field('parentImages', _$parentImages);
+  static const Field<SeasonModel, ImagesData> _f$parentImages = Field('parentImages', _$parentImages);
   static String _$seasonName(SeasonModel v) => v.seasonName;
-  static const Field<SeasonModel, String> _f$seasonName =
-      Field('seasonName', _$seasonName);
+  static const Field<SeasonModel, String> _f$seasonName = Field('seasonName', _$seasonName);
   static List<EpisodeModel> _$episodes(SeasonModel v) => v.episodes;
   static const Field<SeasonModel, List<EpisodeModel>> _f$episodes =
       Field('episodes', _$episodes, opt: true, def: const []);
-  static List<SpecialFeatureModel> _$specialFeatures(SeasonModel v) =>
-      v.specialFeatures;
-  static const Field<SeasonModel, List<SpecialFeatureModel>>
-      _f$specialFeatures =
+  static List<SpecialFeatureModel> _$specialFeatures(SeasonModel v) => v.specialFeatures;
+  static const Field<SeasonModel, List<SpecialFeatureModel>> _f$specialFeatures =
       Field('specialFeatures', _$specialFeatures, opt: true, def: const []);
   static int _$episodeCount(SeasonModel v) => v.episodeCount;
-  static const Field<SeasonModel, int> _f$episodeCount =
-      Field('episodeCount', _$episodeCount);
+  static const Field<SeasonModel, int> _f$episodeCount = Field('episodeCount', _$episodeCount);
   static String _$seriesId(SeasonModel v) => v.seriesId;
-  static const Field<SeasonModel, String> _f$seriesId =
-      Field('seriesId', _$seriesId);
+  static const Field<SeasonModel, String> _f$seriesId = Field('seriesId', _$seriesId);
   static int _$season(SeasonModel v) => v.season;
   static const Field<SeasonModel, int> _f$season = Field('season', _$season);
   static String _$seriesName(SeasonModel v) => v.seriesName;
-  static const Field<SeasonModel, String> _f$seriesName =
-      Field('seriesName', _$seriesName);
+  static const Field<SeasonModel, String> _f$seriesName = Field('seriesName', _$seriesName);
   static String _$name(SeasonModel v) => v.name;
   static const Field<SeasonModel, String> _f$name = Field('name', _$name);
   static String _$id(SeasonModel v) => v.id;
   static const Field<SeasonModel, String> _f$id = Field('id', _$id);
   static OverviewModel _$overview(SeasonModel v) => v.overview;
-  static const Field<SeasonModel, OverviewModel> _f$overview =
-      Field('overview', _$overview);
+  static const Field<SeasonModel, OverviewModel> _f$overview = Field('overview', _$overview);
   static String? _$parentId(SeasonModel v) => v.parentId;
-  static const Field<SeasonModel, String> _f$parentId =
-      Field('parentId', _$parentId);
+  static const Field<SeasonModel, String> _f$parentId = Field('parentId', _$parentId);
   static String? _$playlistId(SeasonModel v) => v.playlistId;
-  static const Field<SeasonModel, String> _f$playlistId =
-      Field('playlistId', _$playlistId);
+  static const Field<SeasonModel, String> _f$playlistId = Field('playlistId', _$playlistId);
   static ImagesData? _$images(SeasonModel v) => v.images;
-  static const Field<SeasonModel, ImagesData> _f$images =
-      Field('images', _$images);
+  static const Field<SeasonModel, ImagesData> _f$images = Field('images', _$images);
   static int? _$childCount(SeasonModel v) => v.childCount;
-  static const Field<SeasonModel, int> _f$childCount =
-      Field('childCount', _$childCount);
+  static const Field<SeasonModel, int> _f$childCount = Field('childCount', _$childCount);
   static double? _$primaryRatio(SeasonModel v) => v.primaryRatio;
-  static const Field<SeasonModel, double> _f$primaryRatio =
-      Field('primaryRatio', _$primaryRatio);
+  static const Field<SeasonModel, double> _f$primaryRatio = Field('primaryRatio', _$primaryRatio);
   static UserData _$userData(SeasonModel v) => v.userData;
-  static const Field<SeasonModel, UserData> _f$userData =
-      Field('userData', _$userData);
+  static const Field<SeasonModel, UserData> _f$userData = Field('userData', _$userData);
   static bool? _$canDelete(SeasonModel v) => v.canDelete;
-  static const Field<SeasonModel, bool> _f$canDelete =
-      Field('canDelete', _$canDelete);
+  static const Field<SeasonModel, bool> _f$canDelete = Field('canDelete', _$canDelete);
   static bool? _$canDownload(SeasonModel v) => v.canDownload;
-  static const Field<SeasonModel, bool> _f$canDownload =
-      Field('canDownload', _$canDownload);
+  static const Field<SeasonModel, bool> _f$canDownload = Field('canDownload', _$canDownload);
   static dto.BaseItemKind? _$jellyType(SeasonModel v) => v.jellyType;
-  static const Field<SeasonModel, dto.BaseItemKind> _f$jellyType =
-      Field('jellyType', _$jellyType, opt: true);
+  static const Field<SeasonModel, dto.BaseItemKind> _f$jellyType = Field('jellyType', _$jellyType, opt: true);
 
   @override
   final MappableFields<SeasonModel> fields = const {
@@ -116,8 +99,7 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
   @override
   final dynamic discriminatorValue = 'SeasonModel';
   @override
-  late final ClassMapperBase superMapper =
-      ItemBaseModelMapper.ensureInitialized();
+  late final ClassMapperBase superMapper = ItemBaseModelMapper.ensureInitialized();
 
   static SeasonModel _instantiate(DecodingData data) {
     return SeasonModel(
@@ -149,25 +131,18 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
 
 mixin SeasonModelMappable {
   SeasonModelCopyWith<SeasonModel, SeasonModel, SeasonModel> get copyWith =>
-      _SeasonModelCopyWithImpl<SeasonModel, SeasonModel>(
-          this as SeasonModel, $identity, $identity);
+      _SeasonModelCopyWithImpl<SeasonModel, SeasonModel>(this as SeasonModel, $identity, $identity);
 }
 
-extension SeasonModelValueCopy<$R, $Out>
-    on ObjectCopyWith<$R, SeasonModel, $Out> {
+extension SeasonModelValueCopy<$R, $Out> on ObjectCopyWith<$R, SeasonModel, $Out> {
   SeasonModelCopyWith<$R, SeasonModel, $Out> get $asSeasonModel =>
       $base.as((v, t, t2) => _SeasonModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class SeasonModelCopyWith<$R, $In extends SeasonModel, $Out>
-    implements ItemBaseModelCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, EpisodeModel,
-      EpisodeModelCopyWith<$R, EpisodeModel, EpisodeModel>> get episodes;
-  ListCopyWith<
-      $R,
-      SpecialFeatureModel,
-      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
-          SpecialFeatureModel>> get specialFeatures;
+abstract class SeasonModelCopyWith<$R, $In extends SeasonModel, $Out> implements ItemBaseModelCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, EpisodeModel, EpisodeModelCopyWith<$R, EpisodeModel, EpisodeModel>> get episodes;
+  ListCopyWith<$R, SpecialFeatureModel, SpecialFeatureModelCopyWith<$R, SpecialFeatureModel, SpecialFeatureModel>>
+      get specialFeatures;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
   @override
@@ -197,34 +172,24 @@ abstract class SeasonModelCopyWith<$R, $In extends SeasonModel, $Out>
   SeasonModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _SeasonModelCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, SeasonModel, $Out>
+class _SeasonModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, SeasonModel, $Out>
     implements SeasonModelCopyWith<$R, SeasonModel, $Out> {
   _SeasonModelCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<SeasonModel> $mapper =
-      SeasonModelMapper.ensureInitialized();
+  late final ClassMapperBase<SeasonModel> $mapper = SeasonModelMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, EpisodeModel,
-          EpisodeModelCopyWith<$R, EpisodeModel, EpisodeModel>>
-      get episodes => ListCopyWith($value.episodes,
-          (v, t) => v.copyWith.$chain(t), (v) => call(episodes: v));
+  ListCopyWith<$R, EpisodeModel, EpisodeModelCopyWith<$R, EpisodeModel, EpisodeModel>> get episodes =>
+      ListCopyWith($value.episodes, (v, t) => v.copyWith.$chain(t), (v) => call(episodes: v));
   @override
-  ListCopyWith<
-      $R,
-      SpecialFeatureModel,
-      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
-          SpecialFeatureModel>> get specialFeatures => ListCopyWith(
-      $value.specialFeatures,
-      (v, t) => v.copyWith.$chain(t),
-      (v) => call(specialFeatures: v));
+  ListCopyWith<$R, SpecialFeatureModel, SpecialFeatureModelCopyWith<$R, SpecialFeatureModel, SpecialFeatureModel>>
+      get specialFeatures =>
+          ListCopyWith($value.specialFeatures, (v, t) => v.copyWith.$chain(t), (v) => call(specialFeatures: v));
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
-  UserDataCopyWith<$R, UserData, UserData> get userData =>
-      $value.userData.copyWith.$chain((v) => call(userData: v));
+  UserDataCopyWith<$R, UserData, UserData> get userData => $value.userData.copyWith.$chain((v) => call(userData: v));
   @override
   $R call(
           {Object? parentImages = $none,
@@ -293,7 +258,6 @@ class _SeasonModelCopyWithImpl<$R, $Out>
       jellyType: data.get(#jellyType, or: $value.jellyType));
 
   @override
-  SeasonModelCopyWith<$R2, SeasonModel, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
+  SeasonModelCopyWith<$R2, SeasonModel, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _SeasonModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
