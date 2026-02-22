@@ -346,7 +346,7 @@
     "videoScalingFillScreenNotif": "Заповнення екрану перезаписує відповідність відео, при горизонтальному обертанні",
     "videoScalingFitHeight": "Підігнати по висоті",
     "videoScalingFitWidth": "Підігнати по ширині",
-    "videoScalingScaleDown": "Зменшення масштабу",
+    "videoScalingScaleDown": "Ваги вниз",
     "writer": "{count, plural, other{Сценаристи} one{Сценарист}}",
     "@writer": {
         "description": "writer",
@@ -469,7 +469,7 @@
     "mediaTypePhoto": "{count, plural, one{Фото} other{Фотографії}}",
     "mediaTypePhotoAlbum": "{count, plural, one{Фотоальбом} other{Фотоальбоми}}",
     "settingsPosterSlider": "Показати повзунок масштабу",
-    "settingsProfileDesc": "Екран блокування, локальна URL-адреса, Seerr",
+    "settingsProfileDesc": "Lockscreen, локальна URL",
     "shadow": "Тінь",
     "settingsShowScaleSlider": "Показати повзунок розміру постера",
     "showEmpty": "Показати порожнє",
@@ -1034,9 +1034,9 @@
             }
         }
     },
-    "keyboardShortCuts": "Сполучення клавіш",
-    "speedUp": "Прискорення",
-    "speedDown": "Зменшення швидкості",
+    "keyboardShortCuts": "Клавіатури клавіатури",
+    "speedUp": "Швидкість",
+    "speedDown": "Швидкість вниз",
     "speedIndicator": "Швидкість відтворення: {speed}",
     "@speedIndicator": {
         "placeholders": {
@@ -1047,16 +1047,16 @@
     },
     "television": "Телебачення",
     "exitFladderDesc": "Ви впевнені, що хочете закрити Fladder?",
-    "quickConnectPostFailed": "Не вдалося отримати код швидкого підключення",
-    "quickConnectLoginUsingCode": "Використання швидкого з'єднання",
-    "quickConnectEnterCodeDescription": "Введіть код нижче, щоб увійти",
+    "quickConnectPostFailed": "Не вдалося отримати швидкий код підключення",
+    "quickConnectLoginUsingCode": "Використання швидкого підключення",
+    "quickConnectEnterCodeDescription": "Введіть код нижче для входу",
     "showMore": "Показати більше",
-    "itemColorsTitle": "Кольори предметів",
-    "itemColorsDesc": "Використовуйте основний колір товару для оформлення сторінки з деталями",
-    "mediaTunnelingTitle": "Тунелювання медіа",
-    "mediaTunnelingDesc": "Увімкнути тунелювання медіа для рідного програвача",
-    "clientSettingsUseSystemIMETitle": "Використовувати системну клавіатуру",
-    "clientSettingsUseSystemIMEDesc": "Використовуйте вбудовану клавіатуру вашої системи",
+    "itemColorsTitle": "Колір",
+    "itemColorsDesc": "Використовуйте основний колір елемента до теми сторінки деталей",
+    "mediaTunnelingTitle": "Медіа тунель",
+    "mediaTunnelingDesc": "Увімкнути медіа тунель для рідного гравця",
+    "clientSettingsUseSystemIMETitle": "Використання клавіатури системи",
+    "clientSettingsUseSystemIMEDesc": "Використовуйте вбудовану клавіатуру, яка забезпечується системою",
     "nextUpInCount": "Далі через {seconds}",
     "@nextUpInCount": {
         "placeholders": {
@@ -1076,23 +1076,23 @@
         }
     },
     "openImeKeyboard": "Відкрити клавіатуру IME",
-    "screensaverDvd": "DVD",
-    "screensaverLogo": "Логотип",
+    "screensaverDvd": "ПРОКСИМУС",
+    "screensaverLogo": "Логін",
     "screensaverTime": "Час",
     "screensaverBlack": "Чорний",
-    "playerSettingsScreensaverTitle": "Скрінсейвер",
-    "playerSettingsScreensaverDesc": "Виберіть заставку, яка відображатиметься після відсутності активності гравця",
-    "settingsLocalUrlTitle": "URL-адреса локального сервера",
-    "settingsLocalUrlSetTitle": "Налаштувати локальну URL-адресу",
-    "settingsLocalUrlSetDesc": "Вкажіть адресу локального сервера. Fladder автоматично використовуватиме цю URL-адресу, коли ваш пристрій буде підключено до тієї ж мережі.",
+    "playerSettingsScreensaverTitle": "Скріншоти",
+    "playerSettingsScreensaverDesc": "Виберіть рефрижератор екрану, який буде показаний після активності гравця",
+    "settingsLocalUrlTitle": "Статус на сервери",
+    "settingsLocalUrlSetTitle": "Налаштування локальної URL",
+    "settingsLocalUrlSetDesc": "Вкажіть адресу місцевого сервера. Fladder автоматично використовувати цю URL, коли пристрій знаходиться на одній мережі.",
     "takeScreenshot": "Зробити скріншот",
-    "takeScreenshotClean": "Зробити скріншот (без субтитрів)",
+    "takeScreenshotClean": "Візьміть скріншот (без субтитри)",
     "screenshots": "Знімки екрана",
-    "screenshotTaken": "Знімок екрана збережено!",
-    "screenshotCleanTaken": "Збережено скріншот без субтитрів!",
-    "errorTakingScreenshot": "Сталася помилка під час створення знімка екрана",
-    "regenerateTrickplayImages": "Регенерувати зображення для трикплею",
-    "segmentActionSkipOnce": "Пропустити один раз",
+    "screenshotTaken": "Збережений екран!",
+    "screenshotCleanTaken": "Знімок екрана без субтитри збережених!",
+    "errorTakingScreenshot": "Там була помилка знімок",
+    "regenerateTrickplayImages": "Regenerate трюкplay зображень",
+    "segmentActionSkipOnce": "Пропустити",
     "syncplay": "Синхронізація",
     "allowMediaDeletion": "Дозволити видалення медіа",
     "allLibraries": "Усі бібліотеки",
@@ -1102,8 +1102,8 @@
     "maxParentalRating": "Макс. батьківський рейтинг",
     "accessSchedules": "Розклад доступу",
     "addAccessSchedule": "Додати розклад доступу",
-    "homeBannerDetailed": "Детальний",
-    "homeBannerTV": "TV",
+    "homeBannerDetailed": "Детальніше",
+    "homeBannerTV": "ТЕЛЕВІЗОР",
     "mediaTypeTV": "{count, plural, one{Телевізійний канал} other{Телевізійні канали}}",
     "@mediaTypeTV": {
         "description": "TV Channel (plural)",
@@ -1114,10 +1114,10 @@
             }
         }
     },
-    "popularity": "Полярність",
-    "contentRating": "Рейтинг контенту",
-    "runtimeMinutesTitle": "Тривалість (хвилини)",
-    "runtimeRangeMinutes": "{min} - {max} хвилин",
+    "popularity": "Популярність",
+    "contentRating": "Рейтинг вмісту",
+    "runtimeMinutesTitle": "Пробіг (хвилини)",
+    "runtimeRangeMinutes": "{min} - {max} хвилини",
     "@runtimeRangeMinutes": {
         "placeholders": {
             "min": {
@@ -1128,7 +1128,7 @@
             }
         }
     },
-    "minutesShort": "{count} хвилин",
+    "minutesShort": "{count} хв",
     "@minutesShort": {
         "placeholders": {
             "count": {
@@ -1137,7 +1137,7 @@
             }
         }
     },
-    "streamingServices": "Джерела ({count})",
+    "streamingServices": "Постачальники ({count})",
     "@streamingServices": {
         "description": "Streaming providers (Netflix,HBO, etc.)",
         "placeholders": {
@@ -1147,42 +1147,42 @@
             }
         }
     },
-    "settingsProfileSubtitleLanguage": "Бажана мова субтитрів",
-    "settingsProfileSubtitleMode": "Рижим субтитрів",
-    "subtitlePlaybackModeDefault": "За замовчуванням",
-    "subtitlePlaybackModeAlways": "Завжди відтворювати",
-    "subtitlePlaybackModeOnlyForced": "Тільки примусові",
-    "subtitlePlaybackModeNone": "Ніякі",
+    "settingsProfileSubtitleLanguage": "Підзамовлена мова",
+    "settingsProfileSubtitleMode": "Режим Субтитри",
+    "subtitlePlaybackModeDefault": "Зареєструватися",
+    "subtitlePlaybackModeAlways": "Завжди грати",
+    "subtitlePlaybackModeOnlyForced": "Тільки вимушені",
+    "subtitlePlaybackModeNone": "Ні",
     "subtitlePlaybackModeSmart": "Розумний",
     "backgroundColor": "Колір фону",
-    "deleteRequestConfirmation": "Ви впевнені, що хочете видалити цей запит?",
-    "playbackTypeTV": "TV",
-    "enableSpeedBoostTitle": "Увімкнути прискорення",
-    "enableSpeedBoostDesc": "Утримуйте екран (мобільний пристрій) або пробіл (настільний комп'ютер), щоб тимчасово збільшити швидкість відтворення.",
-    "speedBoostRateTitle": "Швидкість прискорення",
-    "speedBoostRateDesc": "Швидкість відтворення при активованій функції прискорення",
-    "enableDoubleTapSeekTitle": "Двічі натисніть, щоб шукати/відтворювати/призупиняти",
-    "enableDoubleTapSeekDesc": "Двічі натисніть на ліву/праву сторону екрана, щоб перейти назад/вперед. Двічі натисніть на центр, щоб відтворити/призупинити відтворення",
+    "deleteRequestConfirmation": "Ви впевнені, що ви хочете видалити цей запит?",
+    "playbackTypeTV": "ТЕЛЕВІЗОР",
+    "enableSpeedBoostTitle": "Увімкнути швидкість",
+    "enableSpeedBoostDesc": "Затриманий екран (мобільний) або пробіл (десктоп) для тимчасової швидкості відтворення",
+    "speedBoostRateTitle": "Швидкість підвищення швидкості",
+    "speedBoostRateDesc": "Швидкість відтворення при швидкості активується",
+    "enableDoubleTapSeekTitle": "Double-tap для пошуку/play/pause",
+    "enableDoubleTapSeekDesc": "Двостороння ліва/права сторона екрану, щоб шукати назад/переда. Двосторонній центр для гри/паузи",
     "showLess": "Показати менше",
-    "controlPanel": "Панель керування",
-    "controlPanelDesc": "Сервер, Статистика, Користувачі, Бібліотека",
-    "controlDashboard": "Панель управління",
-    "serverName": "Назва серверу",
-    "serverVersion": "Версія серверу",
+    "controlPanel": "Панель управління",
+    "controlPanelDesc": "Сервер, Діяльність, Користувачі, Бібліотека",
+    "controlDashboard": "Керування Dashboard",
+    "serverName": "Назва сервера",
+    "serverVersion": "Статус на сервери",
     "webVersion": "Веб-версія",
     "devices": "Пристрої",
-    "used": "Використано",
+    "used": "Використовується",
     "storagePaths": "Шляхи зберігання",
     "programData": "Дані програми",
-    "web": "Веб",
-    "cache": "Кеш",
-    "logs": "Журнал",
-    "transcodingTemp": "Тимчасове перекодування",
+    "web": "Веб-сайт",
+    "cache": "Кошик",
+    "logs": "Логін",
+    "transcodingTemp": "Транскодування Temp",
     "count": "Кількість",
-    "scanAllLibraries": "Сканувати все",
-    "restartServer": "Перезавантажити сервер",
-    "shutDownServer": "Вимкнути сервер",
-    "dashboardDesc": "Сервер, кількість, пристрої, сховище",
+    "scanAllLibraries": "Сканування всіх бібліотек",
+    "restartServer": "Статус на сервери",
+    "shutDownServer": "Видалити сервер",
+    "dashboardDesc": "Сервер, облік, пристрої, зберігання",
     "lastActivity": "Остання активність",
     "activeTasks": "Активні завдання",
     "hours": "{count, plural, one{Година} other{Години}}",
@@ -1225,7 +1225,7 @@
             }
         }
     },
-    "timeAgo": "{time} тому",
+    "timeAgo": "{time} назад",
     "@timeAgo": {
         "description": "timeAgo",
         "placeholders": {
@@ -1234,7 +1234,7 @@
             }
         }
     },
-    "lastRunTaking": "Останій запуск {date}, зайняв {time} часу",
+    "lastRunTaking": "Останнє запуску {date}, взяття {time}",
     "@lastRunTaking": {
         "description": "lastRunTaking",
         "placeholders": {
@@ -1246,21 +1246,21 @@
             }
         }
     },
-    "lessThenAMinute": "Менше хвилини",
-    "plannedTasks": "Заплановані завждання",
+    "lessThenAMinute": "Більше хвилини",
+    "plannedTasks": "Плановані завдання",
     "taskTriggerTypeInterval": "Інтервал",
-    "taskTriggerTypeDaily": "Щодня",
-    "taskTriggerTypeWeekly": "Щотижневий",
-    "taskTriggerTypeStartup": "На старті",
-    "create": "Створити",
-    "taskTriggerTypeName": "Тип запуску",
+    "taskTriggerTypeDaily": "Щоденник",
+    "taskTriggerTypeWeekly": "Тижневий",
+    "taskTriggerTypeStartup": "Почати",
+    "create": "Зареєструватися",
+    "taskTriggerTypeName": "Тип тригера",
     "newTrigger": "Новий тип запуску",
     "newTaskTrigger": "Новий тип запуску завдання",
-    "dayOfTheWeek": "День тиждня",
+    "dayOfTheWeek": "День тижня",
     "time": "Час",
     "interval": "Інтервал",
-    "taskTimeLimitInHours": "Обмеження часу (годинах)",
-    "taskTriggerIntervalDesc": "Кожні {time}",
+    "taskTimeLimitInHours": "Обмеження часу (години)",
+    "taskTriggerIntervalDesc": "Що {time}",
     "@taskTriggerIntervalDesc": {
         "description": "Task trigger interval desc",
         "placeholders": {
@@ -1278,7 +1278,7 @@
             }
         }
     },
-    "taskTriggerWeeklyDesc": "Щотижнево {day} об {time}",
+    "taskTriggerWeeklyDesc": "Щотижнево на {day} на {time}",
     "@taskTriggerWeeklyDesc": {
         "description": "taskTriggerWeeklyDesc",
         "placeholders": {
@@ -1290,7 +1290,7 @@
             }
         }
     },
-    "taskTriggerTimeLimitSub": "Обмеження часу: {time}",
+    "taskTriggerTimeLimitSub": "Часовий ліміт: {time}",
     "@taskTriggerTimeLimitSub": {
         "description": "taskTriggerTimeLimit",
         "placeholders": {
@@ -1300,14 +1300,14 @@
         }
     },
     "performance": "Продуктивність",
-    "serverNameLabel": "Назва серверу",
-    "cachePath": "Шлях для кеша",
-    "metadataPath": "Шлях для метаданних",
-    "maxConcurrentLibraryScanLabel": "Максимальна кількість паралельних сканувань бібліотеки",
-    "maxConcurrentLibraryScanDesc": "Максимальна кількість паралельних завдань під час сканування бібліотеки. Якщо залишити це поле порожнім, буде обрано обмеження на основі кількості ядер вашої системи. УВАГА: Занадто високе значення цього параметра може спричинити проблеми з мережевими файловими системами; якщо виникнуть проблеми, зменште це значення.",
-    "maxImageDecodingThreadsLabel": "Максимальна кількість потоків докодування зображення",
-    "maxImageDecodingThreadsDesc": "Максимальна кількість кодувань зображень, які можуть виконуватися паралельно. Якщо залишити це поле порожнім, буде обрано обмеження на основі кількості ядер вашої системи.",
-    "controlPanelServerDesc": "Назва сервера, Швидке підключення, Продуктивність",
+    "serverNameLabel": "Назва сервера",
+    "cachePath": "Шлях кешу",
+    "metadataPath": "Шлях метаданих",
+    "maxConcurrentLibraryScanLabel": "Сканування бібліотеки Max",
+    "maxConcurrentLibraryScanDesc": "Максимальна кількість паралельних задач при скануванні бібліотеки. Отримуючи цей порожній буде вибрати ліміт на основі основних показників системи. WARNING: Налаштування цього номера занадто висока може викликати проблеми з файловими системами мережі; якщо ви зіткнулися з проблемами нижче цього числа.",
+    "maxImageDecodingThreadsLabel": "Max зображення декодування ниток",
+    "maxImageDecodingThreadsDesc": "Максимальна кількість кодувань зображень, які дозволяють виконувати паралельно. Отримуючи цей порожній буде вибрати ліміт на основі основних показників системи.",
+    "controlPanelServerDesc": "Назва сервера, Quick Connect, Продуктивність",
     "deleteUserTitle": "Видалити користувача {user}?",
     "@deleteUserTitle": {
         "description": "deleteUserTitle",
@@ -1317,7 +1317,7 @@
             }
         }
     },
-    "deleteUserDesc": "Це призведе до остаточного видалення користувача {user} та всіх пов'язаних налаштувань.",
+    "deleteUserDesc": "Це буде назавжди видалити користувача {user} і всі пов'язані налаштування.",
     "@deleteUserDesc": {
         "description": "deleteUserDesc",
         "placeholders": {
@@ -1326,35 +1326,35 @@
             }
         }
     },
-    "userInformation": "Інформація про користувача",
-    "allowManageServer": "Дозволити цьому користувачеві керувати сервером",
-    "allowCollections": "Надати доступ користувачу до колекцій",
-    "allowEditSubtitles": "Дозволити користувачу змінювати субтитри",
-    "featureAccess": "Доступ до додаткови можливостей",
-    "allowLiveTVAccess": "Доступ до телепрограм",
-    "allowLiveTVRecording": "Надати доступ до управління записами телепрограм",
+    "userInformation": "Інформація користувача",
+    "allowManageServer": "Щоб керувати сервером",
+    "allowCollections": "Дозволити цей користувач на колекції",
+    "allowEditSubtitles": "Дозволити цей запис користувача субтитри",
+    "featureAccess": "Доступ до функції",
+    "allowLiveTVAccess": "Allow live TV доступ",
+    "allowLiveTVRecording": "Allow Live TV запис",
     "mediaPlayback": "Відтворення медіа",
     "allowMediaPlayback": "Дозволити відтворення",
-    "allowVideoTranscoding": "Дозволити відтворення відео з декодуванням",
+    "allowVideoTranscoding": "Дозволяє відтворення відео, що вимагає перекодування",
     "allowAudioTranscoding": "Дозволити відтворення аудіо з декодуванням",
     "allowMediaConversion": "Дозволити відтворення відео, яке вимагає перетворення медіафайлів",
     "forceRemoteTranscoding": "Примусове перекодування віддаленого джерела",
-    "syncplayAccess": "Доступ до сихронізованого відтворення",
-    "syncplayAccessCreateAndJoinGroups": "Створити і приєднати до груп",
+    "syncplayAccess": "Syncplay доступ",
+    "syncplayAccessCreateAndJoinGroups": "Створити та приєднатися групи",
     "syncplayAccessJoinGroups": "Групи для приєднання",
-    "syncplayAccessNone": "Нічого",
-    "parentalControl": "Батьківський контроль",
-    "blockedItemsNoRating": "Заблоковані елементи без рейтингу або з невизнаними рейтингом",
-    "allowItemsTags": "Дозволити елементи з тегами",
-    "blockItemsTags": "Блокувати елементи з тегами",
-    "access": "Доступ",
-    "endTimeMustBeAfter": "Кінцевий час повинен бути після початкового",
-    "assignLibraries": "Призначити Бібліотеки",
-    "passwordResetSuccess": "Успішно оновленно пароль",
-    "passwordResetFailed": "Не вдалося оновити пароль",
-    "passwordMismatch": "Паролі не співпадають",
-    "deleteLibraryConfirmTitle": "Видалити бібліотеку?",
-    "deleteLibraryConfirmMessage": "Ви впевнені, що ви хочете видалити {libraryName}?\nЦя дія не може бути скасована.",
+    "syncplayAccessNone": "Ні",
+    "parentalControl": "Контроль батьків",
+    "blockedItemsNoRating": "Заблоковані елементи без або невизнаних рейтингів",
+    "allowItemsTags": "Дозволити предмети з тегами",
+    "blockItemsTags": "Блок елементів з тегами",
+    "access": "Вхід",
+    "endTimeMustBeAfter": "Кінцевий час повинен бути після початку",
+    "assignLibraries": "Призначте Бібліотеки",
+    "passwordResetSuccess": "Успішно скинути пароль",
+    "passwordResetFailed": "Покинути пароль",
+    "passwordMismatch": "Новий пароль і підтвердити пароль не відповідає",
+    "deleteLibraryConfirmTitle": "Русский Українська English?",
+    "deleteLibraryConfirmMessage": "Ви впевнені, що ви хочете видалити {libraryName}?\nЦя дія не може бути неоновою.",
     "@deleteLibraryConfirmMessage": {
         "placeholders": {
             "libraryName": {
@@ -1362,10 +1362,331 @@
             }
         }
     },
-    "noLibrarySelected": "Жодної бібліотеки не обрано",
-    "enabledRealtimeMonitoring": "Увімкнути моніторинг в режимі реального часу",
-    "automaticallyAddToCollection": "Автоматично додавати до колекції",
-    "enabledEmbeddedTitles": "Увімкнути вбудовані заголовки",
-    "enabledEmbeddedExtrasTitles": "Увімкнути додаткові вбудовані заголовки",
-    "autoRefreshIntervalNote": "Увімкнення цієї функції може призвести до збільшення часу оновлення бібліотеки."
+    "noLibrarySelected": "Бібліотека вибрано",
+    "enabledRealtimeMonitoring": "Увімкнути в режимі реального часу",
+    "automaticallyAddToCollection": "Автоматично додавати до збору",
+    "enabledEmbeddedTitles": "Увімкнути вбудовані назви",
+    "enabledEmbeddedExtrasTitles": "Увімкнути додаткові вбудовані назви",
+    "autoRefreshIntervalNote": "Увімкніть це може призвести до тривалого часу оновлення бібліотеки.",
+    "dayOfWeek": "День тижня",
+    "startTime": "Час початку",
+    "endTime": "Час закінчення",
+    "addTag": "Додати тег",
+    "createNewUser": "Створення нового користувача",
+    "createUser": "Створення користувача",
+    "users": "Користувачі",
+    "editUser": "Редагування користувача",
+    "general": "Головна",
+    "enableAccessAllLibraries": "Увімкнути доступ до всіх бібліотек",
+    "currentPassword": "Поточний пароль",
+    "newPassword": "Новий пароль",
+    "confirmPassword": "Підтвердити пароль",
+    "resetPassword": "Заміна пароля",
+    "passwordChangeSuccess": "Успішно змінений пароль",
+    "savePassword": "Зберегти пароль",
+    "enabledPhotos": "Увімкнути фотографії",
+    "enabledLUFSScan": "Увімкнути LUFS Сканування",
+    "requestMore": "Запитати більше",
+    "seerrPermissionDenied": "Ви не маєте дозволу на запит на це медіа тип.",
+    "seerrRequestStatusPending": "Закінчення",
+    "seerrRequestStatusCompleted": "Виконаний",
+    "seerrMediaStatusProcessing": "Переробка",
+    "seerrMediaStatusBlacklisted": "Чорний",
+    "seerrMediaStatusDeleted": "Видалено",
+    "seerrEnterServerUrlFirst": "Введіть URL-адресу сервера Seerr",
+    "seerrCustomHeaders": "Спеціальні заголовки",
+    "seerrHeader": "Заголовок",
+    "sponsorMessage": "Якщо ви користуєтеся Fladder, розгляньте спонсорство проекту для підтримки постійного розвитку та вдосконалення. Дякуємо за підтримку!",
+    "min": "хв",
+    "manageRequest": "Вимоги до роботи",
+    "requestAll": "Запитати",
+    "openInSeerr": "Відкрити в Seerr",
+    "openInSonarr": "Відкрити в Sonarr",
+    "openInRadarr": "Відкритий в Радр",
+    "markAsAvailable": "Марк як доступний",
+    "deleteData": "Видалити дані",
+    "markAllSeasonsAsAvailableConfirm": "Позначити всі сезони як доступні?",
+    "markedAsAvailable": "Позначені як доступні",
+    "deleteSeerrDataConfirm": "Видалити всі файли з Seerr? Ця дія не може бути неоновою.\nЯкщо дані ще присутні в {service}, він може перевозитися.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "approve": "Затвердження",
+    "decline": "Деклін",
+    "noPrograms": "Без програм",
+    "switchChannel": "Вимикач канал",
+    "switchChannelDesc": "Ви хочете дивитися \"{programName}\" на {channelName}?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "liveTV": "Телевізор",
+    "liveTvManageTunersEpg": "Управління пристроями тюнера та постачальниками EPG",
+    "tunerDevices": "Пристрої тюнера",
+    "epgGuideProviders": "EPG Постачальники",
+    "noTunerDevicesConfigured": "Не налаштовані пристрої тюнера",
+    "noEpgProvidersConfigured": "Немає провайдерів EPG, налаштованих",
+    "addTunerDevice": "Додати пристрій Tuner",
+    "addProvider": "Додати провайдер",
+    "tunerHostUpdatedSuccessfully": "Tuner host оновлено успішно",
+    "failedToUpdateTunerHost": "Не вдалося оновити тюнер хост: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "Видаляє Тунер Хост",
+    "tunerHostDeletedSuccessfully": "Тунер успішно видалено",
+    "failedToDeleteTunerHost": "Не вдалося видалити тюнер хост: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "Компанія ЕРГ успішно додана",
+    "failedToAddEpgProvider": "Не вдалося додати провайдера EPG: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "EPG провайдер успішно оновлений",
+    "failedToUpdateEpgProvider": "Оновлення провайдера EPG: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "Видалити ЕПГ Закупівля",
+    "deleteEpgProviderConfirm": "Ви впевнені, що ви хочете видалити цей провайдер?",
+    "epgProviderDeletedSuccessfully": "EPG-провайдер успішно вилучений",
+    "failedToDeleteEpgProvider": "Не вдалося видалити провайдера EPG: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "Редагувати пристрій Tuner",
+    "friendlyName": "Ім'я",
+    "url": "КОНТАКТИ",
+    "userAgent": "Агент користувача",
+    "userAgentOptional": "Агент користувача (за бажанням)",
+    "maxConcurrentStreams": "Максимальні струмені",
+    "addEpgProvider": "Додати EPG Постачальник",
+    "editEpgProvider": "Редагувати EPG Закупівля",
+    "xmltvPathUrl": "Веб-сайт Патент/УРЛ",
+    "enableAllTuners": "Увімкнути для всіх тюнерів",
+    "enabledTuners": "Увімкнути тюнерів",
+    "selectTuners": "Виберіть тюнери",
+    "moviePrefix": "Префікс фільму",
+    "movieCategories": "Категорії фільмів",
+    "newsCategories": "Категорії новин",
+    "sportsCategories": "Спортивні категорії",
+    "kidsCategories": "Дитячі категорії",
+    "fileOrUrl": "Файл або URL",
+    "tunerIpAddress": "Адреса електронної пошти",
+    "fallbackMaxBitrate": "Максимальний бітрейт (Mbps)",
+    "concurrentStreams": "Максимальні струмені",
+    "concurrentStreamsHint": "0 = Необмежений",
+    "allowFmp4Container": "Allow fMP4 перекодування контейнера",
+    "allowStreamSharing": "Поповнення потоку",
+    "enableStreamLooping": "Увімкнути петлю потоку",
+    "ignoreDts": "Ignore DTS частампи",
+    "readAtNativeFramerate": "Читати на рідному каркасі",
+    "importFavoritesOnly": "Імпорт тільки улюблених каналів",
+    "allowHWTranscoding": "Allow апаратні транскодування",
+    "detectDevices": "Виявлення пристроїв",
+    "discoveredDevices": "Виявлені пристрої",
+    "noDevicesFound": "Не знайдено пристроїв",
+    "failedToDiscoverDevices": "Вимкнено для виявлення пристроїв: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "Доля",
+    "maxConcurrentStreamsLabel": "Максимальні струмені",
+    "noCategories": "Немає категорій",
+    "moviePrefixSubLabel": "Якщо префікс застосовується до назв фільмів, введіть його тут, щоб сервер був належним чином.",
+    "movieCategoriesSubLabel": "Категорії для позначення каналів, що відповідають префіксу фільму",
+    "newsCategoriesSubLabel": "Категорії для позначення каналів, що відповідають встановленню новин",
+    "sportsCategoriesSubLabel": "Подається згідно з витягом з каналів, що відповідають спортивному префіксу",
+    "kidsCategoriesSubLabel": "Категорії, щоб призначити канали, що відповідають встановленню дітей",
+    "enableNewTVLayoutDesc": "Показати більше банерів телевізійного стилю на панелі інструментів. Це стане макетом за замовчуванням в майбутньому релізі.",
+    "notifications": "Повідомлення",
+    "showNewItemNotificationTitle": "Перевірити нові елементи",
+    "notificationChannelDescription": "Повідомлення про додані товари",
+    "seerrRequestNotifications": "Повідомлення про проведення перевірок",
+    "notificationNewEpisodes": "Додані нові епізоди",
+    "notificationTimerIOSWarning": " iOS вирішить, коли / якщо оновлення дійсно працюють, повідомлення можуть бути затримані або не демонструються.",
+    "lastUpdateAt": "Останнє оновлення на {date} в {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "markAsAvailableConfirm": "Марк як доступний?",
+    "dataDeleted": "Видалення даних",
+    "batteryOptimizationDesc": "Оптимізація акумулятора може затримати фонові повідомлення для Fladder.\nЩоб підвищити надійність повідомлень, натисніть на налаштування системи та відключіть оптимізацію Fladder.",
+    "updateCheckInterval": "Термін перевірки оновлень",
+    "updateCheckIntervalDesc": "Як часто виконується фонове завдання",
+    "automaticRefreshInterval": "Автоматичний інтервал оновлення",
+    "notificationsIntervalClientReminder": "Проміжок сповіщення встановлюється для всіх користувачів.",
+    "includeHiddenItems": "Включає приховані бібліотеки",
+    "includeHiddenItemsDesc": "Включає бібліотеки, приховані з панелі інструментів",
+    "profileSettingsOpenAuthAtLaunch": "Відкрита автентифікація при запуску",
+    "settingsBlurEffectsTitle": "Увімкнути ефекти розмиття",
+    "settingsBlurEffectsDesc": "Увімкнути ефекти розмиття в UI. Відключення цього може підвищити продуктивність на нижніх пристроях.",
+    "mediaSegmentProviders": "Постачальники медіа сегмента",
+    "enableAndRankMediaSegmentProviders": "Увімкніть та ознайомтеся з кращими медіа-провайдерами, щоб забезпечити пріоритет.",
+    "enableTrickplayImageExtraction": "Увімкнути видалення зображення",
+    "extractTrickplayImagesDuringLibraryScan": "Видобуток зображень в процесі сканування бібліотеки",
+    "perfectSubtitleMatchDescription": "Відобразити ідеальний матч буде фільтрувати субтитри, щоб включати тільки ті, які були протестовані і перевірені з вашим точним відео файлом. Виявлення цього збільшить ймовірність завантаження субтитрів, але збільшить шанси на вказаний або неправильний текст субтитри.",
+    "selectFolderToAdd": "Виберіть папку, щоб додати",
+    "recentlyAdded": "Нещодавно додано",
+    "seerrMediaStatusPartiallyAvailable": "Доступно",
+    "seerrMediaStatusAvailable": "В наявності",
+    "seerrUserFetchFailed": "Переміщений Користувачем з Seerr",
+    "max": "макс",
+    "markAllSeasonsAsAvailable": "Позначте всі сезони як доступні",
+    "removeSeriesFromSonarrConfirm": "Видалити цю серію з Sonarr? Це дозволить видалити всі файли, які включають дані.",
+    "removeMovieFromRadarrConfirm": "Зняти цей фільм від Radarr? Це дозволить видалити всі файли, які включають дані.",
+    "removedFromSonarr": "Видалити з Sonarr",
+    "removedFromRadarr": "Вилучено з Ради",
+    "processing": "Переробка",
+    "watch": "Про нас",
+    "watchChannel": "{channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "Афіша",
+    "activeTvChannels": "Активне телебачення Канали",
+    "enableNewTVLayout": "Увімкнути новий макет телевізора",
+    "toggleSidebar": "Виброплоча",
+    "subtitleDownloaders": "Завантажувачі субтитри",
+    "submitRequest": "Подати заявку",
+    "seerrLoggedIn": "Увійти в Seerr",
+    "trickplay": "Цегляний",
+    "downloadLanguages": "Завантажити мову",
+    "skipSubtitlesIfAudioMatches": "Пропустити, якщо аудіо доріжки за замовчуванням відповідає мові завантаження",
+    "select": "Обрати",
+    "popularMovies": "Популярні фільми",
+    "rootFolder": "Папка кореня",
+    "selectFolder": "Виберіть папку",
+    "tags": "Панчохи",
+    "seerr": "Про нас",
+    "seerrNotConfigured": "Не налаштувати",
+    "seerrLoadingUser": "Завантаження користувача",
+    "seerrAnimeSeriesNote": "Ім'я * Ця серія - аніме.",
+    "seerrAuthApiKey": "API ключ",
+    "seerrApiKeySaved": "API ключ збережений",
+    "preferredDownloadLanguage": "English Русский Українська",
+    "countryRegion": "Країна/Регія",
+    "saveMetadata": "Зберегти метадані",
+    "metadataFetchers": "Фетчери метаданих ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankImagesFetchers": "Увімкніть та отримуйте бажані зображення fetchers для пріоритету.",
+    "imageFetchers": "Фетчери зображень ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableChapterImageExtraction": "Увімкнути виділення зображень",
+    "extractChapterImagesDuringLibraryScan": "Витягувати главні зображення під час сканування бібліотеки",
+    "onlyPerfectSubtitleMatch": "Тільки завантажити субтитри, які ідеально відповідають медіа",
+    "saveArtWorkNextToMedia": "Заощаджуйте арт-проекти за допомогою медіа файлів",
+    "primary": "Головна",
+    "seerrHeaderValue": "Ціна",
+    "sponsor": "Партнерство",
+    "removeFromSonarr": "Видалити з Sonarr",
+    "removeFromRadarr": "Видалити з Ради",
+    "skipSubtitlesIfEmbedded": "Перейти до вмісту",
+    "email": "Веб-сайт",
+    "username": "Ім'я користувача",
+    "ok": "ЗАРЕЄСТРУВАТИСЯ",
+    "saveTrickplayImagesNextToMedia": "Заощаджуйте зображення після медіа",
+    "saveSubtitlesNextToMedia": "Зберегти субтитри поруч з медіа",
+    "discover": "Головна",
+    "enableAndRankMetadataFetchers": "Увімкніть та отримуйте бажані папери метаданих, щоб визначити пріоритет.",
+    "recentRequests": "Останні запити",
+    "popularSeries": "Популярні серії",
+    "expectedMovies": "Експлуатовані фільми",
+    "expectedSeries": "Очікувана серія",
+    "requestConfiguration": "Налаштування запитів",
+    "qualityProfile": "Профіль якості",
+    "selectProfile": "Оберіть профіль",
+    "noTags": "Немає тегів",
+    "requestAs": "Запитати",
+    "requestQuotaStatus": "{remaining} {limit} решта (повіді кожен {days} дні)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Обмеження запиту на {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "noOverviewAvailable": "Не доступний огляд.",
+    "downloading": "завантаження",
+    "request": "Запитати",
+    "viewRequest": "Переглянути запит",
+    "seerrAutoApproveNotice": "Запити, які ви подаєте, автоматично затверджені."
 }
