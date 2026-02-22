@@ -1571,9 +1571,9 @@
     "settingsBlurEffectsDesc": "Увімкнути ефекти розмиття в UI. Відключення цього може підвищити продуктивність на нижніх пристроях.",
     "mediaSegmentProviders": "Постачальники медіа сегмента",
     "enableAndRankMediaSegmentProviders": "Увімкніть та ознайомтеся з кращими медіа-провайдерами, щоб забезпечити пріоритет.",
-    "enableTrickplayImageExtraction": "Увімкнути видалення зображення",
-    "extractTrickplayImagesDuringLibraryScan": "Видобуток зображень в процесі сканування бібліотеки",
-    "perfectSubtitleMatchDescription": "Відобразити ідеальний матч буде фільтрувати субтитри, щоб включати тільки ті, які були протестовані і перевірені з вашим точним відео файлом. Виявлення цього збільшить ймовірність завантаження субтитрів, але збільшить шанси на вказаний або неправильний текст субтитри.",
+    "enableTrickplayImageExtraction": "Увімкнути створення ескізів для перемотки",
+    "extractTrickplayImagesDuringLibraryScan": "Відокрем зображеня в процесі сканування бібліотеки",
+    "perfectSubtitleMatchDescription": "Вимога ідеального збігу дозволить відфільтрувати субтитри, щоб включити тільки ті, які були протестовані та перевірені з вашим конкретним відеофайлом. Зняття цієї позначки збільшить ймовірність завантаження субтитрів, але також збільшить ймовірність неправильного синхронізації або неправильного тексту субтитрів.",
     "selectFolderToAdd": "Виберіть папку, щоб додати",
     "recentlyAdded": "Нещодавно додано",
     "seerrMediaStatusPartiallyAvailable": "Доступно",
@@ -1599,11 +1599,11 @@
     "activeTvChannels": "Активне телебачення Канали",
     "enableNewTVLayout": "Увімкнути новий макет телевізора",
     "toggleSidebar": "Виброплоча",
-    "subtitleDownloaders": "Завантажувачі субтитри",
+    "subtitleDownloaders": "Завантажувачі субтитрів",
     "submitRequest": "Подати заявку",
     "seerrLoggedIn": "Увійти в Seerr",
-    "trickplay": "Цегляний",
-    "downloadLanguages": "Завантажити мову",
+    "trickplay": "Візуальна навігація",
+    "downloadLanguages": "Завантажити мови",
     "skipSubtitlesIfAudioMatches": "Пропустити, якщо аудіо доріжки за замовчуванням відповідає мові завантаження",
     "select": "Обрати",
     "popularMovies": "Популярні фільми",
@@ -1616,10 +1616,10 @@
     "seerrAnimeSeriesNote": "Ім'я * Ця серія - аніме.",
     "seerrAuthApiKey": "API ключ",
     "seerrApiKeySaved": "API ключ збережений",
-    "preferredDownloadLanguage": "English Русский Українська",
-    "countryRegion": "Країна/Регія",
+    "preferredDownloadLanguage": "Бажана мова завантаження",
+    "countryRegion": "Країна/Регіон",
     "saveMetadata": "Зберегти метадані",
-    "metadataFetchers": "Фетчери метаданих ({type})",
+    "metadataFetchers": "Засоби збору метаданих ({type})",
     "@metadataFetchers": {
         "placeholders": {
             "type": {
@@ -1627,8 +1627,8 @@
             }
         }
     },
-    "enableAndRankImagesFetchers": "Увімкніть та отримуйте бажані зображення fetchers для пріоритету.",
-    "imageFetchers": "Фетчери зображень ({type})",
+    "enableAndRankImagesFetchers": "Увімкніть та впорядкуйте ваші улюблені засоби для завантаження зображень за пріоритетом.",
+    "imageFetchers": "Засоби завантаження зображень ({type})",
     "@imageFetchers": {
         "placeholders": {
             "type": {
@@ -1636,8 +1636,8 @@
             }
         }
     },
-    "enableChapterImageExtraction": "Увімкнути виділення зображень",
-    "extractChapterImagesDuringLibraryScan": "Витягувати главні зображення під час сканування бібліотеки",
+    "enableChapterImageExtraction": "Увімкнути відокремлення зображень для розділів",
+    "extractChapterImagesDuringLibraryScan": "Відокремити зображення розділів під час сканування бібліотеки",
     "onlyPerfectSubtitleMatch": "Тільки завантажити субтитри, які ідеально відповідають медіа",
     "saveArtWorkNextToMedia": "Заощаджуйте арт-проекти за допомогою медіа файлів",
     "primary": "Головна",
@@ -1649,10 +1649,10 @@
     "email": "Веб-сайт",
     "username": "Ім'я користувача",
     "ok": "ЗАРЕЄСТРУВАТИСЯ",
-    "saveTrickplayImagesNextToMedia": "Заощаджуйте зображення після медіа",
+    "saveTrickplayImagesNextToMedia": "Зберігай зображення візуальної навігації поряд з медіа файлами",
     "saveSubtitlesNextToMedia": "Зберегти субтитри поруч з медіа",
     "discover": "Головна",
-    "enableAndRankMetadataFetchers": "Увімкніть та отримуйте бажані папери метаданих, щоб визначити пріоритет.",
+    "enableAndRankMetadataFetchers": "Увімкніть та впорядкуйте свої улюблені засоби збору метаданих за пріоритетністю.",
     "recentRequests": "Останні запити",
     "popularSeries": "Популярні серії",
     "expectedMovies": "Експлуатовані фільми",
@@ -1689,7 +1689,7 @@
     "request": "Запитати",
     "viewRequest": "Переглянути запит",
     "seerrAutoApproveNotice": "Запити, які ви подаєте, автоматично затверджені.",
-    "subtitleDownloads": "Субтитри Завантаження",
+    "subtitleDownloads": "Завантаження субтитрів",
     "metadataImageLongPressClick": "Клацніть правою кнопкою миші для видалення зображення",
     "selectedPath": "Виберіть шлях: {path}",
     "@selectedPath": {
@@ -1699,7 +1699,7 @@
             }
         }
     },
-    "chapterImages": "Розділ Зображення",
+    "chapterImages": "Зображення розділів",
     "saveArtWorkNextToMediaDesc": "Збереження роботи в медіа папки поставить їх у місце, де вони можуть легко редагуватися.",
     "newLibrary": "Нова бібліотека",
     "contentType": "Тип вмісту",
@@ -1748,11 +1748,70 @@
             }
         }
     },
-    "deleteTunerHostConfirm": "Ви впевнені, що ви хочете видалити \"X33X\"?",
+    "deleteTunerHostConfirm": "Ви впевнені, що ви хочете видалити \"{name}\"?",
     "@deleteTunerHostConfirm": {
         "placeholders": {
             "name": {
                 "type": "String"
+            }
+        }
+    },
+    "logo": "{count, plural, other{Лого} one{Лого}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, other{Фони} one{Фон}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "emailUsername": "Пошта/Імʼя користувача",
+    "pendingRequests": "{count, plural, other{Немає запитів в очікувані} one{{count} запит в очікувані} two {{count} запити в очікувані}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "specialFeature": "{count, plural, other{Додаткові функції} one{Додаткова функція} }",
+    "@specialFeature": {
+        "description": "special feature",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "notificationNewItems": "{count, plural, one{{count} новий елемент} other {{count} нові елементи}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationNewRequests": "{count, plural, one{{count} новий запит} other {{count} нових запити}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
             }
         }
     }
