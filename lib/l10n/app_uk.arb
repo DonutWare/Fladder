@@ -59,7 +59,7 @@
     "dashboardNextUp": "Наступне",
     "dateAdded": "Дата додавання",
     "datePlayed": "Дата відтворення",
-    "days": "Дні",
+    "days": "{count, plural, one{День} other{Дні}}",
     "delete": "Видалити",
     "deleteItem": "Видалити {item}?",
     "@deleteItem": {
@@ -162,13 +162,13 @@
     "loop": "Цикл",
     "masonry": "Кладка",
     "mediaTypeBase": "Базовий тип",
-    "mediaTypeBook": "Книга",
-    "mediaTypeFolder": "Тека",
-    "mediaTypeMovie": "Фільм",
-    "mediaTypePerson": "Людина",
-    "mediaTypePlaylist": "Плейлист",
-    "mediaTypeSeason": "Сезон",
-    "mediaTypeSeries": "Серіал",
+    "mediaTypeBook": "{count, plural, one{Книга} other{Книги}}",
+    "mediaTypeFolder": "{count, plural, one{Тека} other{Теки}}",
+    "mediaTypeMovie": "{count, plural, one{Фільм} other{Фільми}}",
+    "mediaTypePerson": "{count, plural, one{Особа} other{Люди}}",
+    "mediaTypePlaylist": "{count, plural, one{Список відтворення} other{Списки відтворення}}",
+    "mediaTypeSeason": "{count, plural, one{Сезон} other{Сезони}}",
+    "mediaTypeSeries": "{count, plural, one{Серіал} other{Серіали}}",
     "metaDataSavedFor": "Метадані збережено для {item}",
     "@metaDataSavedFor": {
         "description": "metaDataSavedFor",
@@ -339,7 +339,7 @@
     "unableToConnectHost": "Не вдається з'єднатися з хостом",
     "unableToReverseAction": "Цю дію не можна скасувати. Це призведе до видалення всіх налаштувань.",
     "unknown": "Невідомо",
-    "video": "Відео",
+    "video": "{count, plural, one{Відео} other{Відео}}",
     "videoScalingCover": "Покрити",
     "videoScalingFill": "Заповнити",
     "videoScalingFillScreenDesc": "Заповнити навігацію та рядок стану",
@@ -464,12 +464,12 @@
     "lockscreen": "Екран блокування",
     "markAsUnwatched": "Відмітити як непереглянуте",
     "markAsWatched": "Відмітити як переглянуте",
-    "mediaTypeBoxset": "Бокс-сет",
-    "mediaTypeEpisode": "Серія",
-    "mediaTypePhoto": "Фото",
-    "mediaTypePhotoAlbum": "Фотоальбом",
+    "mediaTypeBoxset": "{count, plural, one{Бокс-сет} other{Бокс-сети}}",
+    "mediaTypeEpisode": "{count, plural, one{Серія} other{Серії}}",
+    "mediaTypePhoto": "{count, plural, one{Фото} other{Фотографії}}",
+    "mediaTypePhotoAlbum": "{count, plural, one{Фотоальбом} other{Фотоальбоми}}",
     "settingsPosterSlider": "Показати повзунок масштабу",
-    "settingsProfileDesc": "Екран блокування, локальна URL-адреса",
+    "settingsProfileDesc": "Екран блокування, локальна URL-адреса, Seerr",
     "shadow": "Тінь",
     "settingsShowScaleSlider": "Показати повзунок розміру постера",
     "showEmpty": "Показати порожнє",
@@ -479,7 +479,7 @@
     "mode": "Стиль",
     "shuffleGallery": "Перемішати галерею",
     "themeModeDark": "Темний",
-    "musicAlbum": "Альбом",
+    "musicAlbum": "{count, plural, one{Альбом} other{Альбоми}}",
     "sortOrder": "Порядок сортування",
     "themeModeLight": "Світлий",
     "start": "Початок",
@@ -1101,5 +1101,270 @@
     "enableAllDevices": "Увімкнути доступ до всіх пристроїв",
     "maxParentalRating": "Макс. батьківський рейтинг",
     "accessSchedules": "Розклад доступу",
-    "addAccessSchedule": "Додати графік доступу"
+    "addAccessSchedule": "Додати розклад доступу",
+    "homeBannerDetailed": "Детальний",
+    "homeBannerTV": "TV",
+    "mediaTypeTV": "{count, plural, one{Телевізійний канал} other{Телевізійні канали}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "popularity": "Полярність",
+    "contentRating": "Рейтинг контенту",
+    "runtimeMinutesTitle": "Тривалість (хвилини)",
+    "runtimeRangeMinutes": "{min} - {max} хвилин",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} хвилин",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Джерела ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Бажана мова субтитрів",
+    "settingsProfileSubtitleMode": "Рижим субтитрів",
+    "subtitlePlaybackModeDefault": "За замовчуванням",
+    "subtitlePlaybackModeAlways": "Завжди відтворювати",
+    "subtitlePlaybackModeOnlyForced": "Тільки примусові",
+    "subtitlePlaybackModeNone": "Ніякі",
+    "subtitlePlaybackModeSmart": "Розумний",
+    "backgroundColor": "Колір фону",
+    "deleteRequestConfirmation": "Ви впевнені, що хочете видалити цей запит?",
+    "playbackTypeTV": "TV",
+    "enableSpeedBoostTitle": "Увімкнути прискорення",
+    "enableSpeedBoostDesc": "Утримуйте екран (мобільний пристрій) або пробіл (настільний комп'ютер), щоб тимчасово збільшити швидкість відтворення.",
+    "speedBoostRateTitle": "Швидкість прискорення",
+    "speedBoostRateDesc": "Швидкість відтворення при активованій функції прискорення",
+    "enableDoubleTapSeekTitle": "Двічі натисніть, щоб шукати/відтворювати/призупиняти",
+    "enableDoubleTapSeekDesc": "Двічі натисніть на ліву/праву сторону екрана, щоб перейти назад/вперед. Двічі натисніть на центр, щоб відтворити/призупинити відтворення",
+    "showLess": "Показати менше",
+    "controlPanel": "Панель керування",
+    "controlPanelDesc": "Сервер, Статистика, Користувачі, Бібліотека",
+    "controlDashboard": "Панель управління",
+    "serverName": "Назва серверу",
+    "serverVersion": "Версія серверу",
+    "webVersion": "Веб-версія",
+    "devices": "Пристрої",
+    "used": "Використано",
+    "storagePaths": "Шляхи зберігання",
+    "programData": "Дані програми",
+    "web": "Веб",
+    "cache": "Кеш",
+    "logs": "Журнал",
+    "transcodingTemp": "Тимчасове перекодування",
+    "count": "Кількість",
+    "scanAllLibraries": "Сканувати все",
+    "restartServer": "Перезавантажити сервер",
+    "shutDownServer": "Вимкнути сервер",
+    "dashboardDesc": "Сервер, кількість, пристрої, сховище",
+    "lastActivity": "Остання активність",
+    "activeTasks": "Активні завдання",
+    "hours": "{count, plural, one{Година} other{Години}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{Тиждень} other{Тиждні}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{Місяць} other{Місяці}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{Рік} other{Роки}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAgo": "{time} тому",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "Останій запуск {date}, зайняв {time} часу",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Менше хвилини",
+    "plannedTasks": "Заплановані завждання",
+    "taskTriggerTypeInterval": "Інтервал",
+    "taskTriggerTypeDaily": "Щодня",
+    "taskTriggerTypeWeekly": "Щотижневий",
+    "taskTriggerTypeStartup": "На старті",
+    "create": "Створити",
+    "taskTriggerTypeName": "Тип запуску",
+    "newTrigger": "Новий тип запуску",
+    "newTaskTrigger": "Новий тип запуску завдання",
+    "dayOfTheWeek": "День тиждня",
+    "time": "Час",
+    "interval": "Інтервал",
+    "taskTimeLimitInHours": "Обмеження часу (годинах)",
+    "taskTriggerIntervalDesc": "Кожні {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "Щоденно об {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Щотижнево {day} об {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Обмеження часу: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "Продуктивність",
+    "serverNameLabel": "Назва серверу",
+    "cachePath": "Шлях для кеша",
+    "metadataPath": "Шлях для метаданних",
+    "maxConcurrentLibraryScanLabel": "Максимальна кількість паралельних сканувань бібліотеки",
+    "maxConcurrentLibraryScanDesc": "Максимальна кількість паралельних завдань під час сканування бібліотеки. Якщо залишити це поле порожнім, буде обрано обмеження на основі кількості ядер вашої системи. УВАГА: Занадто високе значення цього параметра може спричинити проблеми з мережевими файловими системами; якщо виникнуть проблеми, зменште це значення.",
+    "maxImageDecodingThreadsLabel": "Максимальна кількість потоків докодування зображення",
+    "maxImageDecodingThreadsDesc": "Максимальна кількість кодувань зображень, які можуть виконуватися паралельно. Якщо залишити це поле порожнім, буде обрано обмеження на основі кількості ядер вашої системи.",
+    "controlPanelServerDesc": "Назва сервера, Швидке підключення, Продуктивність",
+    "deleteUserTitle": "Видалити користувача {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Це призведе до остаточного видалення користувача {user} та всіх пов'язаних налаштувань.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "Інформація про користувача",
+    "allowManageServer": "Дозволити цьому користувачеві керувати сервером",
+    "allowCollections": "Надати доступ користувачу до колекцій",
+    "allowEditSubtitles": "Дозволити користувачу змінювати субтитри",
+    "featureAccess": "Доступ до додаткови можливостей",
+    "allowLiveTVAccess": "Доступ до телепрограм",
+    "allowLiveTVRecording": "Надати доступ до управління записами телепрограм",
+    "mediaPlayback": "Відтворення медіа",
+    "allowMediaPlayback": "Дозволити відтворення",
+    "allowVideoTranscoding": "Дозволити відтворення відео з декодуванням",
+    "allowAudioTranscoding": "Дозволити відтворення аудіо з декодуванням",
+    "allowMediaConversion": "Дозволити відтворення відео, яке вимагає перетворення медіафайлів",
+    "forceRemoteTranscoding": "Примусове перекодування віддаленого джерела",
+    "syncplayAccess": "Доступ до сихронізованого відтворення",
+    "syncplayAccessCreateAndJoinGroups": "Створити і приєднати до груп",
+    "syncplayAccessJoinGroups": "Групи для приєднання",
+    "syncplayAccessNone": "Нічого",
+    "parentalControl": "Батьківський контроль",
+    "blockedItemsNoRating": "Заблоковані елементи без рейтингу або з невизнаними рейтингом",
+    "allowItemsTags": "Дозволити елементи з тегами",
+    "blockItemsTags": "Блокувати елементи з тегами",
+    "access": "Доступ",
+    "endTimeMustBeAfter": "Кінцевий час повинен бути після початкового",
+    "assignLibraries": "Призначити Бібліотеки",
+    "passwordResetSuccess": "Успішно оновленно пароль",
+    "passwordResetFailed": "Не вдалося оновити пароль",
+    "passwordMismatch": "Паролі не співпадають",
+    "deleteLibraryConfirmTitle": "Видалити бібліотеку?",
+    "deleteLibraryConfirmMessage": "Ви впевнені, що ви хочете видалити {libraryName}?\nЦя дія не може бути скасована.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "Жодної бібліотеки не обрано",
+    "enabledRealtimeMonitoring": "Увімкнути моніторинг в режимі реального часу",
+    "automaticallyAddToCollection": "Автоматично додавати до колекції",
+    "enabledEmbeddedTitles": "Увімкнути вбудовані заголовки",
+    "enabledEmbeddedExtrasTitles": "Увімкнути додаткові вбудовані заголовки"
 }
