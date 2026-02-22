@@ -6,35 +6,25 @@ part of 'client_settings_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
-    _ClientSettingsModel(
+_ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) => _ClientSettingsModel(
       syncPath: json['syncPath'] as String?,
-      position: json['position'] == null
-          ? const Vector2(x: 0, y: 0)
-          : Vector2.fromJson(json['position'] as String),
-      size: json['size'] == null
-          ? const Vector2(x: 1280, y: 720)
-          : Vector2.fromJson(json['size'] as String),
+      position: json['position'] == null ? const Vector2(x: 0, y: 0) : Vector2.fromJson(json['position'] as String),
+      size: json['size'] == null ? const Vector2(x: 1280, y: 720) : Vector2.fromJson(json['size'] as String),
       timeOut: json['timeOut'] == null
           ? const Duration(seconds: 30)
           : Duration(microseconds: (json['timeOut'] as num).toInt()),
-      nextUpDateCutoff: json['nextUpDateCutoff'] == null
-          ? null
-          : Duration(microseconds: (json['nextUpDateCutoff'] as num).toInt()),
+      nextUpDateCutoff:
+          json['nextUpDateCutoff'] == null ? null : Duration(microseconds: (json['nextUpDateCutoff'] as num).toInt()),
       updateNotificationsInterval: json['updateNotificationsInterval'] == null
           ? const Duration(hours: 1)
-          : Duration(
-              microseconds:
-                  (json['updateNotificationsInterval'] as num).toInt()),
-      themeMode: $enumDecodeNullable(_$ThemeModeEnumMap, json['themeMode']) ??
-          ThemeMode.system,
+          : Duration(microseconds: (json['updateNotificationsInterval'] as num).toInt()),
+      themeMode: $enumDecodeNullable(_$ThemeModeEnumMap, json['themeMode']) ?? ThemeMode.system,
       themeColor: $enumDecodeNullable(_$ColorThemesEnumMap, json['themeColor']),
       deriveColorsFromItem: json['deriveColorsFromItem'] as bool? ?? true,
       amoledBlack: json['amoledBlack'] as bool? ?? false,
       blurPlaceHolders: json['blurPlaceHolders'] as bool? ?? true,
       blurUpcomingEpisodes: json['blurUpcomingEpisodes'] as bool? ?? false,
-      selectedLocale:
-          const LocaleConvert().fromJson(json['selectedLocale'] as String?),
+      selectedLocale: const LocaleConvert().fromJson(json['selectedLocale'] as String?),
       enableMediaKeys: json['enableMediaKeys'] as bool? ?? true,
       posterSize: (json['posterSize'] as num?)?.toDouble() ?? 1.0,
       pinchPosterZoom: json['pinchPosterZoom'] as bool? ?? false,
@@ -42,14 +32,10 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       requireWifi: json['requireWifi'] as bool? ?? true,
       expandSideBar: json['expandSideBar'] as bool? ?? false,
       showAllCollectionTypes: json['showAllCollectionTypes'] as bool? ?? false,
-      maxConcurrentDownloads:
-          (json['maxConcurrentDownloads'] as num?)?.toInt() ?? 2,
-      schemeVariant: $enumDecodeNullable(
-              _$DynamicSchemeVariantEnumMap, json['schemeVariant']) ??
-          DynamicSchemeVariant.rainbow,
-      backgroundImage: $enumDecodeNullable(
-              _$BackgroundTypeEnumMap, json['backgroundImage']) ??
-          BackgroundType.blurred,
+      maxConcurrentDownloads: (json['maxConcurrentDownloads'] as num?)?.toInt() ?? 2,
+      schemeVariant:
+          $enumDecodeNullable(_$DynamicSchemeVariantEnumMap, json['schemeVariant']) ?? DynamicSchemeVariant.rainbow,
+      backgroundImage: $enumDecodeNullable(_$BackgroundTypeEnumMap, json['backgroundImage']) ?? BackgroundType.blurred,
       enableBlurEffects: json['enableBlurEffects'] as bool? ?? false,
       checkForUpdates: json['checkForUpdates'] as bool? ?? true,
       usePosterForLibrary: json['usePosterForLibrary'] as bool? ?? false,
@@ -58,22 +44,19 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
       shortcuts: (json['shortcuts'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry($enumDecode(_$GlobalHotKeysEnumMap, k),
-                KeyCombination.fromJson(e as Map<String, dynamic>)),
+            (k, e) =>
+                MapEntry($enumDecode(_$GlobalHotKeysEnumMap, k), KeyCombination.fromJson(e as Map<String, dynamic>)),
           ) ??
           const {},
     );
 
-Map<String, dynamic> _$ClientSettingsModelToJson(
-        _ClientSettingsModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ClientSettingsModelToJson(_ClientSettingsModel instance) => <String, dynamic>{
       'syncPath': instance.syncPath,
       'position': instance.position,
       'size': instance.size,
       'timeOut': instance.timeOut?.inMicroseconds,
       'nextUpDateCutoff': instance.nextUpDateCutoff?.inMicroseconds,
-      'updateNotificationsInterval':
-          instance.updateNotificationsInterval.inMicroseconds,
+      'updateNotificationsInterval': instance.updateNotificationsInterval.inMicroseconds,
       'themeMode': _$ThemeModeEnumMap[instance.themeMode]!,
       'themeColor': _$ColorThemesEnumMap[instance.themeColor],
       'deriveColorsFromItem': instance.deriveColorsFromItem,
@@ -98,8 +81,7 @@ Map<String, dynamic> _$ClientSettingsModelToJson(
       'useTVExpandedLayout': instance.useTVExpandedLayout,
       'lastViewedUpdate': instance.lastViewedUpdate,
       'libraryPageSize': instance.libraryPageSize,
-      'shortcuts': instance.shortcuts
-          .map((k, e) => MapEntry(_$GlobalHotKeysEnumMap[k]!, e)),
+      'shortcuts': instance.shortcuts.map((k, e) => MapEntry(_$GlobalHotKeysEnumMap[k]!, e)),
     };
 
 const _$ThemeModeEnumMap = {

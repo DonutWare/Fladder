@@ -8,7 +8,6 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/src/video_player_helper.g.dart' show PlaybackChangeSource;
-import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,38 +65,34 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
     final subscription = state.stateStream?.listen((value) {
       // Infer SyncPlay user actions from native player state stream (reviewer request).
-        if (value.changeSource == PlaybackChangeSource.user) {
-          final prev = playbackState;
-          if (value.playing != prev.playing) {
-            if (value.playing) {
-              userPlay();
-            } else {
-              userPause();
-            }
-          } else if ((value.position - prev.position).inSeconds.abs() > 2) {
-            userSeek(value.position);
+      if (value.changeSource == PlaybackChangeSource.user) {
+        final prev = playbackState;
+        if (value.playing != prev.playing) {
+          if (value.playing) {
+            userPlay();
+          } else {
+            userPause();
           }
+        } else if ((value.position - prev.position).inSeconds.abs() > 2) {
+          userSeek(value.position);
         }
-        updateBuffering(value.buffering);
-        updateBuffer(value.buffer);
-        updatePlaying(value.playing);
-        updatePosition(value.position);
-        updateDuration(value.duration);
-      });
+      }
+      updateBuffering(value.buffering);
+      updateBuffer(value.buffer);
+      updatePlaying(value.playing);
+      updatePosition(value.position);
+      updateDuration(value.duration);
+    });
 
     if (subscription != null) {
       subscriptions.add(subscription);
     }
-      if (subscription != null) {
-        subscriptions.add(subscription);
-      }
 
-      // Register player callbacks with SyncPlay
-      _registerSyncPlayCallbacks();
+    // Register player callbacks with SyncPlay
+    _registerSyncPlayCallbacks();
 
-      // Listen to SyncPlay state changes for native player overlay
-      _setupSyncPlayStateListener();
-    });
+    // Listen to SyncPlay state changes for native player overlay
+    _setupSyncPlayStateListener();
   }
 
   /// Set up listener to forward SyncPlay command state to native player

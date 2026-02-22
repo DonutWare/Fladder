@@ -4,23 +4,9 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:auto_route/auto_route.dart' show DeepLink;
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:macos_window_utils/window_manipulator.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
-import 'package:universal_html/html.dart' as html;
-import 'package:window_manager/window_manager.dart';
-import 'package:workmanager/workmanager.dart';
-
 import 'package:fladder/background/update_notifications_worker.dart' as update_worker;
 import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/localization_delegates.dart';
@@ -29,8 +15,8 @@ import 'package:fladder/models/account_model.dart';
 import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/crash_log_provider.dart';
-import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/router_provider.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/update_notifications_provider.dart';
@@ -54,6 +40,18 @@ import 'package:fladder/util/svg_utils.dart';
 import 'package:fladder/util/themes_data.dart';
 import 'package:fladder/util/window_helper.dart';
 import 'package:fladder/widgets/media_query_scaler.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:macos_window_utils/window_manipulator.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
+import 'package:universal_html/html.dart' as html;
+import 'package:window_manager/window_manager.dart';
+import 'package:workmanager/workmanager.dart';
 
 bool get _isDesktop {
   if (kIsWeb) return false;

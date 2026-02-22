@@ -10,13 +10,10 @@ String _$controlLiveTvHash() => r'f82b3b1ae56471d190aa7fa8fb5a34a6ccd73761';
 
 /// See also [ControlLiveTv].
 @ProviderFor(ControlLiveTv)
-final controlLiveTvProvider =
-    AutoDisposeNotifierProvider<ControlLiveTv, ControlLiveTvModel>.internal(
+final controlLiveTvProvider = AutoDisposeNotifierProvider<ControlLiveTv, ControlLiveTvModel>.internal(
   ControlLiveTv.new,
   name: r'controlLiveTvProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$controlLiveTvHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$controlLiveTvHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

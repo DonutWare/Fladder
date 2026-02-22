@@ -1,15 +1,8 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-
 import 'package:async/async.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:square_progress_indicator/square_progress_indicator.dart';
-
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
@@ -36,6 +29,8 @@ import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:square_progress_indicator/square_progress_indicator.dart';
 
 import '../../models/syncplay/syncplay_models.dart';
 
@@ -280,22 +275,22 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
       }
 
       // If in SyncPlay group, set the queue via SyncPlay
-    final isSyncPlayActive = ref.read(isSyncPlayActiveProvider);
-    if (isSyncPlayActive) {
-      Navigator.of(context, rootNavigator: true).pop(); // Pop loading indicator
-      await ref.read(syncPlayProvider.notifier).setNewQueue(
-            itemIds: expandedList.map((e) => e.id).toList(),
-            playingItemPosition: 0,
-            startPositionTicks: 0,
-          );
-      return;
-    }
+      final isSyncPlayActive = ref.read(isSyncPlayActiveProvider);
+      if (isSyncPlayActive) {
+        Navigator.of(context, rootNavigator: true).pop(); // Pop loading indicator
+        await ref.read(syncPlayProvider.notifier).setNewQueue(
+              itemIds: expandedList.map((e) => e.id).toList(),
+              playingItemPosition: 0,
+              startPositionTicks: 0,
+            );
+        return (null, expandedList);
+      }
 
-    PlaybackModel? model = await ref.read(playbackModelHelper).createPlaybackModel(
-          context,
-          expandedList.firstOrNull,
-          libraryQueue: expandedList,
-        );
+      PlaybackModel? model = await ref.read(playbackModelHelper).createPlaybackModel(
+            context,
+            expandedList.firstOrNull,
+            libraryQueue: expandedList,
+          );
 
       return (model, expandedList);
     }));
@@ -317,6 +312,14 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
 
     final PlaybackModel? model = result.$1;
     final List<ItemBaseModel> expandedList = result.$2;
+
+    // SyncPlay path: queue was set via setNewQueue, no local PlaybackModel
+    if (model == null && expandedList.isNotEmpty) {
+      if (context.mounted) {
+        RefreshState.maybeOf(context)?.refresh();
+      }
+      return;
+    }
 
     if (context.mounted) {
       await _playVideo(context, ref: ref, queue: expandedList, current: model, cancelOperation: op);

@@ -21,9 +21,8 @@ mixin _$ControlDeviceDiscoveryModel {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ControlDeviceDiscoveryModelCopyWith<ControlDeviceDiscoveryModel>
-      get copyWith => _$ControlDeviceDiscoveryModelCopyWithImpl<
-              ControlDeviceDiscoveryModel>(
+  $ControlDeviceDiscoveryModelCopyWith<ControlDeviceDiscoveryModel> get copyWith =>
+      _$ControlDeviceDiscoveryModelCopyWithImpl<ControlDeviceDiscoveryModel>(
           this as ControlDeviceDiscoveryModel, _$identity);
 
   @override
@@ -35,16 +34,14 @@ mixin _$ControlDeviceDiscoveryModel {
 /// @nodoc
 abstract mixin class $ControlDeviceDiscoveryModelCopyWith<$Res> {
   factory $ControlDeviceDiscoveryModelCopyWith(
-          ControlDeviceDiscoveryModel value,
-          $Res Function(ControlDeviceDiscoveryModel) _then) =
+          ControlDeviceDiscoveryModel value, $Res Function(ControlDeviceDiscoveryModel) _then) =
       _$ControlDeviceDiscoveryModelCopyWithImpl;
   @useResult
   $Res call({bool isLoading, List<TunerHostInfo> devices});
 }
 
 /// @nodoc
-class _$ControlDeviceDiscoveryModelCopyWithImpl<$Res>
-    implements $ControlDeviceDiscoveryModelCopyWith<$Res> {
+class _$ControlDeviceDiscoveryModelCopyWithImpl<$Res> implements $ControlDeviceDiscoveryModelCopyWith<$Res> {
   _$ControlDeviceDiscoveryModelCopyWithImpl(this._self, this._then);
 
   final ControlDeviceDiscoveryModel _self;
@@ -231,8 +228,7 @@ extension ControlDeviceDiscoveryModelPatterns on ControlDeviceDiscoveryModel {
 /// @nodoc
 
 class _ControlDeviceDiscoveryModel implements ControlDeviceDiscoveryModel {
-  const _ControlDeviceDiscoveryModel(
-      {this.isLoading = true, final List<TunerHostInfo> devices = const []})
+  const _ControlDeviceDiscoveryModel({this.isLoading = true, final List<TunerHostInfo> devices = const []})
       : _devices = devices;
 
   @override
@@ -252,9 +248,8 @@ class _ControlDeviceDiscoveryModel implements ControlDeviceDiscoveryModel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$ControlDeviceDiscoveryModelCopyWith<_ControlDeviceDiscoveryModel>
-      get copyWith => __$ControlDeviceDiscoveryModelCopyWithImpl<
-          _ControlDeviceDiscoveryModel>(this, _$identity);
+  _$ControlDeviceDiscoveryModelCopyWith<_ControlDeviceDiscoveryModel> get copyWith =>
+      __$ControlDeviceDiscoveryModelCopyWithImpl<_ControlDeviceDiscoveryModel>(this, _$identity);
 
   @override
   String toString() {
@@ -263,11 +258,9 @@ class _ControlDeviceDiscoveryModel implements ControlDeviceDiscoveryModel {
 }
 
 /// @nodoc
-abstract mixin class _$ControlDeviceDiscoveryModelCopyWith<$Res>
-    implements $ControlDeviceDiscoveryModelCopyWith<$Res> {
+abstract mixin class _$ControlDeviceDiscoveryModelCopyWith<$Res> implements $ControlDeviceDiscoveryModelCopyWith<$Res> {
   factory _$ControlDeviceDiscoveryModelCopyWith(
-          _ControlDeviceDiscoveryModel value,
-          $Res Function(_ControlDeviceDiscoveryModel) _then) =
+          _ControlDeviceDiscoveryModel value, $Res Function(_ControlDeviceDiscoveryModel) _then) =
       __$ControlDeviceDiscoveryModelCopyWithImpl;
   @override
   @useResult
@@ -275,8 +268,7 @@ abstract mixin class _$ControlDeviceDiscoveryModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$ControlDeviceDiscoveryModelCopyWithImpl<$Res>
-    implements _$ControlDeviceDiscoveryModelCopyWith<$Res> {
+class __$ControlDeviceDiscoveryModelCopyWithImpl<$Res> implements _$ControlDeviceDiscoveryModelCopyWith<$Res> {
   __$ControlDeviceDiscoveryModelCopyWithImpl(this._self, this._then);
 
   final _ControlDeviceDiscoveryModel _self;

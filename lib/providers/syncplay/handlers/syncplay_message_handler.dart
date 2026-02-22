@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:fladder/models/syncplay/syncplay_models.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -99,7 +99,7 @@ class SyncPlayMessageHandler {
 
     final context = getContext();
     if (context != null) {
-      fladderSnackbar(context, title: context.localized.syncPlayUserJoined(userId));
+      FladderSnack.show(context.localized.syncPlayUserJoined(userId), context: context);
     }
     log('SyncPlay: User joined: $userId');
   }
@@ -111,7 +111,7 @@ class SyncPlayMessageHandler {
 
     final context = getContext();
     if (context != null) {
-      fladderSnackbar(context, title: context.localized.syncPlayUserLeft(userId));
+      FladderSnack.show(context.localized.syncPlayUserLeft(userId), context: context);
     }
     log('SyncPlay: User left: $userId');
   }

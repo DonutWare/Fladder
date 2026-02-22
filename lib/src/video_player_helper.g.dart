@@ -752,7 +752,8 @@ class SubtitleSettings {
   }
 
   Object encode() {
-    return _toList();  }
+    return _toList();
+  }
 
   static SubtitleSettings decode(Object result) {
     result as List<Object?>;
@@ -782,8 +783,7 @@ class SubtitleSettings {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => Object.hashAll(_toList())
-;
+  int get hashCode => Object.hashAll(_toList());
 }
 
 class TVGuideModel {
@@ -1031,7 +1031,7 @@ class _PigeonCodec extends StandardMessageCodec {
     } else if (value is TVGuideModel) {
       buffer.putUint8(143);
       writeValue(buffer, value.encode());
-    }    else if (value is GuideChannel) {
+    } else if (value is GuideChannel) {
       buffer.putUint8(143);
       writeValue(buffer, value.encode());
     } else if (value is GuideProgram) {
@@ -1470,15 +1470,15 @@ class VideoPlayerApi {
   }
 
   Future<void> setSubtitleSettings(SubtitleSettings settings) async {
-    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSubtitleSettings$pigeonVar_messageChannelSuffix';
+    final String pigeonVar_channelName =
+        'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSubtitleSettings$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[settings]);
-    final List<Object?>? pigeonVar_replyList =
-        await pigeonVar_sendFuture as List<Object?>?;
+    final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {

@@ -6,7 +6,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -39,12 +39,12 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
 
     final group = await ref.read(syncPlayProvider.notifier).createGroup(name);
     if (group != null && mounted) {
-      fladderSnackbar(context, title: context.localized.syncPlayCreatedGroup(group.groupName ?? ''));
+      FladderSnack.show(context.localized.syncPlayCreatedGroup(group.groupName ?? ''), context: context);
       Navigator.of(context).pop();
     } else {
       if (mounted) {
         ref.read(syncPlayGroupsProvider.notifier).setLoading(false);
-        fladderSnackbar(context, title: context.localized.syncPlayFailedToCreateGroup);
+        FladderSnack.show(context.localized.syncPlayFailedToCreateGroup, context: context);
       }
     }
   }
@@ -83,12 +83,12 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
 
     final success = await ref.read(syncPlayProvider.notifier).joinGroup(group.groupId ?? '');
     if (success && mounted) {
-      fladderSnackbar(context, title: context.localized.syncPlayJoinedGroup(group.groupName ?? ''));
+      FladderSnack.show(context.localized.syncPlayJoinedGroup(group.groupName ?? ''), context: context);
       Navigator.of(context).pop();
     } else {
       if (mounted) {
         ref.read(syncPlayGroupsProvider.notifier).setLoading(false);
-        fladderSnackbar(context, title: context.localized.syncPlayFailedToJoinGroup);
+        FladderSnack.show(context.localized.syncPlayFailedToJoinGroup, context: context);
       }
     }
   }
@@ -96,7 +96,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
   Future<void> _leaveGroup() async {
     await ref.read(syncPlayProvider.notifier).leaveGroup();
     if (mounted) {
-      fladderSnackbar(context, title: context.localized.syncPlayLeftGroup);
+      FladderSnack.show(context.localized.syncPlayLeftGroup, context: context);
       Navigator.of(context).pop();
     }
   }
