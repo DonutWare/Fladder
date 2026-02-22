@@ -4,6 +4,7 @@ import AutoNextType
 import PlayerSettings
 import PlayerSettingsPigeon
 import Screensaver
+import SubtitleSettings
 import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -13,6 +14,7 @@ import kotlin.time.toDuration
 
 object PlayerSettingsObject : PlayerSettingsPigeon {
     val settings: MutableStateFlow<PlayerSettings?> = MutableStateFlow(null)
+    val subtitleSettings: MutableStateFlow<SubtitleSettings?> = MutableStateFlow(null)
     val skipMap = settings.map { it?.skipTypes ?: mapOf() }
 
     val forwardSpeed =

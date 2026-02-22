@@ -17,7 +17,7 @@ mixin _$ApplicationInfo {
   String get name;
   String get version;
   String get buildNumber;
-  String get os;
+  TargetPlatform get platform;
 }
 
 /// Adds pattern-matching-related methods to [ApplicationInfo].
@@ -113,13 +113,16 @@ extension ApplicationInfoPatterns on ApplicationInfo {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String name, String version, String buildNumber, String os)? $default, {
+    TResult Function(String name, String version, String buildNumber,
+            TargetPlatform platform)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ApplicationInfo() when $default != null:
-        return $default(_that.name, _that.version, _that.buildNumber, _that.os);
+        return $default(
+            _that.name, _that.version, _that.buildNumber, _that.platform);
       case _:
         return orElse();
     }
@@ -140,12 +143,15 @@ extension ApplicationInfoPatterns on ApplicationInfo {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String name, String version, String buildNumber, String os) $default,
+    TResult Function(String name, String version, String buildNumber,
+            TargetPlatform platform)
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ApplicationInfo():
-        return $default(_that.name, _that.version, _that.buildNumber, _that.os);
+        return $default(
+            _that.name, _that.version, _that.buildNumber, _that.platform);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -165,12 +171,15 @@ extension ApplicationInfoPatterns on ApplicationInfo {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String name, String version, String buildNumber, String os)? $default,
+    TResult? Function(String name, String version, String buildNumber,
+            TargetPlatform platform)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ApplicationInfo() when $default != null:
-        return $default(_that.name, _that.version, _that.buildNumber, _that.os);
+        return $default(
+            _that.name, _that.version, _that.buildNumber, _that.platform);
       case _:
         return null;
     }
@@ -180,7 +189,11 @@ extension ApplicationInfoPatterns on ApplicationInfo {
 /// @nodoc
 
 class _ApplicationInfo extends ApplicationInfo {
-  _ApplicationInfo({required this.name, required this.version, required this.buildNumber, required this.os})
+  _ApplicationInfo(
+      {required this.name,
+      required this.version,
+      required this.buildNumber,
+      required this.platform})
       : super._();
 
   @override
@@ -190,7 +203,7 @@ class _ApplicationInfo extends ApplicationInfo {
   @override
   final String buildNumber;
   @override
-  final String os;
+  final TargetPlatform platform;
 }
 
 // dart format on

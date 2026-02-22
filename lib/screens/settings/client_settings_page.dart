@@ -44,24 +44,28 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
       label: "Fladder",
       items: [
         ...buildClientSettingsDownload(context, ref, setState),
-        ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.lockscreen), [
-          SettingsListTile(
-            label: Text(context.localized.timeOut),
-            subLabel: Text(timePickerString(context, clientSettings.timeOut)),
-            onTap: () async {
-              final timePicker = await showSimpleDurationPicker(
-                context: context,
-                initialValue: clientSettings.timeOut ?? const Duration(),
-              );
+        ...settingsListGroup(
+          context,
+          SettingsLabelDivider(label: context.localized.lockscreen),
+          [
+            SettingsListTile(
+              label: Text(context.localized.timeOut),
+              subLabel: Text(timePickerString(context, clientSettings.timeOut)),
+              onTap: () async {
+                final timePicker = await showSimpleDurationPicker(
+                  context: context,
+                  initialValue: clientSettings.timeOut ?? const Duration(),
+                );
 
-              if (timePicker == null) return;
+                if (timePicker == null) return;
 
-              ref.read(clientSettingsProvider.notifier).setTimeOut(timePicker != Duration.zero
-                  ? Duration(minutes: timePicker.inMinutes, seconds: timePicker.inSeconds % 60)
-                  : null);
-            },
-          ),
-        ]),
+                ref.read(clientSettingsProvider.notifier).setTimeOut(timePicker != Duration.zero
+                    ? Duration(minutes: timePicker.inMinutes, seconds: timePicker.inSeconds % 60)
+                    : null);
+              },
+            ),
+          ],
+        ),
         if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.touch) ...[
           const SizedBox(height: 12),
           ...buildClientSettingsShortCuts(context, ref),

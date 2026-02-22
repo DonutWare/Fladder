@@ -23,7 +23,7 @@ abstract class HomeSettingsModel with _$HomeSettingsModel {
 
   static HomeSettingsModel defaultModel() {
     return HomeSettingsModel(
-      homeBanner: leanBackMode ? HomeBanner.detailedBanner : HomeBanner.carousel,
+      homeBanner: leanBackMode ? HomeBanner.tvSliderBanner : HomeBanner.carousel,
     );
   }
 

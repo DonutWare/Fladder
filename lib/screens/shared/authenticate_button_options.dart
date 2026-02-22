@@ -1,6 +1,6 @@
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/account_model.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
 import 'package:fladder/util/auth_service.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -36,7 +36,7 @@ void showAuthOptionsDialogue(
                       if (authenticated) {
                         setMethod.call(currentUser.copyWith(authMethod: method));
                       } else if (context.mounted) {
-                        fladderSnackbar(context, title: context.localized.biometricsFailedCheckAgain);
+                        FladderSnack.show(context.localized.biometricsFailedCheckAgain, context: context);
                       }
                       break;
                     case Authentication.passcode:

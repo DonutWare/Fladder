@@ -1,1 +1,1779 @@
-{}
+{
+    "nativeName": "Bahasa Indonesia",
+    "about": "Tentang",
+    "accept": "Terima",
+    "active": "Aktif",
+    "actor": "{count, plural, other{Aktor} one{Aktor}}",
+    "@actor": {
+        "description": "actor",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addAsFavorite": "Tambahkan sebagai Favorit",
+    "addToCollection": "Tambahkan ke Koleksi",
+    "addToPlaylist": "Tambahkan ke daftar putar",
+    "advanced": "Lanjutan",
+    "all": "Semua",
+    "amoledBlack": "Hitam Amoled",
+    "appLockAutoLogin": "Masuk Otomatis",
+    "appLockBiometrics": "Biometrik",
+    "appLockPasscode": "Kode Sandi",
+    "ascending": "Menaik",
+    "autoPlay": "Putar Otomatis",
+    "backgroundBlur": "Blur Latar Belakang",
+    "backgroundOpacity": "Opasitas Latar Belakang",
+    "biometricsFailedCheckAgain": "Autentikasi biometrik gagal. Periksa pengaturan dan coba lagi.",
+    "bold": "Tebal",
+    "cancel": "Batal",
+    "change": "Ubah",
+    "clear": "Hapus",
+    "clearAllSettings": "Hapus semua pengaturan",
+    "clearAllSettingsQuestion": "Apakah Anda yakin ingin menghapus semua pengaturan?",
+    "clearChanges": "Hapus perubahan",
+    "clearSelection": "Hapus Pilihan",
+    "close": "Tutup",
+    "code": "Kode",
+    "color": "Warna",
+    "combined": "Gabungan",
+    "communityRating": "Rating Komunitas",
+    "controls": "Kontrol",
+    "dashboard": "Dasbor",
+    "dashboardContinue": "Lanjutkan",
+    "dashboardContinueListening": "Lanjutkan Mendengarkan",
+    "dashboardContinueReading": "Lanjutkan Membaca",
+    "dashboardContinueWatching": "Lanjutkan Menonton",
+    "nextUp": "Selanjutnya",
+    "dateAdded": "Tanggal ditambahkan",
+    "dateLastContentAdded": "Tanggal konten terakhir ditambahkan",
+    "datePlayed": "Tanggal diputar",
+    "delete": "Hapus",
+    "descending": "Menurun",
+    "disableFilters": "Nonaktifkan filter",
+    "disabled": "Dinonaktifkan",
+    "discovered": "Ditemukan",
+    "displayLanguage": "Bahasa tampilan",
+    "downloadsClearDesc": "Hapus semua data yang disinkronkan dan bersihkan seluruh data untuk setiap pengguna yang tersinkronisasi?",
+    "downloadsClearTitle": "Bersihkan data yang disinkronkan",
+    "downloadsPath": "Lokasi",
+    "downloadsSyncedData": "Data Tersinkronisasi",
+    "downloadsTitle": "Unduhan",
+    "dynamicText": "Dinamis",
+    "editMetadata": "Sunting metadata",
+    "empty": "Kosong",
+    "enabled": "Diaktifkan",
+    "error": "Kesalahan",
+    "failedToLoadImage": "Gagal memuat gambar",
+    "favorite": "Favorit",
+    "favorites": "Favorit",
+    "fetchingLibrary": "Mengambil item perpustakaan…",
+    "folders": "Folder",
+    "fontColor": "Warna Font",
+    "fontSize": "Ukuran Font",
+    "forceRefresh": "Paksa segarkan",
+    "goTo": "Pergi ke",
+    "grid": "Kisi",
+    "group": "Grup",
+    "groupBy": "Kelompokkan berdasarkan",
+    "heightOffset": "Offset Tinggi",
+    "hide": "Sembunyikan",
+    "hideEmpty": "Sembunyikan yang kosong",
+    "home": "Beranda",
+    "homeBannerSlideshow": "Tayangan Slide",
+    "homeBannerCarousel": "Korsel",
+    "homeBannerDetailed": "Detail",
+    "homeBannerTV": "TV",
+    "identify": "Identifikasi",
+    "immediately": "Segera",
+    "incorrectPinTryAgain": "PIN salah. Coba lagi.",
+    "info": "Info",
+    "invalidUrl": "URL tidak valid",
+    "itemCount": "Jumlah Item: {count}",
+    "@itemCount": {
+        "description": "Item count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "label": "{count, plural, other{Label} one{Label}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{Pustaka} one{Pustaka}}",
+    "@library": {
+        "description": "Plural",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "libraryFetchNoItemsFound": "Tidak ada item yang ditemukan. Coba setelan lain.",
+    "libraryPageSizeDesc": "Atur jumlah yang dimuat setiap kali. 0 akan menonaktifkan pemuatan bertahap.",
+    "libraryPageSizeTitle": "Ukuran kalaman pustaka",
+    "light": "Terang",
+    "list": "Daftar",
+    "lockscreen": "Layar Kunci",
+    "loggedIn": "Masuk",
+    "login": "Masuk",
+    "logout": "Keluar",
+    "logoutUserPopupContent": "Ini akan mengeluarkan {userName} dan menghapus pengguna tersebut dari aplikasi.\nAnda harus masuk kembali di {serverName}.",
+    "@logoutUserPopupContent": {
+        "description": "Pop-up for logging out the user description",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "serverName": {
+                "type": "String"
+            }
+        }
+    },
+    "logoutUserPopupTitle": "Keluar dari {userName}?",
+    "@logoutUserPopupTitle": {
+        "description": "Pop-up for logging out the user",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "loop": "Ulangi",
+    "markAsUnwatched": "Tandai sebagai belum ditonton",
+    "markAsWatched": "Tandai sebagai sudah ditonton",
+    "masonry": "Masonry",
+    "mediaTypeBase": "Tipe dasar",
+    "mediaTypeBook": "{count, plural, one{Buku} other{Buku}}",
+    "@mediaTypeBook": {
+        "description": "Book (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeBoxset": "{count, plural, one{Boxset} other{Boxset}}",
+    "@mediaTypeBoxset": {
+        "description": "Boxset (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeEpisode": "{count, plural, one{Episode} other{Episode}}",
+    "@mediaTypeEpisode": {
+        "description": "Episode (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeFolder": "{count, plural, one{Folder} other{Folder}}",
+    "@mediaTypeFolder": {
+        "description": "Folder (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeMovie": "{count, plural, one{Film} other{Film}}",
+    "@mediaTypeMovie": {
+        "description": "Movie (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "metadataRefreshDefault": "Pindai file baru dan yang diperbarui",
+    "metadataRefreshFull": "Ganti semua metadata",
+    "metadataRefreshValidation": "Cari metadata yang hilang",
+    "mode": "Mode",
+    "moreOptions": "Opsi lainnya",
+    "mouseDragSupport": "Seret menggunakan mouse",
+    "name": "Nama",
+    "navigation": "Navigasi",
+    "navigationDashboard": "Dasbor",
+    "navigationFavorites": "Favorit",
+    "navigationSync": "Sinkronisasi",
+    "never": "Tidak Pernah",
+    "noItemsSynced": "Tidak ada item yang tersinkronisasi",
+    "noItemsToShow": "Tidak ada item untuk ditampilkan",
+    "noRating": "Tidak Ada Rating",
+    "noResults": "Tidak Ada Hasil",
+    "noServersFound": "Tidak ada server yang ditemukan",
+    "noSuggestionsFound": "Tidak ada saran yang ditemukan",
+    "none": "Tidak Ada",
+    "normal": "Normal",
+    "notPartOfAlbum": "Bukan bagian dari album",
+    "openParent": "Buka Induk",
+    "openShow": "Buka Acara",
+    "options": "Opsi",
+    "other": "Lainnya",
+    "outlineColor": "Warna Garis Tepi",
+    "outlineSize": "Ukuran Garis Tepi",
+    "overview": "Ringkasan",
+    "parentalRating": "Rating Orang Tua",
+    "password": "Kata Sandi",
+    "pathClearTitle": "Bersihkan lokasi unduhan",
+    "pathEditDesc": "Lokasi ini diatur untuk semua pengguna, sehingga data yang disinkronkan tidak akan lagi dapat diakses. Data tersebut akan tetap tersimpan di penyimpanan Anda.",
+    "pathEditSelect": "Pilih lokasi unduhan",
+    "pathEditTitle": "Ubah lokasi",
+    "playCount": "Jumlah diputar",
+    "playVideos": "Putar video",
+    "played": "Diputar",
+    "quickConnectAction": "Masukkan kode sambungan cepat untuk",
+    "quickConnectInputACode": "Masukkan kode",
+    "quickConnectTitle": "Sambungan Cepat",
+    "quickConnectWrongCode": "Kode salah",
+    "random": "Acak",
+    "popularity": "Popularitas",
+    "reWatch": "Tonton Ulang",
+    "recursive": "Rekursif",
+    "refresh": "Segarkan",
+    "refreshMetadata": "Segarkan metadata",
+    "refreshPopupContentMetadata": "Metadata diperbarui berdasarkan pengaturan dan layanan Internet yang diaktifkan di dashboard.",
+    "related": "Terkait",
+    "releaseDate": "Tanggal Rilis",
+    "contentRating": "Rating Konten",
+    "removeAsFavorite": "Hapus dari Favorit",
+    "removeFromCollection": "Hapus dari Koleksi",
+    "removeFromPlaylist": "Hapus dari daftar putar",
+    "replaceAllImages": "Ganti Semua Gambar",
+    "replaceExistingImages": "Ganti Gambar yang Ada",
+    "restart": "Mulai Ulang",
+    "result": "Hasil",
+    "resumable": "Dapat Dilanjutkan",
+    "retrievePublicListOfUsers": "Ambil daftar publik pengguna",
+    "retry": "Coba Lagi",
+    "runTime": "Durasi",
+    "runtimeMinutesTitle": "Durasi (Menit)",
+    "save": "Simpan",
+    "saved": "Tersimpan",
+    "scanBiometricHint": "Verifikasi identitas Anda",
+    "scanLibrary": "Pindai Pustaka",
+    "scrollToTop": "Gulir ke Atas",
+    "search": "Cari",
+    "selectAll": "Pilih Semua",
+    "selectTime": "Pilih Waktu",
+    "selectViewType": "Pilih jenis tampilan",
+    "selected": "Terpilih",
+    "separate": "Terpisah",
+    "server": "Server",
+    "set": "Atur",
+    "@set": {
+        "description": "Use for setting a certain value",
+        "context": "Set 'time'"
+    },
+    "settingSecurityApplockTitle": "Kunci Aplikasi",
+    "settings": "Pengaturan",
+    "settingsBlurEpisodesDesc": "Blur semua episode berikutnya",
+    "settingsBlurEpisodesTitle": "Blur episode berikutnya",
+    "settingsBlurredPlaceholderDesc": "Tampilkan latar belakang blur saat memuat poster",
+    "settingsBlurredPlaceholderTitle": "Placeholder Buram",
+    "settingsClientDesc": "Umum, Time-out, Tata letak, Tema",
+    "settingsClientTitle": "Klien",
+    "settingsContinue": "Lanjutkan",
+    "settingsEnableOsMediaControls": "Aktifkan kontrol media di sistem operasi",
+    "settingsEnableOsMediaControlsDesc": "Izinkan pengendalian pemutaran menggunakan tombol media dan tampilkan media yang sedang diputar di sistem operasi",
+    "settingsHomeBannerDescription": "Tampilkan sebagai tayangan slide, carousel, atau sembunyikan banner",
+    "settingsHomeBannerTitle": "Banner Beranda",
+    "settingsHomeBannerInformationDesc": "Informasi yang ditampilkan di banner beranda",
+    "settingsHomeBannerInformationTitle": "Informasi banner",
+    "settingsHomeNextUpDesc": "Jenis poster yang ditampilkan di layar dasbor",
+    "settingsHomeNextUpTitle": "Poster berikutnya",
+    "settingsNextUpCutoffDays": "Batas hari untuk “Selanjutnya”",
+    "settingsPlayerCustomSubtitlesDesc": "Sesuaikan tampilan subtitle",
+    "settingsPlayerCustomSubtitlesTitle": "Sesuaikan subtitle",
+    "settingsPlayerDesc": "Rasio aspek, Lanjutan",
+    "settingsPlayerMobileWarning": "Mengaktifkan percepatan perangkat keras dan subtitle libass native di Android mungkin menyebabkan beberapa subtitle tidak muncul.",
+    "settingsPlayerNativeLibassAccelDesc": "Gunakan perender subtitle libass pada pemutar video",
+    "settingsPlayerNativeLibassAccelTitle": "Subtitle libass native",
+    "settingsPlayerBufferSizeTitle": "Ukuran buffer video",
+    "settingsPlayerBufferSizeDesc": "Konfigurasikan ukuran buffer untuk pemutaran video, menentukan seberapa banyak data yang dimuat ke dalam cache.",
+    "settingsPlayerTitle": "Pemutar",
+    "settingsPlayerVideoHWAccelDesc": "Gunakan GPU untuk merender video (disarankan)",
+    "settingsPlayerVideoHWAccelTitle": "Akselerasi perangkat keras",
+    "settingsPosterPinch": "Perbesar/perkecil poster dengan gerakan cubit",
+    "settingsPosterSize": "Ukuran Poster",
+    "settingsProfileDesc": "Layar kunci, URL Lokal, Seerr",
+    "settingsProfileTitle": "Profil",
+    "settingsProfileSubtitleLanguage": "Bahasa subtitle yang diutamakan",
+    "settingsProfileSubtitleMode": "Mode Subtitle",
+    "subtitlePlaybackModeDefault": "Default",
+    "subtitlePlaybackModeAlways": "Selalu mainkan",
+    "subtitlePlaybackModeOnlyForced": "Hanya yang dipaksa",
+    "subtitlePlaybackModeNone": "Tidak Ada",
+    "subtitlePlaybackModeSmart": "Cerdas",
+    "settingsQuickConnectTitle": "Sambungan Cepat",
+    "settingsSecurity": "Keamanan",
+    "settingsShowScaleSlider": "Tampilkan slide ukuran poster",
+    "settingsVisual": "Visual",
+    "shadow": "Bayangan",
+    "showAlbum": "Tampilkan Album",
+    "showDetails": "Tampilkan Detail",
+    "showEmpty": "Tampilkan Kosong",
+    "shuffleVideos": "Acak Video",
+    "somethingWentWrong": "Terjadi kesalahan",
+    "somethingWentWrongPasswordCheck": "Terjadi kesalahan. Periksa kata sandi Anda.",
+    "sortBy": "Urutkan Berdasarkan",
+    "sortName": "Nama Urutan",
+    "sortOrder": "Urutan",
+    "start": "Mulai",
+    "subtitleConfigurator": "Pengatur subtitle",
+    "subtitleConfiguratorPlaceHolder": "Ini adalah teks penampung, tidak ada yang perlu diperhatikan di sini.",
+    "subtitles": "Subtitle",
+    "switchUser": "Ganti pengguna",
+    "sync": "Sinkronisasi",
+    "syncDeleteItemTitle": "Hapus item yang disinkronkan",
+    "syncDeletePopupPermanent": "Tindakan ini bersifat permanen dan akan menghapus semua file yang disinkronkan secara lokal",
+    "syncDetails": "Detail sinkronisasi",
+    "syncOpenParent": "Buka Induk",
+    "syncRemoveDataDesc": "Hapus data video yang disinkronkan? Ini bersifat permanen dan Anda perlu menyinkronkan ulang file",
+    "syncRemoveDataTitle": "Hapus data yang disinkronkan?",
+    "syncedItems": "Item tersinkronisasi",
+    "theme": "Tema",
+    "themeColor": "Warna Tema",
+    "themeModeDark": "Gelap",
+    "themeModeLight": "Terang",
+    "themeModeSystem": "Sistem",
+    "timeOut": "Waktu Habis",
+    "unPlayed": "Belum Diputar",
+    "unableToConnectHost": "Tidak dapat terhubung ke host",
+    "unableToReverseAction": "Tindakan ini tidak dapat dibatalkan. Semua pengaturan akan dihapus.",
+    "unknown": "Tidak Diketahui",
+    "useDefaults": "Gunakan bawaan",
+    "userName": "Nama Pengguna",
+    "videoScaling": "Skala video",
+    "videoScalingContain": "Muat",
+    "videoScalingCover": "Tutup",
+    "videoScalingFill": "Isi",
+    "videoScalingFillScreenDesc": "Video akan direntangkan untuk mengisi seluruh layar",
+    "videoScalingFillScreenNotif": "Video direntangkan untuk mengisi layar",
+    "videoScalingFillScreenTitle": "Isi Layar",
+    "videoScalingFitHeight": "Sesuaikan Tinggi",
+    "videoScalingFitWidth": "Sesuaikan Lebar",
+    "videoScalingScaleDown": "Perkecil",
+    "viewPhotos": "Lihat foto",
+    "addToNewCollection": "Koleksi baru",
+    "addToNewPlaylist": "Daftar putar baru",
+    "syncStatusEnqueued": "Diantri",
+    "syncStatusRunning": "Berjalan",
+    "syncStatusNotFound": "Tidak Ditemukan",
+    "syncStatusFailed": "Gagal",
+    "syncStatusCanceled": "Dibatalkan",
+    "syncStatusWaitingToRetry": "Menunggu untuk mencoba lagi",
+    "syncStatusPaused": "Dijeda",
+    "syncStatusSynced": "Tersinkronisasi",
+    "syncOverlayDeleting": "Menghapus item yang disinkronkan",
+    "syncOverlaySyncing": "Menyinkronkan detail item",
+    "syncSelectDownloadsFolder": "Pilih folder unduhan",
+    "syncNoFolderSetup": "Belum ada folder yang diatur",
+    "syncRemoveUnableToDeleteItem": "Gagal menghapus item yang disinkronkan, terjadi kesalahan",
+    "aboutCreatedBy": "Dibuat oleh DonutWare",
+    "aboutSocials": "Media Sosial",
+    "aboutLicenses": "Lisensi",
+    "subtitle": "Subtitle",
+    "subtitleConfiguration": "Konfigurasi Subtitle",
+    "off": "Mati",
+    "screenBrightness": "Kecerahan layar",
+    "scale": "Skala",
+    "playBackSettings": "Pengaturan Pemutaran",
+    "settingsAutoNextTitle": "Pratinjau berikutnya",
+    "settingsAutoNextDesc": "Menampilkan pratinjau Selanjutnya di dekat akhir jika item lain telah diantri",
+    "autoNextOffSmartTitle": "Cerdas",
+    "autoNextOffSmartDesc": "Menampilkan layar berikutnya saat kredit dimulai jika tersisa tidak lebih dari 10 detik setelah kredit. Jika tidak, layar berikutnya akan ditampilkan saat tersisa 30 detik waktu pemutaran",
+    "autoNextOffStaticTitle": "Statis",
+    "autoNextOffStaticDesc": "Tampilkan layar Selanjutnya saat waktu pemutaran tersisa 30 detik",
+    "playbackRate": "Kecepatan Pemutaran",
+    "speed": "Kecepatan",
+    "unableToPlayMedia": "Tidak dapat memutar media",
+    "errorOpeningMedia": "Kesalahan saat membuka media",
+    "unableToPlayBooksOnWeb": "Buku saat ini belum didukung di web",
+    "defaultFilterForLibrary": "Filter default untuk pustaka",
+    "updateFilterForLibrary": "Perbarui filter",
+    "deleteFilterConfirmation": "Apakah Anda yakin ingin menghapus filter ini?",
+    "deleteRequestConfirmation": "Apakah Anda yakin ingin menghapus permintaan ini?",
+    "libraryFiltersLimitReached": "Batas filter tercapai (10), hapus beberapa filter",
+    "libraryFiltersRemoveAll": "Hapus semua filter",
+    "libraryFiltersRemoveAllConfirm": "Ini akan menghapus semua filter yang disimpan untuk setiap perpustakaan",
+    "playerSettingsOrientationTitle": "Orientasi Pemutar",
+    "playerSettingsOrientationDesc": "Atur orientasi layar pemutar",
+    "deviceOrientationPortraitUp": "Potret Atas",
+    "deviceOrientationPortraitDown": "Potret Bawah",
+    "deviceOrientationLandscapeLeft": "Lanskap Kiri",
+    "deviceOrientationLandscapeRight": "Lanskap Kanan",
+    "clientSettingsSchemeVariantTitle": "Varian skema",
+    "schemeSettingsTonalSpot": "Tonal Spot",
+    "schemeSettingsFidelity": "Fidelitas",
+    "schemeSettingsMonochrome": "Monokrom",
+    "schemeSettingsNeutral": "Netral",
+    "schemeSettingsVibrant": "Cerah",
+    "schemeSettingsExpressive": "Ekspresif",
+    "schemeSettingsContent": "Konten",
+    "schemeSettingsRainbow": "Pelangi",
+    "schemeSettingsFruitSalad": "Salad buah",
+    "clientSettingsRequireWifiTitle": "Memerlukan Wi-Fi",
+    "clientSettingsRequireWifiDesc": "Hanya unduh saat terhubung ke jaringan Wi-Fi",
+    "libraryShuffleAndPlayItems": "Acak dan putar item",
+    "libraryPlayItems": "Putar item",
+    "clientSettingsShowAllCollectionsTitle": "Tampilkan Semua Koleksi",
+    "clientSettingsShowAllCollectionsDesc": "Jika diaktifkan, tampilkan semua jenis koleksi, termasuk yang tidak didukung oleh Fladder",
+    "stop": "Berhenti",
+    "resumeVideo": "Lanjutkan video",
+    "closeVideo": "Tutup video",
+    "playNextVideo": "Putar video berikutnya",
+    "playerSettingsBackendTitle": "Backend Pemutar Video",
+    "playerSettingsBackendDesc": "Pilih backend pemutar video",
+    "defaultLabel": "Bawaan",
+    "@defaultLabel": {
+        "description": "To indicate a default value, default video player backend"
+    },
+    "noVideoPlayerOptions": "Backend yang dipilih tidak memiliki opsi",
+    "mdkExperimental": "MDK masih dalam tahap eksperimental",
+    "mediaSegmentUnknown": "Tidak Diketahui",
+    "mediaSegmentCommercial": "Iklan",
+    "mediaSegmentPreview": "Pratinjau",
+    "mediaSegmentRecap": "Ringkasan",
+    "mediaSegmentOutro": "Penutup",
+    "mediaSegmentIntro": "Pembuka",
+    "errorLogs": "Log Kesalahan",
+    "external": "Eksternal",
+    "copyStreamUrl": "Salin url streaming",
+    "settingsLayoutSizesTitle": "Ukuran Tata Letak",
+    "settingsLayoutSizesDesc": "Pilih ukuran tata letak yang dapat digunakan aplikasi berdasarkan ukuran jendela",
+    "settingsLayoutModesTitle": "Mode Tata Letak",
+    "settingsLayoutModesDesc": "Atur apakah aplikasi dapat menggunakan tata letak satu panel atau dua panel",
+    "phone": "Ponsel",
+    "tablet": "Tablet",
+    "desktop": "Desktop",
+    "television": "Televisi",
+    "layoutModeSingle": "Tunggal",
+    "layoutModeDual": "Ganda",
+    "copiedToClipboard": "Disalin ke papan klip",
+    "episodeAvailable": "Tersedia",
+    "episodeUnaired": "Belum Tayang",
+    "episodeMissing": "Tidak Tersedia",
+    "internetStreamingQualityTitle": "Kualitas internet",
+    "internetStreamingQualityDesc": "Kualitas streaming maksimum melalui internet (seluler)",
+    "homeStreamingQualityTitle": "Kualitas di rumah",
+    "homeStreamingQualityDesc": "Kualitas streaming maksimum saat terhubung ke jaringan rumah",
+    "qualityOptionsTitle": "Opsi kualitas",
+    "qualityOptionsOriginal": "Asli",
+    "qualityOptionsAuto": "Otomatis",
+    "version": "Versi",
+    "mediaSegmentActions": "Tindakan segmen media",
+    "segmentActionNone": "Tidak ada",
+    "segmentActionAskToSkip": "Tanya untuk lewati",
+    "segmentActionSkipOnce": "Lewati sekali",
+    "segmentActionSkip": "Lewati",
+    "loading": "Memuat",
+    "exitFladderTitle": "Keluar dari Fladder",
+    "exitFladderDesc": "Apakah Anda yakin ingin menutup Fladder?",
+    "castAndCrew": "Pemeran dan Kru",
+    "maxConcurrentDownloadsTitle": "Jumlah maksimum unduhan bersamaan",
+    "maxConcurrentDownloadsDesc": "Menetapkan jumlah maksimum unduhan yang dapat dijalankan secara bersamaan. Atur ke 0 untuk menonaktifkan batasan.",
+    "playbackTrackSelection": "Pemilihan trek pemutaran",
+    "rememberSubtitleSelections": "Atur trek subtitle berdasarkan item sebelumnya",
+    "rememberAudioSelections": "Atur trek audio berdasarkan item sebelumnya",
+    "rememberSubtitleSelectionsDesc": "Coba atur trek subtitle agar paling mendekati yang digunakan pada video terakhir.",
+    "rememberAudioSelectionsDesc": "Coba atur trek audio agar paling mendekati yang digunakan pada video terakhir.",
+    "similarToRecentlyPlayed": "Mirip dengan yang baru diputar",
+    "similarToLikedItem": "Mirip dengan item yang disukai",
+    "hasDirectorFromRecentlyPlayed": "Sutradara dari yang baru diputar",
+    "hasActorFromRecentlyPlayed": "Aktor dari yang baru diputar",
+    "hasLikedDirector": "Sutradara yang disukai",
+    "hasLikedActor": "Aktor yang disukai",
+    "latest": "Terbaru",
+    "recommended": "Direkomendasikan",
+    "playbackType": "Tipe pemutaran",
+    "playbackTypeDirect": "Langsung",
+    "playbackTypeTranscode": "Transkode",
+    "playbackTypeOffline": "Luring",
+    "playbackTypeTV": "TV",
+    "latestReleases": "Rilis terbaru",
+    "autoCheckForUpdates": "Periksa pembaruan secara berkala",
+    "newUpdateFoundOnGithub": "Pembaruan baru ditemukan di GitHub",
+    "enableBackgroundPostersTitle": "Aktifkan poster latar belakang",
+    "enableBackgroundPostersDesc": "Tampilkan poster sebagai latar belakang",
+    "notificationDownloadingDownloading": "Mengunduh",
+    "notificationDownloadingPaused": "Unduhan dijeda",
+    "notificationDownloadingFinished": "Unduhan selesai",
+    "notificationDownloadingError": "Kesalahan unduhan",
+    "syncPauseAll": "Jeda semua",
+    "syncResumeAll": "Lanjutkan semua",
+    "syncStopAll": "Hentikan semua",
+    "syncDeleteAll": "Hapus semua",
+    "syncAllFiles": "Sinkronkan semua file",
+    "usePostersForLibraryIconsTitle": "Tampilkan poster untuk ikon perpustakaan",
+    "usePostersForLibraryIconsDesc": "Tampilkan poster menggantikan ikon untuk perpustakaan",
+    "offline": "Luring",
+    "shortCuts": "Pintasan",
+    "keyboardShortCuts": "Pintasan Keyboard",
+    "skipForwardLength": "Jarak lompat maju",
+    "skipBackLength": "Jarak lompat mundur",
+    "playPause": "Putar/Jeda",
+    "seekForward": "Maju",
+    "seekBack": "Mundur",
+    "mute": "Bisukan",
+    "volumeUp": "Volume Naik",
+    "volumeDown": "Volume Turun",
+    "speedUp": "Percepat",
+    "speedDown": "Perlambat",
+    "nextVideo": "Video Berikutnya",
+    "prevVideo": "Video Sebelumnya",
+    "nextChapter": "Bagian Berikutnya",
+    "prevChapter": "Bagian Sebelumnya",
+    "fullScreen": "Layar Penuh",
+    "skipMediaSegment": "Lewati Segmen Media",
+    "exit": "Keluar",
+    "shortCutAlreadyAssigned": "Pintasan '{hotKey}' sudah digunakan",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "blurred": "Buram",
+    "enableSpeedBoostTitle": "Aktifkan peningkat kecepatan",
+    "enableSpeedBoostDesc": "Tahan layar (seluler) atau tombol spasi (desktop) untuk sementara meningkatkan kecepatan pemutaran",
+    "speedBoostRateTitle": "Tingkat peningkat kecepatan",
+    "speedBoostRateDesc": "Kecepatan pemutaran saat peningkat kecepatan aktif",
+    "enableDoubleTapSeekTitle": "Ketuk dua kali untuk maju/putar/jeda",
+    "enableDoubleTapSeekDesc": "Ketuk dua kali di sisi kiri/kanan layar untuk mundur/maju. Ketuk dua kali di tengah layar untuk putar/jeda",
+    "quickConnectPostFailed": "Gagal mendapatkan kode sambungan cepat",
+    "quickConnectLoginUsingCode": "Gunakan sambungan cepat",
+    "quickConnectEnterCodeDescription": "Masukkan kode yang ditampilkan di perangkat Anda",
+    "showMore": "Tampilkan lebih banyak",
+    "showLess": "Tampilkan lebih sedikit",
+    "itemColorsTitle": "Warna item",
+    "itemColorsDesc": "Gunakan warna dominan dari poster item",
+    "mediaTunnelingTitle": "Tunneling media",
+    "mediaTunnelingDesc": "Aktifkan tunneling media untuk performa yang lebih baik",
+    "clientSettingsUseSystemIMETitle": "Gunakan keyboard sistem",
+    "clientSettingsUseSystemIMEDesc": "Gunakan keyboard bawaan yang disediakan oleh sistem Anda",
+    "takeScreenshot": "Ambil tangkapan layar",
+    "takeScreenshotClean": "Ambil tangkapan layar (tanpa subtitle)",
+    "screenshotTaken": "Tangkapan layar tersimpan!",
+    "screenshotCleanTaken": "Tangkapan layar tanpa subtitle berhasil disimpan!",
+    "errorTakingScreenshot": "Terjadi kesalahan saat mengambil tangkapan layar",
+    "openImeKeyboard": "Buka Keyboard IME",
+    "screensaverDvd": "DVD",
+    "screensaverLogo": "Logo",
+    "screensaverTime": "Waktu",
+    "screensaverBlack": "Hitam",
+    "playerSettingsScreensaverTitle": "Screensaver Pemutar",
+    "playerSettingsScreensaverDesc": "Pilih screen saver yang akan ditampilkan setelah tidak ada aktivitas pemutar",
+    "settingsLocalUrlTitle": "URL Server Lokal",
+    "settingsLocalUrlSetTitle": "Atur URL Lokal",
+    "settingsLocalUrlSetDesc": "Tentukan alamat server lokal. Fladder akan secara otomatis menggunakan URL ini ketika perangkat Anda berada di jaringan yang sama.",
+    "regenerateTrickplayImages": "Buat ulang gambar trickplay",
+    "controlPanel": "Panel Kontrol",
+    "controlPanelDesc": "Server, Aktivitas, Pengguna, Perpustakaan",
+    "controlDashboard": "Dasbor Kontrol",
+    "serverName": "Nama server",
+    "serverVersion": "Versi server",
+    "webVersion": "Versi web",
+    "devices": "Perangkat",
+    "used": "Digunakan",
+    "storagePaths": "Lokasi Penyimpanan",
+    "programData": "Data Program",
+    "web": "Web",
+    "cache": "Cache",
+    "logs": "Log",
+    "transcodingTemp": "Temp Transkode",
+    "count": "Jumlah",
+    "scanAllLibraries": "Pindai semua pustaka",
+    "restartServer": "Mulai ulang server",
+    "shutDownServer": "Matikan server",
+    "dashboardDesc": "Server, Jumlah, Perangkat, Penyimpanan",
+    "lastActivity": "Aktivitas terakhir",
+    "activeTasks": "Tugas aktif",
+    "lessThenAMinute": "Kurang dari satu menit",
+    "plannedTasks": "Tugas terjadwal",
+    "taskTriggerTypeInterval": "Rentang waktu",
+    "taskTriggerTypeDaily": "Harian",
+    "taskTriggerTypeWeekly": "Mingguan",
+    "taskTriggerTypeStartup": "Saat mulai",
+    "create": "Buat",
+    "taskTriggerTypeName": "Tipe pemicu",
+    "newTrigger": "Pemicu baru",
+    "newTaskTrigger": "Pemicu tugas baru",
+    "dayOfTheWeek": "Hari dalam seminggu",
+    "time": "Waktu",
+    "interval": "Rentang waktu",
+    "taskTimeLimitInHours": "Batas waktu (jam)",
+    "performance": "Performa",
+    "serverNameLabel": "Nama server",
+    "cachePath": "Lokasi Cache",
+    "metadataPath": "Lokasi Metadata",
+    "maxConcurrentLibraryScanLabel": "Jumlah maksimum pemindaian perpustakaan bersamaan",
+    "maxConcurrentLibraryScanDesc": "Jumlah maksimum tugas paralel saat pemindaian perpustakaan. Biarkan kosong untuk memilih batas berdasarkan jumlah inti sistem Anda. PERINGATAN: Menetapkan angka terlalu tinggi dapat menyebabkan masalah dengan sistem file jaringan; jika mengalami masalah, turunkan angkanya.",
+    "maxImageDecodingThreadsLabel": "Jumlah maksimum thread decoding gambar",
+    "maxImageDecodingThreadsDesc": "Jumlah maksimum pengkodean gambar yang diperbolehkan berjalan secara paralel. Biarkan kosong untuk memilih batas berdasarkan jumlah inti sistem Anda.",
+    "controlPanelServerDesc": "Nama server, Sambungan Cepat, Kinerja",
+    "userInformation": "Informasi Pengguna",
+    "allowManageServer": "Izinkan pengguna ini untuk mengelola server",
+    "allowCollections": "Izinkan pengguna ini mengelola koleksi",
+    "allowEditSubtitles": "Izinkan pengguna ini mengedit subtitle",
+    "featureAccess": "Akses fitur",
+    "allowLiveTVAccess": "Izinkan akses TV langsung",
+    "allowLiveTVRecording": "Izinkan pengelolaan rekaman TV langsung",
+    "mediaPlayback": "Pemutaran media",
+    "allowMediaPlayback": "Izinkan pemutaran media",
+    "allowVideoTranscoding": "Izinkan pemutaran video yang memerlukan transkode",
+    "allowAudioTranscoding": "Izinkan pemutaran audio yang memerlukan transkode",
+    "allowMediaConversion": "Izinkan pemutaran video yang memerlukan konversi media",
+    "forceRemoteTranscoding": "Paksa transkode sumber jarak jauh",
+    "syncplay": "Syncplay",
+    "syncplayAccess": "Akses Syncplay",
+    "syncplayAccessCreateAndJoinGroups": "Buat dan Gabung Grup",
+    "syncplayAccessJoinGroups": "Gabung Grup",
+    "syncplayAccessNone": "Tidak Ada",
+    "allowMediaDeletion": "Izinkan penghapusan media",
+    "allLibraries": "Semua pustaka",
+    "libraryAccess": "Akses Pustaka",
+    "enableAllLibraries": "Aktifkan akses ke semua perpustakaan",
+    "enableAllDevices": "Aktifkan akses ke semua perangkat",
+    "parentalControl": "Kontrol Orang Tua",
+    "blockedItemsNoRating": "Item yang diblokir tanpa nilai atau dengan nilai tidak dikenali",
+    "maxParentalRating": "Nilai maksimum orang tua",
+    "allowItemsTags": "Izinkan item dengan tag",
+    "blockItemsTags": "Blokir item dengan tag",
+    "accessSchedules": "Jadwal akses",
+    "addAccessSchedule": "Tambah Jadwal Akses",
+    "dayOfWeek": "Hari dalam seminggu",
+    "startTime": "Waktu mulai",
+    "endTime": "Waktu selesai",
+    "addTag": "Tambah Tag",
+    "createNewUser": "Buat pengguna baru",
+    "createUser": "Buat Pengguna",
+    "users": "Pengguna",
+    "editUser": "Edit Pengguna",
+    "general": "Umum",
+    "access": "Akses",
+    "endTimeMustBeAfter": "Waktu selesai harus setelah waktu mulai",
+    "assignLibraries": "Tetapkan Pustaka",
+    "enableAccessAllLibraries": "Aktifkan akses ke semua perpustakaan",
+    "currentPassword": "Kata sandi saat ini",
+    "newPassword": "Kata sandi baru",
+    "confirmPassword": "Konfirmasi kata sandi",
+    "resetPassword": "Atur ulang kata sandi",
+    "passwordResetSuccess": "Kata sandi berhasil diatur ulang",
+    "passwordResetFailed": "Gagal mengatur ulang kata sandi",
+    "passwordMismatch": "Kata sandi baru dan konfirmasi kata sandi tidak cocok",
+    "passwordChangeSuccess": "Kata sandi berhasil diubah",
+    "savePassword": "Simpan kata sandi",
+    "deleteLibraryConfirmTitle": "Hapus pustaka?",
+    "noLibrarySelected": "Tidak ada pustaka yang dipilih",
+    "enabledPhotos": "Foto diaktifkan",
+    "enabledLUFSScan": "Pemindaian LUFS diaktifkan",
+    "enabledRealtimeMonitoring": "Pemantauan waktu nyata diaktifkan",
+    "automaticallyAddToCollection": "Tambahkan ke koleksi secara otomatis",
+    "enabledEmbeddedTitles": "Judul bawaan diaktifkan",
+    "enabledEmbeddedExtrasTitles": "Judul bawaan tambahan diaktifkan",
+    "automaticRefreshInterval": "Jeda penyegaran otomatis",
+    "autoRefreshIntervalNote": "Mengaktifkan ini dapat menyebabkan waktu penyegaran perpustakaan menjadi lebih lama.",
+    "preferredDownloadLanguage": "Bahasa unduhan yang disukai",
+    "countryRegion": "Negara/Wilayah",
+    "saveMetadata": "Simpan metadata",
+    "enableAndRankMetadataFetchers": "Aktifkan dan atur peringkat pengambil metadata pilihan Anda berdasarkan urutan prioritas.",
+    "enableAndRankImagesFetchers": "Aktifkan dan atur peringkat pengambil gambar pilihan Anda berdasarkan urutan prioritas.",
+    "mediaSegmentProviders": "Penyedia segmen media",
+    "enableAndRankMediaSegmentProviders": "Aktifkan dan atur peringkat penyedia segmen media pilihan Anda berdasarkan urutan prioritas.",
+    "trickplay": "Trickplay",
+    "enableTrickplayImageExtraction": "Aktifkan ekstraksi gambar trickplay",
+    "extractTrickplayImagesDuringLibraryScan": "Ekstrak gambar trickplay selama pemindaian pustaka",
+    "saveTrickplayImagesNextToMedia": "Simpan gambar trickplay di samping media",
+    "chapterImages": "Gambar bagian",
+    "enableChapterImageExtraction": "Aktifkan ekstraksi bambar bagian",
+    "extractChapterImagesDuringLibraryScan": "Ekstrak gambar bagian selama pemindaian pustaka",
+    "subtitleDownloads": "Unduhan Subtitle",
+    "downloadLanguages": "Unduh bahasa",
+    "subtitleDownloaders": "Pengunduh subtitle",
+    "onlyPerfectSubtitleMatch": "Hanya unduh subtitle yang benar-benar cocok dengan media",
+    "perfectSubtitleMatchDescription": "Mengharuskan kecocokan sempurna akan memfilter subtitle agar hanya mencakup yang telah diuji dan diverifikasi dengan file video Anda yang persis sama. Jika opsi ini tidak dicentang, kemungkinan subtitle akan lebih besar untuk diunduh, tetapi juga meningkatkan risiko subtitle yang tidak sinkron atau teks yang tidak sesuai.",
+    "skipSubtitlesIfAudioMatches": "Lewati jika jalur audio default sudah sesuai dengan bahasa yang diunduh",
+    "skipSubtitlesIfEmbedded": "Lewati jika video sudah memiliki subtitle bawaan",
+    "saveSubtitlesNextToMedia": "Simpan subtitle di samping media",
+    "saveArtWorkNextToMedia": "Simpan artwork di samping media",
+    "saveArtWorkNextToMediaDesc": "Menyimpan artwork ke dalam folder media akan menempatkannya di lokasi yang mudah untuk diedit.",
+    "select": "Pilih",
+    "newLibrary": "Pustaka Baru",
+    "contentType": "Tipe Konten",
+    "metadataImageLongPressTouch": "Tekan lama untuk menghapus gambar",
+    "metadataImageLongPressClick": "Klik kanan untuk menghapus gambar",
+    "primary": "Utama",
+    "selectFolderToAdd": "Pilih folder untuk ditambahkan",
+    "systemRootFolder": "Folder root sistem",
+    "recentlyAdded": "Baru ditambahkan",
+    "recentRequests": "Permintaan terbaru",
+    "trending": "Sedang tren",
+    "popularMovies": "Film populer",
+    "popularSeries": "Serial populer",
+    "expectedMovies": "Film yang ditunggu",
+    "expectedSeries": "Serial yang ditunggu",
+    "requestConfiguration": "Konfigurasi permintaan",
+    "qualityProfile": "Profil kualitas",
+    "selectProfile": "Pilih profil",
+    "rootFolder": "Folder root",
+    "selectFolder": "Pilih folder",
+    "tags": "Tag",
+    "noTags": "Tidak ada tag",
+    "requestAs": "Minta sebagai",
+    "submitRequest": "Kirim permintaan",
+    "noOverviewAvailable": "Tidak ada ikhtisar yang tersedia.",
+    "downloading": "mengunduh",
+    "request": "Permintaan",
+    "viewRequest": "Lihat permintaan",
+    "email": "Email",
+    "username": "Nama Pengguna",
+    "ok": "OK",
+    "seerr": "Seerr",
+    "seerrNotConfigured": "Seerr belum dikonfigurasi",
+    "seerrLoadingUser": "Memuat pengguna",
+    "seerrUnknownUser": "Pengguna Seerr tidak dikenal",
+    "seerrServer": "Server Seerr",
+    "seerrAuthenticateLocal": "Autentikasi Seerr (lokal)",
+    "seerrAnimeSeriesNote": "* Seri ini adalah anime.",
+    "seerrAutoApproveNotice": "Permintaan yang Anda ajukan disetujui secara otomatis.",
+    "seerrPermissionDenied": "Anda tidak memiliki izin untuk meminta jenis media ini.",
+    "seerrRequestStatusPending": "Tertunda",
+    "seerrRequestStatusApproved": "Disetujui",
+    "seerrRequestStatusDeclined": "Ditolak",
+    "seerrRequestStatusFailed": "Gagal",
+    "seerrRequestStatusCompleted": "Selesai",
+    "seerrMediaStatusProcessing": "Memproses",
+    "seerrMediaStatusPartiallyAvailable": "Sebagian Tersedia",
+    "seerrMediaStatusAvailable": "Tersedia",
+    "seerrMediaStatusBlacklisted": "Dalam Daftar Hitam",
+    "seerrMediaStatusDeleted": "Dihapus",
+    "seerrAuthApiKey": "Kunci API",
+    "seerrAuthLocal": "Lokal",
+    "seerrAuthJellyfin": "Jellyfin",
+    "seerrUserFetchFailed": "Gagal mengambil data pengguna dari Seerr",
+    "seerrEnterServerUrlFirst": "Masukkan URL server terlebih dahulu",
+    "seerrApiKeySaved": "Kunci API Seerr tersimpan",
+    "seerrLoggedIn": "Masuk ke Seerr",
+    "seerrCustomHeaders": "Header Kustom Seerr",
+    "seerrHeader": "Header",
+    "seerrHeaderValue": "Nilai",
+    "emailUsername": "Email/Nama Pengguna",
+    "discover": "Jelajahi",
+    "sponsor": "Sponsor",
+    "sponsorMessage": "Jika Anda menikmati menggunakan Fladder, pertimbangkan untuk menjadi sponsor proyek ini guna mendukung pengembangan dan perbaikan yang berkelanjutan. Terima kasih atas dukungan Anda!",
+    "min": "min",
+    "max": "maks",
+    "manageRequest": "Kelola permintaan",
+    "requestAll": "Minta semua",
+    "openInSeerr": "Buka di Seerr",
+    "openInSonarr": "Buka di Sonarr",
+    "openInRadarr": "Buka di Radarr",
+    "removeFromSonarr": "Hapus dari Sonarr",
+    "removeFromRadarr": "Hapus dari Radarr",
+    "markAllSeasonsAsAvailable": "Tandai semua musim sebagai tersedia",
+    "markAsAvailable": "Tandai sebagai tersedia",
+    "deleteData": "Hapus data",
+    "removeSeriesFromSonarrConfirm": "Hapus seri ini dari Sonarr? Ini akan menghapus semua data TERMASUK file.",
+    "removeMovieFromRadarrConfirm": "Hapus film ini dari Radarr? Ini akan menghapus semua data TERMASUK file.",
+    "removedFromSonarr": "Dihapus dari Sonarr",
+    "removedFromRadarr": "Dihapus dari Radarr",
+    "markAllSeasonsAsAvailableConfirm": "Tandai semua musim sebagai tersedia?",
+    "markAsAvailableConfirm": "Tandai sebagai tersedia?",
+    "markedAsAvailable": "Ditandai sebagai tersedia",
+    "dataDeleted": "Data dihapus",
+    "approve": "Setujui",
+    "decline": "Tolak",
+    "processing": "Memproses",
+    "seerrDetails": "Detail Seerr",
+    "watch": "Tonton",
+    "now": "Sekarang",
+    "noPrograms": "Tidak ada program yang tersedia",
+    "switchChannel": "Ganti saluran",
+    "activeTvChannels": "Saluran TV Aktif",
+    "enableNewTVLayout": "Aktifkan tata letak TV baru",
+    "enableNewTVLayoutDesc": "Tampilkan banner gaya TV yang lebih besar di dasbor. Ini akan menjadi tata letak default pada rilis mendatang.",
+    "appLockTitle": "Atur metode masuk untuk {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "collectionFolder": "{count, plural, one{Folder koleksi} other{Folder koleksi}}",
+    "@collectionFolder": {
+        "description": "Collection folder (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAdded": "Baru ditambahkan di {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "audio": "{count, plural, one{Audio} other{Audio}}",
+    "@audio": {
+        "description": "Audio (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "chapter": "{count, plural, one{Chapter} other{Chapter}}",
+    "@chapter": {
+        "description": "chapter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "continuePage": "Lanjutkan - halaman {page}",
+    "@continuePage": {
+        "description": "Continue - page 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "deleteFileFromSystem": "Menghapus item ini {item} akan menghapusnya dari sistem file maupun perpustakaan media Anda. Apakah Anda yakin ingin melanjutkan?",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteItem": "Hapus {item}?",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "director": "{count, plural, other{Sutradara} two{Sutradara}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "endsAt": "berakhir pada {date}",
+    "@endsAt": {
+        "description": "endsAt",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "episode": "{count, plural, other{Episode} one{Episode} }",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "filter": "{count, plural, other{Filter} one{Filter}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "genre": "{count, plural, one{Genre} other{Genre}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePerson": "{count, plural, one{Orang} other{Orang}}",
+    "@mediaTypePerson": {
+        "description": "Person (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePhoto": "{count, plural, one{Foto} other{Foto}}",
+    "@mediaTypePhoto": {
+        "description": "Photo (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePhotoAlbum": "{count, plural, one{Album Foto} other{Album Foto}}",
+    "@mediaTypePhotoAlbum": {
+        "description": "Photo Album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePlaylist": "{count, plural, one{Daftar Putar} other{Daftar Putar}}",
+    "@mediaTypePlaylist": {
+        "description": "Playlist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeSeason": "{count, plural, one{Musim} other{Musim}}",
+    "@mediaTypeSeason": {
+        "description": "Season (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeSeries": "{count, plural, one{Serial} other{Serial}}",
+    "@mediaTypeSeries": {
+        "description": "Series (plural, same singular/plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeTV": "{count, plural, one{Saluran TV} other{Saluran TV}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "metaDataSavedFor": "Metadata disimpan untuk {item}",
+    "@metaDataSavedFor": {
+        "description": "metaDataSavedFor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "minutes": "{count, plural, other{Menit} one{Menit} }",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "moreFrom": "Lainnya dari {info}",
+    "@moreFrom": {
+        "description": "More from",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "musicAlbum": "{count, plural, one{Album} other{Album}}",
+    "@musicAlbum": {
+        "description": "Music album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "page": "Halaman {index}",
+    "@page": {
+        "description": "page",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "play": "Putar {item}",
+    "@play": {
+        "description": "Play with",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "playFrom": "Putar dari {name}",
+    "@playFrom": {
+        "description": "playFrom",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playFromStart": "Putar {name} dari awal",
+    "@playFromStart": {
+        "description": "speel vanaf het begin",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playLabel": "Putar",
+    "rating": "{count, plural, other{Rating} one{Rating}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "read": "Baca {item}",
+    "@read": {
+        "description": "read",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "readFromStart": "Baca {item} dari awal",
+    "@readFromStart": {
+        "description": "Read book from start",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "refreshPopup": "Segarkan - {name}",
+    "@refreshPopup": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "resume": "Lanjutkan {item}",
+    "@resume": {
+        "description": "resume",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "runtimeRangeMinutes": "{min} - {max} menit",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} menit",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Penyedia ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "scanYourFingerprintToAuthenticate": "Pindai sidik jari Anda untuk mengautentikasi {user}",
+    "@scanYourFingerprintToAuthenticate": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "scanningName": "Memindai - {name}…",
+    "@scanningName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "season": "{count, plural, other{Musim} one{Musim} }",
+    "@season": {
+        "description": "season",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "seconds": "{count, plural, other{Detik} one{Detik}}",
+    "@seconds": {
+        "description": "second",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectedWith": "Terpilih {info}",
+    "@selectedWith": {
+        "description": "selected",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "setIdentityTo": "Ubah identitas menjadi {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "studio": "{count, plural, other{Studio} one{Studio}}",
+    "@studio": {
+        "description": "studio",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "syncDeleteItemDesc": "Hapus semua data yang disinkronkan untuk {item}?",
+    "@syncDeleteItemDesc": {
+        "description": "Sync delete item pop-up window",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "tag": "{count, plural, one{Tag} other{Tag}}",
+    "@tag": {
+        "description": "tag",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAndAnnotation": "{minutes} dan {seconds}",
+    "@timeAndAnnotation": {
+        "description": "timeAndAnnotation",
+        "placeholders": {
+            "minutes": {
+                "type": "String"
+            },
+            "seconds": {
+                "type": "String"
+            }
+        }
+    },
+    "totalSize": "Ukuran total: {size}",
+    "@totalSize": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "type": "{count, plural, other{Tipe} one{Tipe}}",
+    "@type": {
+        "description": "type",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "video": "{count, plural, one{Video} other{Video}}",
+    "@video": {
+        "description": "Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "writer": "{count, plural, other{Penulis} two{Penulis}}",
+    "@writer": {
+        "description": "writer",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "year": "{count, plural, other{Tahun} one{Tahun}}",
+    "@year": {
+        "description": "year",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addItemsToCollection": "Tambahkan {itemLength} item ke koleksi",
+    "@addItemsToCollection": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addedToCollection": "Ditambahkan ke koleksi {collectionName}",
+    "@addedToCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "removedFromCollection": "Dihapus dari koleksi {collectionName}",
+    "@removedFromCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "addItemsToPlaylist": "Tambahkan {itemLength} item ke daftar putar",
+    "@addItemsToPlaylist": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addedToPlaylist": "Ditambahkan ke daftar putar {playlistName}",
+    "@addedToPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAddItemForSyncing": "{item} telah ditambahkan untuk disinkronkan",
+    "@syncAddItemForSyncing": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "startedSyncingItem": "Sinkronisasi {item} dimulai",
+    "@startedSyncingItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "unableToSyncItem": "Gagal menyinkronkan {item}, terjadi kesalahan",
+    "@unableToSyncItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutVersion": "Versi: {version}",
+    "@aboutVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutBuild": "Build: {buildNumber}",
+    "@aboutBuild": {
+        "placeholders": {
+            "buildNumber": {
+                "type": "String"
+            }
+        }
+    },
+    "removeFilterForLibrary": "Hapus {filter}?",
+    "@removeFilterForLibrary": {
+        "description": "removeFilterForLibrary",
+        "placeholders": {
+            "filter": {
+                "type": "String"
+            }
+        }
+    },
+    "skipButtonLabel": "Lewati {segment}",
+    "@skipButtonLabel": {
+        "placeholders": {
+            "segment": {
+                "type": "String"
+            }
+        }
+    },
+    "downloadFile": "Unduh {type}",
+    "@downloadFile": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "guestActor": "{count, plural, other{Aktor Tamu} one{Aktor Tamu}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "newReleaseFoundTitle": "Pembaruan {newRelease} tersedia!",
+    "@newReleaseFoundTitle": {
+        "placeholders": {
+            "newRelease": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAllItemsTitle": "Sinkronkan semua item dari {itemName}?",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAllItemsDesc": "Ini akan menyinkronkan ({itemCount}) item dari '{itemName}' ke perangkat Anda.\nProses ini mungkin memerlukan waktu tergantung pada jumlah itemnya.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "Hapus semua item yang telah disinkronkan dari {itemName}?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsDesc": "Ini akan menghapus semua item yang telah disinkronkan dari '{itemName}'.\nTindakan ini bersifat permanen dan Anda perlu menyinkronkan ulang ({itemCount}) file.",
+    "@syncDeleteAllItemsDesc": {
+        "description": "syncDeleteAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "volumeIndicator": "Volume: {volume}",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    },
+    "speedIndicator": "Kecepatan pemutaran: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "nextUpInCount": "Berikutnya dalam {seconds} detik",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "hours": "{count, plural, one{Jam} other{Jam}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{Minggu} other{Minggu}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{Bulan} other{Bulan}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{Tahun} other{Tahun}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "days": "{count, plural, one{Hari} other{Hari}}",
+    "@days": {
+        "description": "Pluralization for days (keeps existing 'days' getter)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "4"
+            }
+        }
+    },
+    "timeAgo": "{time} yang lalu",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "Terakhir dijalankan {date}, memakan waktu {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerIntervalDesc": "Setiap {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "Harian pada {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Mingguan pada {day} pukul {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Batas waktu: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserTitle": "Hapus pengguna {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Aksi ini akan secara permanen menghapus pengguna {user} beserta semua pengaturan yang terkait.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteLibraryConfirmMessage": "Apakah Anda yakin ingin menghapus {libraryName}?\nTindakan ini tidak dapat dibatalkan.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "metadataFetchers": "Pengambil metadata ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "imageFetchers": "Pengambil gambar ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "logo": "{count, plural, other{Logo} one{Logo}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, other{Latar Belakang} one{Latar Belakang}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectedPath": "Lokasi terpilih: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "requestQuotaStatus": "{remaining} dari {limit} tersisa (direset setiap {days} hari)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Batas permintaan untuk {mediaType} telah tercapai.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "loggedInAs": "Masuk sebagai {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "rootFolderDefaultLabel": "{folder} (Bawaan)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrConnectedToServer": "Terhubung ke server Seerr: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteSeerrDataConfirm": "Hapus semua file dari Seerr? Tindakan ini tidak dapat dibatalkan.\nJika data masih tersedia di {service}, data tersebut mungkin akan diimpor kembali.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "pendingRequests": "{count, plural, one{{count} permintaan tertunda} other{{count} permintaan tertunda}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "watchChannel": "Tonton {channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "switchChannelDesc": "Apakah Anda ingin menonton \"{programName}\" di {channelName}?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "specialFeature": "{count, plural, one{Fitur Khusus} other{Fitur Khusus}}",
+    "@specialFeature": {
+        "description": "special feature",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    }
+}

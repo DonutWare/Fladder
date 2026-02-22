@@ -1,12 +1,14 @@
-// ignore_for_file: invalid_annotation_target
-
 import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:xid/xid.dart';
 
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/util/application_info.dart';
+import 'package:fladder/util/string_extensions.dart';
 
 part 'credentials_model.freezed.dart';
 part 'credentials_model.g.dart';
@@ -28,9 +30,16 @@ abstract class CredentialsModel with _$CredentialsModel {
 
   Map<String, String> header(Ref ref) {
     final application = ref.read(applicationInfoProvider);
+    final leanbackMode = ref.read(argumentsStateProvider).leanBackMode;
+    final os = switch (application.platform) {
+      TargetPlatform.android => kIsWeb
+          ? "${application.platform.name.capitalize()} Web"
+          : (leanbackMode ? "${application.platform.name.capitalize()} TV" : application.platform.name.capitalize()),
+      _ => !kIsWeb ? application.platform.name.capitalize() : "${application.platform.name.capitalize()} Web",
+    };
     final headers = {
       'authorization':
-          'MediaBrowser Token="$token", Client="${application.name}", Device="${application.os}", DeviceId="$deviceId", Version="${application.version}"'
+          'MediaBrowser Token="$token", Client="${application.name}", Device="$os", DeviceId="$deviceId", Version="${application.version}"'
     };
     return headers;
   }

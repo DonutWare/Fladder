@@ -31,6 +31,9 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings;
   Map<VideoHotKeys, KeyCombination> get hotKeys;
   Screensaver get screensaver;
+  bool get enableSpeedBoost;
+  double get speedBoostRate;
+  bool get enableDoubleTapSeek;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -62,12 +65,15 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('audioDevice', audioDevice))
       ..add(DiagnosticsProperty('segmentSkipSettings', segmentSkipSettings))
       ..add(DiagnosticsProperty('hotKeys', hotKeys))
-      ..add(DiagnosticsProperty('screensaver', screensaver));
+      ..add(DiagnosticsProperty('screensaver', screensaver))
+      ..add(DiagnosticsProperty('enableSpeedBoost', enableSpeedBoost))
+      ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
+      ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek)';
   }
 }
 
@@ -94,7 +100,10 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       String? audioDevice,
       Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
       Map<VideoHotKeys, KeyCombination> hotKeys,
-      Screensaver screensaver});
+      Screensaver screensaver,
+      bool enableSpeedBoost,
+      double speedBoostRate,
+      bool enableDoubleTapSeek});
 }
 
 /// @nodoc
@@ -126,6 +135,9 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res> implements $VideoPlayerSettin
     Object? segmentSkipSettings = null,
     Object? hotKeys = null,
     Object? screensaver = null,
+    Object? enableSpeedBoost = null,
+    Object? speedBoostRate = null,
+    Object? enableDoubleTapSeek = null,
   }) {
     return _then(_self.copyWith(
       screenBrightness: freezed == screenBrightness
@@ -196,6 +208,18 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res> implements $VideoPlayerSettin
           ? _self.screensaver
           : screensaver // ignore: cast_nullable_to_non_nullable
               as Screensaver,
+      enableSpeedBoost: null == enableSpeedBoost
+          ? _self.enableSpeedBoost
+          : enableSpeedBoost // ignore: cast_nullable_to_non_nullable
+              as bool,
+      speedBoostRate: null == speedBoostRate
+          ? _self.speedBoostRate
+          : speedBoostRate // ignore: cast_nullable_to_non_nullable
+              as double,
+      enableDoubleTapSeek: null == enableDoubleTapSeek
+          ? _self.enableDoubleTapSeek
+          : enableDoubleTapSeek // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -310,7 +334,10 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             String? audioDevice,
             Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
             Map<VideoHotKeys, KeyCombination> hotKeys,
-            Screensaver screensaver)?
+            Screensaver screensaver,
+            bool enableSpeedBoost,
+            double speedBoostRate,
+            bool enableDoubleTapSeek)?
         $default, {
     required TResult orElse(),
   }) {
@@ -334,7 +361,10 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.audioDevice,
             _that.segmentSkipSettings,
             _that.hotKeys,
-            _that.screensaver);
+            _that.screensaver,
+            _that.enableSpeedBoost,
+            _that.speedBoostRate,
+            _that.enableDoubleTapSeek);
       case _:
         return orElse();
     }
@@ -372,7 +402,10 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             String? audioDevice,
             Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
             Map<VideoHotKeys, KeyCombination> hotKeys,
-            Screensaver screensaver)
+            Screensaver screensaver,
+            bool enableSpeedBoost,
+            double speedBoostRate,
+            bool enableDoubleTapSeek)
         $default,
   ) {
     final _that = this;
@@ -395,7 +428,10 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.audioDevice,
             _that.segmentSkipSettings,
             _that.hotKeys,
-            _that.screensaver);
+            _that.screensaver,
+            _that.enableSpeedBoost,
+            _that.speedBoostRate,
+            _that.enableDoubleTapSeek);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -432,7 +468,10 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             String? audioDevice,
             Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
             Map<VideoHotKeys, KeyCombination> hotKeys,
-            Screensaver screensaver)?
+            Screensaver screensaver,
+            bool enableSpeedBoost,
+            double speedBoostRate,
+            bool enableDoubleTapSeek)?
         $default,
   ) {
     final _that = this;
@@ -455,7 +494,10 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.audioDevice,
             _that.segmentSkipSettings,
             _that.hotKeys,
-            _that.screensaver);
+            _that.screensaver,
+            _that.enableSpeedBoost,
+            _that.speedBoostRate,
+            _that.enableDoubleTapSeek);
       case _:
         return null;
     }
@@ -482,7 +524,10 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
       this.audioDevice,
       final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings = defaultSegmentSkipValues,
       final Map<VideoHotKeys, KeyCombination> hotKeys = const {},
-      this.screensaver = Screensaver.logo})
+      this.screensaver = Screensaver.logo,
+      this.enableSpeedBoost = false,
+      this.speedBoostRate = 2.0,
+      this.enableDoubleTapSeek = true})
       : _allowedOrientations = allowedOrientations,
         _segmentSkipSettings = segmentSkipSettings,
         _hotKeys = hotKeys,
@@ -556,6 +601,15 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
   @override
   @JsonKey()
   final Screensaver screensaver;
+  @override
+  @JsonKey()
+  final bool enableSpeedBoost;
+  @override
+  @JsonKey()
+  final double speedBoostRate;
+  @override
+  @JsonKey()
+  final bool enableDoubleTapSeek;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -592,12 +646,15 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
       ..add(DiagnosticsProperty('audioDevice', audioDevice))
       ..add(DiagnosticsProperty('segmentSkipSettings', segmentSkipSettings))
       ..add(DiagnosticsProperty('hotKeys', hotKeys))
-      ..add(DiagnosticsProperty('screensaver', screensaver));
+      ..add(DiagnosticsProperty('screensaver', screensaver))
+      ..add(DiagnosticsProperty('enableSpeedBoost', enableSpeedBoost))
+      ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
+      ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek)';
   }
 }
 
@@ -625,7 +682,10 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res> implements $VideoP
       String? audioDevice,
       Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
       Map<VideoHotKeys, KeyCombination> hotKeys,
-      Screensaver screensaver});
+      Screensaver screensaver,
+      bool enableSpeedBoost,
+      double speedBoostRate,
+      bool enableDoubleTapSeek});
 }
 
 /// @nodoc
@@ -657,6 +717,9 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res> implements _$VideoPlayerSett
     Object? segmentSkipSettings = null,
     Object? hotKeys = null,
     Object? screensaver = null,
+    Object? enableSpeedBoost = null,
+    Object? speedBoostRate = null,
+    Object? enableDoubleTapSeek = null,
   }) {
     return _then(_VideoPlayerSettingsModel(
       screenBrightness: freezed == screenBrightness
@@ -727,6 +790,18 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res> implements _$VideoPlayerSett
           ? _self.screensaver
           : screensaver // ignore: cast_nullable_to_non_nullable
               as Screensaver,
+      enableSpeedBoost: null == enableSpeedBoost
+          ? _self.enableSpeedBoost
+          : enableSpeedBoost // ignore: cast_nullable_to_non_nullable
+              as bool,
+      speedBoostRate: null == speedBoostRate
+          ? _self.speedBoostRate
+          : speedBoostRate // ignore: cast_nullable_to_non_nullable
+              as double,
+      enableDoubleTapSeek: null == enableDoubleTapSeek
+          ? _self.enableDoubleTapSeek
+          : enableDoubleTapSeek // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }

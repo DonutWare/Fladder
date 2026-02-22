@@ -71,26 +71,34 @@ extension ListExtensions<T> on List<T> {
   }
 
   T? nextOrNull(T item) {
-    int indexOf = this.indexOf(item);
-    if (indexOf + 1 >= length) return null;
-    return elementAtOrNull(indexOf + 1);
+    final indexOf = this.indexOf(item);
+    if (indexOf == -1) return null;
+    final nextIndex = indexOf + 1;
+    if (nextIndex >= length) return null;
+    return elementAtOrNull(nextIndex);
   }
 
   T? previousOrNull(T item) {
-    int indexOf = this.indexOf(item);
-    if (indexOf - 1 < 0) return null;
-    return elementAtOrNull(indexOf - 1);
+    final indexOf = this.indexOf(item);
+    if (indexOf == -1) return null;
+    final prevIndex = indexOf - 1;
+    if (prevIndex < 0) return null;
+    return elementAtOrNull(prevIndex);
   }
 
   T? nextWhereOrNull(bool Function(T element) test) {
     final indexOf = indexWhere((element) => test(element));
-    if (indexOf + 1 < length) return null;
-    return elementAtOrNull(indexOf + 1);
+    if (indexOf == -1) return null;
+    final nextIndex = indexOf + 1;
+    if (nextIndex >= length) return null;
+    return elementAtOrNull(nextIndex);
   }
 
   T? previousWhereOrNull(bool Function(T element) test) {
     final indexOf = indexWhere((element) => test(element));
-    if (indexOf - 1 < length) return null;
-    return elementAtOrNull(indexOf - 1);
+    if (indexOf == -1) return null;
+    final prevIndex = indexOf - 1;
+    if (prevIndex < 0) return null;
+    return elementAtOrNull(prevIndex);
   }
 }

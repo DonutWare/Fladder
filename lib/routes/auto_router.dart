@@ -115,6 +115,7 @@ final List<AutoRoute> _controlPanelRoutes = [
   AutoRoute(page: ControlUsersRoute.page, path: 'user-management', maintainState: false),
   AutoRoute(page: ControlUserEditRoute.page, path: 'edit-user', maintainState: false),
   AutoRoute(page: ControlLibrariesRoute.page, path: 'library-management', maintainState: false),
+  AutoRoute(page: ControlLiveTvRoute.page, path: 'live-tv', maintainState: false),
 ];
 
 class LockScreenGuard extends AutoRouteGuard {

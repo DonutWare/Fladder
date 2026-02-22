@@ -70,7 +70,7 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
       ),
       onRefresh: () => ref.read(providerId.notifier).fetchDetails(widget.item),
       backDrops: details?.images,
-      content: (context, padding) => details != null
+      content: (detailsContext, padding) => details != null
           ? Padding(
               padding: const EdgeInsets.only(bottom: 64),
               child: Column(
@@ -85,7 +85,7 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                             item: currentEpisode,
                             onPressed: (restart) async {
                               await currentEpisode.play(
-                                context,
+                                detailsContext,
                                 ref,
                                 startPosition: restart ? Duration.zero : null,
                               );
@@ -93,7 +93,7 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                             },
                             onLongPressed: (restart) async {
                               await currentEpisode.play(
-                                context,
+                                detailsContext,
                                 ref,
                                 showPlaybackOption: true,
                                 startPosition: restart ? Duration.zero : null,
@@ -129,12 +129,12 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                         SelectableIconButton(
                           onPressed: () {
                             showBottomSheetPill(
-                              context: context,
+                              context: detailsContext,
                               item: details,
                               content: (context, scrollController) => ListView(
                                 controller: scrollController,
                                 shrinkWrap: true,
-                                children: details.generateActions(context, ref, exclude: {
+                                children: details.generateActions(detailsContext, ref, exclude: {
                                   ItemActions.openParent,
                                   ItemActions.details
                                 }).listTileItems(context, useIcons: true),
@@ -142,6 +142,7 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                             );
                           },
                           selected: false,
+                          refreshOnEnd: false,
                           icon: IconsaxPlusLinear.more,
                         ),
                       ],
@@ -218,20 +219,22 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                   if (details.specialFeatures?.isNotEmpty ?? false)
                     SpecialFeaturesRow(
                         contentPadding: padding,
-                        label: context.localized.specialFeature(details.specialFeatures?.length ?? 2),
+                        label: detailsContext.localized.specialFeature(details.specialFeatures?.length ?? 2),
                         specialFeatures: details.specialFeatures ?? []),
                   if (details.related.isNotEmpty)
-                    PosterRow(posters: details.related, contentPadding: padding, label: context.localized.related),
+                    PosterRow(
+                        posters: details.related, contentPadding: padding, label: detailsContext.localized.related),
                   if (details.seerrRecommended.isNotEmpty)
                     SeerrPosterRow(
                       posters: details.seerrRecommended,
-                      label: "${context.localized.discover} ${context.localized.recommended.toLowerCase()}",
+                      label:
+                          "${detailsContext.localized.discover} ${detailsContext.localized.recommended.toLowerCase()}",
                       contentPadding: padding,
                     ),
                   if (details.seerrRelated.isNotEmpty)
                     SeerrPosterRow(
                       posters: details.seerrRelated,
-                      label: "${context.localized.discover} ${context.localized.related.toLowerCase()}",
+                      label: "${detailsContext.localized.discover} ${detailsContext.localized.related.toLowerCase()}",
                       contentPadding: padding,
                     ),
                   if (details.overview.externalUrls?.isNotEmpty == true)

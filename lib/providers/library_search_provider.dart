@@ -27,7 +27,7 @@ import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -597,7 +597,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     if (itemsToPlay.isNotEmpty) {
       await itemsToPlay.playLibraryItems(context, ref, shuffle: shuffle);
     } else {
-      fladderSnackbar(context, title: context.localized.libraryFetchNoItemsFound);
+      FladderSnack.show(context.localized.libraryFetchNoItemsFound, context: context);
     }
   }
 
@@ -672,7 +672,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         selected: selected?.id,
       ));
     } else {
-      fladderSnackbar(context, title: context.localized.libraryFetchNoItemsFound);
+      FladderSnack.show(context.localized.libraryFetchNoItemsFound, context: context);
     }
   }
 

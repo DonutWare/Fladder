@@ -12,19 +12,26 @@ String timePickerString(BuildContext context, Duration? duration) {
   if (duration == null) return context.localized.never;
   if (duration.inSeconds <= 0) return context.localized.immediately;
 
-  final minutes = duration.inMinutes;
+  final days = duration.inDays;
+  final hours = duration.inHours % 24;
+  final minutes = duration.inMinutes % 60;
   final seconds = duration.inSeconds % 60;
 
+  final dayString = "$days ${context.localized.days(days)}";
+  final hourString = "$hours ${context.localized.hours(hours)}";
   final minutesString = "$minutes ${context.localized.minutes(minutes)}";
   final secondsString = "$seconds ${context.localized.seconds(seconds)}";
 
-  if (minutes > 0 && seconds > 0) {
-    return context.localized.timeAndAnnotation(minutesString, secondsString);
-  } else if (minutes > 0) {
-    return minutesString;
-  } else {
-    return secondsString;
-  }
+  final parts = <String>[];
+  if (days > 0) parts.add(dayString);
+  if (hours > 0) parts.add(hourString);
+  if (minutes > 0) parts.add(minutesString);
+  if (seconds > 0) parts.add(secondsString);
+
+  if (parts.isEmpty) return context.localized.immediately;
+  if (parts.length == 1) return parts.first;
+
+  return parts.reduce((a, b) => context.localized.timeAndAnnotation(a, b));
 }
 
 Future<Duration?> showSimpleDurationPicker({

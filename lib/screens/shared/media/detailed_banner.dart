@@ -83,7 +83,7 @@ class _DetailedBannerState extends ConsumerState<DetailedBanner> {
                         valueListenable: selectedPoster,
                         builder: (context, value, child) => OverviewHeader(
                           name: value.parentBaseModel.name,
-                          subTitle: value.label(context),
+                          subTitle: value.label(context.localized),
                           image: value.getPosters,
                           logoAlignment: AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone
                               ? Alignment.center

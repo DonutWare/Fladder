@@ -10,7 +10,7 @@ import 'package:fladder/screens/control_panel/control_user_edit/control_user_edi
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_parental_control.dart';
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_password.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/user_icon.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/filled_button_await.dart';
@@ -64,9 +64,9 @@ class _ControlUserEditPageState extends ConsumerState<ControlUserEditPage> {
                   onPressed: () async {
                     final response = await provider.saveUserPolicy();
                     if (response == null) {
-                      fladderSnackbar(context, title: context.localized.saved);
+                      FladderSnack.show(context.localized.saved, context: context);
                     } else {
-                      fladderSnackbar(context, title: response);
+                      FladderSnack.show(response, context: context);
                     }
                   },
                   child: Text(context.localized.save),

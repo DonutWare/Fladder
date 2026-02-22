@@ -9,6 +9,7 @@ import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/fladder_logo.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 
 @RoutePage()
 class SplashScreen extends ConsumerStatefulWidget {
@@ -62,11 +63,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: FractionallySizedBox(
-          heightFactor: 0.4,
-          child: FladderLogo(),
+    return const NotificationManagerInitializer(
+      child: Scaffold(
+        body: Center(
+          child: FractionallySizedBox(
+            heightFactor: 0.4,
+            child: FladderLogo(),
+          ),
         ),
       ),
     );

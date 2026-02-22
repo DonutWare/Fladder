@@ -146,7 +146,7 @@ class _GuideOverviewState extends ConsumerState<_GuideOverview> {
                       currentProgram?.name ?? "",
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
-                    Text(currentProgram?.subLabel(context) ?? ""),
+                    Text(currentProgram?.subLabel(context.localized) ?? ""),
                     const Divider(),
                     Expanded(
                       child: Row(

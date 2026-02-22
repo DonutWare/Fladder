@@ -29,8 +29,8 @@ import 'package:fladder/widgets/shared/pull_to_refresh.dart';
 Future<Color?> getDominantColor(ImageProvider imageProvider) async {
   final paletteGenerator = await PaletteGeneratorMaster.fromImageProvider(
     imageProvider,
-    size: const Size(200, 200),
-    maximumColorCount: 20,
+    size: const Size(16, 16),
+    maximumColorCount: 2,
   );
 
   return paletteGenerator.dominantColor?.color;
@@ -62,6 +62,7 @@ class DetailScaffold extends ConsumerStatefulWidget {
 }
 
 class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
+  late ItemBaseModel? item = widget.item;
   List<ImageData>? lastImages;
   ImageData? backgroundImage;
   Color? dominantColor;
@@ -74,6 +75,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     super.didUpdateWidget(oldWidget);
     updateImage();
     _updateDominantColor();
+    if (widget.item != null && widget.item?.id != item?.id) {
+      item = widget.item;
+    }
   }
 
   void updateImage() {
@@ -85,7 +89,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
 
   Future<void> _updateDominantColor() async {
     if (!ref.read(clientSettingsProvider.select((value) => value.deriveColorsFromItem))) return;
-    final newImage = widget.item?.getPosters?.logo ?? widget.item?.getPosters?.primary ?? backgroundImage;
+    final newImage = widget.item?.getPosters?.logo;
     if (newImage == null || identical(newImage, _lastColorImage)) return;
     _lastColorImage = newImage;
 
@@ -120,9 +124,6 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
         : null;
     final amoledBlack = ref.watch(clientSettingsProvider.select((value) => value.amoledBlack));
     final amoledOverwrite = amoledBlack ? Colors.black : null;
-
-    final useTVExpandedLayout = ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout)) &&
-        AdaptiveLayout.viewSizeOf(context) == ViewSize.television;
 
     final themeData =
         newColorScheme != null && ref.watch(clientSettingsProvider.select((value) => value.deriveColorsFromItem))
@@ -178,22 +179,18 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: EdgeInsets.only(
-                                left: (sideBarPadding - 25).clamp(0, double.infinity), top: topBarPadding),
+                            padding: EdgeInsets.only(left: sideBarPadding / 1.5, top: topBarPadding),
                             child: RepaintBoundary(
-                              child: FadeEdges(
-                                topFade: topBarPadding > 0 ? 0.1 : 0.0,
-                                leftFade:
-                                    AdaptiveLayout.layoutModeOf(context) != LayoutMode.single && !useTVExpandedLayout
-                                        ? 0.05
-                                        : 0.0,
-                                bottomFade: 0.3,
-                                child: ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                    minWidth: double.infinity,
-                                    minHeight: minHeight - 20,
-                                    maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
-                                  ),
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minWidth: double.infinity,
+                                  minHeight: minHeight - 22,
+                                  maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
+                                ),
+                                child: FadeEdges(
+                                  leftFade: sideBarPadding > 0 ? 0.05 : 0.0,
+                                  topFade: topBarPadding > 0 ? 0.1 : 0.0,
+                                  bottomFade: 0.2,
                                   child: FadeInImage(
                                     placeholder: ResizeImage(
                                       backgroundImage!.imageProvider,
@@ -295,18 +292,18 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  if (widget.item != null) ...[
-                                    ref.watch(syncedItemProvider(widget.item)).when(
+                                  if (item != null) ...[
+                                    ref.watch(syncedItemProvider(item)).when(
                                           error: (error, stackTrace) => const SizedBox.shrink(),
                                           data: (syncedItem) {
                                             if (syncedItem == null &&
                                                 ref.read(userProvider.select(
                                                   (value) => value?.canDownload ?? false,
                                                 )) &&
-                                                widget.item?.syncAble == true) {
+                                                item?.syncAble == true) {
                                               return IconButton(
                                                 onPressed: () =>
-                                                    ref.read(syncProvider.notifier).addSyncItem(context, widget.item!),
+                                                    ref.read(syncProvider.notifier).addSyncItem(context, item!),
                                                 icon: const Icon(
                                                   IconsaxPlusLinear.arrow_down_2,
                                                 ),
@@ -314,7 +311,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                             } else if (syncedItem != null) {
                                               return IconButton(
                                                 onPressed: () => showSyncItemDetails(context, syncedItem, ref),
-                                                icon: SyncButton(item: widget.item!, syncedItem: syncedItem),
+                                                icon: SyncButton(item: item!, syncedItem: syncedItem),
                                               );
                                             }
                                             return const SizedBox.shrink();
@@ -329,7 +326,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                             tooltip: context.localized.moreOptions,
                                             enabled: newActions?.isNotEmpty == true,
                                             icon: Icon(
-                                              widget.item!.type.icon,
+                                              item!.type.icon,
                                               color: Theme.of(context).colorScheme.onSurface,
                                             ),
                                             itemBuilder: (context) => newActions?.popupMenuItems(useIcons: true) ?? [],
@@ -345,7 +342,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                               ),
                                             ),
                                             icon: Icon(
-                                              widget.item!.type.icon,
+                                              item!.type.icon,
                                             ),
                                           );
                                         }

@@ -33,7 +33,7 @@ class ItemStreamModel extends ItemBaseModel with ItemStreamModelMappable {
     required super.canDownload,
     super.jellyType,
   });
-  factory ItemStreamModel.fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory ItemStreamModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return switch (item.type) {
       BaseItemKind.episode => EpisodeModel.fromBaseDto(item, ref),
       BaseItemKind.movie => MovieModel.fromBaseDto(item, ref),
@@ -41,7 +41,7 @@ class ItemStreamModel extends ItemBaseModel with ItemStreamModelMappable {
     };
   }
 
-  factory ItemStreamModel._fromBaseDto(dto.BaseItemDto item, Ref ref) {
+  factory ItemStreamModel._fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return ItemStreamModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -50,12 +50,14 @@ class ItemStreamModel extends ItemBaseModel with ItemStreamModelMappable {
       userData: UserData.fromDto(item.userData),
       parentId: item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       primaryRatio: item.primaryImageAspectRatio,
-      parentImages: ImagesData.fromBaseItemParent(item, ref),
+      parentImages: ref != null ? ImagesData.fromBaseItemParent(item, ref) : null,
       canDelete: item.canDelete,
       canDownload: item.canDownload,
-      mediaStreams: MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref),
+      mediaStreams: ref != null
+          ? MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref)
+          : MediaStreamsModel(versionStreams: []),
     );
   }
 

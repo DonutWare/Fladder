@@ -72,7 +72,7 @@ class FavouritesScreen extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        label: e.key.label(context),
+                        label: e.key.label(context.localized),
                         posters: e.value,
                       ),
                     ),

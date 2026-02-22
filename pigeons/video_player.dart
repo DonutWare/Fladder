@@ -212,6 +212,8 @@ abstract class VideoPlayerApi {
 
   void stop();
 
+  void setSubtitleSettings(SubtitleSettings settings);
+
   /// Sets the SyncPlay command state for the native player overlay.
   /// [processing] indicates if a SyncPlay command is being processed.
   /// [commandType] is the type of command (e.g., "Pause", "Unpause", "Seek", "Stop").
@@ -254,6 +256,28 @@ class PlaybackState {
     required this.completed,
     required this.failed,
     this.changeSource,
+  });
+}
+
+class SubtitleSettings {
+  final double fontSize;
+  final int fontWeight;
+  final double verticalOffset;
+  final int color;
+  final int outlineColor;
+  final double outlineSize;
+  final int backgroundColor;
+  final double shadow;
+
+  const SubtitleSettings({
+    required this.fontSize,
+    required this.fontWeight,
+    required this.verticalOffset,
+    required this.color,
+    required this.outlineColor,
+    required this.outlineSize,
+    required this.backgroundColor,
+    required this.shadow,
   });
 }
 

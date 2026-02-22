@@ -36,7 +36,7 @@ class PersonModel extends ItemBaseModel with PersonModelMappable {
     super.jellyType,
   });
 
-  static PersonModel fromBaseDto(BaseItemDto item, Ref ref) {
+  static PersonModel fromBaseDto(BaseItemDto item, Ref? ref) {
     return PersonModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -45,7 +45,7 @@ class PersonModel extends ItemBaseModel with PersonModelMappable {
       userData: UserData.fromDto(item.userData),
       parentId: item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref, getOriginalSize: true),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref, getOriginalSize: true) : null,
       primaryRatio: item.primaryImageAspectRatio,
       dateOfBirth: item.premiereDate,
       birthPlace: item.productionLocations ?? [],

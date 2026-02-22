@@ -203,7 +203,7 @@ class ChannelRowState extends ConsumerState<ChannelRow> {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Text(
-                                            program.subLabel(context),
+                                            program.subLabel(context.localized),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),

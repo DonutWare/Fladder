@@ -23,6 +23,7 @@ import 'package:fladder/wrappers/players/player_states.dart';
 class LibMPV extends BasePlayer {
   mpv.Player? _player;
   VideoController? _controller;
+  String _currentSubtitleCodec = '';
 
   final StreamController<PlayerState> _stateController = StreamController.broadcast();
   @override
@@ -187,6 +188,7 @@ class LibMPV extends BasePlayer {
     if (_player == null) return -1;
     final wantedSubtitle = model ?? playbackModel.defaultSubStream;
     if (wantedSubtitle == null) return -1;
+    _currentSubtitleCodec = wantedSubtitle.codec;
     if (wantedSubtitle.index == SubStreamModel.no().index) {
       await _player?.setSubtitleTrack(mpv.SubtitleTrack.no());
     } else {
@@ -237,6 +239,7 @@ class LibMPV extends BasePlayer {
               controller: _controller!,
               showOverlay: showOverlay,
               controlsKey: controlsKey,
+              currentSubtitleCodec: _currentSubtitleCodec,
             )
           : null;
 
@@ -261,11 +264,13 @@ class _VideoSubtitles extends ConsumerStatefulWidget {
   final VideoController controller;
   final bool showOverlay;
   final GlobalKey? controlsKey;
+  final String currentSubtitleCodec;
 
   const _VideoSubtitles({
     required this.controller,
     this.showOverlay = false,
     this.controlsKey,
+    this.currentSubtitleCodec = '',
   });
 
   @override
@@ -316,7 +321,21 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
 
     final bool isLibassEnabled = widget.controller.player.platform?.configuration.libass ?? false;
 
-    if (isLibassEnabled || text.isEmpty) {
+    if (isLibassEnabled) {
+      // On desktop (Linux/Windows/macOS), mpv burns ALL subtitle formats into the video when libass is enabled.
+      // On mobile (Android/iOS), only ASS/SSA subs are burned in by libass; other formats need the Flutter overlay.
+      final bool isDesktop = defaultTargetPlatform == TargetPlatform.linux ||
+          defaultTargetPlatform == TargetPlatform.windows ||
+          defaultTargetPlatform == TargetPlatform.macOS;
+      if (isDesktop) {
+        return const SizedBox.shrink();
+      }
+      final currentSubCodec = widget.currentSubtitleCodec.toLowerCase();
+      final bool isAssSubtitle = currentSubCodec.contains('ass') || currentSubCodec.contains('ssa');
+      if (isAssSubtitle || text.isEmpty) {
+        return const SizedBox.shrink();
+      }
+    } else if (text.isEmpty) {
       return const SizedBox.shrink();
     }
 

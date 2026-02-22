@@ -56,7 +56,7 @@ class OverviewModel with OverviewModelMappable {
     return people.where((element) => element.type == PersonKind.writer).toList();
   }
 
-  factory OverviewModel.fromBaseItemDto(BaseItemDto item, Ref ref) {
+  factory OverviewModel.fromBaseItemDto(BaseItemDto item, Ref? ref) {
     final trickPlayItem = item.trickplay;
     return OverviewModel(
       runTime: item.runTimeDuration,
@@ -70,11 +70,12 @@ class OverviewModel with OverviewModelMappable {
       dateAdded: item.dateCreated,
       trickPlayInfo:
           trickPlayItem != null && trickPlayItem.isNotEmpty ? TrickPlayModel.toTrickPlayMap(trickPlayItem) : null,
-      chapters: item.id != null ? Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], ref) : null,
+      chapters:
+          (ref != null && item.id != null) ? Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], ref) : null,
       studios: item.studios?.map((e) => Studio(id: e.id ?? "", name: e.name ?? "")).toList() ?? [],
       genreItems: item.genreItems?.map((e) => GenreItems(id: e.id ?? "", name: e.name ?? "")).toList() ?? [],
       externalUrls: ExternalUrls.fromDto(item.externalUrls ?? []),
-      people: Person.peopleFromDto(item.people ?? [], ref),
+      people: ref != null ? Person.peopleFromDto(item.people ?? [], ref) : <Person>[],
     );
   }
 }

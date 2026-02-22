@@ -154,7 +154,7 @@ class TvPlaybackModel extends PlaybackModel {
             endMs: prog.endDate.millisecondsSinceEpoch,
             overview: prog.overview,
             primaryPoster: prog.images?.primary?.path,
-            subTitle: context != null ? prog.subLabel(context) : null,
+            subTitle: context != null ? prog.subLabel(context.localized) : null,
           )
         : null;
 
@@ -177,7 +177,7 @@ class TvPlaybackModel extends PlaybackModel {
                           endMs: p.endDate.millisecondsSinceEpoch,
                           primaryPoster: p.images?.primary?.path,
                           overview: p.overview,
-                          subTitle: context != null ? p.subLabel(context) : null,
+                          subTitle: context != null ? p.subLabel(context.localized) : null,
                         ))
                     .toList()
                 : [],

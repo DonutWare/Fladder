@@ -78,7 +78,7 @@ class _SyncedEpisodeItemState extends ConsumerState<SyncedEpisodeItem> {
                       Opacity(
                         opacity: 0.75,
                         child: Text(
-                          widget.episode.seasonEpisodeLabel(context),
+                          widget.episode.seasonEpisodeLabel(context.localized),
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),

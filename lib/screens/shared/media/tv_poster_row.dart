@@ -23,6 +23,7 @@ import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 const Duration _kAnimationDuration = Duration(milliseconds: 200);
 
@@ -219,7 +220,6 @@ class _TVPosterItem extends ConsumerWidget {
                     ? FladderImage(
                         key: ValueKey(poster.tvPosterLarge?.key ?? "${poster.id}_large"),
                         image: poster.tvPosterLarge,
-                        disableBlur: true,
                         placeHolder: const _TVPosterPlaceholder(),
                       )
                     : FladderImage(
@@ -356,7 +356,7 @@ class _TVBottomInfo extends StatelessWidget {
                     Flexible(
                       child: ClickableText(
                         opacity: opacity,
-                        text: model.subTextShort(context) ?? "",
+                        text: model.subTextShort(context.localized) ?? "",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -366,7 +366,7 @@ class _TVBottomInfo extends StatelessWidget {
               ),
               ClickableText(
                 opacity: opacity,
-                text: model.subText?.isNotEmpty ?? false ? model.subTextShort(context) ?? "" : "",
+                text: model.subText?.isNotEmpty ?? false ? model.subTextShort(context.localized) ?? "" : "",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -377,7 +377,7 @@ class _TVBottomInfo extends StatelessWidget {
                 spacing: 12,
                 children: [
                   Text(
-                    episode.episodeLabel(context),
+                    episode.episodeLabel(context.localized),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),

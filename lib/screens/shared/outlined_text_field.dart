@@ -15,6 +15,7 @@ import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class OutlinedTextField extends ConsumerStatefulWidget {
   final String? label;
+  final String? subLabel;
   final FocusNode? focusNode;
   final bool autoFocus;
   final TextEditingController? controller;
@@ -40,6 +41,7 @@ class OutlinedTextField extends ConsumerStatefulWidget {
 
   const OutlinedTextField({
     this.label,
+    this.subLabel,
     this.focusNode,
     this.autoFocus = false,
     this.controller,
@@ -243,6 +245,20 @@ class _OutlinedTextFieldState extends ConsumerState<OutlinedTextField> {
             ),
           ),
         ),
+        if (widget.subLabel != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4, left: 6, right: 6),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                widget.subLabel!,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+              ),
+            ),
+          ),
         AnimatedFadeSize(
           child: widget.errorText != null
               ? Align(

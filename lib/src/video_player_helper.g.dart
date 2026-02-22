@@ -710,6 +710,82 @@ class PlaybackState {
   int get hashCode => Object.hashAll(_toList());
 }
 
+class SubtitleSettings {
+  SubtitleSettings({
+    required this.fontSize,
+    required this.fontWeight,
+    required this.verticalOffset,
+    required this.color,
+    required this.outlineColor,
+    required this.outlineSize,
+    required this.backgroundColor,
+    required this.shadow,
+  });
+
+  double fontSize;
+
+  int fontWeight;
+
+  double verticalOffset;
+
+  int color;
+
+  int outlineColor;
+
+  double outlineSize;
+
+  int backgroundColor;
+
+  double shadow;
+
+  List<Object?> _toList() {
+    return <Object?>[
+      fontSize,
+      fontWeight,
+      verticalOffset,
+      color,
+      outlineColor,
+      outlineSize,
+      backgroundColor,
+      shadow,
+    ];
+  }
+
+  Object encode() {
+    return _toList();  }
+
+  static SubtitleSettings decode(Object result) {
+    result as List<Object?>;
+    return SubtitleSettings(
+      fontSize: result[0]! as double,
+      fontWeight: result[1]! as int,
+      verticalOffset: result[2]! as double,
+      color: result[3]! as int,
+      outlineColor: result[4]! as int,
+      outlineSize: result[5]! as double,
+      backgroundColor: result[6]! as int,
+      shadow: result[7]! as double,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! SubtitleSettings || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(encode(), other.encode());
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => Object.hashAll(_toList())
+;
+}
+
 class TVGuideModel {
   TVGuideModel({
     required this.channels,
@@ -949,10 +1025,13 @@ class _PigeonCodec extends StandardMessageCodec {
     } else if (value is PlaybackState) {
       buffer.putUint8(141);
       writeValue(buffer, value.encode());
-    } else if (value is TVGuideModel) {
+    } else if (value is SubtitleSettings) {
       buffer.putUint8(142);
       writeValue(buffer, value.encode());
-    } else if (value is GuideChannel) {
+    } else if (value is TVGuideModel) {
+      buffer.putUint8(143);
+      writeValue(buffer, value.encode());
+    }    else if (value is GuideChannel) {
       buffer.putUint8(143);
       writeValue(buffer, value.encode());
     } else if (value is GuideProgram) {
@@ -995,6 +1074,8 @@ class _PigeonCodec extends StandardMessageCodec {
         return StartResult.decode(readValue(buffer)!);
       case 141:
         return PlaybackState.decode(readValue(buffer)!);
+      case 142:
+        return SubtitleSettings.decode(readValue(buffer)!);
       case 142:
         return TVGuideModel.decode(readValue(buffer)!);
       case 143:
@@ -1375,6 +1456,29 @@ class VideoPlayerApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[processing, commandType]);
     final List<Object?>? pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  Future<void> setSubtitleSettings(SubtitleSettings settings) async {
+    final String pigeonVar_channelName = 'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSubtitleSettings$pigeonVar_messageChannelSuffix';
+    final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[settings]);
+    final List<Object?>? pigeonVar_replyList =
+        await pigeonVar_sendFuture as List<Object?>?;
     if (pigeonVar_replyList == null) {
       throw _createConnectionError(pigeonVar_channelName);
     } else if (pigeonVar_replyList.length > 1) {

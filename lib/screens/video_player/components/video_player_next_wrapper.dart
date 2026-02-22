@@ -259,10 +259,10 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
                                           Flexible(
                                               child: Text(currentItem.title,
                                                   style: Theme.of(context).textTheme.displaySmall)),
-                                          if (currentItem.label(context) != null)
+                                          if (currentItem.label(context.localized) != null)
                                             Flexible(
                                               child: Text(
-                                                currentItem.label(context)!,
+                                                currentItem.label(context.localized)!,
                                                 maxLines: 2,
                                                 overflow: TextOverflow.fade,
                                                 style: Theme.of(context).textTheme.bodyMedium,
@@ -410,9 +410,9 @@ class _NextUpInformation extends StatelessWidget {
               item.title,
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            if (item.label(context) != null)
+            if (item.label(context.localized) != null)
               Text(
-                item.label(context)!,
+                item.label(context.localized)!,
               ),
             Flexible(
               child: AspectRatio(

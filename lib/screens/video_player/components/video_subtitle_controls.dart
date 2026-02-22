@@ -5,7 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/widget_extensions.dart';
@@ -57,8 +58,7 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
     final provider = ref.read(subtitleSettingsProvider.notifier);
     final controlsHidden = hideControls ? false : showPartial;
     return AnimatedContainer(
-      height: MediaQuery.sizeOf(context).width * 0.85,
-      width: MediaQuery.sizeOf(context).height * 0.7,
+      width: MediaQuery.sizeOf(context).width * 0.85,
       duration: const Duration(milliseconds: 250),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -114,6 +114,7 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                               ),
                               const SizedBox(width: 32),
                               ElevatedButton(
+                                autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
                                 onPressed: () => provider.resetSettings(),
                                 child: Text(context.localized.useDefaults),
                               ),
@@ -145,8 +146,10 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                             },
                           ).addVisiblity(controlsHidden),
                           Column(
+                            spacing: 8,
                             children: [
                               Row(
+                                spacing: 8,
                                 children: [
                                   const Icon(Icons.format_size_rounded),
                                   Flexible(
@@ -172,8 +175,10 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                             ],
                           ).addVisiblity(activeKey == null ? controlsHidden : activeKey == const Key('fontSize')),
                           Column(
+                            spacing: 8,
                             children: [
                               Row(
+                                spacing: 8,
                                 children: [
                                   const Icon(Icons.height_rounded),
                                   Flexible(
@@ -202,19 +207,19 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                             ],
                           ).addVisiblity(activeKey == null ? controlsHidden : activeKey == const Key('verticalOffset')),
                           Column(
+                            spacing: 8,
                             children: [
                               Row(
+                                spacing: 8,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Icon(Icons.color_lens_rounded),
                                   ...[Colors.white, Colors.yellow, Colors.black, Colors.grey].map(
-                                    (e) => FlatButton(
+                                    (e) => FocusButton(
                                       onTap: () => provider.setSubColor(e),
-                                      borderRadiusGeometry: BorderRadius.circular(5),
-                                      clipBehavior: Clip.hardEdge,
                                       child: Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: 35,
+                                        width: 35,
                                         color: e,
                                       ),
                                     ),
@@ -225,20 +230,20 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                             ],
                           ).addVisiblity(controlsHidden),
                           Column(
+                            spacing: 8,
                             children: [
                               Row(
+                                spacing: 8,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Icon(Icons.border_color_rounded),
                                   ...[Colors.white, Colors.yellow, Colors.black, Colors.grey, Colors.transparent].map(
-                                    (e) => FlatButton(
+                                    (e) => FocusButton(
                                       onTap: () => provider
                                           .setOutlineColor(e == Colors.transparent ? e : e.withValues(alpha: 0.85)),
-                                      borderRadiusGeometry: BorderRadius.circular(5),
-                                      clipBehavior: Clip.hardEdge,
                                       child: Container(
-                                        height: 25,
-                                        width: 25,
+                                        height: 35,
+                                        width: 35,
                                         color: e == Colors.transparent ? Colors.white : e,
                                         child: e == Colors.transparent
                                             ? const Icon(
@@ -255,8 +260,10 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                             ],
                           ).addVisiblity(controlsHidden),
                           Column(
+                            spacing: 8,
                             children: [
                               Row(
+                                spacing: 8,
                                 children: [
                                   const Icon(Icons.border_style),
                                   Flexible(
@@ -285,8 +292,10 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                             ],
                           ).addVisiblity(activeKey == null ? controlsHidden : activeKey == const Key('outlineSize')),
                           Column(
+                            spacing: 8,
                             children: [
                               Row(
+                                spacing: 8,
                                 children: [
                                   const Icon(Icons.square_rounded),
                                   Flexible(
@@ -316,8 +325,33 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                           ).addVisiblity(
                               activeKey == null ? controlsHidden : activeKey == const Key('backGroundOpacity')),
                           Column(
+                            spacing: 8,
                             children: [
                               Row(
+                                spacing: 8,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Icon(Icons.border_color_rounded),
+                                  ...[Colors.white, Colors.yellow, Colors.black, Colors.grey].map(
+                                    (e) => FocusButton(
+                                      onTap: () => provider.setBackgroundColor(e),
+                                      child: Container(
+                                        height: 35,
+                                        width: 35,
+                                        color: e,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(context.localized.backgroundColor),
+                            ],
+                          ).addVisiblity(controlsHidden),
+                          Column(
+                            spacing: 8,
+                            children: [
+                              Row(
+                                spacing: 8,
                                 children: [
                                   const Icon(Icons.blur_circular_rounded),
                                   Flexible(
@@ -345,7 +379,7 @@ class _VideoSubtitleControlsState extends ConsumerState<VideoSubtitleControls> {
                               Text(context.localized.shadow)
                             ],
                           ).addVisiblity(activeKey == null ? controlsHidden : activeKey == const Key('shadowSlider')),
-                        ].addPadding(const EdgeInsets.symmetric(vertical: 12)),
+                        ].addPadding(const EdgeInsets.symmetric(vertical: 12)).addInBetween(const Divider()),
                       ),
                     ),
                   ),

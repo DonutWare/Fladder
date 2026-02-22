@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/collections_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/alert_content.dart';
@@ -107,12 +107,13 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
                               .read(provider.notifier)
                               .toggleCollection(boxSet: e.key, value: value == true, item: widget.items.first);
                           if (context.mounted) {
-                            fladderSnackbar(context,
-                                title: response.isSuccessful
+                            FladderSnack.show(
+                                response.isSuccessful
                                     ? value == true
                                         ? context.localized.addedToCollection(e.key.name)
                                         : context.localized.removedFromCollection(e.key.name)
-                                    : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}');
+                                    : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+                                context: context);
                           }
                         },
                       );
@@ -137,10 +138,11 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
                                     final response =
                                         await ref.read(provider.notifier).addToCollection(boxSet: e.key, add: true);
                                     if (context.mounted) {
-                                      fladderSnackbar(context,
-                                          title: response.isSuccessful
+                                      FladderSnack.show(
+                                          response.isSuccessful
                                               ? context.localized.addedToCollection(e.key.name)
-                                              : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}');
+                                              : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+                                          context: context);
                                     }
                                   },
                                   child: Icon(Icons.add_rounded, color: Theme.of(context).colorScheme.primary),

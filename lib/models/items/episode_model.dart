@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/enum_models.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
+import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
@@ -15,7 +16,6 @@ import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/series_model.dart';
-import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 
 part 'episode_model.mapper.dart';
@@ -33,10 +33,10 @@ enum EpisodeStatus {
         EpisodeStatus.missing => Colors.redAccent,
       };
 
-  String label(BuildContext context) => switch (this) {
-        EpisodeStatus.available => context.localized.episodeAvailable,
-        EpisodeStatus.unaired => context.localized.episodeUnaired,
-        EpisodeStatus.missing => context.localized.episodeMissing,
+  String label(AppLocalizations l10n) => switch (this) {
+        EpisodeStatus.available => l10n.episodeAvailable,
+        EpisodeStatus.unaired => l10n.episodeUnaired,
+        EpisodeStatus.missing => l10n.episodeMissing,
       };
 }
 
@@ -82,7 +82,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
   }
 
   @override
-  String? detailedName(BuildContext context) => "${subTextShort(context)} - $name";
+  String? detailedName(AppLocalizations l10n) => "${subTextShort(l10n)} - $name";
 
   @override
   SeriesModel get parentBaseModel => SeriesModel(
@@ -116,10 +116,10 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
   String? get subText => name.isEmpty ? "TBA" : name;
 
   @override
-  String? subTextShort(BuildContext context) => seasonEpisodeLabel(context);
+  String? subTextShort(AppLocalizations l10n) => seasonEpisodeLabel(l10n);
 
   @override
-  String? label(BuildContext context) => "${subTextShort(context)} - $name";
+  String? label(AppLocalizations l10n) => "${subTextShort(l10n)} - $name";
 
   @override
   bool get playAble => switch (status) {
@@ -128,13 +128,19 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
       };
 
   @override
-  String playButtonLabel(BuildContext context) {
-    final string = seasonEpisodeLabel(context).maxLength();
-    return progress != 0 ? context.localized.resume(string) : context.localized.play(string);
+  String playButtonLabel(AppLocalizations l10n) {
+    final string = seasonEpisodeLabel(l10n).maxLength();
+    return progress != 0 ? l10n.resume(string) : l10n.play(string);
   }
 
-  String seasonAnnotation(BuildContext context) => context.localized.season(1)[0];
-  String episodeAnnotation(BuildContext context) => context.localized.episode(1)[0];
+  String seasonAnnotation(AppLocalizations l10n) => l10n.season(1)[0];
+  String episodeAnnotation(AppLocalizations l10n) => l10n.episode(1)[0];
+
+  String seasonEpisodeLabel(AppLocalizations l10n) {
+    final seasonStr = season.toString();
+    final episodeRangeStr = episodeRange;
+    return "${seasonAnnotation(l10n)}$seasonStr - ${episodeAnnotation(l10n)}$episodeRangeStr";
+  }
 
   int get episodeCount {
     if (episodeEnd != null && episodeEnd! > episode) {
@@ -150,16 +156,12 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
     return episode.toString();
   }
 
-  String seasonEpisodeLabel(BuildContext context) {
-    return "${seasonAnnotation(context)}$season - ${episodeAnnotation(context)}$episodeRange";
+  String seasonEpisodeLabelFull(AppLocalizations l10n) {
+    return "${l10n.season(1)} $season - ${l10n.episode(episodeCount)} $episodeRange";
   }
 
-  String seasonEpisodeLabelFull(BuildContext context) {
-    return "${context.localized.season(1)} $season - ${context.localized.episode(episodeCount)} $episodeRange";
-  }
-
-  String episodeLabel(BuildContext context) {
-    return "${seasonEpisodeLabel(context)} - $subText";
+  String episodeLabel(AppLocalizations l10n) {
+    return "${seasonEpisodeLabel(l10n)} - $subText";
   }
 
   String get fullName {
@@ -170,29 +172,63 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
   bool get syncAble => playAble;
 
   @override
-  factory EpisodeModel.fromBaseDto(dto.BaseItemDto item, Ref ref) => EpisodeModel(
+  factory EpisodeModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
+    if (ref == null) {
+      return EpisodeModel(
         seriesName: item.seriesName,
-        name: item.name ?? "",
-        id: item.id ?? "",
-        childCount: item.childCount,
-        overview: OverviewModel.fromBaseItemDto(item, ref),
-        userData: UserData.fromDto(item.userData),
-        parentId: item.seriesId,
-        playlistId: item.playlistItemId,
-        dateAired: item.premiereDate,
-        chapters: Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], ref),
-        images: ImagesData.fromBaseItem(item, ref),
-        primaryRatio: item.primaryImageAspectRatio,
         season: item.parentIndexNumber ?? 0,
         episode: item.indexNumber ?? 0,
         episodeEnd: item.indexNumberEnd,
+        chapters: const [],
         location: ItemLocation.fromDto(item.locationType),
-        parentImages: ImagesData.fromBaseItemParent(item, ref),
+        dateAired: item.premiereDate,
+        name: item.name ?? "",
+        id: item.id ?? "",
+        overview: OverviewModel(
+          summary: item.overview ?? "",
+          yearAired: item.productionYear,
+          productionYear: item.productionYear,
+          dateAdded: item.dateCreated,
+          genres: item.genres ?? [],
+        ),
+        parentId: item.seriesId,
+        playlistId: item.playlistItemId,
+        images: null,
+        childCount: item.childCount,
+        primaryRatio: item.primaryImageAspectRatio,
+        userData: UserData.fromDto(item.userData),
+        parentImages: null,
+        mediaStreams: MediaStreamsModel(versionStreams: []),
         canDelete: item.canDelete,
         canDownload: item.canDownload,
-        mediaStreams: MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref),
         jellyType: item.type,
       );
+    }
+
+    return EpisodeModel(
+      seriesName: item.seriesName,
+      name: item.name ?? "",
+      id: item.id ?? "",
+      childCount: item.childCount,
+      overview: OverviewModel.fromBaseItemDto(item, ref),
+      userData: UserData.fromDto(item.userData),
+      parentId: item.seriesId,
+      playlistId: item.playlistItemId,
+      dateAired: item.premiereDate,
+      chapters: Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], ref),
+      images: ImagesData.fromBaseItem(item, ref),
+      primaryRatio: item.primaryImageAspectRatio,
+      season: item.parentIndexNumber ?? 0,
+      episode: item.indexNumber ?? 0,
+      episodeEnd: item.indexNumberEnd,
+      location: ItemLocation.fromDto(item.locationType),
+      parentImages: ImagesData.fromBaseItemParent(item, ref),
+      canDelete: item.canDelete,
+      canDownload: item.canDownload,
+      mediaStreams: MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref),
+      jellyType: item.type,
+    );
+  }
 
   static List<EpisodeModel> episodesFromDto(List<dto.BaseItemDto>? dto, Ref ref) {
     return dto?.map((e) => EpisodeModel.fromBaseDto(e, ref)).toList() ?? [];

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/util/duration_extensions.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 class ItemDetailListWidget extends ConsumerStatefulWidget {
   final ItemBaseModel item;
@@ -41,12 +42,12 @@ class _ItemDetailListWidgetState extends ConsumerState<ItemDetailListWidget> {
                   child: Stack(
                     children: [
                       FladderImage(image: widget.item.images?.primary),
-                      if (widget.item.subTextShort(context) != null)
+                      if (widget.item.subTextShort(context.localized) != null)
                         Card(
                           child: Padding(
                             padding: const EdgeInsets.all(7),
                             child: Text(
-                              widget.item.subTextShort(context) ?? "",
+                              widget.item.subTextShort(context.localized) ?? "",
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ),

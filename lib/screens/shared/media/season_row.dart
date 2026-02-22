@@ -196,7 +196,7 @@ class SeasonPoster extends ConsumerWidget {
           ),
           const SizedBox(height: 4),
           ClickableText(
-            text: season.localizedName(context),
+            text: season.localizedName(context.localized),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),

@@ -43,7 +43,11 @@ class _ExpandingTextState extends ConsumerState<ExpandingText> {
     final int maxLength = 200;
     final bool canExpand = (widget.text.length - maxLength) > maxLength * 0.1;
     return FlatButton(
-      onTap: canExpand && useFlatButton ? toggleState : null,
+      onTap: canExpand && useFlatButton
+          ? toggleState
+          : isDpad
+              ? () {}
+              : null,
       onFocusChange: widget.onFocusChange ??
           (value) {
             if (value) {

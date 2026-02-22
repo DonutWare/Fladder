@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,7 +8,7 @@ import 'package:fladder/models/items/channel_program.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
-import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/l10n/generated/app_localizations.dart';
 
 class ChannelModel extends ItemBaseModel {
   final String channelId;
@@ -68,7 +66,7 @@ class ChannelModel extends ItemBaseModel {
   int get currentPage => userData.playbackPositionTicks ~/ 10000;
 
   @override
-  String playText(BuildContext context) => context.localized.read(name);
+  String playText(AppLocalizations l10n) => l10n.read(name);
 
   @override
   ImageData? get bannerImage => getPosters?.backDrop?.lastOrNull ?? images?.primary ?? getPosters?.primary;
@@ -91,18 +89,18 @@ class ChannelModel extends ItemBaseModel {
   }
 
   @override
-  String? unplayedLabel(BuildContext context) => userData.progress != 0 ? context.localized.page(currentPage) : null;
+  String? unplayedLabel(AppLocalizations l10n) => userData.progress != 0 ? l10n.page(currentPage) : null;
 
   @override
-  String playButtonLabel(BuildContext context) => context.localized.watchChannel(name);
+  String playButtonLabel(AppLocalizations l10n) => l10n.watchChannel(name);
 
   @override
   String? get subText => currentProgram?.name;
 
   @override
-  String? subTextShort(BuildContext context) {
+  String? subTextShort(AppLocalizations l10n) {
     return currentProgram != null
-        ? "${context.localized.formattedTime(currentProgram?.startDate ?? DateTime.now())} - ${context.localized.formattedTime(currentProgram?.endDate ?? DateTime.now())}"
+        ? "${l10n.formattedTime(currentProgram?.startDate ?? DateTime.now())} - ${l10n.formattedTime(currentProgram?.endDate ?? DateTime.now())}"
         : null;
   }
 
@@ -113,13 +111,14 @@ class ChannelModel extends ItemBaseModel {
         logo: () => images?.primary,
       );
 
-  factory ChannelModel.fromBaseDto(BaseItemDto item, Ref ref) {
-    final images = ImagesData.fromBaseItem(item, ref);
+  factory ChannelModel.fromBaseDto(BaseItemDto item, Ref? ref) {
+    final images = ref != null ? ImagesData.fromBaseItem(item, ref) : null;
     return ChannelModel(
       channelId: item.channelId ?? item.parentId ?? "0",
       name: item.name ?? "",
       id: item.id ?? "",
-      iCurrentProgram: item.currentProgram != null ? ChannelProgram.fromBaseDto(item.currentProgram!, ref) : null,
+      iCurrentProgram:
+          (ref != null && item.currentProgram != null) ? ChannelProgram.fromBaseDto(item.currentProgram!, ref) : null,
       childCount: item.childCount,
       startDate: item.startDate ?? DateTime.now(),
       endDate: item.endDate ?? DateTime.now(),

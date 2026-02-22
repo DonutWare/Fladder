@@ -200,7 +200,7 @@ class SeerrDashboardPosterModel {
         return SeriesModel(
           name: title,
           id: jellyfinItemId ?? '',
-          images: null,
+          images: images,
           originalTitle: "",
           sortName: "",
           status: "Ongoing",
@@ -218,7 +218,7 @@ class SeerrDashboardPosterModel {
         return MovieModel(
           name: title,
           id: jellyfinItemId ?? '',
-          images: null,
+          images: images,
           originalTitle: title,
           premiereDate: DateTime.now(),
           sortName: title,

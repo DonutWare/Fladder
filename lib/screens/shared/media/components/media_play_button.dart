@@ -9,6 +9,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/position_provider.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 class MediaPlayButton extends ConsumerWidget {
   final ItemBaseModel? item;
@@ -43,7 +44,7 @@ class MediaPlayButton extends ConsumerWidget {
           children: [
             Flexible(
               child: Text(
-                item?.playButtonLabel(context) ?? "",
+                item?.playButtonLabel(context.localized) ?? "",
                 maxLines: 1,
                 overflow: TextOverflow.fade,
                 style: theme.textTheme.titleMedium?.copyWith(

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/control_panel/control_users_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-import 'package:fladder/screens/shared/fladder_snackbar.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/filled_button_await.dart';
@@ -102,9 +102,9 @@ class _PasswordResetDialogState extends ConsumerState<PasswordResetDialog> {
                   FilledButtonAwait(
                     onPressed: () async {
                       if (newPasswordController.text != confirmPasswordController.text) {
-                        fladderSnackbar(
-                          context,
-                          title: context.localized.passwordMismatch,
+                        FladderSnack.show(
+                          context.localized.passwordMismatch,
+                          context: context,
                         );
                         return;
                       }
@@ -115,15 +115,15 @@ class _PasswordResetDialogState extends ConsumerState<PasswordResetDialog> {
                         confirmPassword: confirmPasswordController.text,
                       );
                       if (responseMessage == null) {
-                        fladderSnackbar(
-                          context,
-                          title: context.localized.passwordChangeSuccess,
+                        FladderSnack.show(
+                          context.localized.passwordChangeSuccess,
+                          context: context,
                         );
                         Navigator.of(context).pop();
                       } else {
-                        fladderSnackbar(
-                          context,
-                          title: responseMessage,
+                        FladderSnack.show(
+                          responseMessage,
+                          context: context,
                         );
                       }
                     },

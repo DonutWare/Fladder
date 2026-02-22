@@ -11,6 +11,7 @@ import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/themes_data.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
@@ -144,9 +145,9 @@ class _CarouselBannerState extends ConsumerState<CarouselBanner> {
                                                 .headlineMedium
                                                 ?.copyWith(color: Colors.white),
                                           ),
-                                          if (item.label(context) != null || item.subText != null)
+                                          if (item.label(context.localized) != null || item.subText != null)
                                             Text(
-                                              item.label(context) ?? item.subText ?? "",
+                                              item.label(context.localized) ?? item.subText ?? "",
                                               maxLines: 2,
                                               softWrap: false,
                                               overflow: TextOverflow.fade,

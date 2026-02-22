@@ -91,6 +91,7 @@ class _BackgroundImageState extends ConsumerState<BackgroundImage> {
           child: FladderImage(
             image: image,
             fit: BoxFit.cover,
+            decodeHeight: 64,
             blurOnly: settings == BackgroundType.blurred,
           ),
         ),

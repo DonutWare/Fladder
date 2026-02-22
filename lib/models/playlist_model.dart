@@ -21,7 +21,7 @@ class PlaylistModel extends ItemBaseModel {
     super.jellyType,
   });
 
-  factory PlaylistModel.fromBaseDto(BaseItemDto item, Ref ref) {
+  factory PlaylistModel.fromBaseDto(BaseItemDto item, Ref? ref) {
     return PlaylistModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -30,7 +30,7 @@ class PlaylistModel extends ItemBaseModel {
       userData: UserData.fromDto(item.userData),
       parentId: item.parentId,
       playlistId: item.playlistItemId,
-      images: ImagesData.fromBaseItem(item, ref),
+      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
       primaryRatio: item.primaryImageAspectRatio,
       canDelete: item.canDelete,
       canDownload: item.canDownload,

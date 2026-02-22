@@ -63,9 +63,17 @@ class _VideoPlayerSpeedIndicatorState extends ConsumerState<VideoPlayerSpeedIndi
                 children: [
                   Transform.rotate(
                     angle: currentSpeed < 1 ? pi : 0,
-                    child: Icon(speedIcon(currentSpeed)),
+                    child: Icon(
+                      speedIcon(currentSpeed),
+                      color: Colors.white,
+                    ),
                   ),
-                  Text(context.localized.speedIndicator(currentSpeed)),
+                  Text(
+                    context.localized.speedIndicator(currentSpeed),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
             ),
