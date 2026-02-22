@@ -1085,7 +1085,7 @@
     "settingsLocalUrlTitle": "Статус на сервери",
     "settingsLocalUrlSetTitle": "Налаштування локальної URL",
     "settingsLocalUrlSetDesc": "Вкажіть адресу місцевого сервера. Fladder автоматично використовувати цю URL, коли пристрій знаходиться на одній мережі.",
-    "takeScreenshot": "Зробити скріншот",
+    "takeScreenshot": "Візьміть скріншот",
     "takeScreenshotClean": "Візьміть скріншот (без субтитри)",
     "screenshots": "Знімки екрана",
     "screenshotTaken": "Збережений екран!",
@@ -1254,8 +1254,8 @@
     "taskTriggerTypeStartup": "Почати",
     "create": "Зареєструватися",
     "taskTriggerTypeName": "Тип тригера",
-    "newTrigger": "Новий тип запуску",
-    "newTaskTrigger": "Новий тип запуску завдання",
+    "newTrigger": "Новий тригер",
+    "newTaskTrigger": "Новий тригер завдань",
     "dayOfTheWeek": "День тижня",
     "time": "Час",
     "interval": "Інтервал",
@@ -1269,7 +1269,7 @@
             }
         }
     },
-    "taskTriggerDailyDesc": "Щоденно об {time}",
+    "taskTriggerDailyDesc": "Щоденно в {time}",
     "@taskTriggerDailyDesc": {
         "description": "taskTriggerDailyDesc",
         "placeholders": {
@@ -1334,14 +1334,14 @@
     "allowLiveTVAccess": "Allow live TV доступ",
     "allowLiveTVRecording": "Allow Live TV запис",
     "mediaPlayback": "Відтворення медіа",
-    "allowMediaPlayback": "Дозволити відтворення",
+    "allowMediaPlayback": "Allow медіа відтворення",
     "allowVideoTranscoding": "Дозволяє відтворення відео, що вимагає перекодування",
-    "allowAudioTranscoding": "Дозволити відтворення аудіо з декодуванням",
-    "allowMediaConversion": "Дозволити відтворення відео, яке вимагає перетворення медіафайлів",
-    "forceRemoteTranscoding": "Примусове перекодування віддаленого джерела",
+    "allowAudioTranscoding": "Дозволяє відтворення аудіо, що вимагає перекодування",
+    "allowMediaConversion": "Дозволяє відтворення відео, що вимагає перетворення медіа",
+    "forceRemoteTranscoding": "Примус дистанційного джерела транскодування",
     "syncplayAccess": "Syncplay доступ",
     "syncplayAccessCreateAndJoinGroups": "Створити та приєднатися групи",
-    "syncplayAccessJoinGroups": "Групи для приєднання",
+    "syncplayAccessJoinGroups": "Приєднуйтесь до групи",
     "syncplayAccessNone": "Ні",
     "parentalControl": "Контроль батьків",
     "blockedItemsNoRating": "Заблоковані елементи без або невизнаних рейтингів",
@@ -1688,5 +1688,64 @@
     "downloading": "завантаження",
     "request": "Запитати",
     "viewRequest": "Переглянути запит",
-    "seerrAutoApproveNotice": "Запити, які ви подаєте, автоматично затверджені."
+    "seerrAutoApproveNotice": "Запити, які ви подаєте, автоматично затверджені.",
+    "subtitleDownloads": "Субтитри Завантаження",
+    "metadataImageLongPressClick": "Клацніть правою кнопкою миші для видалення зображення",
+    "selectedPath": "Виберіть шлях: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "chapterImages": "Розділ Зображення",
+    "saveArtWorkNextToMediaDesc": "Збереження роботи в медіа папки поставить їх у місце, де вони можуть легко редагуватися.",
+    "newLibrary": "Нова бібліотека",
+    "contentType": "Тип вмісту",
+    "metadataImageLongPressTouch": "Довгий прес для видалення зображення",
+    "systemRootFolder": "Папка кореневих систем",
+    "trending": "Тенденції",
+    "seerrUnknownUser": "Невідомий користувач",
+    "loggedInAs": "Увійти через {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Статус на сервери",
+    "seerrAuthenticateLocal": "Ознайомитися з автентичністю (локально)",
+    "rootFolderDefaultLabel": "{folder} (Default)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrRequestStatusApproved": "Затвердження",
+    "seerrRequestStatusDeclined": "Декольте",
+    "seerrRequestStatusFailed": "В'язниця",
+    "seerrAuthLocal": "Головна",
+    "seerrAuthJellyfin": "Желліфін",
+    "seerrConnectedToServer": "Підключення до сервера Seerr: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrDetails": "Детальніше",
+    "tunerHostAddedSuccessfully": "Тунер успішно додано",
+    "failedToAddTunerHost": "Надіслане додавати тюнер хост: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    }
 }
