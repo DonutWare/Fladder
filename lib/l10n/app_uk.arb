@@ -1366,5 +1366,6 @@
     "enabledRealtimeMonitoring": "Увімкнути моніторинг в режимі реального часу",
     "automaticallyAddToCollection": "Автоматично додавати до колекції",
     "enabledEmbeddedTitles": "Увімкнути вбудовані заголовки",
-    "enabledEmbeddedExtrasTitles": "Увімкнути додаткові вбудовані заголовки"
+    "enabledEmbeddedExtrasTitles": "Увімкнути додаткові вбудовані заголовки",
+    "autoRefreshIntervalNote": "Увімкнення цієї функції може призвести до збільшення часу оновлення бібліотеки."
 }
