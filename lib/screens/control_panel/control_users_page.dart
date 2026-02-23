@@ -9,6 +9,7 @@ import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/control_panel/control_users_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/control_panel/widgets/auth_link_dialog.dart';
 import 'package:fladder/screens/control_panel/widgets/control_users_create.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
@@ -29,6 +30,7 @@ class ControlUsersPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentUser = ref.watch(userProvider);
     final users = ref.watch(controlUsersProvider.select((value) => value.users));
     final provider = ref.read(controlUsersProvider.notifier);
     return PullToRefresh(
@@ -45,6 +47,20 @@ class ControlUsersPage extends ConsumerWidget {
               children: users.mapIndexed(
                 (index, user) {
                   final userActions = [
+                    ItemActionButton(
+                      action: () {
+                        final server = currentUser?.credentials.url;
+                        final seerr = currentUser?.seerrCredentials?.serverUrl;
+                        openAuthLinkDialog(
+                          context,
+                          serverUrl: server ?? "",
+                          seerrUrl: seerr,
+                          user: user,
+                        );
+                      },
+                      label: Text(context.localized.generateLoginLink(user.name)),
+                      icon: const Icon(Icons.qr_code),
+                    ),
                     ItemActionButton(
                       action: user.id == ref.read(userProvider)?.id
                           ? null

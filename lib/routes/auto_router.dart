@@ -146,7 +146,7 @@ class AuthGuard extends AutoRouteGuard {
     }
 
     if (ref.read(userProvider) != null ||
-        resolver.routeName == const LoginRoute().routeName ||
+        resolver.routeName == LoginRoute().routeName ||
         resolver.routeName == SplashRoute().routeName) {
       // We assume the last main focus is no longer active after navigating
       lastMainFocus = null;
@@ -157,7 +157,7 @@ class AuthGuard extends AutoRouteGuard {
       if (value) {
         resolver.next(true);
       } else {
-        router.replace(const LoginRoute());
+        router.replace(LoginRoute());
       }
     }));
 

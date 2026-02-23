@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -23,22 +24,58 @@ import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
 import 'package:fladder/util/auth_service.dart';
+import 'package:fladder/util/deep_link_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 class LoginScreenCredentials extends ConsumerStatefulWidget {
-  const LoginScreenCredentials({super.key});
+  final AuthLinkData? authLinkData;
+  const LoginScreenCredentials({
+    this.authLinkData,
+    super.key,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenCredentialsState();
 }
 
 class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials> {
-  late final TextEditingController serverTextController = TextEditingController(text: '');
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  TextEditingController serverTextController = TextEditingController(text: '');
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   final FocusNode focusNode = FocusNode();
 
   bool loggingIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (widget.authLinkData != null) {
+        final pendingLink = widget.authLinkData;
+        serverTextController.text = pendingLink?.serverUrl ?? "";
+        usernameController.text = pendingLink?.userName ?? "";
+        passwordController.text = pendingLink?.password ?? "";
+        ref.read(authProvider.notifier).setServer(pendingLink?.serverUrl ?? "");
+        try {
+          if (passwordController.text.isNotEmpty) {
+            setState(() {
+              loggingIn = true;
+            });
+            await loginUsingCredentials();
+          } else {
+            focusNode.requestFocus();
+          }
+        } catch (e) {
+          log("Error during auto-login with auth link: $e");
+          FladderSnack.show(context.localized.error);
+        } finally {
+          setState(() {
+            loggingIn = false;
+          });
+        }
+      }
+    });
+  }
 
   @override
   void dispose() {
