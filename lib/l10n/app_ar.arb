@@ -1784,7 +1784,7 @@
     "sportsCategoriesSubLabel": "الفئات المخصصة للقنوات التي تطابق بادئة الرياضة",
     "kidsCategoriesSubLabel": "الفئات المخصصة للقنوات التي تطابق بادئة الأطفال",
     "notifications": "الإشعارات",
-    "showNewItemNotificationTitle": "التحقق من العناصر الجديدة",
+    "showNewItemNotificationTitle": "إشعارات لعناصر المكتبة",
     "notificationChannelDescription": "إشعارات للعناصر المضافة حديثاً",
     "notificationNewEpisodes": "تمت إضافة حلقات جديدة",
     "notificationNewItems": "{count, plural, one{{count} عنصر جديد} other{{count} عناصر جديدة}}",
@@ -1799,5 +1799,37 @@
     "notificationTimerIOSWarning": " نظام iOS يقرر متى/إذا كانت التحديثات ستعمل فعلياً، قد تتأخر الإشعارات أو لا تظهر إطلاقاً.",
     "updateCheckInterval": "فترة التحقق من التحديثات",
     "updateCheckIntervalDesc": "عدد مرات تشغيل المهمة في الخلفية",
-    "notificationsIntervalClientReminder": "فترة الإشعارات محددة لجميع المستخدمين."
+    "notificationsIntervalClientReminder": "فترة الإشعارات محددة لجميع المستخدمين.",
+    "requestMore": "طلب المزيد",
+    "seerrRequestNotifications": "إشعارات لطلبات Seerr",
+    "notificationNewRequests": "{count, plural, one{{count} طلب جديد} other{{count} طلبات جديدة}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "batteryOptimizationDesc": "تحسينات البطارية قد تؤخر إشعارات الخلفية لتطبيق Fladder.\nاضغط لفتح إعدادات النظام وتعطيل تحسينات Fladder لتحسين موثوقية الإشعارات.",
+    "lastUpdateAt": "آخر تحديث في {date} عند {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "تضمين المكتبات المخفية",
+    "includeHiddenItemsDesc": "تضمين المكتبات المخفية من لوحة التحكم",
+    "settingsBlurEffectsTitle": "تفعيل تأثيرات التمويه",
+    "settingsBlurEffectsDesc": "تفعيل تأثيرات التمويه في واجهة المستخدم. تعطيلها قد يحسن الأداء على الأجهزة منخفضة الإمكانيات.",
+    "profileSettingsOpenAuthAtLaunch": "عرض طريقة المصادقة عند قفل التطبيق",
+    "toggleSidebar": "تبديل الشريط الجانبي"
 }
