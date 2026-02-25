@@ -99,7 +99,7 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
                 ...collectonOptions.collections.entries.map(
                   (e) {
                     if (e.value != null) {
-                      return CheckboxListTile.adaptive(
+                      return CheckboxListTile(
                         title: Text(e.key.name),
                         value: e.value,
                         onChanged: (value) async {

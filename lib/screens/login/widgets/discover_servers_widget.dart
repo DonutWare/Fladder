@@ -103,7 +103,7 @@ class DiscoverServersWidget extends ConsumerWidget {
             loading: () => const Center(
               child: SizedBox.square(
                 dimension: 24.0,
-                child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
+                child: CircularProgressIndicator(strokeCap: StrokeCap.round),
               ),
             ),
           ),
