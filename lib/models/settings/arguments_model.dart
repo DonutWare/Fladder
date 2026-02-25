@@ -11,6 +11,7 @@ abstract class ArgumentsModel with _$ArgumentsModel {
 
   factory ArgumentsModel({
     @Default(false) bool htpcMode,
+    @Default(false) bool noTitleBar,
     @Default(false) bool leanBackMode,
     @Default(false) bool newWindow,
   }) = _ArgumentsModel;
@@ -21,6 +22,7 @@ abstract class ArgumentsModel with _$ArgumentsModel {
     final parsedWindowArgs = windowArguments.split(',');
     return ArgumentsModel(
       htpcMode: arguments.contains('--htpc') || leanBackEnabled,
+      noTitleBar: arguments.contains('--no-titlebar'),
       leanBackMode: leanBackEnabled,
       newWindow: parsedWindowArgs.contains('--newWindow'),
     );
