@@ -17,10 +17,11 @@ mixin _$ArgumentsModel {
   bool get htpcMode;
   bool get leanBackMode;
   bool get newWindow;
+  bool get skipNotifications;
 
   @override
   String toString() {
-    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow)';
+    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow, skipNotifications: $skipNotifications)';
   }
 }
 
@@ -117,14 +118,13 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow)?
-        $default, {
+    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel() when $default != null:
-        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications);
       case _:
         return orElse();
     }
@@ -145,12 +145,12 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow) $default,
+    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications) $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel():
-        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -170,13 +170,12 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(bool htpcMode, bool leanBackMode, bool newWindow)?
-        $default,
+    TResult? Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications)? $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel() when $default != null:
-        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications);
       case _:
         return null;
     }
@@ -187,9 +186,7 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
 class _ArgumentsModel extends ArgumentsModel {
   _ArgumentsModel(
-      {this.htpcMode = false,
-      this.leanBackMode = false,
-      this.newWindow = false})
+      {this.htpcMode = false, this.leanBackMode = false, this.newWindow = false, this.skipNotifications = false})
       : super._();
 
   @override
@@ -201,10 +198,13 @@ class _ArgumentsModel extends ArgumentsModel {
   @override
   @JsonKey()
   final bool newWindow;
+  @override
+  @JsonKey()
+  final bool skipNotifications;
 
   @override
   String toString() {
-    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow)';
+    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow, skipNotifications: $skipNotifications)';
   }
 }
 
