@@ -76,8 +76,6 @@ void main(List<String> args) async {
 
   await SvgUtils.preCacheSVGs();
 
-  await NotificationService.init();
-
   // Check if running on android TV
   final leanBackEnabled = (!kIsWeb && defaultTargetPlatform == TargetPlatform.android)
       ? await NativeVideoActivity().isLeanBackEnabled()
@@ -210,6 +208,8 @@ class _MainState extends ConsumerState<Main> with WindowListener, WidgetsBinding
   }
 
   Future<void> initializeNotifications() async {
+    if (ref.read(argumentsStateProvider).skipNotifications) return;
+
     await NotificationService.init();
 
     if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {

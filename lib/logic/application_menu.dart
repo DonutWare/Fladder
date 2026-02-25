@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import 'package:desktop_multi_window/desktop_multi_window.dart';
 
+import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/src/application_menu.g.dart';
 
 class ApplicationMenuImp extends ApplicationMenu {
@@ -12,7 +13,7 @@ class ApplicationMenuImp extends ApplicationMenu {
     final controller = await WindowController.create(
       const WindowConfiguration(
         hiddenAtLaunch: true,
-        arguments: '--newWindow',
+        arguments: '${NotificationKeys.newWindow}, ${NotificationKeys.skipNotifications}',
       ),
     );
 
