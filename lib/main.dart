@@ -86,8 +86,6 @@ void main(List<String> args) async {
     await SMTCWindows.initialize();
   }
 
-  // Disable auto-reset on desktop to prevent the screen_brightness plugin from
-  // changing the system monitor brightness when the app loses focus.
   if (_isDesktop) {
     await ScreenBrightness().setAutoReset(false);
   }
