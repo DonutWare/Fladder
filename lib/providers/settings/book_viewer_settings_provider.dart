@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/widgets.dart';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
