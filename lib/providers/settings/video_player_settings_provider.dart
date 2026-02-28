@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -32,7 +33,13 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     }
   }
 
+  static bool get _canControlBrightness =>
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
+
   void setScreenBrightness(double? value) async {
+    if (!_canControlBrightness) return;
     state = state.copyWith(
       screenBrightness: value,
     );
@@ -44,6 +51,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   }
 
   void setSavedBrightness() {
+    if (!_canControlBrightness) return;
     if (state.screenBrightness != null) {
       ScreenBrightness().setApplicationScreenBrightness(state.screenBrightness!);
     }

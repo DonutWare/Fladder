@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter/widgets.dart';
-
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
@@ -120,10 +120,16 @@ class BookViewerSettingsNotifier extends StateNotifier<BookViewerSettingsModel> 
     super.state = value;
   }
 
+  static bool get _canControlBrightness =>
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
+
   void setScreenBrightness(double? value) async {
     state = state.copyWith(
       screenBrightness: () => value,
     );
+    if (!_canControlBrightness) return;
     if (state.screenBrightness != null) {
       ScreenBrightness().setApplicationScreenBrightness(state.screenBrightness!);
     } else {
@@ -132,6 +138,7 @@ class BookViewerSettingsNotifier extends StateNotifier<BookViewerSettingsModel> 
   }
 
   void setSavedBrightness() {
+    if (!_canControlBrightness) return;
     if (state.screenBrightness != null) {
       ScreenBrightness().setApplicationScreenBrightness(state.screenBrightness!);
     }

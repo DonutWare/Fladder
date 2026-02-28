@@ -644,7 +644,10 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
   Future<void> clearOverlaySettings() async {
     toggleOverlay(value: true);
     if (initInputDevice != InputDevice.pointer) {
-      ScreenBrightness().resetApplicationScreenBrightness();
+      if (!kIsWeb &&
+          (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS)) {
+        ScreenBrightness().resetApplicationScreenBrightness();
+      }
     } else {
       disableFullScreen();
     }
