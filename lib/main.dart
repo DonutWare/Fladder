@@ -15,6 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:macos_window_utils/window_manipulator.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
 import 'package:universal_html/html.dart' as html;
@@ -83,6 +84,12 @@ void main(List<String> args) async {
 
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
     await SMTCWindows.initialize();
+  }
+
+  // Disable auto-reset on desktop to prevent the screen_brightness plugin from
+  // changing the system monitor brightness when the app loses focus.
+  if (_isDesktop) {
+    await ScreenBrightness().setAutoReset(false);
   }
 
   if (kIsWeb) {

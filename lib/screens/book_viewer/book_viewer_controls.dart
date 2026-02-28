@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -82,7 +83,10 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
   @override
   void dispose() {
     WakelockPlus.disable();
-    ScreenBrightness().resetApplicationScreenBrightness();
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS)) {
+      ScreenBrightness().resetApplicationScreenBrightness();
+    }
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
