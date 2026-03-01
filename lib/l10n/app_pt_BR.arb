@@ -911,7 +911,7 @@
         }
     },
     "hasLikedDirector": "Tem diretor favoritado",
-    "latest": "Mais recente",
+    "latest": "Mais recentes",
     "recommended": "Recomendado",
     "playbackType": "Tipo de reprodução",
     "playbackTypeDirect": "Direta",
@@ -1596,5 +1596,27 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "homeBannerDetailed": "Detalhado",
+    "homeBannerTV": "TV",
+    "backgroundColor": "Cor de fundo",
+    "playbackTypeTV": "TV",
+    "speedBoostRateTitle": "Taxa de aumento de velocidade",
+    "showLess": "Mostrar menos",
+    "now": "Agora",
+    "noPrograms": "Sem programas disponíveis",
+    "switchChannelDesc": "Você quer assistir \"{programName}\" em {channelName}?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "enableNewTVLayout": "Ativar novo layout de TV",
+    "liveTV": "TV ao vivo",
+    "liveTvManageTunersEpg": "Gerenciar dispositivos sintonizadores e provedores EPG"
 }
