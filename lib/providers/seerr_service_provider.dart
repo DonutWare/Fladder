@@ -652,6 +652,25 @@ class SeerrService {
     return _requireSessionCookie(response, label: 'Jellyfin');
   }
 
+  Future<SeerrQuickConnectInitResponse?> quickConnectInitiate() async {
+    final response = await _api.quickConnectInitiate();
+    if (!response.isSuccessful) return null;
+    return response.body;
+  }
+
+  Future<bool> quickConnectCheck(String secret) async {
+    final response = await _api.quickConnectCheck(secret);
+    return response.body?.authenticated ?? false;
+  }
+
+  Future<String?> quickConnectAuthenticate(String secret) async {
+    final response = await _api.quickConnectAuthenticate(
+      SeerrQuickConnectAuthBody(secret: secret),
+    );
+    if (!response.isSuccessful) return null;
+    return _extractSessionCookie(response);
+  }
+
   Future<void> logout() async => await _api.logout();
 
   Future<Response<dynamic>> _authenticateJellyfin({required String username, required String password, Map<String, String>? headers}) async {
