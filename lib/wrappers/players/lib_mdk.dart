@@ -30,10 +30,29 @@ class LibMDK extends BasePlayer {
   @override
   Future<void> init(VideoPlayerSettingsModel settings) async {
     dispose();
-    fvp.registerWith(options: {
-      'global': {'log': 'off'},
-      'subtitleFontFile': libassFallbackFont,
-    });
+
+    fvp.registerWith(
+      options: {
+        'global': {'log': 'off'},
+        'subtitleFontFile': libassFallbackFont,
+        'ffmpeg.enable.all': '1',
+        'video.decoders': [
+          'D3D11VA',
+          'Metal',
+          'NVDEC',
+          'VAAPI',
+          'VideoToolbox',
+          'AMediaCodec',
+          'FFmpeg',
+        ],
+        'videoout.hdr': 'yes',
+        'videoout.hdr10_metadata': 'yes',
+        'videoout.tone_mapping': 'hable', // (or 'mobius', 'reinhard')
+        'videoout.tone_mapping.mode': 'auto',
+        'videoout.color_space': 'auto',
+        'videoout.color_transfer': 'auto',
+      },
+    );
   }
 
   @override
