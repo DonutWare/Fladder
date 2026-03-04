@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import 'package:fladder/main.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/direct_playback_model.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
@@ -14,6 +13,8 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/src/video_player_helper.g.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
+
+bool nativeActivityStarted = false;
 
 class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   final player = VideoPlayerApi();
