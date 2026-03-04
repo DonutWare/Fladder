@@ -395,7 +395,7 @@ Future<void> showSubSelection(BuildContext context) {
               children: [
                 Text(context.localized.subtitle),
                 const Spacer(),
-                if (player.backend == PlayerOptions.libMPV)
+                if (player.backend == PlayerOptions.libMPV || player.backend == PlayerOptions.libMDK)
                   IconButton.outlined(
                       onPressed: () {
                         Navigator.pop(context);
