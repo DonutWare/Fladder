@@ -844,6 +844,44 @@ Map<String, dynamic> _$SeerrAuthJellyfinBodyToJson(
       if (instance.hostname case final value?) 'hostname': value,
     };
 
+SeerrQuickConnectInitResponse _$SeerrQuickConnectInitResponseFromJson(
+        Map<String, dynamic> json) =>
+    SeerrQuickConnectInitResponse(
+      code: json['code'] as String,
+      secret: json['secret'] as String,
+    );
+
+Map<String, dynamic> _$SeerrQuickConnectInitResponseToJson(
+        SeerrQuickConnectInitResponse instance) =>
+    <String, dynamic>{
+      'code': instance.code,
+      'secret': instance.secret,
+    };
+
+SeerrQuickConnectCheckResponse _$SeerrQuickConnectCheckResponseFromJson(
+        Map<String, dynamic> json) =>
+    SeerrQuickConnectCheckResponse(
+      authenticated: json['authenticated'] as bool,
+    );
+
+Map<String, dynamic> _$SeerrQuickConnectCheckResponseToJson(
+        SeerrQuickConnectCheckResponse instance) =>
+    <String, dynamic>{
+      'authenticated': instance.authenticated,
+    };
+
+SeerrQuickConnectAuthBody _$SeerrQuickConnectAuthBodyFromJson(
+        Map<String, dynamic> json) =>
+    SeerrQuickConnectAuthBody(
+      secret: json['secret'] as String,
+    );
+
+Map<String, dynamic> _$SeerrQuickConnectAuthBodyToJson(
+        SeerrQuickConnectAuthBody instance) =>
+    <String, dynamic>{
+      'secret': instance.secret,
+    };
+
 _SeerrUserModel _$SeerrUserModelFromJson(Map<String, dynamic> json) =>
     _SeerrUserModel(
       id: (json['id'] as num?)?.toInt(),

@@ -1418,6 +1418,47 @@ class SeerrAuthJellyfinBody {
   Map<String, dynamic> toJson() => _$SeerrAuthJellyfinBodyToJson(this);
 }
 
+@JsonSerializable()
+class SeerrQuickConnectInitResponse {
+  final String code;
+  final String secret;
+
+  SeerrQuickConnectInitResponse({
+    required this.code,
+    required this.secret,
+  });
+
+  factory SeerrQuickConnectInitResponse.fromJson(Map<String, dynamic> json) =>
+      _$SeerrQuickConnectInitResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrQuickConnectInitResponseToJson(this);
+}
+
+@JsonSerializable()
+class SeerrQuickConnectCheckResponse {
+  final bool authenticated;
+
+  SeerrQuickConnectCheckResponse({
+    required this.authenticated,
+  });
+
+  factory SeerrQuickConnectCheckResponse.fromJson(Map<String, dynamic> json) =>
+      _$SeerrQuickConnectCheckResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrQuickConnectCheckResponseToJson(this);
+}
+
+@JsonSerializable()
+class SeerrQuickConnectAuthBody {
+  final String secret;
+
+  SeerrQuickConnectAuthBody({
+    required this.secret,
+  });
+
+  factory SeerrQuickConnectAuthBody.fromJson(Map<String, dynamic> json) =>
+      _$SeerrQuickConnectAuthBodyFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrQuickConnectAuthBodyToJson(this);
+}
+
 class SeerrCompany {
   final int id;
   final String name;

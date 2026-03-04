@@ -28,6 +28,19 @@ abstract class SeerrChopperService extends ChopperService {
     Map<String, String>? headers,
   });
 
+  @POST(path: '/auth/jellyfin/quickconnect/initiate')
+  Future<Response<SeerrQuickConnectInitResponse>> quickConnectInitiate();
+
+  @GET(path: '/auth/jellyfin/quickconnect/check')
+  Future<Response<SeerrQuickConnectCheckResponse>> quickConnectCheck(
+    @Query('secret') String secret,
+  );
+
+  @POST(path: '/auth/jellyfin/quickconnect/authenticate')
+  Future<Response<SeerrUserModel>> quickConnectAuthenticate(
+    @Body() SeerrQuickConnectAuthBody body,
+  );
+
   @POST(path: '/auth/logout')
   Future<Response<dynamic>> logout();
 
