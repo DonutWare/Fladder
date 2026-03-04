@@ -19,6 +19,7 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/live_tv_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/src/video_player_helper.g.dart' hide PlaybackState;
@@ -53,6 +54,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   final Ref ref;
 
   List<StreamSubscription> subscriptions = [];
+  ProviderSubscription? _subtitleSettingsSubscription;
   SMTCWindows? smtc;
 
   bool initializedWrapper = false;
@@ -88,7 +90,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     setup(player);
   }
 
-  Future<void> dispose() async => _player?.dispose();
+  Future<void> dispose() async {
+    _subtitleSettingsSubscription?.close();
+    _player?.dispose();
+  }
 
   Future<void> setup(BasePlayer newPlayer) async {
     _player = newPlayer;
@@ -97,11 +102,15 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   void _initPlayer() {
+    _subtitleSettingsSubscription?.close();
     for (var element in subscriptions) {
       element.cancel();
     }
     stop();
     _subscribePlayer();
+    _subtitleSettingsSubscription = ref.listen(subtitleSettingsProvider, (_, next) {
+      _player?.applySubtitleSettings(next);
+    });
   }
 
   Future<void> loadVideo(PlaybackModel model, Duration startPosition, bool play) async {
@@ -109,7 +118,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       final context = ref.read(localizationContextProvider);
       await (_player as NativePlayer).sendPlaybackDataToNative(context, model, startPosition);
     }
-    return _player?.loadVideo(model.media?.url ?? "", play);
+    await _player?.loadVideo(model.media?.url ?? "", play);
+    _player?.applySubtitleSettings(ref.read(subtitleSettingsProvider));
   }
 
   Future<void> updateTVGuide(TVGuideModel guide) async {
