@@ -50,6 +50,10 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
         await setServer(url);
       }
     }
+    if (FladderConfig.seerrUrl != null) {
+      state = state.copyWith(hasSeerrUrl: true);
+      setTempSeerrUrl(FladderConfig.seerrUrl);
+    }
     state = state.copyWith(
       accounts: currentAccounts,
       screen: currentAccounts.isEmpty ? LoginScreenType.login : LoginScreenType.users,

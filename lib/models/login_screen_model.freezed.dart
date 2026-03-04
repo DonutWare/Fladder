@@ -19,6 +19,7 @@ mixin _$LoginScreenModel {
   ServerLoginModel? get serverLoginModel;
   String? get errorMessage;
   bool get hasBaseUrl;
+  bool get hasSeerrUrl;
   bool get loading;
   String? get tempSeerrUrl;
   String? get tempSeerrSessionCookie;
@@ -33,7 +34,7 @@ mixin _$LoginScreenModel {
 
   @override
   String toString() {
-    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
+    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, hasSeerrUrl: $hasSeerrUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
   }
 }
 
@@ -49,6 +50,7 @@ abstract mixin class $LoginScreenModelCopyWith<$Res> {
       ServerLoginModel? serverLoginModel,
       String? errorMessage,
       bool hasBaseUrl,
+      bool hasSeerrUrl,
       bool loading,
       String? tempSeerrUrl,
       String? tempSeerrSessionCookie});
@@ -74,6 +76,7 @@ class _$LoginScreenModelCopyWithImpl<$Res>
     Object? serverLoginModel = freezed,
     Object? errorMessage = freezed,
     Object? hasBaseUrl = null,
+    Object? hasSeerrUrl = null,
     Object? loading = null,
     Object? tempSeerrUrl = freezed,
     Object? tempSeerrSessionCookie = freezed,
@@ -98,6 +101,10 @@ class _$LoginScreenModelCopyWithImpl<$Res>
       hasBaseUrl: null == hasBaseUrl
           ? _self.hasBaseUrl
           : hasBaseUrl // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasSeerrUrl: null == hasSeerrUrl
+          ? _self.hasSeerrUrl
+          : hasSeerrUrl // ignore: cast_nullable_to_non_nullable
               as bool,
       loading: null == loading
           ? _self.loading
@@ -228,6 +235,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             ServerLoginModel? serverLoginModel,
             String? errorMessage,
             bool hasBaseUrl,
+            bool hasSeerrUrl,
             bool loading,
             String? tempSeerrUrl,
             String? tempSeerrSessionCookie)?
@@ -243,6 +251,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             _that.serverLoginModel,
             _that.errorMessage,
             _that.hasBaseUrl,
+            _that.hasSeerrUrl,
             _that.loading,
             _that.tempSeerrUrl,
             _that.tempSeerrSessionCookie);
@@ -272,6 +281,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             ServerLoginModel? serverLoginModel,
             String? errorMessage,
             bool hasBaseUrl,
+            bool hasSeerrUrl,
             bool loading,
             String? tempSeerrUrl,
             String? tempSeerrSessionCookie)
@@ -286,6 +296,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             _that.serverLoginModel,
             _that.errorMessage,
             _that.hasBaseUrl,
+            _that.hasSeerrUrl,
             _that.loading,
             _that.tempSeerrUrl,
             _that.tempSeerrSessionCookie);
@@ -314,6 +325,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             ServerLoginModel? serverLoginModel,
             String? errorMessage,
             bool hasBaseUrl,
+            bool hasSeerrUrl,
             bool loading,
             String? tempSeerrUrl,
             String? tempSeerrSessionCookie)?
@@ -328,6 +340,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             _that.serverLoginModel,
             _that.errorMessage,
             _that.hasBaseUrl,
+            _that.hasSeerrUrl,
             _that.loading,
             _that.tempSeerrUrl,
             _that.tempSeerrSessionCookie);
@@ -346,6 +359,7 @@ class _LoginScreenModel implements LoginScreenModel {
       this.serverLoginModel,
       this.errorMessage,
       this.hasBaseUrl = false,
+      this.hasSeerrUrl = false,
       this.loading = false,
       this.tempSeerrUrl,
       this.tempSeerrSessionCookie})
@@ -372,6 +386,9 @@ class _LoginScreenModel implements LoginScreenModel {
   final bool hasBaseUrl;
   @override
   @JsonKey()
+  final bool hasSeerrUrl;
+  @override
+  @JsonKey()
   final bool loading;
   @override
   final String? tempSeerrUrl;
@@ -388,7 +405,7 @@ class _LoginScreenModel implements LoginScreenModel {
 
   @override
   String toString() {
-    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
+    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, hasSeerrUrl: $hasSeerrUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
   }
 }
 
@@ -406,6 +423,7 @@ abstract mixin class _$LoginScreenModelCopyWith<$Res>
       ServerLoginModel? serverLoginModel,
       String? errorMessage,
       bool hasBaseUrl,
+      bool hasSeerrUrl,
       bool loading,
       String? tempSeerrUrl,
       String? tempSeerrSessionCookie});
@@ -432,6 +450,7 @@ class __$LoginScreenModelCopyWithImpl<$Res>
     Object? serverLoginModel = freezed,
     Object? errorMessage = freezed,
     Object? hasBaseUrl = null,
+    Object? hasSeerrUrl = null,
     Object? loading = null,
     Object? tempSeerrUrl = freezed,
     Object? tempSeerrSessionCookie = freezed,
@@ -456,6 +475,10 @@ class __$LoginScreenModelCopyWithImpl<$Res>
       hasBaseUrl: null == hasBaseUrl
           ? _self.hasBaseUrl
           : hasBaseUrl // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasSeerrUrl: null == hasSeerrUrl
+          ? _self.hasSeerrUrl
+          : hasSeerrUrl // ignore: cast_nullable_to_non_nullable
               as bool,
       loading: null == loading
           ? _self.loading

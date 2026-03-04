@@ -209,9 +209,11 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                       IconButton.filledTonal(
                         onPressed: () async {
                           final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+                          final hasSeerrUrl = ref.read(authProvider.select((value) => value.hasSeerrUrl));
                           final result = await showAdvancedLoginOptionsDialog(
                             context,
                             initialSeerrUrl: tempSeerrUrl,
+                            hasSeerrUrl: hasSeerrUrl,
                           );
                           if (result != null) {
                             ref.read(authProvider.notifier).setTempSeerrUrl(result);

@@ -7,17 +7,25 @@ import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 
-Future<String?> showAdvancedLoginOptionsDialog(BuildContext context, {String? initialSeerrUrl}) async {
+Future<String?> showAdvancedLoginOptionsDialog(
+  BuildContext context, {
+  String? initialSeerrUrl,
+  bool hasSeerrUrl = false,
+}) async {
   return await showDialog<String>(
     context: context,
-    builder: (context) => _AdvancedLoginOptionsDialog(initialSeerrUrl: initialSeerrUrl),
+    builder: (context) => _AdvancedLoginOptionsDialog(
+      initialSeerrUrl: initialSeerrUrl,
+      hasSeerrUrl: hasSeerrUrl,
+    ),
   );
 }
 
 class _AdvancedLoginOptionsDialog extends ConsumerStatefulWidget {
   final String? initialSeerrUrl;
+  final bool hasSeerrUrl;
 
-  const _AdvancedLoginOptionsDialog({this.initialSeerrUrl});
+  const _AdvancedLoginOptionsDialog({this.initialSeerrUrl, this.hasSeerrUrl = false});
 
   @override
   ConsumerState<_AdvancedLoginOptionsDialog> createState() => _AdvancedLoginOptionsDialogState();
@@ -55,6 +63,7 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
               textInputAction: TextInputAction.done,
               autoFillHints: const [AutofillHints.url],
               autocorrect: false,
+              enabled: !widget.hasSeerrUrl,
               label: context.localized.seerrServer,
               onSubmitted: (_) => _save(),
             ),
