@@ -20,6 +20,7 @@ abstract class LoginScreenModel with _$LoginScreenModel {
     String? errorMessage,
     @Default(false) bool hasBaseUrl,
     @Default(false) bool hasSeerrUrl,
+    @Default(false) bool hidePasswordLogin,
     @Default(false) bool loading,
     String? tempSeerrUrl,
     String? tempSeerrSessionCookie,

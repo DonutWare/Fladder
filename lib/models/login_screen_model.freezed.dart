@@ -20,6 +20,7 @@ mixin _$LoginScreenModel {
   String? get errorMessage;
   bool get hasBaseUrl;
   bool get hasSeerrUrl;
+  bool get hidePasswordLogin;
   bool get loading;
   String? get tempSeerrUrl;
   String? get tempSeerrSessionCookie;
@@ -34,7 +35,7 @@ mixin _$LoginScreenModel {
 
   @override
   String toString() {
-    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, hasSeerrUrl: $hasSeerrUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
+    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, hasSeerrUrl: $hasSeerrUrl, hidePasswordLogin: $hidePasswordLogin, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
   }
 }
 
@@ -51,6 +52,7 @@ abstract mixin class $LoginScreenModelCopyWith<$Res> {
       String? errorMessage,
       bool hasBaseUrl,
       bool hasSeerrUrl,
+      bool hidePasswordLogin,
       bool loading,
       String? tempSeerrUrl,
       String? tempSeerrSessionCookie});
@@ -77,6 +79,7 @@ class _$LoginScreenModelCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? hasBaseUrl = null,
     Object? hasSeerrUrl = null,
+    Object? hidePasswordLogin = null,
     Object? loading = null,
     Object? tempSeerrUrl = freezed,
     Object? tempSeerrSessionCookie = freezed,
@@ -105,6 +108,10 @@ class _$LoginScreenModelCopyWithImpl<$Res>
       hasSeerrUrl: null == hasSeerrUrl
           ? _self.hasSeerrUrl
           : hasSeerrUrl // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hidePasswordLogin: null == hidePasswordLogin
+          ? _self.hidePasswordLogin
+          : hidePasswordLogin // ignore: cast_nullable_to_non_nullable
               as bool,
       loading: null == loading
           ? _self.loading
@@ -236,6 +243,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             String? errorMessage,
             bool hasBaseUrl,
             bool hasSeerrUrl,
+            bool hidePasswordLogin,
             bool loading,
             String? tempSeerrUrl,
             String? tempSeerrSessionCookie)?
@@ -252,6 +260,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             _that.errorMessage,
             _that.hasBaseUrl,
             _that.hasSeerrUrl,
+            _that.hidePasswordLogin,
             _that.loading,
             _that.tempSeerrUrl,
             _that.tempSeerrSessionCookie);
@@ -282,6 +291,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             String? errorMessage,
             bool hasBaseUrl,
             bool hasSeerrUrl,
+            bool hidePasswordLogin,
             bool loading,
             String? tempSeerrUrl,
             String? tempSeerrSessionCookie)
@@ -297,6 +307,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             _that.errorMessage,
             _that.hasBaseUrl,
             _that.hasSeerrUrl,
+            _that.hidePasswordLogin,
             _that.loading,
             _that.tempSeerrUrl,
             _that.tempSeerrSessionCookie);
@@ -326,6 +337,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             String? errorMessage,
             bool hasBaseUrl,
             bool hasSeerrUrl,
+            bool hidePasswordLogin,
             bool loading,
             String? tempSeerrUrl,
             String? tempSeerrSessionCookie)?
@@ -341,6 +353,7 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             _that.errorMessage,
             _that.hasBaseUrl,
             _that.hasSeerrUrl,
+            _that.hidePasswordLogin,
             _that.loading,
             _that.tempSeerrUrl,
             _that.tempSeerrSessionCookie);
@@ -360,6 +373,7 @@ class _LoginScreenModel implements LoginScreenModel {
       this.errorMessage,
       this.hasBaseUrl = false,
       this.hasSeerrUrl = false,
+      this.hidePasswordLogin = false,
       this.loading = false,
       this.tempSeerrUrl,
       this.tempSeerrSessionCookie})
@@ -389,6 +403,9 @@ class _LoginScreenModel implements LoginScreenModel {
   final bool hasSeerrUrl;
   @override
   @JsonKey()
+  final bool hidePasswordLogin;
+  @override
+  @JsonKey()
   final bool loading;
   @override
   final String? tempSeerrUrl;
@@ -405,7 +422,7 @@ class _LoginScreenModel implements LoginScreenModel {
 
   @override
   String toString() {
-    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, hasSeerrUrl: $hasSeerrUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
+    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, hasSeerrUrl: $hasSeerrUrl, hidePasswordLogin: $hidePasswordLogin, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
   }
 }
 
@@ -424,6 +441,7 @@ abstract mixin class _$LoginScreenModelCopyWith<$Res>
       String? errorMessage,
       bool hasBaseUrl,
       bool hasSeerrUrl,
+      bool hidePasswordLogin,
       bool loading,
       String? tempSeerrUrl,
       String? tempSeerrSessionCookie});
@@ -451,6 +469,7 @@ class __$LoginScreenModelCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? hasBaseUrl = null,
     Object? hasSeerrUrl = null,
+    Object? hidePasswordLogin = null,
     Object? loading = null,
     Object? tempSeerrUrl = freezed,
     Object? tempSeerrSessionCookie = freezed,
@@ -479,6 +498,10 @@ class __$LoginScreenModelCopyWithImpl<$Res>
       hasSeerrUrl: null == hasSeerrUrl
           ? _self.hasSeerrUrl
           : hasSeerrUrl // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hidePasswordLogin: null == hidePasswordLogin
+          ? _self.hidePasswordLogin
+          : hidePasswordLogin // ignore: cast_nullable_to_non_nullable
               as bool,
       loading: null == loading
           ? _self.loading

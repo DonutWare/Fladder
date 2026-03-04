@@ -115,6 +115,19 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
             onChanged: (value) => ref.read(clientSettingsProvider.notifier).useSystemIME(value),
           ),
         ),
+      SettingsListTile(
+        label: Text(context.localized.hidePasswordLogin),
+        subLabel: Text(context.localized.hidePasswordLoginDescription),
+        onTap: () => ref
+            .read(clientSettingsProvider.notifier)
+            .update((current) => current.copyWith(hidePasswordLogin: !current.hidePasswordLogin)),
+        trailing: Switch(
+          value: ref.watch(clientSettingsProvider.select((value) => value.hidePasswordLogin)),
+          onChanged: (value) => ref
+              .read(clientSettingsProvider.notifier)
+              .update((current) => current.copyWith(hidePasswordLogin: value)),
+        ),
+      ),
     ],
   );
 }

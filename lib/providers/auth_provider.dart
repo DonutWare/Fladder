@@ -54,6 +54,9 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       state = state.copyWith(hasSeerrUrl: true);
       setTempSeerrUrl(FladderConfig.seerrUrl);
     }
+    if (FladderConfig.hidePasswordLogin == true) {
+      state = state.copyWith(hidePasswordLogin: true);
+    }
     state = state.copyWith(
       accounts: currentAccounts,
       screen: currentAccounts.isEmpty ? LoginScreenType.login : LoginScreenType.users,

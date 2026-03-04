@@ -1,4 +1,5 @@
 {
 	"baseUrl": null,
-	"seerrUrl": null
+	"seerrUrl": null,
+	"hidePasswordLogin": null
 }
