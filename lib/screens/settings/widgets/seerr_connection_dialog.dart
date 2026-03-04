@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,12 +29,14 @@ Future<void> showSeerrConnectionDialog(BuildContext context) {
 enum SeerrAuthTab {
   jellyfin,
   local,
-  apiKey;
+  apiKey,
+  quickConnect;
 
   String label(BuildContext context) => switch (this) {
         SeerrAuthTab.apiKey => context.localized.seerrAuthApiKey,
         SeerrAuthTab.local => context.localized.seerrAuthLocal,
         SeerrAuthTab.jellyfin => context.localized.seerrAuthJellyfin,
+        SeerrAuthTab.quickConnect => context.localized.seerrAuthQuickConnect,
       };
 }
 
@@ -58,6 +63,11 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   bool processing = false;
   String? error;
 
+  // QuickConnect state
+  String? _qcCode;
+  String? _qcSecret;
+  RestartableTimer? _qcTimer;
+
   @override
   void initState() {
     super.initState();
@@ -76,6 +86,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
 
   @override
   void dispose() {
+    _qcTimer?.cancel();
     apiKeyController.dispose();
     serverController.dispose();
     localEmailController.dispose();
@@ -257,6 +268,98 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       if (mounted) {
         setState(() {
           processing = false;
+        });
+        ref.read(seerrDashboardProvider.notifier).clear();
+      }
+    }
+  }
+
+  Future<void> _quickConnectInitiate() async {
+    if (!_applyServerUrl()) return;
+    setState(() {
+      processing = true;
+      error = null;
+      _qcCode = null;
+      _qcSecret = null;
+    });
+    _qcTimer?.cancel();
+
+    try {
+      final result = await ref.read(seerrApiProvider).quickConnectInitiate();
+      if (!mounted) return;
+      if (result == null) {
+        setState(() {
+          error = context.localized.quickConnectPostFailed;
+          processing = false;
+        });
+        return;
+      }
+      setState(() {
+        _qcCode = result.code;
+        _qcSecret = result.secret;
+        processing = false;
+      });
+      _startQcPolling();
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          error = e.toString();
+          processing = false;
+        });
+      }
+    }
+  }
+
+  void _startQcPolling() {
+    _qcTimer?.cancel();
+    final secret = _qcSecret;
+    if (secret == null) return;
+    _qcTimer = RestartableTimer(const Duration(seconds: 2), () async {
+      final authenticated = await ref.read(seerrApiProvider).quickConnectCheck(secret);
+      if (!mounted) return;
+      if (authenticated) {
+        await _quickConnectAuthenticate(secret);
+      } else {
+        _qcTimer?.reset();
+      }
+    });
+  }
+
+  Future<void> _quickConnectAuthenticate(String secret) async {
+    _qcTimer?.cancel();
+    setState(() {
+      processing = true;
+      error = null;
+    });
+
+    try {
+      final cookie = await ref.read(seerrApiProvider).quickConnectAuthenticate(secret);
+      if (!mounted) return;
+      if (cookie == null || cookie.isEmpty) {
+        setState(() {
+          error = context.localized.seerrUserFetchFailed;
+          processing = false;
+        });
+        return;
+      }
+      ref.read(userProvider.notifier).setSeerrSessionCookie(cookie);
+      ref.read(userProvider.notifier).setSeerrApiKey('');
+      await _refreshSession();
+      if (mounted) {
+        FladderSnack.show(context.localized.seerrLoggedIn, context: context);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          error = e.toString();
+        });
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          processing = false;
+          _qcCode = null;
+          _qcSecret = null;
         });
         ref.read(seerrDashboardProvider.notifier).clear();
       }
@@ -565,6 +668,47 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                   child: processing
                       ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
                       : Text(context.localized.login),
+                ),
+              ],
+            ),
+          ],
+        );
+      case SeerrAuthTab.quickConnect:
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 16,
+          children: [
+            if (_qcCode != null) ...[
+              Text(
+                context.localized.quickConnectEnterCodeDescription,
+                style: Theme.of(context).textTheme.bodyLarge,
+                textAlign: TextAlign.center,
+              ),
+              IntrinsicWidth(
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      _qcCode!,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            wordSpacing: 8,
+                            letterSpacing: 8,
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FilledButton(
+                  onPressed: processing ? null : _quickConnectInitiate,
+                  child: processing
+                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
+                      : Text(_qcCode != null ? context.localized.refresh : context.localized.quickConnectTitle),
                 ),
               ],
             ),
