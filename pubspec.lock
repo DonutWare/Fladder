@@ -889,10 +889,10 @@ packages:
     dependency: "direct main"
     description:
       name: fvp
-      sha256: "33e34a78d3e4bd3ab87af7279d7bc88ff6025291574edc7e8592abea91e04cb4"
+      sha256: e03c4ba02c367cde8610c09325d085c9b1efe4f7d98a563950993a1fee17a28b
       url: "https://pub.dev"
     source: hosted
-    version: "0.35.0"
+    version: "0.35.2"
   fwfh_cached_network_image:
     dependency: transitive
     description:
