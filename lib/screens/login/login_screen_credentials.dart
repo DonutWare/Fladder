@@ -65,6 +65,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     // It hides the password fields but does not disable password-based authentication on the server.
     final hidePasswordLogin = ref.watch(authProvider.select((value) => value.hidePasswordLogin)) ||
         ref.watch(clientSettingsProvider.select((value) => value.hidePasswordLogin));
+    final hasSeerrUrl = ref.watch(authProvider.select((value) => value.hasSeerrUrl));
 
     ref.listen(
       authProvider.select((value) => value.serverLoginModel),
@@ -213,32 +214,31 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                                   ),
                           ),
                         ),
-                        IconButton.filledTonal(
-                          onPressed: () async {
-                            final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-                            final hasSeerrUrl = ref.read(authProvider.select((value) => value.hasSeerrUrl));
-                            final result = await showAdvancedLoginOptionsDialog(
-                              context,
-                              initialSeerrUrl: tempSeerrUrl,
-                              hasSeerrUrl: hasSeerrUrl,
-                            );
-                            if (result != null) {
-                              ref.read(authProvider.notifier).setTempSeerrUrl(result);
-                            }
-                          },
-                          icon: const Icon(IconsaxPlusLinear.setting_3),
-                        ),
+                        if (!hasSeerrUrl)
+                          IconButton.filledTonal(
+                            onPressed: () async {
+                              final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+                              final result = await showAdvancedLoginOptionsDialog(
+                                context,
+                                initialSeerrUrl: tempSeerrUrl,
+                                hasSeerrUrl: hasSeerrUrl,
+                              );
+                              if (result != null) {
+                                ref.read(authProvider.notifier).setTempSeerrUrl(result);
+                              }
+                            },
+                            icon: const Icon(IconsaxPlusLinear.setting_3),
+                          ),
                       ],
                     ),
                   ],
-                  if (hidePasswordLogin)
+                  if (hidePasswordLogin && !hasSeerrUrl)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         IconButton.filledTonal(
                           onPressed: () async {
                             final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-                            final hasSeerrUrl = ref.read(authProvider.select((value) => value.hasSeerrUrl));
                             final result = await showAdvancedLoginOptionsDialog(
                               context,
                               initialSeerrUrl: tempSeerrUrl,
