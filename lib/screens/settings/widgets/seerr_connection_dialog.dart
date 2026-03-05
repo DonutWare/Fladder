@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
@@ -169,14 +170,18 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   bool _applyServerUrl({bool showError = true}) {
-    final serverUrl = serverController.text.trim();
-    if (serverUrl.isEmpty) {
+    final rawUrl = serverController.text.trim();
+    if (rawUrl.isEmpty) {
       if (showError && mounted) {
         setState(() {
           error = context.localized.seerrEnterServerUrlFirst;
         });
       }
       return false;
+    }
+    final serverUrl = normalizeUrl(rawUrl);
+    if (serverUrl != rawUrl) {
+      serverController.text = serverUrl;
     }
     ref.read(userProvider.notifier).setSeerrServerUrl(serverUrl);
     return true;

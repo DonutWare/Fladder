@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -85,6 +86,7 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
   }
 
   void _save() {
-    Navigator.of(context).pop(seerrUrlController.text.trim());
+    final url = seerrUrlController.text.trim();
+    Navigator.of(context).pop(url.isEmpty ? url : normalizeUrl(url));
   }
 }

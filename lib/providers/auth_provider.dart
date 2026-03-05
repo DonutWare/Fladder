@@ -196,9 +196,21 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
   }
 
   Future<void> setServer(String server) async {
-    final url = (state.hasBaseUrl ? FladderConfig.baseUrl : server);
-    if (url == null || server.isEmpty) return;
-    await _fetchServerInfo(url);
+    if (state.hasBaseUrl) {
+      await _fetchServerInfo(FladderConfig.baseUrl!);
+      return;
+    }
+    final trimmed = server.trim();
+    if (trimmed.isEmpty) return;
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+      await _fetchServerInfo(trimmed);
+    } else {
+      // Try http first, then https
+      await _fetchServerInfo('http://$trimmed');
+      if (state.errorMessage != null) {
+        await _fetchServerInfo('https://$trimmed');
+      }
+    }
   }
 
   List<AccountModel> getSavedAccounts() {
