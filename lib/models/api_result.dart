@@ -2,12 +2,17 @@ import 'package:chopper/chopper.dart';
 
 class ApiError {
   final int? statusCode;
+  final String? reason;
   final String message;
 
-  ApiError({this.statusCode, required this.message});
+  ApiError({this.statusCode, this.reason, required this.message});
 
   @override
-  String toString() => (statusCode != null ? '($statusCode) ' : '') + message;
+  String toString() {
+    final statusPart = statusCode != null ? '($statusCode) ' : '';
+    final reasonPart = reason != null ? '$reason: ' : '';
+    return statusPart + reasonPart + message;
+  }
 }
 
 class ApiResult<T> {
@@ -33,8 +38,13 @@ extension ResponseFutureExtensions<T> on Future<Response<T>> {
         return ApiResult.success(response.body);
       }
 
-      final body = response.body?.toString() ?? response.base.reasonPhrase ?? '';
-      return ApiResult.failure(ApiError(statusCode: response.base.statusCode, message: body));
+      final reason = response.base.reasonPhrase;
+      final body = response.body?.toString() ?? response.error?.toString() ?? 'Unknown error';
+      return ApiResult.failure(ApiError(
+        statusCode: response.base.statusCode,
+        reason: reason,
+        message: body,
+      ));
     } catch (e) {
       return ApiResult.failure(ApiError(message: e.toString()));
     }
@@ -46,8 +56,13 @@ extension ResponseExtensions<T> on Response<T> {
     if (isSuccessful) {
       return ApiResult.success(bodyOrThrow);
     } else {
-      final body = this.body?.toString() ?? base.reasonPhrase ?? '';
-      return ApiResult.failure(ApiError(statusCode: base.statusCode, message: body));
+      final reason = base.reasonPhrase;
+      final body = this.body?.toString() ?? error?.toString() ?? 'Unknown error';
+      return ApiResult.failure(ApiError(
+        statusCode: base.statusCode,
+        reason: reason,
+        message: body,
+      ));
     }
   }
 }

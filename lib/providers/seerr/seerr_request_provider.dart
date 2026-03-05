@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'package:fladder/models/api_result.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
@@ -193,9 +194,9 @@ class SeerrRequest extends _$SeerrRequest {
     }
   }
 
-  Future<void> submitRequest() async {
+  Future<ApiResult<SeerrMediaRequest?>?> submitRequest() async {
     final poster = state.poster;
-    if (poster == null) return;
+    if (poster == null) return null;
 
     final canOverrideUser = state.currentUser?.canManageUsers ?? false;
     final userId = canOverrideUser ? state.selectedUser?.id ?? state.currentUser?.id : null;
@@ -206,7 +207,7 @@ class SeerrRequest extends _$SeerrRequest {
     final isTv = poster.type == SeerrMediaType.tvshow;
 
     if (isTv) {
-      await api.requestSeries(
+      return (await api.requestSeries(
         tmdbId: poster.tmdbId,
         is4k: state.selectedSonarrServer?.is4k,
         userId: userId,
@@ -215,9 +216,10 @@ class SeerrRequest extends _$SeerrRequest {
         rootFolder: rootFolder,
         tags: tags,
         seasons: state.selectedSeasonNumbers,
-      );
+      ))
+          .apiResult;
     } else {
-      await api.requestMovie(
+      return (await api.requestMovie(
         tmdbId: poster.tmdbId,
         is4k: state.selectedRadarrServer?.is4k,
         userId: userId,
@@ -225,7 +227,8 @@ class SeerrRequest extends _$SeerrRequest {
         profileId: profileId,
         rootFolder: rootFolder,
         tags: tags,
-      );
+      ))
+          .apiResult;
     }
   }
 

@@ -112,9 +112,9 @@ class FladderSnack {
         }
       } else {
         final err = result?.errorMessage ?? "Unknown error";
-        show(errorTitle != null ? errorTitle(err) : err);
+        throw Exception(err);
       }
-      return result ?? ApiResult.failure(ApiError(message: "No response"));
+      return result;
     } catch (e) {
       show(errorTitle != null ? errorTitle(e.toString()) : "An error occurred: $e");
       rethrow;

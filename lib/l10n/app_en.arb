@@ -2475,5 +2475,14 @@
   "settingsBlurEffectsTitle": "Enable blur effects",
   "settingsBlurEffectsDesc": "Enable blur effects in the UI. Disabling this can improve performance on lower-end devices.",
   "profileSettingsOpenAuthAtLaunch": "Show auth-method on app lock",
-  "toggleSidebar": "Toggle sidebar"
+  "toggleSidebar": "Toggle sidebar",
+  "requestedSuccessForItem": "Successfully requested {itemName}",
+  "@requestedSuccessForItem": {
+    "description": "Message shown when a media item is successfully requested",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  }
 }
