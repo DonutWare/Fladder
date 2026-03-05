@@ -81,7 +81,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       spacing: 16,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: hasBaseUrl ? MainAxisAlignment.center : MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 8,
           children: [
