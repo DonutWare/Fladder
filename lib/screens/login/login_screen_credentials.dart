@@ -216,17 +216,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                         ),
                         if (!hasSeerrUrl)
                           IconButton.filledTonal(
-                            onPressed: () async {
-                              final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-                              final result = await showAdvancedLoginOptionsDialog(
-                                context,
-                                initialSeerrUrl: tempSeerrUrl,
-                                hasSeerrUrl: hasSeerrUrl,
-                              );
-                              if (result != null) {
-                                ref.read(authProvider.notifier).setTempSeerrUrl(result);
-                              }
-                            },
+                            onPressed: _openAdvancedLoginOptions,
                             icon: const Icon(IconsaxPlusLinear.setting_3),
                           ),
                       ],
@@ -237,17 +227,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton.filledTonal(
-                          onPressed: () async {
-                            final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-                            final result = await showAdvancedLoginOptionsDialog(
-                              context,
-                              initialSeerrUrl: tempSeerrUrl,
-                              hasSeerrUrl: hasSeerrUrl,
-                            );
-                            if (result != null) {
-                              ref.read(authProvider.notifier).setTempSeerrUrl(result);
-                            }
-                          },
+                          onPressed: _openAdvancedLoginOptions,
                           icon: const Icon(IconsaxPlusLinear.setting_3),
                         ),
                       ],
@@ -295,6 +275,19 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
         ],
       ],
     );
+  }
+
+  Future<void> _openAdvancedLoginOptions() async {
+    final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+    final hasSeerrUrl = ref.read(authProvider.select((value) => value.hasSeerrUrl));
+    final result = await showAdvancedLoginOptionsDialog(
+      context,
+      initialSeerrUrl: tempSeerrUrl,
+      hasSeerrUrl: hasSeerrUrl,
+    );
+    if (result != null) {
+      ref.read(authProvider.notifier).setTempSeerrUrl(result);
+    }
   }
 
   Future<void> Function()? get enterCredentialsTryLogin => emptyFields() ? null : () => loginUsingCredentials();
