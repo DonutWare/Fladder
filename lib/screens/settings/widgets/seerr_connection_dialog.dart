@@ -710,11 +710,12 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                 ),
               ),
               TextButton.icon(
-                onPressed: () {
+                onPressed: () async {
                   final baseUrl = FladderConfig.baseUrl ??
                       ref.read(userProvider)?.credentials.url;
                   if (baseUrl != null && baseUrl.isNotEmpty) {
-                    ext.launchUrl(context, '$baseUrl/web/#/quickconnect');
+                    await ext.launchUrl(context, '$baseUrl/web/#/quickconnect');
+                    _qcTimer?.reset();
                   }
                 },
                 icon: const Icon(IconsaxPlusLinear.export_1),
