@@ -10,6 +10,8 @@ import 'package:fladder/providers/seerr_service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_chopper_service.dart';
 import 'package:fladder/seerr/seerr_json_converter.dart';
+import 'package:fladder/util/seerr_http_client.dart'
+    if (dart.library.html) 'package:fladder/util/seerr_http_client_web.dart';
 
 part 'seerr_api_provider.g.dart';
 
@@ -20,6 +22,7 @@ class SeerrApi extends _$SeerrApi {
     ref.watch(userProvider.select((u) => u?.seerrCredentials));
 
     final chopperClient = ChopperClient(
+      client: createSeerrHttpClient(),
       converter: const SeerrJsonConverter(),
       interceptors: [
         SeerrRequest(ref),
