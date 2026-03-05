@@ -85,7 +85,8 @@ class SeerrRequest implements Interceptor {
 
 Map<String, String> _authHeaders({required String apiKey, required String cookie}) {
   if (apiKey.isNotEmpty) return {'X-Api-Key': apiKey};
-  if (cookie.isNotEmpty) return {'Cookie': cookie};
+  if (cookie.isNotEmpty && cookie != kBrowserManagedCookie) return {'Cookie': cookie};
+  if (cookie == kBrowserManagedCookie) return const {};
   return const {};
 }
 
