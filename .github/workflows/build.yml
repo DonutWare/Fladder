@@ -1,9 +1,5 @@
 name: Build Fladder
 
-env:
-  # Pin mdk-sdk to a stable release to avoid broken nightly builds from SourceForge
-  FVP_DEPS_URL: https://github.com/wang-bin/mdk-sdk/releases/download/v0.35.1
-
 on:
   push:
     tags:
@@ -39,6 +35,8 @@ concurrency:
 
 env:
   NIGHTLY_TAG: nightly
+  # Pin mdk-sdk to a stable release to avoid broken nightly builds from SourceForge
+  FVP_DEPS_URL: https://github.com/wang-bin/mdk-sdk/releases/download/v0.35.1
 
 jobs:
   # Check if workflow should run based on trigger conditions
