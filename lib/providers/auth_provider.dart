@@ -205,10 +205,10 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
       await _fetchServerInfo(trimmed);
     } else {
-      // Try http first, then https
-      await _fetchServerInfo('http://$trimmed');
+      // Try https first, then http
+      await _fetchServerInfo('https://$trimmed');
       if (state.errorMessage != null) {
-        await _fetchServerInfo('https://$trimmed');
+        await _fetchServerInfo('http://$trimmed');
       }
     }
   }
