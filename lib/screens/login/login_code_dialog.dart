@@ -128,11 +128,12 @@ class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
                     ),
                   ),
                   TextButton.icon(
-                    onPressed: () {
+                    onPressed: () async {
                       final baseUrl = FladderConfig.baseUrl ??
                           ref.read(authProvider).serverLoginModel?.tempCredentials.url;
                       if (baseUrl != null && baseUrl.isNotEmpty) {
-                        ext.launchUrl(context, '$baseUrl/web/#/quickconnect');
+                        await ext.launchUrl(context, '$baseUrl/web/#/quickconnect');
+                        timer?.reset();
                       }
                     },
                     icon: const Icon(IconsaxPlusLinear.export_1),
