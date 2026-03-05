@@ -93,6 +93,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   @override
   void dispose() {
     _qcTimer?.cancel();
+    _qcSecret = null;
+    _qcCode = null;
     apiKeyController.dispose();
     serverController.dispose();
     localEmailController.dispose();

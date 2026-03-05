@@ -31,6 +31,8 @@ abstract class SeerrChopperService extends ChopperService {
   @POST(path: '/auth/jellyfin/quickconnect/initiate')
   Future<Response<SeerrQuickConnectInitResponse>> quickConnectInitiate();
 
+  // Security note: secret is passed as a query parameter per the Seerr API spec.
+  // Ensure the Seerr server URL uses HTTPS in production to protect this value in transit.
   @GET(path: '/auth/jellyfin/quickconnect/check')
   Future<Response<SeerrQuickConnectCheckResponse>> quickConnectCheck(
     @Query('secret') String secret,
