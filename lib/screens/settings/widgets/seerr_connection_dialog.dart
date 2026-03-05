@@ -12,12 +12,14 @@ import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
+import 'package:fladder/screens/shared/media/external_urls.dart' as ext;
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/focused_outlined_text_field.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/clipboard_helper.dart';
+import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 Future<void> showSeerrConnectionDialog(BuildContext context) {
@@ -706,6 +708,17 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                     ),
                   ),
                 ),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  final baseUrl = FladderConfig.baseUrl ??
+                      ref.read(userProvider)?.credentials.url;
+                  if (baseUrl != null && baseUrl.isNotEmpty) {
+                    ext.launchUrl(context, '$baseUrl/web/#/quickconnect');
+                  }
+                },
+                icon: const Icon(IconsaxPlusLinear.export_1),
+                label: Text(context.localized.openJellyfinQuickConnect),
               ),
             ],
             Row(
