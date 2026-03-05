@@ -719,7 +719,7 @@ jobs:
       - fetch-info
       - create_release
     runs-on: ubuntu-latest
-    if: needs.fetch-info.outputs.build_type == 'release'
+    if: needs.fetch-info.outputs.build_type == 'release' || needs.fetch-info.outputs.build_type == 'development'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
@@ -754,15 +754,18 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Clean builds folder
+        if: needs.fetch-info.outputs.build_type == 'release'
         run: rm -rf build/web
 
       - name: Download Artifacts Web
+        if: needs.fetch-info.outputs.build_type == 'release'
         uses: actions/download-artifact@v4
         with:
           name: fladder-web-pages
           path: build/web
 
       - name: Deploy to GitHub Pages
+        if: needs.fetch-info.outputs.build_type == 'release'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
