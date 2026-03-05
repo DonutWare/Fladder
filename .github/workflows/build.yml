@@ -717,9 +717,10 @@ jobs:
     name: Release Web
     needs:
       - fetch-info
+      - build-web
       - create_release
     runs-on: ubuntu-latest
-    if: needs.fetch-info.outputs.build_type == 'release' || needs.fetch-info.outputs.build_type == 'development'
+    if: always() && !failure() && !cancelled() && (needs.fetch-info.outputs.build_type == 'release' || needs.fetch-info.outputs.build_type == 'development')
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
