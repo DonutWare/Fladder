@@ -6,3 +6,4 @@ services:
     environment:
       - BASE_URL=https://server-url #OPTIONAL: Locks the Fladder front-end to a certain jellyfin server
       - SEERR_URL= #OPTIONAL: Pre-fills and locks the Seerr URL in settings
+      - HIDE_PASSWORD_LOGIN= #OPTIONAL: Set to "true" to hide password fields and only show QuickConnect
