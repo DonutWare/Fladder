@@ -60,15 +60,19 @@ class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
   void createTimer() {
     timer?.cancel();
     timer = RestartableTimer(const Duration(seconds: 1), () async {
-      final result = await ref.read(jellyApiProvider).quickConnectConnectGet(
-            secret: quickConnectInfo.secret,
-          );
-      final newSecret = result.body?.secret;
-      if (result.isSuccessful &&
-          result.body?.authenticated == true &&
-          newSecret != null) {
-        widget.onAuthenticated.call(context, newSecret);
-      } else {
+      try {
+        final result = await ref.read(jellyApiProvider).quickConnectConnectGet(
+              secret: quickConnectInfo.secret,
+            );
+        final newSecret = result.body?.secret;
+        if (result.isSuccessful &&
+            result.body?.authenticated == true &&
+            newSecret != null) {
+          widget.onAuthenticated.call(context, newSecret);
+        } else {
+          timer?.reset();
+        }
+      } catch (_) {
         timer?.reset();
       }
     });

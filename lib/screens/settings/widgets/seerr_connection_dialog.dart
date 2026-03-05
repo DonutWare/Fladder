@@ -318,12 +318,16 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     final secret = _qcSecret;
     if (secret == null) return;
     _qcTimer = RestartableTimer(const Duration(seconds: 2), () async {
-      final authenticated = await ref.read(seerrApiProvider).quickConnectCheck(secret);
-      if (!mounted) return;
-      if (authenticated) {
-        await _quickConnectAuthenticate(secret);
-      } else {
-        _qcTimer?.reset();
+      try {
+        final authenticated = await ref.read(seerrApiProvider).quickConnectCheck(secret);
+        if (!mounted) return;
+        if (authenticated) {
+          await _quickConnectAuthenticate(secret);
+        } else {
+          _qcTimer?.reset();
+        }
+      } catch (_) {
+        if (mounted) _qcTimer?.reset();
       }
     });
   }
