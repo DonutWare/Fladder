@@ -229,6 +229,27 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                       ],
                     ),
                   ],
+                  if (hidePasswordLogin)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton.filledTonal(
+                          onPressed: () async {
+                            final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+                            final hasSeerrUrl = ref.read(authProvider.select((value) => value.hasSeerrUrl));
+                            final result = await showAdvancedLoginOptionsDialog(
+                              context,
+                              initialSeerrUrl: tempSeerrUrl,
+                              hasSeerrUrl: hasSeerrUrl,
+                            );
+                            if (result != null) {
+                              ref.read(authProvider.notifier).setTempSeerrUrl(result);
+                            }
+                          },
+                          icon: const Icon(IconsaxPlusLinear.setting_3),
+                        ),
+                      ],
+                    ),
                   if (hasQuickConnect)
                     FilledButton(
                       onPressed: () async {
