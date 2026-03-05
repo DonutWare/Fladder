@@ -148,24 +148,24 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 spacing: 8,
                 children: [
-                  Flexible(
-                    child: AutofillGroup(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        spacing: 8,
-                        children: [
-                          Flexible(
-                            child: OutlinedTextField(
-                              controller: usernameController,
-                              autoFillHints: const [AutofillHints.username],
-                              textInputAction: hidePasswordLogin ? TextInputAction.done : TextInputAction.next,
-                              autocorrect: false,
-                              onChanged: (value) => setState(() {}),
-                              label: context.localized.userName,
+                  if (!hidePasswordLogin)
+                    Flexible(
+                      child: AutofillGroup(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          spacing: 8,
+                          children: [
+                            Flexible(
+                              child: OutlinedTextField(
+                                controller: usernameController,
+                                autoFillHints: const [AutofillHints.username],
+                                textInputAction: TextInputAction.next,
+                                autocorrect: false,
+                                onChanged: (value) => setState(() {}),
+                                label: context.localized.userName,
+                              ),
                             ),
-                          ),
-                          if (!hidePasswordLogin)
                             Flexible(
                               child: OutlinedTextField(
                                 controller: passwordController,
@@ -179,10 +179,10 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                                 label: context.localized.password,
                               ),
                             ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
                   if (!hidePasswordLogin) ...[
                     const Divider(
                       indent: 32,
