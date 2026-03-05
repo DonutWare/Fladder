@@ -130,6 +130,23 @@ String normalizeUrl(String url) {
   }
 }
 
+/// Probes a Seerr server URL by hitting /api/v1/status.
+/// Returns the working URL (with scheme) or null.
+Future<String?> probeSeerrUrl(String baseUrl) async {
+  final client = HttpClient()..connectionTimeout = const Duration(seconds: 5);
+  try {
+    final request = await client.getUrl(Uri.parse('$baseUrl/api/v1/status'));
+    final response = await request.close();
+    if (response.statusCode >= 200 && response.statusCode < 400) {
+      return baseUrl;
+    }
+  } catch (_) {
+  } finally {
+    client.close();
+  }
+  return null;
+}
+
 Uri? tryParseServerBaseUri(String? url) {
   if (url == null) return null;
   final trimmed = url.trim();
