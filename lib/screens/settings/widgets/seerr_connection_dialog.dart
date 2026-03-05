@@ -547,22 +547,25 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: SegmentedButton<SeerrAuthTab>(
-            segments: SeerrAuthTab.values
-                .map(
-                  (tab) => ButtonSegment(
-                    value: tab,
-                    label: Text(tab.label(context)),
-                  ),
-                )
-                .toList(),
-            selected: {selectedTab},
-            onSelectionChanged: (value) {
-              setState(() {
-                selectedTab = value.first;
-              });
-            },
-            showSelectedIcon: false,
+          child: SizedBox(
+            width: double.infinity,
+            child: SegmentedButton<SeerrAuthTab>(
+              segments: SeerrAuthTab.values
+                  .map(
+                    (tab) => ButtonSegment(
+                      value: tab,
+                      label: Text(tab.label(context)),
+                    ),
+                  )
+                  .toList(),
+              selected: {selectedTab},
+              onSelectionChanged: (value) {
+                setState(() {
+                  selectedTab = value.first;
+                });
+              },
+              showSelectedIcon: false,
+            ),
           ),
         ),
         AnimatedFadeSize(child: _authForm()),
@@ -704,11 +707,13 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                FilledButton(
-                  onPressed: processing ? null : _quickConnectInitiate,
-                  child: processing
-                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
-                      : Text(_qcCode != null ? context.localized.refresh : context.localized.quickConnectTitle),
+                Expanded(
+                  child: FilledButton(
+                    onPressed: processing ? null : _quickConnectInitiate,
+                    child: processing
+                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
+                        : Text(_qcCode != null ? context.localized.refresh : context.localized.quickConnectTitle),
+                  ),
                 ),
               ],
             ),
