@@ -68,9 +68,11 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   String? error;
 
   // QuickConnect state
+  static const _maxPollAttempts = 150; // ~5 minutes at 2s interval
   String? _qcCode;
   String? _qcSecret;
   RestartableTimer? _qcTimer;
+  int _qcPollAttempts = 0;
 
   @override
   void initState() {
@@ -320,9 +322,15 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
 
   void _startQcPolling() {
     _qcTimer?.cancel();
+    _qcPollAttempts = 0;
     final secret = _qcSecret;
     if (secret == null) return;
     _qcTimer = RestartableTimer(const Duration(seconds: 2), () async {
+      if (_qcPollAttempts >= _maxPollAttempts) {
+        _qcTimer?.cancel();
+        return;
+      }
+      _qcPollAttempts++;
       try {
         final authenticated = await ref.read(seerrApiProvider).quickConnectCheck(secret);
         if (!mounted) return;

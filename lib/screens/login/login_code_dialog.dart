@@ -43,7 +43,9 @@ class LoginCodeDialog extends ConsumerStatefulWidget {
 class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
   late QuickConnectResult quickConnectInfo = widget.quickConnectInfo;
 
+  static const _maxPollAttempts = 300; // ~5 minutes at 1s interval
   RestartableTimer? timer;
+  int _pollAttempts = 0;
 
   @override
   void initState() {
@@ -59,7 +61,13 @@ class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
 
   void createTimer() {
     timer?.cancel();
+    _pollAttempts = 0;
     timer = RestartableTimer(const Duration(seconds: 1), () async {
+      if (_pollAttempts >= _maxPollAttempts) {
+        timer?.cancel();
+        return;
+      }
+      _pollAttempts++;
       try {
         final result = await ref.read(jellyApiProvider).quickConnectConnectGet(
               secret: quickConnectInfo.secret,
