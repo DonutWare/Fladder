@@ -5,6 +5,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/util/list_padding.dart';
+import 'package:fladder/util/clipboard_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -102,20 +103,23 @@ class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
                     style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
-                  IntrinsicWidth(
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(
-                          code,
-                          style:
-                              Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    wordSpacing: 8,
-                                    letterSpacing: 8,
-                                  ),
-                          textAlign: TextAlign.center,
-                          semanticsLabel: code,
+                  GestureDetector(
+                    onTap: () => context.copyToClipboard(code),
+                    child: IntrinsicWidth(
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            code,
+                            style:
+                                Theme.of(context).textTheme.titleLarge?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      wordSpacing: 8,
+                                      letterSpacing: 8,
+                                    ),
+                            textAlign: TextAlign.center,
+                            semanticsLabel: code,
+                          ),
                         ),
                       ),
                     ),

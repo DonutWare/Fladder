@@ -17,6 +17,7 @@ import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/focused_outlined_text_field.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/util/clipboard_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 Future<void> showSeerrConnectionDialog(BuildContext context) {
@@ -687,18 +688,21 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                 style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
-              IntrinsicWidth(
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      _qcCode!,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            wordSpacing: 8,
-                            letterSpacing: 8,
-                          ),
-                      textAlign: TextAlign.center,
+              GestureDetector(
+                onTap: () => context.copyToClipboard(_qcCode!),
+                child: IntrinsicWidth(
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        _qcCode!,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              wordSpacing: 8,
+                              letterSpacing: 8,
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),
