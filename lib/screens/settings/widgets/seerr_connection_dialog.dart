@@ -79,7 +79,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     super.initState();
     final creds = ref.read(userProvider)?.seerrCredentials;
     apiKeyController = TextEditingController(text: creds?.apiKey ?? '');
-    serverController = TextEditingController(text: creds?.serverUrl ?? '');
+    serverController = TextEditingController(text: FladderConfig.seerrUrl ?? creds?.serverUrl ?? '');
     localEmailController = TextEditingController();
     localPasswordController = TextEditingController();
     jfUsernameController = TextEditingController();
@@ -174,7 +174,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   bool _applyServerUrl({bool showError = true}) {
-    final rawUrl = serverController.text.trim();
+    final rawUrl = FladderConfig.seerrUrl ?? serverController.text.trim();
     if (rawUrl.isEmpty) {
       if (showError && mounted) {
         setState(() {
@@ -511,6 +511,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           controller: serverController,
           keyboardType: TextInputType.url,
           textInputAction: TextInputAction.next,
+          enabled: FladderConfig.seerrUrl == null,
           onSubmitted: (_) {
             _applyServerUrl();
             _refreshSession();
