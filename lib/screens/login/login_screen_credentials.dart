@@ -234,7 +234,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                   ],
                   if (hidePasswordLogin && !hasSeerrUrl)
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton.filledTonal(
                           onPressed: () async {
