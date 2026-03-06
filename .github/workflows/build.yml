@@ -6,7 +6,6 @@ on:
       - "v*"
     branches:
       - master
-      - feat/seerr-docker-env
   pull_request:
     paths:
       - pubspec.yaml
