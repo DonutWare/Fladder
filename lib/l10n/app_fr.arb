@@ -1,10 +1,10 @@
 {
     "@@locale": "fr",
-    "nativeName": "English",
+    "nativeName": "Français",
     "about": "À propos",
     "accept": "Accepter",
     "active": "Actif",
-    "actor": "{count, plural, other{Actors} one{Actor}}",
+    "actor": "{count, plural, other{Acteurs} one{Acteur}}",
     "@actor": {
         "description": "acteur",
         "placeholders": {
@@ -14,15 +14,15 @@
             }
         }
     },
-    "addAsFavorite": "Ajouter aux favoris",
-    "addToCollection": "Ajouter à la collection",
-    "addToPlaylist": "Ajouter à la playlist",
+    "addAsFavorite": "Ajouter as favori",
+    "addToCollection": "Ajouter to collection",
+    "addToPlaylist": "Ajouter to playlist",
     "advanced": "Avancé",
     "all": "Tout",
-    "amoledBlack": "Noir AMOLED",
-    "appLockAutoLogin": "Connexion automatique",
-    "appLockBiometrics": "Biométrie",
-    "appLockPasscode": "Code d'accès",
+    "amoledBlack": "Amoled black",
+    "appLockAutoLogin": "Auto login",
+    "appLockBiometrics": "Biometrics",
+    "appLockPasscode": "Pass-code",
     "appLockTitle": "Set the log-in method for {userName}",
     "@appLockTitle": {
         "description": "Pop-up pour choisir une méthode de connexion",
@@ -35,13 +35,13 @@
     "ascending": "Croissant",
     "audio": "{count, plural, one{Audio} other{Audio}}",
     "autoPlay": "Lecture automatique",
-    "backgroundBlur": "Flou d'arrière-plan",
-    "backgroundOpacity": "Opacité de l'arrière-plan",
-    "biometricsFailedCheckAgain": "Échec de la biométrie. Vérifiez les paramètres et réessayez.",
-    "bold": "Gras",
+    "backgroundBlur": "Arrière‑plan flou",
+    "backgroundOpacity": "Arrière‑plan opacity",
+    "biometricsFailedCheckAgain": "Biometrics failed. Check settings and try again.",
+    "bold": "Bold",
     "cancel": "Annuler",
     "change": "Modifier",
-    "chapter": "{count, plural, other{Chapters} one{Chapter}}",
+    "chapter": "{count, plural, other{Chapitres} one{Chapitre}}",
     "@chapter": {
         "description": "chapitre",
         "placeholders": {
@@ -51,18 +51,18 @@
             }
         }
     },
-    "clear": "Clear",
-    "clearAllSettings": "Clear all settings",
-    "clearAllSettingsQuestion": "Clear all settings?",
-    "clearChanges": "Clear changes",
-    "clearSelection": "Clear selection",
-    "close": "Close",
+    "clear": "Effacer",
+    "clearAllSettings": "Effacer all settings",
+    "clearAllSettingsQuestion": "Effacer all settings?",
+    "clearChanges": "Effacer changes",
+    "clearSelection": "Effacer selection",
+    "close": "Fermer",
     "code": "Code",
     "collectionFolder": "{count, plural, one{Collection folder} other{Collection folders}}",
-    "color": "Color",
+    "color": "Couleur",
     "combined": "Combined",
-    "communityRating": "Community Rating",
-    "continuePage": "Continue - page {page}",
+    "communityRating": "Community Note",
+    "continuePage": "Continuer - page {page}",
     "@continuePage": {
         "description": "Continuer - page 1",
         "placeholders": {
@@ -71,12 +71,12 @@
             }
         }
     },
-    "controls": "Controls",
-    "dashboard": "Dashboard",
-    "dashboardContinue": "Continue",
-    "dashboardContinueListening": "Continue Listening",
-    "dashboardContinueReading": "Continue Reading",
-    "dashboardContinueWatching": "Continue Watching",
+    "controls": "Contrôles",
+    "dashboard": "Tableau de bord",
+    "dashboardContinue": "Continuer",
+    "dashboardContinueListening": "Continuer Listening",
+    "dashboardContinueReading": "Continuer Reading",
+    "dashboardContinueWatching": "Continuer Watching",
     "dashboardNextUp": "Suivant",
     "dashboardRecentlyAdded": "Recently added in {name}",
     "@dashboardRecentlyAdded": {
@@ -91,7 +91,7 @@
     "dateLastContentAdded": "Date last content added",
     "datePlayed": "Date played",
     "days": "{count, plural, one{Day} other{Days}}",
-    "delete": "Delete",
+    "delete": "Supprimer",
     "deleteFileFromSystem": "Deleting this item {item} will delete it from both the file system and your media library. Are you sure you wish to continue?",
     "@deleteFileFromSystem": {
         "description": "Supprimer le fichier du système",
@@ -101,7 +101,7 @@
             }
         }
     },
-    "deleteItem": "Delete {item}?",
+    "deleteItem": "Supprimer {item}?",
     "@deleteItem": {
         "description": "deleteItem",
         "placeholders": {
@@ -110,7 +110,7 @@
             }
         }
     },
-    "descending": "Descending",
+    "descending": "Décroissant",
     "director": "{count, plural, other{Director} two{Directors}}",
     "@director": {
         "description": "réalisateur",
@@ -125,8 +125,8 @@
     "disabled": "Off",
     "discovered": "Discovered",
     "displayLanguage": "Display language",
-    "downloadsClearDesc": "Remove all synced data, clearing all data for every synced user?",
-    "downloadsClearTitle": "Clear synced data",
+    "downloadsClearDesc": "Supprimer all synced data, clearing all data for every synced user?",
+    "downloadsClearTitle": "Effacer synced data",
     "downloadsPath": "Path",
     "downloadsSyncedData": "Synced data",
     "downloadsTitle": "Downloads",
@@ -145,12 +145,12 @@
             }
         }
     },
-    "error": "Error",
+    "error": "Erreur",
     "failedToLoadImage": "Could not load image",
-    "favorite": "Favorite",
-    "favorites": "Favorites",
+    "favorite": "Favori",
+    "favorites": "Favoris",
     "fetchingLibrary": "Fetching library items…",
-    "filter": "{count, plural, other{Filters} one{Filter}}",
+    "filter": "{count, plural, other{Filtres} one{Filtre}}",
     "@filter": {
         "description": "filtre",
         "placeholders": {
@@ -160,10 +160,10 @@
             }
         }
     },
-    "folders": "Folders",
-    "fontColor": "Font color",
-    "fontSize": "Font size",
-    "forceRefresh": "Force refresh",
+    "folders": "Dossiers",
+    "fontColor": "Police color",
+    "fontSize": "Police size",
+    "forceRefresh": "Forcer l’actualisation",
     "genre": "{count, plural, other{Genres} one{Genre}}",
     "@genre": {
         "description": "genre",
@@ -175,18 +175,18 @@
         }
     },
     "goTo": "Go To",
-    "grid": "Grid",
-    "group": "Group",
-    "groupBy": "Group by",
+    "grid": "Grille",
+    "group": "Groupe",
+    "groupBy": "Groupe by",
     "heightOffset": "Height offset",
-    "hide": "Hide",
-    "hideEmpty": "Hide empty",
-    "home": "Home",
+    "hide": "Masquer",
+    "hideEmpty": "Masquer empty",
+    "home": "Accueil",
     "identify": "Identify",
     "immediately": "Immediately",
     "incorrectPinTryAgain": "Incorrect PIN. Try again.",
-    "info": "Info",
-    "invalidUrl": "Invalid URL",
+    "info": "Infos",
+    "invalidUrl": "URL invalide",
     "invalidUrlDesc": "L'URL doit commencer par http(s)://",
     "itemCount": "Item count: {count}",
     "@itemCount": {
@@ -197,7 +197,7 @@
             }
         }
     },
-    "label": "{count, plural, other{Labels} one{Label}}",
+    "label": "{count, plural, other{Étiquettes} one{Étiquette}}",
     "@label": {
         "description": "étiquette",
         "placeholders": {
@@ -207,7 +207,7 @@
             }
         }
     },
-    "library": "{count, plural, other{Libraries} one{Library}}",
+    "library": "{count, plural, other{Bibliothèques} one{Bibliothèque}}",
     "@library": {
         "description": "pluriel",
         "placeholders": {
@@ -219,13 +219,13 @@
     },
     "libraryFetchNoItemsFound": "No items found. Try different settings.",
     "libraryPageSizeDesc": "Set the amount to load at a time. 0 turns off paging.",
-    "libraryPageSizeTitle": "Library page size",
-    "light": "Light",
-    "list": "List",
+    "libraryPageSizeTitle": "Bibliothèque page size",
+    "light": "Clair",
+    "list": "Liste",
     "lockscreen": "Lockscreen",
     "loggedIn": "Logged-in",
-    "login": "Log in",
-    "logout": "Log out",
+    "login": "Connexion",
+    "logout": "Déconnexion",
     "logoutUserPopupContent": "This will log out {userName} and delete the user from the app.\nYou will have to log back in on {serverName}.",
     "@logoutUserPopupContent": {
         "description": "Pop-up pour déconnecter l'utilisateur description",
@@ -238,7 +238,7 @@
             }
         }
     },
-    "logoutUserPopupTitle": "Log out {userName}?",
+    "logoutUserPopupTitle": "Déconnexion {userName}?",
     "@logoutUserPopupTitle": {
         "description": "Pop-up pour déconnecter l'utilisateur",
         "placeholders": {
@@ -247,21 +247,21 @@
             }
         }
     },
-    "loop": "Loop",
-    "markAsUnwatched": "Mark as unwatched",
-    "markAsWatched": "Mark as watched",
+    "loop": "Boucle",
+    "markAsUnwatched": "Marquer comme non vu",
+    "markAsWatched": "Marquer comme vu",
     "masonry": "Masonry",
     "mediaTypeBase": "Base Type",
     "mediaTypeBook": "{count, plural, one{Book} other{Books}}",
     "mediaTypeBoxset": "{count, plural, one{Boxset} other{Boxsets}}",
     "mediaTypeEpisode": "{count, plural, one{Episode} other{Episodes}}",
-    "mediaTypeFolder": "{count, plural, one{Folder} other{Folders}}",
+    "mediaTypeFolder": "{count, plural, one{Folder} other{Dossiers}}",
     "mediaTypeMovie": "{count, plural, one{Movie} other{Movies}}",
     "mediaTypePerson": "{count, plural, one{Person} other{People}}",
     "mediaTypePhoto": "{count, plural, one{Photo} other{Photos}}",
     "mediaTypePhotoAlbum": "{count, plural, one{Photo Album} other{Photo Albums}}",
     "mediaTypePlaylist": "{count, plural, one{Playlist} other{Playlists}}",
-    "mediaTypeSeason": "{count, plural, one{Season} other{Seasons}}",
+    "mediaTypeSeason": "{count, plural, one{Saison} other{Saisons}}",
     "mediaTypeSeries": "{count, plural, one{Series} other{Series}}",
     "metaDataSavedFor": "Metadata saved for {item}",
     "@metaDataSavedFor": {
@@ -272,9 +272,9 @@
             }
         }
     },
-    "metadataRefreshDefault": "Scan for new and updated files",
+    "metadataRefreshDefault": "Analyser for new and updated files",
     "metadataRefreshFull": "Replace all metadata",
-    "metadataRefreshValidation": "Search for missing metadata",
+    "metadataRefreshValidation": "Rechercher for missing metadata",
     "minutes": "{count, plural, other{Minutes} one{Minute} }",
     "@minutes": {
         "description": "minute",
@@ -295,33 +295,33 @@
             }
         }
     },
-    "moreOptions": "More options",
+    "moreOptions": "Plus d’options",
     "mouseDragSupport": "Drag using mouse",
     "musicAlbum": "{count, plural, one{Album} other{Albums}}",
-    "name": "Name",
+    "name": "Nom",
     "navigation": "Navigation",
-    "navigationDashboard": "Dashboard",
-    "navigationFavorites": "Favorites",
+    "navigationDashboard": "Tableau de bord",
+    "navigationFavorites": "Favoris",
     "navigationSync": "Synced",
-    "never": "Never",
-    "nextUp": "Next-up",
+    "never": "Jamais",
+    "nextUp": "Suivant-up",
     "noItemsSynced": "No items synced",
     "noItemsToShow": "No items to show",
     "noRating": "No rating",
     "noResults": "No results",
     "noServersFound": "No new servers found",
     "noSuggestionsFound": "No suggestions found",
-    "none": "None",
+    "none": "Aucun",
     "normal": "Normal",
     "notPartOfAlbum": "Not part of a album",
-    "openParent": "Open parent",
-    "openShow": "Open show",
+    "openParent": "Ouvrir parent",
+    "openShow": "Ouvrir show",
     "openWebLink": "Ouvrir le lien web",
     "options": "Options",
     "other": "Other",
     "outlineColor": "Outline color",
     "outlineSize": "Outline size",
-    "overview": "Overview",
+    "overview": "Aperçu",
     "page": "Page {index}",
     "@page": {
         "description": "page",
@@ -331,13 +331,13 @@
             }
         }
     },
-    "parentalRating": "Parental Rating",
-    "password": "Password",
-    "pathClearTitle": "Clear downloads path",
+    "parentalRating": "Parental Note",
+    "password": "Mot de passe",
+    "pathClearTitle": "Effacer downloads path",
     "pathEditDesc": "This location is set for all users, any synced data will no longer be accessible. It will remain on your storage.",
-    "pathEditSelect": "Select downloads destination",
-    "pathEditTitle": "Change location",
-    "play": "Play {item}",
+    "pathEditSelect": "Sélectionner downloads destination",
+    "pathEditTitle": "Modifier location",
+    "play": "Lire {item}",
     "@play": {
         "description": "Lire avec",
         "placeholders": {
@@ -346,8 +346,8 @@
             }
         }
     },
-    "playCount": "Play count",
-    "playFrom": "Play from {name}",
+    "playCount": "Lire count",
+    "playFrom": "Lire from {name}",
     "@playFrom": {
         "description": "jouer de",
         "placeholders": {
@@ -356,7 +356,7 @@
             }
         }
     },
-    "playFromStart": "Play {name} from the start",
+    "playFromStart": "Lire {name} from the start",
     "@playFromStart": {
         "description": "jouer depuis le début",
         "placeholders": {
@@ -365,15 +365,15 @@
             }
         }
     },
-    "playLabel": "Play",
-    "playVideos": "Play videos",
-    "played": "Played",
+    "playLabel": "Lire",
+    "playVideos": "Lire videos",
+    "played": "Lu",
     "quickConnectAction": "Enter quick connect code for",
     "quickConnectInputACode": "Input a code",
     "quickConnectTitle": "Quick-connect",
     "quickConnectWrongCode": "Wrong code",
-    "random": "Random",
-    "rating": "{count, plural, other{Ratings} one{Rating}}",
+    "random": "Aléatoire",
+    "rating": "{count, plural, other{Ratings} one{Note}}",
     "@rating": {
         "description": "note",
         "placeholders": {
@@ -403,9 +403,9 @@
         }
     },
     "recursive": "Recursive",
-    "refresh": "Refresh",
-    "refreshMetadata": "Refresh metadata",
-    "refreshPopup": "Refresh - {name}",
+    "refresh": "Actualiser",
+    "refreshMetadata": "Actualiser metadata",
+    "refreshPopup": "Actualiser - {name}",
     "@refreshPopup": {
         "placeholders": {
             "name": {
@@ -414,17 +414,17 @@
         }
     },
     "refreshPopupContentMetadata": "Metadata is refreshed based on settings and Internet services turned on in the dashboard.",
-    "related": "Related",
-    "releaseDate": "Release date",
-    "removeAsFavorite": "Remove as favorite",
-    "removeFromCollection": "Remove from collection",
-    "removeFromPlaylist": "Remove from playlist",
+    "related": "Associé",
+    "releaseDate": "Date de sortie",
+    "removeAsFavorite": "Supprimer as favori",
+    "removeFromCollection": "Supprimer from collection",
+    "removeFromPlaylist": "Supprimer from playlist",
     "replaceAllImages": "Replace all images",
     "replaceExistingImages": "Replace existing images",
-    "restart": "Restart",
-    "result": "Result",
+    "restart": "Redémarrer",
+    "result": "Résultat",
     "resumable": "Resumable",
-    "resume": "Resume {item}",
+    "resume": "Reprendre {item}",
     "@resume": {
         "description": "reprendre",
         "placeholders": {
@@ -434,13 +434,13 @@
         }
     },
     "retrievePublicListOfUsers": "Retrieve public list of users",
-    "retry": "Retry",
+    "retry": "Réessayer",
     "runTime": "Run time",
-    "save": "Save",
-    "saved": "Saved",
+    "save": "Enregistrer",
+    "saved": "Enregistré",
     "scanBiometricHint": "Verify identity",
-    "scanLibrary": "Scan library",
-    "scanYourFingerprintToAuthenticate": "Scan your fingerprint to authenticate {user}",
+    "scanLibrary": "Analyser library",
+    "scanYourFingerprintToAuthenticate": "Analyser your fingerprint to authenticate {user}",
     "@scanYourFingerprintToAuthenticate": {
         "placeholders": {
             "user": {
@@ -457,8 +457,8 @@
         }
     },
     "scrollToTop": "Scroll to top",
-    "search": "Search",
-    "season": "{count, plural, other{Seasons} one{Season} }",
+    "search": "Rechercher",
+    "season": "{count, plural, other{Saisons} one{Saison} }",
     "@season": {
         "description": "saison",
         "placeholders": {
@@ -468,7 +468,7 @@
             }
         }
     },
-    "seconds": "{count, plural, other{Seconds} one{Second}}",
+    "seconds": "{count, plural, other{Secondes} one{Seconde}}",
     "@seconds": {
         "description": "seconde",
         "placeholders": {
@@ -478,9 +478,9 @@
             }
         }
     },
-    "selectAll": "Select all",
-    "selectTime": "Select time",
-    "selectViewType": "Select view type",
+    "selectAll": "Sélectionner all",
+    "selectTime": "Sélectionner time",
+    "selectViewType": "Sélectionner view type",
     "selected": "Selected",
     "selectedWith": "Selected {info}",
     "@selectedWith": {
@@ -492,13 +492,13 @@
         }
     },
     "separate": "Separate",
-    "server": "Server",
+    "server": "Serveur",
     "set": "Set",
     "@set": {
         "description": "Utiliser pour définir une certaine valeur",
         "context": "Régler 'heure'"
     },
-    "setIdentityTo": "Change identity to {name}",
+    "setIdentityTo": "Modifier identity to {name}",
     "@setIdentityTo": {
         "description": "setIdentityTo",
         "placeholders": {
@@ -508,23 +508,23 @@
         }
     },
     "settingSecurityApplockTitle": "App lock",
-    "settings": "Settings",
+    "settings": "Paramètres",
     "settingsBlurEpisodesDesc": "Blur all upcoming episodes",
     "settingsBlurEpisodesTitle": "Blur next-up episodes",
-    "settingsBlurredPlaceholderDesc": "Show blurred background when loading posters",
+    "settingsBlurredPlaceholderDesc": "Afficher blurred background when loading posters",
     "settingsBlurredPlaceholderTitle": "Blurred placeholder",
-    "settingsClientDesc": "General, Time-out, Layout, Theme",
+    "settingsClientDesc": "General, Temps-out, Layout, Thème",
     "settingsClientTitle": "Fladder",
-    "settingsContinue": "Continue",
+    "settingsContinue": "Continuer",
     "settingsEnableOsMediaControls": "Enable OS media controls",
     "settingsHomeCarouselDesc": "Affiche un carrousel sur l'écran du tableau de bord",
     "settingsHomeCarouselTitle": "Carrousel du tableau de bord",
     "settingsHomeNextUpDesc": "Type of posters shown in the dashboard screen",
-    "settingsHomeNextUpTitle": "Next-up posters",
-    "settingsNextUpCutoffDays": "Next-up cutoff days",
-    "settingsPlayerCustomSubtitlesDesc": "Customize Size, Color, Position, Outline",
+    "settingsHomeNextUpTitle": "Suivant-up posters",
+    "settingsNextUpCutoffDays": "Suivant-up cutoff days",
+    "settingsPlayerCustomSubtitlesDesc": "Customize Size, Couleur, Position, Outline",
     "settingsPlayerCustomSubtitlesTitle": "Customize subtitles",
-    "settingsPlayerDesc": "Aspect-ratio, Advanced",
+    "settingsPlayerDesc": "Aspect-ratio, Avancé",
     "settingsPlayerMobileWarning": "Turning on hardware acceleration and native libass subtitles on Android might cause some subtitles to not render.",
     "settingsPlayerNativeLibassAccelDesc": "Use video player libass subtitle renderer",
     "settingsPlayerNativeLibassAccelTitle": "Native libass subtitles",
@@ -538,20 +538,20 @@
     "settingsProfileTitle": "Profile",
     "settingsQuickConnectTitle": "Quick connect",
     "settingsSecurity": "Security",
-    "settingsShowScaleSlider": "Show poster size slide",
+    "settingsShowScaleSlider": "Afficher poster size slide",
     "settingsVisual": "Visual",
-    "shadow": "Shadow",
-    "showAlbum": "Show album",
-    "showDetails": "Show details",
-    "showEmpty": "Show empty",
+    "shadow": "Ombre",
+    "showAlbum": "Afficher album",
+    "showDetails": "Afficher details",
+    "showEmpty": "Afficher empty",
     "shuffleGallery": "Mélanger la galerie",
-    "shuffleVideos": "Shuffle videos",
-    "somethingWentWrong": "Something went wrong",
-    "somethingWentWrongPasswordCheck": "Something went wrong. Check your password.",
-    "sortBy": "Sort by",
-    "sortName": "Name",
+    "shuffleVideos": "Aléatoire videos",
+    "somethingWentWrong": "Une erreur est survenue",
+    "somethingWentWrongPasswordCheck": "Une erreur est survenue. Check your password.",
+    "sortBy": "Trier par",
+    "sortName": "Nom",
     "sortOrder": "Sort order",
-    "start": "Start",
+    "start": "Démarrer",
     "studio": "{count, plural, other{Studios} one{Studio}}",
     "@studio": {
         "description": "studio",
@@ -564,10 +564,10 @@
     },
     "subtitleConfigurator": "Subtitle configurator",
     "subtitleConfiguratorPlaceHolder": "This is placeholder text, nothing to see here.",
-    "subtitles": "Subtitles",
-    "switchUser": "Switch user",
-    "sync": "Sync",
-    "syncDeleteItemDesc": "Delete all synced data for {item}?",
+    "subtitles": "Sous‑titres",
+    "switchUser": "Changer d’utilisateur",
+    "sync": "Synchroniser",
+    "syncDeleteItemDesc": "Supprimer all synced data for {item}?",
     "@syncDeleteItemDesc": {
         "description": "Fenêtre contextuelle de suppression d'élément synchronisé",
         "placeholders": {
@@ -576,12 +576,12 @@
             }
         }
     },
-    "syncDeleteItemTitle": "Delete synced item",
+    "syncDeleteItemTitle": "Supprimer synced item",
     "syncDeletePopupPermanent": "This action is permanent and will remove all locally synced files",
-    "syncDetails": "Sync details",
-    "syncOpenParent": "Open parent",
-    "syncRemoveDataDesc": "Delete synced video data? This is permanent and you will need to re-sync the files",
-    "syncRemoveDataTitle": "Remove synced data?",
+    "syncDetails": "Synchroniser details",
+    "syncOpenParent": "Ouvrir parent",
+    "syncRemoveDataDesc": "Supprimer synced video data? This is permanent and you will need to re-sync the files",
+    "syncRemoveDataTitle": "Supprimer synced data?",
     "syncedItems": "Synced items",
     "tag": "{count, plural, one{Tag} other{Tags}}",
     "@tag": {
@@ -593,10 +593,10 @@
             }
         }
     },
-    "theme": "Theme",
-    "themeColor": "Theme color",
+    "theme": "Thème",
+    "themeColor": "Thème color",
     "themeModeDark": "Dark",
-    "themeModeLight": "Light",
+    "themeModeLight": "Clair",
     "themeModeSystem": "System",
     "timeAndAnnotation": "{minutes} and {seconds}",
     "@timeAndAnnotation": {
@@ -610,7 +610,7 @@
             }
         }
     },
-    "timeOut": "Time-out",
+    "timeOut": "Temps-out",
     "totalSize": "Total size: {size}",
     "@totalSize": {
         "placeholders": {
@@ -632,11 +632,11 @@
     "unPlayed": "Unplayed",
     "unableToConnectHost": "Unable to connect to host",
     "unableToReverseAction": "This action can not be reversed. It will remove all settings.",
-    "unknown": "Unknown",
+    "unknown": "Inconnu",
     "useDefaults": "Use defaults",
-    "userName": "Username",
-    "video": "{count, plural, one{Video} other{Videos}}",
-    "videoScaling": "Video scaling",
+    "userName": "Nom d’utilisateur",
+    "video": "{count, plural, one{Vidéo} other{Vidéos}}",
+    "videoScaling": "Vidéo scaling",
     "videoScalingContain": "Contain",
     "videoScalingCover": "Cover",
     "videoScalingFill": "Fill",
@@ -658,7 +658,7 @@
             }
         }
     },
-    "year": "{count, plural, other{Years} one{Year}}",
+    "year": "{count, plural, other{Années} one{Année}}",
     "@year": {
         "description": "année",
         "placeholders": {
@@ -671,7 +671,7 @@
     "syncStatusPartially": "Partiellement",
     "syncStatusComplete": "Fini",
     "syncStatusCanceled": "Canceled",
-    "addItemsToPlaylist": "Add {itemLength} item(s) to playlist",
+    "addItemsToPlaylist": "Ajouter {itemLength} item(s) to playlist",
     "@addItemsToPlaylist": {
         "placeholders": {
             "itemLength": {
@@ -690,7 +690,7 @@
         }
     },
     "syncStatusNotFound": "Not Found",
-    "settingsHomeBannerTitle": "Home banner",
+    "settingsHomeBannerTitle": "Accueil banner",
     "aboutCreatedBy": "Created by DonutWare",
     "unableToSyncItem": "Unable to sync {item}, something went wrong",
     "@unableToSyncItem": {
@@ -703,7 +703,7 @@
     "settingsHomeBannerInformationDesc": "Information to show in home banner",
     "settingsHomeBannerInformationTitle": "Banner information",
     "homeBannerSlideshow": "Slideshow",
-    "addItemsToCollection": "Add {itemLength} item(s) to collection",
+    "addItemsToCollection": "Ajouter {itemLength} item(s) to collection",
     "@addItemsToCollection": {
         "placeholders": {
             "itemLength": {
@@ -719,7 +719,7 @@
     "syncStatusSynced": "Synced",
     "syncOverlaySyncing": "Syncing item details",
     "syncOverlayDeleting": "Removing synced item",
-    "syncSelectDownloadsFolder": "Select downloads folder",
+    "syncSelectDownloadsFolder": "Sélectionner downloads folder",
     "syncNoFolderSetup": "No sync folder setup",
     "syncRemoveUnableToDeleteItem": "Unable to remove synced item, something went wrong",
     "syncAddItemForSyncing": "Added {item} for syncing",
@@ -752,7 +752,7 @@
     "off": "Off",
     "screenBrightness": "Screen brightness",
     "scale": "Scale",
-    "playBackSettings": "Playback Settings",
+    "playBackSettings": "Playback Paramètres",
     "homeBannerCarousel": "Carousel",
     "settingsHomeBannerDescription": "Display as a slideshow, carousel, or hide the banner",
     "removedFromCollection": "Removed from {collectionName} collection",
@@ -782,8 +782,8 @@
     "defaultFilterForLibrary": "Default filter for library",
     "updateFilterForLibrary": "Update filter",
     "deleteFilterConfirmation": "Are you sure you want to delete this filter?",
-    "libraryFiltersLimitReached": "Filter limit reached (10) remove some filters",
-    "removeFilterForLibrary": "Remove {filter}?",
+    "libraryFiltersLimitReached": "Filtre limit reached (10) remove some filters",
+    "removeFilterForLibrary": "Supprimer {filter}?",
     "@removeFilterForLibrary": {
         "description": "removeFilterForLibrary",
         "placeholders": {
@@ -793,7 +793,7 @@
         }
     },
     "syncStatusRunning": "Running",
-    "libraryFiltersRemoveAll": "Remove all filters",
+    "libraryFiltersRemoveAll": "Supprimer all filters",
     "schemeSettingsFidelity": "Fidelity",
     "schemeSettingsContent": "Content",
     "autoNextOffSmartDesc": "Shows the next-up screen when the credits start if no more then 10 seconds remain after the credits. Else it shows the next-up screen with 30 seconds of playtime remaining",
@@ -801,7 +801,7 @@
     "deviceOrientationLandscapeRight": "Landscape Right",
     "playerSettingsOrientationTitle": "Player orientation",
     "settingsAutoNextDesc": "Displays a next-up preview near the end if another item is queued",
-    "errorOpeningMedia": "Something went wrong trying to play this media",
+    "errorOpeningMedia": "Une erreur est survenue trying to play this media",
     "libraryFiltersRemoveAllConfirm": "This will delete all saved filters for every library",
     "clientSettingsSchemeVariantTitle": "Scheme variant",
     "deviceOrientationPortraitUp": "Portrait Up",
@@ -814,11 +814,11 @@
     "schemeSettingsFruitSalad": "Fruit salad",
     "schemeSettingsVibrant": "Vibrant",
     "schemeSettingsExpressive": "Expressive",
-    "libraryShuffleAndPlayItems": "Shuffle and play items",
-    "libraryPlayItems": "Play items",
+    "libraryShuffleAndPlayItems": "Aléatoire and play items",
+    "libraryPlayItems": "Lire items",
     "autoNextOffStaticTitle": "Static",
-    "autoNextOffStaticDesc": "Show the next-up screen when 30 seconds of playtime remain",
-    "settingsAutoNextTitle": "Next-up preview",
+    "autoNextOffStaticDesc": "Afficher the next-up screen when 30 seconds of playtime remain",
+    "settingsAutoNextTitle": "Suivant-up preview",
     "autoNextOffSmartTitle": "Smart",
     "speed": "Speed",
     "playbackRate": "Playback rate",
@@ -826,10 +826,10 @@
     "unableToPlayBooksOnWeb": "Books are not supported on web for now",
     "clientSettingsRequireWifiTitle": "Require Wi-Fi",
     "clientSettingsRequireWifiDesc": "Only download when connected to a Wi-Fi network",
-    "settingsPlayerBufferSizeTitle": "Video buffer size",
+    "settingsPlayerBufferSizeTitle": "Vidéo buffer size",
     "settingsPlayerBufferSizeDesc": "Configure the buffer size for video playback, determining how much data is loaded into the cache.",
-    "clientSettingsShowAllCollectionsTitle": "Show all collection types",
-    "errorLogs": "Error logs",
+    "clientSettingsShowAllCollectionsTitle": "Afficher all collection types",
+    "errorLogs": "Erreur logs",
     "settingsLayoutSizesTitle": "Layout Sizes",
     "copyStreamUrl": "Copy stream url",
     "skipButtonLabel": "Skip {segment}",
@@ -855,14 +855,14 @@
         "description": "To indicate a default value, default video player backend"
     },
     "mdkExperimental": "MDK is still in a experimental stage",
-    "playerSettingsBackendTitle": "Video player Backend",
+    "playerSettingsBackendTitle": "Vidéo player Backend",
     "copiedToClipboard": "Copied to clipboard",
     "internetStreamingQualityDesc": "Maximum streaming quality over the internet (mobile)",
     "internetStreamingQualityTitle": "Internet quality",
-    "playNextVideo": "Play next video",
-    "stop": "Stop",
-    "resumeVideo": "Resume video",
-    "closeVideo": "Close video",
+    "playNextVideo": "Lire next video",
+    "stop": "Arrêter",
+    "resumeVideo": "Reprendre video",
+    "closeVideo": "Fermer video",
     "phone": "Phone",
     "clientSettingsShowAllCollectionsDesc": "When enabled, show all collection types, including those not supported by Fladder",
     "episodeUnaired": "Unaired",
@@ -876,27 +876,27 @@
             }
         }
     },
-    "mediaSegmentUnknown": "Unknown",
+    "mediaSegmentUnknown": "Inconnu",
     "mediaSegmentCommercial": "Commercial",
     "mediaSegmentPreview": "Preview",
     "mediaSegmentOutro": "Outro",
     "mediaSegmentIntro": "Intro",
-    "homeStreamingQualityTitle": "Home quality",
+    "homeStreamingQualityTitle": "Accueil quality",
     "episodeAvailable": "Available",
     "qualityOptionsTitle": "Quality options",
     "qualityOptionsOriginal": "Original",
     "qualityOptionsAuto": "Auto",
     "version": "Version",
     "segmentActionAskToSkip": "Ask to skip",
-    "loading": "Loading",
+    "loading": "Chargement",
     "homeStreamingQualityDesc": "Maximum streaming quality when connected to home network",
-    "segmentActionNone": "None",
+    "segmentActionNone": "Aucun",
     "segmentActionSkip": "Skip",
     "mediaSegmentActions": "Media segment actions",
     "maxConcurrentDownloadsDesc": "Sets the maximum number of downloads that can run at the same time. Set to 0 to disable the limit.",
     "rememberAudioSelections": "Set audio track based on previous item",
     "rememberSubtitleSelectionsDesc": "Try to set the subtitle track to the closest match to the last video.",
-    "exitFladderTitle": "Exit Fladder",
+    "exitFladderTitle": "Quitter Fladder",
     "recommended": "Recommended",
     "playbackTypeOffline": "Offline",
     "latestReleases": "Latest releases",
@@ -915,7 +915,7 @@
     },
     "settingsEnableOsMediaControlsDesc": "Allow for playback control using media-keys and show current playing media in OS",
     "castAndCrew": "Cast & Crew",
-    "guestActor": "{count, plural, other{Guest Actors} one{Guest Actor}}",
+    "guestActor": "{count, plural, other{Guest Acteurs} one{Guest Acteur}}",
     "@guestActor": {
         "description": "Guest actors",
         "placeholders": {
@@ -937,12 +937,12 @@
     "latest": "Latest",
     "playbackType": "Playback type",
     "enableBackgroundPostersTitle": "Enable background posters",
-    "enableBackgroundPostersDesc": "Show random posters in applicable screens",
+    "enableBackgroundPostersDesc": "Afficher random posters in applicable screens",
     "notificationDownloadingDownloading": "Downloading",
     "notificationDownloadingPaused": "Download paused",
     "notificationDownloadingFinished": "Download finished",
     "notificationDownloadingError": "Download error",
-    "syncAllItemsTitle": "Sync all items from {itemName}?",
+    "syncAllItemsTitle": "Synchroniser all items from {itemName}?",
     "@syncAllItemsTitle": {
         "description": "syncAllItemsFrom",
         "placeholders": {
@@ -963,7 +963,7 @@
             }
         }
     },
-    "syncDeleteAllItemsTitle": "Delete all synced items from {itemName}?",
+    "syncDeleteAllItemsTitle": "Supprimer all synced items from {itemName}?",
     "@syncDeleteAllItemsTitle": {
         "description": "syncDeleteAllitemsFrom",
         "placeholders": {
@@ -985,26 +985,26 @@
         }
     },
     "syncPauseAll": "Pause all",
-    "syncResumeAll": "Resume all",
-    "syncStopAll": "Stop all",
-    "syncDeleteAll": "Delete all files",
-    "syncAllFiles": "Sync all files",
-    "usePostersForLibraryIconsTitle": "Show posters for library icons",
-    "usePostersForLibraryIconsDesc": "Show posters instead of icons for libraries",
+    "syncResumeAll": "Reprendre all",
+    "syncStopAll": "Arrêter all",
+    "syncDeleteAll": "Supprimer all files",
+    "syncAllFiles": "Synchroniser all files",
+    "usePostersForLibraryIconsTitle": "Afficher posters for library icons",
+    "usePostersForLibraryIconsDesc": "Afficher posters instead of icons for libraries",
     "offline": "Offline",
     "shortCuts": "Shortcuts",
     "skipForwardLength": "Skip forward length",
     "skipBackLength": "Skip back length",
-    "playPause": "Play/Pause",
+    "playPause": "Lire/Pause",
     "seekForward": "Seek Forward",
     "seekBack": "Seek Back",
     "mute": "Mute",
     "volumeUp": "Volume Up",
     "volumeDown": "Volume Down",
-    "prevVideo": "Previous Video",
+    "prevVideo": "Précédent Vidéo",
     "fullScreen": "Full Screen",
     "skipMediaSegment": "Skip Media Segment",
-    "exit": "Exit",
+    "exit": "Quitter",
     "shortCutAlreadyAssigned": "Shortcut '{hotKey}' already assigned",
     "@shortCutAlreadyAssigned": {
         "placeholders": {
@@ -1022,9 +1022,9 @@
             }
         }
     },
-    "nextVideo": "Next Video",
-    "nextChapter": "Next Chapter",
-    "prevChapter": "Previous Chapter",
+    "nextVideo": "Suivant Vidéo",
+    "nextChapter": "Suivant Chapitre",
+    "prevChapter": "Précédent Chapitre",
     "television": "Television",
     "exitFladderDesc": "Are you sure you want to close Fladder?",
     "keyboardShortCuts": "Keyboard shortcuts",
@@ -1041,12 +1041,12 @@
     "quickConnectPostFailed": "Failed to get quick connect code",
     "quickConnectLoginUsingCode": "Using quick connect",
     "quickConnectEnterCodeDescription": "Enter the code below to login",
-    "showMore": "Show more",
+    "showMore": "Afficher more",
     "mediaTunnelingTitle": "Media tunneling",
     "mediaTunnelingDesc": "Enable media tunneling for native player",
     "clientSettingsUseSystemIMETitle": "Use system keyboard",
     "clientSettingsUseSystemIMEDesc": "Use the built-in keyboard provided by your system",
-    "nextUpInCount": "Next-up in {seconds}",
+    "nextUpInCount": "Suivant-up in {seconds}",
     "@nextUpInCount": {
         "placeholders": {
             "seconds": {
@@ -1067,14 +1067,14 @@
         }
     },
     "settingsLocalUrlSetDesc": "Specify the local server address. Fladder will automatically use this URL when your device is on the same network.",
-    "openImeKeyboard": "Open IME keyboard",
+    "openImeKeyboard": "Ouvrir IME keyboard",
     "screensaverDvd": "DVD",
     "screensaverLogo": "Logo",
     "screensaverBlack": "Black",
-    "settingsLocalUrlTitle": "Local Server URL",
-    "screensaverTime": "Time",
+    "settingsLocalUrlTitle": "Local Serveur URL",
+    "screensaverTime": "Temps",
     "playerSettingsScreensaverTitle": "Screensaver",
-    "playerSettingsScreensaverDesc": "Select screen saver that will be shown after no player activity",
+    "playerSettingsScreensaverDesc": "Sélectionner screen saver that will be shown after no player activity",
     "settingsLocalUrlSetTitle": "Configure Local URL",
     "takeScreenshot": "Take screenshot",
     "takeScreenshotClean": "Take screenshot (without subtitles)",
@@ -1083,10 +1083,10 @@
     "screenshotCleanTaken": "Screenshot without subtitles saved!",
     "errorTakingScreenshot": "There was an error taking the screenshot",
     "regenerateTrickplayImages": "Regenerate trickplay images",
-    "controlPanelDesc": "Server, Activity, Users, Library",
-    "controlDashboard": "Control Dashboard",
-    "serverName": "Server name",
-    "serverVersion": "Server version",
+    "controlPanelDesc": "Serveur, Activity, Users, Bibliothèque",
+    "controlDashboard": "Control Tableau de bord",
+    "serverName": "Serveur name",
+    "serverVersion": "Serveur version",
     "webVersion": "Web version",
     "devices": "Devices",
     "used": "Used",
@@ -1096,12 +1096,12 @@
     "cache": "Cache",
     "logs": "Logs",
     "count": "Count",
-    "scanAllLibraries": "Scan all libraries",
-    "restartServer": "Restart server",
+    "scanAllLibraries": "Analyser all libraries",
+    "restartServer": "Redémarrer server",
     "shutDownServer": "Shut down server",
-    "dashboardDesc": "Server, Count, Devices, Storage",
+    "dashboardDesc": "Serveur, Count, Devices, Storage",
     "lastActivity": "Last activity",
-    "activeTasks": "Active tasks",
+    "activeTasks": "Actif tasks",
     "timeAgo": "{time} ago",
     "@timeAgo": {
         "description": "timeAgo",
@@ -1122,9 +1122,9 @@
     "newTrigger": "New trigger",
     "newTaskTrigger": "New task trigger",
     "dayOfTheWeek": "Day of the week",
-    "time": "Time",
+    "time": "Temps",
     "interval": "Interval",
-    "taskTimeLimitInHours": "Time limit (hours)",
+    "taskTimeLimitInHours": "Temps limit (hours)",
     "taskTriggerIntervalDesc": "Every {time}",
     "@taskTriggerIntervalDesc": {
         "description": "Task trigger interval desc",
@@ -1155,7 +1155,7 @@
             }
         }
     },
-    "taskTriggerTimeLimitSub": "Time limit: {time}",
+    "taskTriggerTimeLimitSub": "Temps limit: {time}",
     "@taskTriggerTimeLimitSub": {
         "description": "taskTriggerTimeLimit",
         "placeholders": {
@@ -1165,15 +1165,15 @@
         }
     },
     "performance": "Performance",
-    "serverNameLabel": "Server name",
+    "serverNameLabel": "Serveur name",
     "cachePath": "Cache path",
     "metadataPath": "Metadata path",
     "maxConcurrentLibraryScanLabel": "Max concurrent library scans",
     "maxConcurrentLibraryScanDesc": "Maximum number of parallel tasks during library scans. Leaving this empty will choose a limit based on your systems core count. WARNING: Setting this number too high may cause issues with network file systems; if you encounter problems lower this number.",
     "maxImageDecodingThreadsLabel": "Max image decoding threads",
     "maxImageDecodingThreadsDesc": "Maximum number of image encodings that are allowed to run in parallel. Leaving this empty will choose a limit based on your systems core count.",
-    "controlPanelServerDesc": "Server name, Quick Connect, Performance",
-    "deleteUserTitle": "Delete user {user}?",
+    "controlPanelServerDesc": "Serveur name, Quick Connect, Performance",
+    "deleteUserTitle": "Supprimer user {user}?",
     "@deleteUserTitle": {
         "description": "deleteUserTitle",
         "placeholders": {
@@ -1191,7 +1191,7 @@
             }
         }
     },
-    "userInformation": "User Information",
+    "userInformation": "Utilisateur Information",
     "allowManageServer": "Allow this user to manage the server",
     "allowCollections": "Allow this user to collections",
     "allowEditSubtitles": "Allow this user edit subtitles",
@@ -1207,8 +1207,8 @@
     "syncplay": "Syncplay",
     "syncplayAccess": "Syncplay access",
     "allowMediaDeletion": "Allow media deletion",
-    "allLibraries": "All libraries",
-    "libraryAccess": "Library Access",
+    "allLibraries": "Tout libraries",
+    "libraryAccess": "Bibliothèque Access",
     "enableAllLibraries": "Enable access to all libraries",
     "enableAllDevices": "Enable access to all devices",
     "parentalControl": "Parental Control",
@@ -1218,20 +1218,20 @@
     "blockItemsTags": "Block items with tags",
     "accessSchedule": "Horaire d'accès",
     "accessSchedules": "Access schedules",
-    "addAccessSchedule": "Add Access Schedule",
+    "addAccessSchedule": "Ajouter Access Schedule",
     "dayOfWeek": "Day of the week",
-    "startTime": "Start time",
+    "startTime": "Démarrer time",
     "endTime": "End time",
-    "addTag": "Add Tag",
+    "addTag": "Ajouter Tag",
     "createNewUser": "Create new user",
-    "createUser": "Create User",
+    "createUser": "Create Utilisateur",
     "users": "Users",
-    "editUser": "Edit User",
+    "editUser": "Edit Utilisateur",
     "general": "General",
     "access": "Access",
     "passwordSettingsComing": "Paramètrage du mot de passe à venir",
     "endTimeMustBeAfter": "End time must be after start time",
-    "assignLibraries": "Assign Libraries",
+    "assignLibraries": "Assign Bibliothèques",
     "enableAccessAllLibraries": "Enable access to all libraries",
     "currentPassword": "Current password",
     "newPassword": "New password",
@@ -1242,8 +1242,8 @@
     "passwordMismatch": "New password and confirm password do not match",
     "passwordChangeSuccess": "Successfully changed password",
     "passwordChangeFailed": "Échec de la modification du mot de passe",
-    "savePassword": "Save password",
-    "deleteLibraryConfirmTitle": "Delete library?",
+    "savePassword": "Enregistrer password",
+    "deleteLibraryConfirmTitle": "Supprimer library?",
     "deleteLibraryConfirmMessage": "Are you sure you want to delete {libraryName}?\nThis action cannot be undone.",
     "@deleteLibraryConfirmMessage": {
         "placeholders": {
@@ -1253,17 +1253,17 @@
         }
     },
     "noLibrarySelected": "No library selected",
-    "enabledPhotos": "Enabled photos",
-    "enabledLUFSScan": "Enabled LUFS Scan",
-    "enabledRealtimeMonitoring": "Enabled realtime-monitoring",
+    "enabledPhotos": "Activé photos",
+    "enabledLUFSScan": "Activé LUFS Analyser",
+    "enabledRealtimeMonitoring": "Activé realtime-monitoring",
     "automaticallyAddToCollection": "Automatically add to collection",
-    "enabledEmbeddedTitles": "Enabled embedded titles",
-    "enabledEmbeddedExtrasTitles": "Enabled extras embedded titles",
+    "enabledEmbeddedTitles": "Activé embedded titles",
+    "enabledEmbeddedExtrasTitles": "Activé extras embedded titles",
     "automaticRefreshInterval": "Automatic refresh interval",
     "autoRefreshIntervalNote": "Enabling this can cause longer library refresh times.",
     "preferredDownloadLanguage": "Preferred download language",
     "countryRegion": "Country/Region",
-    "saveMetadata": "Save metadata",
+    "saveMetadata": "Enregistrer metadata",
     "metadataFetchers": "Metadata fetchers ({type})",
     "@metadataFetchers": {
         "placeholders": {
@@ -1287,8 +1287,8 @@
     "enableAndRankMediaSegmentProviders": "Enable and rank your preferred mediasegment providers in order of priority.",
     "enableTrickplayImageExtraction": "Enable trickplay image extraction",
     "extractTrickplayImagesDuringLibraryScan": "Extract trickplay images during library scans",
-    "saveTrickplayImagesNextToMedia": "Save trickplay images next to media",
-    "chapterImages": "Chapter Images",
+    "saveTrickplayImagesNextToMedia": "Enregistrer trickplay images next to media",
+    "chapterImages": "Chapitre Images",
     "enableChapterImageExtraction": "Enable chapter image extraction",
     "extractChapterImagesDuringLibraryScan": "Extract chapter images during library scans",
     "subtitleDownloads": "Subtitle Downloads",
@@ -1298,11 +1298,11 @@
     "perfectSubtitleMatchDescription": "Requiring a perfect match will filter subtitles to include only those that have been tested and verified with your exact video file. Unchecking this will increase the likelihood of subtitles being downloaded, but will increase the chances of mistimed or incorrect subtitle text.",
     "skipSubtitlesIfAudioMatches": "Skip if the default audio track matches the download language",
     "skipSubtitlesIfEmbedded": "Skip if the video already contains embedded subtitles",
-    "saveSubtitlesNextToMedia": "Save subtitles next to media",
-    "saveArtWorkNextToMedia": "Save artwork next to media files",
+    "saveSubtitlesNextToMedia": "Enregistrer subtitles next to media",
+    "saveArtWorkNextToMedia": "Enregistrer artwork next to media files",
     "saveArtWorkNextToMediaDesc": "Saving artwork into media folders will put them in a place where they can be easily edited.",
-    "select": "Select",
-    "newLibrary": "New Library",
+    "select": "Sélectionner",
+    "newLibrary": "New Bibliothèque",
     "contentType": "Content Type",
     "metadataImageLongPressTouch": "Long press to delete image",
     "metadataImageLongPressClick": "Right-click to delete image",
@@ -1317,7 +1317,7 @@
             }
         }
     },
-    "selectFolderToAdd": "Select folder to add",
+    "selectFolderToAdd": "Sélectionner folder to add",
     "systemRootFolder": "System root folder",
     "selectedPath": "Selected path: {path}",
     "@selectedPath": {
@@ -1360,7 +1360,7 @@
             }
         }
     },
-    "years": "{count, plural, one{Year} other{Years}}",
+    "years": "{count, plural, one{Année} other{Années}}",
     "@years": {
         "description": "Pluralization for years",
         "placeholders": {
@@ -1431,12 +1431,12 @@
     "subtitlePlaybackModeDefault": "Default",
     "subtitlePlaybackModeAlways": "Always play",
     "subtitlePlaybackModeOnlyForced": "Only forced",
-    "subtitlePlaybackModeNone": "None",
+    "subtitlePlaybackModeNone": "Aucun",
     "subtitlePlaybackModeSmart": "Smart",
     "deleteRequestConfirmation": "Are you sure you want to delete this request?",
     "syncplayAccessCreateAndJoinGroups": "Create and Join Groups",
     "syncplayAccessJoinGroups": "Join Groups",
-    "syncplayAccessNone": "None",
+    "syncplayAccessNone": "Aucun",
     "recentlyAdded": "Recently added",
     "recentRequests": "Recent requests",
     "trending": "Trending",
@@ -1446,9 +1446,9 @@
     "expectedSeries": "Expected series",
     "requestConfiguration": "Request configuration",
     "qualityProfile": "Quality profile",
-    "selectProfile": "Select profile",
+    "selectProfile": "Sélectionner profile",
     "rootFolder": "Root folder",
-    "selectFolder": "Select folder",
+    "selectFolder": "Sélectionner folder",
     "tags": "Tags",
     "noTags": "No tags",
     "requestAs": "Request as",
@@ -1480,12 +1480,12 @@
     "request": "Request",
     "viewRequest": "View request",
     "email": "Email",
-    "username": "Username",
+    "username": "Nom d’utilisateur",
     "ok": "OK",
     "seerr": "Seerr",
     "seerrNotConfigured": "Not configured",
-    "seerrLoadingUser": "Loading user",
-    "seerrUnknownUser": "Unknown user",
+    "seerrLoadingUser": "Chargement user",
+    "seerrUnknownUser": "Inconnu user",
     "loggedInAs": "Logged in as {displayName}",
     "@loggedInAs": {
         "placeholders": {
@@ -1532,7 +1532,7 @@
             }
         }
     },
-    "emailUsername": "Email/Username",
+    "emailUsername": "Email/Nom d’utilisateur",
     "discover": "Discover",
     "sponsor": "Sponsor",
     "sponsorMessage": "If you enjoy using Fladder, consider sponsoring the project to support ongoing development and improvements. Thank you for your support!",
@@ -1540,22 +1540,22 @@
     "max": "max",
     "manageRequest": "Manage request",
     "requestAll": "Request all",
-    "openInSeerr": "Open in Seerr",
-    "openInSonarr": "Open in Sonarr",
-    "openInRadarr": "Open in Radarr",
-    "removeFromSonarr": "Remove from Sonarr",
-    "removeFromRadarr": "Remove from Radarr",
+    "openInSeerr": "Ouvrir in Seerr",
+    "openInSonarr": "Ouvrir in Sonarr",
+    "openInRadarr": "Ouvrir in Radarr",
+    "removeFromSonarr": "Supprimer from Sonarr",
+    "removeFromRadarr": "Supprimer from Radarr",
     "markAllSeasonsAsAvailable": "Mark all seasons as available",
     "markAsAvailable": "Mark as available",
-    "deleteData": "Delete data",
-    "removeSeriesFromSonarrConfirm": "Remove this series from Sonarr? This will remove all data INCLUDING files.",
-    "removeMovieFromRadarrConfirm": "Remove this movie from Radarr? This will remove all data INCLUDING files.",
+    "deleteData": "Supprimer data",
+    "removeSeriesFromSonarrConfirm": "Supprimer this series from Sonarr? This will remove all data INCLUDING files.",
+    "removeMovieFromRadarrConfirm": "Supprimer this movie from Radarr? This will remove all data INCLUDING files.",
     "removedFromSonarr": "Removed from Sonarr",
     "removedFromRadarr": "Removed from Radarr",
     "markAllSeasonsAsAvailableConfirm": "Mark all seasons as available?",
     "markAsAvailableConfirm": "Mark as available?",
     "markedAsAvailable": "Marked as available",
-    "deleteSeerrDataConfirm": "Delete all files from Seerr? This action cannot be undone.\nIf the data is still present in {service}, it may be re-imported.",
+    "deleteSeerrDataConfirm": "Supprimer all files from Seerr? This action cannot be undone.\nIf the data is still present in {service}, it may be re-imported.",
     "@deleteSeerrDataConfirm": {
         "description": "Confirmation message for deleting Seerr data",
         "placeholders": {
@@ -1590,7 +1590,7 @@
             }
         }
     },
-    "enableNewTVLayoutDesc": "Show larger TV style banners on the dashboard. This will become the default layout in a future release.",
+    "enableNewTVLayoutDesc": "Afficher larger TV style banners on the dashboard. This will become the default layout in a future release.",
     "homeBannerDetailed": "Detailed",
     "mediaTypeTV": "{count, plural, one{TV Channel} other{TV Channels}}",
     "@mediaTypeTV": {
@@ -1602,7 +1602,7 @@
             }
         }
     },
-    "showLess": "Show less",
+    "showLess": "Afficher less",
     "seerrHeader": "Header",
     "watch": "Watch",
     "watchChannel": "Watch {channel}",
@@ -1614,7 +1614,7 @@
         }
     },
     "switchChannel": "Switch channel",
-    "activeTvChannels": "Active TV Channels",
+    "activeTvChannels": "Actif TV Channels",
     "enableNewTVLayout": "Enable new TV layout",
     "homeBannerTV": "TV",
     "playbackTypeTV": "TV",
@@ -1633,7 +1633,7 @@
             }
         }
     },
-    "backgroundColor": "Background color",
+    "backgroundColor": "Arrière‑plan color",
     "enableSpeedBoostTitle": "Enable speed boost",
     "speedBoostRateTitle": "Speed boost rate",
     "enableSpeedBoostDesc": "Hold screen (mobile) or spacebar (desktop) to temporarily increase playback speed",
@@ -1647,8 +1647,8 @@
     "epgGuideProviders": "EPG Guide Providers",
     "noTunerDevicesConfigured": "No tuner devices configured",
     "noEpgProvidersConfigured": "No EPG providers configured",
-    "addTunerDevice": "Add Tuner Device",
-    "addProvider": "Add Provider",
+    "addTunerDevice": "Ajouter Tuner Device",
+    "addProvider": "Ajouter Provider",
     "tunerHostAddedSuccessfully": "Tuner host added successfully",
     "failedToAddTunerHost": "Failed to add tuner host: {error}",
     "@failedToAddTunerHost": {
@@ -1667,7 +1667,7 @@
             }
         }
     },
-    "deleteTunerHost": "Delete Tuner Host",
+    "deleteTunerHost": "Supprimer Tuner Host",
     "deleteTunerHostConfirm": "Are you sure you want to delete \"{name}\"?",
     "@deleteTunerHostConfirm": {
         "placeholders": {
@@ -1703,7 +1703,7 @@
             }
         }
     },
-    "deleteEpgProvider": "Delete EPG Provider",
+    "deleteEpgProvider": "Supprimer EPG Provider",
     "deleteEpgProviderConfirm": "Are you sure you want to delete this provider?",
     "epgProviderDeletedSuccessfully": "EPG provider deleted successfully",
     "failedToDeleteEpgProvider": "Failed to delete EPG provider: {error}",
@@ -1715,17 +1715,17 @@
         }
     },
     "editTunerDevice": "Edit Tuner Device",
-    "friendlyName": "Friendly Name",
+    "friendlyName": "Friendly Nom",
     "url": "URL",
-    "userAgent": "User Agent",
-    "userAgentOptional": "User Agent (optional)",
+    "userAgent": "Utilisateur Agent",
+    "userAgentOptional": "Utilisateur Agent (optional)",
     "maxConcurrentStreams": "Max Concurrent Streams",
-    "addEpgProvider": "Add EPG Provider",
+    "addEpgProvider": "Ajouter EPG Provider",
     "editEpgProvider": "Edit EPG Provider",
     "xmltvPathUrl": "XMLTV Path/URL",
     "enableAllTuners": "Enable for all tuners",
-    "enabledTuners": "Enabled tuners",
-    "selectTuners": "Select tuners",
+    "enabledTuners": "Activé tuners",
+    "selectTuners": "Sélectionner tuners",
     "moviePrefix": "Movie prefix",
     "movieCategories": "Movie categories",
     "newsCategories": "News categories",
@@ -1741,7 +1741,7 @@
     "enableStreamLooping": "Enable stream looping",
     "ignoreDts": "Ignore DTS timestamps",
     "readAtNativeFramerate": "Read at native framerate",
-    "importFavoritesOnly": "Import only favorite channels",
+    "importFavoritesOnly": "Import only favori channels",
     "allowHWTranscoding": "Allow hardware transcoding",
     "detectDevices": "Detect Devices",
     "discoveredDevices": "Discovered Devices",
@@ -1806,9 +1806,9 @@
     },
     "includeHiddenItems": "Include hidden libraries",
     "includeHiddenItemsDesc": "Include libraries hidden from the dashboard",
-    "settingsBlurEffectsTitle": "Enable blur effects",
-    "settingsBlurEffectsDesc": "Enable blur effects in the UI. Disabling this can improve performance on lower-end devices.",
-    "profileSettingsOpenAuthAtLaunch": "Show auth-method on app lock",
+    "settingsBlurEffectsTitle": "Enable flou effects",
+    "settingsBlurEffectsDesc": "Enable flou effects in the UI. Disabling this can improve performance on lower-end devices.",
+    "profileSettingsOpenAuthAtLaunch": "Afficher auth-method on app lock",
     "toggleSidebar": "Toggle sidebar",
     "requestedSuccessForItem": "Successfully requested {itemName}",
     "@requestedSuccessForItem": {
