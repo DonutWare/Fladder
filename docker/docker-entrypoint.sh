@@ -34,7 +34,7 @@ if [ -n "$SEERR_URL" ] && [ -n "$SEERR_CUSTOM_HEADERS" ]; then
   HEADER_DIRECTIVES=$(echo "$SEERR_CUSTOM_HEADERS" | jq -r 'to_entries[] | "        proxy_set_header \(.key) \"\(.value)\";"')
 
   PROXY_BLOCK="
-    location /seerr-proxy/ {
+    location ${SEERR_PROXY_PATH}/ {
         proxy_pass ${SEERR_URL}/;
         proxy_set_header Host \$proxy_host;
         proxy_ssl_server_name on;
