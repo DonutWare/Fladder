@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as jellyfin;
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
@@ -33,8 +33,9 @@ class TranscodePlaybackModel extends PlaybackModel {
   @override
   List<SubStreamModel> get subStreams => [SubStreamModel.no(), ...mediaStreams?.subStreams ?? []];
 
-  List<QueueItem> get itemsInQueue =>
-      queue.mapIndexed((index, element) => QueueItem(id: element.id, playlistItemId: "playlistItem$index")).toList();
+  List<jellyfin.QueueItem> get itemsInQueue => queue
+      .mapIndexed((index, element) => jellyfin.QueueItem(id: element.id, playlistItemId: "playlistItem$index"))
+      .toList();
 
   @override
   Future<TranscodePlaybackModel> setSubtitle(SubStreamModel? model, MediaControlsWrapper player) async {
@@ -57,7 +58,7 @@ class TranscodePlaybackModel extends PlaybackModel {
   @override
   Future<PlaybackModel?> playbackStarted(Duration position, Ref ref) async {
     await ref.read(jellyApiProvider).sessionsPlayingPost(
-          body: PlaybackStartInfo(
+          body: jellyfin.PlaybackStartInfo(
             canSeek: true,
             itemId: item.id,
             mediaSourceId: item.id,
@@ -67,10 +68,10 @@ class TranscodePlaybackModel extends PlaybackModel {
             audioStreamIndex: item.streamModel?.defaultAudioStreamIndex,
             volumeLevel: 100,
             playbackStartTimeTicks: position.toRuntimeTicks,
-            playMethod: PlayMethod.transcode,
+            playMethod: jellyfin.PlayMethod.transcode,
             isMuted: false,
             isPaused: false,
-            repeatMode: RepeatMode.repeatall,
+            repeatMode: jellyfin.RepeatMode.repeatall,
           ),
         );
     return null;
@@ -81,7 +82,7 @@ class TranscodePlaybackModel extends PlaybackModel {
     ref.read(playBackModel.notifier).update((state) => null);
 
     await ref.read(jellyApiProvider).sessionsPlayingStoppedPost(
-          body: PlaybackStopInfo(
+          body: jellyfin.PlaybackStopInfo(
             itemId: item.id,
             mediaSourceId: item.id,
             playSessionId: playbackInfo?.playSessionId,
@@ -96,7 +97,7 @@ class TranscodePlaybackModel extends PlaybackModel {
   Future<PlaybackModel?> updatePlaybackPosition(Duration position, bool isPlaying, Ref ref) async {
     final api = ref.read(jellyApiProvider);
     await api.sessionsPlayingProgressPost(
-      body: PlaybackProgressInfo(
+      body: jellyfin.PlaybackProgressInfo(
         canSeek: true,
         itemId: item.id,
         mediaSourceId: item.id,
@@ -106,10 +107,10 @@ class TranscodePlaybackModel extends PlaybackModel {
         audioStreamIndex: item.streamModel?.defaultAudioStreamIndex,
         volumeLevel: 100,
         positionTicks: position.toRuntimeTicks,
-        playMethod: PlayMethod.transcode,
+        playMethod: jellyfin.PlayMethod.transcode,
         isPaused: !isPlaying,
         isMuted: false,
-        repeatMode: RepeatMode.repeatall,
+        repeatMode: jellyfin.RepeatMode.repeatall,
       ),
     );
     return this;
@@ -132,7 +133,7 @@ class TranscodePlaybackModel extends PlaybackModel {
     ItemBaseModel? item,
     ValueGetter<Media?>? media,
     ValueGetter<Duration>? lastPosition,
-    PlaybackInfoResponse? playbackInfo,
+    jellyfin.PlaybackInfoResponse? playbackInfo,
     ValueGetter<MediaStreamsModel?>? mediaStreams,
     ValueGetter<MediaSegmentsModel?>? mediaSegments,
     ValueGetter<List<Chapter>?>? chapters,

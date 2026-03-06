@@ -239,6 +239,47 @@ jobs:
           name: fladder-windows-installer
           path: windows\Output\fladder_setup.exe
 
+  build-windows-arm64:
+    runs-on: windows-11-arm
+    needs: [fetch-info]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2.19.0
+        with:
+          channel: "master"
+          flutter-version: '010cd4f383' # Newer version may having breaking change with page_transition / CupertinoPageTransitionsBuilder
+          cache: true
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
+          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Windows ARM64 EXE
+        run: flutter build windows --build-number=${{ github.run_number }}
+
+      - name: Compile Inno Setup installer for ARM64
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+        with:
+          path: windows/windows_setup_arm64.iss
+          options: /O+ /DFLADDER_VERSION="${{ needs.fetch-info.outputs.version_name }}"
+
+      - name: Archive Windows ARM64 portable artifact
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          name: fladder-windows-arm64-portable
+          path: build\windows\arm64\runner\Release\
+
+      - name: Archive Windows ARM64 installer artifact
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          name: fladder-windows-arm64-installer
+          path: windows\Output\fladder_setup_arm64.exe
+
   build-ios:
     runs-on: macos-latest
     needs: [fetch-info]
@@ -458,6 +499,7 @@ jobs:
       - fetch-info
       - build-android
       - build-windows
+      - build-windows-arm64
       - build-ios
       - build-macos
       - build-linux
@@ -582,6 +624,28 @@ jobs:
       - name: Rename Windows installer
         run: mv fladder-windows-installer/fladder_setup.exe Fladder-Windows-${{ steps.version.outputs.version }}-Setup.exe
 
+      - name: Download Windows ARM64 portable artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-windows-arm64-portable
+          path: fladder-windows-arm64-portable
+
+      - name: Compress Windows ARM64
+        run: |
+          cd fladder-windows-arm64-portable
+          zip -r ../Fladder-Windows-ARM64-${{ steps.version.outputs.version }}.zip .
+
+      - name: Download Windows ARM64 installer artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-windows-arm64-installer
+          path: fladder-windows-arm64-installer
+
+      - name: Rename Windows ARM64 installer
+        run: mv fladder-windows-arm64-installer/fladder_setup_arm64.exe Fladder-Windows-ARM64-${{ steps.version.outputs.version }}-Setup.exe
+
+
+
       - name: Download Artifacts iOS
         uses: actions/download-artifact@v4
         with:
@@ -659,6 +723,8 @@ jobs:
             Fladder-Android-${{ steps.version.outputs.version }}.aab
             Fladder-Windows-${{ steps.version.outputs.version }}-Setup.exe
             Fladder-Windows-${{ steps.version.outputs.version }}.zip
+            Fladder-Windows-ARM64-${{ steps.version.outputs.version }}-Setup.exe
+            Fladder-Windows-ARM64-${{ steps.version.outputs.version }}.zip
             Fladder-iOS-${{ steps.version.outputs.version }}.ipa
             Fladder-macOS-${{ steps.version.outputs.version }}.dmg
             Fladder-Web-${{ steps.version.outputs.version }}.zip
