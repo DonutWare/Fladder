@@ -824,8 +824,8 @@
     "playbackRate": "Vitesse de lecture",
     "unableToPlayMedia": "Une erreur est survenue lors de la recherche d'un type de média compatible",
     "unableToPlayBooksOnWeb": "Les livres ne sont pas pris en charge sur le web pour le moment",
-    "clientSettingsRequireWifiTitle": "WI-FI Requis",
-    "clientSettingsRequireWifiDesc": "Télécharger seulement sur une connexion WI-FI",
+    "clientSettingsRequireWifiTitle": "Connexion Wi-Fi requise",
+    "clientSettingsRequireWifiDesc": "Téléchargez uniquement lorsque vous êtes connecté à un réseau Wi-Fi",
     "settingsPlayerBufferSizeTitle": "Taille du tampon vidéo",
     "settingsPlayerBufferSizeDesc": "Définit la taille du tampon vidéo, détermine la quantité de données chargées dans le cache.",
     "clientSettingsShowAllCollectionsTitle": "Afficher tout les types de collection",
@@ -846,7 +846,7 @@
     "settingsLayoutSizesDesc": "Choisissez les affichages que l’application peut utiliser en fonction de la taille de la fenêtre",
     "tablet": "Tablette",
     "desktop": "Bureau",
-    "layoutModeSingle": "Single",
+    "layoutModeSingle": "Seul",
     "layoutModeDual": "Double",
     "noVideoPlayerOptions": "Le lecteur sélectionné n'a aucune option",
     "playerSettingsBackendDesc": "Choisissez votre lecteur vidéo préféré pour une expérience de lecture optimale",
@@ -879,7 +879,7 @@
     "mediaSegmentUnknown": "Inconnu",
     "mediaSegmentCommercial": "Commercial",
     "mediaSegmentPreview": "Aperçu",
-    "mediaSegmentOutro": "Outro",
+    "mediaSegmentOutro": "Générique de fin",
     "mediaSegmentIntro": "Intro",
     "homeStreamingQualityTitle": "Qualité à domicile",
     "episodeAvailable": "Disponible",
@@ -1072,7 +1072,7 @@
     "screensaverLogo": "Logo",
     "screensaverBlack": "Noir",
     "settingsLocalUrlTitle": "URL du serveur local",
-    "screensaverTime": "Latence",
+    "screensaverTime": "Temps",
     "playerSettingsScreensaverTitle": "Économiseur d'écran",
     "playerSettingsScreensaverDesc": "Sélectionner l'économiseur d'écran qui sera affiché en cas d'inactivité du lecteur",
     "settingsLocalUrlSetTitle": "Configurer l'URL locale",
@@ -1635,5 +1635,64 @@
     },
     "backgroundColor": "Couleur d'arrière plan",
     "enableSpeedBoostTitle": "Activer la vitesse accélérée",
-    "speedBoostRateTitle": "Vitesse de lecture"
+    "speedBoostRateTitle": "Vitesse de lecture",
+    "enableSpeedBoostDesc": "Maintenez l'écran (mobile) ou la barre d'espace (ordinateur) enfoncés pour augmenter temporairement la vitesse de lecture",
+    "speedBoostRateDesc": "Vitesse de lecture lorsque le boost de vitesse est activé",
+    "enableDoubleTapSeekTitle": "Appuyez deux fois pour avancer / lire / mettre en pause",
+    "enableDoubleTapSeekDesc": "Double-tapez sur le côté gauche/droit de l’écran pour reculer/avancer. Double-tapez au centre pour lire/mettre en pause",
+    "requestMore": "Demander plus",
+    "liveTV": "TV en direct",
+    "liveTvManageTunersEpg": "Gérer les tuners TV et les fournisseurs d’EPG",
+    "tunerDevices": "Appareils tuner",
+    "epgGuideProviders": "Fournisseurs du guide EPG",
+    "noTunerDevicesConfigured": "Aucun tuner configuré",
+    "noEpgProvidersConfigured": "Aucun fournisseur EPG configuré",
+    "addTunerDevice": "Ajouter un tuner",
+    "addProvider": "Ajouter un fournisseur",
+    "tunerHostAddedSuccessfully": "Hôte du tuner ajouté avec succès",
+    "failedToAddTunerHost": "Impossible d’ajouter l’hôte du tuner : {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "Le serveur du tuner a été mis à jour avec succès",
+    "failedToUpdateTunerHost": "Impossible de mettre à jour l’hôte du tuner : {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "Supprimer le serveur du tuner",
+    "deleteTunerHostConfirm": "Voulez-vous vraiment supprimer « {name} » ?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "Le serveur du tuner a été supprimé avec succès",
+    "failedToDeleteTunerHost": "Impossible de supprimer l’hôte du tuner : {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "Fournisseur EPG ajouté avec succès",
+    "failedToAddEpgProvider": "Échec de l’ajout du fournisseur EPG : {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "Fournisseur EPG mis à jour avec succès"
 }
