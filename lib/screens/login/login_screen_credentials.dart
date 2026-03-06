@@ -26,6 +26,7 @@ import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
 import 'package:fladder/util/auth_service.dart';
 import 'package:fladder/util/deep_link_helper.dart';
+import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 class LoginScreenCredentials extends ConsumerStatefulWidget {
@@ -271,19 +272,20 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                                 ),
                         ),
                       ),
-                      IconButton.filledTonal(
-                        onPressed: () async {
-                          final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-                          final result = await showAdvancedLoginOptionsDialog(
-                            context,
-                            initialSeerrUrl: tempSeerrUrl,
-                          );
-                          if (result != null) {
-                            ref.read(authProvider.notifier).setTempSeerrUrl(result);
-                          }
-                        },
-                        icon: const Icon(IconsaxPlusLinear.setting_3),
-                      ),
+                      if (FladderConfig.seerrBaseUrl?.isNotEmpty != true)
+                        IconButton.filledTonal(
+                          onPressed: () async {
+                            final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+                            final result = await showAdvancedLoginOptionsDialog(
+                              context,
+                              initialSeerrUrl: tempSeerrUrl,
+                            );
+                            if (result != null) {
+                              ref.read(authProvider.notifier).setTempSeerrUrl(result);
+                            }
+                          },
+                          icon: const Icon(IconsaxPlusLinear.setting_3),
+                        ),
                     ],
                   ),
                   if (hasQuickConnect)
@@ -375,7 +377,12 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       final username = usernameController.text.trim();
       final password = passwordController.text;
 
-      ref.read(userProvider.notifier).setSeerrServerUrl(seerrUrl);
+      final effectiveSeerrUrl = FladderConfig.seerrBaseUrl ?? seerrUrl;
+      ref.read(userProvider.notifier).setSeerrServerUrl(effectiveSeerrUrl);
+
+      if (FladderConfig.seerrHeader?.isNotEmpty == true) {
+        ref.read(userProvider.notifier).setSeerrCustomHeaders(FladderConfig.seerrHeader!);
+      }
 
       final tempCookie = ref.read(authProvider.select((value) => value.tempSeerrSessionCookie));
       final cookie = tempCookie ??
