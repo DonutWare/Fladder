@@ -48,7 +48,8 @@ class SeerrConnectionDialog extends ConsumerStatefulWidget {
   const SeerrConnectionDialog({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SeerrConnectionDialogState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SeerrConnectionDialogState();
 }
 
 class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
@@ -79,7 +80,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     super.initState();
     final creds = ref.read(userProvider)?.seerrCredentials;
     apiKeyController = TextEditingController(text: creds?.apiKey ?? '');
-    serverController = TextEditingController(text: FladderConfig.seerrUrl ?? creds?.serverUrl ?? '');
+    serverController = TextEditingController(
+        text: FladderConfig.seerrUrl ?? creds?.serverUrl ?? '');
     localEmailController = TextEditingController();
     localPasswordController = TextEditingController();
     jfUsernameController = TextEditingController();
@@ -185,12 +187,14 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     }
 
     String serverUrl;
-    final hasScheme = rawUrl.startsWith('http://') || rawUrl.startsWith('https://');
+    final hasScheme =
+        rawUrl.startsWith('http://') || rawUrl.startsWith('https://');
     if (!hasScheme) {
       // Probe https first, then http
       final httpsUrl = normalizeUrl('https://$rawUrl');
       final httpUrl = normalizeUrl('http://$rawUrl');
-      final result = await probeSeerrUrl(httpsUrl) ?? await probeSeerrUrl(httpUrl);
+      final result =
+          await probeSeerrUrl(httpsUrl) ?? await probeSeerrUrl(httpUrl);
       if (result == null) {
         if (showError && mounted) {
           setState(() {
@@ -354,7 +358,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       }
       _qcPollAttempts++;
       try {
-        final authenticated = await ref.read(seerrApiProvider).quickConnectCheck(secret);
+        final authenticated =
+            await ref.read(seerrApiProvider).quickConnectCheck(secret);
         if (!mounted) return;
         if (authenticated) {
           await _quickConnectAuthenticate(secret);
@@ -375,7 +380,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     });
 
     try {
-      final cookie = await ref.read(seerrApiProvider).quickConnectAuthenticate(secret);
+      final cookie =
+          await ref.read(seerrApiProvider).quickConnectAuthenticate(secret);
       if (!mounted) return;
       if (cookie == null || cookie.isEmpty) {
         setState(() {
@@ -460,7 +466,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       ),
       child: Row(
         children: [
-          Icon(IconsaxPlusLinear.warning_2, color: Theme.of(context).colorScheme.onErrorContainer),
+          Icon(IconsaxPlusLinear.warning_2,
+              color: Theme.of(context).colorScheme.onErrorContainer),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -477,8 +484,10 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
 
   Widget _loggedInContent() {
     final serverUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl ?? '';
-    final displayName =
-        seerrUser?.displayName ?? seerrUser?.username ?? seerrUser?.email ?? context.localized.seerrUnknownUser;
+    final displayName = seerrUser?.displayName ??
+        seerrUser?.username ??
+        seerrUser?.email ??
+        context.localized.seerrUnknownUser;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -496,7 +505,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           spacing: 8,
           children: [
             seerrUser?.avatar != null && seerrUser!.avatar!.isNotEmpty
-                ? CircleAvatar(backgroundImage: NetworkImage(seerrUser!.avatar!))
+                ? CircleAvatar(
+                    backgroundImage: NetworkImage(seerrUser!.avatar!))
                 : CircleAvatar(child: Icon(FladderItemType.person.icon)),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -569,7 +579,9 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                IconButton(onPressed: _addHeader, icon: const Icon(IconsaxPlusBold.add_circle)),
+                IconButton(
+                    onPressed: _addHeader,
+                    icon: const Icon(IconsaxPlusBold.add_circle)),
               ],
             ),
             const SizedBox(height: 8),
@@ -635,7 +647,10 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                 FilledButton(
                   onPressed: processing ? null : _useApiKey,
                   child: processing
-                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator())
                       : Text(context.localized.save),
                 ),
               ],
@@ -674,7 +689,10 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                 FilledButton(
                   onPressed: processing ? null : _loginLocal,
                   child: processing
-                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator())
                       : Text(context.localized.login),
                 ),
               ],
@@ -712,7 +730,10 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                 FilledButton(
                   onPressed: processing ? null : _loginJellyfin,
                   child: processing
-                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator())
                       : Text(context.localized.login),
                 ),
               ],
@@ -769,8 +790,13 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                   child: FilledButton(
                     onPressed: processing ? null : _quickConnectInitiate,
                     child: processing
-                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
-                        : Text(_qcCode != null ? context.localized.refresh : context.localized.quickConnectTitle),
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator())
+                        : Text(_qcCode != null
+                            ? context.localized.refresh
+                            : context.localized.quickConnectTitle),
                   ),
                 ),
               ],
@@ -800,7 +826,9 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                 child: CircularProgressIndicator(strokeCap: StrokeCap.round),
               )
             else
-              AnimatedFadeSize(child: seerrUser != null ? _loggedInContent() : _authContent()),
+              AnimatedFadeSize(
+                  child:
+                      seerrUser != null ? _loggedInContent() : _authContent()),
           ],
         ),
       ),

@@ -30,7 +30,8 @@ class SeerrService {
     final avatar = user.avatar;
     if (avatar != null && avatar.isNotEmpty) {
       final serverUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl;
-      final resolvedAvatar = resolveServerUrl(path: avatar, serverUrl: serverUrl);
+      final resolvedAvatar =
+          resolveServerUrl(path: avatar, serverUrl: serverUrl);
 
       if (resolvedAvatar != avatar) {
         return response.copyWith(body: user.copyWith(avatar: resolvedAvatar));
@@ -105,7 +106,8 @@ class SeerrService {
     return response.body;
   }
 
-  Future<List<SeerrUserModel>> users({int? take, int? skip, String sort = 'displayname'}) async {
+  Future<List<SeerrUserModel>> users(
+      {int? take, int? skip, String sort = 'displayname'}) async {
     final response = await _api.getUsers(take: take, skip: skip, sort: sort);
     final results = response.body?.results ?? [];
     final serverUrl = ref.read(userProvider)?.seerrCredentials?.serverUrl;
@@ -114,7 +116,8 @@ class SeerrService {
       final avatar = user.avatar;
       if (avatar == null || avatar.isEmpty) return user;
 
-      final resolvedAvatar = resolveServerUrl(path: avatar, serverUrl: serverUrl);
+      final resolvedAvatar =
+          resolveServerUrl(path: avatar, serverUrl: serverUrl);
       if (resolvedAvatar == avatar) return user;
 
       return user.copyWith(avatar: resolvedAvatar);
@@ -142,8 +145,10 @@ class SeerrService {
     String? releaseYear,
     SeerrRequestStatus? requestStatus,
   }) {
-    final keyPrefix = type == SeerrMediaType.movie ? 'tmdb_movie_$tmdbId' : 'tmdb_tv_$tmdbId';
-    final id = type == SeerrMediaType.movie ? 'tmdb:movie:$tmdbId' : 'tmdb:tv:$tmdbId';
+    final keyPrefix =
+        type == SeerrMediaType.movie ? 'tmdb_movie_$tmdbId' : 'tmdb_tv_$tmdbId';
+    final id =
+        type == SeerrMediaType.movie ? 'tmdb:movie:$tmdbId' : 'tmdb:tv:$tmdbId';
 
     return SeerrDashboardPosterModel(
       id: id,
@@ -153,8 +158,12 @@ class SeerrService {
       title: title,
       overview: overview,
       images: ImagesData(
-        primary: posterUrl != null ? ImageData(path: posterUrl, key: '${keyPrefix}_primary') : null,
-        backDrop: backdropUrl != null ? [ImageData(path: backdropUrl, key: '${keyPrefix}_backdrop')] : null,
+        primary: posterUrl != null
+            ? ImageData(path: posterUrl, key: '${keyPrefix}_primary')
+            : null,
+        backDrop: backdropUrl != null
+            ? [ImageData(path: backdropUrl, key: '${keyPrefix}_backdrop')]
+            : null,
       ),
       mediaStatus: mediaStatus ?? SeerrMediaStatus.unknown,
       requestStatus: requestStatus,
@@ -165,11 +174,13 @@ class SeerrService {
     );
   }
 
-  Map<int, SeerrMediaStatus> _seasonStatusMap(List<SeerrMediaInfoSeason>? seasons) {
+  Map<int, SeerrMediaStatus> _seasonStatusMap(
+      List<SeerrMediaInfoSeason>? seasons) {
     if (seasons == null) return const {};
     return {
       for (final season in seasons)
-        if (season.seasonNumber != null) season.seasonNumber!: SeerrMediaStatus.fromRaw(season.status),
+        if (season.seasonNumber != null)
+          season.seasonNumber!: SeerrMediaStatus.fromRaw(season.status),
     };
   }
 
@@ -232,8 +243,10 @@ class SeerrService {
           releaseYear: releaseYear,
         );
       } else {
-        final movieResponse = await movieDetails(tmdbId: tmdbId, language: language);
-        if (!movieResponse.isSuccessful || movieResponse.body == null) return null;
+        final movieResponse =
+            await movieDetails(tmdbId: tmdbId, language: language);
+        if (!movieResponse.isSuccessful || movieResponse.body == null)
+          return null;
         final details = movieResponse.body!;
         String? releaseYear;
         final releaseDate = details.releaseDate;
@@ -258,11 +271,13 @@ class SeerrService {
     return null;
   }
 
-  Future<Response<SeerrMovieDetails>> movieDetails({required int tmdbId, String? language}) {
+  Future<Response<SeerrMovieDetails>> movieDetails(
+      {required int tmdbId, String? language}) {
     return _api.getMovieDetails(tmdbId, language: language);
   }
 
-  Future<Response<SeerrTvDetails>> tvDetails({required int tvId, String? language}) {
+  Future<Response<SeerrTvDetails>> tvDetails(
+      {required int tvId, String? language}) {
     return _api.getTvDetails(tvId, language: language);
   }
 
@@ -306,10 +321,15 @@ class SeerrService {
     );
   }
 
-  Future<List<SeerrDashboardPosterModel>> discoverTrending({int? page, String? language}) async {
-    final response = await _api.getDiscoverTrending(page: page, language: language);
+  Future<List<SeerrDashboardPosterModel>> discoverTrending(
+      {int? page, String? language}) async {
+    final response =
+        await _api.getDiscoverTrending(page: page, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
-    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+    return results
+        .map(_posterFromDiscoverItem)
+        .whereType<SeerrDashboardPosterModel>()
+        .toList(growable: false);
   }
 
   SeerrMediaType? _resolveMediaType(SeerrDiscoverItem item) {
@@ -340,7 +360,8 @@ class SeerrService {
         : (item.title ?? item.originalTitle ?? item.name ?? '');
 
     String? releaseYear;
-    final dateString = type == SeerrMediaType.tvshow ? item.firstAirDate : item.releaseDate;
+    final dateString =
+        type == SeerrMediaType.tvshow ? item.firstAirDate : item.releaseDate;
     if (dateString != null && dateString.isNotEmpty) {
       releaseYear = dateString.split('-').first;
     }
@@ -353,42 +374,64 @@ class SeerrService {
       overview: item.overview ?? '',
       posterUrl: item.posterUrl,
       backdropUrl: item.backdropUrl,
-      mediaStatus: item.mediaInfo?.status != null ? SeerrMediaStatus.fromRaw(item.mediaInfo?.status) : null,
+      mediaStatus: item.mediaInfo?.status != null
+          ? SeerrMediaStatus.fromRaw(item.mediaInfo?.status)
+          : null,
       mediaInfo: item.mediaInfo,
       releaseYear: releaseYear,
     );
   }
 
-  Future<List<SeerrDashboardPosterModel>> discoverPopularMovies({int? page, String? language}) async {
+  Future<List<SeerrDashboardPosterModel>> discoverPopularMovies(
+      {int? page, String? language}) async {
     final response = await _api.getDiscoverMovies(
       page: page,
       language: language,
-      sortBy: SeerrSortBy.popularityDesc.valueForMode(SeerrSearchMode.discoverMovies),
+      sortBy: SeerrSortBy.popularityDesc
+          .valueForMode(SeerrSearchMode.discoverMovies),
     );
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
-    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+    return results
+        .map(_posterFromDiscoverItem)
+        .whereType<SeerrDashboardPosterModel>()
+        .toList(growable: false);
   }
 
-  Future<List<SeerrDashboardPosterModel>> discoverPopularSeries({int? page, String? language}) async {
+  Future<List<SeerrDashboardPosterModel>> discoverPopularSeries(
+      {int? page, String? language}) async {
     final response = await _api.getDiscoverTv(
       page: page,
       language: language,
-      sortBy: SeerrSortBy.popularityDesc.valueForMode(SeerrSearchMode.discoverTv),
+      sortBy:
+          SeerrSortBy.popularityDesc.valueForMode(SeerrSearchMode.discoverTv),
     );
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
-    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+    return results
+        .map(_posterFromDiscoverItem)
+        .whereType<SeerrDashboardPosterModel>()
+        .toList(growable: false);
   }
 
-  Future<List<SeerrDashboardPosterModel>> discoverExpectedMovies({int? page, String? language}) async {
-    final response = await _api.getDiscoverMoviesUpcoming(page: page, language: language);
+  Future<List<SeerrDashboardPosterModel>> discoverExpectedMovies(
+      {int? page, String? language}) async {
+    final response =
+        await _api.getDiscoverMoviesUpcoming(page: page, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
-    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+    return results
+        .map(_posterFromDiscoverItem)
+        .whereType<SeerrDashboardPosterModel>()
+        .toList(growable: false);
   }
 
-  Future<List<SeerrDashboardPosterModel>> discoverExpectedSeries({int? page, String? language}) async {
-    final response = await _api.getDiscoverTvUpcoming(page: page, language: language);
+  Future<List<SeerrDashboardPosterModel>> discoverExpectedSeries(
+      {int? page, String? language}) async {
+    final response =
+        await _api.getDiscoverTvUpcoming(page: page, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
-    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+    return results
+        .map(_posterFromDiscoverItem)
+        .whereType<SeerrDashboardPosterModel>()
+        .toList(growable: false);
   }
 
   Future<List<SeerrDashboardPosterModel>> discoverRelatedMovies({
@@ -397,7 +440,10 @@ class SeerrService {
   }) async {
     final response = await _api.getMovieSimilar(tmdbId, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
-    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+    return results
+        .map(_posterFromDiscoverItem)
+        .whereType<SeerrDashboardPosterModel>()
+        .toList(growable: false);
   }
 
   Future<List<SeerrDashboardPosterModel>> discoverRelatedSeries({
@@ -406,25 +452,36 @@ class SeerrService {
   }) async {
     final response = await _api.getTvSimilar(tmdbId, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
-    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+    return results
+        .map(_posterFromDiscoverItem)
+        .whereType<SeerrDashboardPosterModel>()
+        .toList(growable: false);
   }
 
   Future<List<SeerrDashboardPosterModel>> discoverRecommendedMovies({
     required int tmdbId,
     String? language,
   }) async {
-    final response = await _api.getMovieRecommendations(tmdbId, language: language);
+    final response =
+        await _api.getMovieRecommendations(tmdbId, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
-    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+    return results
+        .map(_posterFromDiscoverItem)
+        .whereType<SeerrDashboardPosterModel>()
+        .toList(growable: false);
   }
 
   Future<List<SeerrDashboardPosterModel>> discoverRecommendedSeries({
     required int tmdbId,
     String? language,
   }) async {
-    final response = await _api.getTvRecommendations(tmdbId, language: language);
+    final response =
+        await _api.getTvRecommendations(tmdbId, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
-    return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
+    return results
+        .map(_posterFromDiscoverItem)
+        .whereType<SeerrDashboardPosterModel>()
+        .toList(growable: false);
   }
 
   Future<Response<SeerrRequestsResponse>> myRequests({
@@ -511,7 +568,8 @@ class SeerrService {
     return _api.deleteMedia(mediaId);
   }
 
-  Future<Response<dynamic>> deleteMediaFile({required int mediaId, bool? is4k}) {
+  Future<Response<dynamic>> deleteMediaFile(
+      {required int mediaId, bool? is4k}) {
     return _api.deleteMediaFile(mediaId, is4k: is4k);
   }
 
@@ -523,10 +581,12 @@ class SeerrService {
     return _api.updateMediaStatus(mediaId, status, body: body);
   }
 
-  Future<List<SeerrDashboardPosterModel>> searchPosters({required String query, int? page, String? language}) async {
+  Future<List<SeerrDashboardPosterModel>> searchPosters(
+      {required String query, int? page, String? language}) async {
     if (query.trim().isEmpty) return const [];
 
-    final response = await _api.search(query: query, page: page, language: language);
+    final response =
+        await _api.search(query: query, page: page, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
 
     final items = <SeerrDashboardPosterModel>[];
@@ -543,21 +603,27 @@ class SeerrService {
 
   Future<Response<List<SeerrGenre>>> getTvGenres() => _api.getTvGenres();
 
-  Future<Response<List<SeerrWatchProvider>>> getMovieWatchProviders({String? watchRegion}) {
+  Future<Response<List<SeerrWatchProvider>>> getMovieWatchProviders(
+      {String? watchRegion}) {
     return _api.getMovieWatchProviders(watchRegion: watchRegion);
   }
 
-  Future<Response<List<SeerrWatchProvider>>> getTvWatchProviders({String? watchRegion}) {
+  Future<Response<List<SeerrWatchProvider>>> getTvWatchProviders(
+      {String? watchRegion}) {
     return _api.getTvWatchProviders(watchRegion: watchRegion);
   }
 
-  Future<Response<List<SeerrWatchProviderRegion>>> getWatchProviderRegions() => _api.getWatchProviderRegions();
+  Future<Response<List<SeerrWatchProviderRegion>>> getWatchProviderRegions() =>
+      _api.getWatchProviderRegions();
 
-  Future<Response<SeerrCertificationsResponse>> getMovieCertifications() => _api.getMovieCertifications();
+  Future<Response<SeerrCertificationsResponse>> getMovieCertifications() =>
+      _api.getMovieCertifications();
 
-  Future<Response<SeerrCertificationsResponse>> getTvCertifications() => _api.getTvCertifications();
+  Future<Response<SeerrCertificationsResponse>> getTvCertifications() =>
+      _api.getTvCertifications();
 
-  Future<Response<SeerrDiscoverResponse>> discoverTrendingPaged({int? page, String? language}) =>
+  Future<Response<SeerrDiscoverResponse>> discoverTrendingPaged(
+          {int? page, String? language}) =>
       _api.getDiscoverTrending(page: page, language: language);
 
   // Helper method for discover search
@@ -632,15 +698,20 @@ class SeerrService {
   }) =>
       _api.searchCompany(query: query, page: page);
 
-  SeerrDashboardPosterModel? posterFromDiscoverItem(SeerrDiscoverItem item) => _posterFromDiscoverItem(item);
+  SeerrDashboardPosterModel? posterFromDiscoverItem(SeerrDiscoverItem item) =>
+      _posterFromDiscoverItem(item);
 
-  Future<String> authenticateLocal({required String email, required String password, Map<String, String>? headers}) async {
+  Future<String> authenticateLocal(
+      {required String email,
+      required String password,
+      Map<String, String>? headers}) async {
     final response = await _api.authenticateLocal(
       SeerrAuthLocalBody(email: email, password: password),
       headers: headers,
     );
     if (!response.isSuccessful) {
-      throw HttpException('Local authentication failed (${response.statusCode})');
+      throw HttpException(
+          'Local authentication failed (${response.statusCode})');
     }
     final cookie = _extractSessionCookie(response);
     if (cookie == null || cookie.isEmpty) {
@@ -649,8 +720,12 @@ class SeerrService {
     return cookie;
   }
 
-  Future<String> authenticateJellyfin({required String username, required String password, Map<String, String>? headers}) async {
-    final response = await _authenticateJellyfin(username: username, password: password, headers: headers);
+  Future<String> authenticateJellyfin(
+      {required String username,
+      required String password,
+      Map<String, String>? headers}) async {
+    final response = await _authenticateJellyfin(
+        username: username, password: password, headers: headers);
     return _requireSessionCookie(response, label: 'Jellyfin');
   }
 
@@ -675,7 +750,10 @@ class SeerrService {
 
   Future<void> logout() async => await _api.logout();
 
-  Future<Response<dynamic>> _authenticateJellyfin({required String username, required String password, Map<String, String>? headers}) async {
+  Future<Response<dynamic>> _authenticateJellyfin(
+      {required String username,
+      required String password,
+      Map<String, String>? headers}) async {
     var response = await _api.authenticateJellyfin(
       SeerrAuthJellyfinBody(username: username, password: password),
       headers: headers,
@@ -704,10 +782,12 @@ class SeerrService {
             detailsString.contains('required'));
   }
 
-  String _requireSessionCookie(Response<dynamic> response, {required String label}) {
+  String _requireSessionCookie(Response<dynamic> response,
+      {required String label}) {
     if (!response.isSuccessful) {
       final details = response.error ?? response.body;
-      throw HttpException('$label authentication failed (${response.statusCode})\n$details');
+      throw HttpException(
+          '$label authentication failed (${response.statusCode})\n$details');
     }
     final cookie = _extractSessionCookie(response);
     if (cookie == null || cookie.isEmpty) {

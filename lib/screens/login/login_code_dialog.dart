@@ -126,12 +126,14 @@ class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
                           padding: const EdgeInsets.all(12.0),
                           child: Text(
                             code,
-                            style:
-                                Theme.of(context).textTheme.titleLarge?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      wordSpacing: 8,
-                                      letterSpacing: 8,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  wordSpacing: 8,
+                                  letterSpacing: 8,
+                                ),
                             textAlign: TextAlign.center,
                             semanticsLabel: code,
                           ),
@@ -142,9 +144,14 @@ class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
                   TextButton.icon(
                     onPressed: () async {
                       final baseUrl = FladderConfig.baseUrl ??
-                          ref.read(authProvider).serverLoginModel?.tempCredentials.url;
+                          ref
+                              .read(authProvider)
+                              .serverLoginModel
+                              ?.tempCredentials
+                              .url;
                       if (baseUrl != null && baseUrl.isNotEmpty) {
-                        await ext.launchUrl(context, '$baseUrl/web/#/quickconnect');
+                        await ext.launchUrl(
+                            context, '$baseUrl/web/#/quickconnect');
                         timer?.reset();
                       }
                     },

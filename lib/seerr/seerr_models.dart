@@ -127,13 +127,34 @@ enum SeerrSortBy {
 
   static const Map<SeerrSortBy, _SortValues> _sortValues = {
     SeerrSortBy.popularityAsc: (movie: 'popularity.asc', tv: 'popularity.asc'),
-    SeerrSortBy.popularityDesc: (movie: 'popularity.desc', tv: 'popularity.desc'),
-    SeerrSortBy.releaseDateAsc: (movie: 'primary_release_date.asc', tv: 'first_air_date.asc'),
-    SeerrSortBy.releaseDateDesc: (movie: 'primary_release_date.desc', tv: 'first_air_date.desc'),
-    SeerrSortBy.voteAverageAsc: (movie: 'vote_average.asc', tv: 'vote_average.asc'),
-    SeerrSortBy.voteAverageDesc: (movie: 'vote_average.desc', tv: 'vote_average.desc'),
-    SeerrSortBy.titleAsc: (movie: 'original_title.asc', tv: 'original_name.asc'),
-    SeerrSortBy.titleDesc: (movie: 'original_title.desc', tv: 'original_name.desc'),
+    SeerrSortBy.popularityDesc: (
+      movie: 'popularity.desc',
+      tv: 'popularity.desc'
+    ),
+    SeerrSortBy.releaseDateAsc: (
+      movie: 'primary_release_date.asc',
+      tv: 'first_air_date.asc'
+    ),
+    SeerrSortBy.releaseDateDesc: (
+      movie: 'primary_release_date.desc',
+      tv: 'first_air_date.desc'
+    ),
+    SeerrSortBy.voteAverageAsc: (
+      movie: 'vote_average.asc',
+      tv: 'vote_average.asc'
+    ),
+    SeerrSortBy.voteAverageDesc: (
+      movie: 'vote_average.desc',
+      tv: 'vote_average.desc'
+    ),
+    SeerrSortBy.titleAsc: (
+      movie: 'original_title.asc',
+      tv: 'original_name.asc'
+    ),
+    SeerrSortBy.titleDesc: (
+      movie: 'original_title.desc',
+      tv: 'original_name.desc'
+    ),
   };
 
   /// Map to TMDB sort values; some keys differ for movies vs TV.
@@ -178,7 +199,8 @@ class SeerrStatus {
     this.commitsBehind,
   });
 
-  factory SeerrStatus.fromJson(Map<String, dynamic> json) => _$SeerrStatusFromJson(json);
+  factory SeerrStatus.fromJson(Map<String, dynamic> json) =>
+      _$SeerrStatusFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrStatusToJson(this);
 }
 
@@ -200,7 +222,8 @@ abstract class SeerrUserModel with _$SeerrUserModel {
     int? tvQuotaDays,
   }) = _SeerrUserModel;
 
-  factory SeerrUserModel.fromJson(Map<String, dynamic> json) => _$SeerrUserModelFromJson(json);
+  factory SeerrUserModel.fromJson(Map<String, dynamic> json) =>
+      _$SeerrUserModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -210,7 +233,8 @@ class SeerrUserQuota {
 
   SeerrUserQuota({this.movie, this.tv});
 
-  factory SeerrUserQuota.fromJson(Map<String, dynamic> json) => _$SeerrUserQuotaFromJson(json);
+  factory SeerrUserQuota.fromJson(Map<String, dynamic> json) =>
+      _$SeerrUserQuotaFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrUserQuotaToJson(this);
 }
 
@@ -224,9 +248,11 @@ class SeerrQuotaEntry {
 
   bool get hasRestrictions => restricted == true || limit != 0;
 
-  SeerrQuotaEntry({this.days, this.limit, this.used, this.remaining, this.restricted});
+  SeerrQuotaEntry(
+      {this.days, this.limit, this.used, this.remaining, this.restricted});
 
-  factory SeerrQuotaEntry.fromJson(Map<String, dynamic> json) => _$SeerrQuotaEntryFromJson(json);
+  factory SeerrQuotaEntry.fromJson(Map<String, dynamic> json) =>
+      _$SeerrQuotaEntryFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrQuotaEntryToJson(this);
 }
 
@@ -275,13 +301,16 @@ extension SeerrUserLabelExtension on SeerrUserModel {
 extension SeerrUserPermissions on SeerrUserModel {
   int get _permissionValue => permissions ?? 0;
 
-  bool get isAdmin => (_permissionValue & SeerrPermission.admin.bit) == SeerrPermission.admin.bit;
+  bool get isAdmin =>
+      (_permissionValue & SeerrPermission.admin.bit) ==
+      SeerrPermission.admin.bit;
 
   bool hasPermission(SeerrPermission permission) =>
       isAdmin ? true : (_permissionValue & permission.bit) == permission.bit;
 
   bool get canManageRequests =>
-      hasPermission(SeerrPermission.manageRequests) || hasPermission(SeerrPermission.requestAdvanced);
+      hasPermission(SeerrPermission.manageRequests) ||
+      hasPermission(SeerrPermission.requestAdvanced);
 
   bool get canManageUsers => hasPermission(SeerrPermission.manageUsers);
 
@@ -306,7 +335,8 @@ class SeerrUserSettings {
     this.originalLanguage,
   });
 
-  factory SeerrUserSettings.fromJson(Map<String, dynamic> json) => _$SeerrUserSettingsFromJson(json);
+  factory SeerrUserSettings.fromJson(Map<String, dynamic> json) =>
+      _$SeerrUserSettingsFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrUserSettingsToJson(this);
 }
 
@@ -320,7 +350,8 @@ class SeerrUsersResponse {
     this.pageInfo,
   });
 
-  factory SeerrUsersResponse.fromJson(Map<String, dynamic> json) => _$SeerrUsersResponseFromJson(json);
+  factory SeerrUsersResponse.fromJson(Map<String, dynamic> json) =>
+      _$SeerrUsersResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrUsersResponseToJson(this);
 }
 
@@ -352,7 +383,9 @@ abstract class SeerrServer {
 }
 
 @Freezed(copyWith: true, makeCollectionsUnmodifiable: false)
-abstract class SeerrSonarrServer with _$SeerrSonarrServer implements SeerrServer {
+abstract class SeerrSonarrServer
+    with _$SeerrSonarrServer
+    implements SeerrServer {
   const factory SeerrSonarrServer({
     int? id,
     String? name,
@@ -380,7 +413,8 @@ abstract class SeerrSonarrServer with _$SeerrSonarrServer implements SeerrServer
     List<int>? activeTags,
   }) = _SeerrSonarrServer;
 
-  factory SeerrSonarrServer.fromJson(Map<String, dynamic> json) => _$SeerrSonarrServerFromJson(json);
+  factory SeerrSonarrServer.fromJson(Map<String, dynamic> json) =>
+      _$SeerrSonarrServerFromJson(json);
 }
 
 @Freezed(copyWith: true, makeCollectionsUnmodifiable: false)
@@ -392,11 +426,14 @@ abstract class SeerrSonarrServerResponse with _$SeerrSonarrServerResponse {
     List<SeerrServiceTag>? tags,
   }) = _SeerrSonarrServerResponse;
 
-  factory SeerrSonarrServerResponse.fromJson(Map<String, dynamic> json) => _$SeerrSonarrServerResponseFromJson(json);
+  factory SeerrSonarrServerResponse.fromJson(Map<String, dynamic> json) =>
+      _$SeerrSonarrServerResponseFromJson(json);
 }
 
 @Freezed(copyWith: true, makeCollectionsUnmodifiable: false)
-abstract class SeerrRadarrServer with _$SeerrRadarrServer implements SeerrServer {
+abstract class SeerrRadarrServer
+    with _$SeerrRadarrServer
+    implements SeerrServer {
   const factory SeerrRadarrServer({
     int? id,
     String? name,
@@ -424,7 +461,8 @@ abstract class SeerrRadarrServer with _$SeerrRadarrServer implements SeerrServer
     List<int>? activeTags,
   }) = _SeerrRadarrServer;
 
-  factory SeerrRadarrServer.fromJson(Map<String, dynamic> json) => _$SeerrRadarrServerFromJson(json);
+  factory SeerrRadarrServer.fromJson(Map<String, dynamic> json) =>
+      _$SeerrRadarrServerFromJson(json);
 }
 
 extension SeerrSonarrServerDefaults on SeerrSonarrServer {
@@ -444,7 +482,8 @@ abstract class SeerrRadarrServerResponse with _$SeerrRadarrServerResponse {
     List<SeerrServiceTag>? tags,
   }) = _SeerrRadarrServerResponse;
 
-  factory SeerrRadarrServerResponse.fromJson(Map<String, dynamic> json) => _$SeerrRadarrServerResponseFromJson(json);
+  factory SeerrRadarrServerResponse.fromJson(Map<String, dynamic> json) =>
+      _$SeerrRadarrServerResponseFromJson(json);
 }
 
 @Freezed(copyWith: true, makeCollectionsUnmodifiable: false)
@@ -454,7 +493,8 @@ abstract class SeerrServiceProfile with _$SeerrServiceProfile {
     String? name,
   }) = _SeerrServiceProfile;
 
-  factory SeerrServiceProfile.fromJson(Map<String, dynamic> json) => _$SeerrServiceProfileFromJson(json);
+  factory SeerrServiceProfile.fromJson(Map<String, dynamic> json) =>
+      _$SeerrServiceProfileFromJson(json);
 }
 
 @Freezed(copyWith: true, makeCollectionsUnmodifiable: false)
@@ -464,7 +504,8 @@ abstract class SeerrServiceTag with _$SeerrServiceTag {
     String? label,
   }) = _SeerrServiceTag;
 
-  factory SeerrServiceTag.fromJson(Map<String, dynamic> json) => _$SeerrServiceTagFromJson(json);
+  factory SeerrServiceTag.fromJson(Map<String, dynamic> json) =>
+      _$SeerrServiceTagFromJson(json);
 }
 
 @Freezed(copyWith: true, makeCollectionsUnmodifiable: false)
@@ -475,7 +516,8 @@ abstract class SeerrRootFolder with _$SeerrRootFolder {
     String? path,
   }) = _SeerrRootFolder;
 
-  factory SeerrRootFolder.fromJson(Map<String, dynamic> json) => _$SeerrRootFolderFromJson(json);
+  factory SeerrRootFolder.fromJson(Map<String, dynamic> json) =>
+      _$SeerrRootFolderFromJson(json);
 }
 
 @JsonSerializable()
@@ -491,7 +533,8 @@ class SeerrContentRating {
     this.descriptors,
   });
 
-  factory SeerrContentRating.fromJson(Map<String, dynamic> json) => _$SeerrContentRatingFromJson(json);
+  factory SeerrContentRating.fromJson(Map<String, dynamic> json) =>
+      _$SeerrContentRatingFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrContentRatingToJson(this);
 }
 
@@ -505,7 +548,8 @@ class SeerrCredits {
     this.crew,
   });
 
-  factory SeerrCredits.fromJson(Map<String, dynamic> json) => _$SeerrCreditsFromJson(json);
+  factory SeerrCredits.fromJson(Map<String, dynamic> json) =>
+      _$SeerrCreditsFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrCreditsToJson(this);
 }
 
@@ -532,7 +576,8 @@ class SeerrCast {
     this.internalProfilePath,
   });
 
-  factory SeerrCast.fromJson(Map<String, dynamic> json) => _$SeerrCastFromJson(json);
+  factory SeerrCast.fromJson(Map<String, dynamic> json) =>
+      _$SeerrCastFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrCastToJson(this);
 }
 
@@ -557,7 +602,8 @@ class SeerrCrew {
     this.internalProfilePath,
   });
 
-  factory SeerrCrew.fromJson(Map<String, dynamic> json) => _$SeerrCrewFromJson(json);
+  factory SeerrCrew.fromJson(Map<String, dynamic> json) =>
+      _$SeerrCrewFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrCrewToJson(this);
 }
 
@@ -603,7 +649,8 @@ class SeerrMovieDetails {
     this.contentRatings,
   });
 
-  factory SeerrMovieDetails.fromJson(Map<String, dynamic> json) => _$SeerrMovieDetailsFromJson(json);
+  factory SeerrMovieDetails.fromJson(Map<String, dynamic> json) =>
+      _$SeerrMovieDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrMovieDetailsToJson(this);
 }
 
@@ -657,7 +704,8 @@ class SeerrTvDetails {
     this.contentRatings,
   });
 
-  factory SeerrTvDetails.fromJson(Map<String, dynamic> json) => _$SeerrTvDetailsFromJson(json);
+  factory SeerrTvDetails.fromJson(Map<String, dynamic> json) =>
+      _$SeerrTvDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrTvDetailsToJson(this);
 }
 
@@ -671,12 +719,14 @@ class SeerrGenre {
     this.name,
   });
 
-  factory SeerrGenre.fromJson(Map<String, dynamic> json) => _$SeerrGenreFromJson(json);
+  factory SeerrGenre.fromJson(Map<String, dynamic> json) =>
+      _$SeerrGenreFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrGenreToJson(this);
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is SeerrGenre && runtimeType == other.runtimeType && id == other.id;
+      identical(this, other) ||
+      other is SeerrGenre && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;
@@ -692,7 +742,8 @@ class SeerrKeyword {
     this.name,
   });
 
-  factory SeerrKeyword.fromJson(Map<String, dynamic> json) => _$SeerrKeywordFromJson(json);
+  factory SeerrKeyword.fromJson(Map<String, dynamic> json) =>
+      _$SeerrKeywordFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrKeywordToJson(this);
 }
 
@@ -718,7 +769,8 @@ class SeerrSeason {
     this.mediaId,
   });
 
-  factory SeerrSeason.fromJson(Map<String, dynamic> json) => _$SeerrSeasonFromJson(json);
+  factory SeerrSeason.fromJson(Map<String, dynamic> json) =>
+      _$SeerrSeasonFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrSeasonToJson(this);
 }
 
@@ -741,7 +793,8 @@ class SeerrSeasonDetails {
     this.episodes,
   });
 
-  factory SeerrSeasonDetails.fromJson(Map<String, dynamic> json) => _$SeerrSeasonDetailsFromJson(json);
+  factory SeerrSeasonDetails.fromJson(Map<String, dynamic> json) =>
+      _$SeerrSeasonDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrSeasonDetailsToJson(this);
 }
 
@@ -770,7 +823,8 @@ class SeerrEpisode {
     this.voteCount,
   });
 
-  factory SeerrEpisode.fromJson(Map<String, dynamic> json) => _$SeerrEpisodeFromJson(json);
+  factory SeerrEpisode.fromJson(Map<String, dynamic> json) =>
+      _$SeerrEpisodeFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrEpisodeToJson(this);
 }
 
@@ -866,7 +920,8 @@ class SeerrDownloadStatusEpisode {
     this.id,
   });
 
-  factory SeerrDownloadStatusEpisode.fromJson(Map<String, dynamic> json) => _$SeerrDownloadStatusEpisodeFromJson(json);
+  factory SeerrDownloadStatusEpisode.fromJson(Map<String, dynamic> json) =>
+      _$SeerrDownloadStatusEpisodeFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrDownloadStatusEpisodeToJson(this);
 }
 
@@ -902,7 +957,8 @@ class SeerrDownloadStatus {
     return ((size! - (sizeLeft ?? 0)) / size!) * 100;
   }
 
-  factory SeerrDownloadStatus.fromJson(Map<String, dynamic> json) => _$SeerrDownloadStatusFromJson(json);
+  factory SeerrDownloadStatus.fromJson(Map<String, dynamic> json) =>
+      _$SeerrDownloadStatusFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrDownloadStatusToJson(this);
 }
 
@@ -926,9 +982,11 @@ abstract class SeerrMediaInfo with _$SeerrMediaInfo {
 
   String? get primaryJellyfinMediaId => jellyfinMediaId4k ?? jellyfinMediaId;
 
-  SeerrMediaStatus? get mediaStatus => status != null ? SeerrMediaStatus.fromRaw(status) : null;
+  SeerrMediaStatus? get mediaStatus =>
+      status != null ? SeerrMediaStatus.fromRaw(status) : null;
 
-  factory SeerrMediaInfo.fromJson(Map<String, dynamic> json) => _$SeerrMediaInfoFromJson(json);
+  factory SeerrMediaInfo.fromJson(Map<String, dynamic> json) =>
+      _$SeerrMediaInfoFromJson(json);
 }
 
 @JsonSerializable()
@@ -947,7 +1005,8 @@ class SeerrMediaInfoSeason {
     this.updatedAt,
   });
 
-  factory SeerrMediaInfoSeason.fromJson(Map<String, dynamic> json) => _$SeerrMediaInfoSeasonFromJson(json);
+  factory SeerrMediaInfoSeason.fromJson(Map<String, dynamic> json) =>
+      _$SeerrMediaInfoSeasonFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrMediaInfoSeasonToJson(this);
 }
 
@@ -965,7 +1024,8 @@ class SeerrExternalIds {
     this.twitterId,
   });
 
-  factory SeerrExternalIds.fromJson(Map<String, dynamic> json) => _$SeerrExternalIdsFromJson(json);
+  factory SeerrExternalIds.fromJson(Map<String, dynamic> json) =>
+      _$SeerrExternalIdsFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrExternalIdsToJson(this);
 }
 
@@ -979,7 +1039,8 @@ class SeerrRatingsResponse {
     this.imdb,
   });
 
-  factory SeerrRatingsResponse.fromJson(Map<String, dynamic> json) => _$SeerrRatingsResponseFromJson(json);
+  factory SeerrRatingsResponse.fromJson(Map<String, dynamic> json) =>
+      _$SeerrRatingsResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrRatingsResponseToJson(this);
 }
 
@@ -1003,7 +1064,8 @@ class SeerrRtRating {
     this.url,
   });
 
-  factory SeerrRtRating.fromJson(Map<String, dynamic> json) => _$SeerrRtRatingFromJson(json);
+  factory SeerrRtRating.fromJson(Map<String, dynamic> json) =>
+      _$SeerrRtRatingFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrRtRatingToJson(this);
 }
 
@@ -1019,7 +1081,8 @@ class SeerrImdbRating {
     this.criticsScore,
   });
 
-  factory SeerrImdbRating.fromJson(Map<String, dynamic> json) => _$SeerrImdbRatingFromJson(json);
+  factory SeerrImdbRating.fromJson(Map<String, dynamic> json) =>
+      _$SeerrImdbRatingFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrImdbRatingToJson(this);
 }
 
@@ -1033,7 +1096,8 @@ class SeerrRequestsResponse {
     this.pageInfo,
   });
 
-  factory SeerrRequestsResponse.fromJson(Map<String, dynamic> json) => _$SeerrRequestsResponseFromJson(json);
+  factory SeerrRequestsResponse.fromJson(Map<String, dynamic> json) =>
+      _$SeerrRequestsResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrRequestsResponseToJson(this);
 }
 
@@ -1070,7 +1134,8 @@ class SeerrMediaRequest {
 
   SeerrRequestStatus get requestStatus => SeerrRequestStatus.fromRaw(status);
 
-  factory SeerrMediaRequest.fromJson(Map<String, dynamic> json) => _$SeerrMediaRequestFromJson(json);
+  factory SeerrMediaRequest.fromJson(Map<String, dynamic> json) =>
+      _$SeerrMediaRequestFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrMediaRequestToJson(this);
 }
 
@@ -1082,7 +1147,8 @@ List<int>? _parseRequestSeasons(List<dynamic>? seasons) {
       .map<int?>((season) {
         if (season is num) return season.toInt();
         if (season is Map<String, dynamic>) {
-          final value = season['seasonNumber'] ?? season['season'] ?? season['id'];
+          final value =
+              season['seasonNumber'] ?? season['season'] ?? season['id'];
           if (value is num) return value.toInt();
           if (value is String) return int.tryParse(value);
         }
@@ -1106,7 +1172,8 @@ class SeerrPageInfo {
     this.page,
   });
 
-  factory SeerrPageInfo.fromJson(Map<String, dynamic> json) => _$SeerrPageInfoFromJson(json);
+  factory SeerrPageInfo.fromJson(Map<String, dynamic> json) =>
+      _$SeerrPageInfoFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrPageInfoToJson(this);
 }
 
@@ -1135,7 +1202,8 @@ class SeerrCreateRequestBody {
     this.userId,
   });
 
-  factory SeerrCreateRequestBody.fromJson(Map<String, dynamic> json) => _$SeerrCreateRequestBodyFromJson(json);
+  factory SeerrCreateRequestBody.fromJson(Map<String, dynamic> json) =>
+      _$SeerrCreateRequestBodyFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrCreateRequestBodyToJson(this);
 }
 
@@ -1157,7 +1225,8 @@ class SeerrMedia {
     this.requests,
   });
 
-  factory SeerrMedia.fromJson(Map<String, dynamic> json) => _$SeerrMediaFromJson(json);
+  factory SeerrMedia.fromJson(Map<String, dynamic> json) =>
+      _$SeerrMediaFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrMediaToJson(this);
 }
 
@@ -1171,7 +1240,8 @@ class SeerrMediaResponse {
     this.pageInfo,
   });
 
-  factory SeerrMediaResponse.fromJson(Map<String, dynamic> json) => _$SeerrMediaResponseFromJson(json);
+  factory SeerrMediaResponse.fromJson(Map<String, dynamic> json) =>
+      _$SeerrMediaResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrMediaResponseToJson(this);
 }
 
@@ -1185,7 +1255,8 @@ enum SeerrMediaType {
 
   const SeerrMediaType();
 
-  static SeerrMediaType fromString(String mediaType) => switch (mediaType.toLowerCase()) {
+  static SeerrMediaType fromString(String mediaType) =>
+      switch (mediaType.toLowerCase()) {
         'movie' => SeerrMediaType.movie,
         'tvshow' || 'tv' => SeerrMediaType.tvshow,
         'person' => SeerrMediaType.person,
@@ -1228,7 +1299,8 @@ class SeerrDiscoverItem {
     this.mediaId,
   });
 
-  factory SeerrDiscoverItem.fromJson(Map<String, dynamic> json) => _$SeerrDiscoverItemFromJson(json);
+  factory SeerrDiscoverItem.fromJson(Map<String, dynamic> json) =>
+      _$SeerrDiscoverItemFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrDiscoverItemToJson(this);
 }
 
@@ -1247,7 +1319,8 @@ class SeerrDiscoverResponse {
     this.totalResults,
   });
 
-  factory SeerrDiscoverResponse.fromJson(Map<String, dynamic> json) => _$SeerrDiscoverResponseFromJson(json);
+  factory SeerrDiscoverResponse.fromJson(Map<String, dynamic> json) =>
+      _$SeerrDiscoverResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrDiscoverResponseToJson(this);
 }
 
@@ -1257,7 +1330,8 @@ class SeerrGenreResponse {
 
   SeerrGenreResponse({this.genres});
 
-  factory SeerrGenreResponse.fromJson(Map<String, dynamic> json) => _$SeerrGenreResponseFromJson(json);
+  factory SeerrGenreResponse.fromJson(Map<String, dynamic> json) =>
+      _$SeerrGenreResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrGenreResponseToJson(this);
 }
 
@@ -1279,13 +1353,16 @@ class SeerrWatchProvider {
     this.displayPriority,
   });
 
-  factory SeerrWatchProvider.fromJson(Map<String, dynamic> json) => _$SeerrWatchProviderFromJson(json);
+  factory SeerrWatchProvider.fromJson(Map<String, dynamic> json) =>
+      _$SeerrWatchProviderFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrWatchProviderToJson(this);
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SeerrWatchProvider && runtimeType == other.runtimeType && providerId == other.providerId;
+      other is SeerrWatchProvider &&
+          runtimeType == other.runtimeType &&
+          providerId == other.providerId;
 
   @override
   int get hashCode => providerId.hashCode;
@@ -1302,13 +1379,16 @@ class SeerrWatchProviderRegion {
 
   SeerrWatchProviderRegion({this.iso31661, this.englishName, this.nativeName});
 
-  factory SeerrWatchProviderRegion.fromJson(Map<String, dynamic> json) => _$SeerrWatchProviderRegionFromJson(json);
+  factory SeerrWatchProviderRegion.fromJson(Map<String, dynamic> json) =>
+      _$SeerrWatchProviderRegionFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrWatchProviderRegionToJson(this);
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SeerrWatchProviderRegion && runtimeType == other.runtimeType && iso31661 == other.iso31661;
+      other is SeerrWatchProviderRegion &&
+          runtimeType == other.runtimeType &&
+          iso31661 == other.iso31661;
 
   @override
   int get hashCode => iso31661.hashCode;
@@ -1326,13 +1406,16 @@ class SeerrCertification {
     this.order,
   });
 
-  factory SeerrCertification.fromJson(Map<String, dynamic> json) => _$SeerrCertificationFromJson(json);
+  factory SeerrCertification.fromJson(Map<String, dynamic> json) =>
+      _$SeerrCertificationFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrCertificationToJson(this);
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SeerrCertification && runtimeType == other.runtimeType && certification == other.certification;
+      other is SeerrCertification &&
+          runtimeType == other.runtimeType &&
+          certification == other.certification;
 
   @override
   int get hashCode => certification.hashCode;
@@ -1395,7 +1478,8 @@ class SeerrAuthLocalBody {
     required this.password,
   });
 
-  factory SeerrAuthLocalBody.fromJson(Map<String, dynamic> json) => _$SeerrAuthLocalBodyFromJson(json);
+  factory SeerrAuthLocalBody.fromJson(Map<String, dynamic> json) =>
+      _$SeerrAuthLocalBodyFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrAuthLocalBodyToJson(this);
 }
 
@@ -1414,7 +1498,8 @@ class SeerrAuthJellyfinBody {
     this.hostname,
   });
 
-  factory SeerrAuthJellyfinBody.fromJson(Map<String, dynamic> json) => _$SeerrAuthJellyfinBodyFromJson(json);
+  factory SeerrAuthJellyfinBody.fromJson(Map<String, dynamic> json) =>
+      _$SeerrAuthJellyfinBodyFromJson(json);
   Map<String, dynamic> toJson() => _$SeerrAuthJellyfinBodyToJson(this);
 }
 
@@ -1491,7 +1576,10 @@ class SeerrCompany {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is SeerrCompany && runtimeType == other.runtimeType && id == other.id;
+      identical(this, other) ||
+      other is SeerrCompany &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
 
   @override
   int get hashCode => id.hashCode;
@@ -1516,9 +1604,10 @@ class SeerrSearchCompanyResponse {
   factory SeerrSearchCompanyResponse.fromJson(Map<String, dynamic> json) {
     return SeerrSearchCompanyResponse(
       page: json['page'] as int?,
-      results:
-          (json['results'] as List<dynamic>?)?.map((e) => SeerrCompany.fromJson(e as Map<String, dynamic>)).toList() ??
-              [],
+      results: (json['results'] as List<dynamic>?)
+              ?.map((e) => SeerrCompany.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       totalPages: json['total_pages'] as int?,
       totalResults: json['total_results'] as int?,
     );
@@ -1539,21 +1628,24 @@ extension SeerrMovieDetailsExtension on SeerrMovieDetails {
   }
 
   String? get backdropUrl {
-    if (internalBackdropPath == null || internalBackdropPath!.isEmpty) return null;
+    if (internalBackdropPath == null || internalBackdropPath!.isEmpty)
+      return null;
     return '$_tmdbImageBaseUrl$internalBackdropPath';
   }
 }
 
 extension SeerrCastExtension on SeerrCast {
   String? get profileUrl {
-    if (internalProfilePath == null || internalProfilePath!.isEmpty) return null;
+    if (internalProfilePath == null || internalProfilePath!.isEmpty)
+      return null;
     return '$_tmdbProfileBaseUrl$internalProfilePath';
   }
 }
 
 extension SeerrCrewExtension on SeerrCrew {
   String? get profileUrl {
-    if (internalProfilePath == null || internalProfilePath!.isEmpty) return null;
+    if (internalProfilePath == null || internalProfilePath!.isEmpty)
+      return null;
     return '$_tmdbProfileBaseUrl$internalProfilePath';
   }
 }
@@ -1565,7 +1657,8 @@ extension SeerrTvDetailsExtension on SeerrTvDetails {
   }
 
   String? get backdropUrl {
-    if (internalBackdropPath == null || internalBackdropPath!.isEmpty) return null;
+    if (internalBackdropPath == null || internalBackdropPath!.isEmpty)
+      return null;
     return '$_tmdbImageBaseUrl$internalBackdropPath';
   }
 }
@@ -1591,7 +1684,8 @@ extension SeerrDiscoverItemExtension on SeerrDiscoverItem {
   }
 
   String? get backdropUrl {
-    if (internalBackdropPath == null || internalBackdropPath!.isEmpty) return null;
+    if (internalBackdropPath == null || internalBackdropPath!.isEmpty)
+      return null;
     return '$_tmdbImageBaseUrl$internalBackdropPath';
   }
 }

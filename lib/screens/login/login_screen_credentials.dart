@@ -30,11 +30,14 @@ class LoginScreenCredentials extends ConsumerStatefulWidget {
   const LoginScreenCredentials({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenCredentialsState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _LoginScreenCredentialsState();
 }
 
-class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials> {
-  late final TextEditingController serverTextController = TextEditingController(text: '');
+class _LoginScreenCredentialsState
+    extends ConsumerState<LoginScreenCredentials> {
+  late final TextEditingController serverTextController =
+      TextEditingController(text: '');
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final FocusNode focusNode = FocusNode();
@@ -52,20 +55,28 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
 
   @override
   Widget build(BuildContext context) {
-    final existingUsers = ref.watch(authProvider.select((value) => value.accounts));
+    final existingUsers =
+        ref.watch(authProvider.select((value) => value.accounts));
     final otherCredentials = existingUsers.map((e) => e.credentials).toList();
-    final serverCredentials = ref.watch(authProvider.select((value) => value.serverLoginModel));
+    final serverCredentials =
+        ref.watch(authProvider.select((value) => value.serverLoginModel));
     final users = serverCredentials?.accounts ?? [];
     final provider = ref.read(authProvider.notifier);
     final loading = ref.watch(authProvider.select((value) => value.loading));
-    final hasBaseUrl = ref.watch(authProvider.select((value) => value.hasBaseUrl));
-    final urlError = ref.watch(authProvider.select((value) => value.errorMessage));
-    final hasQuickConnect = ref.watch(authProvider.select((value) => value.serverLoginModel?.hasQuickConnect ?? false));
+    final hasBaseUrl =
+        ref.watch(authProvider.select((value) => value.hasBaseUrl));
+    final urlError =
+        ref.watch(authProvider.select((value) => value.errorMessage));
+    final hasQuickConnect = ref.watch(authProvider
+        .select((value) => value.serverLoginModel?.hasQuickConnect ?? false));
     // Note: hidePasswordLogin is a UI preference, not a security control.
     // It hides the password fields but does not disable password-based authentication on the server.
-    final hidePasswordLogin = ref.watch(authProvider.select((value) => value.hidePasswordLogin)) ||
-        ref.watch(clientSettingsProvider.select((value) => value.hidePasswordLogin));
-    final hasSeerrUrl = ref.watch(authProvider.select((value) => value.hasSeerrUrl));
+    final hidePasswordLogin = ref
+            .watch(authProvider.select((value) => value.hidePasswordLogin)) ||
+        ref.watch(
+            clientSettingsProvider.select((value) => value.hidePasswordLogin));
+    final hasSeerrUrl =
+        ref.watch(authProvider.select((value) => value.hasSeerrUrl));
 
     ref.listen(
       authProvider.select((value) => value.serverLoginModel),
@@ -82,7 +93,8 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       spacing: 16,
       children: [
         Row(
-          mainAxisAlignment: hasBaseUrl ? MainAxisAlignment.center : MainAxisAlignment.start,
+          mainAxisAlignment:
+              hasBaseUrl ? MainAxisAlignment.center : MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 8,
           children: [
@@ -135,7 +147,8 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                 AnimatedFadeSize(
                   duration: const Duration(milliseconds: 250),
                   child: loading
-                      ? CircularProgressIndicator(key: UniqueKey(), strokeCap: StrokeCap.round)
+                      ? CircularProgressIndicator(
+                          key: UniqueKey(), strokeCap: StrokeCap.round)
                       : LoginUserGrid(
                           users: users,
                           onPressed: (value) {
@@ -177,7 +190,8 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                                 focusNode: focusNode,
                                 autocorrect: false,
                                 textInputAction: TextInputAction.send,
-                                onSubmitted: (value) => enterCredentialsTryLogin?.call(),
+                                onSubmitted: (value) =>
+                                    enterCredentialsTryLogin?.call(),
                                 onChanged: (value) => setState(() {}),
                                 label: context.localized.password,
                               ),
@@ -202,7 +216,10 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                                     width: 18,
                                     height: 18,
                                     child: CircularProgressIndicator(
-                                        color: Theme.of(context).colorScheme.inversePrimary, strokeCap: StrokeCap.round),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .inversePrimary,
+                                        strokeCap: StrokeCap.round),
                                   )
                                 : Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -235,7 +252,9 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                   if (hasQuickConnect)
                     FilledButton(
                       onPressed: () async {
-                        final result = await ref.read(jellyApiProvider).quickConnectInitiate();
+                        final result = await ref
+                            .read(jellyApiProvider)
+                            .quickConnectInitiate();
                         if (result.body != null) {
                           await openLoginCodeDialog(
                             context,
@@ -248,7 +267,9 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                             },
                           );
                         } else {
-                          FladderSnack.show(context.localized.quickConnectPostFailed, context: context);
+                          FladderSnack.show(
+                              context.localized.quickConnectPostFailed,
+                              context: context);
                         }
                       },
                       child: Row(
@@ -278,8 +299,10 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
   }
 
   Future<void> _openAdvancedLoginOptions() async {
-    final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-    final hasSeerrUrl = ref.read(authProvider.select((value) => value.hasSeerrUrl));
+    final tempSeerrUrl =
+        ref.read(authProvider.select((value) => value.tempSeerrUrl));
+    final hasSeerrUrl =
+        ref.read(authProvider.select((value) => value.hasSeerrUrl));
     final result = await showAdvancedLoginOptionsDialog(
       context,
       initialSeerrUrl: tempSeerrUrl,
@@ -290,7 +313,8 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     }
   }
 
-  Future<void> Function()? get enterCredentialsTryLogin => emptyFields() ? null : () => loginUsingCredentials();
+  Future<void> Function()? get enterCredentialsTryLogin =>
+      emptyFields() ? null : () => loginUsingCredentials();
 
   Future<void> loginUsingCredentials() async {
     setState(() {
@@ -319,7 +343,8 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       return;
     }
 
-    final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+    final tempSeerrUrl =
+        ref.read(authProvider.select((value) => value.tempSeerrUrl));
     if (tempSeerrUrl != null && tempSeerrUrl.isNotEmpty) {
       await _tryAuthenticateSeerr(tempSeerrUrl);
     }
@@ -333,7 +358,8 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     try {
       ref.read(userProvider.notifier).setSeerrServerUrl(seerrUrl);
 
-      final tempCookie = ref.read(authProvider.select((value) => value.tempSeerrSessionCookie));
+      final tempCookie = ref
+          .read(authProvider.select((value) => value.tempSeerrSessionCookie));
       if (tempCookie != null) {
         ref.read(userProvider.notifier).setSeerrSessionCookie(tempCookie);
         ref.read(userProvider.notifier).setSeerrApiKey('');
@@ -375,7 +401,8 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       ref.read(authProvider.notifier).authenticateUsingSecret(secret),
     );
     if (response.isSuccess && context.mounted) {
-      final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+      final tempSeerrUrl =
+          ref.read(authProvider.select((value) => value.tempSeerrUrl));
       if (tempSeerrUrl != null && tempSeerrUrl.isNotEmpty) {
         await _tryAuthenticateSeerr(tempSeerrUrl);
       }
@@ -398,17 +425,21 @@ Future<void> loggedInGoToHome(BuildContext context, WidgetRef ref) async {
   }
 }
 
-Future<void> _handleLogin(BuildContext context, AccountModel user, WidgetRef ref) async {
+Future<void> _handleLogin(
+    BuildContext context, AccountModel user, WidgetRef ref) async {
   await ref.read(authProvider.notifier).switchUser();
   await ref.read(sharedUtilityProvider).updateAccountInfo(user.copyWith(
         lastUsed: DateTime.now(),
       ));
-  ref.read(userProvider.notifier).updateUser(user.copyWith(lastUsed: DateTime.now()));
+  ref
+      .read(userProvider.notifier)
+      .updateUser(user.copyWith(lastUsed: DateTime.now()));
 
   loggedInGoToHome(context, ref);
 }
 
-void tapLoggedInAccount(BuildContext context, AccountModel user, WidgetRef ref) async {
+void tapLoggedInAccount(
+    BuildContext context, AccountModel user, WidgetRef ref) async {
   Future<void> loginFunction() => _handleLogin(context, user, ref);
   switch (user.authMethod) {
     case Authentication.autoLogin:
@@ -426,7 +457,8 @@ void tapLoggedInAccount(BuildContext context, AccountModel user, WidgetRef ref) 
           if (newPin == user.localPin) {
             loginFunction();
           } else {
-            FladderSnack.show(context.localized.incorrectPinTryAgain, context: context);
+            FladderSnack.show(context.localized.incorrectPinTryAgain,
+                context: context);
           }
         });
       }
