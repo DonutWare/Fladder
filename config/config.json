@@ -1,5 +1,6 @@
 {
 	"baseUrl": null,
 	"seerrUrl": null,
-	"hidePasswordLogin": null
+	"hidePasswordLogin": null,
+	"seerrProxyPath": null
 }
