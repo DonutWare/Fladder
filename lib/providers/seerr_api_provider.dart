@@ -2,10 +2,12 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:chopper/chopper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/providers/connectivity_provider.dart';
+import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/providers/seerr_service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_chopper_service.dart';
@@ -59,7 +61,14 @@ class SeerrRequest implements Interceptor {
     final authHeaders = _authHeaders(apiKey: apiKey, cookie: cookie);
     final customHeaders = creds?.customHeaders ?? <String, String>{};
     final headers = {...authHeaders, ...customHeaders};
-    final apiBaseUri = Uri.parse(serverUrl);
+
+    final proxyPath = FladderConfig.seerrProxyPath;
+    final Uri apiBaseUri;
+    if (kIsWeb && proxyPath != null) {
+      apiBaseUri = Uri.base.resolve(proxyPath);
+    } else {
+      apiBaseUri = Uri.parse(serverUrl);
+    }
 
     Uri resolvedRequestUri;
     try {
