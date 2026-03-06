@@ -3,7 +3,6 @@ set -e
 
 CONFIG="/usr/share/nginx/html/assets/config/config.json"
 NGINX_CONF="/etc/nginx/conf.d/default.conf"
-NGINX_TEMPLATE="/docker-nginx.conf.template"
 
 # --- Build config.json ---
 
@@ -29,21 +28,32 @@ EOF
 
 # --- Build nginx config ---
 
+PROXY_BLOCK=""
 if [ -n "$SEERR_URL" ] && [ -n "$SEERR_CUSTOM_HEADERS" ]; then
   # Build proxy_set_header directives from JSON object
-  HEADER_DIRECTIVES=$(echo "$SEERR_CUSTOM_HEADERS" | jq -r 'to_entries[] | "    proxy_set_header \(.key) \"\(.value)\";"')
+  HEADER_DIRECTIVES=$(echo "$SEERR_CUSTOM_HEADERS" | jq -r 'to_entries[] | "        proxy_set_header \(.key) \"\(.value)\";"')
 
-  PROXY_BLOCK="location /seerr-proxy/ {
-    proxy_pass ${SEERR_URL}/;
-    proxy_set_header Host \$proxy_host;
-    proxy_ssl_server_name on;
+  PROXY_BLOCK="
+    location /seerr-proxy/ {
+        proxy_pass ${SEERR_URL}/;
+        proxy_set_header Host \$proxy_host;
+        proxy_ssl_server_name on;
 ${HEADER_DIRECTIVES}
-  }"
-else
-  PROXY_BLOCK=""
+    }"
 fi
 
-sed "s|__SEERR_PROXY_BLOCK__|${PROXY_BLOCK}|g" "$NGINX_TEMPLATE" > "$NGINX_CONF"
+cat > "$NGINX_CONF" <<EOF
+server {
+    listen ${PORT};
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location / {
+        try_files \$uri \$uri/ /index.html;
+    }
+${PROXY_BLOCK}
+}
+EOF
 
 # --- Start nginx ---
 
