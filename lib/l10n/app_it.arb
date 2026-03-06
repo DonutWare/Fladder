@@ -1807,5 +1807,9 @@
     },
     "includeHiddenItems": "Includi librerie nascoste",
     "includeHiddenItemsDesc": "Includi librerie nascoste dalla dashboard",
-    "batteryOptimizationDesc": "Le ottimizzazioni della batteria possono ritardare le notifiche in background per Fladder.\nTocca per aprire le impostazioni di sistema e disattivare le ottimizzazioni per Fladder per migliorare l'affidabilità delle notifiche."
+    "batteryOptimizationDesc": "Le ottimizzazioni della batteria possono ritardare le notifiche in background per Fladder.\nTocca per aprire le impostazioni di sistema e disattivare le ottimizzazioni per Fladder per migliorare l'affidabilità delle notifiche.",
+    "settingsBlurEffectsTitle": "Abilita effetti di sfocatura",
+    "settingsBlurEffectsDesc": "Abilita gli effetti di sfocatura nell'interfaccia. Disabilitare questa opzione può migliorare le prestazioni su dispositivi di fascia bassa.",
+    "profileSettingsOpenAuthAtLaunch": "Mostra metodo di autenticazione sul blocco app",
+    "toggleSidebar": "Attiva/disattiva barra laterale"
 }

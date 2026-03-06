@@ -462,9 +462,22 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                       ),
                     ],
                   ),
-                PlayerOptions.libMDK => SettingsMessageBox(
-                    messageType: MessageType.info,
-                    "${context.localized.noVideoPlayerOptions}\n${context.localized.mdkExperimental}"),
+                PlayerOptions.libMDK => Column(
+                    children: [
+                      SettingsListTile(
+                        label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
+                        subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            useSafeArea: false,
+                            builder: (context) => const SubtitleEditor(),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
               },
             ),
             Column(

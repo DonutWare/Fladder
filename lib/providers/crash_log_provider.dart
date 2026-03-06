@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -19,6 +20,8 @@ class CrashLogNotifier extends StateNotifier<List<ErrorLogModel>> {
   late final Logger logger;
   final maxLength = 50;
   String? logFilePath;
+  Timer? _debounceTimer;
+  static const _debounceDuration = Duration(milliseconds: 500);
 
   void init() async {
     logger = Logger.root;
@@ -49,26 +52,46 @@ class CrashLogNotifier extends StateNotifier<List<ErrorLogModel>> {
 
   Future<void> _loadLogsFromFile() async {
     if (logFilePath == null) return;
-    final file = File(logFilePath!);
-    if (await file.exists()) {
+
+    try {
+      final file = File(logFilePath!);
+      if (!await file.exists()) return;
+
       final content = await file.readAsString();
+      if (content.isEmpty) return;
+
       final List<dynamic> jsonData = jsonDecode(content);
       state = jsonData.map((json) => ErrorLogModel.fromJson(json)).toList();
+    } catch (e) {
+      print('Failed to load crash logs: $e');
     }
   }
 
   Future<void> _saveLogsToFile() async {
     if (logFilePath == null) return;
-    final file = File(logFilePath!);
-    final jsonData = state.map((log) => log.toJson()).toList();
-    await file.writeAsString(jsonEncode(jsonData));
+
+    try {
+      final file = File(logFilePath!);
+      final jsonData = state.map((log) => log.toJson()).toList();
+      await file.writeAsString(jsonEncode(jsonData));
+    } catch (e) {
+      print('Failed to save crash logs: $e');
+    }
   }
 
-  void clearLogs() {
+  Future<void> clearLogs() async {
     state = [];
     if (!kIsWeb) {
-      _saveLogsToFile();
+      _debounceTimer?.cancel();
+      await _saveLogsToFile();
     }
+  }
+
+  void _scheduleSave() {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(_debounceDuration, () {
+      _saveLogsToFile();
+    });
   }
 
   void logPrint(LogRecord rec) {
@@ -81,7 +104,7 @@ class CrashLogNotifier extends StateNotifier<List<ErrorLogModel>> {
         state = state.sublist(0, maxLength);
       }
       if (!kIsWeb) {
-        _saveLogsToFile();
+        _scheduleSave();
       }
     }
   }
@@ -91,5 +114,11 @@ class CrashLogNotifier extends StateNotifier<List<ErrorLogModel>> {
     if (details.stack != null && kDebugMode) {
       print('${details.stack}');
     }
+  }
+
+  @override
+  void dispose() {
+    _debounceTimer?.cancel();
+    super.dispose();
   }
 }

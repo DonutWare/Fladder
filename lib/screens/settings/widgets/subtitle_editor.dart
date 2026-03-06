@@ -28,70 +28,74 @@ class _SubtitleEditorState extends ConsumerState<SubtitleEditor> {
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
       child: Dialog.fullscreen(
-        child: GestureDetector(
-          onScaleUpdate: (details) {
-            lastScale = details.scale;
-          },
-          onScaleEnd: (details) {
-            if (lastScale < 1.0) {
-              ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(false, context: context);
-            } else if (lastScale > 1.0) {
-              ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(true, context: context);
-            }
-            lastScale = 0.0;
-          },
-          child: Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: Stack(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const BackButton(),
+                Text(
+                  context.localized.subtitleConfigurator,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                )
+              ],
+            ),
+            Flexible(
+              child: GestureDetector(
+                onScaleUpdate: (details) {
+                  lastScale = details.scale;
+                },
+                onScaleEnd: (details) {
+                  if (lastScale < 1.0) {
+                    ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(false, context: context);
+                  } else if (lastScale > 1.0) {
+                    ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(true, context: context);
+                  }
+                  lastScale = 0.0;
+                },
+                child: Row(
                   children: [
-                    Padding(
-                      padding:
-                          (fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right)),
-                      child: const Center(
-                        child: AspectRatio(
-                          aspectRatio: 2.1,
-                          child: Card(
-                            child: Image(
-                              image: BlurHashImage('LEF}}|0000~p8w~W%N4n~pIU4o%g'),
-                              fit: BoxFit.fill,
+                    Expanded(
+                      flex: 3,
+                      child: AspectRatio(
+                        aspectRatio: 2.1,
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: (fillScreen
+                                  ? EdgeInsets.zero
+                                  : EdgeInsets.only(left: padding.left, right: padding.right)),
+                              child: const Center(
+                                child: AspectRatio(
+                                  aspectRatio: 2.1,
+                                  child: Card(
+                                    child: Image(
+                                      image: BlurHashImage('LEF}}|0000~p8w~W%N4n~pIU4o%g'),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                            SubtitleText(
+                                subModel: settings, padding: padding, offset: settings.verticalOffset, text: fakeText),
+                          ],
                         ),
                       ),
                     ),
-                    SubtitleText(subModel: settings, padding: padding, offset: settings.verticalOffset, text: fakeText),
-                    Padding(
-                      padding: MediaQuery.paddingOf(context),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              const BackButton(),
-                              Text(
-                                context.localized.subtitleConfigurator,
-                                style: Theme.of(context).textTheme.headlineMedium,
-                              )
-                            ],
-                          )
-                        ],
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: MediaQuery.paddingOf(context).add(
+                          const EdgeInsets.all(32).add(const EdgeInsets.only(top: 48)),
+                        ),
+                        child: const VideoSubtitleControls(),
                       ),
                     ),
                   ],
                 ),
               ),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: MediaQuery.paddingOf(context).add(
-                    const EdgeInsets.all(32).add(const EdgeInsets.only(top: 48)),
-                  ),
-                  child: const VideoSubtitleControls(),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
