@@ -5,19 +5,16 @@ EXPOSE 8080
 ENV BASE_URL=""
 ENV SEERR_URL=""
 ENV HIDE_PASSWORD_LOGIN=""
+ENV SEERR_CUSTOM_HEADERS=""
 
 USER root
+RUN apk add --no-cache jq
 COPY build/web /usr/share/nginx/html
-RUN chown -R nginx:nginx /usr/share/nginx/html
+COPY docker/docker-entrypoint.sh /docker-entrypoint.sh
+COPY docker/nginx.conf.template /docker-nginx.conf.template
 
-USER nginx
-RUN mkdir -p /usr/share/nginx/html/assets/config && \
-    echo '{"baseUrl": "${BASE_URL}", "seerrUrl": "${SEERR_URL}", "hidePasswordLogin": __HIDE_PW__}' > /usr/share/nginx/html/assets/config/config.json
+RUN chmod +x /docker-entrypoint.sh && \
+    chown -R nginx:nginx /usr/share/nginx/html && \
+    sed -i 's|__PORT__|8080|g' /docker-nginx.conf.template
 
-USER root
-CMD /bin/sh -c '\
-  HIDE_PW_VAL=$([ "$HIDE_PASSWORD_LOGIN" = "true" ] && echo true || echo null) && \
-  sed -i "s|__HIDE_PW__|${HIDE_PW_VAL}|g" /usr/share/nginx/html/assets/config/config.json && \
-  sed -i "s|\${BASE_URL}|${BASE_URL}|g" /usr/share/nginx/html/assets/config/config.json && \
-  sed -i "s|\${SEERR_URL}|${SEERR_URL}|g" /usr/share/nginx/html/assets/config/config.json && \
-  nginx -g "daemon off;"'
+CMD ["/docker-entrypoint.sh"]
