@@ -1627,7 +1627,7 @@
             }
         }
     },
-    "failedToAddEpgProvider": "Falhado em adicionar provedor EPG: {error}",
+    "failedToAddEpgProvider": "Falha ao adicionar provedor EPG: {error}",
     "@failedToAddEpgProvider": {
         "placeholders": {
             "error": {
@@ -1636,7 +1636,7 @@
         }
     },
     "epgProviderUpdatedSuccessfully": "Provedor EPG atualizado com sucesso",
-    "failedToUpdateEpgProvider": "Falhado em atualizar provedor EPG: {error}",
+    "failedToUpdateEpgProvider": "Falha ao atualizar provedor EPG: {error}",
     "@failedToUpdateEpgProvider": {
         "placeholders": {
             "error": {
@@ -1644,15 +1644,26 @@
             }
         }
     },
-    "deleteEpgProvider": "Excluir EPG Provedor",
+    "deleteEpgProvider": "Excluir Provedor EPG",
     "deleteEpgProviderConfirm": "Tem certeza de que deseja excluir este provedor?",
     "epgProviderDeletedSuccessfully": "Provedor EPG excluído com sucesso",
-    "failedToDeleteEpgProvider": "Falhado para excluir provedor EPG: {error}",
+    "failedToDeleteEpgProvider": "Falha ao excluir provedor EPG: {error}",
     "@failedToDeleteEpgProvider": {
         "placeholders": {
             "error": {
                 "type": "String"
             }
         }
-    }
+    },
+    "enableSpeedBoostDesc": "Pressione a tela (smartphone) ou barra de espaço (desktop) para aumentar temporariamente a velocidade de reprodução",
+    "speedBoostRateDesc": "Velocidade de reprodução quando o aumento de velocidade está ativado",
+    "enableDoubleTapSeekTitle": "Toque duplo para avançar/reproduzir/pausar",
+    "enableDoubleTapSeekDesc": "Toque duas vezes no lado esquerdo/direito do tela para retroceder/avançar. Toque duas vezes no centro para reproduzir/pausar.",
+    "switchChannel": "Mudar de canal",
+    "activeTvChannels": "Canais de TV ativos",
+    "tunerDevices": "Dispositivos Sintonizadores",
+    "noTunerDevicesConfigured": "Nenhum dispositivo sintonizador configurado",
+    "addTunerDevice": "Adicionar dispositivo sintonizador",
+    "addProvider": "Adicionar Provedor",
+    "epgProviderAddedSuccessfully": "Provedor EPG adicionado com sucesso"
 }
