@@ -1665,5 +1665,6 @@
     "noTunerDevicesConfigured": "Nenhum dispositivo sintonizador configurado",
     "addTunerDevice": "Adicionar dispositivo sintonizador",
     "addProvider": "Adicionar Provedor",
-    "epgProviderAddedSuccessfully": "Provedor EPG adicionado com sucesso"
+    "epgProviderAddedSuccessfully": "Provedor EPG adicionado com sucesso",
+    "editTunerDevice": "Editar dispositivo de sintonizador"
 }
