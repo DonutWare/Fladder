@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -17,28 +18,69 @@ import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/screens/login/login_code_dialog.dart';
 import 'package:fladder/screens/login/login_user_grid.dart';
 import 'package:fladder/screens/login/widgets/advanced_login_options_dialog.dart';
+import 'package:fladder/screens/login/widgets/connect_link_dialog.dart';
 import 'package:fladder/screens/login/widgets/discover_servers_widget.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
 import 'package:fladder/util/auth_service.dart';
+import 'package:fladder/util/deep_link_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 class LoginScreenCredentials extends ConsumerStatefulWidget {
-  const LoginScreenCredentials({super.key});
+  final AuthLinkData? authLinkData;
+  const LoginScreenCredentials({
+    this.authLinkData,
+    super.key,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenCredentialsState();
 }
 
 class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials> {
-  late final TextEditingController serverTextController = TextEditingController(text: '');
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  TextEditingController serverTextController = TextEditingController(text: '');
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   final FocusNode focusNode = FocusNode();
 
   bool loggingIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (widget.authLinkData != null) {
+        loginUsingAuthLink(widget.authLinkData!);
+      }
+    });
+  }
+
+  Future<void> loginUsingAuthLink(AuthLinkData link) async {
+    final pendingLink = link;
+    serverTextController.text = pendingLink.serverUrl;
+    usernameController.text = pendingLink.userName;
+    passwordController.text = pendingLink.password ?? "";
+    ref.read(authProvider.notifier).setServer(pendingLink.serverUrl);
+    try {
+      if (passwordController.text.isNotEmpty) {
+        setState(() {
+          loggingIn = true;
+        });
+        await loginUsingCredentials();
+      } else {
+        focusNode.requestFocus();
+      }
+    } catch (e) {
+      log("Error during auto-login with auth link: $e");
+      FladderSnack.show(context.localized.error);
+    } finally {
+      setState(() {
+        loggingIn = false;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -75,44 +117,67 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 16,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 8,
-          children: [
-            if (existingUsers.isNotEmpty)
-              IconButton.filledTonal(
-                onPressed: () => provider.goUserSelect(),
-                iconSize: 36,
-                icon: const Icon(
-                  IconsaxPlusLinear.arrow_left_2,
+        IntrinsicHeight(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 8,
+            children: [
+              AspectRatio(
+                aspectRatio: 1,
+                child: IconButton.filledTonal(
+                  onPressed: () => provider.goUserSelect(),
+                  icon: const Icon(
+                    IconsaxPlusLinear.arrow_left_2,
+                  ),
                 ),
               ),
-            if (!hasBaseUrl)
-              Expanded(
-                child: OutlinedTextField(
-                  controller: serverTextController,
-                  onSubmitted: (value) => provider.setServer(value),
-                  autoFillHints: const [AutofillHints.url],
-                  keyboardType: TextInputType.url,
-                  autocorrect: false,
-                  textInputAction: TextInputAction.go,
-                  label: context.localized.server,
-                  errorText: urlError,
+              if (!hasBaseUrl)
+                Expanded(
+                  child: OutlinedTextField(
+                    controller: serverTextController,
+                    onSubmitted: (value) => provider.setServer(value),
+                    autoFillHints: const [AutofillHints.url],
+                    keyboardType: TextInputType.url,
+                    autocorrect: false,
+                    textInputAction: TextInputAction.go,
+                    label: context.localized.server,
+                    errorText: urlError,
+                  ),
+                ),
+              AspectRatio(
+                aspectRatio: 1,
+                child: Tooltip(
+                  message: context.localized.retrievePublicListOfUsers,
+                  waitDuration: const Duration(seconds: 1),
+                  child: IconButton.filled(
+                    onPressed: () => provider.setServer(serverTextController.text),
+                    icon: const Icon(
+                      IconsaxPlusLinear.refresh,
+                    ),
+                  ),
                 ),
               ),
-            Tooltip(
-              message: context.localized.retrievePublicListOfUsers,
-              waitDuration: const Duration(seconds: 1),
-              child: IconButton.filled(
-                onPressed: () => provider.setServer(serverTextController.text),
-                iconSize: 36,
-                icon: const Icon(
-                  IconsaxPlusLinear.refresh,
+              AspectRatio(
+                aspectRatio: 1,
+                child: Tooltip(
+                  message: context.localized.retrievePublicListOfUsers,
+                  waitDuration: const Duration(seconds: 1),
+                  child: IconButton.filled(
+                    onPressed: () {
+                      showConnectLinkDialog(
+                        context,
+                        (link) => loginUsingAuthLink(link),
+                      );
+                    },
+                    icon: const Icon(
+                      IconsaxPlusLinear.link_square,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         if (serverCredentials == null)
           DiscoverServersWidget(

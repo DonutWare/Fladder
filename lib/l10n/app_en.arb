@@ -93,6 +93,25 @@
   "@clearSelection": {},
   "close": "Close",
   "@close": {},
+  "generateLoginLink": "Code for {userName}",
+  "@generateLoginLink": {
+    "description": "Code for a user to share",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "shareLoginLink": "Share login link",
+  "@shareLoginLink": {},
+  "shareQRCode": "Share QR code",
+  "@shareQRCode": {},
+  "copyLoginLink": "Copy link",
+  "@copyLoginLink": {},
+  "includePassword": "Include password",
+  "@includePassword": {},
+  "invalidAuthLink": "Invalid login link",
+  "@invalidAuthLink": {},
   "code": "Code",
   "@code": {},
   "collectionFolder": "{count, plural, one{Collection folder} other{Collection folders}}",
@@ -2484,5 +2503,12 @@
         "type": "String"
       }
     }
-  }
+  },
+  "linkData": "Link data",
+  "passwordNotRequired": "Not required, leave empty to not include password in the link",
+  "authLinkButtonToolTip": "Open auth link dialog",
+  "connectWithAuthLink": "Connect with auth link",
+  "pasteFladderAuthLink": "Paste fladder auth link fladder:///login?authLink=...",
+  "connect": "Connect",
+  "authLinkDesc": "Ask the server admin to provide the auth link. The link contains authentication information, so be sure to keep it secure."
 }

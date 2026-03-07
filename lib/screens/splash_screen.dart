@@ -53,7 +53,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       if (loggedIn) {
         context.router.replace(const DashboardRoute());
       } else {
-        context.router.replace(const LoginRoute());
+        context.router.replace(LoginRoute());
       }
     } else {
       widget.loggedIn?.call(loggedIn);

@@ -608,18 +608,54 @@ class LockRoute extends _i31.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i20.LoginScreen]
-class LoginRoute extends _i31.PageRouteInfo<void> {
-  const LoginRoute({List<_i31.PageRouteInfo>? children})
-      : super(LoginRoute.name, initialChildren: children);
+class LoginRoute extends _i31.PageRouteInfo<LoginRouteArgs> {
+  LoginRoute({
+    String? authLink,
+    _i32.Key? key,
+    List<_i31.PageRouteInfo>? children,
+  }) : super(
+          LoginRoute.name,
+          args: LoginRouteArgs(authLink: authLink, key: key),
+          rawQueryParams: {'authLink': authLink},
+          initialChildren: children,
+        );
 
   static const String name = 'LoginRoute';
 
   static _i31.PageInfo page = _i31.PageInfo(
     name,
     builder: (data) {
-      return const _i20.LoginScreen();
+      final queryParams = data.queryParams;
+      final args = data.argsAs<LoginRouteArgs>(
+        orElse: () =>
+            LoginRouteArgs(authLink: queryParams.optString('authLink')),
+      );
+      return _i20.LoginScreen(authLink: args.authLink, key: args.key);
     },
   );
+}
+
+class LoginRouteArgs {
+  const LoginRouteArgs({this.authLink, this.key});
+
+  final String? authLink;
+
+  final _i32.Key? key;
+
+  @override
+  String toString() {
+    return 'LoginRouteArgs{authLink: $authLink, key: $key}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! LoginRouteArgs) return false;
+    return authLink == other.authLink && key == other.key;
+  }
+
+  @override
+  int get hashCode => authLink.hashCode ^ key.hashCode;
 }
 
 /// generated route for
