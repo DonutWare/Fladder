@@ -1644,5 +1644,15 @@
             }
         }
     },
-    "deleteEpgProvider": "Excluir EPG Provedor"
+    "deleteEpgProvider": "Excluir EPG Provedor",
+    "deleteEpgProviderConfirm": "Tem certeza de que deseja excluir este provedor?",
+    "epgProviderDeletedSuccessfully": "Provedor EPG excluído com sucesso",
+    "failedToDeleteEpgProvider": "Falhado para excluir provedor EPG: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    }
 }
