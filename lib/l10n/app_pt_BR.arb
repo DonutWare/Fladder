@@ -1618,5 +1618,21 @@
     },
     "enableNewTVLayout": "Ativar novo layout de TV",
     "liveTV": "TV ao vivo",
-    "liveTvManageTunersEpg": "Gerenciar dispositivos sintonizadores e provedores EPG"
+    "liveTvManageTunersEpg": "Gerenciar dispositivos sintonizadores e provedores EPG",
+    "deleteTunerHostConfirm": "Você tem certeza de que deseja excluir \"{name}\"?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "failedToAddEpgProvider": "Falhado em adicionar provedor EPG: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    }
 }
