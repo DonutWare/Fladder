@@ -43,12 +43,13 @@ class AuthLinkData {
       );
 
   static AuthLinkData? parse(String encoded) {
+    String removeUrlPrefix = encoded.replaceFirst(RegExp(r'^fladder:\/\/\/login\?authLink='), '');
     try {
-      final pad = encoded.length % 4;
+      final pad = removeUrlPrefix.length % 4;
       if (pad != 0) {
-        encoded = encoded.padRight(encoded.length + (4 - pad), '=');
+        removeUrlPrefix = removeUrlPrefix.padRight(removeUrlPrefix.length + (4 - pad), '=');
       }
-      final bytes = base64Url.decode(encoded);
+      final bytes = base64Url.decode(removeUrlPrefix);
       final decompressed = zlib.decode(bytes);
       final jsonStr = utf8.decode(decompressed);
       final map = jsonDecode(jsonStr) as Map<String, dynamic>;

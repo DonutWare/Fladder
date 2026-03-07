@@ -2505,5 +2505,10 @@
     }
   },
   "linkData": "Link data",
-  "passwordNotRequired": "Not required, leave empty to not include password in the link"
+  "passwordNotRequired": "Not required, leave empty to not include password in the link",
+  "authLinkButtonToolTip": "Open auth link dialog",
+  "connectWithAuthLink": "Connect with auth link",
+  "pasteFladderAuthLink": "Paste fladder auth link fladder:///login?authLink=...",
+  "connect": "Connect",
+  "authLinkDesc": "Ask the server admin to provide the auth link. The link contains authentication information, so be sure to keep it secure."
 }

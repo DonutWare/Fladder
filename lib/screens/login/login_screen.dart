@@ -10,10 +10,10 @@ import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/screens/login/login_edit_user.dart';
 import 'package:fladder/screens/login/login_screen_credentials.dart';
 import 'package:fladder/screens/login/login_user_grid.dart';
+import 'package:fladder/screens/login/widgets/connect_link_dialog.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_logo.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
-import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/deep_link_helper.dart';
 import 'package:fladder/widgets/keyboard/slide_in_keyboard.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
@@ -47,10 +47,19 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(authProvider.notifier).initModel();
       if (widget.authLink != null) {
-        parsedAuthLink = AuthLinkData.parse(widget.authLink!);
-        ref.read(authProvider.notifier).addNewUser();
+        final data = AuthLinkData.parse(widget.authLink!);
+        if (data != null) {
+          initLink(data);
+        } else {
+          FladderSnack.show("Invalid auth link");
+        }
       }
     });
+  }
+
+  Future<void> initLink(AuthLinkData value) async {
+    parsedAuthLink = value;
+    ref.read(authProvider.notifier).addNewUser();
   }
 
   @override
@@ -68,21 +77,32 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 spacing: 16,
                 children: [
-                  if (AdaptiveLayout.of(context).isDesktop)
-                    AdaptiveFab(
-                      context: context,
-                      key: const Key("edit_user_button"),
-                      heroTag: "edit_user_button",
-                      backgroundColor: editUsersMode ? Theme.of(context).colorScheme.errorContainer : null,
-                      child: const Icon(IconsaxPlusLinear.edit_2),
-                      onPressed: () => setState(() => editUsersMode = !editUsersMode),
-                    ).normal,
                   AdaptiveFab(
                     context: context,
                     key: const Key("new_user_button"),
                     heroTag: "new_user_button",
                     child: const Icon(IconsaxPlusLinear.add_square),
                     onPressed: () => ref.read(authProvider.notifier).addNewUser(),
+                  ).normal,
+                  AdaptiveFab(
+                    context: context,
+                    key: const Key("edit_user_button"),
+                    heroTag: "edit_user_button",
+                    backgroundColor: editUsersMode ? Theme.of(context).colorScheme.errorContainer : null,
+                    child: const Icon(IconsaxPlusLinear.edit_2),
+                    onPressed: () => setState(() => editUsersMode = !editUsersMode),
+                  ).normal,
+                  AdaptiveFab(
+                    context: context,
+                    key: const Key("link_user_button"),
+                    heroTag: "link_user_button",
+                    child: const Icon(IconsaxPlusLinear.link_square),
+                    onPressed: () {
+                      showConnectLinkDialog(
+                        context,
+                        (link) => initLink(link),
+                      );
+                    },
                   ).normal,
                 ],
               ),
