@@ -1634,5 +1634,14 @@
                 "type": "String"
             }
         }
+    },
+    "epgProviderUpdatedSuccessfully": "Provedor EPG atualizado com sucesso",
+    "failedToUpdateEpgProvider": "Falhado em atualizar provedor EPG: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
     }
 }
