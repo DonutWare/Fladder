@@ -1811,5 +1811,14 @@
     "settingsBlurEffectsTitle": "Abilita effetti di sfocatura",
     "settingsBlurEffectsDesc": "Abilita gli effetti di sfocatura nell'interfaccia. Disabilitare questa opzione può migliorare le prestazioni su dispositivi di fascia bassa.",
     "profileSettingsOpenAuthAtLaunch": "Mostra metodo di autenticazione sul blocco app",
-    "toggleSidebar": "Attiva/disattiva barra laterale"
+    "toggleSidebar": "Attiva/disattiva barra laterale",
+    "requestedSuccessForItem": "Richiesto con successo {itemName}",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    }
 }
