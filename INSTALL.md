@@ -141,6 +141,9 @@ Run `docker-compose up -d` to start the container. It will be available on `http
 > [!TIP]
 > We recommend changing the `BASE_URL` environment variable to the URL you use to access Jellyfin, as this will skip entering it when you load the web UI.
 
+> [!TIP]
+> You can set the `BASE_URL_SEERR` environment variable to pre-fill the Jellyseerr server URL on the login page.
+
 ## Web
 
 You can also manually copy the web .zip build to any static file server such as Nginx, Caddy, or Apache

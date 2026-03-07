@@ -5,3 +5,4 @@ services:
       - 80:80
     environment:
       - BASE_URL=https://server-url #OPTIONAL: Locks the Fladder front-end to a certain jellyfin server
+      - BASE_URL_SEERR= #OPTIONAL: Pre-fills the Jellyseerr server URL on the login page
