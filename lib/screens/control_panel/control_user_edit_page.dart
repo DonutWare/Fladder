@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/control_panel/control_users_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_access.dart';
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_general.dart';
 import 'package:fladder/screens/control_panel/control_user_edit/control_user_edit_parental_control.dart';
@@ -93,6 +95,10 @@ class _ControlUserEditPageState extends ConsumerState<ControlUserEditPage> {
                         ],
                       ),
                     ),
+                    IconButton(
+                      onPressed: () => context.tabsRouter.navigate(const ControlUsersRoute()),
+                      icon: const Icon(IconsaxPlusBold.close_square),
+                    )
                   ],
                 ),
                 const Divider(),
