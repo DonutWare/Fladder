@@ -141,7 +141,7 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
                             ElevatedButton(
                               onPressed: () async {
                                 await ref.read(sharedPreferencesProvider).clear();
-                                context.router.push(const LoginRoute());
+                                context.router.push(LoginRoute());
                               },
                               child: Text(context.localized.clear),
                             )

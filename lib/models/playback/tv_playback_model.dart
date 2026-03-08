@@ -12,7 +12,6 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/live_tv_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/live_tv_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -28,6 +27,8 @@ class TvPlaybackModel extends PlaybackModel {
   DateTime? _lastScheduledAt;
   String? _lastGuideProgId;
   final ChannelModel channel;
+
+  final bool isNativePlayerBackend;
 
   final ChannelProgram? currentProgram;
 
@@ -46,6 +47,7 @@ class TvPlaybackModel extends PlaybackModel {
     this.position,
     this.duration,
     this.currentProgram,
+    this.isNativePlayerBackend = false,
     super.media,
     super.queue,
   });
@@ -133,7 +135,7 @@ class TvPlaybackModel extends PlaybackModel {
     ChannelModel channelWithPrograms,
     LiveTvModel tempState,
   ) async {
-    final isNativePlayer = ref.read(videoPlayerProvider).backend == PlayerOptions.nativePlayer;
+    final isNativePlayer = isNativePlayerBackend;
     if (!isNativePlayer || tempState.channels.isEmpty || _lastGuideProgId == prog?.id) {
       return;
     }

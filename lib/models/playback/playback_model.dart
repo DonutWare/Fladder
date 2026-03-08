@@ -385,6 +385,7 @@ class PlaybackModelHelper {
       if (type == PlaybackType.tv && mediaPath != null) {
         final tvModel = TvPlaybackModel(
           channel: item as ChannelModel,
+          isNativePlayerBackend: isNativePlayer,
           item: item,
           queue: libraryQueue,
           playbackInfo: playbackInfo,

@@ -138,6 +138,30 @@
 			"options": {
 				"cwd": "${workspaceFolder}"
 			}
+		},
+		{
+			"label": "Build Web and Docker Image",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-c",
+				"flutter build web --release && docker build -t fladder:latest ."
+			],
+			"windows": {
+				"command": "powershell",
+				"args": [
+					"-Command",
+					"flutter build web; if ($?) { docker build -t fladder:latest . }"
+				]
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
 		}
 	],
 }

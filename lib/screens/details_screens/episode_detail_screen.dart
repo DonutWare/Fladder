@@ -157,8 +157,8 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     runTime: details.episode?.overview.runTime,
                     studios: details.series?.overview.studios ?? [],
                     genres: details.series?.overview.genreItems ?? [],
-                    officialRating: details.series?.overview.parentalRating,
-                    communityRating: details.series?.overview.communityRating,
+                    officialRating: details.episode?.overview.parentalRating,
+                    communityRating: details.episode?.overview.communityRating,
                     mediaStreamHelper: details.episode?.mediaStreams != null
                         ? MediaStreamHelper(
                             mediaStream: details.episode!.mediaStreams,

@@ -54,7 +54,12 @@ extension ResponseFutureExtensions<T> on Future<Response<T>> {
 extension ResponseExtensions<T> on Response<T> {
   ApiResult<T> get apiResult {
     if (isSuccessful) {
-      return ApiResult.success(bodyOrThrow);
+      final responseBody = body;
+      if (responseBody is T) {
+        return ApiResult.success(responseBody as T);
+      }
+
+      return ApiResult.success(null);
     } else {
       final reason = base.reasonPhrase;
       final body = this.body?.toString() ?? error?.toString() ?? 'Unknown error';
