@@ -1618,5 +1618,57 @@
     },
     "enableNewTVLayout": "Ativar novo layout de TV",
     "liveTV": "TV ao vivo",
-    "liveTvManageTunersEpg": "Gerenciar dispositivos sintonizadores e provedores EPG"
+    "liveTvManageTunersEpg": "Gerenciar dispositivos sintonizadores e provedores EPG",
+    "deleteTunerHostConfirm": "Você tem certeza de que deseja excluir \"{name}\"?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "failedToAddEpgProvider": "Falha ao adicionar provedor EPG: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "Provedor EPG atualizado com sucesso",
+    "failedToUpdateEpgProvider": "Falha ao atualizar provedor EPG: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "Excluir Provedor EPG",
+    "deleteEpgProviderConfirm": "Tem certeza de que deseja excluir este provedor?",
+    "epgProviderDeletedSuccessfully": "Provedor EPG excluído com sucesso",
+    "failedToDeleteEpgProvider": "Falha ao excluir provedor EPG: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "enableSpeedBoostDesc": "Pressione a tela (smartphone) ou barra de espaço (desktop) para aumentar temporariamente a velocidade de reprodução",
+    "speedBoostRateDesc": "Velocidade de reprodução quando o aumento de velocidade está ativado",
+    "enableDoubleTapSeekTitle": "Toque duplo para avançar/reproduzir/pausar",
+    "enableDoubleTapSeekDesc": "Toque duas vezes no lado esquerdo/direito do tela para retroceder/avançar. Toque duas vezes no centro para reproduzir/pausar.",
+    "switchChannel": "Mudar de canal",
+    "activeTvChannels": "Canais de TV ativos",
+    "tunerDevices": "Dispositivos Sintonizadores",
+    "noTunerDevicesConfigured": "Nenhum dispositivo sintonizador configurado",
+    "addTunerDevice": "Adicionar dispositivo sintonizador",
+    "addProvider": "Adicionar Provedor",
+    "epgProviderAddedSuccessfully": "Provedor EPG adicionado com sucesso",
+    "editTunerDevice": "Editar dispositivo sintonizador",
+    "userAgent": "Agente do Usuário",
+    "userAgentOptional": "Agente do Usuário (opcional)",
+    "addEpgProvider": "Adicionar provedor EPG",
+    "editEpgProvider": "Editar Provedor EPG"
 }

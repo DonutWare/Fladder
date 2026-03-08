@@ -72,12 +72,27 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
     }
 
     state = state.copyWith(
-        views: newList,
-        dashboardViews: newList
+        views: _applyLibraryOrdering(newList),
+        dashboardViews: _applyLibraryOrdering(newList
             .where((element) => !(ref.read(userProvider)?.latestItemsExcludes.contains(element.id) ?? true))
-            .toList(),
+            .toList()),
         loading: false);
     return state;
+  }
+
+  List<ViewModel> _applyLibraryOrdering(List<ViewModel> views) {
+    final orderedViews = ref.read(userProvider)?.userConfiguration?.orderedViews ?? [];
+    if (orderedViews.isEmpty) return views;
+
+    final viewMap = {for (var v in views) v.id: v};
+    final ordered = <ViewModel>[];
+
+    for (final id in orderedViews) {
+      final view = viewMap.remove(id);
+      if (view != null) ordered.add(view);
+    }
+    ordered.addAll(viewMap.values);
+    return ordered;
   }
 
   void clear() {

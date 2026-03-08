@@ -13,6 +13,7 @@ import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/settings/widgets/key_listener.dart';
@@ -475,6 +476,21 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                             builder: (context) => const SubtitleEditor(),
                           );
                         },
+                      ),
+                      SettingsListTile(
+                        label: Text(context.localized.advancedVideoOptionsTitle),
+                        subLabel: Text(context.localized.advancedVideoOptionsDesc),
+                        onTap: () {
+                          provider.setEnableAdvancedVideoOptions(!videoSettings.enableAdvancedVideoOptions);
+                          ref.read(videoPlayerProvider.notifier).init();
+                        },
+                        trailing: Switch(
+                          value: videoSettings.enableAdvancedVideoOptions,
+                          onChanged: (value) {
+                            provider.setEnableAdvancedVideoOptions(value);
+                            ref.read(videoPlayerProvider.notifier).init();
+                          },
+                        ),
                       ),
                     ],
                   ),

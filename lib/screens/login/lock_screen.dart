@@ -111,7 +111,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
             tooltip: context.localized.login,
             onPressed: () {
               ref.read(lockScreenActiveProvider.notifier).update((state) => false);
-              context.router.replaceAll([const LoginRoute()]);
+              context.router.replaceAll([LoginRoute()]);
             },
             child: const Icon(IconsaxPlusLinear.arrow_swap_horizontal),
           ),
