@@ -8,11 +8,11 @@ ENV SEERR_HEADER="null"
 
 USER root
 COPY build/web /usr/share/nginx/html
-RUN chown -R nginx:nginx /usr/share/nginx/html
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN mkdir -p /usr/share/nginx/html/assets/config && \
+    chown -R nginx:nginx /usr/share/nginx/html && \
+    chmod +x /docker-entrypoint.sh && \
+    chown nginx:nginx /docker-entrypoint.sh
 
 USER nginx
-RUN mkdir -p /usr/share/nginx/html/assets/config && \
-    echo '{"baseUrl": "${BASE_URL}", "seerrBaseUrl": "${SEERR_BASE_URL}", "seerrHeader": ${SEERR_HEADER}}' > /usr/share/nginx/html/assets/config/config.json
-
-USER root
-CMD /bin/sh -c 'sed -i "s|\${BASE_URL}|${BASE_URL}|g" /usr/share/nginx/html/assets/config/config.json && sed -i "s|\${SEERR_BASE_URL}|${SEERR_BASE_URL}|g" /usr/share/nginx/html/assets/config/config.json && sed -i "s|\${SEERR_HEADER}|${SEERR_HEADER}|g" /usr/share/nginx/html/assets/config/config.json && nginx -g "daemon off;"'
+CMD ["/docker-entrypoint.sh"]
