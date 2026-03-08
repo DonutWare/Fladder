@@ -1,0 +1,39 @@
+Fladder is a modern, cross-platform Jellyfin client built with Flutter. Connect to your self-hosted Jellyfin server and enjoy your personal media library with a clean, responsive interface on any device.
+
+<b>Playback</b>
+* Stream movies, TV shows, music, and more directly from your Jellyfin server
+* Direct play, transcoding, and offline (synced) playback support
+* Hardware-accelerated video playback
+* Media segment skipping (intro, credits, recap, and more)
+* Trickplay support for timeline scrubbing thumbnails
+* Background audio playback
+
+<b>Library &amp; Metadata</b>
+* Browse and search your entire media library
+* Manage metadata and artwork directly from the app
+* Jellyseerr / Overseerr integration for requesting new content
+* Server management tools (scan libraries, restart server, etc.)
+
+<b>Multi-user &amp; Profiles</b>
+* Add multiple user profiles or connect to different servers
+* Per-user app-lock with biometrics or passcode support
+* Sync watch progress and favorites across devices
+
+<b>Offline Support</b>
+* Download movies and episodes for offline viewing
+* Keep playback progress synced when back online
+* Manage synced items from within the app
+
+<b>Customization &amp; UI</b>
+* Adaptive layout for phones, tablets, TV, and desktop
+* Dark and light mode with multiple color styles
+* Configurable home screen and dashboard
+* Keyboard shortcut support
+
+<b>Other Features</b>
+* Comic book reader (CBZ / CBR formats)
+* Android TV / leanback support
+* Next-up overview when watching a queue
+* Background update notifications
+
+Fladder requires a running Jellyfin server to connect to. It does not include any media content of its own.

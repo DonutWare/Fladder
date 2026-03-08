@@ -693,6 +693,58 @@ jobs:
           status: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 'completed' || 'draft' }}
           releaseName: "${{ github.run_number }} (${{ needs.fetch-info.outputs.version_name }})"
 
+  update-fastlane-changelog:
+    name: Update Fastlane Changelog
+    needs:
+      - fetch-info
+      - create_release
+    runs-on: ubuntu-latest
+    if: needs.fetch-info.outputs.build_type == 'release'
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4.1.1
+        with:
+          ref: develop
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate fastlane changelog
+        run: |
+          # Get the GitHub release body for this tag
+          RELEASE_BODY=$(gh release view "${{ github.ref_name }}" --json body -q '.body' 2>/dev/null || echo "")
+
+          # Strip markdown: remove PR links, @mentions, image URLs, backticks, excess whitespace
+          CLEAN=$(echo "$RELEASE_BODY" \
+            | sed 's/\[#[0-9]*\]([^)]*)//g' \
+            | sed 's/ in \[#[0-9]*\]([^)]*)//g' \
+            | sed 's/by @[A-Za-z0-9_-]*//g' \
+            | sed 's/!?\[.*\]([^)]*)//g' \
+            | sed 's/`//g' \
+            | sed '/^---/d' \
+            | sed 's/[[:space:]]\{2,\}/ /g' \
+            | sed '/^[[:space:]]*$/d')
+
+          # Fall back to a URL if body was empty
+          if [ -z "$CLEAN" ]; then
+            CLEAN="See https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }} for the full changelog."
+          fi
+
+          # Truncate to 500 bytes (F-Droid limit)
+          CLEAN=$(echo "$CLEAN" | head -c 500)
+
+          mkdir -p fastlane/metadata/android/en-US/changelogs
+          printf '%s' "$CLEAN" > "fastlane/metadata/android/en-US/changelogs/${{ github.run_number }}.txt"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "fastlane/metadata/android/en-US/changelogs/${{ github.run_number }}.txt"
+          git diff --cached --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "chore: add fastlane changelog for ${{ github.ref_name }} [skip ci]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   release_web:
     name: Release Web
     needs:
