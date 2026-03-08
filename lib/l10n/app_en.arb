@@ -2521,5 +2521,17 @@
         "type": "String"
       }
     }
-  }
+  },
+  "libraryOrderTitle": "Home Screen Order",
+  "@libraryOrderTitle": {},
+  "libraryOrderDescription": "Drag to reorder libraries on the home screen. Unchecked libraries won't show recently added items.",
+  "@libraryOrderDescription": {},
+  "hidePlayedInLatestTitle": "Hide watched content",
+  "@hidePlayedInLatestTitle": {},
+  "hidePlayedInLatestDescription": "Hide watched content from 'Recently Added Media'",
+  "@hidePlayedInLatestDescription": {},
+  "groupedFoldersTitle": "Grouped Libraries",
+  "@groupedFoldersTitle": {},
+  "groupedFoldersDescription": "Automatically group content from the following libraries into views such as 'Movies', 'Music' and 'TV'.",
+  "@groupedFoldersDescription": {}
 }
