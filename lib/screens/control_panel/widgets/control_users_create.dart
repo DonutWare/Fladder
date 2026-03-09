@@ -92,26 +92,24 @@ class _ControlUserCreateState extends ConsumerState<ControlUserCreate> {
                   ),
 
                   if (enableAllLibraries == false) ...[
+                    const Divider(),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(context.localized.assignLibraries, style: Theme.of(context).textTheme.titleMedium),
                     ),
                     ...viewModels.map(
-                      (library) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: CheckboxListTile(
-                          title: Text(library.name),
-                          value: selectedLibraries.any((element) => element.id == library.id),
-                          onChanged: (value) {
-                            setState(() {
-                              if (value == true) {
-                                selectedLibraries.add(library);
-                              } else {
-                                selectedLibraries.removeWhere((element) => element.id == library.id);
-                              }
-                            });
-                          },
-                        ),
+                      (library) => SwitchListTile(
+                        title: Text(library.name),
+                        value: selectedLibraries.any((element) => element.id == library.id),
+                        onChanged: (value) {
+                          setState(() {
+                            if (value == true) {
+                              selectedLibraries.add(library);
+                            } else {
+                              selectedLibraries.removeWhere((element) => element.id == library.id);
+                            }
+                          });
+                        },
                       ),
                     ),
                   ],

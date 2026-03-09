@@ -1,3 +1,5 @@
 {
-	"baseUrl": null
+	"baseUrl": null,
+	"seerrBaseUrl": null,
+	"seerrHeader": null
 }

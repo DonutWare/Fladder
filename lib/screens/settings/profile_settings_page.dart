@@ -11,18 +11,21 @@ import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as enums;
 import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/cultures_provider.dart';
+import 'package:fladder/providers/home_preferences_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/update_notifications_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
+import 'package:fladder/screens/settings/widgets/home_preferences_editors.dart';
 import 'package:fladder/screens/settings/widgets/password_reset_dialog.dart';
 import 'package:fladder/screens/settings/widgets/seerr_connection_dialog.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/screens/shared/authenticate_button_options.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/services/battery_optimization.dart';
@@ -31,6 +34,7 @@ import 'package:fladder/util/jellyfin_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/simple_duration_picker.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/filled_button_await.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
 @RoutePage()
@@ -69,6 +73,7 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkBatteryOptimization();
+      ref.read(homePreferencesProvider.notifier).load();
     });
   }
 
@@ -114,6 +119,17 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
     };
     return SettingsScaffold(
       label: context.localized.settingsProfileTitle,
+      bottomActions: [
+        FilledButtonAwait(
+          onPressed: () async {
+            await FladderSnack.showResponse(
+              ref.read(homePreferencesProvider.notifier).save(),
+              successTitle: context.localized.saved,
+            );
+          },
+          child: Text(context.localized.save),
+        ),
+      ],
       items: [
         ...settingsListGroup(
           context,
@@ -352,6 +368,8 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
               ),
           ],
         ),
+        const SizedBox(height: 16),
+        const LibraryOrderEditor(),
         const SizedBox(height: 16),
         ...settingsListGroup(
           context,

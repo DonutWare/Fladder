@@ -223,7 +223,10 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                         specialFeatures: details.specialFeatures ?? []),
                   if (details.related.isNotEmpty)
                     PosterRow(
-                        posters: details.related, contentPadding: padding, label: detailsContext.localized.related),
+                      posters: details.related,
+                      contentPadding: padding,
+                      label: detailsContext.localized.related,
+                    ),
                   if (details.seerrRecommended.isNotEmpty)
                     SeerrPosterRow(
                       posters: details.seerrRecommended,
