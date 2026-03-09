@@ -61,7 +61,6 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
 
   bool get _hasPresetSeerrBaseUrl => FladderConfig.seerrBaseUrl?.isNotEmpty == true;
   bool get _hasPresetSeerrHeader => FladderConfig.seerrHeader?.isNotEmpty == true;
-  bool get _disableAuthActions => _hasPresetSeerrBaseUrl || _hasPresetSeerrHeader;
 
   @override
   void initState() {
@@ -178,7 +177,6 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _useApiKey() async {
-    if (_disableAuthActions) return;
     if (!_applyServerUrl()) return;
     setState(() {
       processing = true;
@@ -206,7 +204,6 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _loginLocal() async {
-    if (_disableAuthActions) return;
     if (!_applyServerUrl()) return;
     setState(() {
       processing = true;
@@ -241,7 +238,6 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _loginJellyfin() async {
-    if (_disableAuthActions) return;
     if (!_applyServerUrl()) return;
     setState(() {
       processing = true;
@@ -505,7 +501,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 FilledButton(
-                  onPressed: (processing || _disableAuthActions) ? null : _useApiKey,
+                  onPressed: processing ? null : _useApiKey,
                   child: processing
                       ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
                       : Text(context.localized.save),
@@ -544,7 +540,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 FilledButton(
-                  onPressed: (processing || _disableAuthActions) ? null : _loginLocal,
+                  onPressed: processing ? null : _loginLocal,
                   child: processing
                       ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
                       : Text(context.localized.login),
@@ -582,7 +578,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 FilledButton(
-                  onPressed: (processing || _disableAuthActions) ? null : _loginJellyfin,
+                  onPressed: processing ? null : _loginJellyfin,
                   child: processing
                       ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator())
                       : Text(context.localized.login),
