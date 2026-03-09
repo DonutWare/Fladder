@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
@@ -161,9 +162,9 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     }
   }
 
-  bool _applyServerUrl({bool showError = true}) {
-    final serverUrl = serverController.text.trim();
-    if (serverUrl.isEmpty) {
+  Future<bool> _applyServerUrl({bool showError = true}) async {
+    final rawUrl = serverController.text.trim();
+    if (rawUrl.isEmpty) {
       if (showError && mounted) {
         setState(() {
           error = context.localized.seerrEnterServerUrlFirst;
@@ -171,12 +172,36 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       }
       return false;
     }
+
+    String serverUrl;
+    final hasScheme = rawUrl.startsWith('http://') || rawUrl.startsWith('https://');
+    if (!hasScheme) {
+      // Probe https first, then http
+      final httpsUrl = normalizeUrl('https://$rawUrl');
+      final httpUrl = normalizeUrl('http://$rawUrl');
+      final result = await probeSeerrUrl(httpsUrl) ?? await probeSeerrUrl(httpUrl);
+      if (result == null) {
+        if (showError && mounted) {
+          setState(() {
+            error = context.localized.seerrEnterServerUrlFirst;
+          });
+        }
+        return false;
+      }
+      serverUrl = result;
+    } else {
+      serverUrl = normalizeUrl(rawUrl);
+    }
+
+    if (serverUrl != rawUrl) {
+      serverController.text = serverUrl;
+    }
     ref.read(userProvider.notifier).setSeerrServerUrl(serverUrl);
     return true;
   }
 
   Future<void> _useApiKey() async {
-    if (!_applyServerUrl()) return;
+    if (!await _applyServerUrl()) return;
     setState(() {
       processing = true;
       error = null;
@@ -203,7 +228,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _loginLocal() async {
-    if (!_applyServerUrl()) return;
+    if (!await _applyServerUrl()) return;
     setState(() {
       processing = true;
       error = null;
@@ -237,7 +262,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _loginJellyfin() async {
-    if (!_applyServerUrl()) return;
+    if (!await _applyServerUrl()) return;
     setState(() {
       processing = true;
       error = null;
@@ -271,7 +296,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _logout() async {
-    _applyServerUrl(showError: false);
+    await _applyServerUrl(showError: false);
     setState(() {
       processing = true;
       error = null;
@@ -394,8 +419,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           keyboardType: TextInputType.url,
           textInputAction: TextInputAction.next,
           enabled: !_hasPresetSeerrBaseUrl,
-          onSubmitted: (_) {
-            _applyServerUrl();
+          onSubmitted: (_) async {
+            await _applyServerUrl();
             _refreshSession();
           },
         ),
