@@ -73,6 +73,48 @@ final class _$SeerrChopperService extends SeerrChopperService {
   }
 
   @override
+  Future<Response<SeerrQuickConnectInitResponse>> quickConnectInitiate() {
+    final Uri $url = Uri.parse('/api/v1/auth/jellyfin/quickconnect/initiate');
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<SeerrQuickConnectInitResponse,
+        SeerrQuickConnectInitResponse>($request);
+  }
+
+  @override
+  Future<Response<SeerrQuickConnectCheckResponse>> quickConnectCheck(
+      String secret) {
+    final Uri $url = Uri.parse('/api/v1/auth/jellyfin/quickconnect/check');
+    final Map<String, dynamic> $params = <String, dynamic>{'secret': secret};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<SeerrQuickConnectCheckResponse,
+        SeerrQuickConnectCheckResponse>($request);
+  }
+
+  @override
+  Future<Response<SeerrUserModel>> quickConnectAuthenticate(
+      SeerrQuickConnectAuthBody body) {
+    final Uri $url =
+        Uri.parse('/api/v1/auth/jellyfin/quickconnect/authenticate');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<SeerrUserModel, SeerrUserModel>($request);
+  }
+
+  @override
   Future<Response<dynamic>> logout() {
     final Uri $url = Uri.parse('/api/v1/auth/logout');
     final Request $request = Request(
