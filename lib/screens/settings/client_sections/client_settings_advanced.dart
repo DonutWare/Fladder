@@ -5,6 +5,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
+import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
@@ -115,6 +116,24 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
             onChanged: (value) => ref.read(clientSettingsProvider.notifier).useSystemIME(value),
           ),
         ),
+      SettingsListTile(
+        label: Text(context.localized.hidePasswordLogin),
+        subLabel: Text(context.localized.hidePasswordLoginDescription),
+        onTap: FladderConfig.hidePasswordLogin != null
+            ? null
+            : () => ref
+                .read(clientSettingsProvider.notifier)
+                .update((current) => current.copyWith(hidePasswordLogin: !current.hidePasswordLogin)),
+        trailing: Switch(
+          value: FladderConfig.hidePasswordLogin ??
+              ref.watch(clientSettingsProvider.select((value) => value.hidePasswordLogin)),
+          onChanged: FladderConfig.hidePasswordLogin != null
+              ? null
+              : (value) => ref
+                  .read(clientSettingsProvider.notifier)
+                  .update((current) => current.copyWith(hidePasswordLogin: value)),
+        ),
+      ),
     ],
   );
 }
