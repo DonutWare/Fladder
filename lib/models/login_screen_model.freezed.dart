@@ -22,6 +22,7 @@ mixin _$LoginScreenModel {
   bool get loading;
   String? get tempSeerrUrl;
   String? get tempSeerrSessionCookie;
+  bool get hidePasswordLogin;
 
   /// Create a copy of LoginScreenModel
   /// with the given fields replaced by the non-null parameter values.
@@ -33,7 +34,7 @@ mixin _$LoginScreenModel {
 
   @override
   String toString() {
-    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
+    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie, hidePasswordLogin: $hidePasswordLogin)';
   }
 }
 
@@ -51,7 +52,8 @@ abstract mixin class $LoginScreenModelCopyWith<$Res> {
       bool hasBaseUrl,
       bool loading,
       String? tempSeerrUrl,
-      String? tempSeerrSessionCookie});
+      String? tempSeerrSessionCookie,
+      bool hidePasswordLogin});
 
   $ServerLoginModelCopyWith<$Res>? get serverLoginModel;
 }
@@ -77,6 +79,7 @@ class _$LoginScreenModelCopyWithImpl<$Res>
     Object? loading = null,
     Object? tempSeerrUrl = freezed,
     Object? tempSeerrSessionCookie = freezed,
+    Object? hidePasswordLogin = null,
   }) {
     return _then(_self.copyWith(
       accounts: null == accounts
@@ -111,6 +114,10 @@ class _$LoginScreenModelCopyWithImpl<$Res>
           ? _self.tempSeerrSessionCookie
           : tempSeerrSessionCookie // ignore: cast_nullable_to_non_nullable
               as String?,
+      hidePasswordLogin: null == hidePasswordLogin
+          ? _self.hidePasswordLogin
+          : hidePasswordLogin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -230,7 +237,8 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             bool hasBaseUrl,
             bool loading,
             String? tempSeerrUrl,
-            String? tempSeerrSessionCookie)?
+            String? tempSeerrSessionCookie,
+            bool hidePasswordLogin)?
         $default, {
     required TResult orElse(),
   }) {
@@ -245,7 +253,8 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             _that.hasBaseUrl,
             _that.loading,
             _that.tempSeerrUrl,
-            _that.tempSeerrSessionCookie);
+            _that.tempSeerrSessionCookie,
+            _that.hidePasswordLogin);
       case _:
         return orElse();
     }
@@ -274,7 +283,8 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             bool hasBaseUrl,
             bool loading,
             String? tempSeerrUrl,
-            String? tempSeerrSessionCookie)
+            String? tempSeerrSessionCookie,
+            bool hidePasswordLogin)
         $default,
   ) {
     final _that = this;
@@ -288,7 +298,8 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             _that.hasBaseUrl,
             _that.loading,
             _that.tempSeerrUrl,
-            _that.tempSeerrSessionCookie);
+            _that.tempSeerrSessionCookie,
+            _that.hidePasswordLogin);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -316,7 +327,8 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             bool hasBaseUrl,
             bool loading,
             String? tempSeerrUrl,
-            String? tempSeerrSessionCookie)?
+            String? tempSeerrSessionCookie,
+            bool hidePasswordLogin)?
         $default,
   ) {
     final _that = this;
@@ -330,7 +342,8 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             _that.hasBaseUrl,
             _that.loading,
             _that.tempSeerrUrl,
-            _that.tempSeerrSessionCookie);
+            _that.tempSeerrSessionCookie,
+            _that.hidePasswordLogin);
       case _:
         return null;
     }
@@ -348,7 +361,8 @@ class _LoginScreenModel implements LoginScreenModel {
       this.hasBaseUrl = false,
       this.loading = false,
       this.tempSeerrUrl,
-      this.tempSeerrSessionCookie})
+      this.tempSeerrSessionCookie,
+      this.hidePasswordLogin = false})
       : _accounts = accounts;
 
   final List<AccountModel> _accounts;
@@ -377,6 +391,9 @@ class _LoginScreenModel implements LoginScreenModel {
   final String? tempSeerrUrl;
   @override
   final String? tempSeerrSessionCookie;
+  @override
+  @JsonKey()
+  final bool hidePasswordLogin;
 
   /// Create a copy of LoginScreenModel
   /// with the given fields replaced by the non-null parameter values.
@@ -388,7 +405,7 @@ class _LoginScreenModel implements LoginScreenModel {
 
   @override
   String toString() {
-    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
+    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie, hidePasswordLogin: $hidePasswordLogin)';
   }
 }
 
@@ -408,7 +425,8 @@ abstract mixin class _$LoginScreenModelCopyWith<$Res>
       bool hasBaseUrl,
       bool loading,
       String? tempSeerrUrl,
-      String? tempSeerrSessionCookie});
+      String? tempSeerrSessionCookie,
+      bool hidePasswordLogin});
 
   @override
   $ServerLoginModelCopyWith<$Res>? get serverLoginModel;
@@ -435,6 +453,7 @@ class __$LoginScreenModelCopyWithImpl<$Res>
     Object? loading = null,
     Object? tempSeerrUrl = freezed,
     Object? tempSeerrSessionCookie = freezed,
+    Object? hidePasswordLogin = null,
   }) {
     return _then(_LoginScreenModel(
       accounts: null == accounts
@@ -469,6 +488,10 @@ class __$LoginScreenModelCopyWithImpl<$Res>
           ? _self.tempSeerrSessionCookie
           : tempSeerrSessionCookie // ignore: cast_nullable_to_non_nullable
               as String?,
+      hidePasswordLogin: null == hidePasswordLogin
+          ? _self.hidePasswordLogin
+          : hidePasswordLogin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
