@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -25,6 +26,7 @@ class _AdvancedLoginOptionsDialog extends ConsumerStatefulWidget {
 
 class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptionsDialog> {
   late final TextEditingController seerrUrlController = TextEditingController(text: widget.initialSeerrUrl ?? '');
+  bool _probing = false;
 
   @override
   void dispose() {
@@ -68,14 +70,36 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
           child: Text(context.localized.cancel),
         ),
         FilledButton(
-          onPressed: _save,
-          child: Text(context.localized.save),
+          onPressed: _probing ? null : _save,
+          child: _probing
+              ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+              : Text(context.localized.save),
         ),
       ],
     );
   }
 
-  void _save() {
-    Navigator.of(context).pop(seerrUrlController.text.trim());
+  Future<void> _save() async {
+    final url = seerrUrlController.text.trim();
+    if (url.isEmpty) {
+      Navigator.of(context).pop(url);
+      return;
+    }
+    final hasScheme = url.startsWith('http://') || url.startsWith('https://');
+    if (!hasScheme) {
+      setState(() => _probing = true);
+      final httpsUrl = normalizeUrl('https://$url');
+      final httpUrl = normalizeUrl('http://$url');
+      final result = await probeSeerrUrl(httpsUrl) ?? await probeSeerrUrl(httpUrl);
+      if (!mounted) return;
+      setState(() => _probing = false);
+      if (result != null) {
+        Navigator.of(context).pop(result);
+      } else {
+        Navigator.of(context).pop(normalizeUrl(url));
+      }
+    } else {
+      Navigator.of(context).pop(normalizeUrl(url));
+    }
   }
 }
