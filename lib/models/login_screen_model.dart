@@ -22,6 +22,7 @@ abstract class LoginScreenModel with _$LoginScreenModel {
     @Default(false) bool loading,
     String? tempSeerrUrl,
     String? tempSeerrSessionCookie,
+    @Default(false) bool hidePasswordLogin,
   }) = _LoginScreenModel;
 }
 

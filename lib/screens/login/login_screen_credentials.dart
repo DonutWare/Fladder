@@ -106,7 +106,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     final hasQuickConnect = ref.watch(authProvider.select((value) => value.serverLoginModel?.hasQuickConnect ?? false));
     // Note: hidePasswordLogin is a UI preference, not a security control.
     // It hides the password fields but does not disable password-based authentication on the server.
-    final hidePasswordLogin = FladderConfig.hidePasswordLogin == true ||
+    final hidePasswordLogin = ref.watch(authProvider.select((value) => value.hidePasswordLogin)) ||
         ref.watch(clientSettingsProvider.select((value) => value.hidePasswordLogin));
 
     ref.listen(
