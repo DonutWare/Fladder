@@ -177,7 +177,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     if (result == null) {
       if (showError && mounted) {
         setState(() {
-          error = context.localized.seerrEnterServerUrlFirst;
+          error = context.localized.unableToConnectHost;
         });
       }
       return false;
