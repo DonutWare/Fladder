@@ -16,8 +16,10 @@ part 'api_provider.g.dart';
 
 final serverUrlProvider = StateProvider<String?>((ref) {
   final localUrlAvailable = ref.watch(localConnectionAvailableProvider);
-  final userCredentials = ref.watch(userProvider.select((value) => value?.credentials));
-  final tempUrl = ref.watch(authProvider.select((value) => value.serverLoginModel?.tempCredentials.url));
+  final userCredentials =
+      ref.watch(userProvider.select((value) => value?.credentials));
+  final tempUrl = ref.watch(authProvider
+      .select((value) => value.serverLoginModel?.tempCredentials.url));
   String? newUrl;
 
   if (localUrlAvailable && userCredentials?.localUrl?.isNotEmpty == true) {
@@ -48,7 +50,8 @@ class JellyApi extends _$JellyApi {
       );
 }
 
-JellyfinOpenApi createJellyfinApiForAccount(Ref ref, String baseUrl, Map<String, String> headers) {
+JellyfinOpenApi createJellyfinApiForAccount(
+    Ref ref, String baseUrl, Map<String, String> headers) {
   return JellyfinOpenApi.create(
     interceptors: [
       _TempJellyRequest(baseUrl: baseUrl, headers: headers),
@@ -65,10 +68,13 @@ class _TempJellyRequest implements Interceptor {
   final Map<String, String> headers;
 
   @override
-  FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
-    if (baseUrl.isEmpty) throw const HttpException('No server URL provided for temp request');
+  FutureOr<Response<BodyType>> intercept<BodyType>(
+      Chain<BodyType> chain) async {
+    if (baseUrl.isEmpty)
+      throw const HttpException('No server URL provided for temp request');
 
-    final request = applyHeaders(chain.request.copyWith(baseUri: Uri.parse(baseUrl)), headers);
+    final request = applyHeaders(
+        chain.request.copyWith(baseUri: Uri.parse(baseUrl)), headers);
     return chain.proceed(request);
   }
 }
@@ -79,15 +85,18 @@ class JellyRequest implements Interceptor {
   final Ref ref;
 
   @override
-  FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
+  FutureOr<Response<BodyType>> intercept<BodyType>(
+      Chain<BodyType> chain) async {
     final connectivityNotifier = ref.read(connectivityStatusProvider.notifier);
     String? serverUrl = ref.read(serverUrlProvider);
 
     try {
-      if (serverUrl?.isEmpty == true || serverUrl == null) throw const HttpException("Failed to connect");
+      if (serverUrl?.isEmpty == true || serverUrl == null)
+        throw const HttpException("Failed to connect");
 
       //Use current logged in user otherwise use the authProvider
-      var loginModel = ref.read(userProvider)?.credentials ?? ref.read(authProvider).serverLoginModel?.tempCredentials;
+      var loginModel = ref.read(userProvider)?.credentials ??
+          ref.read(authProvider).serverLoginModel?.tempCredentials;
 
       if (loginModel == null) throw UnimplementedError();
 
@@ -113,7 +122,10 @@ String normalizeUrl(String url) {
   final trimmed = url.trim();
   if (trimmed.isEmpty) return '';
 
-  final withScheme = (trimmed.startsWith('http://') || trimmed.startsWith('https://')) ? trimmed : 'http://$trimmed';
+  final withScheme =
+      (trimmed.startsWith('http://') || trimmed.startsWith('https://'))
+          ? trimmed
+          : 'http://$trimmed';
   final parsed = Uri.parse(withScheme);
 
   // Only punycode non-ASCII hostnames. IP addresses are always ASCII, so no special handling needed.
@@ -153,11 +165,13 @@ Uri? tryParseServerBaseUri(String? url) {
   if (trimmed.isEmpty) return null;
 
   final parsed = Uri.tryParse(trimmed);
-  if (parsed == null || parsed.scheme.isEmpty || parsed.host.isEmpty) return null;
+  if (parsed == null || parsed.scheme.isEmpty || parsed.host.isEmpty)
+    return null;
   return parsed;
 }
 
-Uri? serverBaseUri(Ref ref) => tryParseServerBaseUri(ref.read(serverUrlProvider));
+Uri? serverBaseUri(Ref ref) =>
+    tryParseServerBaseUri(ref.read(serverUrlProvider));
 
 Uri? buildServerUriFromBase(
   String baseUrl, {
@@ -177,11 +191,19 @@ Uri? buildServerUriFromBase(
     return relative;
   }
 
-  final baseSegments = base.pathSegments.where((s) => s.isNotEmpty).toList(growable: false);
-  final relSegments = (relative?.pathSegments ?? const <String>[]).where((s) => s.isNotEmpty).toList(growable: false);
-  final extraSegments = pathSegments.where((s) => s.isNotEmpty).toList(growable: false);
+  final baseSegments =
+      base.pathSegments.where((s) => s.isNotEmpty).toList(growable: false);
+  final relSegments = (relative?.pathSegments ?? const <String>[])
+      .where((s) => s.isNotEmpty)
+      .toList(growable: false);
+  final extraSegments =
+      pathSegments.where((s) => s.isNotEmpty).toList(growable: false);
 
-  final mergedSegments = <String>[...baseSegments, ...relSegments, ...extraSegments];
+  final mergedSegments = <String>[
+    ...baseSegments,
+    ...relSegments,
+    ...extraSegments
+  ];
 
   final mergedQuery = <String, String>{...?(relative?.queryParameters)};
   if (queryParameters != null) {
@@ -240,7 +262,8 @@ class JellyResponse implements Interceptor {
   final Ref ref;
 
   @override
-  FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
+  FutureOr<Response<BodyType>> intercept<BodyType>(
+      Chain<BodyType> chain) async {
     final Response<BodyType> response = await chain.proceed(chain.request);
 
     if (!response.isSuccessful) {
