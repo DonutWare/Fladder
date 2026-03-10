@@ -109,11 +109,14 @@ class JellyRequest implements Interceptor {
   }
 }
 
+/// Whether [url] already carries an http or https scheme.
+bool hasHttpScheme(String url) => url.startsWith('http://') || url.startsWith('https://');
+
 String normalizeUrl(String url) {
   final trimmed = url.trim();
   if (trimmed.isEmpty) return '';
 
-  final withScheme = (trimmed.startsWith('http://') || trimmed.startsWith('https://')) ? trimmed : 'http://$trimmed';
+  final withScheme = hasHttpScheme(trimmed) ? trimmed : 'http://$trimmed';
   final parsed = Uri.parse(withScheme);
 
   // Only punycode non-ASCII hostnames. IP addresses are always ASCII, so no special handling needed.
@@ -151,8 +154,7 @@ Future<String?> probeSeerrUrl(String baseUrl) async {
 /// Returns the resolved (normalized) URL, or null if probing failed and no scheme was given.
 /// If a scheme is already present, returns the normalized URL without probing.
 Future<String?> probeAndNormalizeSeerrUrl(String url) async {
-  final hasScheme = url.startsWith('http://') || url.startsWith('https://');
-  if (!hasScheme) {
+  if (!hasHttpScheme(url)) {
     final httpsUrl = normalizeUrl('https://$url');
     final httpUrl = normalizeUrl('http://$url');
     return await probeSeerrUrl(httpsUrl) ?? await probeSeerrUrl(httpUrl);
