@@ -14,5 +14,5 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v4.1.1
       - uses: ashutoshgngwr/validate-fastlane-supply-metadata@v2.1.0
