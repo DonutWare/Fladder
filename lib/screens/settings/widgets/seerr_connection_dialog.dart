@@ -175,7 +175,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       return false;
     }
 
-    final result = await probeAndNormalizeSeerrUrl(rawUrl);
+    final result = await probeAndNormalizeUrl(rawUrl, probeSeerrUrl);
     if (result == null) {
       if (showError && mounted) {
         setState(() {
