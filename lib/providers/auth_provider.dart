@@ -195,15 +195,8 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     }
     final trimmed = server.trim();
     if (trimmed.isEmpty) return;
-    if (hasHttpScheme(trimmed)) {
-      await _fetchServerInfo(trimmed);
-    } else {
-      // Try https first, then http
-      await _fetchServerInfo('https://$trimmed');
-      if (state.errorMessage != null) {
-        await _fetchServerInfo('http://$trimmed');
-      }
-    }
+    final resolved = await probeAndNormalizeUrl(trimmed, probeJellyfinUrl);
+    await _fetchServerInfo(resolved ?? normalizeUrl('https://$trimmed'));
   }
 
   List<AccountModel> getSavedAccounts() {
