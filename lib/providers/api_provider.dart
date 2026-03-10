@@ -133,12 +133,10 @@ String normalizeUrl(String url) {
   }
 }
 
-/// Probes a Seerr server URL by hitting /api/v1/status.
-/// Returns the working URL (with scheme) or null.
-Future<String?> probeSeerrUrl(String baseUrl) async {
+Future<String?> _probeUrl(String baseUrl, String endpoint) async {
   final client = HttpClient()..connectionTimeout = const Duration(seconds: 5);
   try {
-    final request = await client.getUrl(Uri.parse('$baseUrl/api/v1/status'));
+    final request = await client.getUrl(Uri.parse('$baseUrl$endpoint'));
     final response = await request.close();
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return baseUrl;
@@ -150,22 +148,11 @@ Future<String?> probeSeerrUrl(String baseUrl) async {
   return null;
 }
 
+/// Probes a Seerr server URL by hitting /api/v1/status.
+Future<String?> probeSeerrUrl(String baseUrl) => _probeUrl(baseUrl, '/api/v1/status');
+
 /// Probes a Jellyfin server URL by hitting /System/Info/Public.
-/// Returns the working URL (with scheme) or null.
-Future<String?> probeJellyfinUrl(String baseUrl) async {
-  final client = HttpClient()..connectionTimeout = const Duration(seconds: 5);
-  try {
-    final request = await client.getUrl(Uri.parse('$baseUrl/System/Info/Public'));
-    final response = await request.close();
-    if (response.statusCode >= 200 && response.statusCode < 400) {
-      return baseUrl;
-    }
-  } catch (_) {
-  } finally {
-    client.close();
-  }
-  return null;
-}
+Future<String?> probeJellyfinUrl(String baseUrl) => _probeUrl(baseUrl, '/System/Info/Public');
 
 /// Tries https and http in parallel using [probeFn] if no scheme is provided.
 /// Returns the resolved (normalized) URL (preferring https), or null if both probes failed.
