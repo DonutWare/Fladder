@@ -387,7 +387,7 @@ jobs:
     if: needs.fetch-info.outputs.build_type == 'release'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
 
