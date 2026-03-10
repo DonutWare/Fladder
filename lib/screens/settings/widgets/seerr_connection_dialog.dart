@@ -18,6 +18,8 @@ import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 
+String _sanitizeErrorMessage(Object error) => error.toString().split(RegExp(r'\n#\d')).first.trim();
+
 Future<void> showSeerrConnectionDialog(BuildContext context) {
   return showDialogAdaptive(
     context: context,
@@ -247,7 +249,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       }
     } catch (e) {
       if (mounted) {
-        final message = e.toString().split(RegExp(r'\n#\d')).first.trim();
+        final message = _sanitizeErrorMessage(e);
         error = message;
         FladderSnack.show(message, context: context);
       }
@@ -285,7 +287,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       }
     } catch (e) {
       if (mounted) {
-        final message = e.toString().split(RegExp(r'\n#\d')).first.trim();
+        final message = _sanitizeErrorMessage(e);
         error = message;
         FladderSnack.show(message, context: context);
       }
@@ -310,7 +312,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       await ref.read(seerrApiProvider).logout();
     } catch (e) {
       if (mounted) {
-        final message = e.toString().split(RegExp(r'\n#\d')).first.trim();
+        final message = _sanitizeErrorMessage(e);
         error = message;
         FladderSnack.show(message, context: context);
       }
