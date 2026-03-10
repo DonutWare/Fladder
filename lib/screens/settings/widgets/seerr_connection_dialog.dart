@@ -247,8 +247,9 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       }
     } catch (e) {
       if (mounted) {
-        error = e.toString();
-        FladderSnack.show(e.toString(), context: context);
+        final message = e.toString().split(RegExp(r'\n#\d')).first.trim();
+        error = message;
+        FladderSnack.show(message, context: context);
       }
     } finally {
       if (mounted) {
@@ -284,8 +285,9 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       }
     } catch (e) {
       if (mounted) {
-        error = e.toString();
-        FladderSnack.show(e.toString(), context: context);
+        final message = e.toString().split(RegExp(r'\n#\d')).first.trim();
+        error = message;
+        FladderSnack.show(message, context: context);
       }
     } finally {
       if (mounted) {
@@ -308,8 +310,9 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       await ref.read(seerrApiProvider).logout();
     } catch (e) {
       if (mounted) {
-        error = e.toString();
-        FladderSnack.show(e.toString(), context: context);
+        final message = e.toString().split(RegExp(r'\n#\d')).first.trim();
+        error = message;
+        FladderSnack.show(message, context: context);
       }
     } finally {
       ref.read(userProvider.notifier).logoutSeerr();
@@ -354,6 +357,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           Expanded(
             child: Text(
               error!,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onErrorContainer,
                   ),
