@@ -8,6 +8,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/screens/shared/media/external_urls.dart' as ext;
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
@@ -771,6 +772,17 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                     ),
                   ),
                 ),
+              ),
+              TextButton.icon(
+                onPressed: () async {
+                  final baseUrl = FladderConfig.baseUrl ?? ref.read(userProvider)?.credentials.url;
+                  if (baseUrl != null && baseUrl.isNotEmpty) {
+                    await ext.launchUrl(context, '$baseUrl/web/#/quickconnect');
+                    _qcTimer?.reset();
+                  }
+                },
+                icon: const Icon(IconsaxPlusLinear.export_1),
+                label: Text(context.localized.openJellyfinQuickConnect),
               ),
             ],
             Row(

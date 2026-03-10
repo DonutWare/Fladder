@@ -1546,6 +1546,8 @@
   "quickConnectPostFailed": "Failed to get quick connect code",
   "quickConnectLoginUsingCode": "Using quick connect",
   "quickConnectEnterCodeDescription": "Enter the code below to login",
+  "openJellyfinQuickConnect": "Open Jellyfin QuickConnect",
+  "@openJellyfinQuickConnect": {},
   "showMore": "Show more",
   "showLess": "Show less",
   "itemColorsTitle": "Item colors",
