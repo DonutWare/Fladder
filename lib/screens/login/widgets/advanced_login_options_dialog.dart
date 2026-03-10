@@ -85,21 +85,10 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
       Navigator.of(context).pop(url);
       return;
     }
-    final hasScheme = url.startsWith('http://') || url.startsWith('https://');
-    if (!hasScheme) {
-      setState(() => _probing = true);
-      final httpsUrl = normalizeUrl('https://$url');
-      final httpUrl = normalizeUrl('http://$url');
-      final result = await probeSeerrUrl(httpsUrl) ?? await probeSeerrUrl(httpUrl);
-      if (!mounted) return;
-      setState(() => _probing = false);
-      if (result != null) {
-        Navigator.of(context).pop(result);
-      } else {
-        Navigator.of(context).pop(normalizeUrl(url));
-      }
-    } else {
-      Navigator.of(context).pop(normalizeUrl(url));
-    }
+    setState(() => _probing = true);
+    final result = await probeAndNormalizeSeerrUrl(url);
+    if (!mounted) return;
+    setState(() => _probing = false);
+    Navigator.of(context).pop(result ?? normalizeUrl(url));
   }
 }
