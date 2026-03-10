@@ -173,25 +173,16 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       return false;
     }
 
-    String serverUrl;
-    final hasScheme = rawUrl.startsWith('http://') || rawUrl.startsWith('https://');
-    if (!hasScheme) {
-      // Probe https first, then http
-      final httpsUrl = normalizeUrl('https://$rawUrl');
-      final httpUrl = normalizeUrl('http://$rawUrl');
-      final result = await probeSeerrUrl(httpsUrl) ?? await probeSeerrUrl(httpUrl);
-      if (result == null) {
-        if (showError && mounted) {
-          setState(() {
-            error = context.localized.seerrEnterServerUrlFirst;
-          });
-        }
-        return false;
+    final result = await probeAndNormalizeSeerrUrl(rawUrl);
+    if (result == null) {
+      if (showError && mounted) {
+        setState(() {
+          error = context.localized.seerrEnterServerUrlFirst;
+        });
       }
-      serverUrl = result;
-    } else {
-      serverUrl = normalizeUrl(rawUrl);
+      return false;
     }
+    final serverUrl = result;
 
     if (serverUrl != rawUrl) {
       serverController.text = serverUrl;
