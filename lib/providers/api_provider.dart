@@ -167,14 +167,14 @@ Future<String?> probeJellyfinUrl(String baseUrl) async {
   return null;
 }
 
-/// Probes a Seerr URL, trying https and http in parallel if no scheme is provided.
+/// Tries https and http in parallel using [probeFn] if no scheme is provided.
 /// Returns the resolved (normalized) URL (preferring https), or null if both probes failed.
 /// If a scheme is already present, returns the normalized URL without probing.
-Future<String?> probeAndNormalizeSeerrUrl(String url) async {
+Future<String?> probeAndNormalizeUrl(String url, Future<String?> Function(String) probeFn) async {
   if (!hasHttpScheme(url)) {
     final httpsUrl = normalizeUrl('https://$url');
     final httpUrl = normalizeUrl('http://$url');
-    final results = await Future.wait([probeSeerrUrl(httpsUrl), probeSeerrUrl(httpUrl)]);
+    final results = await Future.wait([probeFn(httpsUrl), probeFn(httpUrl)]);
     return results[0] ?? results[1];
   }
   return normalizeUrl(url);
