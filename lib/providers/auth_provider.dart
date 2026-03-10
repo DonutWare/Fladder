@@ -195,7 +195,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     }
     final trimmed = server.trim();
     if (trimmed.isEmpty) return;
-    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    if (hasHttpScheme(trimmed)) {
       await _fetchServerInfo(trimmed);
     } else {
       // Try https first, then http
