@@ -24,8 +24,7 @@ import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 
-final authProvider =
-    StateNotifierProvider<AuthNotifier, LoginScreenModel>((ref) {
+final authProvider = StateNotifierProvider<AuthNotifier, LoginScreenModel>((ref) {
   return AuthNotifier(ref);
 });
 
@@ -53,31 +52,26 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     }
     state = state.copyWith(
       accounts: currentAccounts,
-      screen: currentAccounts.isEmpty
-          ? LoginScreenType.login
-          : LoginScreenType.users,
+      screen: currentAccounts.isEmpty ? LoginScreenType.login : LoginScreenType.users,
     );
   }
 
   Future<void> _fetchServerInfo(String url) async {
     try {
-      final newCredentials =
-          CredentialsModel.createNewCredentials().copyWith(url: url);
+      final newCredentials = CredentialsModel.createNewCredentials().copyWith(url: url);
       final newLoginModel = ServerLoginModel(tempCredentials: newCredentials);
       state = state.copyWith(
         serverLoginModel: newLoginModel,
         loading: true,
       );
       final publicUsers = (await getPublicUsers())?.body ?? [];
-      final quickConnectStatus =
-          (await api.quickConnectEnabled()).body ?? false;
+      final quickConnectStatus = (await api.quickConnectEnabled()).body ?? false;
       final branding = await api.getBranding();
       final serverResponse = await api.systemInfoPublicGet();
       final serverId = serverResponse.body?.id ?? "";
       state = state.copyWith(
         errorMessage: null,
-        screen:
-            quickConnectStatus ? LoginScreenType.code : LoginScreenType.login,
+        screen: quickConnectStatus ? LoginScreenType.code : LoginScreenType.login,
         serverLoginModel: newLoginModel.copyWith(
           tempCredentials: newCredentials.copyWith(
             serverName: serverResponse.body?.serverName ?? "",
@@ -130,29 +124,23 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     return _createAccountModel(response).apiResult;
   }
 
-  Future<Response<AccountModel>?> authenticateByName(
-      String userName, String password) async {
+  Future<Response<AccountModel>?> authenticateByName(String userName, String password) async {
     clearAllProviders();
-    var response = await api.usersAuthenticateByNamePost(
-        userName: userName, password: password);
+    var response = await api.usersAuthenticateByNamePost(userName: userName, password: password);
     return _createAccountModel(response);
   }
 
-  Future<Response<AccountModel>> _createAccountModel(
-      Response<AuthenticationResult> response) async {
+  Future<Response<AccountModel>> _createAccountModel(Response<AuthenticationResult> response) async {
     CredentialsModel? credentials = state.serverLoginModel?.tempCredentials;
     if (credentials == null) return Response(response.base, null);
-    if (response.isSuccessful &&
-        (response.body?.accessToken?.isNotEmpty ?? false)) {
+    if (response.isSuccessful && (response.body?.accessToken?.isNotEmpty ?? false)) {
       var serverResponse = await api.systemInfoPublicGet();
       credentials = credentials.copyWith(
         token: response.body?.accessToken ?? "",
         serverId: response.body?.serverId ?? "",
         serverName: serverResponse.body?.serverName ?? "",
       );
-      var imageUrl = ref
-          .read(imageUtilityProvider)
-          .getUserImageUrl(response.body?.user?.id ?? "");
+      var imageUrl = ref.read(imageUtilityProvider).getUserImageUrl(response.body?.user?.id ?? "");
       AccountModel newUser = AccountModel(
         name: response.body?.user?.name ?? "",
         id: response.body?.user?.id ?? "",
@@ -162,8 +150,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       );
       ref.read(sharedUtilityProvider).addAccount(newUser);
       ref.read(userProvider.notifier).userState = newUser;
-      final currentAccounts =
-          ref.read(authProvider.notifier).getSavedAccounts();
+      final currentAccounts = ref.read(authProvider.notifier).getSavedAccounts();
 
       state = state.copyWith(
         accounts: currentAccounts,
@@ -220,8 +207,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
   }
 
   List<AccountModel> getSavedAccounts() {
-    state =
-        state.copyWith(accounts: ref.read(sharedUtilityProvider).getAccounts());
+    state = state.copyWith(accounts: ref.read(sharedUtilityProvider).getAccounts());
     return state.accounts;
   }
 
@@ -254,26 +240,21 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     if (serverId == null || serverId.isEmpty) return null;
     final matches = state.accounts.where(
       (account) =>
-          account.credentials.serverId == serverId &&
-          (account.seerrCredentials?.serverUrl.isNotEmpty ?? false),
+          account.credentials.serverId == serverId && (account.seerrCredentials?.serverUrl.isNotEmpty ?? false),
     );
 
     if (matches.isEmpty) return null;
 
-    final sorted = matches.toList()
-      ..sort((a, b) => b.lastUsed.compareTo(a.lastUsed));
+    final sorted = matches.toList()..sort((a, b) => b.lastUsed.compareTo(a.lastUsed));
 
     return sorted.first.seerrCredentials?.serverUrl;
   }
 
   void setTempSeerrUrl(String? url) {
-    state = state.copyWith(
-        tempSeerrUrl: url?.trim().isEmpty == true ? null : url?.trim());
+    state = state.copyWith(tempSeerrUrl: url?.trim().isEmpty == true ? null : url?.trim());
   }
 
   void setTempSeerrSessionCookie(String? cookie) {
-    state = state.copyWith(
-        tempSeerrSessionCookie:
-            cookie?.trim().isEmpty == true ? null : cookie?.trim());
+    state = state.copyWith(tempSeerrSessionCookie: cookie?.trim().isEmpty == true ? null : cookie?.trim());
   }
 }
