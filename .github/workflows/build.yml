@@ -711,27 +711,8 @@ jobs:
 
       - name: Generate fastlane changelog
         run: |
-          # Get the GitHub release body for this tag
-          RELEASE_BODY=$(gh release view "${{ github.ref_name }}" --json body -q '.body' 2>/dev/null || echo "")
-
-          # Strip markdown: remove PR links, @mentions, image URLs, backticks, excess whitespace
-          CLEAN=$(echo "$RELEASE_BODY" \
-            | sed 's/\[#[0-9]*\]([^)]*)//g' \
-            | sed 's/ in \[#[0-9]*\]([^)]*)//g' \
-            | sed 's/by @[A-Za-z0-9_-]*//g' \
-            | sed 's/!?\[.*\]([^)]*)//g' \
-            | sed 's/`//g' \
-            | sed '/^---/d' \
-            | sed 's/[[:space:]]\{2,\}/ /g' \
-            | sed '/^[[:space:]]*$/d')
-
-          # Fall back to a URL if body was empty
-          if [ -z "$CLEAN" ]; then
-            CLEAN="See https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }} for the full changelog."
-          fi
-
-          # Truncate to 500 bytes (F-Droid limit)
-          CLEAN=$(echo "$CLEAN" | head -c 500)
+          # Link directly to the GitHub release for the full changelog.
+          CLEAN="See the full changelog at: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}"
 
           mkdir -p fastlane/metadata/android/en-US/changelogs
           printf '%s' "$CLEAN" > "fastlane/metadata/android/en-US/changelogs/${{ github.run_number }}.txt"
@@ -742,8 +723,6 @@ jobs:
           git diff --cached --quiet && echo "Nothing to commit" && exit 0
           git commit -m "chore: add fastlane changelog for ${{ github.ref_name }} [skip ci]"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release_web:
     name: Release Web
