@@ -195,15 +195,20 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     return true;
   }
 
-  Future<void> _useApiKey() async {
+  Future<bool> _beginProcessing() async {
     setState(() {
       processing = true;
       error = null;
     });
     if (!await _applyServerUrl()) {
       if (mounted) setState(() => processing = false);
-      return;
+      return false;
     }
+    return true;
+  }
+
+  Future<void> _useApiKey() async {
+    if (!await _beginProcessing()) return;
 
     final apiKey = apiKeyController.text.trim();
     ref.read(userProvider.notifier).setSeerrApiKey(apiKey);
@@ -226,14 +231,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _loginLocal() async {
-    setState(() {
-      processing = true;
-      error = null;
-    });
-    if (!await _applyServerUrl()) {
-      if (mounted) setState(() => processing = false);
-      return;
-    }
+    if (!await _beginProcessing()) return;
 
     try {
       final cookie = await ref.read(seerrApiProvider).authenticateLocal(
@@ -264,14 +262,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _loginJellyfin() async {
-    setState(() {
-      processing = true;
-      error = null;
-    });
-    if (!await _applyServerUrl()) {
-      if (mounted) setState(() => processing = false);
-      return;
-    }
+    if (!await _beginProcessing()) return;
 
     try {
       final cookie = await ref.read(seerrApiProvider).authenticateJellyfin(
