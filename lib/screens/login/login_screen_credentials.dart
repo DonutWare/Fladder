@@ -383,10 +383,6 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       final effectiveSeerrUrl = FladderConfig.seerrBaseUrl ?? seerrUrl;
       ref.read(userProvider.notifier).setSeerrServerUrl(effectiveSeerrUrl);
 
-      if (FladderConfig.seerrHeader?.isNotEmpty == true) {
-        ref.read(userProvider.notifier).setSeerrCustomHeaders(FladderConfig.seerrHeader!);
-      }
-
       final tempCookie = ref.read(authProvider.select((value) => value.tempSeerrSessionCookie));
       final cookie = tempCookie ??
           await ref.read(seerrApiProvider).authenticateJellyfin(

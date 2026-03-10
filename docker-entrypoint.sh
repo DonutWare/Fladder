@@ -5,8 +5,7 @@ set -e
 cat > /usr/share/nginx/html/assets/config/config.json <<EOF
 {
   "baseUrl": "$BASE_URL",
-  "seerrBaseUrl": "$SEERR_BASE_URL",
-  "seerrHeader": $SEERR_HEADER
+  "seerrBaseUrl": "$SEERR_BASE_URL"
 }
 EOF
 

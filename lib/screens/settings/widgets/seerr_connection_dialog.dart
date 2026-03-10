@@ -60,7 +60,6 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   String? error;
 
   bool get _hasPresetSeerrBaseUrl => FladderConfig.seerrBaseUrl?.isNotEmpty == true;
-  bool get _hasPresetSeerrHeader => FladderConfig.seerrHeader?.isNotEmpty == true;
 
   @override
   void initState() {
@@ -74,7 +73,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     jfPasswordController = TextEditingController();
     headerKeyController = TextEditingController();
     headerValueController = TextEditingController();
-    customHeaders.addAll(FladderConfig.seerrHeader ?? creds?.customHeaders ?? {});
+    customHeaders.addAll(creds?.customHeaders ?? {});
     Future.microtask(_refreshSession);
   }
 
@@ -419,7 +418,6 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                     label: context.localized.seerrHeader,
                     controller: headerKeyController,
                     textInputAction: TextInputAction.next,
-                    enabled: !_hasPresetSeerrHeader,
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -429,16 +427,14 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                     label: context.localized.seerrHeaderValue,
                     controller: headerValueController,
                     textInputAction: TextInputAction.done,
-                    enabled: !_hasPresetSeerrHeader,
                     onSubmitted: (_) {
-                      if (_hasPresetSeerrHeader) return;
                       _addHeader();
                     },
                   ),
                 ),
                 const SizedBox(width: 8),
                 IconButton(
-                  onPressed: _hasPresetSeerrHeader ? null : _addHeader,
+                  onPressed: _addHeader,
                   icon: const Icon(IconsaxPlusBold.add_circle),
                 ),
               ],
@@ -452,7 +448,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                     .map(
                       (e) => InputChip(
                         label: Text('${e.key}: ${e.value}'),
-                        onDeleted: _hasPresetSeerrHeader ? null : () => _removeHeader(e.key),
+                        onDeleted: () => _removeHeader(e.key),
                       ),
                     )
                     .toList(),

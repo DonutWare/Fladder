@@ -57,7 +57,6 @@ class SeerrRequest implements Interceptor {
     final authHeaders = _authHeaders(apiKey: apiKey, cookie: cookie);
     final customHeaders = {
       ...?creds?.customHeaders,
-      ...?FladderConfig.seerrHeader,
     };
     final headers = {...authHeaders, ...customHeaders};
     final apiBaseUri = Uri.parse(serverUrl);
