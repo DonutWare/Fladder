@@ -184,6 +184,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     }
     final serverUrl = result;
 
+    if (!mounted) return false;
+
     if (serverUrl != rawUrl) {
       serverController.text = serverUrl;
     }
