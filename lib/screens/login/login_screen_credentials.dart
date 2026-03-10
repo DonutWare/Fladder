@@ -404,7 +404,6 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
           FladderSnack.show(context.localized.seerrLoggedIn, context: context);
         }
       }
-
     } catch (e) {
       if (context.mounted) {
         FladderSnack.show(
