@@ -150,14 +150,15 @@ Future<String?> probeSeerrUrl(String baseUrl) async {
   return null;
 }
 
-/// Probes a Seerr URL, trying https first then http if no scheme is provided.
-/// Returns the resolved (normalized) URL, or null if probing failed and no scheme was given.
+/// Probes a Seerr URL, trying https and http in parallel if no scheme is provided.
+/// Returns the resolved (normalized) URL (preferring https), or null if both probes failed.
 /// If a scheme is already present, returns the normalized URL without probing.
 Future<String?> probeAndNormalizeSeerrUrl(String url) async {
   if (!hasHttpScheme(url)) {
     final httpsUrl = normalizeUrl('https://$url');
     final httpUrl = normalizeUrl('http://$url');
-    return await probeSeerrUrl(httpsUrl) ?? await probeSeerrUrl(httpUrl);
+    final results = await Future.wait([probeSeerrUrl(httpsUrl), probeSeerrUrl(httpUrl)]);
+    return results[0] ?? results[1];
   }
   return normalizeUrl(url);
 }
