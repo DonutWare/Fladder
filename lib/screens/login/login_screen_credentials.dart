@@ -403,7 +403,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
           FladderSnack.show(context.localized.seerrLoggedIn, context: context);
         }
       }
-      // No password (QC login) → skip auto-auth, user can authenticate via settings
+
     } catch (e) {
       if (context.mounted) {
         FladderSnack.show(
