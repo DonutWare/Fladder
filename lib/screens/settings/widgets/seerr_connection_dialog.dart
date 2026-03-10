@@ -61,6 +61,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   bool loading = true;
   bool processing = false;
   String? error;
+  String? _lastProbedUrl;
 
   bool get _hasPresetSeerrBaseUrl => FladderConfig.seerrBaseUrl?.isNotEmpty == true;
 
@@ -175,6 +176,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       return false;
     }
 
+    if (rawUrl == _lastProbedUrl) return true;
+
     final result = await probeAndNormalizeUrl(rawUrl, probeSeerrUrl);
     if (result == null) {
       if (showError && mounted) {
@@ -185,6 +188,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       return false;
     }
     final serverUrl = result;
+    _lastProbedUrl = serverUrl;
 
     if (!mounted) return false;
 
@@ -420,6 +424,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           textInputAction: TextInputAction.next,
           enabled: !_hasPresetSeerrBaseUrl,
           onSubmitted: (_) async {
+            _lastProbedUrl = null;
             await _applyServerUrl();
             await _refreshSession();
           },
