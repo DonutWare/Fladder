@@ -412,7 +412,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           enabled: !_hasPresetSeerrBaseUrl,
           onSubmitted: (_) async {
             await _applyServerUrl();
-            _refreshSession();
+            await _refreshSession();
           },
         ),
         const SizedBox(height: 8),
