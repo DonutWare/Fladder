@@ -97,7 +97,6 @@ final class _$SeerrChopperService extends SeerrChopperService {
   }
 
   @override
-      SeerrQuickConnectAuthBody body) {
   Future<Response<SeerrUserModel>> quickConnectAuthenticate(SeerrQuickConnectAuthBody body) {
     final Uri $url = Uri.parse('/api/v1/auth/jellyfin/quickconnect/authenticate');
     final $body = body;
