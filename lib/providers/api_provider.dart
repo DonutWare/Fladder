@@ -111,7 +111,10 @@ class JellyRequest implements Interceptor {
 }
 
 /// Whether [url] already carries an http or https scheme.
-bool hasHttpScheme(String url) => url.startsWith('http://') || url.startsWith('https://');
+bool hasHttpScheme(String url) {
+  final lower = url.toLowerCase();
+  return lower.startsWith('http://') || lower.startsWith('https://');
+}
 
 String normalizeUrl(String url) {
   final trimmed = url.trim();
