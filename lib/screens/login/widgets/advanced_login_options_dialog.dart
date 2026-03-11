@@ -95,11 +95,10 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
     try {
       final result = await probeAndNormalizeUrl(url, probeSeerrUrl);
       if (!mounted) return;
-      if (result != null) {
-        Navigator.of(context).pop(result);
+      if (result.probed) {
+        Navigator.of(context).pop(result.url);
       } else {
-        final fallback = normalizeUrl('https://$url');
-        seerrUrlController.text = fallback;
+        seerrUrlController.text = result.url;
         _warning = context.localized.seerrUrlSchemeWarning;
       }
     } finally {

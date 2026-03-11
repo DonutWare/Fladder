@@ -179,18 +179,17 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     }
 
     final result = await probeAndNormalizeUrl(rawUrl, probeSeerrUrl);
-    final serverUrl = result ?? normalizeUrl('https://$rawUrl');
 
     if (!mounted) return false;
 
-    if (result == null && !hasHttpScheme(rawUrl)) {
+    if (!result.probed) {
       warning = context.localized.seerrUrlSchemeWarning;
     }
 
-    if (serverUrl != rawUrl) {
-      serverController.text = serverUrl;
+    if (result.url != rawUrl) {
+      serverController.text = result.url;
     }
-    ref.read(userProvider.notifier).setSeerrServerUrl(serverUrl);
+    ref.read(userProvider.notifier).setSeerrServerUrl(result.url);
     return true;
   }
 

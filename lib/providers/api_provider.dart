@@ -156,17 +156,21 @@ Future<String?> probeSeerrUrl(String baseUrl) => _probeUrl(baseUrl, '/api/v1/sta
 /// Probes a Jellyfin server URL by hitting /System/Info/Public.
 Future<String?> probeJellyfinUrl(String baseUrl) => _probeUrl(baseUrl, '/System/Info/Public');
 
+/// Result of [probeAndNormalizeUrl]: the resolved URL and whether a probe succeeded.
+typedef ProbeResult = ({String url, bool probed});
+
 /// Tries https and http in parallel using [probeFn] if no scheme is provided.
-/// Returns the resolved (normalized) URL (preferring https), or null if both probes failed.
+/// Always returns a usable URL (falls back to https when both probes fail).
 /// If a scheme is already present, returns the normalized URL without probing.
-Future<String?> probeAndNormalizeUrl(String url, Future<String?> Function(String) probeFn) async {
+Future<ProbeResult> probeAndNormalizeUrl(String url, Future<String?> Function(String) probeFn) async {
   if (!hasHttpScheme(url)) {
     final httpsUrl = normalizeUrl('https://$url');
     final httpUrl = normalizeUrl('http://$url');
     final results = await Future.wait([probeFn(httpsUrl), probeFn(httpUrl)]);
-    return results[0] ?? results[1];
+    final probed = results[0] ?? results[1];
+    return (url: probed ?? httpsUrl, probed: probed != null);
   }
-  return normalizeUrl(url);
+  return (url: normalizeUrl(url), probed: true);
 }
 
 Uri? tryParseServerBaseUri(String? url) {

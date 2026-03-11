@@ -195,8 +195,8 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     }
     final trimmed = server.trim();
     if (trimmed.isEmpty) return;
-    final resolved = await probeAndNormalizeUrl(trimmed, probeJellyfinUrl);
-    await _fetchServerInfo(resolved ?? normalizeUrl('https://$trimmed'));
+    final result = await probeAndNormalizeUrl(trimmed, probeJellyfinUrl);
+    await _fetchServerInfo(result.url);
   }
 
   List<AccountModel> getSavedAccounts() {
