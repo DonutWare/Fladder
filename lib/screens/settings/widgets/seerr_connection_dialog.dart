@@ -192,6 +192,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       serverController.text = result.url;
     }
     ref.read(userProvider.notifier).setSeerrServerUrl(result.url);
+    if (mounted) setState(() {});
     return true;
   }
 
