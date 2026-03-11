@@ -140,7 +140,7 @@ String normalizeUrl(String url) {
 Future<String?> _probeUrl(String baseUrl, String endpoint) async {
   try {
     final response = await http.get(Uri.parse('$baseUrl$endpoint')).timeout(const Duration(seconds: 5));
-    if (response.statusCode >= 200 && response.statusCode < 400) {
+    if (response.statusCode > 0) {
       return baseUrl;
     }
   } catch (e) {
