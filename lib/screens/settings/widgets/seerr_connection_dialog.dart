@@ -171,12 +171,12 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     }
   }
 
-  Future<bool> _applyServerUrl({bool showError = true}) async {
+  Future<bool> _applyServerUrl() async {
     warning = null;
     error = null;
     final rawUrl = serverController.text.trim();
     if (rawUrl.isEmpty) {
-      if (showError && mounted) {
+      if (mounted) {
         setState(() {
           error = context.localized.seerrEnterServerUrlFirst;
         });
