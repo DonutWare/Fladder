@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -27,6 +28,7 @@ class _AdvancedLoginOptionsDialog extends ConsumerStatefulWidget {
 class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptionsDialog> {
   late final TextEditingController seerrUrlController = TextEditingController(text: widget.initialSeerrUrl ?? '');
   bool _probing = false;
+  String? _warning;
 
   @override
   void dispose() {
@@ -51,6 +53,7 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 16,
           children: [
+            if (_warning != null) SettingsMessageBox(_warning!, messageType: MessageType.warning),
             OutlinedTextField(
               controller: seerrUrlController,
               keyboardType: TextInputType.url,
@@ -85,11 +88,22 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
       Navigator.of(context).pop(url);
       return;
     }
-    setState(() => _probing = true);
+    setState(() {
+      _probing = true;
+      _warning = null;
+    });
     try {
       final result = await probeAndNormalizeUrl(url, probeSeerrUrl);
       if (!mounted) return;
-      Navigator.of(context).pop(result ?? normalizeUrl('https://$url'));
+      if (result != null) {
+        Navigator.of(context).pop(result);
+      } else if (hasHttpScheme(url)) {
+        Navigator.of(context).pop(normalizeUrl(url));
+      } else {
+        final fallback = normalizeUrl('https://$url');
+        seerrUrlController.text = fallback;
+        _warning = context.localized.seerrUrlSchemeWarning;
+      }
     } finally {
       if (mounted) setState(() => _probing = false);
     }
