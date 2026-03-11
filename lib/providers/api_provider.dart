@@ -140,12 +140,10 @@ String normalizeUrl(String url) {
 
 Future<String?> _probeUrl(String baseUrl, String endpoint) async {
   try {
-    final response = await http.get(Uri.parse('$baseUrl$endpoint')).timeout(const Duration(seconds: 5));
+    await http.get(Uri.parse('$baseUrl$endpoint')).timeout(const Duration(seconds: 5));
     // Any HTTP response (including 4xx/5xx) means the server is reachable at this URL.
     // This only acts as scheme detection, not as health check.
-    if (response.statusCode > 0) {
-      return baseUrl;
-    }
+    return baseUrl;
   } catch (e) {
     log('Probe failed for $baseUrl$endpoint: $e');
   }
