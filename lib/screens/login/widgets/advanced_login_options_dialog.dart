@@ -97,8 +97,6 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
       if (!mounted) return;
       if (result != null) {
         Navigator.of(context).pop(result);
-      } else if (hasHttpScheme(url)) {
-        Navigator.of(context).pop(normalizeUrl(url));
       } else {
         final fallback = normalizeUrl('https://$url');
         seerrUrlController.text = fallback;
