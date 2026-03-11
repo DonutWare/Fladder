@@ -86,9 +86,12 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
       return;
     }
     setState(() => _probing = true);
-    final result = await probeAndNormalizeUrl(url, probeSeerrUrl);
-    if (!mounted) return;
-    setState(() => _probing = false);
-    Navigator.of(context).pop(result ?? normalizeUrl('https://$url'));
+    try {
+      final result = await probeAndNormalizeUrl(url, probeSeerrUrl);
+      if (!mounted) return;
+      Navigator.of(context).pop(result ?? normalizeUrl('https://$url'));
+    } finally {
+      if (mounted) setState(() => _probing = false);
+    }
   }
 }
