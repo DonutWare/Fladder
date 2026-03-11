@@ -166,9 +166,11 @@ Future<ProbeResult> probeAndNormalizeUrl(String url, Future<String?> Function(St
   if (!hasHttpScheme(url)) {
     final httpsUrl = normalizeUrl('https://$url');
     final httpUrl = normalizeUrl('http://$url');
-    final results = await Future.wait([probeFn(httpsUrl), probeFn(httpUrl)]);
-    final probed = results[0] ?? results[1];
-    return (url: probed ?? httpsUrl, probed: probed != null);
+    final httpFuture = probeFn(httpUrl);
+    final httpsResult = await probeFn(httpsUrl);
+    if (httpsResult != null) return (url: httpsResult, probed: true);
+    final httpResult = await httpFuture;
+    return (url: httpResult ?? httpsUrl, probed: httpResult != null);
   }
   return (url: normalizeUrl(url), probed: true);
 }
