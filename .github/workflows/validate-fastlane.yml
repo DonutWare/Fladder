@@ -1,0 +1,18 @@
+name: Validate Fastlane Metadata
+
+on:
+  pull_request:
+    paths:
+      - "fastlane/**"
+  push:
+    branches:
+      - develop
+    paths:
+      - "fastlane/**"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: ashutoshgngwr/validate-fastlane-supply-metadata@v2.1.0
