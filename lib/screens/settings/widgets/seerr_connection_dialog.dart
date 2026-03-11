@@ -300,6 +300,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     setState(() {
       processing = true;
       error = null;
+      warning = null;
     });
 
     try {
