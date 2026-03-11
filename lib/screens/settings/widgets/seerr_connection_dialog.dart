@@ -19,7 +19,8 @@ import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 
-String _sanitizeErrorMessage(Object error) => error.toString().split(RegExp(r'\n#\d')).first.trim();
+final _stackTracePattern = RegExp(r'\n#\d');
+String _sanitizeErrorMessage(Object error) => error.toString().split(_stackTracePattern).first.trim();
 
 Future<void> showSeerrConnectionDialog(BuildContext context) {
   return showDialogAdaptive(
