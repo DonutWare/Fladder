@@ -143,7 +143,9 @@ Future<String?> _probeUrl(String baseUrl, String endpoint) async {
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return baseUrl;
     }
-  } catch (_) {}
+  } catch (e) {
+    log('Probe failed for $baseUrl$endpoint: $e');
+  }
   return null;
 }
 
