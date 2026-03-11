@@ -20,7 +20,11 @@ import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 final _stackTracePattern = RegExp(r'\n#\d');
-String _sanitizeErrorMessage(Object error) => error.toString().split(_stackTracePattern).first.trim();
+String _sanitizeErrorMessage(Object error) {
+  final str = error.toString();
+  final match = _stackTracePattern.firstMatch(str);
+  return match != null ? str.substring(0, match.start).trim() : str;
+}
 
 Future<void> showSeerrConnectionDialog(BuildContext context) {
   return showDialogAdaptive(
