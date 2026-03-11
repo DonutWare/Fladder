@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:chopper/chopper.dart';
+import 'package:http/http.dart' as http;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:punycoder/punycoder.dart';
@@ -134,17 +135,12 @@ String normalizeUrl(String url) {
 }
 
 Future<String?> _probeUrl(String baseUrl, String endpoint) async {
-  final client = HttpClient()..connectionTimeout = const Duration(seconds: 5);
   try {
-    final request = await client.getUrl(Uri.parse('$baseUrl$endpoint'));
-    final response = await request.close();
+    final response = await http.get(Uri.parse('$baseUrl$endpoint')).timeout(const Duration(seconds: 5));
     if (response.statusCode >= 200 && response.statusCode < 400) {
       return baseUrl;
     }
-  } catch (_) {
-  } finally {
-    client.close();
-  }
+  } catch (_) {}
   return null;
 }
 
