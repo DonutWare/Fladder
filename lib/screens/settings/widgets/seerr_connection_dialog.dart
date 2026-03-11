@@ -179,15 +179,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     if (rawUrl == _lastProbedUrl) return true;
 
     final result = await probeAndNormalizeUrl(rawUrl, probeSeerrUrl);
-    if (result == null) {
-      if (showError && mounted) {
-        setState(() {
-          error = context.localized.unableToConnectHost;
-        });
-      }
-      return false;
-    }
-    final serverUrl = result;
+    final serverUrl = result ?? normalizeUrl('https://$rawUrl');
     _lastProbedUrl = serverUrl;
 
     if (!mounted) return false;
