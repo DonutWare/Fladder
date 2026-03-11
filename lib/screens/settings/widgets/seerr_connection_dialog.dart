@@ -9,6 +9,7 @@ import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
@@ -61,6 +62,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   bool loading = true;
   bool processing = false;
   String? error;
+  String? warning;
   String? _lastProbedUrl;
 
   bool get _hasPresetSeerrBaseUrl => FladderConfig.seerrBaseUrl?.isNotEmpty == true;
@@ -184,6 +186,10 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
 
     if (!mounted) return false;
 
+    if (result == null && !hasHttpScheme(rawUrl)) {
+      warning = context.localized.seerrUrlSchemeWarning;
+    }
+
     if (serverUrl != rawUrl) {
       serverController.text = serverUrl;
     }
@@ -195,6 +201,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     setState(() {
       processing = true;
       error = null;
+      warning = null;
     });
     if (!await _applyServerUrl()) {
       if (mounted) setState(() => processing = false);
@@ -368,6 +375,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       spacing: 12,
       children: [
         if (error != null) _errorBanner(),
+        if (warning != null) SettingsMessageBox(warning!, messageType: MessageType.warning),
         if (serverUrl.isNotEmpty)
           Flexible(
             child: Text(
@@ -409,6 +417,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       spacing: 12,
       children: [
         if (error != null) _errorBanner(),
+        if (warning != null) SettingsMessageBox(warning!, messageType: MessageType.warning),
         FocusedOutlinedTextField(
           label: context.localized.seerrServer,
           controller: serverController,

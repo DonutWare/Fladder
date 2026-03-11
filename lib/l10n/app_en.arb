@@ -2154,6 +2154,8 @@
   "@seerrUserFetchFailed": {},
   "seerrEnterServerUrlFirst": "Enter a Seerr server URL first",
   "@seerrEnterServerUrlFirst": {},
+  "seerrUrlSchemeWarning": "Could not auto-detect URL scheme. Defaulting to https://. Prefix with http:// if your server doesn't use HTTPS.",
+  "@seerrUrlSchemeWarning": {},
   "seerrApiKeySaved": "API key saved",
   "@seerrApiKeySaved": {},
   "seerrLoggedIn": "Logged in to Seerr",
