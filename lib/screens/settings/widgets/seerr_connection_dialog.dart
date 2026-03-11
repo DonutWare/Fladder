@@ -316,7 +316,6 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _quickConnectInitiate() async {
-    if (_disableAuthActions) return;
     if (!_applyServerUrl()) return;
     setState(() {
       processing = true;
