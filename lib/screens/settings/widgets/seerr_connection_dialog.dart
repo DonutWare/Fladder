@@ -292,7 +292,10 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _logout() async {
-    await _applyServerUrl(showError: false);
+    final serverUrl = serverController.text.trim();
+    if (serverUrl.isNotEmpty) {
+      ref.read(userProvider.notifier).setSeerrServerUrl(serverUrl);
+    }
     setState(() {
       processing = true;
       error = null;
