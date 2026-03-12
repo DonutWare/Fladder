@@ -9,7 +9,7 @@ const DeviceProfile webProfile = DeviceProfile(
       container: 'mkv,webm',
       type: DlnaProfileType.video,
       videoCodec: 'h264,hevc,vp8,vp9,av1',
-      audioCodec: 'vorbis,opus,aac,eac3',
+      audioCodec: 'vorbis,opus,aac',
     ),
     DirectPlayProfile(
       container: 'mp4,m4v',
