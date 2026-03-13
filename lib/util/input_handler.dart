@@ -71,8 +71,6 @@ class _InputHandlerState<T> extends ConsumerState<InputHandler<T>> {
     super.initState();
     if (widget.listenRawKeyboard) {
       _registerHardwareKeyboard();
-    } else if (widget.autoFocus) {
-      focusNode.requestFocus();
     }
   }
 
@@ -98,7 +96,15 @@ class _InputHandlerState<T> extends ConsumerState<InputHandler<T>> {
             focusNode.requestFocus();
           }
         },
-        onKeyEvent: widget.onKeyEvent ?? (node, event) => _onKey(event),
+        onKeyEvent: (node, event) {
+          if (widget.onKeyEvent != null) {
+            final result = widget.onKeyEvent!(node, event);
+            if (result != KeyEventResult.ignored) {
+              return result;
+            }
+          }
+          return _onKey(event);
+        },
         child: widget.child,
       );
     }

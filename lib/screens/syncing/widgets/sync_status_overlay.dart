@@ -28,7 +28,7 @@ class SyncStatusOverlay extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator.adaptive(
+                  CircularProgressIndicator(
                     strokeCap: StrokeCap.round,
                     valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.error),
                   ),
@@ -50,7 +50,7 @@ class SyncStatusOverlay extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator.adaptive(
+                    CircularProgressIndicator(
                       strokeCap: StrokeCap.round,
                       valueColor: AlwaysStoppedAnimation(Theme.of(context).colorScheme.error),
                     ),

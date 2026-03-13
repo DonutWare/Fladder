@@ -222,6 +222,9 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
   }
 
   String? _findSeerrUrlForServer(String? serverId) {
+    if (FladderConfig.seerrBaseUrl?.isNotEmpty == true) {
+      return FladderConfig.seerrBaseUrl;
+    }
     if (serverId == null || serverId.isEmpty) return null;
     final matches = state.accounts.where(
       (account) =>

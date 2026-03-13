@@ -18,12 +18,12 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
-import 'package:fladder/util/localization_helper.dart';
 
 const Duration _kAnimationDuration = Duration(milliseconds: 200);
 
@@ -111,7 +111,7 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
               if (hasFocus) {
                 await Future.delayed(animationDelay);
                 context.ensureVisible(
-                  alignment: 0.35,
+                  alignment: 0.45,
                 );
               }
               setState(() => _hasFocus = hasFocus);

@@ -210,6 +210,8 @@ internal fun ExoPlayer(
         VideoPlayerObject.implementation.init(exoPlayer)
         onDispose {
             videoHost.videoPlayerControls?.onStop(callback = {})
+            VideoPlayerObject.implementation.playbackData.value = null
+            VideoPlayerObject.tvGuide.value = null
             VideoPlayerObject.implementation.init(null)
             exoPlayer.release()
         }

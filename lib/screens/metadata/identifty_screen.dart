@@ -195,7 +195,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> {
                     ? SizedBox(
                         width: 21,
                         height: 21,
-                        child: CircularProgressIndicator.adaptive(
+                        child: CircularProgressIndicator(
                           backgroundColor: Theme.of(context).colorScheme.onPrimary,
                           strokeCap: StrokeCap.round,
                         ),
@@ -213,7 +213,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> {
     if (posters.isEmpty) {
       return Center(
         child: processing
-            ? const CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round)
+            ? const CircularProgressIndicator(strokeCap: StrokeCap.round)
             : Text(context.localized.noResults),
       );
     }

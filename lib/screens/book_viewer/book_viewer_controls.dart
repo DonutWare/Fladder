@@ -362,7 +362,7 @@ class _BookViewerControlsState extends ConsumerState<BookViewerControls> {
                         ),
                         const SizedBox(width: 16),
                       },
-                      const CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
+                      const CircularProgressIndicator(strokeCap: StrokeCap.round),
                     ],
                   ),
                 ),

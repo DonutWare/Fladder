@@ -28,7 +28,7 @@ class DetailsScreen extends ConsumerStatefulWidget {
 class _DetailsScreenState extends ConsumerState<DetailsScreen> {
   late Widget currentWidget = const Center(
     key: Key("progress-indicator"),
-    child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
+    child: CircularProgressIndicator(strokeCap: StrokeCap.round),
   );
 
   @override

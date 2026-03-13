@@ -153,14 +153,19 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       for (var file in files) {
         if (file is File) {
           final fileName = file.path.split(Platform.pathSeparator).last;
-          final fileSize = await file.length();
-          if (fileName.startsWith('com.bbflight.background_downloader') && fileSize != 0) {
-            try {
-              await file.delete();
-              log('Deleted temporary file: $fileName from ${dir.path}');
-            } catch (e) {
-              log('Failed to delete file $fileName: $e');
+          try {
+            final fileSize = await file.length();
+            if (fileName.startsWith('com.bbflight.background_downloader') && fileSize != 0) {
+              try {
+                await file.delete();
+                log('Deleted temporary file: $fileName from ${dir.path}');
+              } catch (e) {
+                log('Failed to delete file $fileName: $e');
+              }
             }
+          } on PathAccessException {
+            // Skip files that are inaccessible
+            continue;
           }
         }
       }

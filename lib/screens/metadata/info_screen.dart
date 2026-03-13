@@ -121,7 +121,7 @@ class ItemInfoScreenState extends ConsumerState<ItemInfoScreen> {
                       AnimatedOpacity(
                         opacity: info.loading ? 1 : 0,
                         duration: const Duration(milliseconds: 250),
-                        child: const Center(child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round)),
+                        child: const Center(child: CircularProgressIndicator(strokeCap: StrokeCap.round)),
                       )
                     ],
                   ),

@@ -83,6 +83,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool enableSpeedBoost,
     @Default(2.0) double speedBoostRate,
     @Default(true) bool enableDoubleTapSeek,
+    @Default(false) bool enableAdvancedVideoOptions,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => switch (defaultTargetPlatform) {

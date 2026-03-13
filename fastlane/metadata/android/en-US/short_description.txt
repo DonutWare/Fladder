@@ -1,0 +1,1 @@
+A cross-platform Jellyfin client for streaming your personal media library

@@ -1,10 +1,7 @@
 {
     "about": "Про",
-    "@about": {},
     "accept": "Прийняти",
-    "@accept": {},
     "active": "Активне",
-    "@active": {},
     "actor": "{count, plural, other{Актори} one{Актор}}",
     "@actor": {
         "description": "actor",
@@ -16,25 +13,15 @@
         }
     },
     "addToCollection": "Додати до колекції",
-    "@addToCollection": {},
     "addAsFavorite": "Додати до улюблених",
-    "@addAsFavorite": {},
     "advanced": "Розширені",
-    "@advanced": {},
     "all": "Усе",
-    "@all": {},
     "appLockBiometrics": "Біометрія",
-    "@appLockBiometrics": {},
     "ascending": "За зростанням",
-    "@ascending": {},
     "audio": "{count, plural, one{Аудіо} other{Аудіо}}",
-    "@audio": {},
     "bold": "Жирний",
-    "@bold": {},
     "cancel": "Скасувати",
-    "@cancel": {},
     "change": "Змінити",
-    "@change": {},
     "chapter": "{count, plural, other{Розділи} one{Розділ}}",
     "@chapter": {
         "description": "chapter",
@@ -46,27 +33,16 @@
         }
     },
     "clear": "Очистити",
-    "@clear": {},
     "clearAllSettings": "Очистити всі налаштування",
-    "@clearAllSettings": {},
     "clearAllSettingsQuestion": "Очистити всі налаштування?",
-    "@clearAllSettingsQuestion": {},
     "clearChanges": "Очистити зміни",
-    "@clearChanges": {},
     "clearSelection": "Очистити вибір",
-    "@clearSelection": {},
     "close": "Закрити",
-    "@close": {},
     "code": "Код",
-    "@code": {},
     "collectionFolder": "{count, plural, one{Папка колекції} other{Папки колекцій}}",
-    "@collectionFolder": {},
     "color": "Колір",
-    "@color": {},
     "combined": "Комбіновано",
-    "@combined": {},
     "communityRating": "Рейтинг спільноти",
-    "@communityRating": {},
     "continuePage": "Продовжити - сторінка {page}",
     "@continuePage": {
         "description": "Continue - page 1",
@@ -77,23 +53,14 @@
         }
     },
     "controls": "Керування",
-    "@controls": {},
     "dashboardContinue": "Продовжити",
-    "@dashboardContinue": {},
     "dashboardContinueListening": "Продовжити слухати",
-    "@dashboardContinueListening": {},
     "dashboard": "Інформаційна панель",
-    "@dashboard": {},
     "dashboardNextUp": "Наступне",
-    "@dashboardNextUp": {},
     "dateAdded": "Дата додавання",
-    "@dateAdded": {},
     "datePlayed": "Дата відтворення",
-    "@datePlayed": {},
-    "days": "Дні",
-    "@days": {},
+    "days": "{count, plural, one{День} other{Дні}}",
     "delete": "Видалити",
-    "@delete": {},
     "deleteItem": "Видалити {item}?",
     "@deleteItem": {
         "description": "deleteItem",
@@ -104,7 +71,6 @@
         }
     },
     "descending": "За спаданням",
-    "@descending": {},
     "director": "{count, plural, other{Режисери} one{Режисер}}",
     "@director": {
         "description": "director",
@@ -116,21 +82,13 @@
         }
     },
     "disableFilters": "Вимкнути фільтри",
-    "@disableFilters": {},
     "disabled": "Вимкнено",
-    "@disabled": {},
     "discovered": "Виявлено",
-    "@discovered": {},
     "displayLanguage": "Мова відображення",
-    "@displayLanguage": {},
     "downloadsClearTitle": "Очистити синхронізовані дані",
-    "@downloadsClearTitle": {},
     "downloadsTitle": "Завантаження",
-    "@downloadsTitle": {},
     "editMetadata": "Редагувати метадані",
-    "@editMetadata": {},
     "enabled": "Увімкнено",
-    "@enabled": {},
     "endsAt": "завершиться о {date}",
     "@endsAt": {
         "description": "endsAt",
@@ -142,21 +100,13 @@
         }
     },
     "error": "Помилка",
-    "@error": {},
     "favorite": "Улюблене",
-    "@favorite": {},
     "favorites": "Улюблені",
-    "@favorites": {},
     "fetchingLibrary": "Отримання елементів бібліотеки…",
-    "@fetchingLibrary": {},
     "folders": "Теки",
-    "@folders": {},
     "fontColor": "Колір шрифту",
-    "@fontColor": {},
     "fontSize": "Розмір шрифту",
-    "@fontSize": {},
     "forceRefresh": "Обновити примусово",
-    "@forceRefresh": {},
     "genre": "{count, plural, other{Жанри} one{Жанр}}",
     "@genre": {
         "description": "genre",
@@ -168,19 +118,12 @@
         }
     },
     "goTo": "Перейти до",
-    "@goTo": {},
     "groupBy": "Групувати за",
-    "@groupBy": {},
     "hide": "Приховати",
-    "@hide": {},
     "incorrectPinTryAgain": "Неправильний пін-код. Спробуйте ще раз.",
-    "@incorrectPinTryAgain": {},
     "info": "Інформація",
-    "@info": {},
     "invalidUrl": "Невірна URL-адреса",
-    "@invalidUrl": {},
     "invalidUrlDesc": "URL-адреса повинна починатися з http(s)://",
-    "@invalidUrlDesc": {},
     "itemCount": "Кількість елементів: {count}",
     "@itemCount": {
         "description": "Item count",
@@ -191,15 +134,10 @@
         }
     },
     "libraryPageSizeDesc": "Встановіть кількість, яка буде завантажена за один раз. 0 - вимикає пагінацію.",
-    "@libraryPageSizeDesc": {},
     "libraryPageSizeTitle": "Розмір сторінки бібліотеки",
-    "@libraryPageSizeTitle": {},
     "loggedIn": "Увійшов",
-    "@loggedIn": {},
     "login": "Увійти в систему",
-    "@login": {},
     "logout": "Вийти з системи",
-    "@logout": {},
     "logoutUserPopupContent": "Це призведе до виходу {userName} і видалення користувача з програми.\nВам потрібно буде знову увійти на {serverName}.",
     "@logoutUserPopupContent": {
         "description": "Pop-up for loging out the user description",
@@ -222,25 +160,15 @@
         }
     },
     "loop": "Цикл",
-    "@loop": {},
     "masonry": "Кладка",
-    "@masonry": {},
     "mediaTypeBase": "Базовий тип",
-    "@mediaTypeBase": {},
-    "mediaTypeBook": "Книга",
-    "@mediaTypeBook": {},
-    "mediaTypeFolder": "Тека",
-    "@mediaTypeFolder": {},
-    "mediaTypeMovie": "Фільм",
-    "@mediaTypeMovie": {},
-    "mediaTypePerson": "Людина",
-    "@mediaTypePerson": {},
-    "mediaTypePlaylist": "Плейлист",
-    "@mediaTypePlaylist": {},
-    "mediaTypeSeason": "Сезон",
-    "@mediaTypeSeason": {},
-    "mediaTypeSeries": "Серіал",
-    "@mediaTypeSeries": {},
+    "mediaTypeBook": "{count, plural, one{Книга} other{Книги}}",
+    "mediaTypeFolder": "{count, plural, one{Тека} other{Теки}}",
+    "mediaTypeMovie": "{count, plural, one{Фільм} other{Фільми}}",
+    "mediaTypePerson": "{count, plural, one{Особа} other{Люди}}",
+    "mediaTypePlaylist": "{count, plural, one{Список відтворення} other{Списки відтворення}}",
+    "mediaTypeSeason": "{count, plural, one{Сезон} other{Сезони}}",
+    "mediaTypeSeries": "{count, plural, one{Серіал} other{Серіали}}",
     "metaDataSavedFor": "Метадані збережено для {item}",
     "@metaDataSavedFor": {
         "description": "metaDataSavedFor",
@@ -251,11 +179,8 @@
         }
     },
     "metadataRefreshDefault": "Пошук нових та оновлених файлів",
-    "@metadataRefreshDefault": {},
     "metadataRefreshFull": "Замінити всі метадані",
-    "@metadataRefreshFull": {},
     "metadataRefreshValidation": "Пошук відсутніх метаданих",
-    "@metadataRefreshValidation": {},
     "minutes": "{count, plural, other{Хвилини} one{Хвилина} few{Хвилини} many{Хвилин}}",
     "@minutes": {
         "description": "minute",
@@ -276,51 +201,28 @@
         }
     },
     "moreOptions": "Більше параметрів",
-    "@moreOptions": {},
     "name": "Назва",
-    "@name": {},
     "navigationDashboard": "Інформаційна панель",
-    "@navigationDashboard": {},
     "navigationFavorites": "Улюблене",
-    "@navigationFavorites": {},
     "nextUp": "Наступне",
-    "@nextUp": {},
     "noItemsSynced": "Не синхронізовано жодного елемента",
-    "@noItemsSynced": {},
     "noRating": "Немає рейтингу",
-    "@noRating": {},
     "openParent": "Відкрити вміст",
-    "@openParent": {},
     "openShow": "Відкрити серіал",
-    "@openShow": {},
     "openWebLink": "Відкрити веб-посилання",
-    "@openWebLink": {},
     "other": "Інше",
-    "@other": {},
     "overview": "Огляд",
-    "@overview": {},
     "parentalRating": "Батьківський рейтинг",
-    "@parentalRating": {},
     "password": "Пароль",
-    "@password": {},
     "pathClearTitle": "Очистити шлях завантаження",
-    "@pathClearTitle": {},
     "pathEditSelect": "Вибрати місце завантаження",
-    "@pathEditSelect": {},
     "pathEditTitle": "Змінити розташування",
-    "@pathEditTitle": {},
     "playLabel": "Відтворити",
-    "@playLabel": {},
     "playVideos": "Відтворити відео",
-    "@playVideos": {},
     "played": "Відтворено",
-    "@played": {},
     "quickConnectInputACode": "Введіть код",
-    "@quickConnectInputACode": {},
     "quickConnectWrongCode": "Невірний код",
-    "@quickConnectWrongCode": {},
     "random": "Випадково",
-    "@random": {},
     "rating": "{count, plural, other{Рейтинги} one{Рейтинг}}",
     "@rating": {
         "description": "rating",
@@ -332,7 +234,6 @@
         }
     },
     "reWatch": "Передивитися",
-    "@reWatch": {},
     "read": "Читати {item}",
     "@read": {
         "description": "read",
@@ -343,29 +244,17 @@
         }
     },
     "removeAsFavorite": "Видалити з улюблених",
-    "@removeAsFavorite": {},
     "refreshMetadata": "Оновити метадані",
-    "@refreshMetadata": {},
     "replaceAllImages": "Замінити всі зображення",
-    "@replaceAllImages": {},
     "replaceExistingImages": "Замінити існуючі зображення",
-    "@replaceExistingImages": {},
     "restart": "Перезапустити",
-    "@restart": {},
     "result": "Результат",
-    "@result": {},
     "resumable": "Відновлюване",
-    "@resumable": {},
     "retry": "Повторити спробу",
-    "@retry": {},
     "runTime": "Тривалість",
-    "@runTime": {},
     "saved": "Збережено",
-    "@saved": {},
     "scanBiometricHint": "Підтвердити особу",
-    "@scanBiometricHint": {},
     "scanLibrary": "Сканувати бібліотеку",
-    "@scanLibrary": {},
     "scanningName": "Сканування - {name}…",
     "@scanningName": {
         "placeholders": {
@@ -375,9 +264,7 @@
         }
     },
     "scrollToTop": "Прокрутити догори",
-    "@scrollToTop": {},
     "search": "Шукати",
-    "@search": {},
     "season": "{count, plural, other{Сезони} one{Сезон} }",
     "@season": {
         "description": "season",
@@ -389,7 +276,6 @@
         }
     },
     "selectAll": "Вибрати все",
-    "@selectAll": {},
     "selectedWith": "Вибране {info}",
     "@selectedWith": {
         "description": "selected",
@@ -400,76 +286,43 @@
         }
     },
     "separate": "Окремо",
-    "@separate": {},
     "server": "Сервер",
-    "@server": {},
     "set": "Встановити",
     "@set": {
         "description": "Use for setting a certain value",
         "context": "Set 'time'"
     },
     "settings": "Налаштування",
-    "@settings": {},
     "settingsBlurEpisodesTitle": "Розмити наступні серії",
-    "@settingsBlurEpisodesTitle": {},
     "settingsHomeCarouselDesc": "Показує карусель на екрані інформаційної панелі",
-    "@settingsHomeCarouselDesc": {},
     "settingsClientDesc": "Загальні, Тайм-аут, Макет, Тема",
-    "@settingsClientDesc": {},
     "settingsClientTitle": "Fladder",
-    "@settingsClientTitle": {},
     "settingsContinue": "Продовжити",
-    "@settingsContinue": {},
     "settingsEnableOsMediaControls": "Увімкнути засоби керування мультимедіа в ОС",
-    "@settingsEnableOsMediaControls": {},
     "settingsHomeNextUpTitle": "Постери для \"Наступне\"",
-    "@settingsHomeNextUpTitle": {},
     "settingsNextUpCutoffDays": "Ліміт днів для \"Наступне\"",
-    "@settingsNextUpCutoffDays": {},
     "settingsPlayerCustomSubtitlesDesc": "Налаштувати розмір, колір, позицію, контур",
-    "@settingsPlayerCustomSubtitlesDesc": {},
     "settingsPlayerNativeLibassAccelTitle": "Нативні libass субтитри",
-    "@settingsPlayerNativeLibassAccelTitle": {},
     "settingsPlayerTitle": "Програвач",
-    "@settingsPlayerTitle": {},
     "settingsPlayerVideoHWAccelTitle": "Апаратне прискорення",
-    "@settingsPlayerVideoHWAccelTitle": {},
     "settingsPosterPinch": "Масштабування постерів пальцями",
-    "@settingsPosterPinch": {},
     "settingsPosterSize": "Розмір постера",
-    "@settingsPosterSize": {},
     "settingsProfileTitle": "Профіль",
-    "@settingsProfileTitle": {},
     "settingsQuickConnectTitle": "Швидке підключення",
-    "@settingsQuickConnectTitle": {},
     "settingsSecurity": "Безпека",
-    "@settingsSecurity": {},
     "showAlbum": "Показати альбом",
-    "@showAlbum": {},
     "shuffleVideos": "Перемішати відео",
-    "@shuffleVideos": {},
     "somethingWentWrong": "Щось пішло не так",
-    "@somethingWentWrong": {},
     "somethingWentWrongPasswordCheck": "Щось пішло не так. Перевір свій пароль.",
-    "@somethingWentWrongPasswordCheck": {},
     "sortBy": "Сортувати за",
-    "@sortBy": {},
     "sortName": "Назва",
-    "@sortName": {},
     "subtitles": "Субтитри",
-    "@subtitles": {},
     "switchUser": "Змінити користувача",
-    "@switchUser": {},
     "sync": "Синхронізувати",
-    "@sync": {},
     "syncDeleteItemTitle": "Видалити синхронізований елемент",
-    "@syncDeleteItemTitle": {},
     "syncRemoveDataTitle": "Видалити синхронізовані дані?",
-    "@syncRemoveDataTitle": {},
     "syncedItems": "Синхронізовані елементи",
-    "@syncedItems": {},
     "theme": "Тема",
-    "@theme": {},
     "timeAndAnnotation": "{minutes} і {seconds}",
     "@timeAndAnnotation": {
         "description": "timeAndAnnotation",
@@ -483,29 +336,17 @@
         }
     },
     "timeOut": "Тайм-аут",
-    "@timeOut": {},
     "unableToConnectHost": "Не вдається з'єднатися з хостом",
-    "@unableToConnectHost": {},
     "unableToReverseAction": "Цю дію не можна скасувати. Це призведе до видалення всіх налаштувань.",
-    "@unableToReverseAction": {},
     "unknown": "Невідомо",
-    "@unknown": {},
-    "video": "Відео",
-    "@video": {},
+    "video": "{count, plural, one{Відео} other{Відео}}",
     "videoScalingCover": "Покрити",
-    "@videoScalingCover": {},
     "videoScalingFill": "Заповнити",
-    "@videoScalingFill": {},
     "videoScalingFillScreenDesc": "Заповнити навігацію та рядок стану",
-    "@videoScalingFillScreenDesc": {},
     "videoScalingFillScreenNotif": "Заповнення екрану перезаписує відповідність відео, при горизонтальному обертанні",
-    "@videoScalingFillScreenNotif": {},
     "videoScalingFitHeight": "Підігнати по висоті",
-    "@videoScalingFitHeight": {},
     "videoScalingFitWidth": "Підігнати по ширині",
-    "@videoScalingFitWidth": {},
-    "videoScalingScaleDown": "Зменшення масштабу",
-    "@videoScalingScaleDown": {},
+    "videoScalingScaleDown": "Ваги вниз",
     "writer": "{count, plural, other{Сценаристи} one{Сценарист}}",
     "@writer": {
         "description": "writer",
@@ -527,13 +368,9 @@
         }
     },
     "addToPlaylist": "Додати до плейлиста",
-    "@addToPlaylist": {},
     "amoledBlack": "Чорний амолед",
-    "@amoledBlack": {},
     "appLockAutoLogin": "Автоматичний вхід",
-    "@appLockAutoLogin": {},
     "appLockPasscode": "Код доступу",
-    "@appLockPasscode": {},
     "appLockTitle": "Встановити метод входу для {userName}",
     "@appLockTitle": {
         "description": "Pop-up to pick a login method",
@@ -544,17 +381,11 @@
         }
     },
     "autoPlay": "Автовідтворення",
-    "@autoPlay": {},
     "backgroundBlur": "Розмиття фону",
-    "@backgroundBlur": {},
     "backgroundOpacity": "Прозорість фону",
-    "@backgroundOpacity": {},
     "biometricsFailedCheckAgain": "Біометрія не пройшла. Перевірте налаштування та спробуйте ще раз.",
-    "@biometricsFailedCheckAgain": {},
     "dashboardContinueReading": "Продовжити читати",
-    "@dashboardContinueReading": {},
     "dashboardContinueWatching": "Продовжити дивитися",
-    "@dashboardContinueWatching": {},
     "dashboardRecentlyAdded": "Нещодавно додане в {name}",
     "@dashboardRecentlyAdded": {
         "description": "Recently added on home screen",
@@ -565,7 +396,6 @@
         }
     },
     "dateLastContentAdded": "Дата останнього додавання вмісту",
-    "@dateLastContentAdded": {},
     "deleteFileFromSystem": "Видалення цього елемента {item} призведе до видалення його з файлової системи та медіатеки. Ви впевнені, що хочете продовжити?",
     "@deleteFileFromSystem": {
         "description": "Delete file from system",
@@ -576,15 +406,10 @@
         }
     },
     "downloadsClearDesc": "Видалити всі синхронізовані дані, очистивши всі дані для кожного синхронізованого користувача?",
-    "@downloadsClearDesc": {},
     "downloadsPath": "Шлях",
-    "@downloadsPath": {},
     "dynamicText": "Динамічний",
-    "@dynamicText": {},
     "empty": "Порожньо",
-    "@empty": {},
     "downloadsSyncedData": "Синхронізовані дані",
-    "@downloadsSyncedData": {},
     "episode": "{count, plural, other{Серії} one{Серія} }",
     "@episode": {
         "description": "episode",
@@ -596,7 +421,6 @@
         }
     },
     "failedToLoadImage": "Не вдалося завантажити зображення",
-    "@failedToLoadImage": {},
     "filter": "{count, plural, other{Фільтри} one{Фільтр}}",
     "@filter": {
         "description": "filter",
@@ -608,19 +432,12 @@
         }
     },
     "grid": "Сітка",
-    "@grid": {},
     "group": "Група",
-    "@group": {},
     "heightOffset": "Зміщення по висоті",
-    "@heightOffset": {},
     "hideEmpty": "Приховати порожнє",
-    "@hideEmpty": {},
     "home": "Головна",
-    "@home": {},
     "identify": "Ідентифікувати",
-    "@identify": {},
     "immediately": "Негайно",
-    "@immediately": {},
     "label": "{count, plural, other{Ярлики} one{Ярлик}}",
     "@label": {
         "description": "label",
@@ -642,57 +459,31 @@
         }
     },
     "libraryFetchNoItemsFound": "Не знайдено жодного елемента. Спробуйте інші налаштування.",
-    "@libraryFetchNoItemsFound": {},
     "light": "Худий",
-    "@light": {},
     "list": "Список",
-    "@list": {},
     "lockscreen": "Екран блокування",
-    "@lockscreen": {},
     "markAsUnwatched": "Відмітити як непереглянуте",
-    "@markAsUnwatched": {},
     "markAsWatched": "Відмітити як переглянуте",
-    "@markAsWatched": {},
-    "mediaTypeBoxset": "Бокс-сет",
-    "@mediaTypeBoxset": {},
-    "mediaTypeEpisode": "Серія",
-    "@mediaTypeEpisode": {},
-    "mediaTypePhoto": "Фото",
-    "@mediaTypePhoto": {},
-    "mediaTypePhotoAlbum": "Фотоальбом",
-    "@mediaTypePhotoAlbum": {},
+    "mediaTypeBoxset": "{count, plural, one{Бокс-сет} other{Бокс-сети}}",
+    "mediaTypeEpisode": "{count, plural, one{Серія} other{Серії}}",
+    "mediaTypePhoto": "{count, plural, one{Фото} other{Фотографії}}",
+    "mediaTypePhotoAlbum": "{count, plural, one{Фотоальбом} other{Фотоальбоми}}",
     "settingsPosterSlider": "Показати повзунок масштабу",
-    "@settingsPosterSlider": {},
-    "settingsProfileDesc": "Екран блокування, локальна URL-адреса",
-    "@settingsProfileDesc": {},
+    "settingsProfileDesc": "Lockscreen, локальна URL",
     "shadow": "Тінь",
-    "@shadow": {},
     "settingsShowScaleSlider": "Показати повзунок розміру постера",
-    "@settingsShowScaleSlider": {},
     "showEmpty": "Показати порожнє",
-    "@showEmpty": {},
     "settingsVisual": "Візуальне",
-    "@settingsVisual": {},
     "themeModeSystem": "Системний",
-    "@themeModeSystem": {},
     "showDetails": "Показати деталі",
-    "@showDetails": {},
     "mode": "Стиль",
-    "@mode": {},
     "shuffleGallery": "Перемішати галерею",
-    "@shuffleGallery": {},
     "themeModeDark": "Темний",
-    "@themeModeDark": {},
-    "musicAlbum": "Альбом",
-    "@musicAlbum": {},
+    "musicAlbum": "{count, plural, one{Альбом} other{Альбоми}}",
     "sortOrder": "Порядок сортування",
-    "@sortOrder": {},
     "themeModeLight": "Світлий",
-    "@themeModeLight": {},
     "start": "Початок",
-    "@start": {},
     "mouseDragSupport": "Перетягування за допомогою миші",
-    "@mouseDragSupport": {},
     "studio": "{count, plural, other{Студії} one{Студія}}",
     "@studio": {
         "description": "studio",
@@ -704,37 +495,21 @@
         }
     },
     "navigation": "Навігація",
-    "@navigation": {},
     "subtitleConfigurator": "Налаштування субтитрів",
-    "@subtitleConfigurator": {},
     "refreshPopupContentMetadata": "Метадані оновлюються на основі налаштувань та інтернет-сервісів, увімкнених на інформаційній панелі.",
-    "@refreshPopupContentMetadata": {},
     "subtitleConfiguratorPlaceHolder": "Це текст-заповнювач, тут нема на що дивитися.",
-    "@subtitleConfiguratorPlaceHolder": {},
     "settingsHomeCarouselTitle": "Карусель інформаційної панелі",
-    "@settingsHomeCarouselTitle": {},
     "settingsHomeNextUpDesc": "Тип постерів, що відображаються на екрані інформаційної панелі",
-    "@settingsHomeNextUpDesc": {},
     "navigationSync": "Синхронізоване",
-    "@navigationSync": {},
     "never": "Ніколи",
-    "@never": {},
     "noServersFound": "Не знайдено нових серверів",
-    "@noServersFound": {},
     "noItemsToShow": "Немає елементів для показу",
-    "@noItemsToShow": {},
     "noResults": "Немає результатів",
-    "@noResults": {},
     "noSuggestionsFound": "Не знайдено жодної пропозиції",
-    "@noSuggestionsFound": {},
     "none": "Нічого",
-    "@none": {},
     "normal": "Нормально",
-    "@normal": {},
     "notPartOfAlbum": "Не входить до альбому",
-    "@notPartOfAlbum": {},
     "options": "Параметри",
-    "@options": {},
     "page": "Сторінка {index}",
     "@page": {
         "description": "page",
@@ -745,13 +520,9 @@
         }
     },
     "outlineSize": "Розмір контуру",
-    "@outlineSize": {},
     "outlineColor": "Колір контуру",
-    "@outlineColor": {},
     "quickConnectTitle": "Швидке підключення",
-    "@quickConnectTitle": {},
     "pathEditDesc": "Це місце встановлюється для всіх користувачів, будь-які синхронізовані дані більше не будуть доступні. Вони залишаться у вашому сховищі.",
-    "@pathEditDesc": {},
     "play": "Відтворити {item}",
     "@play": {
         "description": "Play with",
@@ -762,7 +533,6 @@
         }
     },
     "playCount": "Кількість відтворень",
-    "@playCount": {},
     "playFrom": "Відтворити від {name}",
     "@playFrom": {
         "description": "playFrom",
@@ -782,11 +552,8 @@
         }
     },
     "removeFromPlaylist": "Видалити з плейлиста",
-    "@removeFromPlaylist": {},
     "quickConnectAction": "Введіть код швидкого підключення для",
-    "@quickConnectAction": {},
     "related": "Пов'язане",
-    "@related": {},
     "readFromStart": "Читати {item} з початку",
     "@readFromStart": {
         "description": "Read book from start",
@@ -797,9 +564,7 @@
         }
     },
     "refresh": "Оновити",
-    "@refresh": {},
     "removeFromCollection": "Видалити з колекції",
-    "@removeFromCollection": {},
     "resume": "Відновити {item}",
     "@resume": {
         "description": "resume",
@@ -810,9 +575,7 @@
         }
     },
     "recursive": "Рекурсивно",
-    "@recursive": {},
     "releaseDate": "Дата виходу",
-    "@releaseDate": {},
     "refreshPopup": "Оновити - {name}",
     "@refreshPopup": {
         "placeholders": {
@@ -822,9 +585,7 @@
         }
     },
     "retrievePublicListOfUsers": "Отримати публічний список користувачів",
-    "@retrievePublicListOfUsers": {},
     "save": "Зберегти",
-    "@save": {},
     "scanYourFingerprintToAuthenticate": "Відскануйте відбиток пальця для автентифікації {user}",
     "@scanYourFingerprintToAuthenticate": {
         "placeholders": {
@@ -844,11 +605,8 @@
         }
     },
     "selectTime": "Виберіть час",
-    "@selectTime": {},
     "selectViewType": "Вибрати тип перегляду",
-    "@selectViewType": {},
     "selected": "Вибране",
-    "@selected": {},
     "setIdentityTo": "Встановити ідентичність на {name}",
     "@setIdentityTo": {
         "description": "setIdentityTo",
@@ -859,23 +617,14 @@
         }
     },
     "settingSecurityApplockTitle": "Блокування програми",
-    "@settingSecurityApplockTitle": {},
     "settingsBlurEpisodesDesc": "Розмити всі майбутні серії",
-    "@settingsBlurEpisodesDesc": {},
     "settingsBlurredPlaceholderDesc": "Показувати розмитий фон при завантаженні постерів",
-    "@settingsBlurredPlaceholderDesc": {},
     "settingsBlurredPlaceholderTitle": "Розмитий заповнювач",
-    "@settingsBlurredPlaceholderTitle": {},
     "settingsPlayerDesc": "Співвідношення сторін, розширене",
-    "@settingsPlayerDesc": {},
     "settingsPlayerCustomSubtitlesTitle": "Налаштувати субтитри",
-    "@settingsPlayerCustomSubtitlesTitle": {},
     "settingsPlayerMobileWarning": "Увімкнення апаратного прискорення та власних субтитрів libass на Android може призвести до того, що деякі субтитри не відображатимуться.",
-    "@settingsPlayerMobileWarning": {},
     "settingsPlayerNativeLibassAccelDesc": "Використовувати обробник субтитрів відеопрогравача libass",
-    "@settingsPlayerNativeLibassAccelDesc": {},
     "settingsPlayerVideoHWAccelDesc": "Використовувати GPU для рендерингу відео (рекомендовано)",
-    "@settingsPlayerVideoHWAccelDesc": {},
     "syncDeleteItemDesc": "Видалити всі синхронізовані дані для {item}?",
     "@syncDeleteItemDesc": {
         "description": "Sync delete item pop-up window",
@@ -886,13 +635,9 @@
         }
     },
     "syncDeletePopupPermanent": "Ця дія буде безповоротною і вилучить усі локально синхронізовані файли",
-    "@syncDeletePopupPermanent": {},
     "syncDetails": "Деталі синхронізації",
-    "@syncDetails": {},
     "syncOpenParent": "Відкрити вміст",
-    "@syncOpenParent": {},
     "syncRemoveDataDesc": "Видалити синхронізовані відеодані? Це незворотній процес, і вам потрібно буде повторно синхронізувати файли",
-    "@syncRemoveDataDesc": {},
     "tag": "{count, plural, one{Тег} other{Теги}}",
     "@tag": {
         "description": "tag",
@@ -904,7 +649,6 @@
         }
     },
     "themeColor": "Колір теми",
-    "@themeColor": {},
     "totalSize": "Загальний розмір: {size}",
     "@totalSize": {
         "placeholders": {
@@ -924,73 +668,39 @@
         }
     },
     "unPlayed": "Невідтворено",
-    "@unPlayed": {},
     "useDefaults": "Використовувати значення за замовчуванням",
-    "@useDefaults": {},
     "userName": "Ім'я користувача",
-    "@userName": {},
     "videoScalingContain": "Вмістити",
-    "@videoScalingContain": {},
     "videoScaling": "Масштабування відео",
-    "@videoScaling": {},
     "videoScalingFillScreenTitle": "Заповнення екрана",
-    "@videoScalingFillScreenTitle": {},
     "watchOn": "Дивіться на",
-    "@watchOn": {},
     "viewPhotos": "Переглянути фото",
-    "@viewPhotos": {},
     "nativeName": "Українська",
-    "@nativeName": {},
     "homeBannerBanner": "Банер",
-    "@homeBannerBanner": {},
     "homeBannerCarousel": "Карусель",
-    "@homeBannerCarousel": {},
     "settingsHomeBannerDescription": "Відобразити у вигляді слайд-шоу, каруселі або приховати банер",
-    "@settingsHomeBannerDescription": {},
     "settingsHomeBannerTitle": "Банер на головній сторінці",
-    "@settingsHomeBannerTitle": {},
     "settingsHomeBannerInformationTitle": "Інформація на банері",
-    "@settingsHomeBannerInformationTitle": {},
     "settingsHomeBannerInformationDesc": "Інформація для показу на банері на головній сторінці",
-    "@settingsHomeBannerInformationDesc": {},
     "homeBannerSlideshow": "Слайд-шоу",
-    "@homeBannerSlideshow": {},
     "syncStatusEnqueued": "У черзі",
-    "@syncStatusEnqueued": {},
     "syncStatusRunning": "Виконується",
-    "@syncStatusRunning": {},
     "syncStatusComplete": "Завершено",
-    "@syncStatusComplete": {},
     "syncStatusNotFound": "Не знайдено",
-    "@syncStatusNotFound": {},
     "syncStatusFailed": "Не вдалося",
-    "@syncStatusFailed": {},
     "syncStatusCanceled": "Скасовано",
-    "@syncStatusCanceled": {},
     "syncRemoveUnableToDeleteItem": "Не вдалося видалити синхронізований елемент, щось пішло не так",
-    "@syncRemoveUnableToDeleteItem": {},
     "aboutLicenses": "Ліцензії",
-    "@aboutLicenses": {},
     "aboutSocials": "Соцмережі",
-    "@aboutSocials": {},
     "syncStatusPartially": "Частково",
-    "@syncStatusPartially": {},
     "syncStatusWaitingToRetry": "Очікує на повторну спробу",
-    "@syncStatusWaitingToRetry": {},
     "syncStatusPaused": "Призупинено",
-    "@syncStatusPaused": {},
     "syncStatusSynced": "Синхронізовано",
-    "@syncStatusSynced": {},
     "syncOverlayDeleting": "Видалення синхронізованого елемента",
-    "@syncOverlayDeleting": {},
     "syncOverlaySyncing": "Деталі про елемент синхронізації",
-    "@syncOverlaySyncing": {},
     "syncSelectDownloadsFolder": "Вибрати теку для завантаження",
-    "@syncSelectDownloadsFolder": {},
     "syncNoFolderSetup": "Немає налаштувань теки синхронізації",
-    "@syncNoFolderSetup": {},
     "addToNewCollection": "Нова колекція",
-    "@addToNewCollection": {},
     "addItemsToCollection": "Додати {itemLength} елемент(и) до колекції",
     "@addItemsToCollection": {
         "placeholders": {
@@ -1040,7 +750,6 @@
         }
     },
     "addToNewPlaylist": "Новий плейлист",
-    "@addToNewPlaylist": {},
     "addItemsToPlaylist": "Додати {itemLength} елемент(и) до плейлиста",
     "@addItemsToPlaylist": {
         "placeholders": {
@@ -1058,7 +767,6 @@
         }
     },
     "aboutCreatedBy": "Створено DonutWare",
-    "@aboutCreatedBy": {},
     "addedToPlaylist": "Додано до плейлиста {playlistName}",
     "@addedToPlaylist": {
         "placeholders": {
@@ -1076,69 +784,37 @@
         }
     },
     "subtitleConfiguration": "Налаштування субтитрів",
-    "@subtitleConfiguration": {},
     "off": "Вимкнути",
-    "@off": {},
     "playBackSettings": "Параметри відтворення",
-    "@playBackSettings": {},
     "subtitle": "Субтитри",
-    "@subtitle": {},
     "screenBrightness": "Яскравість екрана",
-    "@screenBrightness": {},
     "scale": "Масштаб",
-    "@scale": {},
     "settingsAutoNextTitle": "Попередній перегляд \"наступного\"",
-    "@settingsAutoNextTitle": {},
     "autoNextOffSmartDesc": "Показує екран \"наступне\" після початку титрів, якщо після них залишилося не більше 10 секунд. В іншому випадку показує екран \"наступне\", коли залишається 30 секунд відтворення",
-    "@autoNextOffSmartDesc": {},
     "settingsAutoNextDesc": "Відображає попередній перегляд \"наступного\" в кінці, якщо в черзі стоїть інший елемент",
-    "@settingsAutoNextDesc": {},
     "autoNextOffStaticDesc": "Показати екран \"наступне\", коли залишиться 30 секунд до завершення відтворення",
-    "@autoNextOffStaticDesc": {},
     "autoNextOffStaticTitle": "Статичний",
-    "@autoNextOffStaticTitle": {},
     "autoNextOffSmartTitle": "Розумний",
-    "@autoNextOffSmartTitle": {},
     "playbackRate": "Швидкість відтворення",
-    "@playbackRate": {},
     "speed": "Швидкість",
-    "@speed": {},
     "unableToPlayMedia": "Виникла помилка під час пошуку сумісного типу носія",
-    "@unableToPlayMedia": {},
     "unableToPlayBooksOnWeb": "Наразі книги не підтримуються на вебі",
-    "@unableToPlayBooksOnWeb": {},
     "defaultFilterForLibrary": "Фільтр за замовчуванням для бібліотеки",
-    "@defaultFilterForLibrary": {},
     "deleteFilterConfirmation": "Ви впевнені, що хочете видалити цей фільтр?",
-    "@deleteFilterConfirmation": {},
     "libraryFiltersLimitReached": "Досягнуто ліміту фільтрів (10) видаліть деякі фільтри",
-    "@libraryFiltersLimitReached": {},
     "playerSettingsOrientationDesc": "Примусити відеопрогравач до певної орієнтації",
-    "@playerSettingsOrientationDesc": {},
     "deviceOrientationPortraitUp": "Портретно вгору",
-    "@deviceOrientationPortraitUp": {},
     "deviceOrientationLandscapeLeft": "Горизонтально зліва",
-    "@deviceOrientationLandscapeLeft": {},
     "deviceOrientationLandscapeRight": "Горизонтально справа",
-    "@deviceOrientationLandscapeRight": {},
     "schemeSettingsTonalSpot": "Тональна пляма",
-    "@schemeSettingsTonalSpot": {},
     "schemeSettingsFidelity": "Точність",
-    "@schemeSettingsFidelity": {},
     "schemeSettingsVibrant": "Яскравий",
-    "@schemeSettingsVibrant": {},
     "schemeSettingsExpressive": "Виразний",
-    "@schemeSettingsExpressive": {},
     "schemeSettingsContent": "Вміст",
-    "@schemeSettingsContent": {},
     "libraryShuffleAndPlayItems": "Перемішати та відтворити елементи",
-    "@libraryShuffleAndPlayItems": {},
     "libraryPlayItems": "Відтворити елементи",
-    "@libraryPlayItems": {},
     "errorOpeningMedia": "Щось пішло не так, при спробі відтворити це медіа",
-    "@errorOpeningMedia": {},
     "updateFilterForLibrary": "Оновити фільтр",
-    "@updateFilterForLibrary": {},
     "removeFilterForLibrary": "Видалити {filter}?",
     "@removeFilterForLibrary": {
         "description": "removeFilterForLibrary",
@@ -1149,51 +825,30 @@
         }
     },
     "libraryFiltersRemoveAll": "Видалити всі фільтри",
-    "@libraryFiltersRemoveAll": {},
     "libraryFiltersRemoveAllConfirm": "Це призведе до видалення всіх збережених фільтрів для кожної бібліотеки",
-    "@libraryFiltersRemoveAllConfirm": {},
     "playerSettingsOrientationTitle": "Орієнтація програвача",
-    "@playerSettingsOrientationTitle": {},
     "deviceOrientationPortraitDown": "Портретно вниз",
-    "@deviceOrientationPortraitDown": {},
     "clientSettingsSchemeVariantTitle": "Варіант схеми",
-    "@clientSettingsSchemeVariantTitle": {},
     "schemeSettingsMonochrome": "Монохромний",
-    "@schemeSettingsMonochrome": {},
     "schemeSettingsNeutral": "Нейтральний",
-    "@schemeSettingsNeutral": {},
     "schemeSettingsRainbow": "Веселка",
-    "@schemeSettingsRainbow": {},
     "schemeSettingsFruitSalad": "Фруктовий салат",
-    "@schemeSettingsFruitSalad": {},
     "clientSettingsRequireWifiTitle": "Потрібен Wi-Fi",
-    "@clientSettingsRequireWifiTitle": {},
     "clientSettingsRequireWifiDesc": "Завантажувати тільки при підключенні до мережі Wi-Fi",
-    "@clientSettingsRequireWifiDesc": {},
     "clientSettingsShowAllCollectionsTitle": "Показати всі типи колекцій",
-    "@clientSettingsShowAllCollectionsTitle": {},
     "clientSettingsShowAllCollectionsDesc": "Якщо увімкнено, показувати всі типи колекцій, включно з тими, що не підтримує Fladder",
-    "@clientSettingsShowAllCollectionsDesc": {},
     "stop": "Зупинити",
-    "@stop": {},
     "closeVideo": "Закрити відео",
-    "@closeVideo": {},
     "resumeVideo": "Відновити відео",
-    "@resumeVideo": {},
     "playNextVideo": "Відтворити наступне відео",
-    "@playNextVideo": {},
     "defaultLabel": "За замовчуванням",
     "@defaultLabel": {
         "description": "To indicate a default value, default video player backend"
     },
     "mdkExperimental": "MDK все ще перебуває на експериментальній стадії",
-    "@mdkExperimental": {},
     "playerSettingsBackendTitle": "Бекенд відеопрогравача",
-    "@playerSettingsBackendTitle": {},
     "playerSettingsBackendDesc": "Виберіть медіапрогравач, який вам подобається, для оптимального відтворення",
-    "@playerSettingsBackendDesc": {},
     "noVideoPlayerOptions": "Обраний бекенд не має опцій",
-    "@noVideoPlayerOptions": {},
     "skipButtonLabel": "Пропустити {segment}",
     "@skipButtonLabel": {
         "placeholders": {
@@ -1203,21 +858,13 @@
         }
     },
     "mediaSegmentPreview": "Попередній перегляд",
-    "@mediaSegmentPreview": {},
     "mediaSegmentRecap": "Підсумок",
-    "@mediaSegmentRecap": {},
     "mediaSegmentIntro": "Вступ",
-    "@mediaSegmentIntro": {},
     "mediaSegmentOutro": "Завершення",
-    "@mediaSegmentOutro": {},
     "mediaSegmentUnknown": "Невідомо",
-    "@mediaSegmentUnknown": {},
     "mediaSegmentCommercial": "Реклама",
-    "@mediaSegmentCommercial": {},
     "errorLogs": "Журнал помилок",
-    "@errorLogs": {},
     "external": "Зовнішнє",
-    "@external": {},
     "downloadFile": "Завантажити {type}",
     "@downloadFile": {
         "placeholders": {
@@ -1227,61 +874,33 @@
         }
     },
     "copyStreamUrl": "Скопіювати URL потоку",
-    "@copyStreamUrl": {},
     "settingsLayoutSizesDesc": "Виберіть, які розміри макета використовуватиме додаток залежно від розміру вікна",
-    "@settingsLayoutSizesDesc": {},
     "layoutModeSingle": "Одинарний",
-    "@layoutModeSingle": {},
     "settingsLayoutSizesTitle": "Розміри макета",
-    "@settingsLayoutSizesTitle": {},
     "settingsLayoutModesTitle": "Режими макета",
-    "@settingsLayoutModesTitle": {},
     "settingsLayoutModesDesc": "Контролюйте, чи може програма використовувати одно- або двопанельні макети",
-    "@settingsLayoutModesDesc": {},
     "phone": "Телефон",
-    "@phone": {},
     "tablet": "Планшет",
-    "@tablet": {},
     "desktop": "Комп'ютер",
-    "@desktop": {},
     "layoutModeDual": "Подвійний",
-    "@layoutModeDual": {},
     "copiedToClipboard": "Скопійовано в буфер обміну",
-    "@copiedToClipboard": {},
     "episodeAvailable": "Доступна",
-    "@episodeAvailable": {},
     "episodeUnaired": "Непоказана",
-    "@episodeUnaired": {},
     "episodeMissing": "Відсутня",
-    "@episodeMissing": {},
     "homeStreamingQualityTitle": "Якість вдома",
-    "@homeStreamingQualityTitle": {},
     "homeStreamingQualityDesc": "Максимальна якість трансляції при підключенні до домашньої мережі",
-    "@homeStreamingQualityDesc": {},
     "internetStreamingQualityDesc": "Максимальна якість трансляції через Інтернет (мобільний)",
-    "@internetStreamingQualityDesc": {},
     "internetStreamingQualityTitle": "Якість через інтернет",
-    "@internetStreamingQualityTitle": {},
     "qualityOptionsTitle": "Варіанти якості",
-    "@qualityOptionsTitle": {},
     "qualityOptionsOriginal": "Оригінал",
-    "@qualityOptionsOriginal": {},
     "qualityOptionsAuto": "Авто",
-    "@qualityOptionsAuto": {},
     "version": "Версія",
-    "@version": {},
     "mediaSegmentActions": "Дії для медіа сегментів",
-    "@mediaSegmentActions": {},
     "segmentActionNone": "Нічого",
-    "@segmentActionNone": {},
     "segmentActionAskToSkip": "Запитати, чи пропустити",
-    "@segmentActionAskToSkip": {},
     "segmentActionSkip": "Пропустити",
-    "@segmentActionSkip": {},
     "loading": "Завантаження",
-    "@loading": {},
     "castAndCrew": "Актори та знімальна група",
-    "@castAndCrew": {},
     "guestActor": "{count, plural, other{Запрошені актори} one{Запрошений актор}}",
     "@guestActor": {
         "description": "Guest actors",
@@ -1293,53 +912,29 @@
         }
     },
     "settingsPlayerBufferSizeTitle": "Розмір буфера відео",
-    "@settingsPlayerBufferSizeTitle": {},
     "settingsPlayerBufferSizeDesc": "Налаштуйте розмір буфера для відтворення відео, визначивши, скільки даних буде завантажено в кеш.",
-    "@settingsPlayerBufferSizeDesc": {},
     "maxConcurrentDownloadsTitle": "Максимум одночасних завантажень",
-    "@maxConcurrentDownloadsTitle": {},
     "maxConcurrentDownloadsDesc": "Встановлює максимальну кількість завантажень, які можуть виконуватися одночасно. Встановіть значення 0, щоб вимкнути обмеження.",
-    "@maxConcurrentDownloadsDesc": {},
     "playbackTrackSelection": "Вибір доріжки відтворення",
-    "@playbackTrackSelection": {},
     "rememberSubtitleSelectionsDesc": "Спробувати встановити доріжку субтитрів, яка найкраще відповідає останньому відео.",
-    "@rememberSubtitleSelectionsDesc": {},
     "rememberAudioSelections": "Встановити аудіодоріжку на основі попереднього елемента",
-    "@rememberAudioSelections": {},
     "rememberAudioSelectionsDesc": "Спробувати встановити аудіодоріжку, яка найкраще відповідає останньому відео.",
-    "@rememberAudioSelectionsDesc": {},
     "rememberSubtitleSelections": "Встановити доріжку субтитрів на основі попереднього елемента",
-    "@rememberSubtitleSelections": {},
     "similarToRecentlyPlayed": "Схоже на нещодавно відтворене",
-    "@similarToRecentlyPlayed": {},
     "similarToLikedItem": "Схоже на вподобаний елемент",
-    "@similarToLikedItem": {},
     "hasActorFromRecentlyPlayed": "Має актора з нещодавно відтвореного",
-    "@hasActorFromRecentlyPlayed": {},
     "latest": "Останнє",
-    "@latest": {},
     "hasLikedDirector": "Має вподобаного режисера",
-    "@hasLikedDirector": {},
     "hasLikedActor": "Має вподобаного актора",
-    "@hasLikedActor": {},
     "recommended": "Рекомендовано",
-    "@recommended": {},
     "hasDirectorFromRecentlyPlayed": "Має режисера з нещодавно відтвореного",
-    "@hasDirectorFromRecentlyPlayed": {},
     "exitFladderTitle": "Вийти з Fladder",
-    "@exitFladderTitle": {},
     "playbackTypeDirect": "Пряме",
-    "@playbackTypeDirect": {},
     "playbackType": "Тип відтворення",
-    "@playbackType": {},
     "playbackTypeTranscode": "Перекодування",
-    "@playbackTypeTranscode": {},
     "playbackTypeOffline": "Офлайн",
-    "@playbackTypeOffline": {},
     "latestReleases": "Останні релізи",
-    "@latestReleases": {},
     "autoCheckForUpdates": "Періодично перевіряти наявність оновлень",
-    "@autoCheckForUpdates": {},
     "newReleaseFoundTitle": "Доступне оновлення {newRelease}!",
     "@newReleaseFoundTitle": {
         "placeholders": {
@@ -1349,21 +944,13 @@
         }
     },
     "newUpdateFoundOnGithub": "Знайдено нове оновлення на Github",
-    "@newUpdateFoundOnGithub": {},
     "enableBackgroundPostersTitle": "Увімкнути фонові постери",
-    "@enableBackgroundPostersTitle": {},
     "settingsEnableOsMediaControlsDesc": "Дозволяє керувати відтворенням за допомогою медіа-клавіш та показувати поточний відтворюваний медіафайл в ОС",
-    "@settingsEnableOsMediaControlsDesc": {},
     "enableBackgroundPostersDesc": "Показувати випадкові постери на відповідних екранах",
-    "@enableBackgroundPostersDesc": {},
     "notificationDownloadingDownloading": "Завантаження",
-    "@notificationDownloadingDownloading": {},
     "notificationDownloadingPaused": "Завантаження призупинено",
-    "@notificationDownloadingPaused": {},
     "notificationDownloadingFinished": "Завантаження завершено",
-    "@notificationDownloadingFinished": {},
     "notificationDownloadingError": "Помилка завантаження",
-    "@notificationDownloadingError": {},
     "syncAllItemsTitle": "Синхронізувати всі елементи з {itemName}?",
     "@syncAllItemsTitle": {
         "description": "syncAllItemsFrom",
@@ -1407,53 +994,29 @@
         }
     },
     "syncPauseAll": "Призупинити все",
-    "@syncPauseAll": {},
     "syncResumeAll": "Відновити все",
-    "@syncResumeAll": {},
     "syncStopAll": "Зупинити все",
-    "@syncStopAll": {},
     "syncDeleteAll": "Видалити всі файли",
-    "@syncDeleteAll": {},
     "syncAllFiles": "Синхронізувати всі файли",
-    "@syncAllFiles": {},
     "usePostersForLibraryIconsTitle": "Показати постери для іконок бібліотеки",
-    "@usePostersForLibraryIconsTitle": {},
     "usePostersForLibraryIconsDesc": "Показувати постери замість іконок для бібліотек",
-    "@usePostersForLibraryIconsDesc": {},
     "offline": "Офлайн",
-    "@offline": {},
     "shortCuts": "Комбінації клавіш",
-    "@shortCuts": {},
     "skipForwardLength": "Крок перемотування вперед",
-    "@skipForwardLength": {},
     "skipBackLength": "Крок перемотування назад",
-    "@skipBackLength": {},
     "playPause": "Відтворення/Пауза",
-    "@playPause": {},
     "seekForward": "Перемотати вперед",
-    "@seekForward": {},
     "seekBack": "Перемотати назад",
-    "@seekBack": {},
     "mute": "Вимкнути звук",
-    "@mute": {},
     "volumeUp": "Збільшити гучність",
-    "@volumeUp": {},
     "volumeDown": "Зменшити гучність",
-    "@volumeDown": {},
     "nextVideo": "Наступне відео",
-    "@nextVideo": {},
     "prevVideo": "Попереднє відео",
-    "@prevVideo": {},
     "nextChapter": "Наступний розділ",
-    "@nextChapter": {},
     "prevChapter": "Попередній розділ",
-    "@prevChapter": {},
     "fullScreen": "Повноекранний режим",
-    "@fullScreen": {},
     "skipMediaSegment": "Пропустити медіа-сегмент",
-    "@skipMediaSegment": {},
     "exit": "Вихід",
-    "@exit": {},
     "shortCutAlreadyAssigned": "Комбінацію клавіш '{hotKey}' уже призначено",
     "@shortCutAlreadyAssigned": {
         "placeholders": {
@@ -1463,7 +1026,6 @@
         }
     },
     "blurred": "Розмитий",
-    "@blurred": {},
     "volumeIndicator": "Гучність: {volume}",
     "@volumeIndicator": {
         "placeholders": {
@@ -1472,12 +1034,9 @@
             }
         }
     },
-    "keyboardShortCuts": "Сполучення клавіш",
-    "@keyboardShortCuts": {},
-    "speedUp": "Прискорення",
-    "@speedUp": {},
-    "speedDown": "Зменшення швидкості",
-    "@speedDown": {},
+    "keyboardShortCuts": "Клавіатури клавіатури",
+    "speedUp": "Швидкість",
+    "speedDown": "Швидкість вниз",
     "speedIndicator": "Швидкість відтворення: {speed}",
     "@speedIndicator": {
         "placeholders": {
@@ -1487,29 +1046,17 @@
         }
     },
     "television": "Телебачення",
-    "@television": {},
     "exitFladderDesc": "Ви впевнені, що хочете закрити Fladder?",
-    "@exitFladderDesc": {},
-    "quickConnectPostFailed": "Не вдалося отримати код швидкого підключення",
-    "@quickConnectPostFailed": {},
-    "quickConnectLoginUsingCode": "Використання швидкого з'єднання",
-    "@quickConnectLoginUsingCode": {},
-    "quickConnectEnterCodeDescription": "Введіть код нижче, щоб увійти",
-    "@quickConnectEnterCodeDescription": {},
+    "quickConnectPostFailed": "Не вдалося отримати швидкий код підключення",
+    "quickConnectLoginUsingCode": "Використання швидкого підключення",
+    "quickConnectEnterCodeDescription": "Введіть код нижче для входу",
     "showMore": "Показати більше",
-    "@showMore": {},
-    "itemColorsTitle": "Кольори предметів",
-    "@itemColorsTitle": {},
-    "itemColorsDesc": "Використовуйте основний колір товару для оформлення сторінки з деталями",
-    "@itemColorsDesc": {},
-    "mediaTunnelingTitle": "Тунелювання медіа",
-    "@mediaTunnelingTitle": {},
-    "mediaTunnelingDesc": "Увімкнути тунелювання медіа для рідного програвача",
-    "@mediaTunnelingDesc": {},
-    "clientSettingsUseSystemIMETitle": "Використовувати системну клавіатуру",
-    "@clientSettingsUseSystemIMETitle": {},
-    "clientSettingsUseSystemIMEDesc": "Використовуйте вбудовану клавіатуру вашої системи",
-    "@clientSettingsUseSystemIMEDesc": {},
+    "itemColorsTitle": "Колір",
+    "itemColorsDesc": "Використовуйте основний колір елемента до теми сторінки деталей",
+    "mediaTunnelingTitle": "Медіа тунель",
+    "mediaTunnelingDesc": "Увімкнути медіа тунель для рідного гравця",
+    "clientSettingsUseSystemIMETitle": "Використання клавіатури системи",
+    "clientSettingsUseSystemIMEDesc": "Використовуйте вбудовану клавіатуру, яка забезпечується системою",
     "nextUpInCount": "Далі через {seconds}",
     "@nextUpInCount": {
         "placeholders": {
@@ -1529,39 +1076,743 @@
         }
     },
     "openImeKeyboard": "Відкрити клавіатуру IME",
-    "@openImeKeyboard": {},
-    "screensaverDvd": "DVD",
-    "@screensaverDvd": {},
-    "screensaverLogo": "Логотип",
-    "@screensaverLogo": {},
+    "screensaverDvd": "ПРОКСИМУС",
+    "screensaverLogo": "Логін",
     "screensaverTime": "Час",
-    "@screensaverTime": {},
     "screensaverBlack": "Чорний",
-    "@screensaverBlack": {},
-    "playerSettingsScreensaverTitle": "Скрінсейвер",
-    "@playerSettingsScreensaverTitle": {},
-    "playerSettingsScreensaverDesc": "Виберіть заставку, яка відображатиметься після відсутності активності гравця",
-    "@playerSettingsScreensaverDesc": {},
-    "settingsLocalUrlTitle": "URL-адреса локального сервера",
-    "@settingsLocalUrlTitle": {},
-    "settingsLocalUrlSetTitle": "Налаштувати локальну URL-адресу",
-    "@settingsLocalUrlSetTitle": {},
-    "settingsLocalUrlSetDesc": "Вкажіть адресу локального сервера. Fladder автоматично використовуватиме цю URL-адресу, коли ваш пристрій буде підключено до тієї ж мережі.",
-    "@settingsLocalUrlSetDesc": {},
-    "takeScreenshot": "Зробити скріншот",
-    "@takeScreenshot": {},
-    "takeScreenshotClean": "Зробити скріншот (без субтитрів)",
-    "@takeScreenshotClean": {},
+    "playerSettingsScreensaverTitle": "Скріншоти",
+    "playerSettingsScreensaverDesc": "Виберіть рефрижератор екрану, який буде показаний після активності гравця",
+    "settingsLocalUrlTitle": "Статус на сервери",
+    "settingsLocalUrlSetTitle": "Налаштування локальної URL",
+    "settingsLocalUrlSetDesc": "Вкажіть адресу місцевого сервера. Fladder автоматично використовувати цю URL, коли пристрій знаходиться на одній мережі.",
+    "takeScreenshot": "Візьміть скріншот",
+    "takeScreenshotClean": "Візьміть скріншот (без субтитри)",
     "screenshots": "Знімки екрана",
-    "@screenshots": {},
-    "screenshotTaken": "Знімок екрана збережено!",
-    "@screenshotTaken": {},
-    "screenshotCleanTaken": "Збережено скріншот без субтитрів!",
-    "@screenshotCleanTaken": {},
-    "errorTakingScreenshot": "Сталася помилка під час створення знімка екрана",
-    "@errorTakingScreenshot": {},
-    "regenerateTrickplayImages": "Регенерувати зображення для трикплею",
-    "@regenerateTrickplayImages": {},
-    "segmentActionSkipOnce": "Пропустити один раз",
-    "@segmentActionSkipOnce": {}
+    "screenshotTaken": "Збережений екран!",
+    "screenshotCleanTaken": "Знімок екрана без субтитри збережених!",
+    "errorTakingScreenshot": "Там була помилка знімок",
+    "regenerateTrickplayImages": "Regenerate трюкplay зображень",
+    "segmentActionSkipOnce": "Пропустити",
+    "syncplay": "Синхронізація",
+    "allowMediaDeletion": "Дозволити видалення медіа",
+    "allLibraries": "Усі бібліотеки",
+    "libraryAccess": "Доступ до бібліотеки",
+    "enableAllLibraries": "Увімкнути доступ до всіх бібліотек",
+    "enableAllDevices": "Увімкнути доступ до всіх пристроїв",
+    "maxParentalRating": "Макс. батьківський рейтинг",
+    "accessSchedules": "Розклад доступу",
+    "addAccessSchedule": "Додати розклад доступу",
+    "homeBannerDetailed": "Детальніше",
+    "homeBannerTV": "ТЕЛЕВІЗОР",
+    "mediaTypeTV": "{count, plural, one{Телевізійний канал} other{Телевізійні канали}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "popularity": "Популярність",
+    "contentRating": "Рейтинг вмісту",
+    "runtimeMinutesTitle": "Пробіг (хвилини)",
+    "runtimeRangeMinutes": "{min} - {max} хвилини",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} хв",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Постачальники ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "Підзамовлена мова",
+    "settingsProfileSubtitleMode": "Режим Субтитри",
+    "subtitlePlaybackModeDefault": "Зареєструватися",
+    "subtitlePlaybackModeAlways": "Завжди грати",
+    "subtitlePlaybackModeOnlyForced": "Тільки вимушені",
+    "subtitlePlaybackModeNone": "Ні",
+    "subtitlePlaybackModeSmart": "Розумний",
+    "backgroundColor": "Колір фону",
+    "deleteRequestConfirmation": "Ви впевнені, що ви хочете видалити цей запит?",
+    "playbackTypeTV": "ТЕЛЕВІЗОР",
+    "enableSpeedBoostTitle": "Увімкнути швидкість",
+    "enableSpeedBoostDesc": "Затриманий екран (мобільний) або пробіл (десктоп) для тимчасової швидкості відтворення",
+    "speedBoostRateTitle": "Швидкість підвищення швидкості",
+    "speedBoostRateDesc": "Швидкість відтворення при швидкості активується",
+    "enableDoubleTapSeekTitle": "Double-tap для пошуку/play/pause",
+    "enableDoubleTapSeekDesc": "Двостороння ліва/права сторона екрану, щоб шукати назад/переда. Двосторонній центр для гри/паузи",
+    "showLess": "Показати менше",
+    "controlPanel": "Панель управління",
+    "controlPanelDesc": "Сервер, Діяльність, Користувачі, Бібліотека",
+    "controlDashboard": "Керування Dashboard",
+    "serverName": "Назва сервера",
+    "serverVersion": "Статус на сервери",
+    "webVersion": "Веб-версія",
+    "devices": "Пристрої",
+    "used": "Використовується",
+    "storagePaths": "Шляхи зберігання",
+    "programData": "Дані програми",
+    "web": "Веб-сайт",
+    "cache": "Кошик",
+    "logs": "Логін",
+    "transcodingTemp": "Транскодування Temp",
+    "count": "Кількість",
+    "scanAllLibraries": "Сканування всіх бібліотек",
+    "restartServer": "Статус на сервери",
+    "shutDownServer": "Видалити сервер",
+    "dashboardDesc": "Сервер, облік, пристрої, зберігання",
+    "lastActivity": "Остання активність",
+    "activeTasks": "Активні завдання",
+    "hours": "{count, plural, one{Година} other{Години}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{Тиждень} other{Тиждні}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{Місяць} other{Місяці}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{Рік} other{Роки}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAgo": "{time} назад",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "Останнє запуску {date}, взяття {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Більше хвилини",
+    "plannedTasks": "Плановані завдання",
+    "taskTriggerTypeInterval": "Інтервал",
+    "taskTriggerTypeDaily": "Щоденник",
+    "taskTriggerTypeWeekly": "Тижневий",
+    "taskTriggerTypeStartup": "Почати",
+    "create": "Зареєструватися",
+    "taskTriggerTypeName": "Тип тригера",
+    "newTrigger": "Новий тригер",
+    "newTaskTrigger": "Новий тригер завдань",
+    "dayOfTheWeek": "День тижня",
+    "time": "Час",
+    "interval": "Інтервал",
+    "taskTimeLimitInHours": "Обмеження часу (години)",
+    "taskTriggerIntervalDesc": "Що {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "Щоденно в {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Щотижнево на {day} на {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Часовий ліміт: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "Продуктивність",
+    "serverNameLabel": "Назва сервера",
+    "cachePath": "Шлях кешу",
+    "metadataPath": "Шлях метаданих",
+    "maxConcurrentLibraryScanLabel": "Сканування бібліотеки Max",
+    "maxConcurrentLibraryScanDesc": "Максимальна кількість паралельних задач при скануванні бібліотеки. Отримуючи цей порожній буде вибрати ліміт на основі основних показників системи. WARNING: Налаштування цього номера занадто висока може викликати проблеми з файловими системами мережі; якщо ви зіткнулися з проблемами нижче цього числа.",
+    "maxImageDecodingThreadsLabel": "Max зображення декодування ниток",
+    "maxImageDecodingThreadsDesc": "Максимальна кількість кодувань зображень, які дозволяють виконувати паралельно. Отримуючи цей порожній буде вибрати ліміт на основі основних показників системи.",
+    "controlPanelServerDesc": "Назва сервера, Quick Connect, Продуктивність",
+    "deleteUserTitle": "Видалити користувача {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Це буде назавжди видалити користувача {user} і всі пов'язані налаштування.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "Інформація користувача",
+    "allowManageServer": "Щоб керувати сервером",
+    "allowCollections": "Дозволити цей користувач на колекції",
+    "allowEditSubtitles": "Дозволити цей запис користувача субтитри",
+    "featureAccess": "Доступ до функції",
+    "allowLiveTVAccess": "Allow live TV доступ",
+    "allowLiveTVRecording": "Allow Live TV запис",
+    "mediaPlayback": "Відтворення медіа",
+    "allowMediaPlayback": "Allow медіа відтворення",
+    "allowVideoTranscoding": "Дозволяє відтворення відео, що вимагає перекодування",
+    "allowAudioTranscoding": "Дозволяє відтворення аудіо, що вимагає перекодування",
+    "allowMediaConversion": "Дозволяє відтворення відео, що вимагає перетворення медіа",
+    "forceRemoteTranscoding": "Примус дистанційного джерела транскодування",
+    "syncplayAccess": "Syncplay доступ",
+    "syncplayAccessCreateAndJoinGroups": "Створити та приєднатися групи",
+    "syncplayAccessJoinGroups": "Приєднуйтесь до групи",
+    "syncplayAccessNone": "Ні",
+    "parentalControl": "Контроль батьків",
+    "blockedItemsNoRating": "Заблоковані елементи без або невизнаних рейтингів",
+    "allowItemsTags": "Дозволити предмети з тегами",
+    "blockItemsTags": "Блок елементів з тегами",
+    "access": "Вхід",
+    "endTimeMustBeAfter": "Кінцевий час повинен бути після початку",
+    "assignLibraries": "Призначте Бібліотеки",
+    "passwordResetSuccess": "Успішно скинути пароль",
+    "passwordResetFailed": "Покинути пароль",
+    "passwordMismatch": "Новий пароль і підтвердити пароль не відповідає",
+    "deleteLibraryConfirmTitle": "Русский Українська English?",
+    "deleteLibraryConfirmMessage": "Ви впевнені, що ви хочете видалити {libraryName}?\nЦя дія не може бути неоновою.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "Бібліотека вибрано",
+    "enabledRealtimeMonitoring": "Увімкнути в режимі реального часу",
+    "automaticallyAddToCollection": "Автоматично додавати до збору",
+    "enabledEmbeddedTitles": "Увімкнути вбудовані назви",
+    "enabledEmbeddedExtrasTitles": "Увімкнути додаткові вбудовані назви",
+    "autoRefreshIntervalNote": "Увімкніть це може призвести до тривалого часу оновлення бібліотеки.",
+    "dayOfWeek": "День тижня",
+    "startTime": "Час початку",
+    "endTime": "Час закінчення",
+    "addTag": "Додати тег",
+    "createNewUser": "Створення нового користувача",
+    "createUser": "Створення користувача",
+    "users": "Користувачі",
+    "editUser": "Редагування користувача",
+    "general": "Головна",
+    "enableAccessAllLibraries": "Увімкнути доступ до всіх бібліотек",
+    "currentPassword": "Поточний пароль",
+    "newPassword": "Новий пароль",
+    "confirmPassword": "Підтвердити пароль",
+    "resetPassword": "Заміна пароля",
+    "passwordChangeSuccess": "Успішно змінений пароль",
+    "savePassword": "Зберегти пароль",
+    "enabledPhotos": "Увімкнути фотографії",
+    "enabledLUFSScan": "Увімкнути LUFS Сканування",
+    "requestMore": "Запитати більше",
+    "seerrPermissionDenied": "Ви не маєте дозволу на запит на це медіа тип.",
+    "seerrRequestStatusPending": "Закінчення",
+    "seerrRequestStatusCompleted": "Виконаний",
+    "seerrMediaStatusProcessing": "Переробка",
+    "seerrMediaStatusBlacklisted": "Чорний",
+    "seerrMediaStatusDeleted": "Видалено",
+    "seerrEnterServerUrlFirst": "Введіть URL-адресу сервера Seerr",
+    "seerrCustomHeaders": "Спеціальні заголовки",
+    "seerrHeader": "Заголовок",
+    "sponsorMessage": "Якщо ви користуєтеся Fladder, розгляньте спонсорство проекту для підтримки постійного розвитку та вдосконалення. Дякуємо за підтримку!",
+    "min": "хв",
+    "manageRequest": "Вимоги до роботи",
+    "requestAll": "Запитати",
+    "openInSeerr": "Відкрити в Seerr",
+    "openInSonarr": "Відкрити в Sonarr",
+    "openInRadarr": "Відкритий в Радр",
+    "markAsAvailable": "Марк як доступний",
+    "deleteData": "Видалити дані",
+    "markAllSeasonsAsAvailableConfirm": "Позначити всі сезони як доступні?",
+    "markedAsAvailable": "Позначені як доступні",
+    "deleteSeerrDataConfirm": "Видалити всі файли з Seerr? Ця дія не може бути неоновою.\nЯкщо дані ще присутні в {service}, він може перевозитися.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "approve": "Затвердження",
+    "decline": "Деклін",
+    "noPrograms": "Без програм",
+    "switchChannel": "Вимикач канал",
+    "switchChannelDesc": "Ви хочете дивитися \"{programName}\" на {channelName}?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "liveTV": "Телевізор",
+    "liveTvManageTunersEpg": "Управління пристроями тюнера та постачальниками EPG",
+    "tunerDevices": "Пристрої тюнера",
+    "epgGuideProviders": "EPG Постачальники",
+    "noTunerDevicesConfigured": "Не налаштовані пристрої тюнера",
+    "noEpgProvidersConfigured": "Немає провайдерів EPG, налаштованих",
+    "addTunerDevice": "Додати пристрій Tuner",
+    "addProvider": "Додати провайдер",
+    "tunerHostUpdatedSuccessfully": "Tuner host оновлено успішно",
+    "failedToUpdateTunerHost": "Не вдалося оновити тюнер хост: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "Видаляє Тунер Хост",
+    "tunerHostDeletedSuccessfully": "Тунер успішно видалено",
+    "failedToDeleteTunerHost": "Не вдалося видалити тюнер хост: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "Компанія ЕРГ успішно додана",
+    "failedToAddEpgProvider": "Не вдалося додати провайдера EPG: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "EPG провайдер успішно оновлений",
+    "failedToUpdateEpgProvider": "Оновлення провайдера EPG: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "Видалити ЕПГ Закупівля",
+    "deleteEpgProviderConfirm": "Ви впевнені, що ви хочете видалити цей провайдер?",
+    "epgProviderDeletedSuccessfully": "EPG-провайдер успішно вилучений",
+    "failedToDeleteEpgProvider": "Не вдалося видалити провайдера EPG: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "Редагувати пристрій Tuner",
+    "friendlyName": "Ім'я",
+    "url": "КОНТАКТИ",
+    "userAgent": "Агент користувача",
+    "userAgentOptional": "Агент користувача (за бажанням)",
+    "maxConcurrentStreams": "Максимальні струмені",
+    "addEpgProvider": "Додати EPG Постачальник",
+    "editEpgProvider": "Редагувати EPG Закупівля",
+    "xmltvPathUrl": "Веб-сайт Патент/УРЛ",
+    "enableAllTuners": "Увімкнути для всіх тюнерів",
+    "enabledTuners": "Увімкнути тюнерів",
+    "selectTuners": "Виберіть тюнери",
+    "moviePrefix": "Префікс фільму",
+    "movieCategories": "Категорії фільмів",
+    "newsCategories": "Категорії новин",
+    "sportsCategories": "Спортивні категорії",
+    "kidsCategories": "Дитячі категорії",
+    "fileOrUrl": "Файл або URL",
+    "tunerIpAddress": "Адреса електронної пошти",
+    "fallbackMaxBitrate": "Максимальний бітрейт (Mbps)",
+    "concurrentStreams": "Максимальні струмені",
+    "concurrentStreamsHint": "0 = Необмежений",
+    "allowFmp4Container": "Allow fMP4 перекодування контейнера",
+    "allowStreamSharing": "Поповнення потоку",
+    "enableStreamLooping": "Увімкнути петлю потоку",
+    "ignoreDts": "Ignore DTS частампи",
+    "readAtNativeFramerate": "Читати на рідному каркасі",
+    "importFavoritesOnly": "Імпорт тільки улюблених каналів",
+    "allowHWTranscoding": "Allow апаратні транскодування",
+    "detectDevices": "Виявлення пристроїв",
+    "discoveredDevices": "Виявлені пристрої",
+    "noDevicesFound": "Не знайдено пристроїв",
+    "failedToDiscoverDevices": "Вимкнено для виявлення пристроїв: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "Доля",
+    "maxConcurrentStreamsLabel": "Максимальні струмені",
+    "noCategories": "Немає категорій",
+    "moviePrefixSubLabel": "Якщо префікс застосовується до назв фільмів, введіть його тут, щоб сервер був належним чином.",
+    "movieCategoriesSubLabel": "Категорії для позначення каналів, що відповідають префіксу фільму",
+    "newsCategoriesSubLabel": "Категорії для позначення каналів, що відповідають встановленню новин",
+    "sportsCategoriesSubLabel": "Подається згідно з витягом з каналів, що відповідають спортивному префіксу",
+    "kidsCategoriesSubLabel": "Категорії, щоб призначити канали, що відповідають встановленню дітей",
+    "enableNewTVLayoutDesc": "Показати більше банерів телевізійного стилю на панелі інструментів. Це стане макетом за замовчуванням в майбутньому релізі.",
+    "notifications": "Повідомлення",
+    "showNewItemNotificationTitle": "Перевірити нові елементи",
+    "notificationChannelDescription": "Повідомлення про додані товари",
+    "seerrRequestNotifications": "Повідомлення про проведення перевірок",
+    "notificationNewEpisodes": "Додані нові епізоди",
+    "notificationTimerIOSWarning": " iOS вирішить, коли / якщо оновлення дійсно працюють, повідомлення можуть бути затримані або не демонструються.",
+    "lastUpdateAt": "Останнє оновлення на {date} в {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "markAsAvailableConfirm": "Марк як доступний?",
+    "dataDeleted": "Видалення даних",
+    "batteryOptimizationDesc": "Оптимізація акумулятора може затримати фонові повідомлення для Fladder.\nЩоб підвищити надійність повідомлень, натисніть на налаштування системи та відключіть оптимізацію Fladder.",
+    "updateCheckInterval": "Термін перевірки оновлень",
+    "updateCheckIntervalDesc": "Як часто виконується фонове завдання",
+    "automaticRefreshInterval": "Автоматичний інтервал оновлення",
+    "notificationsIntervalClientReminder": "Проміжок сповіщення встановлюється для всіх користувачів.",
+    "includeHiddenItems": "Включає приховані бібліотеки",
+    "includeHiddenItemsDesc": "Включає бібліотеки, приховані з панелі інструментів",
+    "profileSettingsOpenAuthAtLaunch": "Відкрита автентифікація при запуску",
+    "settingsBlurEffectsTitle": "Увімкнути ефекти розмиття",
+    "settingsBlurEffectsDesc": "Увімкнути ефекти розмиття в UI. Відключення цього може підвищити продуктивність на нижніх пристроях.",
+    "mediaSegmentProviders": "Постачальники медіа сегмента",
+    "enableAndRankMediaSegmentProviders": "Увімкніть та ознайомтеся з кращими медіа-провайдерами, щоб забезпечити пріоритет.",
+    "enableTrickplayImageExtraction": "Увімкнути створення ескізів для перемотки",
+    "extractTrickplayImagesDuringLibraryScan": "Відокрем зображеня в процесі сканування бібліотеки",
+    "perfectSubtitleMatchDescription": "Вимога ідеального збігу дозволить відфільтрувати субтитри, щоб включити тільки ті, які були протестовані та перевірені з вашим конкретним відеофайлом. Зняття цієї позначки збільшить ймовірність завантаження субтитрів, але також збільшить ймовірність неправильного синхронізації або неправильного тексту субтитрів.",
+    "selectFolderToAdd": "Виберіть папку, щоб додати",
+    "recentlyAdded": "Нещодавно додано",
+    "seerrMediaStatusPartiallyAvailable": "Доступно",
+    "seerrMediaStatusAvailable": "В наявності",
+    "seerrUserFetchFailed": "Переміщений Користувачем з Seerr",
+    "max": "макс",
+    "markAllSeasonsAsAvailable": "Позначте всі сезони як доступні",
+    "removeSeriesFromSonarrConfirm": "Видалити цю серію з Sonarr? Це дозволить видалити всі файли, які включають дані.",
+    "removeMovieFromRadarrConfirm": "Зняти цей фільм від Radarr? Це дозволить видалити всі файли, які включають дані.",
+    "removedFromSonarr": "Видалити з Sonarr",
+    "removedFromRadarr": "Вилучено з Ради",
+    "processing": "Переробка",
+    "watch": "Про нас",
+    "watchChannel": "{channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "Афіша",
+    "activeTvChannels": "Активне телебачення Канали",
+    "enableNewTVLayout": "Увімкнути новий макет телевізора",
+    "toggleSidebar": "Виброплоча",
+    "subtitleDownloaders": "Завантажувачі субтитрів",
+    "submitRequest": "Подати заявку",
+    "seerrLoggedIn": "Увійти в Seerr",
+    "trickplay": "Візуальна навігація",
+    "downloadLanguages": "Завантажити мови",
+    "skipSubtitlesIfAudioMatches": "Пропустити, якщо аудіо доріжки за замовчуванням відповідає мові завантаження",
+    "select": "Обрати",
+    "popularMovies": "Популярні фільми",
+    "rootFolder": "Папка кореня",
+    "selectFolder": "Виберіть папку",
+    "tags": "Панчохи",
+    "seerr": "Про нас",
+    "seerrNotConfigured": "Не налаштувати",
+    "seerrLoadingUser": "Завантаження користувача",
+    "seerrAnimeSeriesNote": "Ім'я * Ця серія - аніме.",
+    "seerrAuthApiKey": "API ключ",
+    "seerrApiKeySaved": "API ключ збережений",
+    "preferredDownloadLanguage": "Бажана мова завантаження",
+    "countryRegion": "Країна/Регіон",
+    "saveMetadata": "Зберегти метадані",
+    "metadataFetchers": "Засоби збору метаданих ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankImagesFetchers": "Увімкніть та впорядкуйте ваші улюблені засоби для завантаження зображень за пріоритетом.",
+    "imageFetchers": "Засоби завантаження зображень ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableChapterImageExtraction": "Увімкнути відокремлення зображень для розділів",
+    "extractChapterImagesDuringLibraryScan": "Відокремити зображення розділів під час сканування бібліотеки",
+    "onlyPerfectSubtitleMatch": "Тільки завантажити субтитри, які ідеально відповідають медіа",
+    "saveArtWorkNextToMedia": "Заощаджуйте арт-проекти за допомогою медіа файлів",
+    "primary": "Головна",
+    "seerrHeaderValue": "Ціна",
+    "sponsor": "Партнерство",
+    "removeFromSonarr": "Видалити з Sonarr",
+    "removeFromRadarr": "Видалити з Ради",
+    "skipSubtitlesIfEmbedded": "Перейти до вмісту",
+    "email": "Веб-сайт",
+    "username": "Ім'я користувача",
+    "ok": "ЗАРЕЄСТРУВАТИСЯ",
+    "saveTrickplayImagesNextToMedia": "Зберігай зображення візуальної навігації поряд з медіа файлами",
+    "saveSubtitlesNextToMedia": "Зберегти субтитри поруч з медіа",
+    "discover": "Головна",
+    "enableAndRankMetadataFetchers": "Увімкніть та впорядкуйте свої улюблені засоби збору метаданих за пріоритетністю.",
+    "recentRequests": "Останні запити",
+    "popularSeries": "Популярні серії",
+    "expectedMovies": "Експлуатовані фільми",
+    "expectedSeries": "Очікувана серія",
+    "requestConfiguration": "Налаштування запитів",
+    "qualityProfile": "Профіль якості",
+    "selectProfile": "Оберіть профіль",
+    "noTags": "Немає тегів",
+    "requestAs": "Запитати",
+    "requestQuotaStatus": "{remaining} {limit} решта (повіді кожен {days} дні)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Обмеження запиту на {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "noOverviewAvailable": "Не доступний огляд.",
+    "downloading": "завантаження",
+    "request": "Запитати",
+    "viewRequest": "Переглянути запит",
+    "seerrAutoApproveNotice": "Запити, які ви подаєте, автоматично затверджені.",
+    "subtitleDownloads": "Завантаження субтитрів",
+    "metadataImageLongPressClick": "Клацніть правою кнопкою миші для видалення зображення",
+    "selectedPath": "Виберіть шлях: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "chapterImages": "Зображення розділів",
+    "saveArtWorkNextToMediaDesc": "Збереження роботи в медіа папки поставить їх у місце, де вони можуть легко редагуватися.",
+    "newLibrary": "Нова бібліотека",
+    "contentType": "Тип вмісту",
+    "metadataImageLongPressTouch": "Довгий прес для видалення зображення",
+    "systemRootFolder": "Папка кореневих систем",
+    "trending": "Тенденції",
+    "seerrUnknownUser": "Невідомий користувач",
+    "loggedInAs": "Увійти через {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Статус на сервери",
+    "seerrAuthenticateLocal": "Ознайомитися з автентичністю (локально)",
+    "rootFolderDefaultLabel": "{folder} (Default)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrRequestStatusApproved": "Затвердження",
+    "seerrRequestStatusDeclined": "Декольте",
+    "seerrRequestStatusFailed": "В'язниця",
+    "seerrAuthLocal": "Головна",
+    "seerrAuthJellyfin": "Желліфін",
+    "seerrConnectedToServer": "Підключення до сервера Seerr: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrDetails": "Детальніше",
+    "tunerHostAddedSuccessfully": "Тунер успішно додано",
+    "failedToAddTunerHost": "Надіслане додавати тюнер хост: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHostConfirm": "Ви впевнені, що ви хочете видалити \"{name}\"?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "logo": "{count, plural, other{Лого} one{Лого}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, other{Фони} one{Фон}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "emailUsername": "Пошта/Імʼя користувача",
+    "pendingRequests": "{count, plural, other{Немає запитів в очікувані} one{{count} запит в очікувані} two {{count} запити в очікувані}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "specialFeature": "{count, plural, other{Додаткові функції} one{Додаткова функція} }",
+    "@specialFeature": {
+        "description": "special feature",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "notificationNewItems": "{count, plural, one{{count} новий елемент} other {{count} нові елементи}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationNewRequests": "{count, plural, one{{count} новий запит} other {{count} нових запити}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
 }

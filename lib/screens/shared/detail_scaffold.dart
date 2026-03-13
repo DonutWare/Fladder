@@ -179,13 +179,13 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: EdgeInsets.only(left: sideBarPadding / 1.5, top: topBarPadding),
+                            padding: EdgeInsets.only(left: sideBarPadding / 1.5, top: topBarPadding / 1.5),
                             child: RepaintBoundary(
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
                                   minWidth: double.infinity,
                                   minHeight: minHeight - 22,
-                                  maxHeight: maxHeight.clamp(minHeight, 2500) - 20,
+                                  maxHeight: maxHeight.clamp(minHeight, 2500) - (20 + topBarPadding),
                                 ),
                                 child: FadeEdges(
                                   leftFade: sideBarPadding > 0 ? 0.05 : 0.0,

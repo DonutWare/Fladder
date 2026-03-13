@@ -12,7 +12,6 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/live_tv_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
-import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/live_tv_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -21,11 +20,15 @@ import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 
-Timer? _refreshTimer;
-Timer? _tickTimer;
-
 class TvPlaybackModel extends PlaybackModel {
+  Timer? _refreshTimer;
+  Timer? _tickTimer;
+
+  DateTime? _lastScheduledAt;
+  String? _lastGuideProgId;
   final ChannelModel channel;
+
+  final bool isNativePlayerBackend;
 
   final ChannelProgram? currentProgram;
 
@@ -44,13 +47,14 @@ class TvPlaybackModel extends PlaybackModel {
     this.position,
     this.duration,
     this.currentProgram,
+    this.isNativePlayerBackend = false,
     super.media,
     super.queue,
   });
 
   void startTracking(Ref ref) {
     _stopTimers();
-    _updateCurrentProgramFromProvider(ref);
+    _switchProgram(ref);
 
     _tickTimer = Timer.periodic(const Duration(seconds: 1), (_) => _tick(ref));
   }
@@ -64,69 +68,56 @@ class TvPlaybackModel extends PlaybackModel {
     _tickTimer = null;
     _refreshTimer?.cancel();
     _refreshTimer = null;
+    _lastScheduledAt = null;
   }
 
   void _tick(Ref ref) {
     final currentProgram = playingProgram;
-    if (currentProgram == null) {
-      return;
-    }
-
-    if (!ref.read(mediaPlaybackProvider).playing) {
+    if (currentProgram == null || !ref.read(mediaPlaybackProvider).playing) {
       return;
     }
 
     final now = DateTime.now();
+
+    if (!_isProgramValid(currentProgram, now)) {
+      _switchProgram(ref);
+      return;
+    }
+
     final start = currentProgram.startDate;
     final end = currentProgram.endDate;
-
     final newPosition = now.isBefore(start) ? Duration.zero : now.difference(start);
     final newDuration = end.difference(start);
 
-    final updatedModel = copyWith(
-      currentProgram: currentProgram,
-      position: newPosition,
-      duration: newDuration,
-    );
-
-    ref.read(playBackModel.notifier).update((state) => updatedModel);
-
-    _scheduleRefreshAt(end, ref);
+    ref.read(playBackModel.notifier).update((state) => copyWith(
+          position: newPosition,
+          duration: newDuration,
+        ));
   }
 
-  void _scheduleRefreshAt(DateTime at, Ref ref) {
-    _refreshTimer?.cancel();
-
-    final now = DateTime.now();
-    final durationUntil = at.difference(now);
-
-    if (durationUntil.isNegative) {
-      ref.read(liveTvProvider.notifier).fetchPrograms(channel);
-      Future.microtask(() => _updateCurrentProgramFromProvider(ref));
-      return;
-    }
-
-    _refreshTimer = Timer(durationUntil + const Duration(seconds: 1), () async {
-      await ref.read(liveTvProvider.notifier).fetchPrograms(channel);
-      _updateCurrentProgramFromProvider(ref);
-    });
+  bool _isProgramValid(ChannelProgram program, DateTime now) {
+    return now.isAfter(program.startDate) && now.isBefore(program.endDate);
   }
 
-  Future<void> _updateCurrentProgramFromProvider(Ref ref) async {
-    LiveTvModel tempState = await ref.read(liveTvProvider.notifier).fetchDashboard();
-
+  Future<void> _switchProgram(Ref ref) async {
+    final tempState = await ref.read(liveTvProvider.notifier).fetchDashboard();
     final updatedChannel = tempState.channels.firstWhereOrNull((c) => c.id == channel.id) ?? channel;
-
     final currentChannelPrograms = await ref.read(liveTvProvider.notifier).fetchPrograms(updatedChannel);
     final channelWithPrograms = updatedChannel.copyChannelWith(programs: currentChannelPrograms);
 
     final now = DateTime.now();
     final prog = channelWithPrograms.currentProgram;
 
-    final oldProgId = currentProgram?.id;
+    final start = prog?.startDate ?? now;
+    final end = prog?.endDate ?? now;
+    final newPosition = now.isBefore(start) ? Duration.zero : now.difference(start);
+    final newDuration = end.difference(start);
+
     final newModel = copyWith(
       channel: channelWithPrograms,
       currentProgram: prog,
+      position: newPosition,
+      duration: newDuration,
     );
 
     ref.read(playBackModel.notifier).update((state) => newModel);
@@ -135,13 +126,21 @@ class TvPlaybackModel extends PlaybackModel {
       _scheduleRefreshAt(prog.endDate, ref);
     }
 
-    if (oldProgId != prog?.id) {
-      _tick(ref);
-    }
+    await _sendNativeGuideUpdate(ref, prog, channelWithPrograms, tempState);
+  }
 
-    if (tempState.channels.isEmpty) {
+  Future<void> _sendNativeGuideUpdate(
+    Ref ref,
+    ChannelProgram? prog,
+    ChannelModel channelWithPrograms,
+    LiveTvModel tempState,
+  ) async {
+    final isNativePlayer = isNativePlayerBackend;
+    if (!isNativePlayer || tempState.channels.isEmpty || _lastGuideProgId == prog?.id) {
       return;
     }
+
+    _lastGuideProgId = prog?.id;
 
     final context = ref.read(localizationContextProvider);
 
@@ -189,14 +188,29 @@ class TvPlaybackModel extends PlaybackModel {
       endMs: tempState.endDate.millisecondsSinceEpoch,
     );
 
-    if (leanBackMode) {
-      try {
-        log("Sending TV Guide with lazy-loaded programs: ${newGuide.channels.length} channels, current program: ${newGuide.currentProgram?.name}");
-        VideoPlayerApi().sendTVGuideModel(newGuide);
-      } catch (e, stackTrace) {
-        log(e.toString(), stackTrace: stackTrace);
-      }
+    try {
+      log("Sending TV Guide: ${newGuide.channels.length} channels, current program: ${newGuide.currentProgram?.name}");
+      VideoPlayerApi().sendTVGuideModel(newGuide);
+    } catch (e, stackTrace) {
+      log(e.toString(), stackTrace: stackTrace);
     }
+  }
+
+  void _scheduleRefreshAt(DateTime at, Ref ref) {
+    if (_lastScheduledAt != null && _lastScheduledAt!.isAtSameMomentAs(at)) {
+      return;
+    }
+
+    _refreshTimer?.cancel();
+    _lastScheduledAt = at;
+
+    final now = DateTime.now();
+    final delay = at.isBefore(now) ? const Duration(seconds: 1) : at.difference(now) + const Duration(seconds: 1);
+
+    _refreshTimer = Timer(delay, () {
+      _lastScheduledAt = null;
+      _switchProgram(ref);
+    });
   }
 
   @override

@@ -190,7 +190,7 @@ class _EditDialogSwitcherState extends ConsumerState<EditDialogSwitcher> with Ti
                     ? SizedBox(
                         width: 21,
                         height: 21,
-                        child: CircularProgressIndicator.adaptive(
+                        child: CircularProgressIndicator(
                             backgroundColor: Theme.of(context).colorScheme.onPrimary, strokeCap: StrokeCap.round),
                       )
                     : Text(context.localized.save),

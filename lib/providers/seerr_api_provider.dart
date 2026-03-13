@@ -10,6 +10,9 @@ import 'package:fladder/providers/seerr_service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_chopper_service.dart';
 import 'package:fladder/seerr/seerr_json_converter.dart';
+import 'package:fladder/util/fladder_config.dart';
+import 'package:fladder/util/seerr_http_client.dart'
+    if (dart.library.html) 'package:fladder/util/seerr_http_client_web.dart';
 
 part 'seerr_api_provider.g.dart';
 
@@ -20,6 +23,7 @@ class SeerrApi extends _$SeerrApi {
     ref.watch(userProvider.select((u) => u?.seerrCredentials));
 
     final chopperClient = ChopperClient(
+      client: createSeerrHttpClient(),
       converter: const SeerrJsonConverter(),
       interceptors: [
         SeerrRequest(ref),
@@ -44,7 +48,7 @@ class SeerrRequest implements Interceptor {
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
     final connectivityNotifier = ref.read(connectivityStatusProvider.notifier);
     final creds = ref.read(userProvider)?.seerrCredentials;
-    final serverUrl = creds?.serverUrl.trim();
+    final serverUrl = (FladderConfig.seerrBaseUrl ?? creds?.serverUrl)?.trim();
 
     if (serverUrl == null || serverUrl.isEmpty) {
       throw const HttpException('Seerr server not configured');
@@ -54,7 +58,9 @@ class SeerrRequest implements Interceptor {
     final cookie = creds?.sessionCookie.trim() ?? '';
 
     final authHeaders = _authHeaders(apiKey: apiKey, cookie: cookie);
-    final customHeaders = creds?.customHeaders ?? <String, String>{};
+    final customHeaders = {
+      ...?creds?.customHeaders,
+    };
     final headers = {...authHeaders, ...customHeaders};
     final apiBaseUri = Uri.parse(serverUrl);
 
@@ -85,7 +91,8 @@ class SeerrRequest implements Interceptor {
 
 Map<String, String> _authHeaders({required String apiKey, required String cookie}) {
   if (apiKey.isNotEmpty) return {'X-Api-Key': apiKey};
-  if (cookie.isNotEmpty) return {'Cookie': cookie};
+  if (cookie.isNotEmpty && cookie != kBrowserManagedCookie) return {'Cookie': cookie};
+  if (cookie == kBrowserManagedCookie) return const {};
   return const {};
 }
 

@@ -1835,5 +1835,35 @@
     "settingsBlurEffectsTitle": "Unschärfe Effekt aktivieren",
     "settingsBlurEffectsDesc": "Aktiviert den Unschärfeeffekte in der Benutzeroberfläche. Das Deaktivieren kann die Leistung auf Geräten mit niedrigerer Leistung verbessern.",
     "profileSettingsOpenAuthAtLaunch": "Authentifizierungsmethode beim App sperren anzeigen",
-    "toggleSidebar": "Seitenleiste umschalten"
+    "toggleSidebar": "Seitenleiste umschalten",
+    "requestedSuccessForItem": "Anfrage erfolgreich: {itemName}",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "generateLoginLink": "Code für {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "Login Link teilen",
+    "shareQRCode": "QR Code teilen",
+    "copyLoginLink": "Link kopieren",
+    "includePassword": "Passwort einschließen",
+    "invalidAuthLink": "Ungültiger Login Link",
+    "linkData": "Link Daten",
+    "passwordNotRequired": "Nicht erforderlich, leer lassen damit dem Link kein Passwort beigefügt wird",
+    "authLinkButtonToolTip": "Auth Link Dialog aufrufen",
+    "connectWithAuthLink": "Mit Auth Link verbinden",
+    "pasteFladderAuthLink": "Fladder Auth Link einfügen fladder:///login?authLink=...",
+    "connect": "Verbinden",
+    "authLinkDesc": "Frage den Server-Admin, um den Auth-Link zu erhalten. Der Link enthält Authentifizierungsinformationen, behandle diesen daher vertraulich."
 }

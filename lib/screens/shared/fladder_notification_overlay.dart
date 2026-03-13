@@ -106,15 +106,18 @@ class FladderSnack {
   }) async {
     try {
       final result = await future;
-      if (result != null && result.isSuccess) {
+      if (result == null) {
+        return ApiResult.failure(ApiError(message: "No result returned"));
+      }
+      if (result.isSuccess) {
         if (successTitle != null) {
           show(successTitle);
         }
       } else {
-        final err = result?.errorMessage ?? "Unknown error";
-        show(errorTitle != null ? errorTitle(err) : err);
+        final err = result.errorMessage;
+        throw Exception(err);
       }
-      return result ?? ApiResult.failure(ApiError(message: "No response"));
+      return result;
     } catch (e) {
       show(errorTitle != null ? errorTitle(e.toString()) : "An error occurred: $e");
       rethrow;

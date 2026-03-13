@@ -36,7 +36,7 @@ class DiscoverServersWidget extends ConsumerWidget {
         .toList();
     final discoverdServersStream = ref.watch(serverDiscoveryProvider);
     return ListView(
-      padding: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(0),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
@@ -103,7 +103,7 @@ class DiscoverServersWidget extends ConsumerWidget {
             loading: () => const Center(
               child: SizedBox.square(
                 dimension: 24.0,
-                child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
+                child: CircularProgressIndicator(strokeCap: StrokeCap.round),
               ),
             ),
           ),

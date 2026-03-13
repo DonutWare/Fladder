@@ -14,6 +14,7 @@ import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/focused_outlined_text_field.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 Future<void> showSeerrConnectionDialog(BuildContext context) {
@@ -58,12 +59,14 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   bool processing = false;
   String? error;
 
+  bool get _hasPresetSeerrBaseUrl => FladderConfig.seerrBaseUrl?.isNotEmpty == true;
+
   @override
   void initState() {
     super.initState();
     final creds = ref.read(userProvider)?.seerrCredentials;
     apiKeyController = TextEditingController(text: creds?.apiKey ?? '');
-    serverController = TextEditingController(text: creds?.serverUrl ?? '');
+    serverController = TextEditingController(text: FladderConfig.seerrBaseUrl ?? creds?.serverUrl ?? '');
     localEmailController = TextEditingController();
     localPasswordController = TextEditingController();
     jfUsernameController = TextEditingController();
@@ -109,11 +112,15 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _refreshSession() async {
-    final serverUrl = serverController.text.trim().isNotEmpty
-        ? serverController.text.trim()
-        : ref.read(userProvider)?.seerrCredentials?.serverUrl.trim();
+    final serverUrl = (FladderConfig.seerrBaseUrl?.trim().isNotEmpty == true)
+        ? FladderConfig.seerrBaseUrl?.trim()
+        : (serverController.text.trim().isNotEmpty
+            ? serverController.text.trim()
+            : ref.read(userProvider)?.seerrCredentials?.serverUrl.trim());
     if (serverUrl != null && serverUrl.isNotEmpty) {
-      ref.read(userProvider.notifier).setSeerrServerUrl(serverUrl);
+      if (!_hasPresetSeerrBaseUrl) {
+        ref.read(userProvider.notifier).setSeerrServerUrl(serverUrl);
+      }
       serverController.text = serverUrl;
     }
 
@@ -386,6 +393,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           controller: serverController,
           keyboardType: TextInputType.url,
           textInputAction: TextInputAction.next,
+          enabled: !_hasPresetSeerrBaseUrl,
           onSubmitted: (_) {
             _applyServerUrl();
             _refreshSession();
@@ -419,11 +427,16 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
                     label: context.localized.seerrHeaderValue,
                     controller: headerValueController,
                     textInputAction: TextInputAction.done,
-                    onSubmitted: (_) => _addHeader(),
+                    onSubmitted: (_) {
+                      _addHeader();
+                    },
                   ),
                 ),
                 const SizedBox(width: 8),
-                IconButton(onPressed: _addHeader, icon: const Icon(IconsaxPlusBold.add_circle)),
+                IconButton(
+                  onPressed: _addHeader,
+                  icon: const Icon(IconsaxPlusBold.add_circle),
+                ),
               ],
             ),
             const SizedBox(height: 8),
@@ -590,7 +603,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
             if (loading)
               const Padding(
                 padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
+                child: CircularProgressIndicator(strokeCap: StrokeCap.round),
               )
             else
               AnimatedFadeSize(child: seerrUser != null ? _loggedInContent() : _authContent()),

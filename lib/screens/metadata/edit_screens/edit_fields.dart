@@ -728,7 +728,7 @@ class _EditGeneralState extends ConsumerState<EditFields> {
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(
-                    child: CircularProgressIndicator.adaptive(strokeCap: StrokeCap.round),
+                    child: CircularProgressIndicator(strokeCap: StrokeCap.round),
                   ),
                 ),
               const SizedBox(height: 16),

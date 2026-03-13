@@ -93,6 +93,25 @@
   "@clearSelection": {},
   "close": "Close",
   "@close": {},
+  "generateLoginLink": "Code for {userName}",
+  "@generateLoginLink": {
+    "description": "Code for a user to share",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "shareLoginLink": "Share login link",
+  "@shareLoginLink": {},
+  "shareQRCode": "Share QR code",
+  "@shareQRCode": {},
+  "copyLoginLink": "Copy link",
+  "@copyLoginLink": {},
+  "includePassword": "Include password",
+  "@includePassword": {},
+  "invalidAuthLink": "Invalid login link",
+  "@invalidAuthLink": {},
   "code": "Code",
   "@code": {},
   "collectionFolder": "{count, plural, one{Collection folder} other{Collection folders}}",
@@ -1354,6 +1373,8 @@
   "qualityOptionsTitle": "Quality options",
   "qualityOptionsOriginal": "Original",
   "qualityOptionsAuto": "Auto",
+  "advancedVideoOptionsTitle": "Advanced video options",
+  "advancedVideoOptionsDesc": "Enable HDR, tone mapping, and advanced color handling (unstable for some devices)",
   "version": "Version",
   "mediaSegmentActions": "Media segment actions",
   "segmentActionNone": "None",
@@ -2475,5 +2496,42 @@
   "settingsBlurEffectsTitle": "Enable blur effects",
   "settingsBlurEffectsDesc": "Enable blur effects in the UI. Disabling this can improve performance on lower-end devices.",
   "profileSettingsOpenAuthAtLaunch": "Show auth-method on app lock",
-  "toggleSidebar": "Toggle sidebar"
+  "toggleSidebar": "Toggle sidebar",
+  "requestedSuccessForItem": "Successfully requested {itemName}",
+  "@requestedSuccessForItem": {
+    "description": "Message shown when a media item is successfully requested",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "linkData": "Link data",
+  "passwordNotRequired": "Not required, leave empty to not include password in the link",
+  "authLinkButtonToolTip": "Open auth link dialog",
+  "connectWithAuthLink": "Connect with auth link",
+  "pasteFladderAuthLink": "Paste fladder auth link fladder:///login?authLink=...",
+  "connect": "Connect",
+  "authLinkDesc": "Ask the server admin to provide the auth link. The link contains authentication information, so be sure to keep it secure.",
+  "deletedItem": "Deleted {itemName}",
+  "@deletedItem": {
+    "description": "Message shown when a item is deleted",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "libraryOrderTitle": "Home Screen Order",
+  "@libraryOrderTitle": {},
+  "libraryOrderDescription": "Drag to reorder libraries on the home screen. Unchecked libraries won't show recently added items.",
+  "@libraryOrderDescription": {},
+  "hidePlayedInLatestTitle": "Hide watched content",
+  "@hidePlayedInLatestTitle": {},
+  "hidePlayedInLatestDescription": "Hide watched content from 'Recently Added Media'",
+  "@hidePlayedInLatestDescription": {},
+  "groupedFoldersTitle": "Grouped Libraries",
+  "@groupedFoldersTitle": {},
+  "groupedFoldersDescription": "Automatically group content from the following libraries into views such as 'Movies', 'Music' and 'TV'.",
+  "@groupedFoldersDescription": {}
 }

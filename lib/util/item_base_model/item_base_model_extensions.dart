@@ -320,6 +320,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           action: () async {
             final response = await FladderSnack.showResponse(
               showDeleteDialog(context, this, ref),
+              successTitle: context.localized.deletedItem(name),
             );
             if (response.isSuccess) {
               onDeleteSuccesFully?.call(this);

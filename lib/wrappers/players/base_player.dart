@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
@@ -37,6 +38,7 @@ abstract class BasePlayer {
   Future<Uint8List?> takeScreenshot();
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel);
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel);
+  void applySubtitleSettings(SubtitleSettingsModel settings) {}
 
   Uri? isValidUrl(String input) {
     try {

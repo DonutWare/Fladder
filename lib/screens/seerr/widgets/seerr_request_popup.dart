@@ -12,6 +12,7 @@ import 'package:fladder/screens/seerr/widgets/request_configuration_section.dart
 import 'package:fladder/screens/seerr/widgets/request_popup_widgets.dart';
 import 'package:fladder/screens/seerr/widgets/seasons_section.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/theme.dart';
@@ -322,7 +323,10 @@ class _SeerrRequestPopupState extends ConsumerState<SeerrRequestPopup> {
             FilledButtonAwait(
               onPressed: requestState.canSubmitRequest
                   ? () async {
-                      await notifier.submitRequest();
+                      await FladderSnack.showResponse(
+                        notifier.submitRequest(),
+                        successTitle: context.localized.requestedSuccessForItem(model.title),
+                      );
                       if (context.mounted) {
                         Navigator.of(context).pop();
                       }
