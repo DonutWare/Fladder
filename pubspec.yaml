@@ -70,6 +70,7 @@ dependencies:
   media_kit_video: ^2.0.0 # For video rendering.
   media_kit_libs_video: ^1.0.7 # Native video dependencies.
   audio_service: ^0.18.18
+  audio_service_mpris: ^0.2.0
   fvp: ^0.35.0
   video_player: ^2.10.0
 
