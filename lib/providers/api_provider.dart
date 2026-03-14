@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:chopper/chopper.dart';
+import 'package:http/http.dart' as http;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:punycoder/punycoder.dart';
@@ -109,11 +110,18 @@ class JellyRequest implements Interceptor {
   }
 }
 
+/// Whether [url] already carries an http or https scheme.
+/// Uses toLowerCase() because users may type mixed-case schemes (e.g. Https://, HTTP://).
+bool hasHttpScheme(String url) {
+  final lower = url.toLowerCase();
+  return lower.startsWith('http://') || lower.startsWith('https://');
+}
+
 String normalizeUrl(String url) {
   final trimmed = url.trim();
   if (trimmed.isEmpty) return '';
 
-  final withScheme = (trimmed.startsWith('http://') || trimmed.startsWith('https://')) ? trimmed : 'http://$trimmed';
+  final withScheme = hasHttpScheme(trimmed) ? trimmed : 'http://$trimmed';
   final parsed = Uri.parse(withScheme);
 
   // Only punycode non-ASCII hostnames. IP addresses are always ASCII, so no special handling needed.
@@ -128,6 +136,43 @@ String normalizeUrl(String url) {
   } catch (_) {
     return parsed.toString();
   }
+}
+
+Future<String?> _probeUrl(String baseUrl, String endpoint) async {
+  try {
+    await http.head(Uri.parse('$baseUrl$endpoint')).timeout(const Duration(seconds: 5));
+    // Any HTTP response (including 4xx/5xx) means the server is reachable at this URL.
+    // This only acts as scheme detection, not as health check.
+    return baseUrl;
+  } catch (e) {
+    log('Probe failed for $baseUrl$endpoint: $e');
+  }
+  return null;
+}
+
+/// Probes a Seerr server URL by hitting /api/v1/status.
+Future<String?> probeSeerrUrl(String baseUrl) => _probeUrl(baseUrl, '/api/v1/status');
+
+/// Probes a Jellyfin server URL by hitting /System/Info/Public.
+Future<String?> probeJellyfinUrl(String baseUrl) => _probeUrl(baseUrl, '/System/Info/Public');
+
+/// Result of [probeAndNormalizeUrl]: the resolved URL and whether a probe succeeded.
+typedef ProbeResult = ({String url, bool probed});
+
+/// Tries https and http in parallel using [probeFn] if no scheme is provided.
+/// Always returns a usable URL (falls back to https when both probes fail).
+/// If a scheme is already present, returns the normalized URL without probing.
+Future<ProbeResult> probeAndNormalizeUrl(String url, Future<String?> Function(String) probeFn) async {
+  if (!hasHttpScheme(url)) {
+    final httpsUrl = normalizeUrl('https://$url');
+    final httpUrl = normalizeUrl('http://$url');
+    final httpFuture = probeFn(httpUrl);
+    final httpsResult = await probeFn(httpsUrl);
+    if (httpsResult != null) return (url: httpsResult, probed: true);
+    final httpResult = await httpFuture;
+    return (url: httpResult ?? httpsUrl, probed: httpResult != null);
+  }
+  return (url: normalizeUrl(url), probed: true);
 }
 
 Uri? tryParseServerBaseUri(String? url) {

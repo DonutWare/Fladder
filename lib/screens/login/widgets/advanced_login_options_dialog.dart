@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -25,6 +27,8 @@ class _AdvancedLoginOptionsDialog extends ConsumerStatefulWidget {
 
 class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptionsDialog> {
   late final TextEditingController seerrUrlController = TextEditingController(text: widget.initialSeerrUrl ?? '');
+  bool _probing = false;
+  String? _warning;
 
   @override
   void dispose() {
@@ -49,6 +53,7 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 16,
           children: [
+            if (_warning != null) SettingsMessageBox(_warning!, messageType: MessageType.warning),
             OutlinedTextField(
               controller: seerrUrlController,
               keyboardType: TextInputType.url,
@@ -68,14 +73,36 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
           child: Text(context.localized.cancel),
         ),
         FilledButton(
-          onPressed: _save,
-          child: Text(context.localized.save),
+          onPressed: _probing ? null : _save,
+          child: _probing
+              ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+              : Text(context.localized.save),
         ),
       ],
     );
   }
 
-  void _save() {
-    Navigator.of(context).pop(seerrUrlController.text.trim());
+  Future<void> _save() async {
+    final url = seerrUrlController.text.trim();
+    if (url.isEmpty) {
+      Navigator.of(context).pop(url);
+      return;
+    }
+    setState(() {
+      _probing = true;
+      _warning = null;
+    });
+    try {
+      final result = await probeAndNormalizeUrl(url, probeSeerrUrl);
+      if (!mounted) return;
+      if (result.probed) {
+        Navigator.of(context).pop(result.url);
+      } else {
+        seerrUrlController.text = result.url;
+        _warning = context.localized.seerrUrlSchemeWarning;
+      }
+    } finally {
+      if (mounted) setState(() => _probing = false);
+    }
   }
 }

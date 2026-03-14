@@ -1,4 +1,5 @@
 import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/providers/api_provider.dart';
 
 const _tmdbPosterBaseUrl = 'https://image.tmdb.org/t/p/w500';
 const _tmdbBackdropBaseUrl = 'https://image.tmdb.org/t/p/w780';
@@ -7,7 +8,7 @@ String? tmdbUrl(String base, String? path) {
   if (path == null) return null;
   final trimmed = path.trim();
   if (trimmed.isEmpty) return null;
-  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
+  if (hasHttpScheme(trimmed)) return trimmed;
   return '$base$trimmed';
 }
 
@@ -18,28 +19,28 @@ String? resolveImageUrl({
 }) {
   if (path == null || path.trim().isEmpty) return path;
   final trimmed = path.trim();
-  
-  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+
+  if (hasHttpScheme(trimmed)) {
     return trimmed;
   }
-  
+
   final tmdb = tmdbUrl(tmdbBase, trimmed);
   if (tmdb != null) return tmdb;
-  
+
   return resolveServerUrl(path: trimmed, serverUrl: serverUrl);
 }
 
 String? resolveServerUrl({required String? path, required String? serverUrl}) {
   if (path == null || path.trim().isEmpty) return path;
   final trimmed = path.trim();
-  
-  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+
+  if (hasHttpScheme(trimmed)) {
     return trimmed;
   }
-  
+
   if (serverUrl == null || serverUrl.trim().isEmpty) return trimmed;
   final cleanServerUrl = serverUrl.trim();
-  
+
   final needsSlash = !cleanServerUrl.endsWith('/') && !trimmed.startsWith('/');
   return '$cleanServerUrl${needsSlash ? '/' : ''}$trimmed';
 }

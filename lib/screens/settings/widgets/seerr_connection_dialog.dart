@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
@@ -16,6 +18,13 @@ import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/localization_helper.dart';
+
+final _stackTracePattern = RegExp(r'\n#\d');
+String _sanitizeErrorMessage(Object error) {
+  final str = error.toString();
+  final match = _stackTracePattern.firstMatch(str);
+  return match != null ? str.substring(0, match.start).trim() : str;
+}
 
 Future<void> showSeerrConnectionDialog(BuildContext context) {
   return showDialogAdaptive(
@@ -58,6 +67,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   bool loading = true;
   bool processing = false;
   String? error;
+  String? warning;
 
   bool get _hasPresetSeerrBaseUrl => FladderConfig.seerrBaseUrl?.isNotEmpty == true;
 
@@ -161,26 +171,50 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
     }
   }
 
-  bool _applyServerUrl({bool showError = true}) {
-    final serverUrl = serverController.text.trim();
-    if (serverUrl.isEmpty) {
-      if (showError && mounted) {
+  Future<bool> _applyServerUrl() async {
+    warning = null;
+    error = null;
+    final rawUrl = serverController.text.trim();
+    if (rawUrl.isEmpty) {
+      if (mounted) {
         setState(() {
           error = context.localized.seerrEnterServerUrlFirst;
         });
       }
       return false;
     }
-    ref.read(userProvider.notifier).setSeerrServerUrl(serverUrl);
+
+    final result = await probeAndNormalizeUrl(rawUrl, probeSeerrUrl);
+
+    if (!mounted) return false;
+
+    if (!result.probed) {
+      warning = context.localized.seerrUrlSchemeWarning;
+    }
+
+    if (result.url != rawUrl) {
+      serverController.text = result.url;
+    }
+    ref.read(userProvider.notifier).setSeerrServerUrl(result.url);
+    if (mounted) setState(() {});
+    return true;
+  }
+
+  Future<bool> _beginProcessing() async {
+    setState(() {
+      processing = true;
+      error = null;
+      warning = null;
+    });
+    if (!await _applyServerUrl()) {
+      if (mounted) setState(() => processing = false);
+      return false;
+    }
     return true;
   }
 
   Future<void> _useApiKey() async {
-    if (!_applyServerUrl()) return;
-    setState(() {
-      processing = true;
-      error = null;
-    });
+    if (!await _beginProcessing()) return;
 
     final apiKey = apiKeyController.text.trim();
     ref.read(userProvider.notifier).setSeerrApiKey(apiKey);
@@ -203,11 +237,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _loginLocal() async {
-    if (!_applyServerUrl()) return;
-    setState(() {
-      processing = true;
-      error = null;
-    });
+    if (!await _beginProcessing()) return;
 
     try {
       final cookie = await ref.read(seerrApiProvider).authenticateLocal(
@@ -223,8 +253,9 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       }
     } catch (e) {
       if (mounted) {
-        error = e.toString();
-        FladderSnack.show(e.toString(), context: context);
+        final message = _sanitizeErrorMessage(e);
+        error = message;
+        FladderSnack.show(message, context: context);
       }
     } finally {
       if (mounted) {
@@ -237,11 +268,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _loginJellyfin() async {
-    if (!_applyServerUrl()) return;
-    setState(() {
-      processing = true;
-      error = null;
-    });
+    if (!await _beginProcessing()) return;
 
     try {
       final cookie = await ref.read(seerrApiProvider).authenticateJellyfin(
@@ -257,8 +284,9 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       }
     } catch (e) {
       if (mounted) {
-        error = e.toString();
-        FladderSnack.show(e.toString(), context: context);
+        final message = _sanitizeErrorMessage(e);
+        error = message;
+        FladderSnack.show(message, context: context);
       }
     } finally {
       if (mounted) {
@@ -271,18 +299,23 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
   }
 
   Future<void> _logout() async {
-    _applyServerUrl(showError: false);
+    final serverUrl = serverController.text.trim();
+    if (serverUrl.isNotEmpty) {
+      ref.read(userProvider.notifier).setSeerrServerUrl(serverUrl);
+    }
     setState(() {
       processing = true;
       error = null;
+      warning = null;
     });
 
     try {
       await ref.read(seerrApiProvider).logout();
     } catch (e) {
       if (mounted) {
-        error = e.toString();
-        FladderSnack.show(e.toString(), context: context);
+        final message = _sanitizeErrorMessage(e);
+        error = message;
+        FladderSnack.show(message, context: context);
       }
     } finally {
       ref.read(userProvider.notifier).logoutSeerr();
@@ -327,6 +360,8 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
           Expanded(
             child: Text(
               error!,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onErrorContainer,
                   ),
@@ -347,6 +382,7 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       spacing: 12,
       children: [
         if (error != null) _errorBanner(),
+        if (warning != null) SettingsMessageBox(warning!, messageType: MessageType.warning),
         if (serverUrl.isNotEmpty)
           Flexible(
             child: Text(
@@ -388,15 +424,16 @@ class _SeerrConnectionDialogState extends ConsumerState<SeerrConnectionDialog> {
       spacing: 12,
       children: [
         if (error != null) _errorBanner(),
+        if (warning != null) SettingsMessageBox(warning!, messageType: MessageType.warning),
         FocusedOutlinedTextField(
           label: context.localized.seerrServer,
           controller: serverController,
           keyboardType: TextInputType.url,
           textInputAction: TextInputAction.next,
           enabled: !_hasPresetSeerrBaseUrl,
-          onSubmitted: (_) {
-            _applyServerUrl();
-            _refreshSession();
+          onSubmitted: (_) async {
+            await _applyServerUrl();
+            await _refreshSession();
           },
         ),
         const SizedBox(height: 8),

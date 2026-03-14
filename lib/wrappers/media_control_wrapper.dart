@@ -160,12 +160,20 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
               case PressedButton.rewind:
                 rewind();
                 break;
-              case PressedButton.previous:
-                break;
               case PressedButton.stop:
                 stop();
                 break;
-              default:
+              case PressedButton.previous:
+                skipToPrevious();
+                break;
+              case PressedButton.next:
+                skipToNext();
+                break;
+              case PressedButton.record:
+                break;
+              case PressedButton.channelUp:
+                break;
+              case PressedButton.channelDown:
                 break;
             }
           }),
@@ -190,6 +198,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       smtc?.setPlaybackStatus(value.playing ? PlaybackStatus.playing : PlaybackStatus.paused);
     }));
   }
+
+  @override
+  Future<void> skipToNext() => loadNextVideo();
+
+  @override
+  Future<void> skipToPrevious() => loadPreviousVideo();
 
   @override
   Future<void> pause() async {
@@ -221,6 +235,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
     windowSMTCSetup(playBackItem, currentPosition ?? Duration.zero);
 
+    final hasNextVideo = ref.read(playBackModel.select((value) => value?.nextVideo != null));
+    final hasPreviousVideo = ref.read(playBackModel.select((value) => value?.previousVideo != null));
+
     //Everything else setup
     mediaItem.add(MediaItem(
       id: playBackItem.id,
@@ -233,8 +250,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       playing: true,
       controls: [
         MediaControl.pause,
+        if (hasNextVideo) MediaControl.skipToNext,
+        if (hasPreviousVideo) MediaControl.skipToPrevious,
       ],
-      systemActions: const {
+      systemActions: {
+        if (hasNextVideo) MediaAction.skipToNext,
+        if (hasPreviousVideo) MediaAction.skipToPrevious,
         MediaAction.seek,
         MediaAction.fastForward,
         MediaAction.setSpeed,
@@ -352,14 +373,14 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   //
   //
   @override
-  void loadNextVideo() async {
+  Future<void> loadNextVideo() async {
     final nextVideo = ref.read(playBackModel.select((value) => value?.nextVideo));
     final buffering = ref.read(mediaPlaybackProvider.select((value) => value.buffering));
     if (nextVideo != null && !buffering) ref.read(playbackModelHelper).loadNewVideo(nextVideo);
   }
 
   @override
-  void loadPreviousVideo() async {
+  Future<void> loadPreviousVideo() async {
     final previousVideo = ref.read(playBackModel.select((value) => value?.previousVideo));
     final buffering = ref.read(mediaPlaybackProvider.select((value) => value.buffering));
     if (previousVideo != null && !buffering) ref.read(playbackModelHelper).loadNewVideo(previousVideo);
