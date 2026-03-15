@@ -6,8 +6,8 @@ NGINX_CONF="/etc/nginx/conf.d/default.conf"
 
 # --- Build config.json ---
 
-# Determine seerrProxyPath: set when both SEERR_BASE_URL and SEERR_CUSTOM_HEADERS are provided
-if [ -n "$SEERR_BASE_URL" ] && [ -n "$SEERR_CUSTOM_HEADERS" ]; then
+# Determine seerrProxyPath: set when both SEERR_BASE_URL and SEERR_HEADER are provided
+if [ -n "$SEERR_BASE_URL" ] && [ -n "$SEERR_HEADER" ] && [ "$SEERR_HEADER" != "null" ]; then
   SEERR_PROXY_PATH="/seerr-proxy"
 else
   SEERR_PROXY_PATH=""
@@ -26,9 +26,9 @@ EOF
 # --- Build nginx config ---
 
 PROXY_BLOCK=""
-if [ -n "$SEERR_BASE_URL" ] && [ -n "$SEERR_CUSTOM_HEADERS" ]; then
+if [ -n "$SEERR_BASE_URL" ] && [ -n "$SEERR_HEADER" ] && [ "$SEERR_HEADER" != "null" ]; then
   # Build proxy_set_header directives from JSON object
-  HEADER_DIRECTIVES=$(echo "$SEERR_CUSTOM_HEADERS" | jq -r 'to_entries[] | "        proxy_set_header \(.key) \"\(.value)\";"')
+  HEADER_DIRECTIVES=$(echo "$SEERR_HEADER" | jq -r 'to_entries[] | "        proxy_set_header \(.key) \"\(.value)\";"')
 
   PROXY_BLOCK="
     location ${SEERR_PROXY_PATH}/ {
