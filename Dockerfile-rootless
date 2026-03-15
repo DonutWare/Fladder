@@ -1,16 +1,19 @@
 FROM ghcr.io/nginxinc/nginx-unprivileged:stable-alpine-slim
 
+RUN apk add --no-cache jq
+
 EXPOSE 8080
 
 ENV BASE_URL=""
 ENV SEERR_BASE_URL=""
-ENV SEERR_HEADER="null"
+ENV SEERR_CUSTOM_HEADERS=""
+ENV PORT=8080
 
 USER root
 COPY build/web /usr/share/nginx/html
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN mkdir -p /usr/share/nginx/html/assets/config && \
-    chown -R nginx:nginx /usr/share/nginx/html && \
+COPY docker/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+    chown -R nginx:nginx /etc/nginx/conf.d && \
     chmod +x /docker-entrypoint.sh && \
     chown nginx:nginx /docker-entrypoint.sh
 
