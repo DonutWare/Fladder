@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 
@@ -54,50 +55,42 @@ abstract class TranscodeDownloadModel with _$TranscodeDownloadModel {
         "Known-Content-Length": calculatedContentLength(duration, item: item).toString(),
       };
 
-  //Very much a guesstimation based on video resolution and codec not in any way accurate handle with care
+  /// Estimates download file size based on bitrate and duration.
+  /// Adds 10% overhead for container and metadata.
   int calculatedContentLength(Duration duration, {ItemBaseModel? item}) {
     final seconds = duration.inSeconds;
-    final currentBitRate = maxBitrate.bitRate ?? item?.streamModel?.videoStreams.firstOrNull?.bitRate ?? 4000000;
-    int videoBitrateInBps = currentBitRate;
-
-    final sourceVideoStream = item?.streamModel?.videoStreams.firstOrNull;
-    if (sourceVideoStream != null) {
-      final sourceWidth = sourceVideoStream.width;
-      final sourceHeight = sourceVideoStream.height;
-      final sourceBitrate = sourceVideoStream.bitRate;
-
-      if (sourceWidth > 0 && sourceHeight > 0) {
-        final aspectRatio = sourceWidth / sourceHeight;
-        final targetHeight = int.tryParse(maxHeight.label) ?? sourceHeight;
-        final targetWidth = (targetHeight * aspectRatio).round();
-
-        final pixelRatio = (targetWidth * targetHeight) / (sourceWidth * sourceHeight);
-
-        final baseBitrate = (sourceBitrate != null && sourceBitrate > 0 && sourceBitrate < currentBitRate)
-            ? sourceBitrate
-            : currentBitRate;
-
-        //CRF encoding variant simply a magic number nothing else
-        const crfEfficiency = 0.6;
-        final scaledBitrate = (baseBitrate * pixelRatio * crfEfficiency).toInt();
-
-        videoBitrateInBps = scaledBitrate < currentBitRate ? scaledBitrate : currentBitRate;
-      }
-    }
-
-    final audioBitrateInBps = _estimatedAudioBitrate(audioCodec);
-    final totalBitrateInBps = videoBitrateInBps + audioBitrateInBps;
-    return (seconds * totalBitrateInBps) ~/ 8;
+    if (seconds <= 0) return 0;
+    final bitrateValue = maxBitrate.bitRate ?? item?.streamModel?.videoStreams.firstOrNull?.bitRate ?? 4000000;
+    return ((bitrateValue * seconds) / 8 * 1.1).floor();
   }
 
-  int _estimatedAudioBitrate(AudioCodec codec) {
-    return switch (codec) {
-      AudioCodec.aac => 128000,
-      AudioCodec.mp3 => 128000,
-      AudioCodec.opus => 96000,
-      AudioCodec.vorbis => 128000,
-    };
-  }
+  /// Device profile for download transcoding.
+  /// Uses HTTP protocol instead of HLS so the server returns a complete file URL.
+  DeviceProfile get deviceProfile => DeviceProfile(
+        maxStreamingBitrate: maxBitrate.bitRate,
+        maxStaticBitrate: maxBitrate.bitRate,
+        directPlayProfiles: const [
+          DirectPlayProfile(type: DlnaProfileType.video),
+          DirectPlayProfile(type: DlnaProfileType.audio),
+        ],
+        transcodingProfiles: [
+          TranscodingProfile(
+            audioCodec: audioCodec.name.toLowerCase(),
+            container: container.name.toLowerCase(),
+            maxAudioChannels: '2',
+            protocol: MediaStreamProtocol.http,
+            type: DlnaProfileType.video,
+            videoCodec: videoCodec.name.toLowerCase(),
+          ),
+        ],
+        containerProfiles: const [],
+        subtitleProfiles: const [
+          SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'pgssub', method: SubtitleDeliveryMethod.$external),
+        ],
+      );
 
   String label(BuildContext context) {
     if (!enabled) {

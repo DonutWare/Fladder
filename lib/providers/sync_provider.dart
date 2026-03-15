@@ -11,21 +11,17 @@ import 'package:collection/collection.dart';
 import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/models/api_result.dart';
 import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
-import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
-import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
-import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/syncing/database_item.dart';
 import 'package:fladder/models/syncing/download_stream.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
@@ -38,6 +34,8 @@ import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
+import 'package:fladder/providers/sync/sync_provider_media.dart';
+import 'package:fladder/providers/sync/sync_provider_overlay.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/duration_extensions.dart';
@@ -385,102 +383,6 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     }
   }
 
-  //Utility functions
-  Future<List<SubStreamModel>> saveExternalSubtitles(List<SubStreamModel>? subtitles, SyncedItem item) async {
-    if (subtitles == null) return [];
-
-    final directory = item.directory;
-
-    await directory.create(recursive: true);
-
-    return Stream.fromIterable(subtitles).asyncMap((element) async {
-      if (element.isExternal) {
-        final response = await http.get(Uri.parse(element.url!));
-
-        final file = File(path.joinAll([directory.path, "${element.displayTitle}.${element.language}.srt"]));
-        file.writeAsBytesSync(response.bodyBytes);
-        return element.copyWith(
-          url: () => file.path,
-        );
-      }
-      return element;
-    }).toList();
-  }
-
-  Future<TrickPlayModel?> saveTrickPlayData(ItemBaseModel? item, Directory saveDirectory) async {
-    if (item == null) return null;
-    final trickPlayDirectory = Directory(path.joinAll([saveDirectory.path, SyncedItem.trickPlayPath]))
-      ..createSync(recursive: true);
-    final trickPlayData = await api.getTrickPlay(item: item, ref: ref);
-    final List<String> newStringList = [];
-
-    for (var index = 0; index < (trickPlayData?.body?.images.length ?? 0); index++) {
-      final image = trickPlayData?.body?.images[index];
-      if (image != null) {
-        final http.Response response = await http.get(Uri.parse(image));
-        File? newFile;
-        final fileName = "tile_$index.jpg";
-        if (response.statusCode == 200) {
-          final Uint8List bytes = response.bodyBytes;
-          newFile = File(path.joinAll([trickPlayDirectory.path, fileName]));
-          await newFile.writeAsBytes(bytes);
-        }
-        if (newFile != null && await newFile.exists()) {
-          newStringList.add(path.joinAll(['TrickPlay', fileName]));
-        }
-      }
-    }
-    return trickPlayData?.body?.copyWith(images: newStringList.toList());
-  }
-
-  Future<ImagesData?> saveImageData(ImagesData? data, Directory saveDirectory) async {
-    if (data == null) return data;
-    if (!saveDirectory.existsSync()) return data;
-
-    final primary = await urlDataToFileData(data.primary, saveDirectory, "primary.jpg");
-    final logo = await urlDataToFileData(data.logo, saveDirectory, "logo.jpg");
-    final backdrops = await Stream.fromIterable(data.backDrop ?? <ImageData>[])
-        .asyncMap((element) async => await urlDataToFileData(element, saveDirectory, "backdrop-${element.key}.jpg"))
-        .toList();
-
-    return data.copyWith(
-      primary: () => primary,
-      logo: () => logo,
-      backDrop: () => backdrops.nonNulls.toList(),
-    );
-  }
-
-  Future<List<Chapter>?> saveChapterImages(List<Chapter>? data, Directory itemPath) async {
-    if (data == null) return data;
-    if (!itemPath.existsSync()) return data;
-    if (data.isEmpty) return data;
-    final saveDirectory = Directory(path.joinAll([itemPath.path, SyncedItem.chaptersPath]));
-
-    await saveDirectory.create(recursive: true);
-
-    final saveChapters = await Stream.fromIterable(data).asyncMap((event) async {
-      final fileName = "${event.name}.jpg";
-      final response = await http.get(Uri.parse(event.imageUrl));
-      final file = File(path.joinAll([saveDirectory.path, fileName]));
-      if (response.bodyBytes.isEmpty) return null;
-      file.writeAsBytesSync(response.bodyBytes);
-      return event.copyWith(
-        imageUrl: path.joinAll([SyncedItem.chaptersPath, fileName]),
-      );
-    }).toList();
-    return saveChapters.nonNulls.toList();
-  }
-
-  Future<ImageData?> urlDataToFileData(ImageData? data, Directory directory, String fileName) async {
-    if (data?.path == null) return null;
-    final response = await http.get(Uri.parse(data?.path ?? ""));
-
-    final file = File(path.joinAll([directory.path, fileName]));
-    file.writeAsBytesSync(response.bodyBytes);
-
-    return data?.copyWith(path: fileName);
-  }
-
   Future<int> updateItem(SyncedItem item) async {
     SyncedItem syncedItem = item;
     try {
@@ -495,6 +397,11 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   Future<SyncedItem> deleteFullSyncFiles(SyncedItem syncedItem, DownloadTask? task) async {
     await syncedItem.deleteDatFiles(ref);
 
+    syncedItem = syncedItem.copyWith(
+      transcodeDownloadModel: null,
+    );
+    await updateItem(syncedItem);
+
     ref.read(downloadTasksProvider(syncedItem.id).notifier).update((state) => DownloadStream.empty());
 
     ref.read(backgroundDownloaderProvider).cancelTaskWithId(syncedItem.id);
@@ -507,25 +414,43 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   Future<bool?> syncFile(SyncedItem syncItem, bool skipDownload, {TranscodeDownloadModel? transcodeModel}) async {
     cleanupTemporaryFiles();
 
-    final playbackResponse = await api.itemsItemIdPlaybackInfoPost(
-      itemId: syncItem.id,
-      body: PlaybackInfoDto(
-        enableDirectPlay: true,
-        enableDirectStream: true,
-        enableTranscoding: false,
-        deviceProfile: ref.read(videoProfileProvider),
-      ),
-    );
-
     final globalTranscodeModel = ref.read(clientSettingsProvider.select((value) => value.transcodeDownloadModel));
 
     transcodeModel ??= globalTranscodeModel;
 
+    final userId = ref.read(userProvider)?.id;
     final item = syncItem.createItemModel(ref);
+    final streamModel = item?.streamModel;
+
+    final playbackResponse = await FladderSnack.showResponse(
+      api
+          .itemsItemIdPlaybackInfoPost(
+            itemId: syncItem.id,
+            body: PlaybackInfoDto(
+              userId: userId,
+              enableDirectPlay: !transcodeModel.enabled,
+              enableDirectStream: !transcodeModel.enabled,
+              enableTranscoding: true,
+              autoOpenLiveStream: true,
+              maxStreamingBitrate: transcodeModel.enabled ? transcodeModel.maxBitrate.bitRate : null,
+              deviceProfile: transcodeModel.enabled ? transcodeModel.deviceProfile : ref.read(videoProfileProvider),
+              mediaSourceId: streamModel?.currentVersionStream?.id,
+              audioStreamIndex: streamModel?.defaultAudioStreamIndex,
+              subtitleStreamIndex: streamModel?.defaultSubStreamIndex,
+            ),
+          )
+          .apiResult,
+    );
+
+    final playbackData = playbackResponse.data;
+    if (playbackData == null) {
+      log('No playback info received for item ${syncItem.id}');
+      return null;
+    }
 
     final directory = await Directory(syncItem.directory.path).create(recursive: true);
 
-    final newState = VideoStream.fromPlayBackInfo(playbackResponse.bodyOrThrow, ref)?.copyWith();
+    final newState = VideoStream.fromPlayBackInfo(playbackData, ref)?.copyWith();
     final subtitles = await saveExternalSubtitles(newState?.mediaStreamsModel?.subStreams, syncItem);
 
     final trickPlayFile = await saveTrickPlayData(item, directory);
@@ -545,6 +470,8 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       transcodeDownloadModel: transcodeModel,
     );
 
+    await writeOverlayFile(syncItem, transcodeModel, subtitles);
+
     await updateItem(syncItem);
 
     final currentTask = ref.read(downloadTasksProvider(syncItem.id));
@@ -552,23 +479,28 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     if (user == null) return null;
 
-    final downloadUrl = buildServerUrl(ref, pathSegments: ['Items', syncItem.id, 'Download']);
+    final mediaSource = playbackData.mediaSources?.firstOrNull;
 
-    final transcodeUrl = ref.read(jellyApiProvider).buildVideoStreamUrl(
-          itemId: syncItem.id,
-          container: transcodeModel.container.name,
-          maxHeight: transcodeModel.maxHeight.value,
-          videoBitRate: transcodeModel.maxBitrate.bitRate,
-          subtitleMethod: VideosItemIdStreamContainerGetSubtitleMethod.embed,
-          transcodingMaxAudioChannels: 2,
-        );
-
-    log(transcodeUrl);
-
-    final queryParams = {
-      "api_key": user.credentials.token,
-      if (transcodeModel.enabled) ...transcodeModel.queryParams,
-    };
+    final String downloadUrl;
+    if ((mediaSource?.supportsDirectStream ?? false) || (mediaSource?.supportsDirectPlay ?? false)) {
+      final directOptions = {
+        'Static': 'true',
+        'mediaSourceId': mediaSource!.id,
+        'api_key': user.credentials.token,
+      };
+      downloadUrl = buildServerUrl(
+        ref,
+        pathSegments: ['Videos', mediaSource.id!, 'stream'],
+        queryParameters: directOptions,
+      );
+      log('Using direct stream URL: $downloadUrl');
+    } else if ((mediaSource?.supportsTranscoding ?? false) && mediaSource?.transcodingUrl != null) {
+      downloadUrl = buildServerUrl(ref, relativeUrl: mediaSource!.transcodingUrl);
+      log('Using transcode URL: $downloadUrl');
+    } else {
+      log('No supported playback method found');
+      return null;
+    }
 
     try {
       if (currentTask.task != null) {
@@ -581,12 +513,9 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
             ...transcodeModel.curlHeaders(item?.overview.runTime ?? Duration.zero, item: item),
         };
 
-        log(curlHeaders.toString());
-
         final downloadTask = DownloadTask(
           taskId: syncItem.id,
-          url: transcodeModel.enabled ? transcodeUrl : downloadUrl,
-          urlQueryParameters: queryParams,
+          url: downloadUrl,
           directory: syncItem.directory.path,
           filename: syncItem.videoFileName,
           updates: Updates.statusAndProgress,

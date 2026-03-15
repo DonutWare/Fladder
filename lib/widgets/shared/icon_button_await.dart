@@ -7,10 +7,17 @@ import 'package:fladder/screens/shared/animated_fade_size.dart';
 
 class IconButtonAwait extends StatefulWidget {
   final FutureOr<dynamic> Function() onPressed;
+  final FutureOr<dynamic> Function()? onLongPress;
   final Color? color;
   final Widget icon;
 
-  const IconButtonAwait({required this.onPressed, required this.icon, this.color, super.key});
+  const IconButtonAwait({
+    required this.onPressed,
+    this.onLongPress,
+    required this.icon,
+    this.color,
+    super.key,
+  });
 
   @override
   State<IconButtonAwait> createState() => IconButtonAwaitState();
@@ -31,6 +38,22 @@ class IconButtonAwaitState extends State<IconButtonAwait> {
                 setState(() => loading = true);
                 try {
                   await widget.onPressed();
+                } catch (e) {
+                  log(e.toString());
+                } finally {
+                  if (mounted) {
+                    setState(() {
+                      loading = false;
+                    });
+                  }
+                }
+              },
+        onLongPress: widget.onLongPress == null
+            ? null
+            : () async {
+                setState(() => loading = true);
+                try {
+                  await widget.onLongPress!();
                 } catch (e) {
                   log(e.toString());
                 } finally {

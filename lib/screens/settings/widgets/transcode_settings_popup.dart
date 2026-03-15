@@ -53,12 +53,13 @@ class _TranscodeSettingsPopupState extends State<TranscodeSettingsPopup> {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 400),
       child: Column(
+        spacing: 16,
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Transcode Settings",
+            context.localized.transcodeInfoTitle,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const Divider(),
@@ -66,7 +67,7 @@ class _TranscodeSettingsPopupState extends State<TranscodeSettingsPopup> {
             child: Column(
               children: [
                 SettingsListTile(
-                  label: const Text("Enable"),
+                  label: Text(context.localized.enabled),
                   trailing: Switch(
                     value: currentModel.enabled,
                     onChanged: (value) {
@@ -77,7 +78,7 @@ class _TranscodeSettingsPopupState extends State<TranscodeSettingsPopup> {
                   ),
                 ),
                 SettingsListTile(
-                  label: const Text("Bitrate"),
+                  label: Text(context.localized.bitrateLabel),
                   trailing: EnumBox(
                     current: currentModel.maxBitrate.label(context),
                     itemBuilder: (context) {
@@ -96,7 +97,7 @@ class _TranscodeSettingsPopupState extends State<TranscodeSettingsPopup> {
                   ),
                 ),
                 SettingsListTile(
-                  label: const Text("Resolution"),
+                  label: Text(context.localized.resolutionLabel),
                   trailing: EnumBox(
                     current: currentModel.maxHeight.label,
                     itemBuilder: (context) {
@@ -114,7 +115,7 @@ class _TranscodeSettingsPopupState extends State<TranscodeSettingsPopup> {
                   ),
                 ),
                 SettingsListTile(
-                  label: const Text("Video codec"),
+                  label: Text(context.localized.videoCodecLabel),
                   trailing: EnumBox(
                     current: currentModel.videoCodec.name,
                     itemBuilder: (context) {
@@ -132,7 +133,7 @@ class _TranscodeSettingsPopupState extends State<TranscodeSettingsPopup> {
                   ),
                 ),
                 SettingsListTile(
-                  label: const Text("Audio codec"),
+                  label: Text(context.localized.audioCodecLabel),
                   trailing: EnumBox(
                     current: currentModel.audioCodec.name,
                     itemBuilder: (context) {
@@ -150,7 +151,7 @@ class _TranscodeSettingsPopupState extends State<TranscodeSettingsPopup> {
                   ),
                 ),
                 SettingsListTile(
-                  label: const Text("Container"),
+                  label: Text(context.localized.containerLabel),
                   trailing: EnumBox(
                     current: currentModel.container.name,
                     itemBuilder: (context) {
@@ -191,7 +192,7 @@ class _TranscodeSettingsPopupState extends State<TranscodeSettingsPopup> {
                   widget.onChanged(currentModel);
                   Navigator.of(context).pop();
                 },
-                child: Text(context.localized.save),
+                child: Text(context.localized.set),
               ),
             ],
           )

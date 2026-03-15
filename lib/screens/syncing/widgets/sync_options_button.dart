@@ -90,13 +90,14 @@ class SyncOptionsButton extends ConsumerWidget {
                   IconButton(
                     onPressed: () async {
                       TranscodeDownloadModel? transcodeModel;
-                      bool cancelled = false;
+                      bool cancelled = true;
                       await showTranscodeSettingsPopup(
                         context: context,
                         current: ref.read(clientSettingsProvider
                             .select((value) => value.transcodeDownloadModel.copyWith(enabled: true))),
                         onChanged: (value) {
                           transcodeModel = value;
+                          cancelled = false;
                         },
                         onClosed: () {
                           cancelled = true;
@@ -105,8 +106,13 @@ class SyncOptionsButton extends ConsumerWidget {
                       if (cancelled) {
                         return;
                       }
-                      return _syncRemainingItems(context, syncedItem, unSyncedChildren, ref,
-                          transcodeModel: transcodeModel);
+                      return _syncRemainingItems(
+                        context,
+                        syncedItem,
+                        unSyncedChildren,
+                        ref,
+                        transcodeModel: transcodeModel,
+                      );
                     },
                     icon: const Icon(
                       Icons.more_vert_rounded,
