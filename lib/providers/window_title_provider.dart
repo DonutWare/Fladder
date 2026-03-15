@@ -48,7 +48,11 @@ class WindowTitleNotifier extends StateNotifier<String> {
     final nav = _navStack.isNotEmpty ? _navStack.last : null;
     final title = _playTitle ?? nav;
 
-    state = title ?? 'Fladder';
+    if (kIsWeb) {
+      state = title != null ? 'Fladder • $title' : 'Fladder';
+    } else {
+      state = title ?? 'Fladder';
+    }
 
     if (!kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows)) {
       windowManager.setTitle(state);
