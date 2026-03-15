@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,6 +47,10 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
       clientSettings,
       packageInfo,
     );
+
+    if (defaultTargetPlatform == TargetPlatform.linux) {
+      await windowManager.setPreventClose(true);
+    }
   }
 
   @override
@@ -55,10 +60,14 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
   }
 
   @override
-  void onWindowClose() {
+  void onWindowClose() async {
     ref.read(videoPlayerProvider).stop();
     ref.read(clientSettingsProvider.notifier).closeDirectory();
     super.onWindowClose();
+
+    if (defaultTargetPlatform == TargetPlatform.linux) {
+      exit(0);
+    }
   }
 
   @override
