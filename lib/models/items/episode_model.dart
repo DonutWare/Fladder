@@ -86,7 +86,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
     final s = season.toString().padLeft(2, '0');
     final e = episodeRange.padLeft(2, '0');
     final prefix = seriesName != null ? '$seriesName • ' : '';
-    return '${prefix}S${s}E${e} $name';
+    return '${prefix}S${s}E$e $name';
   }
 
   @override
