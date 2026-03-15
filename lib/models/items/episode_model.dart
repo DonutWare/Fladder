@@ -82,6 +82,14 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
   }
 
   @override
+  String get windowTitle {
+    final s = season.toString().padLeft(2, '0');
+    final e = episodeRange.padLeft(2, '0');
+    final prefix = seriesName != null ? '$seriesName • ' : '';
+    return '${prefix}S${s}E${e} $name';
+  }
+
+  @override
   String? detailedName(AppLocalizations l10n) => "${subTextShort(l10n)} - $name";
 
   @override

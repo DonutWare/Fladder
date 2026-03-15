@@ -101,6 +101,19 @@ class ItemBaseModel with ItemBaseModelMappable {
 
   String get title => name;
 
+  String get windowTitle {
+    if (jellyType == dto.BaseItemKind.audio) {
+      final artists = overview.people
+          .where((p) => p.type == PersonKind.artist || p.type == PersonKind.albumartist)
+          .map((p) => p.name)
+          .join(', ');
+      if (artists.isNotEmpty) {
+        return '$artists – $name';
+      }
+    }
+    return name;
+  }
+
   ///Used for retrieving the correct id when fetching queue
   String get streamId => id;
 

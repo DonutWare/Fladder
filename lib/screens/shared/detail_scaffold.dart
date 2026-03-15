@@ -11,6 +11,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/providers/window_title_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
@@ -38,6 +39,7 @@ Future<Color?> getDominantColor(ImageProvider imageProvider) async {
 
 class DetailScaffold extends ConsumerStatefulWidget {
   final String label;
+  final String? windowTitle;
   final ItemBaseModel? item;
   final List<ItemAction>? Function(BuildContext context)? actions;
   final Color? backgroundColor;
@@ -47,6 +49,7 @@ class DetailScaffold extends ConsumerStatefulWidget {
   final bool posterFillsContent;
   const DetailScaffold({
     required this.label,
+    this.windowTitle,
     this.item,
     this.actions,
     this.backgroundColor,
@@ -71,8 +74,28 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   ImageData? _lastColorImage;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(windowTitleProvider.notifier).pushNavTitle(widget.windowTitle ?? widget.label);
+    });
+  }
+
+  @override
+  void dispose() {
+    ref.read(windowTitleProvider.notifier).popNavTitle(widget.windowTitle ?? widget.label);
+    super.dispose();
+  }
+
+  @override
   void didUpdateWidget(covariant DetailScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.label != widget.label || oldWidget.windowTitle != widget.windowTitle) {
+      ref.read(windowTitleProvider.notifier).replaceNavTitle(
+            oldWidget.windowTitle ?? oldWidget.label,
+            widget.windowTitle ?? widget.label,
+          );
+    }
     updateImage();
     _updateDominantColor();
     if (widget.item != null && widget.item?.id != item?.id) {
@@ -149,13 +172,13 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
         return PullToRefresh(
           onRefresh: () async {
             await widget.onRefresh?.call();
-            setState(() {
-              if (context.mounted) {
+            if (mounted) {
+              setState(() {
                 if (widget.backDrops?.backDrop?.contains(backgroundImage) == true) {
                   backgroundImage = widget.backDrops?.randomBackDrop;
                 }
-              }
-            });
+              });
+            }
           },
           refreshOnStart: true,
           child: (context) => Scaffold(
@@ -180,31 +203,29 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                           alignment: Alignment.topCenter,
                           child: Padding(
                             padding: EdgeInsets.only(left: sideBarPadding / 1.5, top: topBarPadding / 1.5),
-                            child: RepaintBoundary(
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  minWidth: double.infinity,
-                                  minHeight: minHeight - 22,
-                                  maxHeight: maxHeight.clamp(minHeight, 2500) - (20 + topBarPadding),
-                                ),
-                                child: FadeEdges(
-                                  leftFade: sideBarPadding > 0 ? 0.05 : 0.0,
-                                  topFade: topBarPadding > 0 ? 0.1 : 0.0,
-                                  bottomFade: 0.2,
-                                  child: FadeInImage(
-                                    placeholder: ResizeImage(
-                                      backgroundImage!.imageProvider,
-                                      height: maxHeight ~/ 1.5,
-                                    ),
-                                    placeholderColor: Colors.transparent,
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment.topCenter,
-                                    placeholderFit: BoxFit.cover,
-                                    excludeFromSemantics: true,
-                                    image: ResizeImage(
-                                      backgroundImage!.imageProvider,
-                                      height: maxHeight ~/ 1.5,
-                                    ),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minWidth: double.infinity,
+                                minHeight: minHeight - 22,
+                                maxHeight: maxHeight.clamp(minHeight, 2500) - (20 + topBarPadding),
+                              ),
+                              child: FadeEdges(
+                                leftFade: sideBarPadding > 0 ? 0.05 : 0.0,
+                                topFade: topBarPadding > 0 ? 0.1 : 0.0,
+                                bottomFade: 0.2,
+                                child: FadeInImage(
+                                  placeholder: ResizeImage(
+                                    backgroundImage!.imageProvider,
+                                    height: maxHeight ~/ 1.5,
+                                  ),
+                                  placeholderColor: Colors.transparent,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.topCenter,
+                                  placeholderFit: BoxFit.cover,
+                                  excludeFromSemantics: true,
+                                  image: ResizeImage(
+                                    backgroundImage!.imageProvider,
+                                    height: maxHeight ~/ 1.5,
                                   ),
                                 ),
                               ),
@@ -350,13 +371,11 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                     ),
                                   ],
                                   if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
-                                    Builder(
-                                      builder: (context) => Tooltip(
-                                        message: context.localized.refresh,
-                                        child: IconButton(
-                                          onPressed: () => context.refreshData(),
-                                          icon: const Icon(IconsaxPlusLinear.refresh),
-                                        ),
+                                    Tooltip(
+                                      message: context.localized.refresh,
+                                      child: IconButton(
+                                        onPressed: () => context.refreshData(),
+                                        icon: const Icon(IconsaxPlusLinear.refresh),
                                       ),
                                     ),
                                   if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single ||

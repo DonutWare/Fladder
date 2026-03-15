@@ -230,7 +230,9 @@ class LibMDK extends BasePlayer {
                             width: constraints.maxWidth,
                             child: AspectRatio(
                               aspectRatio: aspectRatio,
-                              child: VideoPlayer(_controller!),
+                              child: ExcludeSemantics(
+                                child: VideoPlayer(_controller!),
+                              ),
                             ),
                           );
                         },

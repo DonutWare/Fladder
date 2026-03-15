@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
-
+import 'package:fladder/providers/window_title_provider.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
@@ -52,6 +53,13 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     if (subscription != null) {
       subscriptions.add(subscription);
     }
+
+    // Reset the window title when playback stops (model becomes null).
+    ref.listen<PlaybackModel?>(playBackModel, (_, next) {
+      if (next == null) {
+        ref.read(windowTitleProvider.notifier).setPlayTitle(null);
+      }
+    });
   }
 
   Future<void> updateBuffering(bool event) async =>
@@ -114,6 +122,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
   Future<bool> loadPlaybackItem(PlaybackModel model, Duration startPosition) async {
     await state.stop();
+    ref.read(windowTitleProvider.notifier).setPlayTitle(model.item.windowTitle);
     ref.read(playbackRateProvider.notifier).state = 1.0;
     mediaState.update((state) => state.copyWith(
           state: VideoPlayerState.fullScreen,

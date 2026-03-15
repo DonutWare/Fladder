@@ -23,7 +23,7 @@ class AnimatedFadeSize extends ConsumerWidget {
         duration: duration,
         switchInCurve: Curves.easeInOutCubic,
         switchOutCurve: Curves.easeInOutCubic,
-        child: child,
+        child: RepaintBoundary(child: child),
       ),
     );
   }

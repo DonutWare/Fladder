@@ -8,6 +8,7 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
+import 'package:fladder/providers/window_title_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
@@ -51,7 +52,20 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((value) {
       ref.read(viewsProvider.notifier).fetchViews();
+      ref.read(windowTitleProvider.notifier).clearStack();
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant NavigationScaffold oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.currentRouteName != oldWidget.currentRouteName && currentIndex != -1) {
+      Future.microtask(() {
+        if (mounted) {
+          ref.read(windowTitleProvider.notifier).clearStack();
+        }
+      });
+    }
   }
 
   @override
