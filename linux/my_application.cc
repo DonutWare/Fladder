@@ -110,7 +110,6 @@ static void my_application_init(MyApplication *self) {}
 MyApplication *my_application_new()
 {
 	g_set_prgname("Fladder");
-	g_set_application_name("Fladder");
 	return MY_APPLICATION(g_object_new(my_application_get_type(),
 									   "application-id", APPLICATION_ID,
 									   "flags", G_APPLICATION_NON_UNIQUE,
