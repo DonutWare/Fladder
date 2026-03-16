@@ -1,7 +1,5 @@
 FROM ghcr.io/nginxinc/nginx-unprivileged:stable-alpine-slim
 
-RUN apk add --no-cache jq
-
 EXPOSE 8080
 
 ENV BASE_URL=""
@@ -10,6 +8,7 @@ ENV SEERR_HEADER="null"
 ENV PORT=8080
 
 USER root
+RUN apk add --no-cache jq
 COPY build/web /usr/share/nginx/html
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN mkdir -p /usr/share/nginx/html/assets/config && \
