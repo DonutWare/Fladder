@@ -65,6 +65,7 @@ class BackgroundDownloader extends _$BackgroundDownloader {
   void setMaxConcurrent(int value) {
     state.configure(
       globalConfig: globalConfig(value),
+      androidConfig: (Config.runInForeground, Config.always),
     );
   }
 
