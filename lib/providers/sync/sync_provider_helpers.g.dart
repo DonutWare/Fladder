@@ -623,7 +623,7 @@ class _SyncDownloadStatusProviderElement
       (origin as SyncDownloadStatusProvider).children;
 }
 
-String _$syncSizeHash() => r'eeb6ab8dc1fdf5696c06e53f04a0e54ad68c6748';
+String _$syncSizeHash() => r'a975c17b0918892ccf9ee36a3635d34d7398512f';
 
 abstract class _$SyncSize extends BuildlessAutoDisposeNotifier<int?> {
   late final SyncedItem arg;

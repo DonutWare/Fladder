@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/syncing/transcode_download_model.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'sync_item.freezed.dart';
@@ -42,6 +44,7 @@ abstract class SyncedItem with _$SyncedItem {
     @Default([]) List<SubStreamModel> subtitles,
     @Default(false) bool unSyncedData,
     @UserDataJsonSerializer() UserData? userData,
+    TranscodeDownloadModel? transcodeDownloadModel,
     // ignore: invalid_annotation_target
     @JsonKey(includeFromJson: false, includeToJson: false) ItemBaseModel? itemModel,
   }) = _SyncItem;
@@ -66,11 +69,34 @@ abstract class SyncedItem with _$SyncedItem {
           []);
 
   File get dataFile => File(joinAll(["$path", "data.json"]));
+  File get overlayFile => File(joinAll(["$path", "overlay.json"]));
+
+  bool get isTranscoded {
+    if (!overlayFile.existsSync()) return false;
+    final overlay = jsonDecode(overlayFile.readAsStringSync()) as Map<String, dynamic>;
+    return overlay['isTranscoded'] == true;
+  }
+
   BaseItemDto? get data {
-    return dataFile.existsSync()
-        ? BaseItemDto.fromJson(jsonDecode(dataFile.readAsStringSync()))
-            .copyWith(userData: UserData.toDto(userData), path: videoFile.existsSync() ? videoFile.path : '')
-        : null;
+    if (!dataFile.existsSync()) return null;
+    BaseItemDto dto = BaseItemDto.fromJson(jsonDecode(dataFile.readAsStringSync()));
+    if (overlayFile.existsSync()) {
+      final overlay = jsonDecode(overlayFile.readAsStringSync()) as Map<String, dynamic>;
+      dto = _applyOverlay(dto, overlay);
+    }
+    return dto.copyWith(userData: UserData.toDto(userData), path: videoFile.existsSync() ? videoFile.path : '');
+  }
+
+  static BaseItemDto _applyOverlay(BaseItemDto dto, Map<String, dynamic> overlay) {
+    final container = overlay['container'] as String?;
+    final mediaSources = overlay['mediaSources'] as List<dynamic>?;
+
+    return dto.copyWith(
+      container: container ?? dto.container,
+      mediaSources: mediaSources != null
+          ? mediaSources.map((e) => MediaSourceInfo.fromJson(e as Map<String, dynamic>)).toList()
+          : dto.mediaSources,
+    );
   }
 
   Directory get trickPlayDirectory => Directory(joinAll(["$path", trickPlayPath]));
@@ -91,15 +117,25 @@ abstract class SyncedItem with _$SyncedItem {
   }
 
   Future<bool> deleteDatFiles(Ref ref) async {
-    try {
-      await videoFile.delete();
-      await Directory(joinAll([directory.path, trickPlayPath])).delete(recursive: true);
-      await Directory(joinAll([directory.path, chaptersPath])).delete(recursive: true);
-    } catch (e) {
-      return false;
+    bool success = true;
+    for (final entity in [
+      videoFile,
+      overlayFile,
+      Directory(joinAll([directory.path, trickPlayPath])),
+      Directory(joinAll([directory.path, chaptersPath])),
+    ]) {
+      try {
+        if (entity is File) {
+          if (entity.existsSync()) await entity.delete();
+        } else if (entity is Directory) {
+          if (entity.existsSync()) await entity.delete(recursive: true);
+        }
+      } catch (e) {
+        log('Failed to delete ${entity.path} for item $id: $e');
+        success = false;
+      }
     }
-
-    return true;
+    return success;
   }
 
   Future<int> get getDirSize async {
@@ -110,7 +146,11 @@ abstract class SyncedItem with _$SyncedItem {
 
   ItemBaseModel? createItemModel(Ref ref) {
     if (!dataFile.existsSync()) return null;
-    final BaseItemDto itemDto = BaseItemDto.fromJson(jsonDecode(dataFile.readAsStringSync()));
+    BaseItemDto itemDto = BaseItemDto.fromJson(jsonDecode(dataFile.readAsStringSync()));
+    if (overlayFile.existsSync()) {
+      final overlay = jsonDecode(overlayFile.readAsStringSync()) as Map<String, dynamic>;
+      itemDto = _applyOverlay(itemDto, overlay);
+    }
     final itemModel = ItemBaseModel.fromBaseDto(itemDto, ref);
     return itemModel.copyWith(
       images: images,

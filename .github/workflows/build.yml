@@ -484,9 +484,8 @@ jobs:
 
   build-linux-flatpak:
     runs-on: ubuntu-latest
-    # prepare-metainfo is skipped for nightly; !failure() && !cancelled() allows this job to still run
-    if: ${{ !failure() && !cancelled() && (needs.fetch-info.outputs.build_type == 'release' || needs.fetch-info.outputs.build_type == 'nightly') }}
-    needs: [fetch-info, build-linux, prepare-metainfo]
+    if: needs.fetch-info.outputs.build_type == 'release' || needs.fetch-info.outputs.build_type == 'nightly'
+    needs: [fetch-info, build-linux]
     container:
       image: bilelmoussaoui/flatpak-github-actions:gnome-46
       options: --privileged
@@ -565,7 +564,6 @@ jobs:
     name: Create Release
     needs:
       - fetch-info
-      - prepare-metainfo
       - build-android
       - build-windows
       - build-windows-arm64
@@ -585,13 +583,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout repository (release)
-        if: needs.fetch-info.outputs.build_type == 'release'
-        uses: actions/checkout@v4.1.1
-        with:
-          ref: develop
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Set version variables
         id: version
         run: |
@@ -599,27 +590,6 @@ jobs:
             echo "version=${{ needs.fetch-info.outputs.nightly_version }}" >> $GITHUB_OUTPUT
           else
             echo "version=${{ needs.fetch-info.outputs.version_name }}" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Download updated metainfo for commit
-        if: needs.fetch-info.outputs.build_type == 'release'
-        uses: actions/download-artifact@v4
-        with:
-          name: fladder-metainfo
-          path: fladder-metainfo
-
-      - name: Commit updated metainfo.xml to develop
-        if: needs.fetch-info.outputs.build_type == 'release'
-        run: |
-          cp fladder-metainfo/nl.jknaapen.fladder.metainfo.xml flatpak/nl.jknaapen.fladder.metainfo.xml
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add flatpak/nl.jknaapen.fladder.metainfo.xml
-          if git diff --staged --quiet; then
-            echo "No changes to metainfo.xml, skipping commit"
-          else
-            git commit -m "chore: update metainfo.xml to v${{ needs.fetch-info.outputs.version_name }}"
-            git push origin develop
           fi
 
       - name: Delete existing nightly release
@@ -829,6 +799,40 @@ jobs:
             ${{ needs.fetch-info.outputs.build_type == 'release' && format('Fladder-Linux-{0}.flatpak', steps.version.outputs.version) || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  commit-metainfo:
+    name: Commit metainfo to develop
+    needs:
+      - fetch-info
+      - prepare-metainfo
+      - create_release
+    runs-on: ubuntu-latest
+    if: needs.fetch-info.outputs.build_type == 'release'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+        with:
+          ref: develop
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download updated metainfo for commit
+        uses: actions/download-artifact@v4
+        with:
+          name: fladder-metainfo
+          path: fladder-metainfo
+
+      - name: Commit updated metainfo.xml to develop
+        run: |
+          cp fladder-metainfo/nl.jknaapen.fladder.metainfo.xml flatpak/nl.jknaapen.fladder.metainfo.xml
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add flatpak/nl.jknaapen.fladder.metainfo.xml
+          if git diff --staged --quiet; then
+            echo "No changes to metainfo.xml, skipping commit"
+          else
+            git commit -m "chore: update metainfo.xml to v${{ needs.fetch-info.outputs.version_name }}"
+            git push origin develop
+          fi
 
   release_play_console:
     name: Upload AAB to Google Play Console

@@ -8,9 +8,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/syncing/sync_item.dart';
+import 'package:fladder/models/syncing/transcode_download_model.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/screens/settings/widgets/transcode_settings_popup.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/shared/filled_button_await.dart';
@@ -83,7 +86,38 @@ class SyncOptionsButton extends ConsumerWidget {
                 spacing: 12,
                 children: [
                   const Icon(IconsaxPlusLinear.cloud_add),
-                  Text(context.localized.syncAllFiles),
+                  Expanded(child: Text(context.localized.syncAllFiles)),
+                  IconButton(
+                    onPressed: () async {
+                      TranscodeDownloadModel? transcodeModel;
+                      bool cancelled = true;
+                      await showTranscodeSettingsPopup(
+                        context: context,
+                        current: ref.read(clientSettingsProvider
+                            .select((value) => value.transcodeDownloadModel.copyWith(enabled: true))),
+                        onChanged: (value) {
+                          transcodeModel = value;
+                          cancelled = false;
+                        },
+                        onClosed: () {
+                          cancelled = true;
+                        },
+                      );
+                      if (cancelled) {
+                        return;
+                      }
+                      return _syncRemainingItems(
+                        context,
+                        syncedItem,
+                        unSyncedChildren,
+                        ref,
+                        transcodeModel: transcodeModel,
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.more_vert_rounded,
+                    ),
+                  )
                 ],
               ),
               onTap: () async => _syncRemainingItems(context, syncedItem, unSyncedChildren, ref),
@@ -183,7 +217,12 @@ Future<dynamic> _deleteSyncedItems(
 }
 
 Future<dynamic> _syncRemainingItems(
-    BuildContext context, SyncedItem syncedItem, List<SyncedItem> unSyncedChildren, WidgetRef ref) {
+  BuildContext context,
+  SyncedItem syncedItem,
+  List<SyncedItem> unSyncedChildren,
+  WidgetRef ref, {
+  TranscodeDownloadModel? transcodeModel,
+}) {
   return showDialog(
     context: context,
     barrierDismissible: false,
@@ -200,7 +239,11 @@ Future<dynamic> _syncRemainingItems(
         ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.localized.cancel)),
         FilledButtonAwait(
           onPressed: () async {
-            final syncList = unSyncedChildren.map((e) => ref.read(syncProvider.notifier).syncFile(e, false));
+            final syncList = unSyncedChildren.map((e) => ref.read(syncProvider.notifier).syncFile(
+                  e,
+                  false,
+                  transcodeModel: transcodeModel,
+                ));
             await Future.wait(syncList);
             Navigator.of(context).pop();
           },

@@ -13,6 +13,8 @@ import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/shared/media/poster_widget.dart';
 import 'package:fladder/screens/syncing/sync_child_item.dart';
 import 'package:fladder/screens/syncing/sync_widgets.dart';
+import 'package:fladder/screens/syncing/widgets/sync_file_button.dart';
+import 'package:fladder/screens/syncing/widgets/sync_item_poster.dart';
 import 'package:fladder/screens/syncing/widgets/sync_options_button.dart';
 import 'package:fladder/screens/syncing/widgets/sync_progress_builder.dart';
 import 'package:fladder/screens/syncing/widgets/sync_status_overlay.dart';
@@ -98,15 +100,18 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                         mainAxisSize: MainAxisSize.max,
                         spacing: 16,
                         children: [
-                          SizedBox(
-                            height: (AdaptiveLayout.poster(context).size *
-                                    ref.watch(clientSettingsProvider.select((value) => value.posterSize))) *
-                                0.6,
-                            child: IgnorePointer(
-                              child: PosterWidget(
-                                aspectRatio: 0.70,
-                                poster: baseItem,
-                                underTitle: false,
+                          SyncItemPoster(
+                            item: syncedItem,
+                            child: SizedBox(
+                              height: (AdaptiveLayout.poster(context).size *
+                                      ref.watch(clientSettingsProvider.select((value) => value.posterSize))) *
+                                  0.6,
+                              child: IgnorePointer(
+                                child: PosterWidget(
+                                  aspectRatio: 0.70,
+                                  poster: baseItem,
+                                  underTitle: false,
+                                ),
                               ),
                             ),
                           ),
@@ -160,9 +165,8 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                             },
                           ),
                           if (syncedItem.hasVideoFile && !hasFile && !downloadTask.hasDownload)
-                            IconButtonAwait(
-                              onPressed: () async => await ref.read(syncProvider.notifier).syncFile(syncedItem, false),
-                              icon: const Icon(IconsaxPlusLinear.cloud_change),
+                            SyncFileButton(
+                              syncedItem: syncedItem,
                             )
                           else if (hasFile)
                             IconButtonAwait(

@@ -10,6 +10,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
+import 'package:fladder/models/syncing/transcode_download_model.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/src/directory_bookmark.g.dart';
 import 'package:fladder/util/custom_color_themes.dart';
@@ -60,8 +61,9 @@ enum BackgroundType {
 abstract class ClientSettingsModel with _$ClientSettingsModel {
   const ClientSettingsModel._();
 
-  factory ClientSettingsModel({
+  factory ClientSettingsModel.internal({
     String? syncPath,
+    required TranscodeDownloadModel transcodeDownloadModel,
     @Default(Vector2(x: 0, y: 0)) Vector2 position,
     @Default(Vector2(x: 1280, y: 720)) Vector2 size,
     @Default(Duration(seconds: 30)) Duration? timeOut,
@@ -95,7 +97,8 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
   }) = _ClientSettingsModel;
 
   static ClientSettingsModel defaultModel() {
-    return ClientSettingsModel(
+    return ClientSettingsModel.internal(
+      transcodeDownloadModel: TranscodeDownloadModel.fromDefaults(),
       blurPlaceHolders: leanBackMode ? false : true,
       backgroundImage: leanBackMode ? BackgroundType.disabled : BackgroundType.blurred,
       themeMode: leanBackMode ? ThemeMode.dark : ThemeMode.system,
