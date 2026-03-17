@@ -29,6 +29,7 @@ class BackgroundDownloader extends _$BackgroundDownloader {
     final downloader = FileDownloader()
       ..configure(
         globalConfig: globalConfig(maxDownloads),
+        androidConfig: (Config.runInForeground, Config.always),
       )
       ..trackTasks();
     updateListener = downloader.updates.listen(updateTask);
@@ -81,7 +82,14 @@ class BackgroundDownloader extends _$BackgroundDownloader {
   }
 
   (String, dynamic) globalConfig(int value) => value == 0
-      ? ("", "")
+      ? (
+          Config.holdingQueue,
+          (
+            null,
+            null,
+            null,
+          )
+        )
       : (
           Config.holdingQueue,
           (
