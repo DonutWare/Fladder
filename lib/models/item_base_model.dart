@@ -276,6 +276,17 @@ class ItemBaseModel with ItemBaseModelMappable {
         FolderModel _ => FladderItemType.folder,
         ItemBaseModel _ => FladderItemType.baseType,
       };
+
+  @override
+  bool operator ==(covariant ItemBaseModel other) {
+    if (identical(this, other)) return true;
+    return other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode;
+  }
 }
 
 // Currently supported types
