@@ -566,6 +566,10 @@ internal fun RowScope.SimpleProgressBar(
                 val durMs = effectiveDuration.toDouble().coerceAtLeast(1.0)
                 val startPx = (width * (segStartMs / durMs)).toFloat()
 
+                val animatedChapterCircleHeight by animateDpAsState(
+                    if (thumbFocused) 1.dp else 6.dp,
+                    label = "Chapter height"
+                )
 
                 Box(
                     modifier = Modifier
@@ -575,12 +579,11 @@ internal fun RowScope.SimpleProgressBar(
                         .graphicsLayer {
                             translationX = startPx
                         }
-                        .padding(vertical = 0.5.dp)
-                        .fillMaxHeight()
-                        .aspectRatio(ratio = 1f)
+                        .width(6.dp)
+                        .height(animatedChapterCircleHeight)
                         .background(
                             color = if (isAfterCurrentPositon) Color.White.copy(
-                                alpha = 0.15f
+                                alpha = 0.25f
                             ) else MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
                             shape = CircleShape
                         )
