@@ -161,7 +161,7 @@ private fun Thumbnail(
 
     Box(
         modifier = modifier
-            .aspectRatio(16f / 9f)
+            .aspectRatio(trickPlayModel.width.toFloat() / trickPlayModel.height)
             .clip(
                 shape = RoundedCornerShape(12.dp)
             )
