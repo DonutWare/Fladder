@@ -62,15 +62,15 @@ class LibMDK extends BasePlayer {
 
   @override
   Future<void> dispose() async {
-    _controller?.dispose();
+    final oldController = _controller;
     _controller = null;
+    oldController?.dispose();
   }
 
   @override
   Future<void> loadVideo(String url, bool play) async {
-    if (_controller != null) {
-      _controller?.dispose();
-    }
+    _controller?.dispose();
+
     final validUrl = isValidUrl(url);
     if (validUrl != null) {
       _controller = VideoPlayerController.networkUrl(validUrl);
@@ -203,7 +203,7 @@ class LibMDK extends BasePlayer {
   }
 
   @override
-  Future<void> stop() async => _controller?.dispose();
+  Future<void> stop() async => dispose();
 
   @override
   Widget? videoWidget(
@@ -223,14 +223,16 @@ class LibMDK extends BasePlayer {
                       fit: fit,
                       alignment: Alignment.center,
                       child: ValueListenableBuilder<VideoPlayerValue>(
-                        valueListenable: _controller!,
+                        valueListenable: _controller ?? ValueNotifier(const VideoPlayerValue.uninitialized()),
                         builder: (context, value, child) {
                           final aspectRatio = value.isInitialized ? value.aspectRatio : 1.77;
+                          final controller = _controller;
+                          if (controller == null) return const SizedBox.shrink();
                           return SizedBox(
                             width: constraints.maxWidth,
                             child: AspectRatio(
                               aspectRatio: aspectRatio,
-                              child: VideoPlayer(_controller!),
+                              child: VideoPlayer(controller),
                             ),
                           );
                         },

@@ -12,6 +12,7 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
+import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 
 class OfflinePlaybackModel extends PlaybackModel {
@@ -28,6 +29,7 @@ class OfflinePlaybackModel extends PlaybackModel {
   });
 
   final SyncedItem syncedItem;
+  final List<SyncedItem> syncedQueue;
 
   @override
   List<Chapter>? get chapters => syncedItem.chapters;
@@ -36,18 +38,10 @@ class OfflinePlaybackModel extends PlaybackModel {
   Future<Duration>? startDuration() async => item.userData.playBackPosition;
 
   @override
-  ItemBaseModel? get nextVideo {
-    final index = queue.indexWhere((e) => e.id == item.id);
-    if (index == -1 || index + 1 >= queue.length) return null;
-    return queue.elementAt(index + 1);
-  }
+  ItemBaseModel? get nextVideo => queue.nextOrNull(item);
 
   @override
-  ItemBaseModel? get previousVideo {
-    final index = queue.indexWhere((e) => e.id == item.id);
-    if (index <= 0) return null;
-    return queue.elementAt(index - 1);
-  }
+  ItemBaseModel? get previousVideo => queue.previousOrNull(item);
 
   @override
   List<SubStreamModel> get subStreams => [SubStreamModel.no(), ...syncedItem.subtitles];
@@ -117,8 +111,6 @@ class OfflinePlaybackModel extends PlaybackModel {
 
   @override
   String toString() => 'OfflinePlaybackModel(item: $item, syncedItem: $syncedItem)';
-
-  final List<SyncedItem> syncedQueue;
 
   @override
   OfflinePlaybackModel copyWith({

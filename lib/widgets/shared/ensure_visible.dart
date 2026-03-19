@@ -8,7 +8,9 @@ extension EnsureVisibleHelper on BuildContext {
     Curve curve = Curves.fastOutSlowIn,
     bool onlyNearest = false,
   }) {
-    final scrollable = Scrollable.of(this);
+    final scrollable = Scrollable.maybeOf(this);
+    if (scrollable == null) return Future.value();
+
     final renderObject = findRenderObject();
     if (onlyNearest && renderObject != null) {
       final viewport = RenderAbstractViewport.of(renderObject);

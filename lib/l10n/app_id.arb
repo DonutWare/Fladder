@@ -1946,5 +1946,64 @@
     "settingsBlurEffectsTitle": "Aktifkan efek blur",
     "settingsBlurEffectsDesc": "Aktifkan efek blur pada antarmuka. Menonaktifkan ini dapat meningkatkan performa pada perangkat dengan spesifikasi rendah.",
     "profileSettingsOpenAuthAtLaunch": "Tampilkan metode autentikasi saat kunci aplikasi",
-    "toggleSidebar": "Alihkan sidebar"
+    "toggleSidebar": "Alihkan sidebar",
+    "generateLoginLink": "Kode untuk {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "Bagikan link login",
+    "shareQRCode": "Bagikan kode QR",
+    "copyLoginLink": "Salin link",
+    "includePassword": "Masukkan kata sandi",
+    "invalidAuthLink": "Link login invalid",
+    "advancedVideoOptionsTitle": "Opsi video lanjutan",
+    "advancedVideoOptionsDesc": "Nyalakan HDR, tone mapping, dan penanganan warna lanjutan (tidak stabil di beberapa perangkat)",
+    "linkData": "Data link",
+    "requestedSuccessForItem": "Berhasil meminta {itemName}",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "passwordNotRequired": "Tidak dibutuhkan, biarkan kosong untuk tidak memasukkan password di link",
+    "authLinkButtonToolTip": "Buka dialog otorisasi link",
+    "connectWithAuthLink": "Hubungkan dengan link otorisasi",
+    "pasteFladderAuthLink": "Tempel link otorisasi fladder fladder:///login?authLink=...",
+    "connect": "Hubungkan",
+    "authLinkDesc": "Minta administrator server untuk menyediakan link otorisasi . Link mengandung informasi otentikasi, pastikan untuk menyimpannya dengan aman.",
+    "deletedItem": "{itemName} dihapus",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "Susunan layar beranda",
+    "libraryOrderDescription": "Geser untuk menyusun ulang perpustakaan di beranda. Perpustakaan yang tidak dipilih tidak akan menampilkan item yang baru ditambahkan.",
+    "hidePlayedInLatestTitle": "Sembunyikan yang sudah ditonton",
+    "hidePlayedInLatestDescription": "Sembunyikan yang sudah ditonton dari \"Media yang Baru Ditambahkan\"",
+    "groupedFoldersTitle": "Perpustakaan Terkelompok",
+    "groupedFoldersDescription": "Secara otomatis mengelompokkan konten dari perpustakaan berikut ke dalam tampilan seperti ‘Film’, ‘Musik’, dan ‘TV’.",
+    "transcodeInfoTitle": "Info transkoding",
+    "transcodeInfoNoMetadata": "Metadata transkoding tidak tersedia.",
+    "transcodeDetailsTitle": "Detail transkoding",
+    "containerLabel": "Kontainer",
+    "videoCodecLabel": "Kodek video",
+    "audioCodecLabel": "Kodek audio",
+    "bitrateLabel": "Bitrate",
+    "kbps": "kbps",
+    "resolutionLabel": "Resolusi",
+    "downloadTranscoded": "Unduh versi transkoding",
+    "downloadOriginal": "Unduh versi asli",
+    "seerrUrlSchemeWarning": "Tidak dapat mendeteksi skema URL secara otomatis. Menggunakan default https://. Tambahkan awalan http:// jika server Anda tidak menggunakan HTTPS."
 }

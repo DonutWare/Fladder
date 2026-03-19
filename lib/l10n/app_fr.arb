@@ -1818,5 +1818,43 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "generateLoginLink": "Code pour {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "Partager le lien de connexion",
+    "shareQRCode": "Partager le code QR",
+    "copyLoginLink": "Copier le lien",
+    "includePassword": "Inclure le mot de passe",
+    "invalidAuthLink": "Lien de connexion invalide",
+    "pasteFladderAuthLink": "Collez le lien d’authentification Fladder fladder:///login?authLink=...",
+    "connect": "Connexion",
+    "authLinkDesc": "Demandez à l’administrateur du serveur de fournir le lien d’authentification. Le lien contient des informations d’authentification, veillez donc à le garder sécurisé.",
+    "deletedItem": "{itemName} supprimé",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "Ordre de l’écran d’accueil",
+    "connectWithAuthLink": "Se connecter avec un lien d’authentification",
+    "libraryOrderDescription": "Faites glisser pour réorganiser les bibliothèques sur l’écran d’accueil. Les bibliothèques non cochées n’afficheront pas les éléments récemment ajoutés.",
+    "hidePlayedInLatestTitle": "Masquer le contenu regardé",
+    "hidePlayedInLatestDescription": "Masquer le contenu regardé dans 'Médias récemment ajoutés'",
+    "groupedFoldersTitle": "Bibliothèques groupées",
+    "groupedFoldersDescription": "Regrouper automatiquement le contenu des bibliothèques suivantes dans des vues comme 'Films', 'Musique' et 'Séries TV'.",
+    "advancedVideoOptionsTitle": "Options vidéo avancées",
+    "advancedVideoOptionsDesc": "Activer le HDR, le tone mapping et la gestion avancée des couleurs (instable sur certains appareils)",
+    "linkData": "Données du lien",
+    "passwordNotRequired": "Non requis, laissez vide pour ne pas inclure le mot de passe dans le lien",
+    "authLinkButtonToolTip": "Ouvrir la fenêtre du lien d’authentification"
 }

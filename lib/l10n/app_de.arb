@@ -1865,5 +1865,34 @@
     "connectWithAuthLink": "Mit Auth Link verbinden",
     "pasteFladderAuthLink": "Fladder Auth Link einfügen fladder:///login?authLink=...",
     "connect": "Verbinden",
-    "authLinkDesc": "Frage den Server-Admin, um den Auth-Link zu erhalten. Der Link enthält Authentifizierungsinformationen, behandle diesen daher vertraulich."
+    "authLinkDesc": "Frage den Server-Admin, um den Auth-Link zu erhalten. Der Link enthält Authentifizierungsinformationen, behandle diesen daher vertraulich.",
+    "advancedVideoOptionsTitle": "Erweiterte Videooptionen",
+    "libraryOrderTitle": "Homescreen Reihenfolge",
+    "hidePlayedInLatestTitle": "Angesehene Inhalte ausblenden",
+    "hidePlayedInLatestDescription": "Angesehene Inhalte aus \"Kürzlich hinzugefügte Medien\" ausblenden",
+    "groupedFoldersDescription": "Inhalte aus den folgenden Bibliotheken automatisch in Ansichten wie „Filme“, „Musik“ und „TV“ gruppieren.",
+    "advancedVideoOptionsDesc": "HDR, Tone Mapping und Advanced Color Handling aktivieren (auf einigen Geräten instabil)",
+    "deletedItem": "{itemName} gelöscht",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderDescription": "Ziehe die Bibliotheken, um sie auf der Startseite neu anzuordnen. Nicht ausgewählte Bibliotheken werden keine neu hinzugefügten Einträge anzeigen.",
+    "groupedFoldersTitle": "Gruppierte Bibliotheken",
+    "transcodeInfoTitle": "Transcoding Informationen",
+    "transcodeInfoNoMetadata": "Es sind keine Transcoding Metadaten vrrfügbar",
+    "transcodeDetailsTitle": "Transcoding Details",
+    "containerLabel": "Container",
+    "videoCodecLabel": "Video Codec",
+    "audioCodecLabel": "Audio Codec",
+    "bitrateLabel": "Bitrate",
+    "kbps": "kbps",
+    "resolutionLabel": "Auflösung",
+    "downloadTranscoded": "Transkodiert herunterladen",
+    "downloadOriginal": "Im Original herunterladen",
+    "seerrUrlSchemeWarning": "Konnte das URL-Schema nicht automatisch erkennen. Es wird standardmäßig https:// verwendet. Nutze das http:// Prefix, wenn dein Server kein HTTPS verwendet."
 }
