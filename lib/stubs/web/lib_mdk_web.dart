@@ -71,7 +71,7 @@ class LibMDK extends BasePlayer {
     Key key,
     BoxFit fit, {
       double? forcedAspectRatio,
-    }
+    },
   ) =>
       null;
 

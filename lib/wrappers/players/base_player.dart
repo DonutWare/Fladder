@@ -20,7 +20,7 @@ abstract class BasePlayer {
     Key key,
     BoxFit fit, {
       double? forcedAspectRatio,
-    }
+    },
   );
   Widget? subtitles(
     bool showOverlay, {

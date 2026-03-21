@@ -217,7 +217,7 @@ class LibMPV extends BasePlayer {
     Key key,
     BoxFit fit, {
       double? forcedAspectRatio,
-    }
+    },
   ) =>
       _controller == null
           ? null
