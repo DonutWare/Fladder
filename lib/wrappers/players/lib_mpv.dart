@@ -216,9 +216,8 @@ class LibMPV extends BasePlayer {
   Widget? videoWidget(
     Key key,
     BoxFit fit, {
-      double? forcedAspectRatio,
-    }
-  ) =>
+    double? forcedAspectRatio,
+  }) =>
       _controller == null
           ? null
           : LayoutBuilder(
