@@ -49,7 +49,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   Widget? subtitleWidget(bool showOverlay, {GlobalKey? controlsKey}) =>
       _player?.subtitles(showOverlay, controlsKey: controlsKey);
-  Widget? videoWidget(Key key, BoxFit fit) => _player?.videoWidget(key, fit);
+  Widget? videoWidget(Key key, BoxFit fit, {double? forcedAspectRatio}) =>
+      _player?.videoWidget(key, fit, forcedAspectRatio: forcedAspectRatio);
 
   final Ref ref;
 

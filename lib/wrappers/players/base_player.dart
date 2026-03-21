@@ -19,6 +19,9 @@ abstract class BasePlayer {
   Widget? videoWidget(
     Key key,
     BoxFit fit,
+    {
+      double? forcedAspectRatio,
+    }
   );
   Widget? subtitles(
     bool showOverlay, {

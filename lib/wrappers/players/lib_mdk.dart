@@ -209,6 +209,9 @@ class LibMDK extends BasePlayer {
   Widget? videoWidget(
     Key key,
     BoxFit fit,
+    {
+      double? forcedAspectRatio,
+    }
   ) =>
       _controller == null
           ? null
@@ -219,24 +222,48 @@ class LibMDK extends BasePlayer {
                 builder: (context, constraints) => Stack(
                   fit: StackFit.expand,
                   children: [
-                    FittedBox(
-                      fit: fit,
-                      alignment: Alignment.center,
-                      child: ValueListenableBuilder<VideoPlayerValue>(
-                        valueListenable: _controller ?? ValueNotifier(const VideoPlayerValue.uninitialized()),
-                        builder: (context, value, child) {
-                          final aspectRatio = value.isInitialized ? value.aspectRatio : 1.77;
-                          final controller = _controller;
-                          if (controller == null) return const SizedBox.shrink();
-                          return SizedBox(
-                            width: constraints.maxWidth,
-                            child: AspectRatio(
-                              aspectRatio: aspectRatio,
-                              child: VideoPlayer(controller),
-                            ),
+                    ValueListenableBuilder<VideoPlayerValue>(
+                      valueListenable: _controller ?? ValueNotifier(const VideoPlayerValue.uninitialized()),
+                      builder: (context, value, child) {
+                        final sourceAspectRatio = value.isInitialized ? value.aspectRatio : 1.77;
+                        final controller = _controller;
+                        if (controller == null) return const SizedBox.shrink();
+
+                        final sourceVideo = SizedBox(
+                          width: constraints.maxWidth,
+                          child: AspectRatio(
+                            aspectRatio: sourceAspectRatio,
+                            child: VideoPlayer(controller),
+                          ),
+                        );
+
+                        if (forcedAspectRatio == null) {
+                          return FittedBox(
+                            fit: fit,
+                            alignment: Alignment.center,
+                            child: sourceVideo,
                           );
-                        },
-                      ),
+                        }
+
+                        return Center(
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth: constraints.maxWidth,
+                              maxHeight: constraints.maxHeight,
+                            ),
+                            child: AspectRatio(
+                              aspectRatio: forcedAspectRatio,
+                              child: ClipRect(
+                                child: FittedBox(
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.center,
+                                  child: sourceVideo,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

@@ -16,6 +16,7 @@ final videoPlayerSettingsProvider =
 });
 
 final playbackRateProvider = StateProvider<double>((ref) => 1.0);
+final forcedAspectRatioProvider = StateProvider<double?>((ref) => null);
 
 class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {
   VideoPlayerSettingsProviderNotifier(this.ref) : super(VideoPlayerSettingsModel());
@@ -137,4 +138,6 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setEnableDoubleTapSeek(bool value) => state = state.copyWith(enableDoubleTapSeek: value);
 
   void setEnableAdvancedVideoOptions(bool value) => state = state.copyWith(enableAdvancedVideoOptions: value);
+
+  void setForcedAspectRatio(double? value) => ref.read(forcedAspectRatioProvider.notifier).state = value;
 }

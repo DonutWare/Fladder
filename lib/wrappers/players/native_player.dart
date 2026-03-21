@@ -98,7 +98,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   Widget? subtitles(bool showOverlay, {GlobalKey<State<StatefulWidget>>? controlsKey}) => null;
 
   @override
-  Widget? videoWidget(Key key, BoxFit fit) => null;
+  Widget? videoWidget(Key key, BoxFit fit, {double? forcedAspectRatio}) => null;
 
   @override
   void onPlaybackStateChanged(PlaybackState state) {

@@ -70,6 +70,9 @@ class LibMDK extends BasePlayer {
   Widget? videoWidget(
     Key key,
     BoxFit fit,
+    {
+      double? forcedAspectRatio,
+    }
   ) =>
       null;
 

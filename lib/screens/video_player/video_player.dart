@@ -76,6 +76,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
   Widget build(BuildContext context) {
     final fillScreen = ref.watch(videoPlayerSettingsProvider.select((value) => value.fillScreen));
     final videoFit = ref.watch(videoPlayerSettingsProvider.select((value) => value.videoFit));
+    final forcedAspectRatio = ref.watch(forcedAspectRatioProvider);
     final padding = MediaQuery.of(context).padding;
 
     final playerController = ref.watch(videoPlayerProvider.select((value) => value));
@@ -108,6 +109,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
       child: playerController.videoWidget(
         const Key("VideoPlayer"),
         fillScreen ? (MediaQuery.of(context).orientation == Orientation.portrait ? videoFit : BoxFit.cover) : videoFit,
+        forcedAspectRatio: forcedAspectRatio,
       ),
     );
 

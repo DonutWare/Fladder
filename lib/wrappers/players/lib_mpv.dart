@@ -216,17 +216,41 @@ class LibMPV extends BasePlayer {
   Widget? videoWidget(
     Key key,
     BoxFit fit,
+    {
+      double? forcedAspectRatio,
+    }
   ) =>
       _controller == null
           ? null
-          : Video(
-              key: key,
-              controller: _controller!,
-              wakelock: false,
-              fill: Colors.transparent,
-              fit: fit,
-              subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
-              controls: NoVideoControls,
+          : LayoutBuilder(
+              builder: (context, constraints) {
+                final video = Video(
+                  key: key,
+                  controller: _controller!,
+                  wakelock: false,
+                  fill: Colors.transparent,
+                  fit: forcedAspectRatio != null ? BoxFit.cover : fit,
+                  subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
+                  controls: NoVideoControls,
+                );
+
+                if (forcedAspectRatio == null) {
+                  return video;
+                }
+
+                return Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: constraints.maxWidth,
+                      maxHeight: constraints.maxHeight,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: forcedAspectRatio,
+                      child: ClipRect(child: video),
+                    ),
+                  ),
+                );
+              },
             );
 
   @override

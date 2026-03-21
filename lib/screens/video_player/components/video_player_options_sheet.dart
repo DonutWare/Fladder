@@ -163,6 +163,11 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               ],
             ),
           ),
+          SpacedListTile(
+            title: const Text("Aspect ratio override"),
+            content: Text(_aspectRatioLabel(videoSettings, ref)),
+            onTap: () => showAspectRatioOverride(context, ref),
+          ),
           if (!AdaptiveLayout.of(context).isDesktop)
             ListTile(
               onTap: () => ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(!videoSettings.fillScreen),
@@ -379,6 +384,12 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
       ],
     );
   }
+
+  String _aspectRatioLabel(VideoPlayerSettingsModel settings, WidgetRef ref) {
+    final forcedAspectRatio = ref.watch(forcedAspectRatioProvider);
+    if (forcedAspectRatio == null) return context.localized.off;
+    return "${forcedAspectRatio.toStringAsFixed(2)}:1";
+  }
 }
 
 Future<void> showSubSelection(BuildContext context) {
@@ -588,4 +599,87 @@ Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
       });
     },
   );
+}
+
+Future<void> showAspectRatioOverride(BuildContext context, WidgetRef ref) async {
+  final current = ref.read(forcedAspectRatioProvider);
+  final controller = TextEditingController(
+    text: current == null ? '' : current.toStringAsFixed(2),
+  );
+  String? error;
+
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: const Text("Aspect ratio override"),
+          content: SizedBox(
+            width: 360,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: controller,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: "2:1, 21:9 or 2.35",
+                    errorText: error,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "Leave empty to disable.",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ref.read(videoPlayerSettingsProvider.notifier).setForcedAspectRatio(null);
+                Navigator.of(context).pop();
+              },
+              child: Text(context.localized.off),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(context.localized.cancel),
+            ),
+            FilledButton(
+              onPressed: () {
+                final parsed = _parseAspectRatioInput(controller.text);
+                if (parsed == null) {
+                  setState(() => error = "Invalid ratio format");
+                  return;
+                }
+                ref.read(videoPlayerSettingsProvider.notifier).setForcedAspectRatio(parsed);
+                Navigator.of(context).pop();
+              },
+              child: Text(context.localized.save),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+double? _parseAspectRatioInput(String input) {
+  final text = input.trim().replaceAll(' ', '');
+  if (text.isEmpty) return null;
+
+  final colonOrSlash = RegExp(r'^([0-9]*\.?[0-9]+)[:/]([0-9]*\.?[0-9]+)$').firstMatch(text);
+  if (colonOrSlash != null) {
+    final width = double.tryParse(colonOrSlash.group(1)!);
+    final height = double.tryParse(colonOrSlash.group(2)!);
+    if (width == null || height == null || width <= 0 || height <= 0) return null;
+    return width / height;
+  }
+
+  final ratio = double.tryParse(text);
+  if (ratio == null || ratio <= 0) return null;
+  return ratio;
 }
