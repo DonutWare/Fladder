@@ -63,6 +63,7 @@ class SharedUtility extends SharedHelper {
       _ref.read(clientSettingsProvider.notifier).initialize(clientSettings);
       _ref.read(homeSettingsProvider.notifier).state = homeSettings;
       _ref.read(videoPlayerSettingsProvider.notifier).state = videoPlayerSettings;
+      _ref.read(videoPlayerSettingsProvider.notifier).loadPersistedAspectRatioOverrides();
       _ref.read(subtitleSettingsProvider.notifier).state = subtitleSettings;
       _ref.read(bookViewerSettingsProvider.notifier).state = bookViewSettings;
       _ref.read(photoViewSettingsProvider.notifier).state = photoViewSettings;
@@ -84,6 +85,7 @@ class SharedKeys {
   static const String _clientSettingsKey = 'clientSettings';
   static const String _homeSettingsKey = 'homeSettings';
   static const String _videoPlayerSettingsKey = 'videoPlayerSettings';
+  static const String _videoAspectRatioOverridesKey = 'videoAspectRatioOverrides';
   static const String _subtitleSettingsKey = 'subtitleSettings';
   static const String _bookViewSettingsKey = 'bookViewSettings';
   static const String _photoViewSettingsKey = 'photoViewSettings';
@@ -265,6 +267,22 @@ class SharedHelper {
 
   set videoPlayerSettings(VideoPlayerSettingsModel settings) {
     sharedPreferences.setString(SharedKeys._videoPlayerSettingsKey, jsonEncode(settings.toJson()));
+  }
+
+  Map<String, double> get videoAspectRatioOverrides {
+    try {
+      final raw = sharedPreferences.getString(SharedKeys._videoAspectRatioOverridesKey);
+      if (raw == null || raw.isEmpty) return {};
+      final decoded = jsonDecode(raw) as Map<String, dynamic>;
+      return decoded.map((key, value) => MapEntry(key, (value as num).toDouble()));
+    } catch (e) {
+      log(e.toString());
+      return {};
+    }
+  }
+
+  set videoAspectRatioOverrides(Map<String, double> values) {
+    sharedPreferences.setString(SharedKeys._videoAspectRatioOverridesKey, jsonEncode(values));
   }
 
   PhotoViewSettingsModel get photoViewSettings {

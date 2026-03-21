@@ -208,8 +208,7 @@ class LibMDK extends BasePlayer {
   @override
   Widget? videoWidget(
     Key key,
-    BoxFit fit,
-    {
+    BoxFit fit, {
       double? forcedAspectRatio,
     }
   ) =>

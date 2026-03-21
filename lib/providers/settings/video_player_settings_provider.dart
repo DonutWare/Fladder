@@ -5,6 +5,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
+import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/shared_provider.dart';
@@ -17,6 +19,7 @@ final videoPlayerSettingsProvider =
 
 final playbackRateProvider = StateProvider<double>((ref) => 1.0);
 final forcedAspectRatioProvider = StateProvider<double?>((ref) => null);
+final forcedAspectRatioOverridesProvider = StateProvider<Map<String, double>>((ref) => const {});
 
 class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {
   VideoPlayerSettingsProviderNotifier(this.ref) : super(VideoPlayerSettingsModel());
@@ -140,4 +143,42 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setEnableAdvancedVideoOptions(bool value) => state = state.copyWith(enableAdvancedVideoOptions: value);
 
   void setForcedAspectRatio(double? value) => ref.read(forcedAspectRatioProvider.notifier).state = value;
+
+  String _overrideKeyForItem(ItemBaseModel? item) {
+    if (item == null) return '';
+    if (item is EpisodeModel && (item.parentId?.isNotEmpty == true)) {
+      return item.parentId!;
+    }
+    return item.id;
+  }
+
+  void loadPersistedAspectRatioOverrides() {
+    final overrides = ref.read(sharedUtilityProvider).videoAspectRatioOverrides;
+    ref.read(forcedAspectRatioOverridesProvider.notifier).state = overrides;
+  }
+
+  void applyForcedAspectRatioForItem(ItemBaseModel? item) {
+    final key = _overrideKeyForItem(item);
+    final overrides = ref.read(forcedAspectRatioOverridesProvider);
+    ref.read(forcedAspectRatioProvider.notifier).state = key.isEmpty ? null : overrides[key];
+  }
+
+  void setForcedAspectRatioForItem(ItemBaseModel? item, double? value) {
+    final key = _overrideKeyForItem(item);
+    if (key.isEmpty) {
+      setForcedAspectRatio(value);
+      return;
+    }
+
+    final updated = Map<String, double>.from(ref.read(forcedAspectRatioOverridesProvider));
+    if (value == null) {
+      updated.remove(key);
+    } else {
+      updated[key] = value;
+    }
+
+    ref.read(forcedAspectRatioOverridesProvider.notifier).state = updated;
+    ref.read(sharedUtilityProvider).videoAspectRatioOverrides = updated;
+    ref.read(forcedAspectRatioProvider.notifier).state = value;
+  }
 }

@@ -132,7 +132,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   Future<void> openPlayer(BuildContext context) async => _player?.open(context);
 
   void _subscribePlayer() {
-    if (Platform.isWindows && !kIsWeb) {
+    if (!kIsWeb && Platform.isWindows) {
       smtc = SMTCWindows(
         config: const SMTCConfig(
           fastForwardEnabled: true,

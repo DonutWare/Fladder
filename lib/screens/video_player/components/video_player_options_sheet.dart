@@ -166,7 +166,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
           SpacedListTile(
             title: const Text("Aspect ratio override"),
             content: Text(_aspectRatioLabel(videoSettings, ref)),
-            onTap: () => showAspectRatioOverride(context, ref),
+            onTap: () => showAspectRatioOverride(context, ref, currentItem),
           ),
           if (!AdaptiveLayout.of(context).isDesktop)
             ListTile(
@@ -601,7 +601,7 @@ Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
   );
 }
 
-Future<void> showAspectRatioOverride(BuildContext context, WidgetRef ref) async {
+Future<void> showAspectRatioOverride(BuildContext context, WidgetRef ref, ItemBaseModel? currentItem) async {
   final current = ref.read(forcedAspectRatioProvider);
   final controller = TextEditingController(
     text: current == null ? '' : current.toStringAsFixed(2),
@@ -639,7 +639,7 @@ Future<void> showAspectRatioOverride(BuildContext context, WidgetRef ref) async 
           actions: [
             TextButton(
               onPressed: () {
-                ref.read(videoPlayerSettingsProvider.notifier).setForcedAspectRatio(null);
+                ref.read(videoPlayerSettingsProvider.notifier).setForcedAspectRatioForItem(currentItem, null);
                 Navigator.of(context).pop();
               },
               child: Text(context.localized.off),
@@ -655,7 +655,7 @@ Future<void> showAspectRatioOverride(BuildContext context, WidgetRef ref) async 
                   setState(() => error = "Invalid ratio format");
                   return;
                 }
-                ref.read(videoPlayerSettingsProvider.notifier).setForcedAspectRatio(parsed);
+                ref.read(videoPlayerSettingsProvider.notifier).setForcedAspectRatioForItem(currentItem, parsed);
                 Navigator.of(context).pop();
               },
               child: Text(context.localized.save),

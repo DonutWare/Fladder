@@ -18,8 +18,7 @@ abstract class BasePlayer {
   Future<void> init(VideoPlayerSettingsModel settings);
   Widget? videoWidget(
     Key key,
-    BoxFit fit,
-    {
+    BoxFit fit, {
       double? forcedAspectRatio,
     }
   );

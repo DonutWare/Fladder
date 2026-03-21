@@ -68,6 +68,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
       final orientations = ref.read(videoPlayerSettingsProvider.select((value) => value.allowedOrientations));
       SystemChrome.setPreferredOrientations(
           orientations?.isNotEmpty == true ? orientations!.toList() : DeviceOrientation.values);
+      ref.read(videoPlayerSettingsProvider.notifier).applyForcedAspectRatioForItem(ref.read(playBackModel)?.item);
       return ref.read(videoPlayerSettingsProvider.notifier).setSavedBrightness();
     });
   }
@@ -86,6 +87,9 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
       playBackModel,
       (previous, next) {
         if (next == null) return;
+        if (previous?.item.id != next.item.id) {
+          ref.read(videoPlayerSettingsProvider.notifier).applyForcedAspectRatioForItem(next.item);
+        }
         if (previous.runtimeType != next.runtimeType) {
           setState(() {
             currentPlaybackModel = next;
