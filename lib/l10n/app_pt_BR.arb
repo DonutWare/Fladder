@@ -462,7 +462,7 @@
     "settingsClientDesc": "Geral, Tempo limite, Layout, Tema",
     "settingsClientTitle": "Fladder",
     "settingsContinue": "Continuar",
-    "settingsEnableOsMediaControls": "Habilitar controles de mídia do sistema operacional",
+    "settingsEnableOsMediaControls": "Ativar controles de mídia do sistema operacional",
     "settingsHomeCarouselDesc": "Mostra um carrossel na tela do painel",
     "settingsHomeCarouselTitle": "Carrossel do painel",
     "settingsHomeNextUpDesc": "Tipo de pôsteres exibidos na tela do painel",
@@ -872,7 +872,7 @@
             }
         }
     },
-    "copyStreamUrl": "Copiar URL do stream",
+    "copyStreamUrl": "Copiar URL da transmissão",
     "settingsLayoutSizesTitle": "Tamanhos de layout",
     "settingsLayoutSizesDesc": "Escolha quais tamanhos de layout o aplicativo pode usar com base no tamanho da janela",
     "settingsLayoutModesTitle": "Modos de layout",
@@ -1272,7 +1272,7 @@
     "allowMediaDeletion": "Permitir exclusão de mídia",
     "allLibraries": "Todas as bibliotecas",
     "libraryAccess": "Acesso à Biblioteca",
-    "enableAllLibraries": "Habilitar acesso a todas as bibliotecas",
+    "enableAllLibraries": "Ativar acesso a todas as bibliotecas",
     "enableAllDevices": "Habilite o acesso de todos os dispositivos",
     "parentalControl": "Controle Parental",
     "blockedItemsNoRating": "Itens bloqueados sem classificações ou não reconhecidas",
@@ -1444,7 +1444,7 @@
     "enabledEmbeddedTitles": "Títulos incorporados ativados",
     "enabledEmbeddedExtrasTitles": "Títulos incorporados de extras ativados",
     "automaticRefreshInterval": "Intervalo de atualização automática",
-    "autoRefreshIntervalNote": "Habilitar essa opção pode causar tempos de atualização da biblioteca mais longos.",
+    "autoRefreshIntervalNote": "Ativar essa opção pode causar tempos de atualização da biblioteca mais longos.",
     "preferredDownloadLanguage": "Idioma de download preferido",
     "countryRegion": "País/Região",
     "saveMetadata": "Salvar metadados",
@@ -1658,7 +1658,7 @@
     "enableSpeedBoostDesc": "Pressione a tela (smartphone) ou barra de espaço (desktop) para aumentar temporariamente a velocidade de reprodução",
     "speedBoostRateDesc": "Velocidade de reprodução quando o aumento de velocidade está ativado",
     "enableDoubleTapSeekTitle": "Toque duplo para avançar/reproduzir/pausar",
-    "enableDoubleTapSeekDesc": "Toque duas vezes no lado esquerdo/direito do tela para retroceder/avançar. Toque duas vezes no centro para reproduzir/pausar.",
+    "enableDoubleTapSeekDesc": "Toque duas vezes no lado esquerdo/direito do tela para retroceder/avançar. Toque duas vezes no centro para reproduzir/pausar",
     "switchChannel": "Mudar de canal",
     "activeTvChannels": "Canais de TV ativos",
     "tunerDevices": "Dispositivos Sintonizadores",
@@ -1670,5 +1670,188 @@
     "userAgent": "Agente do Usuário",
     "userAgentOptional": "Agente do Usuário (opcional)",
     "addEpgProvider": "Adicionar provedor EPG",
-    "editEpgProvider": "Editar Provedor EPG"
+    "editEpgProvider": "Editar Provedor EPG",
+    "generateLoginLink": "Código para {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "Compartilhar link de login",
+    "shareQRCode": "Compartilhar código QR",
+    "includePassword": "Inserir senha",
+    "invalidAuthLink": "Link de login inválido",
+    "advancedVideoOptionsTitle": "Opções avançadas de vídeo",
+    "advancedVideoOptionsDesc": "Ativar HDR, mapeamento de tons e tratamento avançado de cores (instável em alguns dispositivos)",
+    "enableAllTuners": "Ativar para todos os sintonizadores",
+    "enabledTuners": "Sintonizadores ativados",
+    "movieCategories": "Categorias de filmes",
+    "newsCategories": "Categorias de notícias",
+    "sportsCategories": "Categorias de esportes",
+    "kidsCategories": "Categorias de crianças",
+    "fileOrUrl": "Arquivo ou URL",
+    "tunerIpAddress": "Endereço IP do Sintonizador",
+    "concurrentStreamsHint": "0 = Ilimitado",
+    "allowStreamSharing": "Permitir compartilhamento de transmissão",
+    "enableStreamLooping": "Ativar loop de transmissão",
+    "readAtNativeFramerate": "Ler em framerate nativo",
+    "importFavoritesOnly": "Importar apenas canais favoritos",
+    "allowHWTranscoding": "Permitir transcodificação de hardware",
+    "detectDevices": "Detectar dispositivos",
+    "discoveredDevices": "Dispositivos encontrados",
+    "noDevicesFound": "Nenhum dispositivo encontrado",
+    "path": "Caminho",
+    "noCategories": "Nenhuma categoria",
+    "moviePrefixSubLabel": "Se um prefixo for aplicado aos títulos de filme, digite-o aqui para que o servidor possa processá-lo corretamente.",
+    "movieCategoriesSubLabel": "Categorias para atribuir a canais correspondentes ao prefixo do filme",
+    "newsCategoriesSubLabel": "Categorias para atribuir a canais correspondentes ao prefixo de notícias",
+    "sportsCategoriesSubLabel": "Categorias para atribuir a canais correspondentes ao prefixo de esportes",
+    "kidsCategoriesSubLabel": "Categorias para atribuir a canais correspondentes ao prefixo de crianças",
+    "notifications": "Notificações",
+    "notificationChannelDescription": "Notificações para itens adicionados recentemente",
+    "seerrRequestNotifications": "Notificações para pedidos do Seerr",
+    "notificationNewEpisodes": "Novos episódios adicionados",
+    "updateCheckInterval": "Atualizar intervalo de verificação de atualizações",
+    "notificationsIntervalClientReminder": "O intervalo de notificação é definido para todos os usuários.",
+    "lastUpdateAt": "Última atualização em {date} em {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "Incluir bibliotecas ocultas",
+    "includeHiddenItemsDesc": "Incluir bibliotecas ocultas do painel",
+    "settingsBlurEffectsTitle": "Ativar efeitos de desfoque",
+    "settingsBlurEffectsDesc": "Ativar efeitos de desfoque na interface do usuário. Desativar isso pode melhorar o desempenho em dispositivos fracos.",
+    "passwordNotRequired": "Não é necessário, deixe vazio para não incluir senha no link",
+    "connect": "Conecte-se",
+    "authLinkDesc": "Peça ao administrador do servidor para fornecer o link de autenticação. O link contém informações de autenticação, por isso certifique-se de mantê-lo seguro.",
+    "deletedItem": "Excluído {itemName}",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderDescription": "Arraste para reordenar bibliotecas na tela inicial. Bibliotecas desmarcadas não mostrarão itens adicionados recentemente.",
+    "hidePlayedInLatestTitle": "Ocultar conteúdo assistido",
+    "hidePlayedInLatestDescription": "Ocultar conteúdo assistido de 'Adicionado Recentemente'",
+    "copyLoginLink": "Copiar link",
+    "maxConcurrentStreams": "Máximo de transmissões simultâneas",
+    "selectTuners": "Selecionar sintonizadores",
+    "concurrentStreams": "Máximo de transmissões simultâneas",
+    "allowFmp4Container": "Permitir transcodificação de formato fMP4",
+    "failedToDiscoverDevices": "Falha ao encontrar dispositivos: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "maxConcurrentStreamsLabel": "Máximo de transmissões simultâneas",
+    "enableNewTVLayoutDesc": "Mostrar banners maiores no estilo TV no painel. Este será o layout padrão numa versão futura.",
+    "showNewItemNotificationTitle": "Notificações para itens da biblioteca",
+    "batteryOptimizationDesc": "As otimizações da bateria podem atrasar as notificações em segundo plano do Fladder.\nToque para abrir as configurações do sistema e desativar as otimizações do Fladder para melhorar a confiabilidade das notificações.",
+    "profileSettingsOpenAuthAtLaunch": "Mostrar método de autenticação no bloqueio do aplicativo",
+    "toggleSidebar": "Alternar barra lateral",
+    "requestedSuccessForItem": "Solicitação bem-sucedida {itemName}",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "linkData": "Dados do link",
+    "connectWithAuthLink": "Conectar com link de autenticação",
+    "pasteFladderAuthLink": "Cole o link de autenticação fladder:///login?authLink=...",
+    "groupedFoldersDescription": "Agrupe automaticamente o conteúdo das seguintes bibliotecas em visualizações como 'Filmes', 'Música' e 'TV'.",
+    "epgGuideProviders": "Guia de Provedores EPG",
+    "noEpgProvidersConfigured": "Nenhum provedor de EPG configurado",
+    "xmltvPathUrl": "Caminho/URL do XMLTV",
+    "fallbackMaxBitrate": "Taxa de transferência máxima de fallback (Mbps)",
+    "updateCheckIntervalDesc": "Com que frequência a tarefa em segundo plano é executada",
+    "groupedFoldersTitle": "Bibliotecas agrupadas",
+    "seerrCustomHeaders": "Cabeçalhos personalizados",
+    "seerrHeaderValue": "Valor",
+    "url": "URL",
+    "moviePrefix": "Prefixo de filme",
+    "tunerHostAddedSuccessfully": "Sintonizador adicionado com sucesso",
+    "failedToAddTunerHost": "Falha ao adicionar sintonizador:{error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "Sintonizador atualizado com sucesso",
+    "failedToUpdateTunerHost": "Falha ao atualizar o sintonizador: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "Excluir sintonizador",
+    "tunerHostDeletedSuccessfully": "Sintonizador excluído com sucesso",
+    "failedToDeleteTunerHost": "Falha ao excluir o sintonizador: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "Ordem da Tela Inicial",
+    "mediaTypeTV": "{count, plural, one{Canal de TV} other{Canais de TV}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "seerrUrlSchemeWarning": "Não foi possível detectar automaticamente o esquema de URL. O padrão será https://. Adicione o prefixo http:// se o seu servidor não usar HTTPS.",
+    "seerrHeader": "Cabeçalho",
+    "friendlyName": "Nome amigável",
+    "ignoreDts": "Ignorar data e hora DTS",
+    "notificationNewItems": "{count, plural, one{{count} novo item} other{{count} novos itens}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationNewRequests": "{count, plural, one{{count} nova solicitação} other{{count} novas solicitações}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " O iOS decide quando e se as atualizações serão executadas, podendo haver atrasos ou até mesmo a ausência de notificações.",
+    "authLinkButtonToolTip": "Abrir caixa de diálogo de link de autenticação"
 }
