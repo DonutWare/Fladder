@@ -111,7 +111,8 @@ enum class PlayerOrientations(val raw: Int) {
 enum class AutoNextType(val raw: Int) {
   OFF(0),
   STATIC(1),
-  SMART(2);
+  SMART(2),
+  AUTOPLAY(3);
 
   companion object {
     fun ofRaw(raw: Int): AutoNextType? {

@@ -1272,6 +1272,8 @@
   "autoNextOffSmartDesc": "Shows the next-up screen when the credits start if no more then 10 seconds remain after the credits. Else it shows the next-up screen with 30 seconds of playtime remaining",
   "autoNextOffStaticTitle": "Static",
   "autoNextOffStaticDesc": "Show the next-up screen when 30 seconds of playtime remain",
+  "autoNextOffAutoplayTitle": "Autoplay",
+  "autoNextOffAutoplayDesc": "Automatically plays the next episode immediately when the current one ends without showing a preview",
   "playbackRate": "Playback rate",
   "speed": "Speed",
   "unableToPlayMedia": "There was an error finding a compatible media type",

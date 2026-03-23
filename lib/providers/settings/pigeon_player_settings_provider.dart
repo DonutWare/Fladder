@@ -58,6 +58,7 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
             AutoNextType.off => pigeon.AutoNextType.off,
             AutoNextType.static => pigeon.AutoNextType.static,
             AutoNextType.smart => pigeon.AutoNextType.smart,
+            AutoNextType.autoplay => pigeon.AutoNextType.autoplay,
           },
           skipBackward: (userData?.userSettings?.skipBackDuration ?? const Duration(seconds: 15)).inMilliseconds,
           skipForward: (userData?.userSettings?.skipForwardDuration ?? const Duration(seconds: 30)).inMilliseconds,

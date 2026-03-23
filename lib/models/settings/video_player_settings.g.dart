@@ -111,6 +111,7 @@ const _$AutoNextTypeEnumMap = {
   AutoNextType.off: 'off',
   AutoNextType.smart: 'smart',
   AutoNextType.static: 'static',
+  AutoNextType.autoplay: 'autoplay',
 };
 
 const _$BitrateEnumMap = {

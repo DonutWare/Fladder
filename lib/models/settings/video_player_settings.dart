@@ -192,7 +192,8 @@ enum Screensaver {
 enum AutoNextType {
   off,
   smart,
-  static;
+  static,
+  autoplay;
 
   const AutoNextType();
 
@@ -200,12 +201,14 @@ enum AutoNextType {
         AutoNextType.off => context.localized.off,
         AutoNextType.smart => context.localized.autoNextOffSmartTitle,
         AutoNextType.static => context.localized.autoNextOffStaticTitle,
+        AutoNextType.autoplay => context.localized.autoNextOffAutoplayTitle,
       };
 
   String desc(BuildContext context) => switch (this) {
         AutoNextType.off => context.localized.off,
         AutoNextType.smart => context.localized.autoNextOffSmartDesc,
         AutoNextType.static => context.localized.autoNextOffStaticDesc,
+        AutoNextType.autoplay => context.localized.autoNextOffAutoplayDesc,
       };
 }
 

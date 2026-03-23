@@ -42,6 +42,7 @@ class VideoPlayerNextWrapper extends ConsumerStatefulWidget {
 class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper> {
   bool show = false;
   bool showOverwrite = false;
+  bool _autoplayTriggered = false;
   late RestartableTimerController timerController =
       RestartableTimerController(const Duration(seconds: 30), const Duration(milliseconds: 33), onTimeout: onTimeOut);
 
@@ -75,6 +76,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
     if (playerState != VideoPlayerState.fullScreen) {
       showOverwrite = false;
       show = false;
+      _autoplayTriggered = false;
       return;
     }
 
@@ -82,12 +84,41 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
     if (nextType == AutoNextType.off || model.duration < const Duration(seconds: 40)) {
       showOverwrite = false;
       show = false;
+      _autoplayTriggered = false;
       return;
     }
 
     final credits = ref.read(playBackModel)?.mediaSegments?.outro;
 
-    if (nextType == AutoNextType.static || credits == null) {
+    if (nextType == AutoNextType.autoplay) {
+      final timeRemaining = (model.duration - model.position).abs();
+      
+      // Autoplay mode: immediately load next video when near the end
+      if (timeRemaining < const Duration(seconds: 2)) {
+        if (_autoplayTriggered) {
+          return;
+        }
+        
+        final nextUp = ref.read(playBackModel.select((value) => value?.nextVideo));
+        
+        if (nextUp != null && !showOverwrite && !model.buffering) {
+          _autoplayTriggered = true;
+          showOverwrite = true; // Set immediately to prevent re-entry
+          
+          // Schedule the async load without blocking
+          Future.microtask(() async {
+            try {
+              await ref.read(playbackModelHelper).loadNewVideo(nextUp);
+            } catch (e, stackTrace) {
+              // Reset on error so user can retry
+              _autoplayTriggered = false;
+              showOverwrite = false;
+            }
+          });
+        }
+      }
+      return;
+    } else if (nextType == AutoNextType.static || credits == null) {
       if ((model.duration - model.position).abs() < const Duration(seconds: 32)) {
         showNextScreen(model);
         return;

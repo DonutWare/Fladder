@@ -107,6 +107,37 @@ internal fun NextUpOverlay(
         reInitNextUp()
     }
 
+    // Autoplay: immediately load next video when near the end
+    LaunchedEffect(nextType, nextVideo) {
+        if (nextType == AutoNextType.AUTOPLAY && nextVideo != null) {
+            android.util.Log.d("AUTOPLAY_ANDROID", "LaunchedEffect started for autoplay mode")
+            while (isActive) {
+                val durationMs = VideoPlayerObject.duration.value
+                val positionMs = VideoPlayerObject.position.value
+                val videoDuration = durationMs.toDuration(DurationUnit.MILLISECONDS)
+                val videoPosition = positionMs.toDuration(DurationUnit.MILLISECONDS)
+                val timeToEnd = (videoDuration - videoPosition).absoluteValue
+
+                android.util.Log.v("AUTOPLAY_ANDROID", "Checking: position=${videoPosition.inWholeSeconds}s, duration=${videoDuration.inWholeSeconds}s, timeToEnd=${timeToEnd.inWholeSeconds}s, disabled=$disableUntilNextVideo, buffering=$isBuffering")
+
+                if (timeToEnd < 2.seconds && !disableUntilNextVideo && !isBuffering) {
+                    android.util.Log.i("AUTOPLAY_ANDROID", "Triggering autoplay - loading next video: ${nextVideo.name}")
+                    disableUntilNextVideo = true // Set immediately to prevent re-trigger
+                    try {
+                        loadNextVideo()
+                        android.util.Log.i("AUTOPLAY_ANDROID", "loadNextVideo completed successfully")
+                    } catch (e: Exception) {
+                        android.util.Log.e("AUTOPLAY_ANDROID", "Error in loadNextVideo", e)
+                        disableUntilNextVideo = false // Reset on error
+                    }
+                    break
+                }
+                delay(100)
+            }
+            android.util.Log.d("AUTOPLAY_ANDROID", "LaunchedEffect ended")
+        }
+    }
+
     val showNextUp = nextUpVisible && !disableUntilNextVideo
 
     LaunchedEffect(showNextUp) {
@@ -331,6 +362,11 @@ private fun showNextUp(): Boolean {
                     return true
                 }
             }
+        }
+
+        AutoNextType.AUTOPLAY -> {
+            // Autoplay handles loading directly, never show overlay
+            return false
         }
 
         AutoNextType.OFF -> return false

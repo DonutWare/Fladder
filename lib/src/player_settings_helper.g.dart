@@ -58,6 +58,7 @@ enum AutoNextType {
   off,
   static,
   smart,
+  autoplay,
 }
 
 enum SegmentType {
