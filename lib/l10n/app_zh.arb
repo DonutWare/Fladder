@@ -1828,5 +1828,52 @@
     "settingsBlurEffectsTitle": "启用模糊效果",
     "settingsBlurEffectsDesc": "启用用户界面中的模糊效果。禁用此功能可以提高低端设备的性能。",
     "profileSettingsOpenAuthAtLaunch": "在应用锁上显示身份验证方法",
-    "toggleSidebar": "切换侧边栏"
+    "toggleSidebar": "切换侧边栏",
+    "generateLoginLink": "{userName} 的代码",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "分享登录链接",
+    "shareQRCode": "分享二维码",
+    "copyLoginLink": "复制链接",
+    "includePassword": "包含密码",
+    "invalidAuthLink": "登录链接无效",
+    "advancedVideoOptionsTitle": "高级视频选项",
+    "advancedVideoOptionsDesc": "启用 HDR、色调映射和高级色彩处理（在某些设备上可能不稳定）",
+    "requestedSuccessForItem": "成功请求 {itemName}",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "linkData": "链接数据",
+    "passwordNotRequired": "并非必填项，留空则链接中不包含密码",
+    "authLinkButtonToolTip": "打开身份验证链接对话框",
+    "connectWithAuthLink": "使用身份验证链接",
+    "pasteFladderAuthLink": "粘贴 fladder 身份验证链接 fladder:///login?authLink=...",
+    "connect": "连接",
+    "authLinkDesc": "请服务器管理员提供身份验证链接。该链接包含身份验证信息，请务必妥善保管。",
+    "deletedItem": "删除 {itemName}",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "主屏幕顺序",
+    "libraryOrderDescription": "拖动即可重新排列主屏幕上的媒体库。未勾选的媒体库将不会显示最近添加的项目。",
+    "hidePlayedInLatestTitle": "隐藏已观看内容",
+    "hidePlayedInLatestDescription": "从“最近添加的媒体”中隐藏已观看的内容",
+    "groupedFoldersTitle": "分组媒体库",
+    "groupedFoldersDescription": "自动将以下媒体库中的内容分组到“电影”、“音乐”和“电视节目”等视图中。"
 }

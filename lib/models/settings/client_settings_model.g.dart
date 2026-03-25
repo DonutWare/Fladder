@@ -9,6 +9,8 @@ part of 'client_settings_model.dart';
 _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
     _ClientSettingsModel(
       syncPath: json['syncPath'] as String?,
+      transcodeDownloadModel: TranscodeDownloadModel.fromJson(
+          json['transcodeDownloadModel'] as Map<String, dynamic>),
       position: json['position'] == null
           ? const Vector2(x: 0, y: 0)
           : Vector2.fromJson(json['position'] as String),
@@ -68,6 +70,7 @@ Map<String, dynamic> _$ClientSettingsModelToJson(
         _ClientSettingsModel instance) =>
     <String, dynamic>{
       'syncPath': instance.syncPath,
+      'transcodeDownloadModel': instance.transcodeDownloadModel,
       'position': instance.position,
       'size': instance.size,
       'timeOut': instance.timeOut?.inMicroseconds,

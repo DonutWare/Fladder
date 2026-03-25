@@ -13,6 +13,8 @@ import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/screens/syncing/sync_widgets.dart';
+import 'package:fladder/screens/syncing/widgets/sync_file_button.dart';
+import 'package:fladder/screens/syncing/widgets/sync_item_poster.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/size_formatting.dart';
@@ -38,24 +40,26 @@ class _SyncedEpisodeItemState extends ConsumerState<SyncedEpisodeItem> {
   Widget build(BuildContext context) {
     final downloadTask = ref.watch(downloadTasksProvider(syncedItem.id));
     final hasFile = widget.syncedItem.videoFile.existsSync();
-
     return IntrinsicHeight(
       child: Row(
         children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
-            child: FlatButton(
-              onTap: () {
-                widget.episode.navigateTo(context);
-                return context.maybePop();
-              },
-              child: SizedBox(
-                width: 175,
-                child: EpisodePoster(
-                  episode: widget.episode,
-                  actions: [],
-                  showLabel: false,
-                  isCurrentEpisode: false,
+          SyncItemPoster(
+            item: syncedItem,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+              child: FlatButton(
+                onTap: () {
+                  widget.episode.navigateTo(context);
+                  return context.maybePop();
+                },
+                child: SizedBox(
+                  width: 175,
+                  child: EpisodePoster(
+                    episode: widget.episode,
+                    actions: [],
+                    showLabel: false,
+                    isCurrentEpisode: false,
+                  ),
                 ),
               ),
             ),
@@ -71,15 +75,19 @@ class _SyncedEpisodeItemState extends ConsumerState<SyncedEpisodeItem> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.episode.name,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      Opacity(
-                        opacity: 0.75,
+                      Flexible(
                         child: Text(
-                          widget.episode.seasonEpisodeLabel(context.localized),
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          widget.episode.name,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+                      Flexible(
+                        child: Opacity(
+                          opacity: 0.75,
+                          child: Text(
+                            widget.episode.seasonEpisodeLabel(context.localized),
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
                         ),
                       ),
                     ],
@@ -102,9 +110,8 @@ class _SyncedEpisodeItemState extends ConsumerState<SyncedEpisodeItem> {
             ),
           ),
           if (!hasFile && !downloadTask.hasDownload)
-            IconButtonAwait(
-              onPressed: () async => await ref.read(syncProvider.notifier).syncFile(syncedItem, false),
-              icon: const Icon(IconsaxPlusLinear.cloud_change),
+            SyncFileButton(
+              syncedItem: syncedItem,
             )
           else if (hasFile)
             IconButtonAwait(
