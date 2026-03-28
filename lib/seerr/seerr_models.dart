@@ -1114,13 +1114,19 @@ class SeerrPageInfo {
 class SeerrCreateRequestBody {
   final String? mediaType;
   final int? mediaId;
+  @JsonKey(includeIfNull: false)
   final bool? is4k;
   @JsonKey(includeIfNull: false)
   final List<int>? seasons;
+  @JsonKey(includeIfNull: false)
   final int? serverId;
+  @JsonKey(includeIfNull: false)
   final int? profileId;
+  @JsonKey(includeIfNull: false)
   final String? rootFolder;
+  @JsonKey(includeIfNull: false)
   final List<int>? tags;
+  @JsonKey(includeIfNull: false)
   final int? userId;
 
   SeerrCreateRequestBody({
