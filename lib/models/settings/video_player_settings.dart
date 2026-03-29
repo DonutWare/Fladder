@@ -84,6 +84,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(2.0) double speedBoostRate,
     @Default(true) bool enableDoubleTapSeek,
     @Default(false) bool enableAdvancedVideoOptions,
+    @Default(DVPlayerChoice.ask) DVPlayerChoice dvPlayerChoice,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => switch (defaultTargetPlatform) {
@@ -245,3 +246,19 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
         },
     };
+
+enum DVPlayerChoice {
+  internalPlayer,
+  ask,
+  energyPlayer;
+
+  const DVPlayerChoice();
+
+  String label(BuildContext context) {
+    return switch (this) {
+      DVPlayerChoice.internalPlayer => "Disabled (Internal player)",
+      DVPlayerChoice.ask => "Always ask",
+      DVPlayerChoice.energyPlayer => "Energy Player (External)",
+    };
+  }
+}

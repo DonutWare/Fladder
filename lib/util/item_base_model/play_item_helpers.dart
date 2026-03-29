@@ -31,7 +31,11 @@ import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
+import 'package:fladder/util/external_player_helper.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
+import 'package:fladder/widgets/shared/dv_player_selection_dialog.dart';
+import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
 
 extension BookBaseModelExtension on BookModel? {
   Future<void> play(
@@ -197,6 +201,27 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
     bool showPlaybackOption = false,
   }) async {
     if (itemModel == null) return;
+
+    // DV selection on Windows logic
+    if (ExternalPlayerHelper.canShowEnergyPlayer(itemModel)) {
+      final settings = ref.read(videoPlayerSettingsProvider);
+      DVPlayerChoice choice = settings.dvPlayerChoice;
+
+      if (choice == DVPlayerChoice.ask) {
+        final result = await showDialog<DVPlayerChoice>(
+          context: context,
+          builder: (context) => const DVPlayerSelectionDialog(),
+        );
+
+        if (result == null) return;
+        choice = result;
+      }
+
+      if (choice == DVPlayerChoice.energyPlayer) {
+        await ExternalPlayerHelper.launchEnergyPlayer(ref, itemModel);
+        return;
+      }
+    }
 
     await ref.read(videoPlayerProvider.notifier).init();
 

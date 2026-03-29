@@ -2570,5 +2570,17 @@
   "@groupedFoldersDescription": {},
   "downloadTranscoded": "Download transcoded",
   "downloadOriginal": "Download original",
-  "today": "Today"
+  "today": "Today",
+  "dvPlayerSelectionTitle": "Dolby Vision Player",
+  "dvPlayerSelectionDesc": "Choose how to play Dolby Vision on Windows. Energy Player is required for native vision and high-quality audio passthrough (Atmos, 5.1).",
+  "dvPlayerAsk": "Always ask",
+  "dvPlayerDisabled": "Disabled (Internal player)",
+  "dvPlayerEnergyPlayer": "Energy Player (External)",
+  "dvPlayerDialogTitle": "Play with...",
+  "dvPlayerDialogDesc": "This content is in native Dolby Vision. Use Energy Player for accurate HDR colors and advanced audio support (Atmos/5.1 passthrough). Internal playback may have dull colors or limited audio codec support.",
+  "dvRememberChoice": "Remember my choice",
+  "dvPlayerNotInstalled": "Energy Player is not installed. Would you like to download it from the Microsoft Store?",
+  "dvPlayerGetFromStore": "Get from Store",
+  "dvEnableInstruction": "Configuration for native Dolby Vision and Audio:\n• Enable 'Allow Dolby Vision decoding' in Energy Player 'Video/Audio settings'.\n• Enable relevant 'Passthrough' options for Atmos/5.1 support.\n• Ensure HDR is enabled in Windows Display settings.",
+  "dvSyncWarning": "Note: Playback state is saved within Energy Player only and will not sync back to Fladder."
 }

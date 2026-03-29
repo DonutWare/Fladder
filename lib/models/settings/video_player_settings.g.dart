@@ -52,6 +52,9 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
       enableDoubleTapSeek: json['enableDoubleTapSeek'] as bool? ?? true,
       enableAdvancedVideoOptions:
           json['enableAdvancedVideoOptions'] as bool? ?? false,
+      dvPlayerChoice: $enumDecodeNullable(
+              _$DVPlayerChoiceEnumMap, json['dvPlayerChoice']) ??
+          DVPlayerChoice.ask,
     );
 
 Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
@@ -82,6 +85,7 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
       'speedBoostRate': instance.speedBoostRate,
       'enableDoubleTapSeek': instance.enableDoubleTapSeek,
       'enableAdvancedVideoOptions': instance.enableAdvancedVideoOptions,
+      'dvPlayerChoice': _$DVPlayerChoiceEnumMap[instance.dvPlayerChoice]!,
     };
 
 const _$BoxFitEnumMap = {
@@ -174,4 +178,10 @@ const _$ScreensaverEnumMap = {
   Screensaver.logo: 'logo',
   Screensaver.time: 'time',
   Screensaver.black: 'black',
+};
+
+const _$DVPlayerChoiceEnumMap = {
+  DVPlayerChoice.internalPlayer: 'internalPlayer',
+  DVPlayerChoice.ask: 'ask',
+  DVPlayerChoice.energyPlayer: 'energyPlayer',
 };

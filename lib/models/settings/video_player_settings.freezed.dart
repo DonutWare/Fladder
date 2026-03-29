@@ -35,6 +35,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   double get speedBoostRate;
   bool get enableDoubleTapSeek;
   bool get enableAdvancedVideoOptions;
+  DVPlayerChoice get dvPlayerChoice;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -72,12 +73,13 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
       ..add(DiagnosticsProperty(
-          'enableAdvancedVideoOptions', enableAdvancedVideoOptions));
+          'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty('dvPlayerChoice', dvPlayerChoice));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, dvPlayerChoice: $dvPlayerChoice)';
   }
 }
 
@@ -108,7 +110,8 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       bool enableSpeedBoost,
       double speedBoostRate,
       bool enableDoubleTapSeek,
-      bool enableAdvancedVideoOptions});
+      bool enableAdvancedVideoOptions,
+      DVPlayerChoice dvPlayerChoice});
 }
 
 /// @nodoc
@@ -145,6 +148,7 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? speedBoostRate = null,
     Object? enableDoubleTapSeek = null,
     Object? enableAdvancedVideoOptions = null,
+    Object? dvPlayerChoice = null,
   }) {
     return _then(_self.copyWith(
       screenBrightness: freezed == screenBrightness
@@ -231,6 +235,10 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
           ? _self.enableAdvancedVideoOptions
           : enableAdvancedVideoOptions // ignore: cast_nullable_to_non_nullable
               as bool,
+      dvPlayerChoice: null == dvPlayerChoice
+          ? _self.dvPlayerChoice
+          : dvPlayerChoice // ignore: cast_nullable_to_non_nullable
+              as DVPlayerChoice,
     ));
   }
 }
@@ -349,7 +357,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enableSpeedBoost,
             double speedBoostRate,
             bool enableDoubleTapSeek,
-            bool enableAdvancedVideoOptions)?
+            bool enableAdvancedVideoOptions,
+            DVPlayerChoice dvPlayerChoice)?
         $default, {
     required TResult orElse(),
   }) {
@@ -377,7 +386,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enableSpeedBoost,
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
-            _that.enableAdvancedVideoOptions);
+            _that.enableAdvancedVideoOptions,
+            _that.dvPlayerChoice);
       case _:
         return orElse();
     }
@@ -419,7 +429,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enableSpeedBoost,
             double speedBoostRate,
             bool enableDoubleTapSeek,
-            bool enableAdvancedVideoOptions)
+            bool enableAdvancedVideoOptions,
+            DVPlayerChoice dvPlayerChoice)
         $default,
   ) {
     final _that = this;
@@ -446,7 +457,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enableSpeedBoost,
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
-            _that.enableAdvancedVideoOptions);
+            _that.enableAdvancedVideoOptions,
+            _that.dvPlayerChoice);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -487,7 +499,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enableSpeedBoost,
             double speedBoostRate,
             bool enableDoubleTapSeek,
-            bool enableAdvancedVideoOptions)?
+            bool enableAdvancedVideoOptions,
+            DVPlayerChoice dvPlayerChoice)?
         $default,
   ) {
     final _that = this;
@@ -514,7 +527,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enableSpeedBoost,
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
-            _that.enableAdvancedVideoOptions);
+            _that.enableAdvancedVideoOptions,
+            _that.dvPlayerChoice);
       case _:
         return null;
     }
@@ -547,7 +561,8 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.enableSpeedBoost = false,
       this.speedBoostRate = 2.0,
       this.enableDoubleTapSeek = true,
-      this.enableAdvancedVideoOptions = false})
+      this.enableAdvancedVideoOptions = false,
+      this.dvPlayerChoice = DVPlayerChoice.ask})
       : _allowedOrientations = allowedOrientations,
         _segmentSkipSettings = segmentSkipSettings,
         _hotKeys = hotKeys,
@@ -636,6 +651,9 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
   @override
   @JsonKey()
   final bool enableAdvancedVideoOptions;
+  @override
+  @JsonKey()
+  final DVPlayerChoice dvPlayerChoice;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -678,12 +696,13 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
       ..add(DiagnosticsProperty(
-          'enableAdvancedVideoOptions', enableAdvancedVideoOptions));
+          'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty('dvPlayerChoice', dvPlayerChoice));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, dvPlayerChoice: $dvPlayerChoice)';
   }
 }
 
@@ -716,7 +735,8 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
       bool enableSpeedBoost,
       double speedBoostRate,
       bool enableDoubleTapSeek,
-      bool enableAdvancedVideoOptions});
+      bool enableAdvancedVideoOptions,
+      DVPlayerChoice dvPlayerChoice});
 }
 
 /// @nodoc
@@ -753,6 +773,7 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? speedBoostRate = null,
     Object? enableDoubleTapSeek = null,
     Object? enableAdvancedVideoOptions = null,
+    Object? dvPlayerChoice = null,
   }) {
     return _then(_VideoPlayerSettingsModel(
       screenBrightness: freezed == screenBrightness
@@ -839,6 +860,10 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
           ? _self.enableAdvancedVideoOptions
           : enableAdvancedVideoOptions // ignore: cast_nullable_to_non_nullable
               as bool,
+      dvPlayerChoice: null == dvPlayerChoice
+          ? _self.dvPlayerChoice
+          : dvPlayerChoice // ignore: cast_nullable_to_non_nullable
+              as DVPlayerChoice,
     ));
   }
 }

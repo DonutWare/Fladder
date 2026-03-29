@@ -138,6 +138,44 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           ],
         ),
         const SizedBox(height: 12),
+        if (Platform.isWindows)
+          ...settingsListGroup(
+            context,
+            SettingsLabelDivider(label: context.localized.dvPlayerSelectionTitle),
+            [
+              SettingsListTile(
+                label: Text(context.localized.dvPlayerSelectionTitle),
+                subLabel: Text(context.localized.dvPlayerSelectionDesc),
+                trailing: EnumBox(
+                  current: videoSettings.dvPlayerChoice.label(context),
+                  itemBuilder: (context) => DVPlayerChoice.values
+                      .map(
+                        (entry) => ItemActionButton(
+                          label: Text(entry.label(context)),
+                          action: () => provider.setDVPlayerChoice(entry),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+              AnimatedFadeSize(
+                child: Column(
+                  children: [
+                    SettingsMessageBox(
+                      context.localized.dvEnableInstruction,
+                      messageType: MessageType.info,
+                    ),
+                    const SizedBox(height: 8),
+                    SettingsMessageBox(
+                      context.localized.dvSyncWarning,
+                      messageType: MessageType.warning,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        const SizedBox(height: 12),
         ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.mediaSegmentActions), [
           ...videoSettings.segmentSkipSettings.entries.sorted((a, b) => b.key.index.compareTo(a.key.index)).map(
                 (entry) => Padding(

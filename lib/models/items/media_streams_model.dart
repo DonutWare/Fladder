@@ -71,6 +71,8 @@ class MediaStreamsModel {
 
   String? get mediaInfoTag => '${displayProfile?.value} ${resolution?.value}';
 
+  bool get hasDolbyVision => videoStreams.any((element) => element.isDolbyVision);
+
   Widget? audioIcon(
     BuildContext context,
     Function()? onTap,
@@ -257,6 +259,19 @@ class VideoStreamModel extends StreamModel {
       index: stream.index ?? -1,
     );
   }
+
+  bool get isDolbyVision {
+    final range = videoRangeType;
+    if (range == null) return false;
+    return range == VideoRangeType.dovi ||
+        range == VideoRangeType.doviwithhdr10 ||
+        range == VideoRangeType.doviwithhlg ||
+        range == VideoRangeType.doviwithsdr ||
+        range == VideoRangeType.doviwithel ||
+        range == VideoRangeType.doviwithhdr10plus ||
+        range == VideoRangeType.doviwithelhdr10plus;
+  }
+
   String get prettyName {
     return "${Resolution.fromVideoStream(this)?.value} - ${DisplayProfile.fromVideoStream(this).value} - (${codec.toUpperCase()})";
   }
