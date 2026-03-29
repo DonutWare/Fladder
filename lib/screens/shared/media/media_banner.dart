@@ -273,7 +273,7 @@ class _MediaBannerState extends ConsumerState<MediaBanner> {
                 activeTrackColor: Theme.of(context).colorScheme.surfaceDim,
                 inactiveTrackColor: Theme.of(context).colorScheme.surfaceDim,
                 max: widget.items.length.toDouble() - 1,
-                onChanged: (value) => setState(() => currentPage = value.toInt()),
+                onChanged: (value) => setState(() => currentPage = value.round()),
               ),
             )
           else

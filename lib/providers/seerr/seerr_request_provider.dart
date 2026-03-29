@@ -201,17 +201,20 @@ class SeerrRequest extends _$SeerrRequest {
     final canOverrideUser = state.currentUser?.canManageUsers ?? false;
     final userId = canOverrideUser ? state.selectedUser?.id ?? state.currentUser?.id : null;
     final tags = state.selectedTags.map((t) => t.id).whereType<int>().toList();
-    final profileId = state.selectedProfile?.id;
-    final rootFolder = state.selectedRootFolder;
 
     final isTv = poster.type == SeerrMediaType.tvshow;
+    final selectedServer = isTv ? state.selectedSonarrServer : state.selectedRadarrServer;
+
+    final serverId = selectedServer?.id;
+    final profileId = state.selectedProfile?.id;
+    final rootFolder = state.selectedRootFolder ?? state.defaultRootFolder;
 
     if (isTv) {
       return (await api.requestSeries(
         tmdbId: poster.tmdbId,
-        is4k: state.selectedSonarrServer?.is4k,
+        is4k: selectedServer?.is4k ?? false,
         userId: userId,
-        serverId: state.selectedSonarrServer?.id,
+        serverId: serverId,
         profileId: profileId,
         rootFolder: rootFolder,
         tags: tags,
@@ -221,9 +224,9 @@ class SeerrRequest extends _$SeerrRequest {
     } else {
       return (await api.requestMovie(
         tmdbId: poster.tmdbId,
-        is4k: state.selectedRadarrServer?.is4k,
+        is4k: selectedServer?.is4k ?? false,
         userId: userId,
-        serverId: state.selectedRadarrServer?.id,
+        serverId: serverId,
         profileId: profileId,
         rootFolder: rootFolder,
         tags: tags,

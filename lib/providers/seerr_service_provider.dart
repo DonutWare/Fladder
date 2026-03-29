@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:chopper/chopper.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+
+import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/images_models.dart';
@@ -464,12 +465,12 @@ class SeerrService {
       SeerrCreateRequestBody(
         mediaType: 'movie',
         mediaId: tmdbId,
-        is4k: is4k,
+        is4k: is4k ?? false,
         userId: userId,
         serverId: serverId,
         profileId: profileId,
         rootFolder: rootFolder,
-        tags: tags,
+        tags: tags?.isEmpty == true ? null : tags,
       ),
     );
   }
@@ -488,13 +489,13 @@ class SeerrService {
       SeerrCreateRequestBody(
         mediaType: 'tv',
         mediaId: tmdbId,
-        is4k: is4k,
-        seasons: seasons,
+        is4k: is4k ?? false,
+        seasons: seasons?.isEmpty == true ? null : seasons,
         userId: userId,
         serverId: serverId,
         profileId: profileId,
         rootFolder: rootFolder,
-        tags: tags,
+        tags: tags?.isEmpty == true ? null : tags,
       ),
     );
   }

@@ -1688,6 +1688,20 @@
       }
     }
   },
+  "airsIn": "Airs in {count} {duration}",
+  "@airsIn": {
+    "description": "airsIn",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      },
+      "duration": {
+        "type": "String",
+        "example": "days"
+      }
+    }
+  },
   "lastRunTaking": "Last run {date}, taking {time}",
   "@lastRunTaking": {
     "description": "lastRunTaking",
@@ -2555,5 +2569,6 @@
   "groupedFoldersDescription": "Automatically group content from the following libraries into views such as 'Movies', 'Music' and 'TV'.",
   "@groupedFoldersDescription": {},
   "downloadTranscoded": "Download transcoded",
-  "downloadOriginal": "Download original"
+  "downloadOriginal": "Download original",
+  "today": "Today"
 }
