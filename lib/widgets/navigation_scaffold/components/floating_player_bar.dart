@@ -155,11 +155,14 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                     onExit: (event) => setState(() => showExpandButton = false),
                                     child: Stack(
                                       children: [
-                                        player.videoWidget(
-                                              const ValueKey("mini_player_video"),
-                                              BoxFit.fitHeight,
-                                            ) ??
-                                            const SizedBox.shrink(),
+                                        Hero(
+                                          tag: videoPlayerHeroTag,
+                                          child: player.videoWidget(
+                                                const ValueKey("mini_player_video"),
+                                                BoxFit.fitHeight,
+                                              ) ??
+                                              const SizedBox.shrink(),
+                                        ),
                                         Positioned.fill(
                                           child: Tooltip(
                                             message: "Expand player",

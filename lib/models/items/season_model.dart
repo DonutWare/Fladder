@@ -78,9 +78,9 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
   }
 
   @override
-  String get windowTitle {
+  String windowTitle(AppLocalizations l10n) {
     final prefix = seriesName.isNotEmpty ? '$seriesName • ' : '';
-    return '$prefix$name';
+    return '$prefix${localizedName(l10n)}';
   }
 
   @override
