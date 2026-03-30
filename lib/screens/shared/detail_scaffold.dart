@@ -73,29 +73,37 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   ImageProvider? _lastRequestedImage;
   ImageData? _lastColorImage;
 
+  void _pushTitle() {
+    final isCurrent = ModalRoute.of(context)?.isCurrent ?? false;
+    if (!isCurrent) return;
+
+    final newTitle = widget.windowTitle ?? widget.item?.windowTitle(context.localized) ?? widget.label;
+    if (newTitle.isNotEmpty) {
+      ref.read(windowTitleProvider.notifier).updateTitle(this, newTitle);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(windowTitleProvider.notifier).pushNavTitle(widget.windowTitle ?? widget.label);
-    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _pushTitle();
   }
 
   @override
   void dispose() {
-    ref.read(windowTitleProvider.notifier).popNavTitle(widget.windowTitle ?? widget.label);
+    ref.read(windowTitleProvider.notifier).removeTitle(this);
     super.dispose();
   }
 
   @override
   void didUpdateWidget(covariant DetailScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.label != widget.label || oldWidget.windowTitle != widget.windowTitle) {
-      ref.read(windowTitleProvider.notifier).replaceNavTitle(
-            oldWidget.windowTitle ?? oldWidget.label,
-            widget.windowTitle ?? widget.label,
-          );
-    }
+    _pushTitle();
     updateImage();
     _updateDominantColor();
     if (widget.item != null && widget.item?.id != item?.id) {

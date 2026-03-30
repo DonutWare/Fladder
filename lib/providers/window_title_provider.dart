@@ -1,41 +1,41 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/providers/video_player_provider.dart';
 import 'package:window_manager/window_manager.dart';
 
 /// Manages the context-aware window title.
 final windowTitleProvider = StateNotifierProvider<WindowTitleNotifier, String>((ref) {
-  return WindowTitleNotifier();
+  return WindowTitleNotifier(ref);
 });
 
 class WindowTitleNotifier extends StateNotifier<String> {
-  WindowTitleNotifier() : super('Fladder');
+  final Ref ref;
+  WindowTitleNotifier(this.ref) : super('Fladder');
 
-  final List<String> _navStack = [];
+  final Map<Object, String> _titles = {};
+  final List<Object> _stackKeys = [];
   String? _playTitle;
 
-  void pushNavTitle(String title) {
-    _navStack.add(title);
+  void updateTitle(Object key, String title) {
+    _stackKeys.remove(key);
+    _stackKeys.add(key);
+    _titles[key] = title;
     _update();
   }
 
-  void popNavTitle(String title) {
-    _navStack.remove(title);
-    _update();
-  }
-
-  void replaceNavTitle(String oldTitle, String newTitle) {
-    final index = _navStack.lastIndexOf(oldTitle);
-    if (index != -1) {
-      _navStack[index] = newTitle;
-    } else {
-      _navStack.add(newTitle);
+  void removeTitle(Object key) {
+    final removed = _stackKeys.remove(key);
+    _titles.remove(key);
+    if (removed) {
+      _update();
     }
-    _update();
   }
 
   void clearStack() {
-    _navStack.clear();
+    _stackKeys.clear();
+    _titles.clear();
     _update();
   }
 
@@ -45,17 +45,30 @@ class WindowTitleNotifier extends StateNotifier<String> {
   }
 
   void _update() {
-    final nav = _navStack.isNotEmpty ? _navStack.last : null;
-    final title = _playTitle ?? nav;
+    final nav = _stackKeys.isNotEmpty ? _titles[_stackKeys.last] : null;
+    final playerState = ref.read(mediaPlaybackProvider).state;
 
-    if (kIsWeb) {
-      state = title != null ? 'Fladder • $title' : 'Fladder';
-    } else {
-      state = title ?? 'Fladder';
-    }
+    final isPlayerActive = playerState != VideoPlayerState.disposed;
+    final isPlayerMinimized = playerState == VideoPlayerState.minimized;
+
+    // Use playTitle if player is active and expanded/fullscreen.
+    // If player is minimized or inactive, prefer navigation title.
+    final title = (isPlayerActive && !isPlayerMinimized) 
+        ? (_playTitle ?? nav) 
+        : (nav ?? _playTitle);
+
+    final newState = kIsWeb ? (title != null ? 'Fladder • $title' : 'Fladder') : (title ?? 'Fladder');
+
+    if (state == newState) return;
+
+    Future.microtask(() {
+      state = newState;
+    });
 
     if (!kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows)) {
-      windowManager.setTitle(state);
+      // Setting window title directly is safe even during build
+      windowManager.setTitle(newState);
     }
   }
+
 }

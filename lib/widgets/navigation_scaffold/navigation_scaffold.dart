@@ -52,7 +52,6 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((value) {
       ref.read(viewsProvider.notifier).fetchViews();
-      ref.read(windowTitleProvider.notifier).clearStack();
     });
   }
 
@@ -124,7 +123,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
               child: Builder(builder: (context) {
                 return Scaffold(
                   key: _key,
-                  appBar: fullScreenChildRoute ? null : const FladderAppBar(),
+                  appBar: fullScreenChildRoute ? null : FladderAppBar(label: currentIndex == -1 ? "" : null),
                   extendBodyBehindAppBar: true,
                   resizeToAvoidBottomInset: false,
                   extendBody: true,
