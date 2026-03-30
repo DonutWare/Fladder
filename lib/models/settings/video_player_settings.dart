@@ -256,9 +256,9 @@ enum DVPlayerChoice {
 
   String label(BuildContext context) {
     return switch (this) {
-      DVPlayerChoice.internalPlayer => "Disabled (Internal player)",
-      DVPlayerChoice.ask => "Always ask",
-      DVPlayerChoice.energyPlayer => "Energy Player (External)",
+      DVPlayerChoice.internalPlayer => context.localized.dvPlayerDisabled,
+      DVPlayerChoice.ask => context.localized.dvPlayerAsk,
+      DVPlayerChoice.energyPlayer => context.localized.dvPlayerEnergyPlayer,
     };
   }
 }
