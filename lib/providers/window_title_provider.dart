@@ -53,9 +53,7 @@ class WindowTitleNotifier extends StateNotifier<String> {
 
     // Use playTitle if player is active and expanded/fullscreen.
     // If player is minimized or inactive, prefer navigation title.
-    final title = (isPlayerActive && !isPlayerMinimized) 
-        ? (_playTitle ?? nav) 
-        : (nav ?? _playTitle);
+    final title = (isPlayerActive && !isPlayerMinimized) ? (_playTitle ?? nav) : (nav ?? _playTitle);
 
     final newState = kIsWeb ? (title != null ? 'Fladder • $title' : 'Fladder') : (title ?? 'Fladder');
 
@@ -70,5 +68,4 @@ class WindowTitleNotifier extends StateNotifier<String> {
       windowManager.setTitle(newState);
     }
   }
-
 }
