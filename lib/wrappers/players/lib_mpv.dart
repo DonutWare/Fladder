@@ -219,16 +219,14 @@ class LibMPV extends BasePlayer {
   ) =>
       _controller == null
           ? null
-          : ExcludeSemantics(
-              child: Video(
-                key: key,
-                controller: _controller!,
-                wakelock: false,
-                fill: Colors.transparent,
-                fit: fit,
-                subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
-                controls: NoVideoControls,
-              ),
+          : Video(
+              key: key,
+              controller: _controller!,
+              wakelock: false,
+              fill: Colors.transparent,
+              fit: fit,
+              subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
+              controls: NoVideoControls,
             );
 
   @override
