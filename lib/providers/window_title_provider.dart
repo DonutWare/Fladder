@@ -12,7 +12,10 @@ final windowTitleProvider = StateNotifierProvider<WindowTitleNotifier, String>((
 
 class WindowTitleNotifier extends StateNotifier<String> {
   final Ref ref;
-  WindowTitleNotifier(this.ref) : super('Fladder');
+  WindowTitleNotifier(this.ref) : super('Fladder') {
+    // Listen to player state changes to handle minimized <-> maximized transitions
+    ref.listen(mediaPlaybackProvider.select((v) => v.state), (_, __) => _update());
+  }
 
   final Map<Object, String> _titles = {};
   final List<Object> _stackKeys = [];
@@ -64,7 +67,6 @@ class WindowTitleNotifier extends StateNotifier<String> {
     });
 
     if (!kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows)) {
-      // Setting window title directly is safe even during build
       windowManager.setTitle(newState);
     }
   }
