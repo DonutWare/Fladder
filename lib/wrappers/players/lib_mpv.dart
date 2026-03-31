@@ -187,19 +187,18 @@ class LibMPV extends BasePlayer {
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
     if (_player == null) return -1;
     final wantedSubtitle = model ?? playbackModel.defaultSubStream;
-    if (wantedSubtitle == null) return -1;
-    _currentSubtitleCodec = wantedSubtitle.codec;
-    if (wantedSubtitle.index == SubStreamModel.no().index) {
+    if (wantedSubtitle == null || wantedSubtitle.index == SubStreamModel.no().index) {
       await _player?.setSubtitleTrack(mpv.SubtitleTrack.no());
-    } else {
-      final internalTrack = subTracks.getRange(2, subTracks.length).toList();
-      final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id);
-      final subTrack = internalTrack.elementAtOrNull(index ?? -1);
-      if (wantedSubtitle.isExternal && wantedSubtitle.url != null && subTrack == null) {
-        await _player?.setSubtitleTrack(mpv.SubtitleTrack.uri(wantedSubtitle.url!));
-      } else if (subTrack != null) {
-        await _player?.setSubtitleTrack(subTrack);
-      }
+      return -1;
+    }
+    _currentSubtitleCodec = wantedSubtitle.codec;
+    final internalTrack = subTracks.getRange(2, subTracks.length).toList();
+    final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id);
+    final subTrack = internalTrack.elementAtOrNull(index ?? -1);
+    if (wantedSubtitle.isExternal && wantedSubtitle.url != null && subTrack == null) {
+      await _player?.setSubtitleTrack(mpv.SubtitleTrack.uri(wantedSubtitle.url!));
+    } else if (subTrack != null) {
+      await _player?.setSubtitleTrack(subTrack);
     }
     return wantedSubtitle.index;
   }

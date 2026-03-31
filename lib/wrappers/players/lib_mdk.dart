@@ -160,29 +160,26 @@ class LibMDK extends BasePlayer {
   @override
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
     final wantedSubtitle = model ?? playbackModel.defaultSubStream;
-    if (wantedSubtitle == SubStreamModel.no()) {
+    if (wantedSubtitle == null || wantedSubtitle == SubStreamModel.no()) {
       externalSubEnabled = false;
       _controller?.setSubtitleTracks([-1]);
       return -1;
     }
-    if (wantedSubtitle != null) {
-      if (wantedSubtitle.isExternal && wantedSubtitle.url != null) {
-        externalSubEnabled = true;
-        _controller?.setExternalSubtitle(wantedSubtitle.url!);
-        return wantedSubtitle.index;
-      } else {
-        if (externalSubEnabled) {
-          externalSubEnabled = false;
-          _controller?.setExternalSubtitle("");
-        }
-        final indexOf = playbackModel.subStreams?.indexOf(wantedSubtitle);
-        if (indexOf != null) {
-          _controller?.setSubtitleTracks([indexOf - 1]);
-        }
-        return wantedSubtitle.index;
+    if (wantedSubtitle.isExternal && wantedSubtitle.url != null) {
+      externalSubEnabled = true;
+      _controller?.setExternalSubtitle(wantedSubtitle.url!);
+      return wantedSubtitle.index;
+    } else {
+      if (externalSubEnabled) {
+        externalSubEnabled = false;
+        _controller?.setExternalSubtitle("");
       }
+      final indexOf = playbackModel.subStreams?.indexOf(wantedSubtitle);
+      if (indexOf != null) {
+        _controller?.setSubtitleTracks([indexOf - 1]);
+      }
+      return wantedSubtitle.index;
     }
-    return -1;
   }
 
   @override

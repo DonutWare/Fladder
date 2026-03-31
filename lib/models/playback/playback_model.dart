@@ -50,11 +50,19 @@ class Media {
 }
 
 extension PlaybackModelExtension on PlaybackModel? {
-  SubStreamModel? get defaultSubStream =>
-      this?.subStreams?.firstWhereOrNull((element) => element.index == this?.mediaStreams?.defaultSubStreamIndex);
+  SubStreamModel? get defaultSubStream {
+    final streams = this?.subStreams;
+    if (streams == null) return null;
+    return streams.firstWhereOrNull((element) => element.index == this?.mediaStreams?.defaultSubStreamIndex) ??
+        SubStreamModel.no();
+  }
 
-  AudioStreamModel? get defaultAudioStream =>
-      this?.audioStreams?.firstWhereOrNull((element) => element.index == this?.mediaStreams?.defaultAudioStreamIndex);
+  AudioStreamModel? get defaultAudioStream {
+    final streams = this?.audioStreams;
+    if (streams == null) return null;
+    return streams.firstWhereOrNull((element) => element.index == this?.mediaStreams?.defaultAudioStreamIndex) ??
+        AudioStreamModel.no();
+  }
 
   String? label(BuildContext context) => switch (this) {
         DirectPlaybackModel _ => PlaybackType.directStream.name(context),
