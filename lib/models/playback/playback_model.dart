@@ -246,6 +246,8 @@ class PlaybackModelHelper {
 
       final firstItemIsSynced = syncedItem != null && syncedItem.status == TaskStatus.complete;
 
+      final actualStartPosition = startPosition ?? fullItem.userData.playBackPosition;
+
       final options = {
         PlaybackType.directStream,
         PlaybackType.transcode,
@@ -269,7 +271,7 @@ class PlaybackModelHelper {
               forcedPlaybackType ?? playbackType,
               oldModel: oldModel,
               libraryQueue: queue,
-              startPosition: startPosition,
+              startPosition: actualStartPosition,
             ),
           PlaybackType.offline => await _createOfflinePlaybackModel(
               fullItem,
@@ -283,7 +285,7 @@ class PlaybackModelHelper {
               fullItem,
               item.streamModel,
               forcedPlaybackType ?? PlaybackType.directStream,
-              startPosition: startPosition,
+              startPosition: actualStartPosition,
               oldModel: oldModel,
               libraryQueue: queue,
             )) ??

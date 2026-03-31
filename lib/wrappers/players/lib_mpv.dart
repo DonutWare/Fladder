@@ -94,10 +94,18 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> loadVideo(String url, bool play) async {
+  Future<void> loadVideo(String url, bool play, {Duration startPosition = Duration.zero}) async {
     _loadCompleter = Completer<void>();
-    await _player?.open(mpv.Media(url), play: play);
     _firstLoadAttempt = DateTime.now();
+
+    if (_player?.platform is mpv.NativePlayer) {
+      await (_player?.platform as dynamic).setProperty(
+        'start',
+        '${startPosition.inMilliseconds / 1000}',
+      );
+    }
+
+    await _player?.open(mpv.Media(url), play: play);
 
     _retryTimer?.cancel();
     _retryTimer = null;
@@ -111,21 +119,46 @@ class LibMPV extends BasePlayer {
           _retryTimer?.cancel();
           _retryTimer = null;
         } else {
-          if (lastState.buffering == false) {
-            _finishedLoading();
-          } else {
-            log("Retrying to load video $url");
-            _player?.open(mpv.Media(url), play: play);
-            _retryTimer?.reset();
+          log("Retrying to load video $url");
+          if (_player?.platform is mpv.NativePlayer) {
+            await (_player?.platform as dynamic).setProperty(
+              'start',
+              '${startPosition.inMilliseconds / 1000}',
+            );
           }
+          await _player?.open(mpv.Media(url), play: play);
+          _retryTimer?.reset();
         }
       },
     );
+
+    // Wait for the player to be ready
+    if (_loadCompleter?.isCompleted == false) {
+      StreamSubscription? subBuffering;
+      StreamSubscription? subDuration;
+
+      void onReady() {
+        if (_loadCompleter?.isCompleted == true) return;
+        _finishedLoading();
+        subBuffering?.cancel();
+        subDuration?.cancel();
+      }
+
+      subBuffering = _player?.stream.buffering.listen((event) {
+        if (event == false && (_player?.state.duration ?? Duration.zero) > Duration.zero) {
+          onReady();
+        }
+      });
+      subDuration = _player?.stream.duration.listen((event) {
+        if (event > Duration.zero) onReady();
+      });
+    }
+
     _loadCompleter?.future.then(
       (value) async {
-        await Future.delayed(const Duration(milliseconds: 150));
-        if (play && !lastState.playing) {
-          await _player?.play();
+        // Backup seek in case property didn't work
+        if (startPosition != Duration.zero && (_player?.state.position.inSeconds ?? 0) < startPosition.inSeconds - 5) {
+          await _player?.seek(startPosition);
         }
       },
     );

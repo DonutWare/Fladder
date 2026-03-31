@@ -118,7 +118,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       final context = ref.read(localizationContextProvider);
       await (_player as NativePlayer).sendPlaybackDataToNative(context, model, startPosition);
     }
-    await _player?.loadVideo(model.media?.url ?? "", play);
+    await _player?.loadVideo(model.media?.url ?? "", play, startPosition: startPosition);
+    if (play) {
+      ref.read(playBackModel)?.playbackStarted(startPosition, ref);
+    }
     _player?.applySubtitleSettings(ref.read(subtitleSettingsProvider));
   }
 
@@ -223,8 +226,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   Future<void> play() async {
     WakelockPlus.enable();
     _player?.play();
+
     final currentPosition = await ref.read(playBackModel.select((value) => value?.startDuration()));
-    ref.read(playBackModel)?.playbackStarted(currentPosition ?? Duration.zero, ref);
+    final isPlaying = playbackState.value.playing;
+    if (!isPlaying) {
+      ref.read(playBackModel)?.playbackStarted(currentPosition ?? Duration.zero, ref);
+    }
 
     final playBackItem = ref.read(playBackModel.select((value) => value?.item));
     if (playBackItem == null) return;

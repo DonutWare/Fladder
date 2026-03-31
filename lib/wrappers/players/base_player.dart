@@ -26,7 +26,7 @@ abstract class BasePlayer {
   });
   Future<void> dispose();
   Future<void> open(BuildContext context);
-  Future<void> loadVideo(String url, bool play);
+  Future<void> loadVideo(String url, bool play, {Duration startPosition = Duration.zero});
   Future<void> seek(Duration position);
   Future<void> play();
   Future<void> setVolume(double volume);

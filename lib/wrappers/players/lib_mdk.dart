@@ -68,7 +68,7 @@ class LibMDK extends BasePlayer {
   }
 
   @override
-  Future<void> loadVideo(String url, bool play) async {
+  Future<void> loadVideo(String url, bool play, {Duration startPosition = Duration.zero}) async {
     _controller?.dispose();
 
     final validUrl = isValidUrl(url);
@@ -80,6 +80,10 @@ class LibMDK extends BasePlayer {
 
     await _controller?.initialize();
     _controller?.addListener(() => updateState());
+
+    if (startPosition != Duration.zero) {
+      await _controller?.seekTo(startPosition);
+    }
 
     if (play) {
       await _controller?.play();
