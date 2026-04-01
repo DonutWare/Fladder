@@ -52,6 +52,8 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
       enableDoubleTapSeek: json['enableDoubleTapSeek'] as bool? ?? true,
       enableAdvancedVideoOptions:
           json['enableAdvancedVideoOptions'] as bool? ?? false,
+      enableEdgeGestures: json['enableEdgeGestures'] as bool? ?? true,
+      reverseEdgeGestures: json['reverseEdgeGestures'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
@@ -82,6 +84,8 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
       'speedBoostRate': instance.speedBoostRate,
       'enableDoubleTapSeek': instance.enableDoubleTapSeek,
       'enableAdvancedVideoOptions': instance.enableAdvancedVideoOptions,
+      'enableEdgeGestures': instance.enableEdgeGestures,
+      'reverseEdgeGestures': instance.reverseEdgeGestures,
     };
 
 const _$BoxFitEnumMap = {

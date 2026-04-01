@@ -141,6 +141,8 @@
   },
   "controls": "Controls",
   "@controls": {},
+  "gestures": "Gestures",
+  "@gestures": {},
   "dashboard": "Dashboard",
   "@dashboard": {},
   "dashboardContinue": "Continue",
@@ -1264,6 +1266,10 @@
   "subtitleConfiguration": "Subtitle configuration",
   "off": "Off",
   "screenBrightness": "Screen brightness",
+  "enableEdgeGesturesTitle": "Enable edge gestures",
+  "enableEdgeGesturesDesc": "Control brightness and volume by sliding up and down on the edges of the screen",
+  "reverseEdgeGesturesTitle": "Swap edge gestures",
+  "reverseEdgeGesturesDesc": "Swap the side for brightness and volume control",
   "scale": "Scale",
   "playBackSettings": "Playback Settings",
   "settingsAutoNextTitle": "Next-up preview",
@@ -1519,6 +1525,14 @@
   "@volumeIndicator": {
     "placeholders": {
       "volume": {
+        "type": "int"
+      }
+    }
+  },
+  "brightnessIndicator": "Brightness: {brightness}",
+  "@brightnessIndicator": {
+    "placeholders": {
+      "brightness": {
         "type": "int"
       }
     }

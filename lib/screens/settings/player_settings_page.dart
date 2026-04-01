@@ -201,6 +201,74 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 },
               ),
             ),
+            if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.touch)
+              ExpansionTile(
+                title: Text(
+                  context.localized.keyboardShortCuts,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                children: VideoHotKeys.values
+                    .map(
+                      (entry) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                entry.label(context),
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                            Flexible(
+                              child: KeyCombinationWidget(
+                                currentKey: videoSettings.hotKeys[entry],
+                                defaultKey: videoSettings.defaultShortCuts[entry]!,
+                                onChanged: (value) =>
+                                    ref.read(videoPlayerSettingsProvider.notifier).setShortcuts(MapEntry(entry, value)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        ...settingsListGroup(
+          context,
+          SettingsLabelDivider(label: context.localized.gestures),
+          [
+            if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch) ...[
+              SettingsListTile(
+                label: Text(context.localized.enableDoubleTapSeekTitle),
+                subLabel: Text(context.localized.enableDoubleTapSeekDesc),
+                onTap: () => provider.setEnableDoubleTapSeek(!videoSettings.enableDoubleTapSeek),
+                trailing: Switch(
+                  value: videoSettings.enableDoubleTapSeek,
+                  onChanged: (value) => provider.setEnableDoubleTapSeek(value),
+                ),
+              ),
+              SettingsListTile(
+                label: Text(context.localized.enableEdgeGesturesTitle),
+                subLabel: Text(context.localized.enableEdgeGesturesDesc),
+                onTap: () => provider.setEnableEdgeGestures(!videoSettings.enableEdgeGestures),
+                trailing: Switch(
+                  value: videoSettings.enableEdgeGestures,
+                  onChanged: (value) => provider.setEnableEdgeGestures(value),
+                ),
+              ),
+              SettingsListTile(
+                label: Text(context.localized.reverseEdgeGesturesTitle),
+                subLabel: Text(context.localized.reverseEdgeGesturesDesc),
+                onTap: () => provider.setReverseEdgeGestures(!videoSettings.reverseEdgeGestures),
+                trailing: Switch(
+                  value: videoSettings.reverseEdgeGestures,
+                  onChanged: (value) => provider.setReverseEdgeGestures(value),
+                ),
+              ),
+            ],
             SettingsListTile(
               label: Text(context.localized.enableSpeedBoostTitle),
               subLabel: Text(context.localized.enableSpeedBoostDesc),
@@ -252,48 +320,6 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     )
                   : Container(),
             ),
-            if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch)
-              SettingsListTile(
-                label: Text(context.localized.enableDoubleTapSeekTitle),
-                subLabel: Text(context.localized.enableDoubleTapSeekDesc),
-                onTap: () => provider.setEnableDoubleTapSeek(!videoSettings.enableDoubleTapSeek),
-                trailing: Switch(
-                  value: videoSettings.enableDoubleTapSeek,
-                  onChanged: (value) => provider.setEnableDoubleTapSeek(value),
-                ),
-              ),
-            if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.touch)
-              ExpansionTile(
-                title: Text(
-                  context.localized.keyboardShortCuts,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                children: VideoHotKeys.values
-                    .map(
-                      (entry) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                entry.label(context),
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                            ),
-                            Flexible(
-                              child: KeyCombinationWidget(
-                                currentKey: videoSettings.hotKeys[entry],
-                                defaultKey: videoSettings.defaultShortCuts[entry]!,
-                                onChanged: (value) =>
-                                    ref.read(videoPlayerSettingsProvider.notifier).setShortcuts(MapEntry(entry, value)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
           ],
         ),
         const SizedBox(height: 12),
