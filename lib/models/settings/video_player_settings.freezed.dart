@@ -530,7 +530,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.videoFit = BoxFit.contain,
       this.fillScreen = false,
       this.hardwareAccel = true,
-      this.useLibass = false,
+      this.useLibass = true,
       this.enableTunneling = false,
       this.bufferSize = 32,
       this.playerOptions,

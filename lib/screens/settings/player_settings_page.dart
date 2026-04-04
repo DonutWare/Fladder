@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -49,6 +47,8 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
     final connectionState = ref.watch(connectivityStatusProvider);
 
     final userSettings = ref.watch(userProvider.select((value) => value?.userSettings));
+
+    final currentPlayer = videoSettings.wantedPlayer;
 
     return SettingsScaffold(
       label: context.localized.settingsPlayerTitle,
@@ -359,143 +359,97 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   );
                 }),
               ),
-            AnimatedFadeSize(
-              child: switch (videoSettings.wantedPlayer) {
-                PlayerOptions.libMPV => Column(
-                    children: [
-                      SettingsListTile(
-                        label: Text(context.localized.settingsPlayerVideoHWAccelTitle),
-                        subLabel: Text(context.localized.settingsPlayerVideoHWAccelDesc),
-                        onTap: () => provider.setHardwareAccel(!videoSettings.hardwareAccel),
-                        trailing: Switch(
-                          value: videoSettings.hardwareAccel,
-                          onChanged: (value) => provider.setHardwareAccel(value),
-                        ),
-                      ),
-                      if (!kIsWeb)
-                        SettingsListTile(
-                          label: Text(context.localized.settingsPlayerNativeLibassAccelTitle),
-                          subLabel: Text(context.localized.settingsPlayerNativeLibassAccelDesc),
-                          onTap: () => provider.setUseLibass(!videoSettings.useLibass),
-                          trailing: Switch(
-                            value: videoSettings.useLibass,
-                            onChanged: (value) => provider.setUseLibass(value),
+            ...[
+              if (currentPlayer == PlayerOptions.libMPV) ...[
+                SettingsListTile(
+                  label: Text(context.localized.settingsPlayerVideoHWAccelTitle),
+                  subLabel: Text(context.localized.settingsPlayerVideoHWAccelDesc),
+                  onTap: () => provider.setHardwareAccel(!videoSettings.hardwareAccel),
+                  trailing: Switch(
+                    value: videoSettings.hardwareAccel,
+                    onChanged: (value) => provider.setHardwareAccel(value),
+                  ),
+                ),
+                if (!kIsWeb)
+                  SettingsListTile(
+                    label: Text(context.localized.settingsPlayerNativeLibassAccelTitle),
+                    subLabel: Text(context.localized.settingsPlayerNativeLibassAccelDesc),
+                    onTap: () => provider.setUseLibass(!videoSettings.useLibass),
+                    trailing: Switch(
+                      value: videoSettings.useLibass,
+                      onChanged: (value) => provider.setUseLibass(value),
+                    ),
+                  ),
+              ],
+              if (currentPlayer == PlayerOptions.nativePlayer)
+                SettingsListTile(
+                  label: Text(context.localized.mediaTunnelingTitle),
+                  subLabel: Text(context.localized.mediaTunnelingDesc),
+                  onTap: () => provider.setMediaTunneling(!videoSettings.enableTunneling),
+                  trailing: Switch(
+                    value: videoSettings.enableTunneling,
+                    onChanged: (value) => provider.setMediaTunneling(value),
+                  ),
+                ),
+              if (ref.read(argumentsStateProvider).leanBackMode)
+                SettingsListTile(
+                  label: Text(context.localized.playerSettingsScreensaverTitle),
+                  subLabel: Text(context.localized.playerSettingsScreensaverDesc),
+                  trailing: EnumBox(
+                    current: videoSettings.screensaver.label(context),
+                    itemBuilder: (context) => Screensaver.values
+                        .map(
+                          (entry) => ItemActionButton(
+                            label: Text(entry.label(context)),
+                            action: () => provider.setScreensaver(entry),
                           ),
-                        ),
-                      if (!videoSettings.useLibass)
-                        SettingsListTile(
-                          label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
-                          subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
-                          onTap: videoSettings.useLibass
-                              ? null
-                              : () {
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: true,
-                                    useSafeArea: false,
-                                    builder: (context) => const SubtitleEditor(),
-                                  );
-                                },
-                        ),
-                      AnimatedFadeSize(
-                        child: videoSettings.useLibass && videoSettings.hardwareAccel && Platform.isAndroid
-                            ? SettingsMessageBox(
-                                context.localized.settingsPlayerMobileWarning,
-                                messageType: MessageType.warning,
-                              )
-                            : Container(),
-                      ),
-                      SettingsListTile(
-                        label: Text(context.localized.settingsPlayerBufferSizeTitle),
-                        subLabel: Text(context.localized.settingsPlayerBufferSizeDesc),
-                        trailing: IntInputField(
-                          suffix: 'MB',
-                          controller: TextEditingController(text: videoSettings.bufferSize.toString()),
-                          onSubmitted: (value) {
-                            if (value != null) {
-                              provider.setBufferSize(value);
-                            }
-                          },
-                        ),
-                      ),
-                    ],
+                        )
+                        .toList(),
                   ),
-                PlayerOptions.nativePlayer => Column(
-                    children: [
-                      SettingsListTile(
-                        label: Text(context.localized.mediaTunnelingTitle),
-                        subLabel: Text(context.localized.mediaTunnelingDesc),
-                        onTap: () => provider.setMediaTunneling(!videoSettings.enableTunneling),
-                        trailing: Switch(
-                          value: videoSettings.enableTunneling,
-                          onChanged: (value) => provider.setMediaTunneling(value),
-                        ),
-                      ),
-                      if (ref.read(argumentsStateProvider).leanBackMode)
-                        SettingsListTile(
-                          label: Text(context.localized.playerSettingsScreensaverTitle),
-                          subLabel: Text(context.localized.playerSettingsScreensaverDesc),
-                          trailing: EnumBox(
-                            current: videoSettings.screensaver.label(context),
-                            itemBuilder: (context) => Screensaver.values
-                                .map(
-                                  (entry) => ItemActionButton(
-                                    label: Text(entry.label(context)),
-                                    action: () => provider.setScreensaver(entry),
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ),
-                      SettingsListTile(
-                        label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
-                        subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
-                        onTap: videoSettings.useLibass
-                            ? null
-                            : () {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: true,
-                                  useSafeArea: false,
-                                  builder: (context) => const SubtitleEditor(),
-                                );
-                              },
-                      ),
-                    ],
+                ),
+              SettingsListTile(
+                label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
+                subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    useSafeArea: false,
+                    builder: (context) => const SubtitleEditor(),
+                  );
+                },
+              ),
+              if (currentPlayer == PlayerOptions.libMPV)
+                SettingsListTile(
+                  label: Text(context.localized.settingsPlayerBufferSizeTitle),
+                  subLabel: Text(context.localized.settingsPlayerBufferSizeDesc),
+                  trailing: IntInputField(
+                    suffix: 'MB',
+                    controller: TextEditingController(text: videoSettings.bufferSize.toString()),
+                    onSubmitted: (value) {
+                      if (value != null) {
+                        provider.setBufferSize(value);
+                      }
+                    },
                   ),
-                PlayerOptions.libMDK => Column(
-                    children: [
-                      SettingsListTile(
-                        label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
-                        subLabel: Text(context.localized.settingsPlayerCustomSubtitlesDesc),
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            useSafeArea: false,
-                            builder: (context) => const SubtitleEditor(),
-                          );
-                        },
-                      ),
-                      SettingsListTile(
-                        label: Text(context.localized.advancedVideoOptionsTitle),
-                        subLabel: Text(context.localized.advancedVideoOptionsDesc),
-                        onTap: () {
-                          provider.setEnableAdvancedVideoOptions(!videoSettings.enableAdvancedVideoOptions);
-                          ref.read(videoPlayerProvider.notifier).init();
-                        },
-                        trailing: Switch(
-                          value: videoSettings.enableAdvancedVideoOptions,
-                          onChanged: (value) {
-                            provider.setEnableAdvancedVideoOptions(value);
-                            ref.read(videoPlayerProvider.notifier).init();
-                          },
-                        ),
-                      ),
-                    ],
+                ),
+              if (currentPlayer == PlayerOptions.libMDK)
+                SettingsListTile(
+                  label: Text(context.localized.advancedVideoOptionsTitle),
+                  subLabel: Text(context.localized.advancedVideoOptionsDesc),
+                  onTap: () {
+                    provider.setEnableAdvancedVideoOptions(!videoSettings.enableAdvancedVideoOptions);
+                    ref.read(videoPlayerProvider.notifier).init();
+                  },
+                  trailing: Switch(
+                    value: videoSettings.enableAdvancedVideoOptions,
+                    onChanged: (value) {
+                      provider.setEnableAdvancedVideoOptions(value);
+                      ref.read(videoPlayerProvider.notifier).init();
+                    },
                   ),
-              },
-            ),
+                ),
+            ],
             Column(
               children: [
                 SettingsListTile(
