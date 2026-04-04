@@ -98,12 +98,7 @@ class LibMPV extends BasePlayer {
     _loadCompleter = Completer<void>();
     _firstLoadAttempt = DateTime.now();
 
-    if (_player?.platform is mpv.NativePlayer) {
-      await (_player?.platform as dynamic).setProperty(
-        'start',
-        '${startPosition.inMilliseconds / 1000}',
-      );
-    }
+    await setStartPosition(startPosition);
 
     await _player?.open(mpv.Media(url), play: play);
 
@@ -120,12 +115,7 @@ class LibMPV extends BasePlayer {
           _retryTimer = null;
         } else {
           log("Retrying to load video $url");
-          if (_player?.platform is mpv.NativePlayer) {
-            await (_player?.platform as dynamic).setProperty(
-              'start',
-              '${startPosition.inMilliseconds / 1000}',
-            );
-          }
+          await setStartPosition(startPosition);
           await _player?.open(mpv.Media(url), play: play);
           _retryTimer?.reset();
         }
@@ -163,6 +153,15 @@ class LibMPV extends BasePlayer {
       },
     );
     return setState(lastState.update(buffering: true));
+  }
+
+  Future<void> setStartPosition(Duration position) async {
+    if (_player?.platform case final mpv.NativePlayer platform) {
+      await platform.setProperty(
+        'start',
+        '${position.inMilliseconds / 1000}',
+      );
+    }
   }
 
   void _finishedLoading() {
