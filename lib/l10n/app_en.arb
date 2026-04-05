@@ -2271,6 +2271,7 @@
   },
   "processing": "Processing",
   "seerrDetails": "Seerr details",
+  "viewTrailer": "View trailer",
   "watch": "Watch",
   "watchChannel": "Watch {channel}",
   "@watchChannel": {

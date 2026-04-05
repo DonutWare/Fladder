@@ -562,6 +562,28 @@ class SeerrCrew {
 }
 
 @JsonSerializable(fieldRename: FieldRename.none, includeIfNull: true)
+class SeerrRelatedVideo {
+  final String? url;
+  final String? key;
+  final String? name;
+  final int? size;
+  final String? type;
+  final String? site;
+
+  SeerrRelatedVideo({
+    this.url,
+    this.key,
+    this.name,
+    this.size,
+    this.type,
+    this.site,
+  });
+
+  factory SeerrRelatedVideo.fromJson(Map<String, dynamic> json) => _$SeerrRelatedVideoFromJson(json);
+  Map<String, dynamic> toJson() => _$SeerrRelatedVideoToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.none, includeIfNull: true)
 class SeerrMovieDetails {
   final int? id;
   final String? title;
@@ -576,6 +598,7 @@ class SeerrMovieDetails {
   final int? voteCount;
   final int? runtime;
   final List<SeerrGenre>? genres;
+  final List<SeerrRelatedVideo>? relatedVideos;
   final SeerrMediaInfo? mediaInfo;
   final SeerrExternalIds? externalIds;
   final SeerrCredits? credits;
@@ -596,6 +619,7 @@ class SeerrMovieDetails {
     this.voteCount,
     this.runtime,
     this.genres,
+    this.relatedVideos,
     this.mediaInfo,
     this.externalIds,
     this.credits,
@@ -625,6 +649,7 @@ class SeerrTvDetails {
   final int? numberOfEpisodes;
   final List<SeerrGenre>? genres;
   final List<SeerrSeason>? seasons;
+  final List<SeerrRelatedVideo>? relatedVideos;
   final SeerrMediaInfo? mediaInfo;
   final SeerrExternalIds? externalIds;
   final List<SeerrKeyword>? keywords;
@@ -649,6 +674,7 @@ class SeerrTvDetails {
     this.numberOfEpisodes,
     this.genres,
     this.seasons,
+    this.relatedVideos,
     this.mediaInfo,
     this.externalIds,
     this.keywords,

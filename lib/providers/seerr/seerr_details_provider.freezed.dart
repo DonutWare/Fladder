@@ -28,6 +28,7 @@ mixin _$SeerrDetailsModel {
   SeerrUserModel? get currentUser;
   Map<int, bool> get expandedSeasons;
   Map<int, List<SeerrEpisode>> get episodesCache;
+  List<SeerrRelatedVideo> get relatedVideos;
   SeerrExternalIds? get externalIds;
   SeerrRatingsResponse? get ratings;
 
@@ -41,7 +42,7 @@ mixin _$SeerrDetailsModel {
 
   @override
   String toString() {
-    return 'SeerrDetailsModel(tmdbId: $tmdbId, mediaType: $mediaType, poster: $poster, genres: $genres, voteAverage: $voteAverage, contentRating: $contentRating, releaseDate: $releaseDate, recommended: $recommended, similar: $similar, people: $people, seasonStatuses: $seasonStatuses, currentUser: $currentUser, expandedSeasons: $expandedSeasons, episodesCache: $episodesCache, externalIds: $externalIds, ratings: $ratings)';
+    return 'SeerrDetailsModel(tmdbId: $tmdbId, mediaType: $mediaType, poster: $poster, genres: $genres, voteAverage: $voteAverage, contentRating: $contentRating, releaseDate: $releaseDate, recommended: $recommended, similar: $similar, people: $people, seasonStatuses: $seasonStatuses, currentUser: $currentUser, expandedSeasons: $expandedSeasons, episodesCache: $episodesCache, relatedVideos: $relatedVideos, externalIds: $externalIds, ratings: $ratings)';
   }
 }
 
@@ -66,6 +67,7 @@ abstract mixin class $SeerrDetailsModelCopyWith<$Res> {
       SeerrUserModel? currentUser,
       Map<int, bool> expandedSeasons,
       Map<int, List<SeerrEpisode>> episodesCache,
+      List<SeerrRelatedVideo> relatedVideos,
       SeerrExternalIds? externalIds,
       SeerrRatingsResponse? ratings});
 
@@ -99,6 +101,7 @@ class _$SeerrDetailsModelCopyWithImpl<$Res>
     Object? currentUser = freezed,
     Object? expandedSeasons = null,
     Object? episodesCache = null,
+    Object? relatedVideos = null,
     Object? externalIds = freezed,
     Object? ratings = freezed,
   }) {
@@ -159,6 +162,10 @@ class _$SeerrDetailsModelCopyWithImpl<$Res>
           ? _self.episodesCache
           : episodesCache // ignore: cast_nullable_to_non_nullable
               as Map<int, List<SeerrEpisode>>,
+      relatedVideos: null == relatedVideos
+          ? _self.relatedVideos
+          : relatedVideos // ignore: cast_nullable_to_non_nullable
+              as List<SeerrRelatedVideo>,
       externalIds: freezed == externalIds
           ? _self.externalIds
           : externalIds // ignore: cast_nullable_to_non_nullable
@@ -293,6 +300,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             SeerrUserModel? currentUser,
             Map<int, bool> expandedSeasons,
             Map<int, List<SeerrEpisode>> episodesCache,
+            List<SeerrRelatedVideo> relatedVideos,
             SeerrExternalIds? externalIds,
             SeerrRatingsResponse? ratings)?
         $default, {
@@ -316,6 +324,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             _that.currentUser,
             _that.expandedSeasons,
             _that.episodesCache,
+            _that.relatedVideos,
             _that.externalIds,
             _that.ratings);
       case _:
@@ -353,6 +362,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             SeerrUserModel? currentUser,
             Map<int, bool> expandedSeasons,
             Map<int, List<SeerrEpisode>> episodesCache,
+            List<SeerrRelatedVideo> relatedVideos,
             SeerrExternalIds? externalIds,
             SeerrRatingsResponse? ratings)
         $default,
@@ -375,6 +385,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             _that.currentUser,
             _that.expandedSeasons,
             _that.episodesCache,
+            _that.relatedVideos,
             _that.externalIds,
             _that.ratings);
       case _:
@@ -411,6 +422,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             SeerrUserModel? currentUser,
             Map<int, bool> expandedSeasons,
             Map<int, List<SeerrEpisode>> episodesCache,
+            List<SeerrRelatedVideo> relatedVideos,
             SeerrExternalIds? externalIds,
             SeerrRatingsResponse? ratings)?
         $default,
@@ -433,6 +445,7 @@ extension SeerrDetailsModelPatterns on SeerrDetailsModel {
             _that.currentUser,
             _that.expandedSeasons,
             _that.episodesCache,
+            _that.relatedVideos,
             _that.externalIds,
             _that.ratings);
       case _:
@@ -459,6 +472,7 @@ class _SeerrDetailsModel extends SeerrDetailsModel {
       this.currentUser,
       final Map<int, bool> expandedSeasons = const {},
       final Map<int, List<SeerrEpisode>> episodesCache = const {},
+      final List<SeerrRelatedVideo> relatedVideos = const [],
       this.externalIds,
       this.ratings})
       : _genres = genres,
@@ -468,6 +482,7 @@ class _SeerrDetailsModel extends SeerrDetailsModel {
         _seasonStatuses = seasonStatuses,
         _expandedSeasons = expandedSeasons,
         _episodesCache = episodesCache,
+        _relatedVideos = relatedVideos,
         super._();
 
   @override
@@ -547,6 +562,15 @@ class _SeerrDetailsModel extends SeerrDetailsModel {
     return EqualUnmodifiableMapView(_episodesCache);
   }
 
+  final List<SeerrRelatedVideo> _relatedVideos;
+  @override
+  @JsonKey()
+  List<SeerrRelatedVideo> get relatedVideos {
+    if (_relatedVideos is EqualUnmodifiableListView) return _relatedVideos;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_relatedVideos);
+  }
+
   @override
   final SeerrExternalIds? externalIds;
   @override
@@ -562,7 +586,7 @@ class _SeerrDetailsModel extends SeerrDetailsModel {
 
   @override
   String toString() {
-    return 'SeerrDetailsModel(tmdbId: $tmdbId, mediaType: $mediaType, poster: $poster, genres: $genres, voteAverage: $voteAverage, contentRating: $contentRating, releaseDate: $releaseDate, recommended: $recommended, similar: $similar, people: $people, seasonStatuses: $seasonStatuses, currentUser: $currentUser, expandedSeasons: $expandedSeasons, episodesCache: $episodesCache, externalIds: $externalIds, ratings: $ratings)';
+    return 'SeerrDetailsModel(tmdbId: $tmdbId, mediaType: $mediaType, poster: $poster, genres: $genres, voteAverage: $voteAverage, contentRating: $contentRating, releaseDate: $releaseDate, recommended: $recommended, similar: $similar, people: $people, seasonStatuses: $seasonStatuses, currentUser: $currentUser, expandedSeasons: $expandedSeasons, episodesCache: $episodesCache, relatedVideos: $relatedVideos, externalIds: $externalIds, ratings: $ratings)';
   }
 }
 
@@ -589,6 +613,7 @@ abstract mixin class _$SeerrDetailsModelCopyWith<$Res>
       SeerrUserModel? currentUser,
       Map<int, bool> expandedSeasons,
       Map<int, List<SeerrEpisode>> episodesCache,
+      List<SeerrRelatedVideo> relatedVideos,
       SeerrExternalIds? externalIds,
       SeerrRatingsResponse? ratings});
 
@@ -623,6 +648,7 @@ class __$SeerrDetailsModelCopyWithImpl<$Res>
     Object? currentUser = freezed,
     Object? expandedSeasons = null,
     Object? episodesCache = null,
+    Object? relatedVideos = null,
     Object? externalIds = freezed,
     Object? ratings = freezed,
   }) {
@@ -683,6 +709,10 @@ class __$SeerrDetailsModelCopyWithImpl<$Res>
           ? _self._episodesCache
           : episodesCache // ignore: cast_nullable_to_non_nullable
               as Map<int, List<SeerrEpisode>>,
+      relatedVideos: null == relatedVideos
+          ? _self._relatedVideos
+          : relatedVideos // ignore: cast_nullable_to_non_nullable
+              as List<SeerrRelatedVideo>,
       externalIds: freezed == externalIds
           ? _self.externalIds
           : externalIds // ignore: cast_nullable_to_non_nullable

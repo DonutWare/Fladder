@@ -133,6 +133,24 @@ Map<String, dynamic> _$SeerrCrewToJson(SeerrCrew instance) => <String, dynamic>{
       'profilePath': instance.internalProfilePath,
     };
 
+SeerrRelatedVideo _$SeerrRelatedVideoFromJson(Map<String, dynamic> json) => SeerrRelatedVideo(
+      url: json['url'] as String?,
+      key: json['key'] as String?,
+      name: json['name'] as String?,
+      size: (json['size'] as num?)?.toInt(),
+      type: json['type'] as String?,
+      site: json['site'] as String?,
+    );
+
+Map<String, dynamic> _$SeerrRelatedVideoToJson(SeerrRelatedVideo instance) => <String, dynamic>{
+      'url': instance.url,
+      'key': instance.key,
+      'name': instance.name,
+      'size': instance.size,
+      'type': instance.type,
+      'site': instance.site,
+    };
+
 SeerrMovieDetails _$SeerrMovieDetailsFromJson(Map<String, dynamic> json) => SeerrMovieDetails(
       id: (json['id'] as num?)?.toInt(),
       title: json['title'] as String?,
@@ -145,6 +163,9 @@ SeerrMovieDetails _$SeerrMovieDetailsFromJson(Map<String, dynamic> json) => Seer
       voteCount: (json['voteCount'] as num?)?.toInt(),
       runtime: (json['runtime'] as num?)?.toInt(),
       genres: (json['genres'] as List<dynamic>?)?.map((e) => SeerrGenre.fromJson(e as Map<String, dynamic>)).toList(),
+      relatedVideos: (json['relatedVideos'] as List<dynamic>?)
+          ?.map((e) => SeerrRelatedVideo.fromJson(e as Map<String, dynamic>))
+          .toList(),
       mediaInfo: json['mediaInfo'] == null ? null : SeerrMediaInfo.fromJson(json['mediaInfo'] as Map<String, dynamic>),
       externalIds:
           json['externalIds'] == null ? null : SeerrExternalIds.fromJson(json['externalIds'] as Map<String, dynamic>),
@@ -167,6 +188,7 @@ Map<String, dynamic> _$SeerrMovieDetailsToJson(SeerrMovieDetails instance) => <S
       'voteCount': instance.voteCount,
       'runtime': instance.runtime,
       'genres': instance.genres,
+      'relatedVideos': instance.relatedVideos,
       'mediaInfo': instance.mediaInfo,
       'externalIds': instance.externalIds,
       'credits': instance.credits,
@@ -190,6 +212,9 @@ SeerrTvDetails _$SeerrTvDetailsFromJson(Map<String, dynamic> json) => SeerrTvDet
       genres: (json['genres'] as List<dynamic>?)?.map((e) => SeerrGenre.fromJson(e as Map<String, dynamic>)).toList(),
       seasons:
           (json['seasons'] as List<dynamic>?)?.map((e) => SeerrSeason.fromJson(e as Map<String, dynamic>)).toList(),
+      relatedVideos: (json['relatedVideos'] as List<dynamic>?)
+          ?.map((e) => SeerrRelatedVideo.fromJson(e as Map<String, dynamic>))
+          .toList(),
       mediaInfo: json['mediaInfo'] == null ? null : SeerrMediaInfo.fromJson(json['mediaInfo'] as Map<String, dynamic>),
       externalIds:
           json['externalIds'] == null ? null : SeerrExternalIds.fromJson(json['externalIds'] as Map<String, dynamic>),
@@ -217,6 +242,7 @@ Map<String, dynamic> _$SeerrTvDetailsToJson(SeerrTvDetails instance) => <String,
       'numberOfEpisodes': instance.numberOfEpisodes,
       'genres': instance.genres,
       'seasons': instance.seasons,
+      'relatedVideos': instance.relatedVideos,
       'mediaInfo': instance.mediaInfo,
       'externalIds': instance.externalIds,
       'keywords': instance.keywords,
