@@ -91,6 +91,8 @@ class PlaybackModel {
   Future<PlaybackModel?> playbackStopped(Duration position, Duration? totalDuration, Ref ref) =>
       throw UnimplementedError();
 
+  void dispose() {}
+
   final MediaStreamsModel? mediaStreams;
   List<SubStreamModel>? get subStreams => throw UnimplementedError();
   List<AudioStreamModel>? get audioStreams => throw UnimplementedError();

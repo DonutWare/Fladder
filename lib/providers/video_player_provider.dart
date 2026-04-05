@@ -80,6 +80,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   Future<void> updatePlaying(bool event) async {
     final currentState = playbackState;
     if (!state.hasPlayer || currentState.playing == event) return;
+    if (currentState.state == VideoPlayerState.disposed) return;
     mediaState.update(
       (state) => state.copyWith(playing: event),
     );
@@ -90,6 +91,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     if (!state.hasPlayer) return;
     if (playbackState.playing == false) return;
     final currentState = playbackState;
+    if (currentState.state == VideoPlayerState.disposed) return;
     final currentPosition = currentState.position;
 
     if ((currentPosition - event).inSeconds.abs() < 1) return;
@@ -113,6 +115,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   }
 
   Future<bool> loadPlaybackItem(PlaybackModel model, Duration startPosition) async {
+    ref.read(playBackModel)?.dispose();
     await state.stop();
     ref.read(playbackRateProvider.notifier).state = 1.0;
     mediaState.update((state) => state.copyWith(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -133,6 +134,21 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   Future<void> openPlayer(BuildContext context) async => _player?.open(context);
 
+  // Update playback play/pause state with single retry
+  Future<void> _updatePositionWithRetry(PlaybackModel model, Duration position, bool isPlaying) async {
+    try {
+      await model.updatePlaybackPosition(position, isPlaying, ref);
+    } catch (error, stackTrace) {
+      log('Failed to send playing: $isPlaying state to server. Retrying once. Error: $error\n$stackTrace');
+      try {
+        await Future.delayed(const Duration(milliseconds: 250));
+        await model.updatePlaybackPosition(position, isPlaying, ref);
+      } catch (retryError, retryStackTrace) {
+        log('Retry failed for playing: $isPlaying state update. Error: $retryError\n$retryStackTrace');
+      }
+    }
+  }
+
   void _subscribePlayer() {
     if (Platform.isWindows && !kIsWeb) {
       smtc = SMTCWindows(
@@ -218,7 +234,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     WakelockPlus.disable();
     final playerState = _player;
     if (playerState != null) {
-      ref.read(playBackModel)?.updatePlaybackPosition(playerState.lastState.position, false, ref);
+      final model = ref.read(playBackModel);
+      if (model != null) {
+        await _updatePositionWithRetry(model, playerState.lastState.position, false);
+      }
     }
   }
 
@@ -305,13 +324,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.disposed));
     WakelockPlus.disable();
-    super.stop();
     _player?.stop();
 
     final position = _player?.lastState.position;
     final totalDuration = _player?.lastState.duration;
 
-    // //Small delay so we don't post right after playback/progress update
+    // Small delay so we don't post right after playback/progress update
     await Future.delayed(const Duration(seconds: 1));
 
     await playbackModel.playbackStopped(position ?? Duration.zero, totalDuration, ref);
@@ -347,9 +365,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
     final playerState = _player;
     if (playerState != null) {
-      ref
-          .read(playBackModel)
-          ?.updatePlaybackPosition(playerState.lastState.position, playerState.lastState.playing, ref);
+      final model = ref.read(playBackModel);
+      if (model != null) {
+        await _updatePositionWithRetry(model, playerState.lastState.position, playerState.lastState.playing);
+      }
     }
   }
 
