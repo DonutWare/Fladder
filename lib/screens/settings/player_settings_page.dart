@@ -317,7 +317,6 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   ],
                 ),
               ),
-
           ],
         ),
         const SizedBox(height: 12),
