@@ -64,7 +64,12 @@ class _VideoPlayerBrightnessIndicatorState extends ConsumerState<VideoPlayerBrig
                   const Icon(
                     IconsaxPlusLinear.sun_1,
                   ),
-                  Text(context.localized.brightnessIndicator((currentBrightness * 100).round()))
+                  Text(
+                    context.localized.brightnessIndicator((currentBrightness * 100).round()),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.white,
+                        ),
+                  )
                 ],
               ),
             ),
