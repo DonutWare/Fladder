@@ -67,7 +67,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(BoxFit.contain) BoxFit videoFit,
     @Default(false) bool fillScreen,
     @Default(true) bool hardwareAccel,
-    @Default(false) bool useLibass,
+    @Default(true) bool useLibass,
     @Default(false) bool enableTunneling,
     @Default(32) int bufferSize,
     PlayerOptions? playerOptions,

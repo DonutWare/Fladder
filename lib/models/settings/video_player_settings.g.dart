@@ -14,7 +14,7 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
           BoxFit.contain,
       fillScreen: json['fillScreen'] as bool? ?? false,
       hardwareAccel: json['hardwareAccel'] as bool? ?? true,
-      useLibass: json['useLibass'] as bool? ?? false,
+      useLibass: json['useLibass'] as bool? ?? true,
       enableTunneling: json['enableTunneling'] as bool? ?? false,
       bufferSize: (json['bufferSize'] as num?)?.toInt() ?? 32,
       playerOptions:

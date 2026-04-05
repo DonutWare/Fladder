@@ -94,10 +94,13 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> loadVideo(String url, bool play) async {
+  Future<void> loadVideo(String url, bool play, {Duration startPosition = Duration.zero}) async {
     _loadCompleter = Completer<void>();
-    await _player?.open(mpv.Media(url), play: play);
     _firstLoadAttempt = DateTime.now();
+
+    await setStartPosition(startPosition);
+
+    await _player?.open(mpv.Media(url), play: play);
 
     _retryTimer?.cancel();
     _retryTimer = null;
@@ -111,25 +114,54 @@ class LibMPV extends BasePlayer {
           _retryTimer?.cancel();
           _retryTimer = null;
         } else {
-          if (lastState.buffering == false) {
-            _finishedLoading();
-          } else {
-            log("Retrying to load video $url");
-            _player?.open(mpv.Media(url), play: play);
-            _retryTimer?.reset();
-          }
+          log("Retrying to load video $url");
+          await setStartPosition(startPosition);
+          await _player?.open(mpv.Media(url), play: play);
+          _retryTimer?.reset();
         }
       },
     );
+
+    // Wait for the player to be ready
+    if (_loadCompleter?.isCompleted == false) {
+      StreamSubscription? subBuffering;
+      StreamSubscription? subDuration;
+
+      void onReady() {
+        if (_loadCompleter?.isCompleted == true) return;
+        _finishedLoading();
+        subBuffering?.cancel();
+        subDuration?.cancel();
+      }
+
+      subBuffering = _player?.stream.buffering.listen((event) {
+        if (event == false && (_player?.state.duration ?? Duration.zero) > Duration.zero) {
+          onReady();
+        }
+      });
+      subDuration = _player?.stream.duration.listen((event) {
+        if (event > Duration.zero) onReady();
+      });
+    }
+
     _loadCompleter?.future.then(
       (value) async {
-        await Future.delayed(const Duration(milliseconds: 150));
-        if (play && !lastState.playing) {
-          await _player?.play();
+        // Backup seek in case property didn't work
+        if (startPosition != Duration.zero && (_player?.state.position.inSeconds ?? 0) < startPosition.inSeconds - 5) {
+          await _player?.seek(startPosition);
         }
       },
     );
     return setState(lastState.update(buffering: true));
+  }
+
+  Future<void> setStartPosition(Duration position) async {
+    if (_player?.platform is mpv.NativePlayer) {
+      await (_player?.platform as dynamic).setProperty(
+        'start',
+        '${position.inMilliseconds / 1000}',
+      );
+    }
   }
 
   void _finishedLoading() {
@@ -187,19 +219,18 @@ class LibMPV extends BasePlayer {
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
     if (_player == null) return -1;
     final wantedSubtitle = model ?? playbackModel.defaultSubStream;
-    if (wantedSubtitle == null) return -1;
-    _currentSubtitleCodec = wantedSubtitle.codec;
-    if (wantedSubtitle.index == SubStreamModel.no().index) {
+    if (wantedSubtitle == null || wantedSubtitle.index == SubStreamModel.no().index) {
       await _player?.setSubtitleTrack(mpv.SubtitleTrack.no());
-    } else {
-      final internalTrack = subTracks.getRange(2, subTracks.length).toList();
-      final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id);
-      final subTrack = internalTrack.elementAtOrNull(index ?? -1);
-      if (wantedSubtitle.isExternal && wantedSubtitle.url != null && subTrack == null) {
-        await _player?.setSubtitleTrack(mpv.SubtitleTrack.uri(wantedSubtitle.url!));
-      } else if (subTrack != null) {
-        await _player?.setSubtitleTrack(subTrack);
-      }
+      return -1;
+    }
+    _currentSubtitleCodec = wantedSubtitle.codec;
+    final internalTrack = subTracks.getRange(2, subTracks.length).toList();
+    final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id);
+    final subTrack = internalTrack.elementAtOrNull(index ?? -1);
+    if (wantedSubtitle.isExternal && wantedSubtitle.url != null && subTrack == null) {
+      await _player?.setSubtitleTrack(mpv.SubtitleTrack.uri(wantedSubtitle.url!));
+    } else if (subTrack != null) {
+      await _player?.setSubtitleTrack(subTrack);
     }
     return wantedSubtitle.index;
   }

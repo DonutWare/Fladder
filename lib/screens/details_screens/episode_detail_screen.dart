@@ -152,7 +152,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     originalTitle: details.series?.originalTitle,
                     onTitleClicked: () => details.series?.navigateTo(detailsContext),
                     productionYear: details.episode?.dateAired != null
-                        ? DateFormat.yMMMEd().format(details.episode!.dateAired!)
+                        ? DateFormat.yMMMEd(context.localized.localeName).format(details.episode!.dateAired!)
                         : null,
                     runTime: details.episode?.overview.runTime,
                     studios: details.series?.overview.studios ?? [],
