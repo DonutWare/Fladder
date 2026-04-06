@@ -100,13 +100,16 @@ class AdaptiveLayout extends InheritedWidget {
 
   static EdgeInsets adaptivePadding(BuildContext context, {double horizontalPadding = 16}) {
     final viewPadding = MediaQuery.paddingOf(context);
-    final padding = viewPadding.copyWith(
-      left: AdaptiveLayout.of(context).sideBarWidth + horizontalPadding + viewPadding.left,
-      top: 0,
-      bottom: 0,
-      right: viewPadding.right + horizontalPadding,
-    );
-    return padding;
+    final textDirection = Directionality.of(context);
+
+    return EdgeInsetsDirectional.fromSTEB(viewPadding.left, 0, viewPadding.right, 0)
+        .add(
+          EdgeInsetsDirectional.only(
+            start: AdaptiveLayout.of(context).sideBarWidth + horizontalPadding,
+            end: horizontalPadding,
+          ),
+        )
+        .resolve(textDirection);
   }
 
   static LayoutMode layoutModeOf(BuildContext context) => maybeOf(context)!.data.layoutMode;

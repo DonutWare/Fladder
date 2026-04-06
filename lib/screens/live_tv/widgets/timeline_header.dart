@@ -48,8 +48,8 @@ class TimelineHeader extends StatelessWidget {
                             .toDouble()
                             .clamp(0.0, timelineWidth);
                         return [
-                          Positioned(
-                            left: leftPos,
+                          PositionedDirectional(
+                            start: leftPos,
                             bottom: 0,
                             child: Container(
                               width: 2,
@@ -57,8 +57,8 @@ class TimelineHeader extends StatelessWidget {
                               color: Theme.of(context).colorScheme.onSurface.withAlpha(50),
                             ),
                           ),
-                          Positioned(
-                            left: leftPos + 2,
+                          PositionedDirectional(
+                            start: leftPos + 2,
                             bottom: 0,
                             child: SizedBox(
                               width: 48.0,

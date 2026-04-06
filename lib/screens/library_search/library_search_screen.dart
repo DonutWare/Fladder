@@ -151,7 +151,13 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
       (value) => value.backgroundImage == BackgroundType.blurred && value.enableBlurEffects,
     ));
 
-    final sideBarPadding = EdgeInsets.only(left: adaptiveLayout.sideBarWidth);
+    final sideBarPadding = EdgeInsetsDirectional.only(start: adaptiveLayout.sideBarWidth);
+    final horizontalSafeArea = EdgeInsetsDirectional.fromSTEB(
+      mediaQuery.padding.left,
+      0,
+      mediaQuery.padding.right,
+      0,
+    );
 
     return MediaQuery(
       data: mediaQuery.copyWith(
@@ -533,9 +539,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                         ),
                       if (postersList.isNotEmpty)
                         SliverPadding(
-                          padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).padding.left + sideBarPadding.left,
-                              right: MediaQuery.of(context).padding.right),
+                          padding: sideBarPadding.add(horizontalSafeArea),
                           sliver: LibraryViews(
                             key: uniqueKey,
                             items: postersList,

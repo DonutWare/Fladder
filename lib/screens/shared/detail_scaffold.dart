@@ -108,12 +108,26 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    final padding = EdgeInsets.symmetric(horizontal: size.width / 25);
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final contentBasePadding = EdgeInsets.symmetric(horizontal: size.width / 25);
     final backGroundColor = Theme.of(context).colorScheme.surface.withValues(alpha: 0.8);
     final minHeight = 450.0.clamp(0, size.height).toDouble();
     final maxHeight = size.height - 10;
     final sideBarPadding = AdaptiveLayout.of(context).sideBarWidth;
     final topBarPadding = AdaptiveLayout.of(context).topBarHeight;
+    final directionalSidePadding = EdgeInsetsDirectional.only(start: sideBarPadding);
+    final directionalContentOffset = const EdgeInsetsDirectional.only(start: 25);
+    final horizontalSafeArea = EdgeInsetsDirectional.fromSTEB(
+      MediaQuery.paddingOf(context).left,
+      0,
+      MediaQuery.paddingOf(context).right,
+      0,
+    );
+    final contentPadding = directionalSidePadding
+        .add(horizontalSafeArea)
+        .add(directionalContentOffset)
+        .add(contentBasePadding)
+        .resolve(Directionality.of(context));
     final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
     final newColorScheme = dominantColor != null
         ? ColorScheme.fromSeed(
@@ -179,7 +193,10 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: EdgeInsets.only(left: sideBarPadding / 1.5, top: topBarPadding / 1.5),
+                            padding: EdgeInsetsDirectional.only(
+                              start: sideBarPadding / 1.5,
+                              top: topBarPadding / 1.5,
+                            ),
                             child: RepaintBoundary(
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
@@ -188,7 +205,8 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                   maxHeight: maxHeight.clamp(minHeight, 2500) - (20 + topBarPadding),
                                 ),
                                 child: FadeEdges(
-                                  leftFade: sideBarPadding > 0 ? 0.05 : 0.0,
+                                  leftFade: sideBarPadding > 0 && !isRtl ? 0.05 : 0.0,
+                                  rightFade: sideBarPadding > 0 && isRtl ? 0.05 : 0.0,
                                   topFade: topBarPadding > 0 ? 0.1 : 0.0,
                                   bottomFade: 0.2,
                                   child: FadeInImage(
@@ -248,9 +266,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                           ),
                           child: widget.content(
                             context,
-                            padding.copyWith(
-                              left: sideBarPadding + 25 + MediaQuery.paddingOf(context).left,
-                            ),
+                            contentPadding,
                           ),
                         ),
                       ),
@@ -262,8 +278,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                   IconTheme(
                     data: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
                     child: Padding(
-                      padding: MediaQuery.paddingOf(context)
-                          .copyWith(left: sideBarPadding + MediaQuery.paddingOf(context).left)
+                      padding: directionalSidePadding
+                          .add(horizontalSafeArea)
+                          .resolve(Directionality.of(context))
                           .add(
                             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                           )
