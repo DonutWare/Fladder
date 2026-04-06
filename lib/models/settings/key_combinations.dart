@@ -102,10 +102,8 @@ abstract class KeyCombination with _$KeyCombination {
     if (pressedModifier == configuredModifier) return true;
     if (pressedModifier == null || configuredModifier == null) return false;
 
-    return (shiftKeys.contains(pressedModifier) && shiftKeys.contains(configuredModifier)) ||
-        (altKeys.contains(pressedModifier) && altKeys.contains(configuredModifier)) ||
-        (ctrlKeys.contains(pressedModifier) && ctrlKeys.contains(configuredModifier)) ||
-        (superKeys.contains(pressedModifier) && superKeys.contains(configuredModifier));
+    // Keep left/right distinction for Shift/Alt/Ctrl, but normalize macOS Command/Super variants.
+    return superKeys.contains(pressedModifier) && superKeys.contains(configuredModifier);
   }
 }
 
