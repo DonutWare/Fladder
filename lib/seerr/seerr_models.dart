@@ -1283,6 +1283,104 @@ class SeerrDiscoverResponse {
   Map<String, dynamic> toJson() => _$SeerrDiscoverResponseToJson(this);
 }
 
+class SeerrPersonCredit {
+  final int? id;
+  final SeerrMediaType? mediaType;
+  final String? title;
+  final String? name;
+  final String? overview;
+  @JsonKey(name: 'posterPath')
+  final String? internalPosterPath;
+  @JsonKey(name: 'backdropPath')
+  final String? internalBackdropPath;
+  final String? releaseDate;
+  final String? firstAirDate;
+  final SeerrMediaInfo? mediaInfo;
+  final String? character;
+  final String? job;
+  final String? department;
+
+  SeerrPersonCredit({
+    this.id,
+    this.mediaType,
+    this.title,
+    this.name,
+    this.overview,
+    this.internalPosterPath,
+    this.internalBackdropPath,
+    this.releaseDate,
+    this.firstAirDate,
+    this.mediaInfo,
+    this.character,
+    this.job,
+    this.department,
+  });
+
+  factory SeerrPersonCredit.fromJson(Map<String, dynamic> json) {
+    return SeerrPersonCredit(
+      id: (json['id'] as num?)?.toInt(),
+      mediaType: json['mediaType'] != null ? SeerrMediaType.fromString(json['mediaType'] as String) : null,
+      title: json['title'] as String?,
+      name: json['name'] as String?,
+      overview: json['overview'] as String?,
+      internalPosterPath: json['posterPath'] as String?,
+      internalBackdropPath: json['backdropPath'] as String?,
+      releaseDate: json['releaseDate'] as String?,
+      firstAirDate: json['firstAirDate'] as String?,
+      mediaInfo: json['mediaInfo'] != null ? SeerrMediaInfo.fromJson(json['mediaInfo'] as Map<String, dynamic>) : null,
+      character: json['character'] as String?,
+      job: json['job'] as String?,
+      department: json['department'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'mediaType': mediaType?.name,
+        'title': title,
+        'name': name,
+        'overview': overview,
+        'posterPath': internalPosterPath,
+        'backdropPath': internalBackdropPath,
+        'releaseDate': releaseDate,
+        'firstAirDate': firstAirDate,
+        'mediaInfo': mediaInfo?.toJson(),
+        'character': character,
+        'job': job,
+        'department': department,
+      };
+}
+
+class SeerrCombinedCreditsResponse {
+  final List<SeerrPersonCredit>? cast;
+  final List<SeerrPersonCredit>? crew;
+  final int? id;
+
+  SeerrCombinedCreditsResponse({
+    this.cast,
+    this.crew,
+    this.id,
+  });
+
+  factory SeerrCombinedCreditsResponse.fromJson(Map<String, dynamic> json) {
+    return SeerrCombinedCreditsResponse(
+      cast: (json['cast'] as List<dynamic>?)
+          ?.map((item) => SeerrPersonCredit.fromJson(item as Map<String, dynamic>))
+          .toList(),
+      crew: (json['crew'] as List<dynamic>?)
+          ?.map((item) => SeerrPersonCredit.fromJson(item as Map<String, dynamic>))
+          .toList(),
+      id: (json['id'] as num?)?.toInt(),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'cast': cast?.map((item) => item.toJson()).toList(),
+        'crew': crew?.map((item) => item.toJson()).toList(),
+        'id': id,
+      };
+}
+
 @JsonSerializable()
 class SeerrGenreResponse {
   final List<SeerrGenre>? genres;

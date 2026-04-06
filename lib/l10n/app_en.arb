@@ -2585,5 +2585,34 @@
   "@groupedFoldersDescription": {},
   "downloadTranscoded": "Download transcoded",
   "downloadOriginal": "Download original",
+  "personBirthday": "Birthday: {date}",
+  "@personBirthday": {
+    "description": "Birthday label with formatted date",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "personAge": "Age: {age}",
+  "@personAge": {
+    "description": "Age label with age number",
+    "placeholders": {
+      "age": {
+        "type": "int",
+        "example": "30"
+      }
+    }
+  },
+  "personBirthPlace": "Born in {place}",
+  "@personBirthPlace": {
+    "placeholders": {
+      "place": {
+        "type": "String"
+      }
+    }
+  },
+  "seerrMovies": "Discover Movies",
+  "seerrSeries": "Discover Series",
   "today": "Today"
 }

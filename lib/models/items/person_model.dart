@@ -8,6 +8,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/series_model.dart';
+import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 
 part 'person_model.mapper.dart';
 
@@ -15,13 +16,19 @@ part 'person_model.mapper.dart';
 class PersonModel extends ItemBaseModel with PersonModelMappable {
   final DateTime? dateOfBirth;
   final List<String> birthPlace;
+  final Map<String, dynamic>? providerIds;
   final List<MovieModel> movies;
   final List<SeriesModel> series;
+  final List<SeerrDashboardPosterModel> seerrMovies;
+  final List<SeerrDashboardPosterModel> seerrSeries;
   const PersonModel({
     this.dateOfBirth,
     required this.birthPlace,
+    this.providerIds,
     required this.movies,
     required this.series,
+    this.seerrMovies = const [],
+    this.seerrSeries = const [],
     required super.name,
     required super.id,
     required super.overview,
@@ -49,8 +56,11 @@ class PersonModel extends ItemBaseModel with PersonModelMappable {
       primaryRatio: item.primaryImageAspectRatio,
       dateOfBirth: item.premiereDate,
       birthPlace: item.productionLocations ?? [],
+      providerIds: item.providerIds,
       movies: [],
       series: [],
+      seerrMovies: const [],
+      seerrSeries: const [],
     );
   }
 
