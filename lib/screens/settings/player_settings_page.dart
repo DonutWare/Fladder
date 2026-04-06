@@ -26,7 +26,6 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
@@ -79,95 +78,77 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   ),
                 ],
               ),
-            SettingsListTile(
+            SettingsListTileEnum(
               label: Text(context.localized.videoScaling),
-              trailing: EnumBox(
-                current: videoSettings.videoFit.label(context),
-                itemBuilder: (context) => BoxFit.values
-                    .map(
-                      (entry) => ItemActionButton(
-                        label: Text(entry.label(context)),
-                        action: () => ref.read(videoPlayerSettingsProvider.notifier).setFitType(entry),
-                      ),
-                    )
-                    .toList(),
-              ),
+              current: videoSettings.videoFit.label(context),
+              itemBuilder: (context) => BoxFit.values
+                  .map(
+                    (entry) => ItemActionButton(
+                      label: Text(entry.label(context)),
+                      action: () => ref.read(videoPlayerSettingsProvider.notifier).setFitType(entry),
+                    ),
+                  )
+                  .toList(),
             ),
-            SettingsListTile(
+            SettingsListTileEnum(
               label: _StatusIndicator(
                 homeInternet: connectionState.homeInternet,
                 label: Text(context.localized.homeStreamingQualityTitle),
               ),
               subLabel: Text(context.localized.homeStreamingQualityDesc),
-              trailing: EnumBox(
-                current: ref.watch(
-                  videoPlayerSettingsProvider.select((value) => value.maxHomeBitrate.label(context)),
-                ),
-                itemBuilder: (context) => Bitrate.values
-                    .map(
-                      (entry) => ItemActionButton(
-                        label: Text(entry.label(context)),
-                        action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                            videoSettings.copyWith(maxHomeBitrate: entry),
-                      ),
-                    )
-                    .toList(),
+              current: ref.watch(
+                videoPlayerSettingsProvider.select((value) => value.maxHomeBitrate.label(context)),
               ),
+              itemBuilder: (context) => Bitrate.values
+                  .map(
+                    (entry) => ItemActionButton(
+                      label: Text(entry.label(context)),
+                      action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                          videoSettings.copyWith(maxHomeBitrate: entry),
+                    ),
+                  )
+                  .toList(),
             ),
-            SettingsListTile(
+            SettingsListTileEnum(
               label: _StatusIndicator(
                 homeInternet: !connectionState.homeInternet,
                 label: Text(context.localized.internetStreamingQualityTitle),
               ),
               subLabel: Text(context.localized.internetStreamingQualityDesc),
-              trailing: EnumBox(
-                current: ref.watch(
-                  videoPlayerSettingsProvider.select((value) => value.maxInternetBitrate.label(context)),
-                ),
-                itemBuilder: (context) => Bitrate.values
-                    .map(
-                      (entry) => ItemActionButton(
-                        label: Text(entry.label(context)),
-                        action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                            videoSettings.copyWith(maxInternetBitrate: entry),
-                      ),
-                    )
-                    .toList(),
+              current: ref.watch(
+                videoPlayerSettingsProvider.select((value) => value.maxInternetBitrate.label(context)),
               ),
+              itemBuilder: (context) => Bitrate.values
+                  .map(
+                    (entry) => ItemActionButton(
+                      label: Text(entry.label(context)),
+                      action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                          videoSettings.copyWith(maxInternetBitrate: entry),
+                    ),
+                  )
+                  .toList(),
             ),
           ],
         ),
         const SizedBox(height: 12),
         ...settingsListGroup(context, SettingsLabelDivider(label: context.localized.mediaSegmentActions), [
           ...videoSettings.segmentSkipSettings.entries.sorted((a, b) => b.key.index.compareTo(a.key.index)).map(
-                (entry) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          entry.key.label(context),
-                          style: Theme.of(context).textTheme.titleLarge,
+                (entry) => SettingsListTileEnum(
+                  label: Text(entry.key.label(context)),
+                  current: entry.value.label(context),
+                  itemBuilder: (context) => SegmentSkip.values
+                      .map(
+                        (value) => ItemActionButton(
+                          label: Text(value.label(context)),
+                          action: () {
+                            final newEntries = videoSettings.segmentSkipSettings
+                                .map((key, currentValue) => MapEntry(key, key == entry.key ? value : currentValue));
+                            ref.read(videoPlayerSettingsProvider.notifier).state =
+                                videoSettings.copyWith(segmentSkipSettings: newEntries);
+                          },
                         ),
-                      ),
-                      EnumBox(
-                        current: entry.value.label(context),
-                        itemBuilder: (context) => SegmentSkip.values
-                            .map(
-                              (value) => ItemActionButton(
-                                label: Text(value.label(context)),
-                                action: () {
-                                  final newEntries = videoSettings.segmentSkipSettings.map(
-                                      (key, currentValue) => MapEntry(key, key == entry.key ? value : currentValue));
-                                  ref.read(videoPlayerSettingsProvider.notifier).state =
-                                      videoSettings.copyWith(segmentSkipSettings: newEntries);
-                                },
-                              ),
-                            )
-                            .toList(),
                       )
-                    ],
-                  ),
+                      .toList(),
                 ),
               ),
         ]),
@@ -354,33 +335,26 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
           SettingsLabelDivider(label: context.localized.advanced),
           [
             if (PlayerOptions.available.length != 1)
-              SettingsListTile(
+              SettingsListTileEnum(
                 label: Text(context.localized.playerSettingsBackendTitle),
                 subLabel: Text(context.localized.playerSettingsBackendDesc),
-                trailing: Builder(builder: (context) {
-                  final wantedPlayer = videoSettings.wantedPlayer;
-                  final currentPlayer = videoSettings.playerOptions;
-                  return EnumBox(
-                    current: currentPlayer == null
-                        ? "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"
-                        : wantedPlayer.label(context),
-                    itemBuilder: (context) => [
-                      ItemActionButton(
-                        label: Text(
-                            "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"),
-                        action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                            videoSettings.copyWith(playerOptions: null),
-                      ),
-                      ...PlayerOptions.available.map(
-                        (entry) => ItemActionButton(
-                          label: Text(entry.label(context)),
-                          action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                              videoSettings.copyWith(playerOptions: entry),
-                        ),
-                      )
-                    ],
-                  );
-                }),
+                current: videoSettings.playerOptions == null
+                    ? "${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"
+                    : videoSettings.wantedPlayer.label(context),
+                itemBuilder: (context) => [
+                  ItemActionButton(
+                    label: Text("${context.localized.defaultLabel} (${PlayerOptions.platformDefaults.label(context)})"),
+                    action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                        videoSettings.copyWith(playerOptions: null),
+                  ),
+                  ...PlayerOptions.available.map(
+                    (entry) => ItemActionButton(
+                      label: Text(entry.label(context)),
+                      action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                          videoSettings.copyWith(playerOptions: entry),
+                    ),
+                  )
+                ],
               ),
             ...[
               if (currentPlayer == PlayerOptions.libMPV) ...[
@@ -415,20 +389,18 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   ),
                 ),
               if (ref.read(argumentsStateProvider).leanBackMode)
-                SettingsListTile(
+                SettingsListTileEnum(
                   label: Text(context.localized.playerSettingsScreensaverTitle),
                   subLabel: Text(context.localized.playerSettingsScreensaverDesc),
-                  trailing: EnumBox(
-                    current: videoSettings.screensaver.label(context),
-                    itemBuilder: (context) => Screensaver.values
-                        .map(
-                          (entry) => ItemActionButton(
-                            label: Text(entry.label(context)),
-                            action: () => provider.setScreensaver(entry),
-                          ),
-                        )
-                        .toList(),
-                  ),
+                  current: videoSettings.screensaver.label(context),
+                  itemBuilder: (context) => Screensaver.values
+                      .map(
+                        (entry) => ItemActionButton(
+                          label: Text(entry.label(context)),
+                          action: () => provider.setScreensaver(entry),
+                        ),
+                      )
+                      .toList(),
                 ),
               SettingsListTile(
                 label: Text(context.localized.settingsPlayerCustomSubtitlesTitle),
@@ -475,25 +447,23 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
             ],
             Column(
               children: [
-                SettingsListTile(
+                SettingsListTileEnum(
                   label: Text(context.localized.settingsAutoNextTitle),
                   subLabel: Text(context.localized.settingsAutoNextDesc),
-                  trailing: EnumBox(
-                    current: ref.watch(
-                      videoPlayerSettingsProvider.select(
-                        (value) => value.nextVideoType.label(context),
-                      ),
+                  current: ref.watch(
+                    videoPlayerSettingsProvider.select(
+                      (value) => value.nextVideoType.label(context),
                     ),
-                    itemBuilder: (context) => AutoNextType.values
-                        .map(
-                          (entry) => ItemActionButton(
-                            label: Text(entry.label(context)),
-                            action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                                videoSettings.copyWith(nextVideoType: entry),
-                          ),
-                        )
-                        .toList(),
                   ),
+                  itemBuilder: (context) => AutoNextType.values
+                      .map(
+                        (entry) => ItemActionButton(
+                          label: Text(entry.label(context)),
+                          action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                              videoSettings.copyWith(nextVideoType: entry),
+                        ),
+                      )
+                      .toList(),
                 ),
                 AnimatedFadeSize(
                   child: switch (ref.watch(videoPlayerSettingsProvider.select((value) => value.nextVideoType))) {

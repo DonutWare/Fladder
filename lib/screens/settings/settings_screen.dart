@@ -111,7 +111,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final isAdmin = ref.watch(userProvider.select((value) => value?.policy?.isAdministrator ?? false));
 
     return Padding(
-      padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
+      padding: EdgeInsetsDirectional.only(start: AdaptiveLayout.of(context).sideBarWidth),
       child: Container(
         color: context.colors.surface,
         child: SettingsScaffold(
