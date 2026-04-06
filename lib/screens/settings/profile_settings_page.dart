@@ -168,40 +168,42 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
           context,
           SettingsLabelDivider(label: context.localized.subtitles),
           [
-            SettingsListTileEnum(
-              label: Text(context.localized.settingsProfileSubtitleLanguage),
-              current: user?.userConfiguration?.subtitleLanguagePreference == null
-                  ? context.localized.none
-                  : cultures
-                          .firstWhereOrNull(
-                            (element) =>
-                                element.threeLetterISOLanguageName?.toLowerCase() ==
-                                user?.userConfiguration?.subtitleLanguagePreference?.toLowerCase(),
-                          )
-                          ?.displayName ??
-                      context.localized.unknown,
-              itemBuilder: (context) => [
-                ItemActionButton(
-                  selected: user?.userConfiguration?.subtitleLanguagePreference == null,
-                  label: Text(context.localized.none),
-                  action: () {
-                    ref.read(userProvider.notifier).updateSubtitleLanguagePreference(null);
-                  },
-                ),
-                ...cultures.map(
-                  (e) => ItemActionButton(
-                    selected: e.threeLetterISOLanguageName?.toLowerCase() ==
-                        user?.userConfiguration?.subtitleLanguagePreference?.toLowerCase(),
-                    label: Text(e.displayName ?? e.name ?? context.localized.unknown),
+            Builder(builder: (context) {
+              final anyLanguageLabel = context.localized.anyLanguage;
+              final subtitleLanguagePreference =
+                  user?.userConfiguration?.subtitleLanguagePreference?.trim().toLowerCase();
+              final hasSubtitleLanguagePreference = subtitleLanguagePreference?.isNotEmpty == true;
+
+              final currentCulture = cultures.firstWhereOrNull(
+                (e) => e.matchesLanguageCode(subtitleLanguagePreference),
+              );
+
+              return SettingsListTileEnum(
+                label: Text(context.localized.settingsProfileSubtitleLanguage),
+                current: !hasSubtitleLanguagePreference
+                    ? anyLanguageLabel
+                    : currentCulture?.displayName ?? context.localized.unknown,
+                itemBuilder: (context) => [
+                  ItemActionButton(
+                    selected: !hasSubtitleLanguagePreference,
+                    label: Text(anyLanguageLabel),
                     action: () {
-                      ref
-                          .read(userProvider.notifier)
-                          .updateSubtitleLanguagePreference(e.threeLetterISOLanguageName?.toLowerCase());
+                      ref.read(userProvider.notifier).updateSubtitleLanguagePreference(null);
                     },
                   ),
-                ),
-              ],
-            ),
+                  ...cultures.map(
+                    (e) => ItemActionButton(
+                      selected: e.matchesLanguageCode(subtitleLanguagePreference),
+                      label: Text(e.displayName ?? e.name ?? context.localized.unknown),
+                      action: () {
+                        ref.read(userProvider.notifier).updateSubtitleLanguagePreference(
+                            e.threeLetterISOLanguageName?.toLowerCase() ?? e.twoLetterISOLanguageName?.toLowerCase());
+                      },
+                    ),
+                  ),
+                ],
+              );
+            }),
             SettingsListTileEnum(
               label: Text(context.localized.settingsProfileSubtitleMode),
               current: user?.userConfiguration?.subtitleMode?.label(context) ?? context.localized.none,

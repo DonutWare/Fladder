@@ -944,6 +944,8 @@
   "@settingsProfileTitle": {},
   "settingsProfileSubtitleLanguage": "Preferred subtitle language",
   "@settingsProfileSubtitleLanguage": {},
+  "anyLanguage": "Any language",
+  "@anyLanguage": {},
   "settingsProfileSubtitleMode": "Subtitle mode",
   "@settingsProfileSubtitleMode": {},
   "subtitlePlaybackModeDefault": "Default",
