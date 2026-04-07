@@ -113,6 +113,7 @@ dependencies:
   package_info_plus: ^9.0.0
   wakelock_plus: ^1.3.2
   screen_brightness: ^2.1.7
+  volume_controller: 3.4.1
   window_manager: ^0.5.1
   smtc_windows: ^1.1.0
   background_downloader: ^9.2.3

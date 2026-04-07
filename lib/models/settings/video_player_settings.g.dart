@@ -14,7 +14,7 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
           BoxFit.contain,
       fillScreen: json['fillScreen'] as bool? ?? false,
       hardwareAccel: json['hardwareAccel'] as bool? ?? true,
-      useLibass: json['useLibass'] as bool? ?? false,
+      useLibass: json['useLibass'] as bool? ?? true,
       enableTunneling: json['enableTunneling'] as bool? ?? false,
       bufferSize: (json['bufferSize'] as num?)?.toInt() ?? 32,
       playerOptions:
@@ -52,6 +52,8 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
       enableDoubleTapSeek: json['enableDoubleTapSeek'] as bool? ?? true,
       enableAdvancedVideoOptions:
           json['enableAdvancedVideoOptions'] as bool? ?? false,
+      enableEdgeGestures: json['enableEdgeGestures'] as bool? ?? true,
+      reverseEdgeGestures: json['reverseEdgeGestures'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
@@ -82,6 +84,8 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
       'speedBoostRate': instance.speedBoostRate,
       'enableDoubleTapSeek': instance.enableDoubleTapSeek,
       'enableAdvancedVideoOptions': instance.enableAdvancedVideoOptions,
+      'enableEdgeGestures': instance.enableEdgeGestures,
+      'reverseEdgeGestures': instance.reverseEdgeGestures,
     };
 
 const _$BoxFitEnumMap = {

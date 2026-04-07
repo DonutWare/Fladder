@@ -67,7 +67,7 @@ extension DateTimeExtension on DateTime? {
     if (difference.inDays >= 0 && difference.inDays <= 7) {
       return l10n.airsIn(difference.inDays, l10n.days(difference.inDays).toLowerCase());
     } else {
-      return DateFormat.yMMMEd().format(airDate);
+      return DateFormat.yMMMEd(l10n.localeName).format(airDate);
     }
   }
 

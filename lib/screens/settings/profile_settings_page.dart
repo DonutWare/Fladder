@@ -33,7 +33,6 @@ import 'package:fladder/services/notification_service.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/simple_duration_picker.dart';
-import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/filled_button_await.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
@@ -169,60 +168,56 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
           context,
           SettingsLabelDivider(label: context.localized.subtitles),
           [
-            SettingsListTile(
-              label: Text(context.localized.settingsProfileSubtitleLanguage),
-              trailing: Builder(
-                builder: (context) {
-                  final currentCulture = cultures.firstWhereOrNull(
-                    (element) =>
-                        element.threeLetterISOLanguageName?.toLowerCase() ==
-                        user?.userConfiguration?.subtitleLanguagePreference?.toLowerCase(),
-                  );
-                  return EnumBox(
-                    current: user?.userConfiguration?.subtitleLanguagePreference == null
-                        ? context.localized.none
-                        : currentCulture?.displayName ?? context.localized.unknown,
-                    itemBuilder: (context) => [
-                      ItemActionButton(
-                        selected: user?.userConfiguration?.subtitleLanguagePreference == null,
-                        label: Text(context.localized.none),
-                        action: () {
-                          ref.read(userProvider.notifier).updateSubtitleLanguagePreference(null);
-                        },
-                      ),
-                      ...cultures.map(
-                        (e) => ItemActionButton(
-                          selected: e.threeLetterISOLanguageName?.toLowerCase() ==
-                              user?.userConfiguration?.subtitleLanguagePreference?.toLowerCase(),
-                          label: Text(e.displayName ?? e.name ?? context.localized.unknown),
-                          action: () {
-                            ref
-                                .read(userProvider.notifier)
-                                .updateSubtitleLanguagePreference(e.threeLetterISOLanguageName?.toLowerCase());
-                          },
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-            SettingsListTile(
+            Builder(builder: (context) {
+              final anyLanguageLabel = context.localized.anyLanguage;
+              final subtitleLanguagePreference =
+                  user?.userConfiguration?.subtitleLanguagePreference?.trim().toLowerCase();
+              final hasSubtitleLanguagePreference = subtitleLanguagePreference?.isNotEmpty == true;
+
+              final currentCulture = cultures.firstWhereOrNull(
+                (e) => e.matchesLanguageCode(subtitleLanguagePreference),
+              );
+
+              return SettingsListTileEnum(
+                label: Text(context.localized.settingsProfileSubtitleLanguage),
+                current: !hasSubtitleLanguagePreference
+                    ? anyLanguageLabel
+                    : currentCulture?.displayName ?? context.localized.unknown,
+                itemBuilder: (context) => [
+                  ItemActionButton(
+                    selected: !hasSubtitleLanguagePreference,
+                    label: Text(anyLanguageLabel),
+                    action: () {
+                      ref.read(userProvider.notifier).updateSubtitleLanguagePreference(null);
+                    },
+                  ),
+                  ...cultures.map(
+                    (e) => ItemActionButton(
+                      selected: e.matchesLanguageCode(subtitleLanguagePreference),
+                      label: Text(e.displayName ?? e.name ?? context.localized.unknown),
+                      action: () {
+                        ref.read(userProvider.notifier).updateSubtitleLanguagePreference(
+                            e.threeLetterISOLanguageName?.toLowerCase() ?? e.twoLetterISOLanguageName?.toLowerCase());
+                      },
+                    ),
+                  ),
+                ],
+              );
+            }),
+            SettingsListTileEnum(
               label: Text(context.localized.settingsProfileSubtitleMode),
-              trailing: EnumBox(
-                current: user?.userConfiguration?.subtitleMode?.label(context) ?? context.localized.none,
-                itemBuilder: (context) => allowedSubModes
-                    .map(
-                      (mode) => ItemActionButton(
-                        selected: user?.userConfiguration?.subtitleMode == mode,
-                        label: Text(mode.label(context)),
-                        action: () {
-                          ref.read(userProvider.notifier).updateSubtitleMode(mode);
-                        },
-                      ),
-                    )
-                    .toList(),
-              ),
+              current: user?.userConfiguration?.subtitleMode?.label(context) ?? context.localized.none,
+              itemBuilder: (context) => allowedSubModes
+                  .map(
+                    (mode) => ItemActionButton(
+                      selected: user?.userConfiguration?.subtitleMode == mode,
+                      label: Text(mode.label(context)),
+                      action: () {
+                        ref.read(userProvider.notifier).updateSubtitleMode(mode);
+                      },
+                    ),
+                  )
+                  .toList(),
             ),
           ],
         ),
@@ -234,30 +229,28 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
             [
               Column(
                 children: [
-                  SettingsListTile(
+                  SettingsListTileEnum(
                     label: Text(context.localized.updateCheckInterval),
                     subLabel: Text(context.localized.updateCheckIntervalDesc),
-                    trailing: EnumBox(
-                      current: timePickerString(context, clientSettings.updateNotificationsInterval),
-                      itemBuilder: (context) {
-                        final durations = const [
-                          Duration(minutes: 15),
-                          Duration(minutes: 30),
-                          Duration(hours: 1),
-                          Duration(hours: 3),
-                          Duration(hours: 6),
-                          Duration(hours: 12),
-                          Duration(days: 1),
-                        ];
-                        return durations.map((duration) {
-                          return ItemActionButton(
-                            label: Text(timePickerString(context, duration)),
-                            action: () =>
-                                ref.read(clientSettingsProvider.notifier).setUpdateNotificationsInterval(duration),
-                          );
-                        }).toList();
-                      },
-                    ),
+                    current: timePickerString(context, clientSettings.updateNotificationsInterval),
+                    itemBuilder: (context) {
+                      final durations = const [
+                        Duration(minutes: 15),
+                        Duration(minutes: 30),
+                        Duration(hours: 1),
+                        Duration(hours: 3),
+                        Duration(hours: 6),
+                        Duration(hours: 12),
+                        Duration(days: 1),
+                      ];
+                      return durations.map((duration) {
+                        return ItemActionButton(
+                          label: Text(timePickerString(context, duration)),
+                          action: () =>
+                              ref.read(clientSettingsProvider.notifier).setUpdateNotificationsInterval(duration),
+                        );
+                      }).toList();
+                    },
                   ),
                   if (lastUpdateAt != null)
                     Padding(

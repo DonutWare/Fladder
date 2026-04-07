@@ -41,6 +41,7 @@ class SeerrJsonConverter extends JsonConverter {
         SeerrAuthLocalBody: SeerrAuthLocalBody.fromJson,
         SeerrAuthJellyfinBody: SeerrAuthJellyfinBody.fromJson,
         SeerrGenreResponse: SeerrGenreResponse.fromJson,
+        SeerrCombinedCreditsResponse: SeerrCombinedCreditsResponse.fromJson,
         SeerrWatchProvider: SeerrWatchProvider.fromJson,
         SeerrWatchProviderRegion: SeerrWatchProviderRegion.fromJson,
         SeerrCertificationsResponse: SeerrCertificationsResponse.fromJson,

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
+import 'package:fladder/widgets/shared/enum_selection.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
 class SettingsListTileCheckbox extends StatelessWidget {
   final Widget label;
@@ -30,6 +33,78 @@ class SettingsListTileCheckbox extends StatelessWidget {
       trailing: Switch(
         value: value,
         onChanged: onChanged,
+      ),
+    );
+  }
+}
+
+class SettingsListTileEnum extends StatelessWidget {
+  final Widget label;
+  final Widget? subLabel;
+  final String? current;
+  final Widget? currentWidget;
+  final List<ItemAction> Function(BuildContext context) itemBuilder;
+  final bool selected;
+  final bool autoFocus;
+  final IconData? icon;
+  final Widget? leading;
+  final bool trailingInlineWithLabel;
+  final Color? contentColor;
+
+  const SettingsListTileEnum({
+    required this.label,
+    this.subLabel,
+    this.current,
+    this.currentWidget,
+    required this.itemBuilder,
+    this.selected = false,
+    this.autoFocus = false,
+    this.icon,
+    this.leading,
+    this.trailingInlineWithLabel = false,
+    this.contentColor,
+    super.key,
+  }) : assert(
+          current != null || currentWidget != null,
+          "At least one of 'current' or 'currentWidget' must be provided",
+        );
+
+  @override
+  Widget build(BuildContext context) {
+    final itemList = itemBuilder(context);
+    final useBottomSheet = AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad;
+    final hasMultipleItems = itemList.length > 1;
+
+    void openSelectionSheet() {
+      if (!hasMultipleItems) return;
+      showBottomSheetPill(
+        context: context,
+        content: (context, scrollController) => ListView(
+          shrinkWrap: true,
+          controller: scrollController,
+          children: [
+            const SizedBox(height: 6),
+            ...itemList.map((e) => e.toListItem(context)),
+          ],
+        ),
+      );
+    }
+
+    return SettingsListTile(
+      label: label,
+      subLabel: subLabel,
+      selected: selected,
+      autoFocus: autoFocus,
+      icon: icon,
+      leading: leading,
+      trailingInlineWithLabel: trailingInlineWithLabel,
+      contentColor: contentColor,
+      onTap: useBottomSheet ? openSelectionSheet : null,
+      trailing: EnumBox(
+        current: current,
+        currentWidget: currentWidget,
+        autoFocus: autoFocus,
+        itemBuilder: itemBuilder,
       ),
     );
   }
@@ -66,7 +141,7 @@ class SettingsListTile extends StatelessWidget {
 
     final leadingWidget = (leading ?? iconWidget) != null
         ? Padding(
-            padding: const EdgeInsets.only(right: 12.0),
+            padding: const EdgeInsetsDirectional.only(end: 12.0),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 125),
               decoration: BoxDecoration(
@@ -74,7 +149,7 @@ class SettingsListTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(selected ? 5 : 20),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsetsDirectional.all(12),
                 child: (leading ?? iconWidget),
               ),
             ),
@@ -84,7 +159,10 @@ class SettingsListTile extends StatelessWidget {
       return Container(
         decoration: BoxDecoration(
           color: selected ? Theme.of(context).colorScheme.surfaceContainerLow : Colors.transparent,
-          borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+          borderRadius: const BorderRadiusDirectional.only(
+            topStart: Radius.circular(8),
+            bottomStart: Radius.circular(8),
+          ),
         ),
         margin: EdgeInsets.zero,
         child: FlatButton(
@@ -96,11 +174,11 @@ class SettingsListTile extends StatelessWidget {
             }
           },
           child: Padding(
-            padding: const EdgeInsets.symmetric(
+            padding: const EdgeInsetsDirectional.symmetric(
               horizontal: 16,
               vertical: 6,
             ).copyWith(
-              left: (leading ?? iconWidget) != null ? 4 : null,
+              start: (leading ?? iconWidget) != null ? 4 : null,
             ),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
@@ -108,6 +186,7 @@ class SettingsListTile extends StatelessWidget {
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
+                spacing: 4,
                 children: [
                   if (leadingWidget != null)
                     DefaultTextStyle.merge(
@@ -166,7 +245,7 @@ class SettingsListTile extends StatelessWidget {
                       child: ExcludeFocusTraversal(
                         excluding: onTap != null,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 16),
+                          padding: const EdgeInsetsDirectional.only(start: 16),
                           child: trailing,
                         ),
                       ),

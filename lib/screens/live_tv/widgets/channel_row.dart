@@ -64,7 +64,7 @@ class ChannelRowState extends ConsumerState<ChannelRow> {
 
     if (channel.programs.isEmpty) {
       return Align(
-        alignment: Alignment.centerLeft,
+        alignment: AlignmentDirectional.centerStart,
         child: Padding(
           padding: const EdgeInsets.only(
               left: GuideConstants.padding, right: GuideConstants.padding, top: GuideConstants.padding / 2),
@@ -117,15 +117,15 @@ class ChannelRowState extends ConsumerState<ChannelRow> {
             final minWidth = GuideConstants.padding;
             final width = rawWidth < minWidth ? minWidth : rawWidth;
 
-            final clampedLeft = startOffset.clamp(0.0, timelineWidth);
-            final clampedWidth = ((clampedLeft + width) > timelineWidth) ? (timelineWidth - clampedLeft) : width;
+            final clampedStart = startOffset.clamp(0.0, timelineWidth);
+            final clampedWidth = ((clampedStart + width) > timelineWidth) ? (timelineWidth - clampedStart) : width;
 
             final endDateIsAfterNow = program.endDate.isAfter(DateTime.now());
 
             final isSelected = widget.selectedProgram?.id == program.id;
 
-            return Positioned(
-              left: clampedLeft,
+            return PositionedDirectional(
+              start: clampedStart,
               top: GuideConstants.padding / 2,
               height: GuideConstants.channelRowHeight - GuideConstants.padding / 2,
               width: clampedWidth,
@@ -148,11 +148,11 @@ class ChannelRowState extends ConsumerState<ChannelRow> {
                       borderRadius: BorderRadius.circular(8.0),
                       onFocusChanged: (focus) {
                         if (focus) {
-                          widget.scrollToPosition(clampedLeft - (GuideConstants.widthPerMinute * 10));
+                          widget.scrollToPosition(clampedStart - (GuideConstants.widthPerMinute * 10));
                         }
                       },
                       child: Container(
-                        margin: const EdgeInsets.only(right: GuideConstants.padding),
+                        margin: const EdgeInsetsDirectional.only(end: GuideConstants.padding),
                         decoration: BoxDecoration(
                           color: colorFromString(
                             program.name,
