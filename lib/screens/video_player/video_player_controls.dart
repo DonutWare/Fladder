@@ -929,8 +929,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         }
         return true;
       case VideoHotKeys.exit:
-        closePlayer();
+        if (ModalRoute.of(context)?.isCurrent == true) {
+          closePlayer();
+          return true;
+        }
         return false;
+
       case VideoHotKeys.mute:
         if (volume != 0) {
           previousVolume = volume;
