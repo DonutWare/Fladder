@@ -226,7 +226,7 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
                     mainAxisSpacing: (8 * decimal) + 8,
                     crossAxisSpacing: (8 * decimal) + 8,
                     childAspectRatio: 1.0,
-                    crossAxisCount: posterSize.toInt(),
+                    crossAxisCount: posterSize.toInt().clamp(1, double.maxFinite).toInt(),
                   ),
                   children: allImageCards,
                 ),
