@@ -124,7 +124,7 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
     return NestedScaffold(
       background: BackgroundImage(images: backgroundImages),
       body: Padding(
-        padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
+        padding: EdgeInsetsDirectional.only(start: AdaptiveLayout.of(context).sideBarWidth),
         child: Scaffold(
           extendBody: true,
           backgroundColor: Colors.transparent,

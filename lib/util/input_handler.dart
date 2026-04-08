@@ -148,11 +148,11 @@ class _InputHandlerState<T> extends ConsumerState<InputHandler<T>> {
         final keyCombination = entry.value;
 
         bool isMainKeyPressed = logicalKey == keyCombination.key;
-        bool isModifierKeyPressed = pressedModifier == keyCombination.modifier;
+        bool isModifierKeyPressed = KeyCombination.modifierMatches(pressedModifier, keyCombination.modifier);
 
         bool isAltKeyPressed = logicalKey == keyCombination.altKey;
 
-        bool isAltModifierKeyPressed = pressedModifier == keyCombination.altModifier;
+        bool isAltModifierKeyPressed = KeyCombination.modifierMatches(pressedModifier, keyCombination.altModifier);
 
         if ((isMainKeyPressed && isModifierKeyPressed) || isAltKeyPressed && isAltModifierKeyPressed) {
           if (widget.keyMapResult?.call(hotKey) ?? false) {

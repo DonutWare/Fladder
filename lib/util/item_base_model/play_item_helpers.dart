@@ -222,7 +222,9 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
       return;
     }
 
-    await _playVideo(context, startPosition: startPosition, current: model, ref: ref, cancelOperation: op);
+    final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
+
+    await _playVideo(context, startPosition: actualStartPosition, current: model, ref: ref, cancelOperation: op);
   }
 }
 

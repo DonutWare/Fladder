@@ -67,7 +67,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(BoxFit.contain) BoxFit videoFit,
     @Default(false) bool fillScreen,
     @Default(true) bool hardwareAccel,
-    @Default(false) bool useLibass,
+    @Default(true) bool useLibass,
     @Default(false) bool enableTunneling,
     @Default(32) int bufferSize,
     PlayerOptions? playerOptions,
@@ -84,12 +84,11 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(2.0) double speedBoostRate,
     @Default(true) bool enableDoubleTapSeek,
     @Default(false) bool enableAdvancedVideoOptions,
+    @Default(true) bool enableEdgeGestures,
+    @Default(false) bool reverseEdgeGestures,
   }) = _VideoPlayerSettingsModel;
 
-  double get volume => switch (defaultTargetPlatform) {
-        TargetPlatform.android || TargetPlatform.iOS => 100,
-        _ => internalVolume,
-      };
+  double get volume => internalVolume;
 
   factory VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) => _$VideoPlayerSettingsModelFromJson(json);
 

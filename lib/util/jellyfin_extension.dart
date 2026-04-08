@@ -54,3 +54,15 @@ extension SubtitlePlaybackModeExtension on SubtitlePlaybackMode? {
     };
   }
 }
+
+extension CultureDtoExtension on CultureDto {
+  bool matchesLanguageCode(String? languageCode) {
+    if (languageCode == null || languageCode.isEmpty) return false;
+    final code = languageCode.toLowerCase();
+    final threeLetterCode = threeLetterISOLanguageName?.toLowerCase();
+    final twoLetterCode = twoLetterISOLanguageName?.toLowerCase();
+    if (code == threeLetterCode) return true;
+    if (code == twoLetterCode) return true;
+    return threeLetterISOLanguageNames?.any((v) => v.toLowerCase() == code) ?? false;
+  }
+}

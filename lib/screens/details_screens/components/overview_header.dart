@@ -193,7 +193,7 @@ class OverviewHeader extends ConsumerWidget {
               .toList(),
         ),
       )
-    ].withPositionProvider();
+    ].withPositionProvider(context: context);
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -371,7 +371,7 @@ class MetadataLabels extends StatelessWidget {
   final String? productionYear;
   final Duration? runTime;
   final double? communityRating;
-  final bool? watched;
+  final String? unplayedLabel;
 
   const MetadataLabels({
     this.favourite,
@@ -379,7 +379,7 @@ class MetadataLabels extends StatelessWidget {
     this.productionYear,
     this.runTime,
     this.communityRating,
-    this.watched,
+    this.unplayedLabel,
     super.key,
   });
 
@@ -426,12 +426,16 @@ class MetadataLabels extends StatelessWidget {
               communityRating?.toStringAsFixed(2) ?? "",
             ),
           ),
-        if (watched != null)
-          SimpleLabel(
-            icon: watched == true ? IconsaxPlusBold.eye : IconsaxPlusLinear.eye_slash,
-            color: Theme.of(context).colorScheme.primary,
-            iconColor: Theme.of(context).colorScheme.onPrimary,
-          ),
+        SimpleLabel(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          iconColor: Theme.of(context).colorScheme.primary,
+          label: unplayedLabel != null
+              ? Text(unplayedLabel!)
+              : const Icon(
+                  Icons.check_rounded,
+                  size: 18,
+                ),
+        ),
         if (favourite != null)
           SimpleLabel(
             icon: favourite == true ? IconsaxPlusBold.heart : IconsaxPlusLinear.heart,
