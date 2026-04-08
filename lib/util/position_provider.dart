@@ -23,12 +23,16 @@ class PositionProvider extends InheritedWidget {
 }
 
 extension PositionProviderExtension on List<Widget> {
-  List<Widget> withPositionProvider() {
+  List<Widget> withPositionProvider({BuildContext? context, TextDirection? textDirection}) {
+    final resolvedDirection = textDirection ?? (context != null ? Directionality.of(context) : TextDirection.ltr);
+    final firstIndex = resolvedDirection == TextDirection.rtl ? length - 1 : 0;
+    final lastIndex = resolvedDirection == TextDirection.rtl ? 0 : length - 1;
+
     return mapIndexed(
       (index, e) => PositionProvider(
-          position: index == 0
+          position: index == firstIndex
               ? PositionContext.first
-              : (index == length - 1 ? PositionContext.last : PositionContext.middle),
+              : (index == lastIndex ? PositionContext.last : PositionContext.middle),
           child: e),
     ).toList();
   }

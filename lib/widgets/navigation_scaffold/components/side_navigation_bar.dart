@@ -63,7 +63,7 @@ class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
     final padding = MediaQuery.paddingOf(context);
     final directionalPadding = EdgeInsetsDirectional.fromSTEB(
       padding.left,
-      padding.top,
+      padding.top + 8,
       padding.right,
       padding.bottom,
     );

@@ -109,25 +109,28 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     final isRtl = Directionality.of(context) == TextDirection.rtl;
-    final contentBasePadding = EdgeInsets.symmetric(horizontal: size.width / 25);
+    final horizontalBasePadding = size.width / 25;
+    final safeArea = MediaQuery.paddingOf(context);
     final backGroundColor = Theme.of(context).colorScheme.surface.withValues(alpha: 0.8);
     final minHeight = 450.0.clamp(0, size.height).toDouble();
     final maxHeight = size.height - 10;
     final sideBarPadding = AdaptiveLayout.of(context).sideBarWidth;
     final topBarPadding = AdaptiveLayout.of(context).topBarHeight;
     final directionalSidePadding = EdgeInsetsDirectional.only(start: sideBarPadding);
-    final directionalContentOffset = const EdgeInsetsDirectional.only(start: 25);
-    final horizontalSafeArea = EdgeInsetsDirectional.fromSTEB(
-      MediaQuery.paddingOf(context).left,
+    final directionalHorizontalSafeArea = EdgeInsetsDirectional.fromSTEB(
+      safeArea.left,
       0,
-      MediaQuery.paddingOf(context).right,
+      safeArea.right,
       0,
+    ).resolve(Directionality.of(context));
+    final contentPadding = EdgeInsets.only(
+      left: isRtl
+          ? horizontalBasePadding + directionalHorizontalSafeArea.left
+          : sideBarPadding + 25 + directionalHorizontalSafeArea.left,
+      right: isRtl
+          ? sideBarPadding + 25 + directionalHorizontalSafeArea.right
+          : horizontalBasePadding + directionalHorizontalSafeArea.right,
     );
-    final contentPadding = directionalSidePadding
-        .add(horizontalSafeArea)
-        .add(directionalContentOffset)
-        .add(contentBasePadding)
-        .resolve(Directionality.of(context));
     final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
     final newColorScheme = dominantColor != null
         ? ColorScheme.fromSeed(
@@ -279,13 +282,13 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                     data: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
                     child: Padding(
                       padding: directionalSidePadding
-                          .add(horizontalSafeArea)
+                          .add(directionalHorizontalSafeArea)
                           .resolve(Directionality.of(context))
                           .add(
                             const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                           )
                           .add(
-                            EdgeInsets.only(top: topBarPadding),
+                            EdgeInsets.only(top: topBarPadding + safeArea.top),
                           ),
                       child: Row(
                         children: [

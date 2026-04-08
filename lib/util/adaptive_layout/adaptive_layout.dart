@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -230,7 +232,9 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
               navigationMode: input == InputDevice.dPad ? NavigationMode.directional : NavigationMode.traditional,
               padding: (useAdditionalPadding
                   ? EdgeInsets.only(top: isAndroidTV ? 12 : defaultTitleBarHeight, bottom: 16)
-                  : mediaQuery.padding),
+                  : mediaQuery.padding.copyWith(
+                      top: defaultTargetPlatform == TargetPlatform.iOS ? math.max(24, mediaQuery.padding.top) : null,
+                    )),
               viewPadding: useAdditionalPadding
                   ? EdgeInsets.only(top: isAndroidTV ? 12 : defaultTitleBarHeight, bottom: 16)
                   : null,
