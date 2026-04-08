@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,11 +18,13 @@ class Chapter {
   final String imageUrl;
   final Uint8List? imageData;
   final Duration startPosition;
+  final TrickPlayModel? trickplayFallback;
   Chapter({
     required this.name,
     required this.imageUrl,
     this.imageData,
     required this.startPosition,
+    this.trickplayFallback,
   });
 
   ImageProvider get imageProvider {
@@ -42,24 +45,29 @@ class Chapter {
     }
   }
 
-  static List<Chapter> chaptersFromInfo(String itemId, List<dto.ChapterInfo> chapters, Ref ref) {
-    return chapters
-        .mapIndexed((index, element) => Chapter(
-            name: element.name ?? "",
-            imageUrl: ref.read(imageUtilityProvider).getChapterUrl(itemId, index),
-            startPosition: Duration(milliseconds: (element.startPositionTicks ?? 0) ~/ 10000)))
-        .toList();
+  static List<Chapter> chaptersFromInfo(
+      String itemId, List<dto.ChapterInfo> chapters, TrickPlayModel? trickplay, Ref ref) {
+    return chapters.mapIndexed((index, element) {
+      final startPosition = Duration(milliseconds: (element.startPositionTicks ?? 0) ~/ 10000);
+      return Chapter(
+          name: element.name ?? "",
+          imageUrl: ref.read(imageUtilityProvider).getChapterUrl(itemId, index),
+          startPosition: startPosition,
+          trickplayFallback: trickplay);
+    }).toList();
   }
 
   Chapter copyWith({
     String? name,
     String? imageUrl,
     Duration? startPosition,
+    TrickPlayModel? trickplayFallback,
   }) {
     return Chapter(
       name: name ?? this.name,
       imageUrl: imageUrl ?? this.imageUrl,
       startPosition: startPosition ?? this.startPosition,
+      trickplayFallback: trickplayFallback ?? this.trickplayFallback,
     );
   }
 

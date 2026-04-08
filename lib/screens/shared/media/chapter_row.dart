@@ -1,3 +1,4 @@
+import 'package:fladder/widgets/shared/trick_play_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -72,6 +73,12 @@ class ChapterRow extends ConsumerWidget {
                 imageUrl: chapter.imageUrl,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => const Icon(IconsaxPlusBold.image),
+                errorWidget: (context, url, error) => chapter.trickplayFallback != null
+                    ? TrickPlayImage(
+                        chapter.trickplayFallback!,
+                        position: chapter.startPosition,
+                      )
+                    : const Icon(IconsaxPlusBold.image),
               ),
             ),
           ),

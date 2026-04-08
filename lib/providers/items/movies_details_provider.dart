@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
+import 'package:fladder/models/items/chapters_model.dart';
 import 'package:logging/logging.dart' as logging;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -80,14 +81,26 @@ class MovieDetails extends _$MovieDetails {
         }
       }
 
+      List<Chapter>? newChapters = [];
+      final trickPlay = (await api.getTrickPlay(item: state, ref: ref))?.body;
+      if (trickPlay != null && trickPlay.images.isNotEmpty) {
+        newChapters = state?.chapters
+            .map((chapter) => chapter.copyWith(
+                  trickplayFallback: trickPlay,
+                ))
+            .toList();
+      }
+
       state = newState.copyWith(
-          related: related.body,
-          seerrRelated: seerrRelated,
-          seerrRecommended: seerrRecommended,
-          overview: state?.overview.copyWith(
-            seerrUrl: seerrUrl,
-          ),
-          specialFeatures: specialFeatureModel);
+        related: related.body,
+        seerrRelated: seerrRelated,
+        seerrRecommended: seerrRecommended,
+        overview: state?.overview.copyWith(
+          seerrUrl: seerrUrl,
+        ),
+        specialFeatures: specialFeatureModel,
+        chapters: newChapters ?? state?.chapters,
+      );
       return null;
     } catch (e) {
       return null;

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dart_mappable/dart_mappable.dart';
@@ -126,6 +127,10 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
       );
     }
 
+    final trickPlayMap =
+        (item.trickplay != null && item.trickplay!.isNotEmpty) ? TrickPlayModel.toTrickPlayMap(item.trickplay!) : null;
+    final singleTrickPlayModel = trickPlayMap?.values.lastOrNull;
+
     return MovieModel(
       name: item.name ?? "",
       id: item.id ?? "",
@@ -139,7 +144,7 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
       originalTitle: item.originalTitle ?? "",
       images: ImagesData.fromBaseItem(item, ref),
       primaryRatio: item.primaryImageAspectRatio,
-      chapters: Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], ref),
+      chapters: Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], singleTrickPlayModel, ref),
       premiereDate: item.premiereDate ?? DateTime.now(),
       parentImages: ImagesData.fromBaseItemParent(item, ref),
       canDelete: item.canDelete,
