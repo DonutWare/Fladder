@@ -8,6 +8,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/items/watched_state.dart';
 import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
 import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/small_detail_widgets.dart';
@@ -193,7 +194,7 @@ class OverviewHeader extends ConsumerWidget {
               .toList(),
         ),
       )
-    ].withPositionProvider();
+    ].withPositionProvider(context: context);
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -371,7 +372,8 @@ class MetadataLabels extends StatelessWidget {
   final String? productionYear;
   final Duration? runTime;
   final double? communityRating;
-  final bool? watched;
+  final WatchedState? playLabel;
+  final List<Widget> additionalLabels;
 
   const MetadataLabels({
     this.favourite,
@@ -379,12 +381,15 @@ class MetadataLabels extends StatelessWidget {
     this.productionYear,
     this.runTime,
     this.communityRating,
-    this.watched,
+    this.playLabel,
+    this.additionalLabels = const [],
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final playState = playLabel;
+
     return Wrap(
       spacing: 8,
       runSpacing: 8,
@@ -426,18 +431,25 @@ class MetadataLabels extends StatelessWidget {
               communityRating?.toStringAsFixed(2) ?? "",
             ),
           ),
-        if (watched != null)
-          SimpleLabel(
-            icon: watched == true ? IconsaxPlusBold.eye : IconsaxPlusLinear.eye_slash,
-            color: Theme.of(context).colorScheme.primary,
-            iconColor: Theme.of(context).colorScheme.onPrimary,
-          ),
         if (favourite != null)
           SimpleLabel(
             icon: favourite == true ? IconsaxPlusBold.heart : IconsaxPlusLinear.heart,
             color: Theme.of(context).colorScheme.error,
             iconColor: Theme.of(context).colorScheme.onError,
           ),
+        if (playState case PartiallyPlayed(:final label))
+          SimpleLabel(
+            color: Theme.of(context).colorScheme.onPrimary,
+            iconColor: Theme.of(context).colorScheme.primary,
+            label: Text(label),
+          )
+        else if (playState case Played())
+          SimpleLabel(
+            icon: Icons.check_rounded,
+            color: Theme.of(context).colorScheme.onPrimary,
+            iconColor: Theme.of(context).colorScheme.primary,
+          ),
+        ...additionalLabels,
       ].addInBetween(CircleAvatar(
         radius: 3,
         backgroundColor: Theme.of(context).colorScheme.onSurface,

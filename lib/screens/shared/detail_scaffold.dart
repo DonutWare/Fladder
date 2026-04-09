@@ -139,12 +139,24 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    final padding = EdgeInsets.symmetric(horizontal: size.width / 25);
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final horizontalBasePadding = size.width / 25;
+    final safeArea = MediaQuery.paddingOf(context);
     final backGroundColor = Theme.of(context).colorScheme.surface.withValues(alpha: 0.8);
     final minHeight = 450.0.clamp(0, size.height).toDouble();
     final maxHeight = size.height - 10;
     final sideBarPadding = AdaptiveLayout.of(context).sideBarWidth;
     final topBarPadding = AdaptiveLayout.of(context).topBarHeight;
+    final directionalSidePadding = EdgeInsetsDirectional.only(start: sideBarPadding);
+    final horizontalPadding = 16.0;
+    final contentPadding = EdgeInsets.only(
+      left: isRtl ? horizontalBasePadding : sideBarPadding + horizontalPadding + safeArea.left,
+      right: isRtl ? sideBarPadding + horizontalPadding + safeArea.right : horizontalBasePadding,
+    );
+    final topRowPadding = safeArea
+        .add(directionalSidePadding.resolve(Directionality.of(context)))
+        .add(EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 12))
+        .add(EdgeInsets.only(top: topBarPadding));
     final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
     final newColorScheme = dominantColor != null
         ? ColorScheme.fromSeed(
@@ -210,30 +222,36 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: EdgeInsets.only(left: sideBarPadding / 1.5, top: topBarPadding / 1.5),
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                minWidth: double.infinity,
-                                minHeight: minHeight - 22,
-                                maxHeight: maxHeight.clamp(minHeight, 2500) - (20 + topBarPadding),
-                              ),
-                              child: FadeEdges(
-                                leftFade: sideBarPadding > 0 ? 0.05 : 0.0,
-                                topFade: topBarPadding > 0 ? 0.1 : 0.0,
-                                bottomFade: 0.2,
-                                child: FadeInImage(
-                                  placeholder: ResizeImage(
-                                    backgroundImage!.imageProvider,
-                                    height: maxHeight ~/ 1.5,
-                                  ),
-                                  placeholderColor: Colors.transparent,
-                                  fit: BoxFit.cover,
-                                  alignment: Alignment.topCenter,
-                                  placeholderFit: BoxFit.cover,
-                                  excludeFromSemantics: true,
-                                  image: ResizeImage(
-                                    backgroundImage!.imageProvider,
-                                    height: maxHeight ~/ 1.5,
+                            padding: EdgeInsetsDirectional.only(
+                              start: sideBarPadding / 1.5,
+                              top: topBarPadding / 1.5,
+                            ),
+                            child: RepaintBoundary(
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minWidth: double.infinity,
+                                  minHeight: minHeight - 22,
+                                  maxHeight: maxHeight.clamp(minHeight, 2500) - (20 + topBarPadding),
+                                ),
+                                child: FadeEdges(
+                                  leftFade: sideBarPadding > 0 && !isRtl ? 0.05 : 0.0,
+                                  rightFade: sideBarPadding > 0 && isRtl ? 0.05 : 0.0,
+                                  topFade: topBarPadding > 0 ? 0.1 : 0.0,
+                                  bottomFade: 0.2,
+                                  child: FadeInImage(
+                                    placeholder: ResizeImage(
+                                      backgroundImage!.imageProvider,
+                                      height: maxHeight ~/ 1.5,
+                                    ),
+                                    placeholderColor: Colors.transparent,
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.topCenter,
+                                    placeholderFit: BoxFit.cover,
+                                    excludeFromSemantics: true,
+                                    image: ResizeImage(
+                                      backgroundImage!.imageProvider,
+                                      height: maxHeight ~/ 1.5,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -277,9 +295,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                           ),
                           child: widget.content(
                             context,
-                            padding.copyWith(
-                              left: sideBarPadding + 25 + MediaQuery.paddingOf(context).left,
-                            ),
+                            contentPadding,
                           ),
                         ),
                       ),
@@ -291,14 +307,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                   IconTheme(
                     data: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
                     child: Padding(
-                      padding: MediaQuery.paddingOf(context)
-                          .copyWith(left: sideBarPadding + MediaQuery.paddingOf(context).left)
-                          .add(
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          )
-                          .add(
-                            EdgeInsets.only(top: topBarPadding),
-                          ),
+                      padding: topRowPadding,
                       child: Row(
                         children: [
                           IconButton.filledTonal(

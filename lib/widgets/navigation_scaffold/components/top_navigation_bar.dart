@@ -84,10 +84,10 @@ class TopNavigationBar extends ConsumerWidget {
             ),
           ),
         ),
-        Positioned(
+        PositionedDirectional(
           top: 0,
-          left: 0,
-          right: 0,
+          start: 0,
+          end: 0,
           height: height,
           child: RepaintBoundary(
             child: IgnorePointer(
@@ -296,6 +296,8 @@ class _TopBarTraversalPolicy extends ReadingOrderTraversalPolicy {
       }
     }
     if (direction == TraversalDirection.left || direction == TraversalDirection.right) {
+      final isRtl = currentNode.context != null ? Directionality.of(currentNode.context!) == TextDirection.rtl : false;
+      final isForward = direction == (isRtl ? TraversalDirection.left : TraversalDirection.right);
       final scope = currentNode.enclosingScope;
       if (scope == null) {
         return false;
@@ -311,10 +313,10 @@ class _TopBarTraversalPolicy extends ReadingOrderTraversalPolicy {
 
       var index = sorted.indexOf(currentNode);
       if (index == -1) {
-        index = direction == TraversalDirection.right ? -1 : sorted.length;
+        index = isForward ? -1 : sorted.length;
       }
 
-      final nextIndex = direction == TraversalDirection.right ? index + 1 : index - 1;
+      final nextIndex = isForward ? index + 1 : index - 1;
 
       if (nextIndex < 0 || nextIndex >= sorted.length) {
         return true;

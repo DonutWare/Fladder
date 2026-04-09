@@ -68,7 +68,7 @@ class LibMDK extends BasePlayer {
   }
 
   @override
-  Future<void> loadVideo(String url, bool play) async {
+  Future<void> loadVideo(String url, bool play, {Duration startPosition = Duration.zero}) async {
     _controller?.dispose();
 
     final validUrl = isValidUrl(url);
@@ -80,6 +80,10 @@ class LibMDK extends BasePlayer {
 
     await _controller?.initialize();
     _controller?.addListener(() => updateState());
+
+    if (startPosition != Duration.zero) {
+      await _controller?.seekTo(startPosition);
+    }
 
     if (play) {
       await _controller?.play();
@@ -160,29 +164,26 @@ class LibMDK extends BasePlayer {
   @override
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
     final wantedSubtitle = model ?? playbackModel.defaultSubStream;
-    if (wantedSubtitle == SubStreamModel.no()) {
+    if (wantedSubtitle == null || wantedSubtitle == SubStreamModel.no()) {
       externalSubEnabled = false;
       _controller?.setSubtitleTracks([-1]);
       return -1;
     }
-    if (wantedSubtitle != null) {
-      if (wantedSubtitle.isExternal && wantedSubtitle.url != null) {
-        externalSubEnabled = true;
-        _controller?.setExternalSubtitle(wantedSubtitle.url!);
-        return wantedSubtitle.index;
-      } else {
-        if (externalSubEnabled) {
-          externalSubEnabled = false;
-          _controller?.setExternalSubtitle("");
-        }
-        final indexOf = playbackModel.subStreams?.indexOf(wantedSubtitle);
-        if (indexOf != null) {
-          _controller?.setSubtitleTracks([indexOf - 1]);
-        }
-        return wantedSubtitle.index;
+    if (wantedSubtitle.isExternal && wantedSubtitle.url != null) {
+      externalSubEnabled = true;
+      _controller?.setExternalSubtitle(wantedSubtitle.url!);
+      return wantedSubtitle.index;
+    } else {
+      if (externalSubEnabled) {
+        externalSubEnabled = false;
+        _controller?.setExternalSubtitle("");
       }
+      final indexOf = playbackModel.subStreams?.indexOf(wantedSubtitle);
+      if (indexOf != null) {
+        _controller?.setSubtitleTracks([indexOf - 1]);
+      }
+      return wantedSubtitle.index;
     }
-    return -1;
   }
 
   @override

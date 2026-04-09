@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -30,7 +31,8 @@ abstract class KeyCombination with _$KeyCombination {
   }
 
   bool containsSameSet(KeyCombination other) {
-    return (key == other.key && modifier == other.modifier) || (altKey == other.key && altModifier == other.modifier);
+    return ((key?.keyId == other.key?.keyId) && modifierMatches(modifier, other.modifier)) ||
+        ((altKey?.keyId == other.key?.keyId) && modifierMatches(altModifier, other.modifier));
   }
 
   @override
@@ -82,11 +84,27 @@ abstract class KeyCombination with _$KeyCombination {
     LogicalKeyboardKey.controlRight,
   };
 
+  static final superKeys = {
+    LogicalKeyboardKey.meta,
+    LogicalKeyboardKey.metaLeft,
+    LogicalKeyboardKey.metaRight,
+    LogicalKeyboardKey.superKey,
+  };
+
   static final modifierKeys = {
     ...shiftKeys,
     ...altKeys,
     ...ctrlKeys,
+    ...superKeys,
   };
+
+  static bool modifierMatches(LogicalKeyboardKey? pressedModifier, LogicalKeyboardKey? configuredModifier) {
+    if (pressedModifier == configuredModifier) return true;
+    if (pressedModifier == null || configuredModifier == null) return false;
+
+    // Keep left/right distinction for Shift/Alt/Ctrl, but normalize macOS Command/Super variants.
+    return superKeys.contains(pressedModifier) && superKeys.contains(configuredModifier);
+  }
 }
 
 class LogicalKeyboardSerializer extends JsonConverter<LogicalKeyboardKey, String> {
@@ -105,7 +123,30 @@ class LogicalKeyboardSerializer extends JsonConverter<LogicalKeyboardKey, String
 
 extension LogicalKeyExtension on LogicalKeyboardKey {
   String get label {
-    return switch (this) { LogicalKeyboardKey.space => "Space", _ => keyLabel };
+    return switch (this) {
+      LogicalKeyboardKey.space => "Space",
+
+      // macOS-style modifier symbols
+      LogicalKeyboardKey.meta ||
+      LogicalKeyboardKey.metaLeft ||
+      LogicalKeyboardKey.metaRight ||
+      LogicalKeyboardKey.superKey =>
+        defaultTargetPlatform == TargetPlatform.macOS ? "⌘" : "Super",
+      LogicalKeyboardKey.alt ||
+      LogicalKeyboardKey.altLeft ||
+      LogicalKeyboardKey.altRight =>
+        defaultTargetPlatform == TargetPlatform.macOS ? "⌥" : "Alt",
+      LogicalKeyboardKey.control ||
+      LogicalKeyboardKey.controlLeft ||
+      LogicalKeyboardKey.controlRight =>
+        defaultTargetPlatform == TargetPlatform.macOS ? "⌃" : "Ctrl",
+      LogicalKeyboardKey.shift || LogicalKeyboardKey.shiftLeft || LogicalKeyboardKey.shiftRight => "Shift ⇧",
+      LogicalKeyboardKey.arrowUp => "↑",
+      LogicalKeyboardKey.arrowDown => "↓",
+      LogicalKeyboardKey.arrowLeft => "←",
+      LogicalKeyboardKey.arrowRight => "→",
+      _ => keyLabel.isNotEmpty ? keyLabel : (debugName ?? ""),
+    };
   }
 }
 

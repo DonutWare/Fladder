@@ -16,6 +16,7 @@ import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/series_model.dart';
+import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/string_extensions.dart';
 
 part 'episode_model.mapper.dart';
@@ -33,9 +34,9 @@ enum EpisodeStatus {
         EpisodeStatus.missing => Colors.redAccent,
       };
 
-  String label(AppLocalizations l10n) => switch (this) {
+  String label(AppLocalizations l10n, DateTime? airDate) => switch (this) {
         EpisodeStatus.available => l10n.episodeAvailable,
-        EpisodeStatus.unaired => l10n.episodeUnaired,
+        EpisodeStatus.unaired => airDate.dateInDays(l10n) ?? l10n.episodeUnaired,
         EpisodeStatus.missing => l10n.episodeMissing,
       };
 }

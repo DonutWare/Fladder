@@ -6,6 +6,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
+import 'package:fladder/models/items/watched_state.dart';
 
 class BookModel extends ItemBaseModel {
   final String? parentName;
@@ -47,7 +48,11 @@ class BookModel extends ItemBaseModel {
   double get progress => userData.progress != 0 ? 100 : 0;
 
   @override
-  String? unplayedLabel(AppLocalizations l10n) => userData.progress != 0 ? l10n.page(currentPage) : null;
+  WatchedState watchedState(AppLocalizations l10n) => userData.played == true
+      ? const Played()
+      : userData.progress != 0
+          ? PartiallyPlayed(l10n.page(currentPage))
+          : const Unplayed();
 
   @override
   String playButtonLabel(AppLocalizations l10n) => progress != 0

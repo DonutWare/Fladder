@@ -88,7 +88,7 @@ class FavouritesScreen extends ConsumerWidget {
                   child: FocusProvider(hasFocus: false, autoFocus: index == 0, child: e),
                 ),
               ),
-              const DefautlSliverBottomPadding(),
+              const DefaultSliverBottomPadding(),
             ],
           ),
         ),
