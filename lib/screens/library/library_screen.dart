@@ -232,7 +232,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                         ),
                       )
                 ],
-                const DefautlSliverBottomPadding(),
+                const DefaultSliverBottomPadding(),
               ],
             ),
           ),

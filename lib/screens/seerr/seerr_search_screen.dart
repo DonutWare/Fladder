@@ -319,7 +319,7 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
                       ),
                     ),
                 ],
-                const DefautlSliverBottomPadding(),
+                const DefaultSliverBottomPadding(),
               ],
             ),
           ),

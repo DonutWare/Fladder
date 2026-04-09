@@ -117,18 +117,15 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     final sideBarPadding = AdaptiveLayout.of(context).sideBarWidth;
     final topBarPadding = AdaptiveLayout.of(context).topBarHeight;
     final directionalSidePadding = EdgeInsetsDirectional.only(start: sideBarPadding);
+    final horizontalPadding = 16.0;
     final contentPadding = EdgeInsets.only(
-      left: isRtl ? horizontalBasePadding : sideBarPadding + 25 + safeArea.left,
-      right: isRtl ? sideBarPadding + 25 + safeArea.right : horizontalBasePadding,
+      left: isRtl ? horizontalBasePadding : sideBarPadding + horizontalPadding + safeArea.left,
+      right: isRtl ? sideBarPadding + horizontalPadding + safeArea.right : horizontalBasePadding,
     );
     final topRowPadding = safeArea
         .add(directionalSidePadding.resolve(Directionality.of(context)))
-        .add(
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        )
-        .add(
-          EdgeInsets.only(top: topBarPadding),
-        );
+        .add(EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 12))
+        .add(EdgeInsets.only(top: topBarPadding));
     final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
     final newColorScheme = dominantColor != null
         ? ColorScheme.fromSeed(

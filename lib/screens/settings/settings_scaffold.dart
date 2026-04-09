@@ -33,7 +33,7 @@ class SettingsScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final padding = MediaQuery.of(context).padding;
+    final padding = MediaQuery.paddingOf(context);
     final singleLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -52,8 +52,8 @@ class SettingsScaffold extends ConsumerWidget {
                         onPressed: () => backAction(context),
                       ),
                       flexibleSpace: FlexibleSpaceBar(
-                        titlePadding: const EdgeInsets.symmetric(horizontal: 16)
-                            .add(EdgeInsets.only(left: padding.left, right: padding.right, bottom: 4)),
+                        titlePadding: EdgeInsets.only(left: padding.left, right: padding.right, bottom: 4)
+                            .add(const EdgeInsets.symmetric(horizontal: 16)),
                         title: Row(
                           children: [
                             Text(label, style: Theme.of(context).textTheme.headlineLarge),
@@ -90,8 +90,7 @@ class SettingsScaffold extends ConsumerWidget {
                       ),
                     ),
                   SliverPadding(
-                    padding:
-                        MediaQuery.paddingOf(context).copyWith(top: 0).add(const EdgeInsets.symmetric(horizontal: 2)),
+                    padding: singleLayout ? padding.copyWith(top: 0, bottom: 0) : EdgeInsets.zero,
                     sliver: SliverList.separated(
                       itemBuilder: (context, index) => items[index],
                       separatorBuilder: (context, index) => SizedBox(height: itemSpacing / 2),
