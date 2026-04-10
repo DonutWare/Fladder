@@ -91,6 +91,12 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+
+            packagingOptions {
+                resources {
+                    excludes += ["assets/dexopt/baseline.prof", "assets/dexopt/baseline.profm"]
+                }
+            }
         }
     }
 

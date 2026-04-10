@@ -171,26 +171,33 @@ jobs:
       - name: Build Android APK (PRs)
         if: needs.fetch-info.outputs.build_type == 'development'
         run: |
-          flutter build apk --debug --build-number=${{github.run_number}} --flavor production
+          flutter build apk --debug --split-per-abi --build-number=${{github.run_number}} --flavor production
 
       - name: Build Android APK and AAB
         if: needs.fetch-info.outputs.build_type != 'development'
         run: |
-          flutter build apk --release --build-number=${{github.run_number}} --flavor production
+          flutter build apk --release --split-per-abi --build-number=${{github.run_number}} --flavor production
           flutter build appbundle --release --build-number=${{github.run_number}} --flavor production
 
       - name: Rename APK for PR
         if: needs.fetch-info.outputs.build_type == 'development'
         run: |
           mkdir -p build/app/outputs/android_artifacts
-          mv build/app/outputs/flutter-apk/app-production-debug.apk "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.apk"
+          # Move split debug APKs
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-production-debug.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-armeabi-v7a.apk || true
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-production-debug.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-arm64-v8a.apk || true
+          cp build/app/outputs/flutter-apk/app-x86_64-production-debug.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-x86_64.apk || true
 
       - name: Rename APK and AAB
         if: needs.fetch-info.outputs.build_type != 'development'
         run: |
           mkdir -p build/app/outputs/android_artifacts
-          mv build/app/outputs/flutter-apk/app-production-release.apk "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.apk"
-          mv build/app/outputs/bundle/productionRelease/app-production-release.aab "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.aab"
+          # Move split APKs
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-production-release.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-armeabi-v7a.apk || true
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-production-release.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-arm64-v8a.apk || true
+          cp build/app/outputs/flutter-apk/app-x86_64-production-release.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-x86_64.apk || true
+          # Move AAB
+          mv build/app/outputs/bundle/productionRelease/app-production-release.aab build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.aab
 
       - name: Archive Android artifacts
         uses: actions/upload-artifact@v4.0.0
@@ -626,7 +633,9 @@ jobs:
 
       - name: Move Android
         run: |
-          mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}.apk Fladder-Android-${{ steps.version.outputs.version }}.apk
+          mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}-armeabi-v7a.apk Fladder-Android-${{ steps.version.outputs.version }}-armeabi-v7a.apk || true
+          mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}-arm64-v8a.apk Fladder-Android-${{ steps.version.outputs.version }}-arm64-v8a.apk || true
+          mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}-x86_64.apk Fladder-Android-${{ steps.version.outputs.version }}-x86_64.apk || true
           mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}.aab Fladder-Android-${{ steps.version.outputs.version }}.aab
 
       - name: Download Windows portable artifact
@@ -722,7 +731,9 @@ jobs:
           generate_release_notes: ${{ needs.fetch-info.outputs.build_type == 'release' }}
           fail_on_unmatched_files: true
           files: |
-            Fladder-Android-${{ steps.version.outputs.version }}.apk
+            Fladder-Android-${{ steps.version.outputs.version }}-arm64-v8a.apk
+            Fladder-Android-${{ steps.version.outputs.version }}-armeabi-v7a.apk
+            Fladder-Android-${{ steps.version.outputs.version }}-x86_64.apk
             Fladder-Android-${{ steps.version.outputs.version }}.aab
             Fladder-Windows-${{ steps.version.outputs.version }}-Setup.exe
             Fladder-Windows-${{ steps.version.outputs.version }}.zip
