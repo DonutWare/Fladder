@@ -39,11 +39,15 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
   Widget build(BuildContext context) {
     if (ref.watch(argumentsStateProvider.select((value) => value.htpcMode))) return const SizedBox.shrink();
     final theme = Theme.of(context);
+    final platform = AdaptiveLayout.of(context).platform;
     final brightness = widget.brightness ?? theme.brightness;
     final iconColor = theme.colorScheme.onSurface.withValues(alpha: 0.65);
     final isOffline = ref.watch(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
     final surfaceColor = theme.colorScheme.surface;
-
+    final titleBarHeight = switch (platform) {
+      TargetPlatform.android || TargetPlatform.iOS => MediaQuery.paddingOf(context).top,
+      _ => widget.height ?? defaultTitleBarHeight,
+    };
     return ExcludeFocus(
       child: MouseRegion(
         onEnter: (event) => setState(() => hovering = true),
@@ -64,13 +68,13 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           )),
-          height: widget.height,
+          height: titleBarHeight,
           child: kIsWeb
               ? const SizedBox.shrink()
               : Stack(
                   fit: StackFit.expand,
                   children: [
-                    switch (AdaptiveLayout.of(context).platform) {
+                    switch (platform) {
                       TargetPlatform.android ||
                       TargetPlatform.iOS =>
                         SizedBox(height: MediaQuery.paddingOf(context).top),

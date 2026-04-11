@@ -119,7 +119,7 @@ class ItemBaseModel with ItemBaseModelMappable {
 
   bool get watched => userData.played;
 
-  WatchedState watchedState(AppLocalizations l10n) => const Played();
+  WatchedState watchedState(AppLocalizations l10n) => userData.played ? const Played() : const Unplayed();
 
   String? detailedName(AppLocalizations l10n) =>
       "$name${overview.yearAired != null || overview.productionYear != null ? " (${overview.yearAired ?? overview.productionYear})" : ""}";

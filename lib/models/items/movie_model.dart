@@ -15,7 +15,6 @@ import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/special_feature_model.dart';
-import 'package:fladder/models/items/watched_state.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/screens/details_screens/movie_detail_screen.dart';
 import 'package:fladder/util/humanize_duration.dart';
@@ -85,9 +84,6 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
 
   @override
   MediaStreamsModel? get streamModel => mediaStreams;
-
-  @override
-  WatchedState watchedState(AppLocalizations l10n) => userData.played ? const Played() : const Unplayed();
 
   @override
   String? label(AppLocalizations l10n) {

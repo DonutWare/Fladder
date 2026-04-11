@@ -123,7 +123,12 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
               child: Builder(builder: (context) {
                 return Scaffold(
                   key: _key,
-                  appBar: fullScreenChildRoute ? null : FladderAppBar(label: currentIndex == -1 ? "" : null),
+                  appBar: fullScreenChildRoute
+                      ? null
+                      : FladderAppBar(
+                          isDesktop: isDesktop,
+                          label: currentIndex == -1 ? "" : null,
+                        ),
                   extendBodyBehindAppBar: true,
                   resizeToAvoidBottomInset: false,
                   extendBody: true,

@@ -155,8 +155,8 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     );
     final topRowPadding = safeArea
         .add(directionalSidePadding.resolve(Directionality.of(context)))
-        .add(EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 12))
-        .add(EdgeInsets.only(top: topBarPadding));
+        .add(EdgeInsets.only(top: topBarPadding))
+        .add(EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 12));
     final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
     final newColorScheme = dominantColor != null
         ? ColorScheme.fromSeed(
