@@ -60,6 +60,7 @@ class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
     final expandedSideBar = ref.watch(clientSettingsProvider.select((value) => value.expandSideBar));
 
     final expandedWidth = 200.0;
+
     final padding = MediaQuery.paddingOf(context);
     final directionalPadding = EdgeInsetsDirectional.fromSTEB(
       padding.left,
@@ -70,24 +71,24 @@ class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
     final startInset = directionalPadding.resolve(textDirection).left;
     final tooltipPosition = isRtl ? TooltipPosition.left : TooltipPosition.right;
 
-    final collapsedWidth = 90 + startInset;
     final largeBar = AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
     final fullyExpanded = largeBar ? expandedSideBar : false;
     final shouldExpand = fullyExpanded;
     final isDesktop = AdaptiveLayout.of(context).isDesktop;
+
     final railPadding = directionalPadding
         .copyWith(
+          start: startInset,
           end: 0,
           top: isDesktop ? directionalPadding.top : null,
         )
         .resolve(textDirection);
+    final collapsedWidth = 90.0 + startInset;
 
     final fullScreenChildRoute = fullScreenRoutes.contains(context.router.current.name);
 
     final hasOverlay = AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual ||
         homeRoutes.any((element) => element.name.contains(context.router.current.name));
-
-    final sideBarPadding = isDesktop ? 6.0 : 0.0;
 
     final useBlurredBackground = ref.watch(clientSettingsProvider.select(
           (value) => value.backgroundImage == BackgroundType.blurred && value.enableBlurEffects,
@@ -103,7 +104,7 @@ class _SideNavigationRail extends ConsumerState<SideNavigationRail> {
         AdaptiveLayout(
           data: AdaptiveLayout.of(context).copyWith(
             // -0.1 offset to fix single visible pixel line
-            sideBarWidth: (fullyExpanded ? expandedWidth : collapsedWidth) + sideBarPadding,
+            sideBarWidth: (fullyExpanded ? expandedWidth : collapsedWidth) - 0.1,
           ),
           child: widget.child,
         ),

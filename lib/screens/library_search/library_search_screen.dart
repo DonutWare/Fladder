@@ -152,12 +152,6 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
     ));
 
     final sideBarPadding = EdgeInsetsDirectional.only(start: adaptiveLayout.sideBarWidth);
-    final horizontalSafeArea = EdgeInsetsDirectional.fromSTEB(
-      mediaQuery.padding.left,
-      0,
-      mediaQuery.padding.right,
-      0,
-    );
 
     return MediaQuery(
       data: mediaQuery.copyWith(
@@ -539,7 +533,12 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                         ),
                       if (postersList.isNotEmpty)
                         SliverPadding(
-                          padding: sideBarPadding.add(horizontalSafeArea),
+                          padding: EdgeInsets.only(
+                            left: mediaQuery.padding.left,
+                            right: mediaQuery.padding.right,
+                          ).add(
+                            EdgeInsetsDirectional.only(start: adaptiveLayout.sideBarWidth),
+                          ),
                           sliver: LibraryViews(
                             key: uniqueKey,
                             items: postersList,

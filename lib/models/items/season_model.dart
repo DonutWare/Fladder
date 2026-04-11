@@ -15,6 +15,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/special_feature_model.dart';
+import 'package:fladder/models/items/watched_state.dart';
 
 part 'season_model.mapper.dart';
 
@@ -86,7 +87,11 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
   String localizedName(AppLocalizations l10n) => name.replaceFirst("Season", l10n.season(1));
 
   @override
-  String? unplayedLabel(AppLocalizations l10n) => userData.played ? null : userData.unPlayedItemCount?.toString();
+  WatchedState watchedState(AppLocalizations l10n) => userData.played
+      ? const Played()
+      : userData.unPlayedItemCount != null
+          ? PartiallyPlayed(userData.unPlayedItemCount!.toString())
+          : const Unplayed();
 
   @override
   SeriesModel get parentBaseModel => SeriesModel(

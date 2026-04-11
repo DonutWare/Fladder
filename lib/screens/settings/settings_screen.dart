@@ -50,7 +50,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ? Card(
                   elevation: 0,
                   child: Stack(
-                    children: [_leftPane(context), content],
+                    children: [
+                      _leftPane(context),
+                      content,
+                    ],
                   ),
                 )
               : Row(
@@ -60,7 +63,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     Expanded(flex: 2, child: _leftPane(context)),
                     Expanded(
                       flex: 3,
-                      child: content,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: MediaQuery.paddingOf(context).left,
+                        ),
+                        child: content,
+                      ),
                     ),
                   ],
                 ),

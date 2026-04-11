@@ -164,8 +164,9 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
           onExit: (event) => setState(() => _showOverlay(show: false)),
           child: Scaffold(
             appBar: photos.isEmpty
-                ? const FladderAppBar(
+                ? FladderAppBar(
                     automaticallyImplyLeading: true,
+                    isDesktop: AdaptiveLayout.of(context).isDesktop,
                   )
                 : null,
             body: photos.isEmpty

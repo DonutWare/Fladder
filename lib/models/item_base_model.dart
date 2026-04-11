@@ -22,6 +22,7 @@ import 'package:fladder/models/items/person_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
+import 'package:fladder/models/items/watched_state.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/playlist_model.dart';
 import 'package:fladder/providers/api_provider.dart';
@@ -116,7 +117,7 @@ class ItemBaseModel with ItemBaseModelMappable {
 
   bool get watched => userData.played;
 
-  String? unplayedLabel(AppLocalizations l10n) => null;
+  WatchedState watchedState(AppLocalizations l10n) => userData.played ? const Played() : const Unplayed();
 
   String? detailedName(AppLocalizations l10n) =>
       "$name${overview.yearAired != null || overview.productionYear != null ? " (${overview.yearAired ?? overview.productionYear})" : ""}";
