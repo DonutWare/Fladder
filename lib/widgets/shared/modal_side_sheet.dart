@@ -23,8 +23,9 @@ Future<void> showModalSideSheet(
     barrierLabel: 'Material 3 side sheet',
     useRootNavigator: false,
     transitionBuilder: (context, animation, secondaryAnimation, child) {
+      final isRtl = Directionality.of(context) == TextDirection.rtl;
       return SlideTransition(
-        position: Tween(begin: const Offset(1, 0), end: const Offset(0, 0)).animate(
+        position: Tween(begin: Offset(isRtl ? -1 : 1, 0), end: const Offset(0, 0)).animate(
           animation,
         ),
         child: child,
@@ -32,7 +33,7 @@ Future<void> showModalSideSheet(
     },
     pageBuilder: (context, animation1, animation2) {
       return Align(
-        alignment: Alignment.centerRight,
+        alignment: AlignmentDirectional.centerEnd,
         child: Padding(
           padding: const EdgeInsets.all(16.0).copyWith(
             top: MediaQuery.paddingOf(context).top + AdaptiveLayout.of(context).topBarHeight,
@@ -76,20 +77,23 @@ class Sheet extends StatelessWidget {
     final size = mediaQuery.size;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final padding = mediaQuery.padding.copyWith(left: 0, top: 0);
+    final directionalPadding = EdgeInsetsDirectional.fromSTEB(
+      mediaQuery.padding.left,
+      mediaQuery.padding.top,
+      mediaQuery.padding.right,
+      mediaQuery.padding.bottom,
+    );
+    final resolvedPadding = directionalPadding.copyWith(start: 0, top: 0).resolve(Directionality.of(context));
 
     return MediaQuery(
-      data: mediaQuery.copyWith(
-          padding: mediaQuery.padding.copyWith(
-        left: 0,
-      )),
+      data: mediaQuery.copyWith(padding: resolvedPadding),
       child: Material(
         elevation: 1,
         color: colorScheme.surface,
         surfaceTintColor: colorScheme.onSurface,
         borderRadius: FladderTheme.largeShape.borderRadius,
         child: Padding(
-          padding: padding,
+          padding: resolvedPadding,
           child: Container(
             constraints: BoxConstraints(
               minWidth: 256,
@@ -114,7 +118,7 @@ class Sheet extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 16, 16, 16),
+      padding: const EdgeInsetsDirectional.fromSTEB(24, 16, 16, 16),
       child: Row(
         children: [
           Visibility(
@@ -154,7 +158,7 @@ class Sheet extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 16, 24, 24),
+          padding: const EdgeInsetsDirectional.fromSTEB(24, 16, 24, 24),
           child: Row(
             children: actions ?? [],
           ),

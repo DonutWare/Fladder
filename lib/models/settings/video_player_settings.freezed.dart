@@ -36,6 +36,8 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   bool get enableDoubleTapSeek;
   bool get enableAdvancedVideoOptions;
   DVPlayerChoice get dvPlayerChoice;
+  bool get enableEdgeGestures;
+  bool get reverseEdgeGestures;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -72,14 +74,15 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('enableSpeedBoost', enableSpeedBoost))
       ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
-      ..add(DiagnosticsProperty(
-          'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
-      ..add(DiagnosticsProperty('dvPlayerChoice', dvPlayerChoice));
+      ..add(DiagnosticsProperty('enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty('dvPlayerChoice', dvPlayerChoice))
+      ..add(DiagnosticsProperty('enableEdgeGestures', enableEdgeGestures))
+      ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, dvPlayerChoice: $dvPlayerChoice)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, dvPlayerChoice: $dvPlayerChoice, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures)';
   }
 }
 
@@ -111,7 +114,9 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       double speedBoostRate,
       bool enableDoubleTapSeek,
       bool enableAdvancedVideoOptions,
-      DVPlayerChoice dvPlayerChoice});
+      DVPlayerChoice dvPlayerChoice,
+      bool enableEdgeGestures,
+      bool reverseEdgeGestures});
 }
 
 /// @nodoc
@@ -149,6 +154,8 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? enableDoubleTapSeek = null,
     Object? enableAdvancedVideoOptions = null,
     Object? dvPlayerChoice = null,
+    Object? enableEdgeGestures = null,
+    Object? reverseEdgeGestures = null,
   }) {
     return _then(_self.copyWith(
       screenBrightness: freezed == screenBrightness
@@ -239,24 +246,20 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
           ? _self.dvPlayerChoice
           : dvPlayerChoice // ignore: cast_nullable_to_non_nullable
               as DVPlayerChoice,
+      enableEdgeGestures: null == enableEdgeGestures
+          ? _self.enableEdgeGestures
+          : enableEdgeGestures // ignore: cast_nullable_to_non_nullable
+              as bool,
+      reverseEdgeGestures: null == reverseEdgeGestures
+          ? _self.reverseEdgeGestures
+          : reverseEdgeGestures // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// Adds pattern-matching-related methods to [VideoPlayerSettingsModel].
 extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_VideoPlayerSettingsModel value)? $default, {
@@ -271,19 +274,6 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
     }
   }
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
     TResult Function(_VideoPlayerSettingsModel value) $default,
@@ -297,18 +287,6 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
     }
   }
 
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
     TResult? Function(_VideoPlayerSettingsModel value)? $default,
@@ -321,18 +299,6 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
         return null;
     }
   }
-
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
@@ -358,7 +324,9 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             double speedBoostRate,
             bool enableDoubleTapSeek,
             bool enableAdvancedVideoOptions,
-            DVPlayerChoice dvPlayerChoice)?
+            DVPlayerChoice dvPlayerChoice,
+            bool enableEdgeGestures,
+            bool reverseEdgeGestures)?
         $default, {
     required TResult orElse(),
   }) {
@@ -387,24 +355,13 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
             _that.enableAdvancedVideoOptions,
-            _that.dvPlayerChoice);
+            _that.dvPlayerChoice,
+            _that.enableEdgeGestures,
+            _that.reverseEdgeGestures);
       case _:
         return orElse();
     }
   }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
@@ -430,7 +387,9 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             double speedBoostRate,
             bool enableDoubleTapSeek,
             bool enableAdvancedVideoOptions,
-            DVPlayerChoice dvPlayerChoice)
+            DVPlayerChoice dvPlayerChoice,
+            bool enableEdgeGestures,
+            bool reverseEdgeGestures)
         $default,
   ) {
     final _that = this;
@@ -458,23 +417,13 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
             _that.enableAdvancedVideoOptions,
-            _that.dvPlayerChoice);
+            _that.dvPlayerChoice,
+            _that.enableEdgeGestures,
+            _that.reverseEdgeGestures);
       case _:
         throw StateError('Unexpected subclass');
     }
   }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
@@ -500,7 +449,9 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             double speedBoostRate,
             bool enableDoubleTapSeek,
             bool enableAdvancedVideoOptions,
-            DVPlayerChoice dvPlayerChoice)?
+            DVPlayerChoice dvPlayerChoice,
+            bool enableEdgeGestures,
+            bool reverseEdgeGestures)?
         $default,
   ) {
     final _that = this;
@@ -528,7 +479,9 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
             _that.enableAdvancedVideoOptions,
-            _that.dvPlayerChoice);
+            _that.dvPlayerChoice,
+            _that.enableEdgeGestures,
+            _that.reverseEdgeGestures);
       case _:
         return null;
     }
@@ -544,7 +497,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.videoFit = BoxFit.contain,
       this.fillScreen = false,
       this.hardwareAccel = true,
-      this.useLibass = false,
+      this.useLibass = true,
       this.enableTunneling = false,
       this.bufferSize = 32,
       this.playerOptions,
@@ -562,11 +515,14 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.speedBoostRate = 2.0,
       this.enableDoubleTapSeek = true,
       this.enableAdvancedVideoOptions = false,
-      this.dvPlayerChoice = DVPlayerChoice.ask})
+      this.dvPlayerChoice = DVPlayerChoice.ask,
+      this.enableEdgeGestures = true,
+      this.reverseEdgeGestures = false})
       : _allowedOrientations = allowedOrientations,
         _segmentSkipSettings = segmentSkipSettings,
         _hotKeys = hotKeys,
         super._();
+
   factory _VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) =>
       _$VideoPlayerSettingsModelFromJson(json);
 
@@ -654,6 +610,12 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
   @override
   @JsonKey()
   final DVPlayerChoice dvPlayerChoice;
+  @override
+  @JsonKey()
+  final bool enableEdgeGestures;
+  @override
+  @JsonKey()
+  final bool reverseEdgeGestures;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -695,14 +657,15 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('enableSpeedBoost', enableSpeedBoost))
       ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
-      ..add(DiagnosticsProperty(
-          'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
-      ..add(DiagnosticsProperty('dvPlayerChoice', dvPlayerChoice));
+      ..add(DiagnosticsProperty('enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty('dvPlayerChoice', dvPlayerChoice))
+      ..add(DiagnosticsProperty('enableEdgeGestures', enableEdgeGestures))
+      ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, dvPlayerChoice: $dvPlayerChoice)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, dvPlayerChoice: $dvPlayerChoice, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures)';
   }
 }
 
@@ -736,7 +699,9 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
       double speedBoostRate,
       bool enableDoubleTapSeek,
       bool enableAdvancedVideoOptions,
-      DVPlayerChoice dvPlayerChoice});
+      DVPlayerChoice dvPlayerChoice,
+      bool enableEdgeGestures,
+      bool reverseEdgeGestures});
 }
 
 /// @nodoc
@@ -774,6 +739,8 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? enableDoubleTapSeek = null,
     Object? enableAdvancedVideoOptions = null,
     Object? dvPlayerChoice = null,
+    Object? enableEdgeGestures = null,
+    Object? reverseEdgeGestures = null,
   }) {
     return _then(_VideoPlayerSettingsModel(
       screenBrightness: freezed == screenBrightness
@@ -864,6 +831,14 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
           ? _self.dvPlayerChoice
           : dvPlayerChoice // ignore: cast_nullable_to_non_nullable
               as DVPlayerChoice,
+      enableEdgeGestures: null == enableEdgeGestures
+          ? _self.enableEdgeGestures
+          : enableEdgeGestures // ignore: cast_nullable_to_non_nullable
+              as bool,
+      reverseEdgeGestures: null == reverseEdgeGestures
+          ? _self.reverseEdgeGestures
+          : reverseEdgeGestures // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }

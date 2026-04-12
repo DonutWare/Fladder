@@ -19,6 +19,7 @@ import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/shared/animated_visibility.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
@@ -111,7 +112,7 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
               if (hasFocus) {
                 await Future.delayed(animationDelay);
                 context.ensureVisible(
-                  alignment: 0.45,
+                  alignment: 0.5,
                 );
               }
               setState(() => _hasFocus = hasFocus);
@@ -213,54 +214,54 @@ class _TVPosterItem extends ConsumerWidget {
           clipBehavior: Clip.hardEdge,
           child: Stack(
             children: [
-              AnimatedSwitcher(
-                duration: _kAnimationDuration,
-                transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
-                child: focused
-                    ? FladderImage(
-                        key: ValueKey(poster.tvPosterLarge?.key ?? "${poster.id}_large"),
-                        image: poster.tvPosterLarge,
-                        placeHolder: const _TVPosterPlaceholder(),
-                      )
-                    : FladderImage(
-                        key: ValueKey(poster.tvPosterSmall?.key ?? "${poster.id}_small"),
-                        image: poster.tvPosterSmall,
-                        placeHolder: const _TVPosterPlaceholder(),
-                      ),
+              FladderImage(
+                key: ValueKey(poster.tvPosterLarge?.key ?? "${poster.id}_large"),
+                image: poster.tvPosterLarge,
+                placeHolder: const _TVPosterPlaceholder(),
               ),
-              if (focused) ...[
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomLeft,
-                        end: Alignment.topRight,
-                        colors: [
-                          overlayColor.withAlpha(200),
-                          overlayColor.withAlpha(25),
-                          overlayColor.withAlpha(0),
-                        ],
-                      ),
+              AnimatedOpacity(
+                duration: _kAnimationDuration,
+                opacity: focused ? 0 : 1,
+                child: FladderImage(
+                  key: ValueKey(poster.tvPosterSmall?.key ?? "${poster.id}_small"),
+                  image: poster.tvPosterSmall,
+                  placeHolder: const _TVPosterPlaceholder(),
+                ),
+              ),
+              AnimatedVisibility(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        overlayColor.withAlpha(200),
+                        overlayColor.withAlpha(25),
+                        overlayColor.withAlpha(0),
+                      ],
                     ),
-                    alignment: Alignment.bottomLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: FractionallySizedBox(
-                        widthFactor: 0.6,
-                        child: FittedBox(
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            child: MediaHeader(
-                              name: poster.name,
-                              alignment: Alignment.bottomLeft,
-                              logo: poster.tvPosterLogo,
-                            ),
+                  ),
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: FractionallySizedBox(
+                      widthFactor: 0.6,
+                      child: FittedBox(
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          child: MediaHeader(
+                            name: poster.name,
+                            alignment: Alignment.bottomLeft,
+                            logo: poster.tvPosterLogo,
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
+                visible: focused,
+              ),
+              if (focused) ...[
                 BottomOverlaysContainer(
                   showFavourite: false,
                   showProgress: true,
@@ -268,6 +269,11 @@ class _TVPosterItem extends ConsumerWidget {
                   progressHeight: 8.5,
                   itemType: poster.type,
                   progressPadding: const EdgeInsets.all(6),
+                ),
+              ] else ...[
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: UnplayedWatchedOverlay(poster: poster),
                 ),
               ],
               VideoDurationOverlay(
@@ -323,6 +329,7 @@ class _TVBottomInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final opacity = 0.65;
+
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 1500),
       child: Column(
@@ -392,7 +399,7 @@ class _TVBottomInfo extends StatelessWidget {
                     productionYear: episode.overview.productionYear?.toString(),
                     communityRating: episode.overview.communityRating,
                     runTime: episode.overview.runTime,
-                    watched: episode.userData.played == true ? true : null,
+                    playLabel: poster.watchedState(context.localized),
                   ),
                 ],
               ),
@@ -404,13 +411,24 @@ class _TVBottomInfo extends StatelessWidget {
               ),
             ],
           _ => [
-              MetadataLabels(
-                favourite: poster.userData.isFavourite ? true : null,
-                officialRating: poster.overview.parentalRating,
-                productionYear: poster.overview.productionYear?.toString(),
-                communityRating: poster.overview.communityRating,
-                runTime: poster.overview.runTime,
-                watched: poster.userData.played == true ? true : null,
+              Row(
+                spacing: 12,
+                children: [
+                  Text(
+                    poster.detailedName(context.localized) ?? "",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  MetadataLabels(
+                    favourite: poster.userData.isFavourite ? true : null,
+                    officialRating: poster.overview.parentalRating,
+                    productionYear: poster.overview.productionYear?.toString(),
+                    communityRating: poster.overview.communityRating,
+                    runTime: poster.overview.runTime,
+                    playLabel: poster.watchedState(context.localized),
+                  ),
+                ],
               ),
               Text(
                 poster.overview.summary,

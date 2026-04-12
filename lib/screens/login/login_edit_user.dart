@@ -8,6 +8,7 @@ import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/util/list_padding.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 class LoginEditUser extends ConsumerWidget {
   final AccountModel user;
@@ -65,8 +66,8 @@ class LoginEditUser extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(DateFormat.yMMMEd().format(user.lastUsed)),
-                  Text(DateFormat.Hms().format(user.lastUsed)),
+                  Text(DateFormat.yMMMEd(context.localized.localeName).format(user.lastUsed)),
+                  Text(DateFormat.Hms(context.localized.localeName).format(user.lastUsed)),
                 ],
               ),
             ],

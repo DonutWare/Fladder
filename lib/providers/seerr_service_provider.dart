@@ -166,6 +166,37 @@ class SeerrService {
     );
   }
 
+  SeerrDashboardPosterModel? posterFromPersonCredit(SeerrPersonCredit credit) {
+    final type = credit.mediaType ?? (credit.firstAirDate != null ? SeerrMediaType.tvshow : SeerrMediaType.movie);
+    final tmdbId = credit.id ?? credit.mediaInfo?.tmdbId;
+    if (tmdbId == null) return null;
+
+    final title =
+        type == SeerrMediaType.tvshow ? (credit.name ?? credit.title ?? '') : (credit.title ?? credit.name ?? '');
+    if (title.isEmpty) return null;
+
+    String? releaseYear;
+    final dateString = type == SeerrMediaType.tvshow ? credit.firstAirDate : credit.releaseDate;
+    if (dateString != null && dateString.isNotEmpty) {
+      releaseYear = dateString.split('-').first;
+    }
+
+    return _posterFromDetails(
+      type: type,
+      tmdbId: tmdbId,
+      jellyfinItemId: credit.mediaInfo?.primaryJellyfinMediaId,
+      title: title,
+      overview: credit.overview ?? '',
+      posterUrl: resolveImageUrl(path: credit.internalPosterPath),
+      backdropUrl: resolveImageUrl(
+        path: credit.internalBackdropPath,
+      ),
+      mediaStatus: credit.mediaInfo?.mediaStatus,
+      mediaInfo: credit.mediaInfo,
+      releaseYear: releaseYear,
+    );
+  }
+
   Map<int, SeerrMediaStatus> _seasonStatusMap(List<SeerrMediaInfoSeason>? seasons) {
     if (seasons == null) return const {};
     return {
@@ -273,6 +304,13 @@ class SeerrService {
     String? language,
   }) {
     return _api.getSeasonDetails(tvId, seasonNumber, language: language);
+  }
+
+  Future<Response<SeerrCombinedCreditsResponse>> personCombinedCredits({
+    required int personId,
+    String? language,
+  }) {
+    return _api.getPersonCombinedCredits(personId, language: language);
   }
 
   Future<Response<SeerrRequestsResponse>> listRequests({

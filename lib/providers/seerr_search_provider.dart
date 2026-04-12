@@ -67,10 +67,6 @@ class SeerrSearch extends _$SeerrSearch {
         certifications: currentFilters.$3,
       ),
     );
-
-    if (mode != SeerrSearchMode.search || state.query.isNotEmpty) {
-      submit();
-    }
   }
 
   void setQuery(String value) {
@@ -277,14 +273,29 @@ class SeerrSearch extends _$SeerrSearch {
   }
 
   Future<void> setYearRange({int? minYear, int? maxYear}) async {
-    state = state.copyWith(
-      filters: state.filters.copyWith(yearGte: minYear, yearLte: maxYear),
-    );
-
+    _setYearRange(minYear: minYear, maxYear: maxYear);
     await submit();
   }
 
+  void setYearRangeWithoutSubmit({int? minYear, int? maxYear}) {
+    _setYearRange(minYear: minYear, maxYear: maxYear);
+  }
+
+  void _setYearRange({int? minYear, int? maxYear}) {
+    state = state.copyWith(
+      filters: state.filters.copyWith(yearGte: minYear, yearLte: maxYear),
+    );
+  }
+
   Future<void> setWatchRegion(String? watchRegion) async {
+    await _setWatchRegionInternal(watchRegion, withSubmit: true);
+  }
+
+  Future<void> setWatchRegionWithoutSubmit(String? watchRegion) async {
+    await _setWatchRegionInternal(watchRegion, withSubmit: false);
+  }
+
+  Future<void> _setWatchRegionInternal(String? watchRegion, {required bool withSubmit}) async {
     final targetRegion = watchRegion ?? 'US';
     if (state.filters.watchRegion == targetRegion) return;
 
@@ -333,7 +344,11 @@ class SeerrSearch extends _$SeerrSearch {
         );
       }
 
-      await submit();
+      if (withSubmit) {
+        await submit();
+      } else {
+        state = state.copyWith(isLoading: false);
+      }
     } catch (error) {
       state = state.copyWith(isLoading: false);
     }
@@ -435,6 +450,8 @@ class SeerrSearch extends _$SeerrSearch {
 
 @Freezed(copyWith: true)
 abstract class SeerrSearchModel with _$SeerrSearchModel {
+  const SeerrSearchModel._();
+
   factory SeerrSearchModel({
     @Default("") String query,
     @Default([]) List<SeerrDashboardPosterModel> results,
@@ -450,4 +467,18 @@ abstract class SeerrSearchModel with _$SeerrSearchModel {
     @Default({}) Map<SeerrCertification, bool> certifications,
     int? totalPages,
   }) = _SeerrSearchModel;
+
+  bool get canLoadMore => !isLoading && !isLoadingMore && totalPages != null && currentPage < totalPages!;
+
+  bool get hasFilters =>
+      filters.genres.values.any((v) => v) ||
+      filters.watchProviders.values.any((v) => v) ||
+      filters.certifications.values.any((v) => v) ||
+      filters.yearGte != null ||
+      filters.yearLte != null ||
+      filters.voteAverageGte != null ||
+      filters.voteAverageLte != null ||
+      filters.runtimeGte != null ||
+      filters.runtimeLte != null ||
+      filters.studio != null;
 }

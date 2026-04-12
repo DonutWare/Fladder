@@ -141,6 +141,8 @@
   },
   "controls": "Controls",
   "@controls": {},
+  "gestures": "Gestures",
+  "@gestures": {},
   "dashboard": "Dashboard",
   "@dashboard": {},
   "dashboardContinue": "Continue",
@@ -942,6 +944,8 @@
   "@settingsProfileTitle": {},
   "settingsProfileSubtitleLanguage": "Preferred subtitle language",
   "@settingsProfileSubtitleLanguage": {},
+  "anyLanguage": "Any language",
+  "@anyLanguage": {},
   "settingsProfileSubtitleMode": "Subtitle mode",
   "@settingsProfileSubtitleMode": {},
   "subtitlePlaybackModeDefault": "Default",
@@ -1264,6 +1268,10 @@
   "subtitleConfiguration": "Subtitle configuration",
   "off": "Off",
   "screenBrightness": "Screen brightness",
+  "enableEdgeGesturesTitle": "Enable edge gestures",
+  "enableEdgeGesturesDesc": "Control brightness and volume by sliding up and down on the edges of the screen",
+  "reverseEdgeGesturesTitle": "Swap edge gestures",
+  "reverseEdgeGesturesDesc": "Swap the side for brightness and volume control",
   "scale": "Scale",
   "playBackSettings": "Playback Settings",
   "settingsAutoNextTitle": "Next-up preview",
@@ -1519,6 +1527,14 @@
   "@volumeIndicator": {
     "placeholders": {
       "volume": {
+        "type": "int"
+      }
+    }
+  },
+  "brightnessIndicator": "Brightness: {brightness}",
+  "@brightnessIndicator": {
+    "placeholders": {
+      "brightness": {
         "type": "int"
       }
     }
@@ -2271,6 +2287,7 @@
   },
   "processing": "Processing",
   "seerrDetails": "Seerr details",
+  "viewTrailer": "View trailer",
   "watch": "Watch",
   "watchChannel": "Watch {channel}",
   "@watchChannel": {
@@ -2570,17 +2587,46 @@
   "@groupedFoldersDescription": {},
   "downloadTranscoded": "Download transcoded",
   "downloadOriginal": "Download original",
-  "today": "Today",
-  "dvPlayerSelectionTitle": "Dolby Vision Player",
-  "dvPlayerSelectionDesc": "Choose how to play Dolby Vision on Windows. Energy Player is required for native vision and high-quality audio passthrough (Atmos, 5.1).",
-  "dvPlayerAsk": "Always ask",
-  "dvPlayerDisabled": "Disabled (Internal player)",
-  "dvPlayerEnergyPlayer": "Energy Player (External)",
-  "dvPlayerDialogTitle": "Play with...",
-  "dvPlayerDialogDesc": "This content is in native Dolby Vision. Use Energy Player for accurate HDR colors and advanced audio support (Atmos/5.1 passthrough). Internal playback may have dull colors or limited audio codec support.",
-  "dvRememberChoice": "Remember my choice",
-  "dvPlayerNotInstalled": "Energy Player is not installed. Would you like to download it from the Microsoft Store?",
-  "dvPlayerGetFromStore": "Get from Store",
-  "dvEnableInstruction": "Configuration for native Dolby Vision and Audio:\n• Enable 'Allow Dolby Vision decoding' in Energy Player 'Video/Audio settings'.\n• Enable relevant 'Passthrough' options for Atmos/5.1 support.\n• Ensure HDR is enabled in Windows Display settings.",
-  "dvSyncWarning": "Note: Playback state is saved within Energy Player only and will not sync back to Fladder."
+    "personBirthday": "Birthday: {date}",
+    "@personBirthday": {
+      "description": "Birthday label with formatted date",
+      "placeholders": {
+        "date": {
+          "type": "String"
+        }
+      }
+    },
+    "personAge": "Age: {age}",
+    "@personAge": {
+      "description": "Age label with age number",
+      "placeholders": {
+        "age": {
+          "type": "int",
+          "example": "30"
+        }
+      }
+    },
+    "personBirthPlace": "Born in {place}",
+    "@personBirthPlace": {
+      "placeholders": {
+        "place": {
+          "type": "String"
+        }
+      }
+    },
+    "seerrMovies": "Discover Movies",
+    "seerrSeries": "Discover Series",
+    "today": "Today",
+    "dvPlayerSelectionTitle": "Dolby Vision Player",
+    "dvPlayerSelectionDesc": "Choose how to play Dolby Vision on Windows. Energy Player is required for native vision and high-quality audio passthrough (Atmos, 5.1).",
+    "dvPlayerAsk": "Always ask",
+    "dvPlayerDisabled": "Disabled (Internal player)",
+    "dvPlayerEnergyPlayer": "Energy Player (External)",
+    "dvPlayerDialogTitle": "Play with...",
+    "dvPlayerDialogDesc": "This content is in native Dolby Vision. Use Energy Player for accurate HDR colors and advanced audio support (Atmos/5.1 passthrough). Internal playback may have dull colors or limited audio codec support.",
+    "dvRememberChoice": "Remember my choice",
+    "dvPlayerNotInstalled": "Energy Player is not installed. Would you like to download it from the Microsoft Store?",
+    "dvPlayerGetFromStore": "Get from Store",
+    "dvEnableInstruction": "Configuration for native Dolby Vision and Audio:\n• Enable 'Allow Dolby Vision decoding' in Energy Player 'Video/Audio settings'.\n• Enable relevant 'Passthrough' options for Atmos/5.1 support.\n• Ensure HDR is enabled in Windows Display settings.",
+    "dvSyncWarning": "Note: Playback state is saved within Energy Player only and will not sync back to Fladder."
 }

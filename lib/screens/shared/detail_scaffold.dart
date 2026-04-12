@@ -11,6 +11,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/providers/window_title_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
@@ -38,6 +39,7 @@ Future<Color?> getDominantColor(ImageProvider imageProvider) async {
 
 class DetailScaffold extends ConsumerStatefulWidget {
   final String label;
+  final String? windowTitle;
   final ItemBaseModel? item;
   final List<ItemAction>? Function(BuildContext context)? actions;
   final Color? backgroundColor;
@@ -47,6 +49,7 @@ class DetailScaffold extends ConsumerStatefulWidget {
   final bool posterFillsContent;
   const DetailScaffold({
     required this.label,
+    this.windowTitle,
     this.item,
     this.actions,
     this.backgroundColor,
@@ -70,9 +73,37 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   ImageProvider? _lastRequestedImage;
   ImageData? _lastColorImage;
 
+  void _pushTitle() {
+    final isCurrent = ModalRoute.of(context)?.isCurrent ?? false;
+    if (!isCurrent) return;
+
+    final newTitle = widget.windowTitle ?? widget.item?.windowTitle(context.localized) ?? widget.label;
+    if (newTitle.isNotEmpty) {
+      ref.read(windowTitleProvider.notifier).updateTitle(this, newTitle);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _pushTitle();
+  }
+
+  @override
+  void dispose() {
+    ref.read(windowTitleProvider.notifier).removeTitle(this);
+    super.dispose();
+  }
+
   @override
   void didUpdateWidget(covariant DetailScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _pushTitle();
     updateImage();
     _updateDominantColor();
     if (widget.item != null && widget.item?.id != item?.id) {
@@ -108,12 +139,24 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    final padding = EdgeInsets.symmetric(horizontal: size.width / 25);
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final horizontalBasePadding = size.width / 25;
+    final safeArea = MediaQuery.paddingOf(context);
     final backGroundColor = Theme.of(context).colorScheme.surface.withValues(alpha: 0.8);
     final minHeight = 450.0.clamp(0, size.height).toDouble();
     final maxHeight = size.height - 10;
     final sideBarPadding = AdaptiveLayout.of(context).sideBarWidth;
     final topBarPadding = AdaptiveLayout.of(context).topBarHeight;
+    final directionalSidePadding = EdgeInsetsDirectional.only(start: sideBarPadding);
+    final horizontalPadding = 16.0;
+    final contentPadding = EdgeInsets.only(
+      left: isRtl ? horizontalBasePadding : sideBarPadding + horizontalPadding + safeArea.left,
+      right: isRtl ? sideBarPadding + horizontalPadding + safeArea.right : horizontalBasePadding,
+    );
+    final topRowPadding = safeArea
+        .add(directionalSidePadding.resolve(Directionality.of(context)))
+        .add(EdgeInsets.only(top: topBarPadding))
+        .add(EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 12));
     final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
     final newColorScheme = dominantColor != null
         ? ColorScheme.fromSeed(
@@ -149,13 +192,13 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
         return PullToRefresh(
           onRefresh: () async {
             await widget.onRefresh?.call();
-            setState(() {
-              if (context.mounted) {
+            if (mounted) {
+              setState(() {
                 if (widget.backDrops?.backDrop?.contains(backgroundImage) == true) {
                   backgroundImage = widget.backDrops?.randomBackDrop;
                 }
-              }
-            });
+              });
+            }
           },
           refreshOnStart: true,
           child: (context) => Scaffold(
@@ -179,7 +222,10 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: EdgeInsets.only(left: sideBarPadding / 1.5, top: topBarPadding / 1.5),
+                            padding: EdgeInsetsDirectional.only(
+                              start: sideBarPadding / 1.5,
+                              top: topBarPadding / 1.5,
+                            ),
                             child: RepaintBoundary(
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
@@ -188,7 +234,8 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                   maxHeight: maxHeight.clamp(minHeight, 2500) - (20 + topBarPadding),
                                 ),
                                 child: FadeEdges(
-                                  leftFade: sideBarPadding > 0 ? 0.05 : 0.0,
+                                  leftFade: sideBarPadding > 0 && !isRtl ? 0.05 : 0.0,
+                                  rightFade: sideBarPadding > 0 && isRtl ? 0.05 : 0.0,
                                   topFade: topBarPadding > 0 ? 0.1 : 0.0,
                                   bottomFade: 0.2,
                                   child: FadeInImage(
@@ -248,9 +295,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                           ),
                           child: widget.content(
                             context,
-                            padding.copyWith(
-                              left: sideBarPadding + 25 + MediaQuery.paddingOf(context).left,
-                            ),
+                            contentPadding,
                           ),
                         ),
                       ),
@@ -262,14 +307,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                   IconTheme(
                     data: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
                     child: Padding(
-                      padding: MediaQuery.paddingOf(context)
-                          .copyWith(left: sideBarPadding + MediaQuery.paddingOf(context).left)
-                          .add(
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          )
-                          .add(
-                            EdgeInsets.only(top: topBarPadding),
-                          ),
+                      padding: topRowPadding,
                       child: Row(
                         children: [
                           IconButton.filledTonal(
@@ -350,13 +388,11 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                     ),
                                   ],
                                   if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
-                                    Builder(
-                                      builder: (context) => Tooltip(
-                                        message: context.localized.refresh,
-                                        child: IconButton(
-                                          onPressed: () => context.refreshData(),
-                                          icon: const Icon(IconsaxPlusLinear.refresh),
-                                        ),
+                                    Tooltip(
+                                      message: context.localized.refresh,
+                                      child: IconButton(
+                                        onPressed: () => context.refreshData(),
+                                        icon: const Icon(IconsaxPlusLinear.refresh),
                                       ),
                                     ),
                                   if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single ||

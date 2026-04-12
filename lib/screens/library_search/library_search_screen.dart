@@ -151,7 +151,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
       (value) => value.backgroundImage == BackgroundType.blurred && value.enableBlurEffects,
     ));
 
-    final sideBarPadding = EdgeInsets.only(left: adaptiveLayout.sideBarWidth);
+    final sideBarPadding = EdgeInsetsDirectional.only(start: adaptiveLayout.sideBarWidth);
 
     return MediaQuery(
       data: mediaQuery.copyWith(
@@ -534,8 +534,11 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                       if (postersList.isNotEmpty)
                         SliverPadding(
                           padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).padding.left + sideBarPadding.left,
-                              right: MediaQuery.of(context).padding.right),
+                            left: mediaQuery.padding.left,
+                            right: mediaQuery.padding.right,
+                          ).add(
+                            EdgeInsetsDirectional.only(start: adaptiveLayout.sideBarWidth),
+                          ),
                           sliver: LibraryViews(
                             key: uniqueKey,
                             items: postersList,

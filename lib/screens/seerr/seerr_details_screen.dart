@@ -64,6 +64,7 @@ class SeerrDetailsScreen extends ConsumerWidget {
     final itemBaseModel = currentPoster?.itemBaseModel;
 
     final externalUrls = state.buildExternalUrls();
+    final officialTrailerUrl = state.officialTrailerUrl;
 
     final hasKnownStatus = currentPoster?.hasDisplayStatus ?? false;
     final requests = state.poster?.mediaInfo?.requests ?? [];
@@ -95,7 +96,7 @@ class SeerrDetailsScreen extends ConsumerWidget {
       content: (context, padding) => currentPoster == null
           ? const SizedBox.shrink()
           : Padding(
-              padding: const EdgeInsets.only(bottom: 64),
+              padding: const EdgeInsets.only(bottom: 64, top: 64),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -229,7 +230,7 @@ class SeerrDetailsScreen extends ConsumerWidget {
                         );
                       },
                     ),
-                    centerButtons: hasVisibleRequests
+                    centerButtons: (hasVisibleRequests || state.hasTrailerAction)
                         ? Builder(
                             builder: (context) {
                               return Wrap(
@@ -281,7 +282,49 @@ class SeerrDetailsScreen extends ConsumerWidget {
                                         ),
                                       ),
                                     ),
-                                  if (currentPoster.mediaInfo != null)
+                                  if (state.hasTrailerAction)
+                                    FocusButton(
+                                      autoFocus: false,
+                                      onTap: () async {
+                                        if (officialTrailerUrl == null) return;
+                                        await launchUrl(context, officialTrailerUrl);
+                                      },
+                                      borderRadius: radius,
+                                      onFocusChanged: (value) {
+                                        if (value) {
+                                          context.ensureVisible(
+                                            alignment: 1.0,
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: theme.colorScheme.tertiaryContainer,
+                                          borderRadius: radius,
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            spacing: 8,
+                                            children: [
+                                              Text(
+                                                context.localized.viewTrailer,
+                                                style: theme.textTheme.titleMedium?.copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: theme.colorScheme.onTertiaryContainer,
+                                                ),
+                                              ),
+                                              Icon(
+                                                IconsaxPlusLinear.video_play,
+                                                color: theme.colorScheme.onTertiaryContainer,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  if (hasVisibleRequests && currentPoster.mediaInfo != null)
                                     FocusButton(
                                       autoFocus: false,
                                       onTap: () async {
