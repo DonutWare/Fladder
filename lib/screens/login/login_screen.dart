@@ -13,6 +13,7 @@ import 'package:fladder/screens/login/login_user_grid.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_logo.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/deep_link_helper.dart';
 import 'package:fladder/widgets/keyboard/slide_in_keyboard.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
@@ -68,7 +69,9 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
     return NotificationManagerInitializer(
       child: CustomKeyboardWrapper(
         child: Scaffold(
-          appBar: const FladderAppBar(),
+          appBar: FladderAppBar(
+            isDesktop: AdaptiveLayout.of(context).isDesktop,
+          ),
           extendBody: true,
           extendBodyBehindAppBar: true,
           floatingActionButton: switch (screen) {

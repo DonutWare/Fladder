@@ -1879,5 +1879,75 @@
     "hidePlayedInLatestTitle": "إخفاء المحتوى المُشاهد",
     "hidePlayedInLatestDescription": "إخفاء المحتوى المُشاهد من قسم \"الوسائط المضافة حديثاً\"",
     "groupedFoldersTitle": "المكتبات المجمّعة",
-    "groupedFoldersDescription": "تجميع المحتوى تلقائياً من المكتبات التالية في أقسام مثل \"الأفلام\"، \"الموسيقى\"، و\"التلفاز\"."
+    "groupedFoldersDescription": "تجميع المحتوى تلقائياً من المكتبات التالية في أقسام مثل \"الأفلام\"، \"الموسيقى\"، و\"التلفاز\".",
+    "transcodeInfoTitle": "معلومات التحويل",
+    "transcodeInfoNoMetadata": "لا تتوفر بيانات وصفية للتحويل.",
+    "transcodeDetailsTitle": "تفاصيل التحويل",
+    "containerLabel": "الحاوية",
+    "videoCodecLabel": "ترميز الفيديو",
+    "audioCodecLabel": "ترميز الصوت",
+    "bitrateLabel": "معدل البث",
+    "kbps": "كيلوبت/ثانية",
+    "resolutionLabel": "الدقة",
+    "downloadTranscoded": "تنزيل النسخة المحوّلة",
+    "downloadOriginal": "تنزيل النسخة الأصلية",
+    "airsIn": "يُعرض خلال {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "today": "اليوم",
+    "gestures": "الإيماءات",
+    "anyLanguage": "أي لغة",
+    "enableEdgeGesturesTitle": "تفعيل إيماءات الحواف",
+    "enableEdgeGesturesDesc": "التحكم في السطوع والصوت عبر السحب لأعلى أو لأسفل على حواف الشاشة",
+    "reverseEdgeGesturesTitle": "تبديل إيماءات الحواف",
+    "reverseEdgeGesturesDesc": "تبديل الجهة للتحكم في السطوع والصوت",
+    "brightnessIndicator": "السطوع: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "viewTrailer": "مشاهدة الإعلان التشويقي",
+    "personBirthday": "تاريخ الميلاد: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "العمر: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "وُلد في {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "استكشاف الأفلام",
+    "seerrSeries": "استكشاف المسلسلات"
 }

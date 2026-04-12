@@ -15,6 +15,7 @@ import 'package:fladder/providers/crash_log_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/providers/window_title_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -101,7 +102,7 @@ class _FladderApp extends ConsumerWidget {
           light: lightTheme,
           dark: darkTheme,
           child: MaterialApp.router(
-            onGenerateTitle: (context) => ref.watch(currentTitleProvider),
+            onGenerateTitle: (context) => ref.watch(windowTitleProvider),
             theme: lightTheme,
             scrollBehavior: scrollBehaviour.copyWith(
               dragDevices: {
@@ -153,5 +154,3 @@ class _FladderApp extends ConsumerWidget {
     );
   }
 }
-
-final currentTitleProvider = StateProvider<String>((ref) => "Fladder");

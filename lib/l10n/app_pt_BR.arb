@@ -1004,16 +1004,16 @@
     "offline": "Offline",
     "shortCuts": "Atalho",
     "keyboardShortCuts": "Atalhos do teclado",
-    "skipForwardLength": "Pule para o próximo",
-    "skipBackLength": "Retornar a quantidade",
-    "playPause": "Tocar/Pausar",
+    "skipForwardLength": "Avançar",
+    "skipBackLength": "Retroceder",
+    "playPause": "Reproduzir/Pausar",
     "seekForward": "Avançar",
     "seekBack": "Retornar",
-    "mute": "Mudo",
+    "mute": "Silenciar",
     "volumeUp": "Aumentar Volume",
-    "volumeDown": "Baixar Volume",
-    "speedUp": "Acelerar",
-    "speedDown": "Reduzir",
+    "volumeDown": "Diminuir Volume",
+    "speedUp": "Aumentar Velocidade",
+    "speedDown": "Diminuir Velocidade",
     "nextVideo": "Próximo Video",
     "prevVideo": "Video Anterior",
     "nextChapter": "Próximo Capítulo",
@@ -1029,7 +1029,7 @@
             }
         }
     },
-    "blurred": "Ofuscar",
+    "blurred": "Desfocar",
     "volumeIndicator": "Volume: {volume}",
     "@volumeIndicator": {
         "placeholders": {
@@ -1853,5 +1853,15 @@
         }
     },
     "notificationTimerIOSWarning": " O iOS decide quando e se as atualizações serão executadas, podendo haver atrasos ou até mesmo a ausência de notificações.",
-    "authLinkButtonToolTip": "Abrir caixa de diálogo de link de autenticação"
+    "authLinkButtonToolTip": "Abrir caixa de diálogo de link de autenticação",
+    "transcodeInfoTitle": "Informações de Transcodificação",
+    "transcodeDetailsTitle": "Detalhes de Transcodificação",
+    "videoCodecLabel": "Codec de vídeo",
+    "audioCodecLabel": "Codec de áudio",
+    "bitrateLabel": "Taxa de bits",
+    "transcodeInfoNoMetadata": "Não há metadados de transcodificação disponíveis.",
+    "containerLabel": "Container",
+    "kbps": "kbps",
+    "resolutionLabel": "Resolução",
+    "downloadOriginal": "Baixar original"
 }

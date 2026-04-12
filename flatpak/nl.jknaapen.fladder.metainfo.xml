@@ -61,9 +61,9 @@
   </content_rating>
   
   <releases>
-    <release version="0.10.2" date="2026-01-05">
+    <release version="0.10.3" date="2026-04-12">
       <description>
-        <p>Latest release - see GitHub for detailed changelog</p>
+        <p>See the full changelog at: https://github.com/DonutWare/Fladder/releases/tag/v0.10.3</p>
       </description>
     </release>
   </releases>
