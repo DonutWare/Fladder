@@ -955,12 +955,14 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       case VideoHotKeys.seekForwardInstant:
         final seekForwardSeconds = ref.read(userProvider.select(
-                (value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30));
+              (value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30
+            ));
         seekForward(ref, seconds: seekForwardSeconds);
         return true;
       case VideoHotKeys.seekBackInstant:
         final seekBackSeconds = ref.read(userProvider.select(
-                (value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
+              (value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30
+            ));
         seekBack(ref, seconds: seekBackSeconds);
         return true;
       default:
