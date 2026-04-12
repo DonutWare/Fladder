@@ -1502,6 +1502,8 @@
   "playPause": "Play/Pause",
   "seekForward": "Seek Forward",
   "seekBack": "Seek Back",
+  "seekForwardInstant": "Seek Forward (Instant)",
+  "seekBackInstant": "Seek Back (Instant)",
   "mute": "Mute",
   "volumeUp": "Volume Up",
   "volumeDown": "Volume Down",
