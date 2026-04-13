@@ -43,6 +43,7 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
 
     return DetailScaffold(
       label: details?.localizedName(context.localized) ?? "",
+      windowTitle: details?.windowTitle(context.localized),
       item: details,
       actions: (context) => details?.generateActions(context, ref, exclude: {
         ItemActions.details,

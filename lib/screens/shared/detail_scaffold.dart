@@ -11,6 +11,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/providers/window_title_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/screens/syncing/sync_item_details.dart';
@@ -38,6 +39,7 @@ Future<Color?> getDominantColor(ImageProvider imageProvider) async {
 
 class DetailScaffold extends ConsumerStatefulWidget {
   final String label;
+  final String? windowTitle;
   final ItemBaseModel? item;
   final List<ItemAction>? Function(BuildContext context)? actions;
   final Color? backgroundColor;
@@ -47,6 +49,7 @@ class DetailScaffold extends ConsumerStatefulWidget {
   final bool posterFillsContent;
   const DetailScaffold({
     required this.label,
+    this.windowTitle,
     this.item,
     this.actions,
     this.backgroundColor,
@@ -70,9 +73,37 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   ImageProvider? _lastRequestedImage;
   ImageData? _lastColorImage;
 
+  void _pushTitle() {
+    final isCurrent = ModalRoute.of(context)?.isCurrent ?? false;
+    if (!isCurrent) return;
+
+    final newTitle = widget.windowTitle ?? widget.item?.windowTitle(context.localized) ?? widget.label;
+    if (newTitle.isNotEmpty) {
+      ref.read(windowTitleProvider.notifier).updateTitle(this, newTitle);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _pushTitle();
+  }
+
+  @override
+  void dispose() {
+    ref.read(windowTitleProvider.notifier).removeTitle(this);
+    super.dispose();
+  }
+
   @override
   void didUpdateWidget(covariant DetailScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _pushTitle();
     updateImage();
     _updateDominantColor();
     if (widget.item != null && widget.item?.id != item?.id) {
@@ -161,13 +192,13 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
         return PullToRefresh(
           onRefresh: () async {
             await widget.onRefresh?.call();
-            setState(() {
-              if (context.mounted) {
+            if (mounted) {
+              setState(() {
                 if (widget.backDrops?.backDrop?.contains(backgroundImage) == true) {
                   backgroundImage = widget.backDrops?.randomBackDrop;
                 }
-              }
-            });
+              });
+            }
           },
           refreshOnStart: true,
           child: (context) => Scaffold(
@@ -357,13 +388,11 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
                                     ),
                                   ],
                                   if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
-                                    Builder(
-                                      builder: (context) => Tooltip(
-                                        message: context.localized.refresh,
-                                        child: IconButton(
-                                          onPressed: () => context.refreshData(),
-                                          icon: const Icon(IconsaxPlusLinear.refresh),
-                                        ),
+                                    Tooltip(
+                                      message: context.localized.refresh,
+                                      child: IconButton(
+                                        onPressed: () => context.refreshData(),
+                                        icon: const Icon(IconsaxPlusLinear.refresh),
                                       ),
                                     ),
                                   if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single ||

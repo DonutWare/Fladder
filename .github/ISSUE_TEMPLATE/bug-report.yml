@@ -1,7 +1,6 @@
 name: "🐛 Bug Report"
 description: Create a new ticket for a bug.
-title: "🐛 "
-labels: ["bug"]
+title: "<TITLE>"
 type: "Bug"
 body:
   - type: textarea
@@ -17,7 +16,7 @@ body:
     attributes:
       label: "Reproduction steps"
       description: Please provide clear steps to reproduce the bug
-      value: |
+      placeholder: |
         1. Go to '...'
         2. Click on '....'
         3. Scroll down to '....'

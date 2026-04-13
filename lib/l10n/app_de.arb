@@ -3,7 +3,7 @@
     "clearAllSettingsQuestion": "Alle Einstellungen zurücksetzen?",
     "clearChanges": "Änderungen verwerfen",
     "clearSelection": "Auswahl aufheben",
-    "collectionFolder": "{count, plural, one{Collection folder} other{Collection folders}}",
+    "collectionFolder": "{count, plural, one{Sammlung Ordner} other{Sammlungen Ordner}}",
     "color": "Farbe",
     "deleteItem": "{item} löschen?",
     "@deleteItem": {
@@ -27,10 +27,10 @@
             }
         }
     },
-    "mediaTypePhoto": "{count, plural, one{Photo} other{Photos}}",
+    "mediaTypePhoto": "{count, plural, one{Foto} other{Fotos}}",
     "mediaTypePlaylist": "{count, plural, one{Playlist} other{Playlists}}",
-    "mediaTypePhotoAlbum": "{count, plural, one{Photo Album} other{Photo Albums}}",
-    "mediaTypeSeries": "{count, plural, one{Series} other{Series}}",
+    "mediaTypePhotoAlbum": "{count, plural, one{Foto Album} other{Foto Alben}}",
+    "mediaTypeSeries": "{count, plural, one{Serie} other{Serien}}",
     "minutes": "{count, plural, other{Minuten} one{Minute} }",
     "@minutes": {
         "description": "minute",
@@ -847,7 +847,7 @@
     "segmentActionNone": "Keine",
     "closeVideo": "Video schließen",
     "autoNextOffSmartTitle": "Smart",
-    "clientSettingsRequireWifiDesc": "Nur herunterladen, wenn Sie mit einem WLAN-Netzwerk verbunden sind",
+    "clientSettingsRequireWifiDesc": "Nur herunterladen, wenn Sie mit einem Wlan-Netzwerk verbunden sind",
     "clientSettingsShowAllCollectionsDesc": "Wenn aktiviert, werden alle Sammlungstypen angezeigt, einschließlich derjenigen, die von Fladder nicht unterstützt werden",
     "downloadFile": "{type} herunterladen",
     "@downloadFile": {
@@ -857,7 +857,7 @@
             }
         }
     },
-    "copyStreamUrl": "Stream-URL kopieren",
+    "copyStreamUrl": "Stream-Url kopieren",
     "mediaSegmentCommercial": "Werbung",
     "mediaSegmentPreview": "Vorschau",
     "mediaSegmentRecap": "Rückblick",
@@ -897,7 +897,7 @@
     "playNextVideo": "Nächstes Video abspielen",
     "external": "Extern",
     "settingsAutoNextTitle": "Vorschau des nächsten Titels",
-    "clientSettingsRequireWifiTitle": "WLAN erforderlich",
+    "clientSettingsRequireWifiTitle": "Wlan erforderlich",
     "episodeUnaired": "Unveröffentlicht",
     "episodeMissing": "Fehlt",
     "castAndCrew": "Besetzung & Crew",
@@ -1660,7 +1660,7 @@
     "enableNewTVLayout": "Neues TV Layout aktivieren",
     "enableNewTVLayoutDesc": "Zeige größere TV-Stil Banner auf dem Dashboard. Dies wird zum Standardlayout in einer zukünftigen Version.",
     "enableSpeedBoostTitle": "Beschleunigung aktivieren",
-    "enableSpeedBoostDesc": "Bildschirm (Touch) oder Leertaste (PC) gedrückt halten, um die Wiedergabegeschwindigkeit temporär zu erhöhen",
+    "enableSpeedBoostDesc": "Bildschirm (Touch) oder Leertaste (Pc) gedrückt halten, um die Wiedergabegeschwindigkeit temporär zu erhöhen",
     "speedBoostRateTitle": "Beschleunigungsrate",
     "speedBoostRateDesc": "Wiedergabegeschwindigkeit bei aktivierter Beschleunigung",
     "enableDoubleTapSeekTitle": "Doppelt tippen zum spulen/starten/pausieren",
@@ -1884,7 +1884,7 @@
     "libraryOrderDescription": "Ziehe die Bibliotheken, um sie auf der Startseite neu anzuordnen. Nicht ausgewählte Bibliotheken werden keine neu hinzugefügten Einträge anzeigen.",
     "groupedFoldersTitle": "Gruppierte Bibliotheken",
     "transcodeInfoTitle": "Transcoding Informationen",
-    "transcodeInfoNoMetadata": "Es sind keine Transcoding Metadaten vrrfügbar",
+    "transcodeInfoNoMetadata": "Es sind keine Transcoding Metadaten verfügbar.",
     "transcodeDetailsTitle": "Transcoding Details",
     "containerLabel": "Container",
     "videoCodecLabel": "Video Codec",
@@ -1894,5 +1894,64 @@
     "resolutionLabel": "Auflösung",
     "downloadTranscoded": "Transkodiert herunterladen",
     "downloadOriginal": "Im Original herunterladen",
-    "seerrUrlSchemeWarning": "Konnte das URL-Schema nicht automatisch erkennen. Es wird standardmäßig https:// verwendet. Nutze das http:// Prefix, wenn dein Server kein HTTPS verwendet."
+    "seerrUrlSchemeWarning": "Konnte das URL-Schema nicht automatisch erkennen. Es wird standardmäßig https:// verwendet. Nutze das http:// Prefix, wenn dein Server kein HTTPS verwendet.",
+    "airsIn": "Wird ausgestrahlt in {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "today": "Heute",
+    "gestures": "Gesten",
+    "enableEdgeGesturesTitle": "Eck-Gesten aktivieren",
+    "enableEdgeGesturesDesc": "Verändere Helligkeit und Lautstärke durch das hoch- und runterstreichen an den Bildschirmrändern",
+    "reverseEdgeGesturesTitle": "Eck-Gesten tauschen",
+    "reverseEdgeGesturesDesc": "Tausche die Seiten der Helligkeits- und Lautstärkeregler",
+    "brightnessIndicator": "Helligkeit: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "viewTrailer": "Trailer anzeigen",
+    "anyLanguage": "Beliebige Sprache",
+    "personBirthday": "Geburtstag: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Alter: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Geboren in {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Filme entdecken",
+    "seerrSeries": "Serien entdecken"
 }

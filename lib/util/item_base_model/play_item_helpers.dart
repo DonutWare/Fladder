@@ -384,17 +384,17 @@ class _LoadIndicatorCancelable extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              tooltip: context.localized.close,
-              autofocus: AdaptiveLayout.of(context).isDesktop,
-              onPressed: () {
-                try {
-                  op.cancel();
-                } catch (_) {}
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-              icon: const Icon(IconsaxPlusLinear.close_square),
-            ),
+            if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad)
+              IconButton(
+                tooltip: context.localized.close,
+                onPressed: () {
+                  try {
+                    op.cancel();
+                  } catch (_) {}
+                  Navigator.of(context, rootNavigator: true).pop();
+                },
+                icon: const Icon(IconsaxPlusLinear.close_square),
+              ),
           ],
         ),
       ),

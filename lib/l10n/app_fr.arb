@@ -899,7 +899,7 @@
     "exitFladderTitle": "Quitter Fladder",
     "recommended": "Recommandés",
     "playbackTypeOffline": "Hors ligne",
-    "latestReleases": "Dernières sorties",
+    "latestReleases": "Dernières versions",
     "newUpdateFoundOnGithub": "Nouvelle mise à jour trouvée sur Github",
     "rememberAudioSelectionsDesc": "Essayer de définir la piste audio la plus proche de la dernière vidéo.",
     "playbackTypeDirect": "Direct",
@@ -1856,5 +1856,76 @@
     "advancedVideoOptionsDesc": "Activer le HDR, le tone mapping et la gestion avancée des couleurs (instable sur certains appareils)",
     "linkData": "Données du lien",
     "passwordNotRequired": "Non requis, laissez vide pour ne pas inclure le mot de passe dans le lien",
-    "authLinkButtonToolTip": "Ouvrir la fenêtre du lien d’authentification"
+    "authLinkButtonToolTip": "Ouvrir la fenêtre du lien d’authentification",
+    "today": "Aujourd'hui",
+    "airsIn": "Diffusé dans {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "transcodeInfoTitle": "Info de transcodage",
+    "transcodeDetailsTitle": "Détails de transcodage",
+    "videoCodecLabel": "Codec Vidéo",
+    "audioCodecLabel": "Codec Audio",
+    "bitrateLabel": "Débit",
+    "resolutionLabel": "Définition",
+    "seerrUrlSchemeWarning": "Impossible d'auto-détecter le protocole. Utilisation de https:// par défaut. Préfixez l'URL par http:// si votre serveur n'utilise pas HTTPS.",
+    "downloadTranscoded": "Télécharger la version transcodée",
+    "downloadOriginal": "Télécharger la version originale",
+    "transcodeInfoNoMetadata": "Aucune métadonnées de transcodage n ' est disponible.",
+    "kbps": "kbps",
+    "containerLabel": "Conteneur",
+    "gestures": "Gestes",
+    "anyLanguage": "Toutes les langues",
+    "enableEdgeGesturesTitle": "Activer les gestes sur les bords",
+    "enableEdgeGesturesDesc": "Ajustez la luminosité et le volume en glissant verticalement sur les bords de l’écran",
+    "reverseEdgeGesturesTitle": "Inverser les gestes sur les bords",
+    "reverseEdgeGesturesDesc": "Inverser les côtés pour le contrôle de la luminosité et du volume",
+    "brightnessIndicator": "Luminosité : {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "viewTrailer": "Regarder la bande-annonce",
+    "personBirthday": "Date de naissance : {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Âge : {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Né à {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Découvrir des films",
+    "seerrSeries": "Découvrir des séries"
 }

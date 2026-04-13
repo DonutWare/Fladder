@@ -92,7 +92,8 @@ class _InputHandlerState<T> extends ConsumerState<InputHandler<T>> {
         skipTraversal: true,
         onFocusChange: (value) {
           final inputFieldFocus = isEditableTextFocused();
-          if (!focusNode.hasFocus && widget.autoFocus && !inputFieldFocus) {
+          final isCurrent = ModalRoute.of(context)?.isCurrent ?? true;
+          if (!focusNode.hasFocus && widget.autoFocus && !inputFieldFocus && isCurrent) {
             focusNode.requestFocus();
           }
         },

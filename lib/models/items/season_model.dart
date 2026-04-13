@@ -79,6 +79,12 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
   }
 
   @override
+  String windowTitle(AppLocalizations l10n) {
+    final prefix = seriesName.isNotEmpty ? '$seriesName • ' : '';
+    return '$prefix${localizedName(l10n)}';
+  }
+
+  @override
   bool get syncAble => episodes.isNotEmpty && episodes.any((element) => element.syncAble);
 
   @override

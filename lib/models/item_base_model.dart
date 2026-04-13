@@ -102,6 +102,8 @@ class ItemBaseModel with ItemBaseModelMappable {
 
   String get title => name;
 
+  String windowTitle(AppLocalizations l10n) => name;
+
   ///Used for retrieving the correct id when fetching queue
   String get streamId => id;
 

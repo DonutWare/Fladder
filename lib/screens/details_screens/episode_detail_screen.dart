@@ -54,6 +54,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
 
     return DetailScaffold(
       label: widget.item.name,
+      windowTitle: widget.item.windowTitle(context.localized),
       item: details.episode,
       actions: (context) => details.episode?.generateActions(
         context,

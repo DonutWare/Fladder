@@ -171,26 +171,33 @@ jobs:
       - name: Build Android APK (PRs)
         if: needs.fetch-info.outputs.build_type == 'development'
         run: |
-          flutter build apk --debug --build-number=${{github.run_number}} --flavor production
+          flutter build apk --debug --split-per-abi --build-number=${{github.run_number}} --flavor production
 
       - name: Build Android APK and AAB
         if: needs.fetch-info.outputs.build_type != 'development'
         run: |
-          flutter build apk --release --build-number=${{github.run_number}} --flavor production
+          flutter build apk --release --split-per-abi --build-number=${{github.run_number}} --flavor production
           flutter build appbundle --release --build-number=${{github.run_number}} --flavor production
 
       - name: Rename APK for PR
         if: needs.fetch-info.outputs.build_type == 'development'
         run: |
           mkdir -p build/app/outputs/android_artifacts
-          mv build/app/outputs/flutter-apk/app-production-debug.apk "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.apk"
+          # Move split debug APKs
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-production-debug.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-armeabi-v7a.apk || true
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-production-debug.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-arm64-v8a.apk || true
+          cp build/app/outputs/flutter-apk/app-x86_64-production-debug.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-x86_64.apk || true
 
       - name: Rename APK and AAB
         if: needs.fetch-info.outputs.build_type != 'development'
         run: |
           mkdir -p build/app/outputs/android_artifacts
-          mv build/app/outputs/flutter-apk/app-production-release.apk "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.apk"
-          mv build/app/outputs/bundle/productionRelease/app-production-release.aab "build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.aab"
+          # Move split APKs
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-production-release.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-armeabi-v7a.apk || true
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-production-release.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-arm64-v8a.apk || true
+          cp build/app/outputs/flutter-apk/app-x86_64-production-release.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-x86_64.apk || true
+          # Move AAB
+          mv build/app/outputs/bundle/productionRelease/app-production-release.aab build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.aab
 
       - name: Archive Android artifacts
         uses: actions/upload-artifact@v4.0.0
@@ -422,66 +429,6 @@ jobs:
             Fladder_x86_64.AppImage
             Fladder_x86_64.AppImage.zsync
 
-  prepare-metainfo:
-    runs-on: ubuntu-latest
-    needs: [fetch-info]
-    if: needs.fetch-info.outputs.build_type == 'release'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: Update metainfo.xml releases
-        uses: actions/github-script@v8
-        with:
-          script: |
-            const fs = require('fs');
-            const version = '${{ needs.fetch-info.outputs.version_name }}';
-            const date = new Date().toISOString().split('T')[0];
-
-            // Same API call that generate_release_notes: true uses internally
-            const { data } = await github.rest.repos.generateReleaseNotes({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: `v${version}`,
-              target_commitish: 'HEAD',
-            });
-
-            const escape = s => s
-              .replace(/&/g, '&amp;')
-              .replace(/</g, '&lt;')
-              .replace(/>/g, '&gt;');
-
-            const items = data.body.split('\n')
-              .filter(l => l.trimStart().startsWith('* '))
-              .map(l => l.replace(/^\s*\*\s*/, '').trim())
-              .map(l => l.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')) // strip markdown links
-              .map(l => l.replace(/\*\*([^*]+)\*\*/g, '$1'))        // strip bold
-              .filter(Boolean)
-              .slice(0, 30)
-              .map(l => `        <li>${escape(l)}</li>`)
-              .join('\n');
-
-            const description = items
-              ? `      <description>\n        <ul>\n${items}\n        </ul>\n      </description>`
-              : `      <description>\n        <p>See GitHub for detailed changelog</p>\n      </description>`;
-
-            const newReleases =
-              `  <releases>\n    <release version="${version}" date="${date}">\n${description}\n    </release>\n  </releases>`;
-
-            let content = fs.readFileSync('flatpak/nl.jknaapen.fladder.metainfo.xml', 'utf8');
-            content = content.replace(/  <releases>[\s\S]*?<\/releases>/, newReleases);
-            fs.writeFileSync('flatpak/nl.jknaapen.fladder.metainfo.xml', content);
-
-            core.info(`Updated metainfo.xml: version=${version}, date=${date}`);
-
-      - name: Upload updated metainfo
-        uses: actions/upload-artifact@v4
-        with:
-          name: fladder-metainfo
-          path: flatpak/nl.jknaapen.fladder.metainfo.xml
-
   build-linux-flatpak:
     runs-on: ubuntu-latest
     if: needs.fetch-info.outputs.build_type == 'release' || needs.fetch-info.outputs.build_type == 'nightly'
@@ -668,7 +615,9 @@ jobs:
 
       - name: Move Android
         run: |
-          mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}.apk Fladder-Android-${{ steps.version.outputs.version }}.apk
+          mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}-armeabi-v7a.apk Fladder-Android-${{ steps.version.outputs.version }}-armeabi-v7a.apk || true
+          mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}-arm64-v8a.apk Fladder-Android-${{ steps.version.outputs.version }}-arm64-v8a.apk || true
+          mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}-x86_64.apk Fladder-Android-${{ steps.version.outputs.version }}-x86_64.apk || true
           mv fladder-android/${{ needs.build-android.outputs.artifact_suffix }}.aab Fladder-Android-${{ steps.version.outputs.version }}.aab
 
       - name: Download Windows portable artifact
@@ -784,7 +733,9 @@ jobs:
           generate_release_notes: ${{ needs.fetch-info.outputs.build_type == 'release' }}
           fail_on_unmatched_files: true
           files: |
-            Fladder-Android-${{ steps.version.outputs.version }}.apk
+            Fladder-Android-${{ steps.version.outputs.version }}-arm64-v8a.apk
+            Fladder-Android-${{ steps.version.outputs.version }}-armeabi-v7a.apk
+            Fladder-Android-${{ steps.version.outputs.version }}-x86_64.apk
             Fladder-Android-${{ steps.version.outputs.version }}.aab
             Fladder-Windows-${{ steps.version.outputs.version }}-Setup.exe
             Fladder-Windows-${{ steps.version.outputs.version }}.zip
@@ -799,40 +750,6 @@ jobs:
             ${{ needs.fetch-info.outputs.build_type == 'release' && format('Fladder-Linux-{0}.flatpak', steps.version.outputs.version) || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  commit-metainfo:
-    name: Commit metainfo to develop
-    needs:
-      - fetch-info
-      - prepare-metainfo
-      - create_release
-    runs-on: ubuntu-latest
-    if: needs.fetch-info.outputs.build_type == 'release'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
-        with:
-          ref: develop
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Download updated metainfo for commit
-        uses: actions/download-artifact@v4
-        with:
-          name: fladder-metainfo
-          path: fladder-metainfo
-
-      - name: Commit updated metainfo.xml to develop
-        run: |
-          cp fladder-metainfo/nl.jknaapen.fladder.metainfo.xml flatpak/nl.jknaapen.fladder.metainfo.xml
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add flatpak/nl.jknaapen.fladder.metainfo.xml
-          if git diff --staged --quiet; then
-            echo "No changes to metainfo.xml, skipping commit"
-          else
-            git commit -m "chore: update metainfo.xml to v${{ needs.fetch-info.outputs.version_name }}"
-            git push origin develop
-          fi
 
   release_play_console:
     name: Upload AAB to Google Play Console
@@ -857,37 +774,6 @@ jobs:
           track: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 'internal' || 'production' }}
           status: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 'completed' || 'draft' }}
           releaseName: "${{ github.run_number }} (${{ needs.fetch-info.outputs.version_name }})"
-
-  update-fastlane-changelog:
-    name: Update Fastlane Changelog
-    needs:
-      - fetch-info
-      - create_release
-    runs-on: ubuntu-latest
-    if: needs.fetch-info.outputs.build_type == 'release'
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout develop
-        uses: actions/checkout@v4.1.1
-        with:
-          ref: develop
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate fastlane changelog
-        run: |
-          # Link directly to the GitHub release for the full changelog.
-          CLEAN="See the full changelog at: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}"
-
-          mkdir -p fastlane/metadata/android/en-US/changelogs
-          printf '%s' "$CLEAN" > "fastlane/metadata/android/en-US/changelogs/${{ github.run_number }}.txt"
-
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add "fastlane/metadata/android/en-US/changelogs/${{ github.run_number }}.txt"
-          git diff --cached --quiet && echo "Nothing to commit" && exit 0
-          git commit -m "chore: add fastlane changelog for ${{ github.ref_name }} [skip ci]"
-          git push
 
   release_web:
     name: Release Web
