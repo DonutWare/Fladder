@@ -73,6 +73,8 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   ImageProvider? _lastRequestedImage;
   ImageData? _lastColorImage;
 
+  WindowTitleNotifier? _windowTitleNotifier;
+
   void _pushTitle() {
     final isCurrent = ModalRoute.of(context)?.isCurrent ?? false;
     if (!isCurrent) return;
@@ -91,12 +93,13 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _windowTitleNotifier = ref.read(windowTitleProvider.notifier);
     _pushTitle();
   }
 
   @override
   void dispose() {
-    ref.read(windowTitleProvider.notifier).removeTitle(this);
+    _windowTitleNotifier?.removeTitle(this);
     super.dispose();
   }
 
