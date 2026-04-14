@@ -189,7 +189,7 @@ class ItemBaseModel with ItemBaseModelMappable {
       case FolderModel _:
       case BoxSetModel _:
       case PlaylistModel _:
-        context.router.push(LibrarySearchRoute(folderId: [id], recursive: true));
+        context.router.push(LibrarySearchRoute(folderId: [id], recursive: null));
         break;
       case PhotoAlbumModel _:
         context.router.push(LibrarySearchRoute(folderId: [id], recursive: false));

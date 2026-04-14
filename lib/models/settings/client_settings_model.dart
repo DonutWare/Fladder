@@ -94,6 +94,8 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     String? lastViewedUpdate,
     int? libraryPageSize,
     @Default({}) Map<GlobalHotKeys, KeyCombination> shortcuts,
+    @Default(false) bool recursiveByDefault,
+    bool? sessionRecursiveOverride,
   }) = _ClientSettingsModel;
 
   static ClientSettingsModel defaultModel() {

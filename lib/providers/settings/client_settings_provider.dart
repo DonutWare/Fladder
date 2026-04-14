@@ -113,4 +113,10 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
   void setBlurEffects(bool value) => state = state.copyWith(enableBlurEffects: value);
 
   void toggleSideBar() => state = state.copyWith(expandSideBar: !state.expandSideBar);
+
+  void setRecursiveByDefault(bool value) => state = state.copyWith(recursiveByDefault: value);
+
+  void setSessionRecursiveOverride(bool? value) => state = state.copyWith(sessionRecursiveOverride: value);
+
+  void clearSessionRecursiveOverride() => state = state.copyWith(sessionRecursiveOverride: null);
 }

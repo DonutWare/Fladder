@@ -75,11 +75,15 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
     if (!wasInitialized) {
       wasInitialized = true;
+      final clientSettings = ref.read(clientSettingsProvider);
+      final effectiveRecursive = filters.recursive ??
+          clientSettings.sessionRecursiveOverride ??
+          clientSettings.recursiveByDefault;
       state = state.copyWith(
         filters: state.filters.copyWith(
           types: state.filters.types.replaceMap(filters.types, enabledOnly: true),
           genres: state.filters.genres.replaceMap(filters.genres, enabledOnly: true),
-          recursive: filters.recursive ?? true,
+          recursive: effectiveRecursive,
           favourites: filters.favourites ?? false,
         ),
       );
@@ -356,8 +360,11 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
   void toggleFavourite() =>
       state = state.copyWith(filters: state.filters.copyWith(favourites: state.filters.favourites == false));
-  void toggleRecursive() =>
-      state = state.copyWith(filters: state.filters.copyWith(recursive: state.filters.recursive == false));
+  void toggleRecursive() {
+    final newRecursive = state.filters.recursive == false;
+    state = state.copyWith(filters: state.filters.copyWith(recursive: newRecursive));
+    ref.read(clientSettingsProvider.notifier).setSessionRecursiveOverride(newRecursive);
+  }
   void toggleType(FladderItemType type) =>
       state = state.copyWith(filters: state.filters.copyWith(types: state.filters.types.toggleKey(type)));
   void toggleView(ViewModel view) => state = state.copyWith(views: state.views.toggleKey(view));

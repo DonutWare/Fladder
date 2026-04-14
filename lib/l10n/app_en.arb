@@ -1570,6 +1570,8 @@
   "mediaTunnelingDesc": "Enable media tunneling for native player",
   "clientSettingsUseSystemIMETitle": "Use system keyboard",
   "clientSettingsUseSystemIMEDesc": "Use the built-in keyboard provided by your system",
+  "recursiveByDefaultTitle": "Recursive by default",
+  "recursiveByDefaultDesc": "When enabled, libraries will show all subfolder items by default. Users can manually toggle this setting while browsing.",
   "nextUpInCount": "Next-up in {seconds}",
   "@nextUpInCount": {
     "placeholders": {

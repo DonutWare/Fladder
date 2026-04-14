@@ -115,6 +115,17 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
             onChanged: (value) => ref.read(clientSettingsProvider.notifier).useSystemIME(value),
           ),
         ),
+      SettingsListTile(
+        label: Text(context.localized.recursiveByDefaultTitle),
+        subLabel: Text(context.localized.recursiveByDefaultDesc),
+        onTap: () => ref
+            .read(clientSettingsProvider.notifier)
+            .setRecursiveByDefault(!ref.read(clientSettingsProvider.select((value) => value.recursiveByDefault))),
+        trailing: Switch(
+          value: ref.watch(clientSettingsProvider.select((value) => value.recursiveByDefault)),
+          onChanged: (value) => ref.read(clientSettingsProvider.notifier).setRecursiveByDefault(value),
+        ),
+      ),
     ],
   );
 }
