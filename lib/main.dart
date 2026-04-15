@@ -102,7 +102,7 @@ class _FladderApp extends ConsumerWidget {
           light: lightTheme,
           dark: darkTheme,
           child: MaterialApp.router(
-            onGenerateTitle: (context) => ref.watch(windowTitleProvider),
+            title: 'Fladder',
             theme: lightTheme,
             scrollBehavior: scrollBehaviour.copyWith(
               dragDevices: {
@@ -126,12 +126,18 @@ class _FladderApp extends ConsumerWidget {
 
               return matchByLanguage;
             },
-            builder: (context, child) => MediaQueryScaler(
-              child: LocalizationContextWrapper(
-                child: child ?? Container(),
-                currentLocale: language,
+            builder: (context, child) => Consumer(
+              builder: (context, ref, _) => Title(
+                title: ref.watch(windowTitleProvider),
+                color: Colors.black,
+                child: MediaQueryScaler(
+                  child: LocalizationContextWrapper(
+                    child: child ?? Container(),
+                    currentLocale: language,
+                  ),
+                  enable: ref.read(argumentsStateProvider).leanBackMode,
+                ),
               ),
-              enable: ref.read(argumentsStateProvider).leanBackMode,
             ),
             debugShowCheckedModeBanner: false,
             darkTheme: darkTheme.copyWith(
