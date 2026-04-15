@@ -60,7 +60,7 @@ class TranscodePlaybackModel extends PlaybackModel {
           body: PlaybackStartInfo(
             canSeek: true,
             itemId: item.id,
-            mediaSourceId: item.id,
+            mediaSourceId: mediaStreams?.currentVersionStream?.id ?? item.id,
             playSessionId: playbackInfo?.playSessionId,
             sessionId: playbackInfo?.playSessionId,
             subtitleStreamIndex: item.streamModel?.defaultSubStreamIndex,
@@ -83,7 +83,7 @@ class TranscodePlaybackModel extends PlaybackModel {
     await ref.read(jellyApiProvider).sessionsPlayingStoppedPost(
           body: PlaybackStopInfo(
             itemId: item.id,
-            mediaSourceId: item.id,
+            mediaSourceId: mediaStreams?.currentVersionStream?.id ?? item.id,
             playSessionId: playbackInfo?.playSessionId,
             positionTicks: position.toRuntimeTicks,
           ),
@@ -99,7 +99,7 @@ class TranscodePlaybackModel extends PlaybackModel {
       body: PlaybackProgressInfo(
         canSeek: true,
         itemId: item.id,
-        mediaSourceId: item.id,
+        mediaSourceId: mediaStreams?.currentVersionStream?.id ?? item.id,
         playSessionId: playbackInfo?.playSessionId,
         sessionId: playbackInfo?.playSessionId,
         subtitleStreamIndex: item.streamModel?.defaultSubStreamIndex,

@@ -1,5 +1,4 @@
-// ignore_for_file: constant_identifier_names
-
+import 'package:collection/collection.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/util/bitrate_formatting.dart';
 import 'package:fladder/util/size_formatting.dart';
@@ -16,17 +15,24 @@ class InformationModel {
     required this.subStreams,
   });
 
-  static InformationModel? fromResponse(BaseItemDto? item) {
+  static InformationModel? fromResponse(BaseItemDto? item, {String? selectedMediaSourceId}) {
     if (item == null) return null;
-    var videoStreams = item.mediaStreams?.where((element) => element.type == MediaStreamType.video).toList() ?? [];
-    var audioStreams = item.mediaStreams?.where((element) => element.type == MediaStreamType.audio).toList() ?? [];
-    var subStreams = item.mediaStreams?.where((element) => element.type == MediaStreamType.subtitle).toList() ?? [];
+
+    final source = (selectedMediaSourceId != null)
+        ? (item.mediaSources?.firstWhereOrNull((e) => e.id == selectedMediaSourceId) ?? item.mediaSources?.firstOrNull)
+        : item.mediaSources?.firstOrNull;
+
+    final streams = source?.mediaStreams ?? item.mediaStreams ?? [];
+
+    var videoStreams = streams.where((element) => element.type == MediaStreamType.video).toList();
+    var audioStreams = streams.where((element) => element.type == MediaStreamType.audio).toList();
+    var subStreams = streams.where((element) => element.type == MediaStreamType.subtitle).toList();
     return InformationModel(
       baseInformation: {
         "Title": item.name,
-        "Container": item.container,
-        "Path": item.path,
-        "Size": item.mediaSources?.firstOrNull?.size.byteFormat,
+        "Container": source?.container ?? item.container,
+        "Path": source?.path ?? item.path,
+        "Size": source?.size.byteFormat,
       },
       videoStreams: videoStreams
           .map(
