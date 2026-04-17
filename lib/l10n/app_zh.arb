@@ -1875,5 +1875,32 @@
     "hidePlayedInLatestTitle": "隐藏已观看内容",
     "hidePlayedInLatestDescription": "从“最近添加的媒体”中隐藏已观看的内容",
     "groupedFoldersTitle": "分组媒体库",
-    "groupedFoldersDescription": "自动将以下媒体库中的内容分组到“电影”、“音乐”和“电视节目”等视图中。"
+    "groupedFoldersDescription": "自动将以下媒体库中的内容分组到“电影”、“音乐”和“电视节目”等视图中。",
+    "transcodeInfoTitle": "转码信息",
+    "transcodeInfoNoMetadata": "没有可用的转码元数据。",
+    "transcodeDetailsTitle": "转码详情",
+    "containerLabel": "容器",
+    "videoCodecLabel": "视频编解码器",
+    "audioCodecLabel": "音频编解码器",
+    "bitrateLabel": "比特率",
+    "kbps": "kbps",
+    "resolutionLabel": "分辨率",
+    "seerrUrlSchemeWarning": "无法自动检测 URL 协议。默认使用 https://。如果您的服务器未使用 HTTPS，请在 URL 前添加 http:// 前缀。",
+    "downloadTranscoded": "下载转码后的版本",
+    "downloadOriginal": "下载原始版本",
+    "airsIn": "播出时长 {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "today": "今天"
 }

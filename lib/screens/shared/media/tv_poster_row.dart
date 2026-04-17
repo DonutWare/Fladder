@@ -329,6 +329,7 @@ class _TVBottomInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final opacity = 0.65;
+
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 1500),
       child: Column(
@@ -398,7 +399,7 @@ class _TVBottomInfo extends StatelessWidget {
                     productionYear: episode.overview.productionYear?.toString(),
                     communityRating: episode.overview.communityRating,
                     runTime: episode.overview.runTime,
-                    unplayedLabel: poster.unplayedLabel(context.localized),
+                    playLabel: poster.watchedState(context.localized),
                   ),
                 ],
               ),
@@ -410,13 +411,24 @@ class _TVBottomInfo extends StatelessWidget {
               ),
             ],
           _ => [
-              MetadataLabels(
-                favourite: poster.userData.isFavourite ? true : null,
-                officialRating: poster.overview.parentalRating,
-                productionYear: poster.overview.productionYear?.toString(),
-                communityRating: poster.overview.communityRating,
-                runTime: poster.overview.runTime,
-                unplayedLabel: poster.unplayedLabel(context.localized),
+              Row(
+                spacing: 12,
+                children: [
+                  Text(
+                    poster.detailedName(context.localized) ?? "",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  MetadataLabels(
+                    favourite: poster.userData.isFavourite ? true : null,
+                    officialRating: poster.overview.parentalRating,
+                    productionYear: poster.overview.productionYear?.toString(),
+                    communityRating: poster.overview.communityRating,
+                    runTime: poster.overview.runTime,
+                    playLabel: poster.watchedState(context.localized),
+                  ),
+                ],
               ),
               Text(
                 poster.overview.summary,

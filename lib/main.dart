@@ -101,7 +101,6 @@ class _FladderApp extends ConsumerWidget {
           light: lightTheme,
           dark: darkTheme,
           child: MaterialApp.router(
-            onGenerateTitle: (context) => ref.watch(currentTitleProvider),
             theme: lightTheme,
             scrollBehavior: scrollBehaviour.copyWith(
               dragDevices: {
@@ -153,5 +152,3 @@ class _FladderApp extends ConsumerWidget {
     );
   }
 }
-
-final currentTitleProvider = StateProvider<String>((ref) => "Fladder");

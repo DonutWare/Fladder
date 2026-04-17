@@ -105,16 +105,20 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
 
   MediaQueryData semiNestedPadding(BuildContext context, bool hasOverlay) {
     final paddingOf = MediaQuery.paddingOf(context);
-    final directionalPadding = EdgeInsetsDirectional.fromSTEB(
-      paddingOf.left,
-      paddingOf.top,
-      paddingOf.right,
-      paddingOf.bottom,
-    );
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
     return MediaQuery.of(context).copyWith(
-      padding: directionalPadding
-          .copyWith(start: hasOverlay ? 0 : directionalPadding.start)
-          .resolve(Directionality.of(context)),
+      padding: EdgeInsetsDirectional.only(
+        start: isRTL
+            ? hasOverlay
+                ? 0
+                : paddingOf.right
+            : hasOverlay
+                ? 0
+                : paddingOf.left,
+        end: isRTL ? paddingOf.left : paddingOf.right,
+        top: paddingOf.top,
+        bottom: paddingOf.bottom,
+      ).resolve(Directionality.of(context)),
     );
   }
 }

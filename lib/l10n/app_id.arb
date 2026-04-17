@@ -2005,5 +2005,21 @@
     "resolutionLabel": "Resolusi",
     "downloadTranscoded": "Unduh versi transkoding",
     "downloadOriginal": "Unduh versi asli",
-    "seerrUrlSchemeWarning": "Tidak dapat mendeteksi skema URL secara otomatis. Menggunakan default https://. Tambahkan awalan http:// jika server Anda tidak menggunakan HTTPS."
+    "seerrUrlSchemeWarning": "Tidak dapat mendeteksi skema URL secara otomatis. Menggunakan default https://. Tambahkan awalan http:// jika server Anda tidak menggunakan HTTPS.",
+    "viewTrailer": "Tonton trailer",
+    "today": "Hari ini",
+    "airsIn": "Tayang dalam {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    }
 }

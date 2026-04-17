@@ -12,6 +12,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/special_feature_model.dart';
+import 'package:fladder/models/items/watched_state.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/screens/details_screens/series_detail_screen.dart';
 
@@ -88,7 +89,11 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   }
 
   @override
-  String? unplayedLabel(AppLocalizations l10n) => userData.played ? null : userData.unPlayedItemCount?.toString();
+  WatchedState watchedState(AppLocalizations l10n) => userData.played
+      ? const Played()
+      : userData.unPlayedItemCount != null
+          ? PartiallyPlayed(userData.unPlayedItemCount!.toString())
+          : const Unplayed();
 
   @override
   bool get syncAble => true;

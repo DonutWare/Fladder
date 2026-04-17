@@ -100,18 +100,19 @@ class AdaptiveLayout extends InheritedWidget {
     return result?.data.isDesktop ?? false;
   }
 
-  static EdgeInsets adaptivePadding(BuildContext context, {double horizontalPadding = 16}) {
+  static EdgeInsets adaptivePadding(BuildContext context, {double horizontalPadding = 12}) {
     final viewPadding = MediaQuery.paddingOf(context);
     final textDirection = Directionality.of(context);
+    final directionalPadding = EdgeInsetsDirectional.only(
+      start: AdaptiveLayout.of(context).sideBarWidth + horizontalPadding,
+      end: horizontalPadding,
+    ).resolve(textDirection);
 
-    return EdgeInsetsDirectional.fromSTEB(viewPadding.left, 0, viewPadding.right, 0)
-        .add(
-          EdgeInsetsDirectional.only(
-            start: AdaptiveLayout.of(context).sideBarWidth + horizontalPadding,
-            end: horizontalPadding,
-          ),
-        )
-        .resolve(textDirection);
+    // Keep system safe-area insets physical; only app layout spacing should be directional.
+    return EdgeInsets.only(
+      left: viewPadding.left + directionalPadding.left,
+      right: viewPadding.right + directionalPadding.right,
+    );
   }
 
   static LayoutMode layoutModeOf(BuildContext context) => maybeOf(context)!.data.layoutMode;

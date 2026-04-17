@@ -58,7 +58,7 @@
     "clearSelection": "Selectie wissen",
     "close": "Sluiten",
     "code": "Code",
-    "collectionFolder": "{count, plural, one{Collectie folder} other{Collectie folders}}",
+    "collectionFolder": "{count, plural, one{Collectie map} other{Collectie mappen}}",
     "color": "Kleur",
     "combined": "Gecombineerd",
     "communityRating": "Gemeenschapswaardering",
@@ -1818,5 +1818,94 @@
     "includeHiddenItemsDesc": "Inclusief bibliotheken verborgen van dashboard scherm",
     "settingsBlurEffectsTitle": "Blur effecten aanzetten",
     "settingsBlurEffectsDesc": "Schakel vervagingseffecten in de gebruikersinterface in. Het uitschakelen hiervan kan de prestaties op minder krachtige apparaten verbeteren.",
-    "profileSettingsOpenAuthAtLaunch": "Toon authenticatiemethode bij app-vergrendeling"
+    "profileSettingsOpenAuthAtLaunch": "Toon authenticatiemethode bij app-vergrendeling",
+    "generateLoginLink": "Code voor {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareQRCode": "Deel QR code",
+    "copyLoginLink": "Link kopiëren",
+    "includePassword": "Wachtwoord includeren",
+    "invalidAuthLink": "Ongeldige login link",
+    "shareLoginLink": "Deel login code",
+    "gestures": "Gebaren",
+    "enableEdgeGesturesTitle": "Schakel randgebaren in",
+    "enableEdgeGesturesDesc": "Regel helderheid en volume door op en neer te schuiven aan de randen van het scherm",
+    "reverseEdgeGesturesTitle": "Wissel randgebaren",
+    "reverseEdgeGesturesDesc": "Wissel de kant voor helderheid en volumeregeling",
+    "advancedVideoOptionsTitle": "Geavanceerde video-opties",
+    "advancedVideoOptionsDesc": "Schakel HDR, toonmapping en geavanceerde kleurverwerking in (onstabiel voor sommige apparaten)",
+    "brightnessIndicator": "Helderheid: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "airsIn": "Zend uit in {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "transcodeInfoTitle": "Transcodeer informatie",
+    "transcodeInfoNoMetadata": "Er zijn geen transcodering metadata beschikbaar.",
+    "transcodeDetailsTitle": "Transcodering Details",
+    "containerLabel": "Container",
+    "videoCodecLabel": "Videocodec",
+    "audioCodecLabel": "Audiocodec",
+    "bitrateLabel": "Bitsnelheid",
+    "kbps": "kbps",
+    "resolutionLabel": "Resolutie",
+    "seerrUrlSchemeWarning": "Het URL-schema kon niet automatisch worden gedetecteerd. Standaard wordt https:// gebruikt. Voeg http:// toe als uw server geen HTTPS gebruikt.",
+    "viewTrailer": "Trailer bekijken",
+    "toggleSidebar": "Zijbalk schakelen",
+    "requestedSuccessForItem": "{itemName} is succesvol aangevraagd",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "linkData": "Link gegevens",
+    "passwordNotRequired": "Niet verplicht, laat dit veld leeg om het wachtwoord niet in de link op te nemen",
+    "authLinkButtonToolTip": "Open het dialoogvenster voor de authenticatielink",
+    "connectWithAuthLink": "Verbinden via authenticatielink",
+    "pasteFladderAuthLink": "Plak fladder auth-link fladder:///login?authLink=...",
+    "connect": "Verbinden",
+    "authLinkDesc": "Vraag de serverbeheerder om de authenticatielink. De link bevat authenticatiegegevens, dus zorg ervoor dat u deze veilig bewaart.",
+    "deletedItem": "Verwijderd {itemName}",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "Volgorde startscherm",
+    "libraryOrderDescription": "Sleep de bibliotheken om de volgorde te wijzigen op het home scherm. Bibliotheken die niet zijn aangevinkt, worden niet weergegeven als recent toegevoegde items.",
+    "hidePlayedInLatestTitle": "Verberg bekeken content",
+    "hidePlayedInLatestDescription": "Verberg bekeken content in 'Recent toegevoegde media'",
+    "groupedFoldersTitle": "Gegroepeerde bibliotheken",
+    "groupedFoldersDescription": "Automatisch content uit de volgende bibliotheken groeperen in weergaven zoals 'Films', 'Muziek' en 'Tv'.",
+    "downloadTranscoded": "Getranscodeerd downloaden",
+    "downloadOriginal": "Origineel downloaden",
+    "today": "Vandaag"
 }

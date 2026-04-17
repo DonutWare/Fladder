@@ -400,7 +400,7 @@ extension SeerrSearchModelPatterns on SeerrSearchModel {
 
 /// @nodoc
 
-class _SeerrSearchModel implements SeerrSearchModel {
+class _SeerrSearchModel extends SeerrSearchModel {
   _SeerrSearchModel(
       {this.query = "",
       final List<SeerrDashboardPosterModel> results = const [],
@@ -419,7 +419,8 @@ class _SeerrSearchModel implements SeerrSearchModel {
         _watchProviderRegions = watchProviderRegions,
         _genres = genres,
         _watchProviders = watchProviders,
-        _certifications = certifications;
+        _certifications = certifications,
+        super._();
 
   @override
   @JsonKey()
