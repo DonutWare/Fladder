@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
@@ -90,6 +91,19 @@ class Chapter {
   String toJson() => json.encode(toMap());
 
   factory Chapter.fromJson(String source) => Chapter.fromMap(json.decode(source));
+
+  Future<bool> isImageValidWithCache({CacheManager? preferredCacheManager}) async {
+    try {
+      var cacheManager = preferredCacheManager ?? CustomCacheManager.instance;
+      FileInfo? fileInfo = await cacheManager.getFileFromCache(imageUrl);
+
+      fileInfo ??= await cacheManager.downloadFile(imageUrl);
+
+      return fileInfo.file.existsSync();
+    } catch (e) {
+      return false;
+    }
+  }
 }
 
 extension ChapterExtension on List<Chapter> {

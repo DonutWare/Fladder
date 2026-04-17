@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/widgets/shared/trick_play_image.dart';
 import 'package:flutter/material.dart';
 
@@ -62,26 +65,44 @@ class ChapterRow extends ConsumerWidget {
             );
           },
           child: Container(
-            decoration: BoxDecoration(
-              borderRadius: FladderTheme.smallShape.borderRadius,
-              color: Theme.of(context).colorScheme.surfaceContainer,
-            ),
-            foregroundDecoration: FladderTheme.defaultPosterDecoration,
-            child: AspectRatio(
-              aspectRatio: 1.75,
-              child: CachedNetworkImage(
-                imageUrl: chapter.imageUrl,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => const Icon(IconsaxPlusBold.image),
-                errorWidget: (context, url, error) => chapter.trickplayFallback != null
-                    ? TrickPlayImage(
-                        chapter.trickplayFallback!,
-                        position: chapter.startPosition,
-                      )
-                    : const Icon(IconsaxPlusBold.image),
+              decoration: BoxDecoration(
+                borderRadius: FladderTheme.smallShape.borderRadius,
+                color: Theme.of(context).colorScheme.surfaceContainer,
               ),
-            ),
-          ),
+              foregroundDecoration: FladderTheme.defaultPosterDecoration,
+              child: FutureBuilder(
+                  future: chapter.isImageValidWithCache(),
+                  builder: (context, chImageSnapshot) {
+                    if (chImageSnapshot.connectionState == ConnectionState.waiting) {
+                      return const AspectRatio(aspectRatio: 1.75, child: Icon(IconsaxPlusBold.image));
+                    }
+
+                    if (chImageSnapshot.hasData && chImageSnapshot.data == true) {
+                      return AspectRatio(
+                          aspectRatio: 1.75,
+                          child: CachedNetworkImage(
+                            imageUrl: chapter.imageUrl,
+                            fit: BoxFit.cover,
+                            cacheManager: CustomCacheManager.instance,
+                          ));
+                    }
+
+                    if (chapter.trickplayFallback != null) {
+                      var trickplayAspectRatio = chapter.trickplayFallback!.width / chapter.trickplayFallback!.height;
+
+                      return AspectRatio(
+                          aspectRatio: trickplayAspectRatio,
+                          child: ImageFiltered(
+                              // tiny bit of blur is better than being pixelated
+                              imageFilter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                              child: TrickPlayImage(
+                                chapter.trickplayFallback!,
+                                position: chapter.startPosition,
+                              )));
+                    }
+
+                    return const Text("No chapter image available"); // TODO Chapter timeline
+                  })),
           overlays: [
             Align(
               alignment: Alignment.bottomLeft,
