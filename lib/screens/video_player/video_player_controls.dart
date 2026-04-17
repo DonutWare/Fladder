@@ -12,6 +12,7 @@ import 'package:screen_brightness/screen_brightness.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
@@ -78,10 +79,13 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   double? _vDragStartValue;
   double? _vDragLastValue;
 
+  int? _lastSelectedSubtitleIndex;
+
   @override
   void initState() {
     super.initState();
     timer.reset();
+    _lastSelectedSubtitleIndex = null;
   }
 
   @override
@@ -889,6 +893,58 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     _vDragLastValue = null;
   }
 
+  void _toggleSubtitles() {
+    final playbackModel = ref.read(playBackModel);
+    final player = ref.read(videoPlayerProvider);
+    final subStreams = playbackModel?.subStreams;
+
+    if (subStreams == null || subStreams.isEmpty) return;
+
+    // Filter out the "off" track (index == -1)
+    final availableSubtitles = subStreams.where((s) => s.index != -1).toList();
+    if (availableSubtitles.isEmpty) return;
+
+    final currentIndex = playbackModel?.mediaStreams?.defaultSubStreamIndex ?? -1;
+
+    // If only one subtitle track, toggle between it and off
+    if (availableSubtitles.length == 1) {
+      final singleSub = availableSubtitles.first;
+      final newSub = currentIndex == singleSub.index ? SubStreamModel.no() : singleSub;
+      _setSubtitleTrack(newSub, playbackModel, player);
+      return;
+    }
+
+    // Multiple subtitle tracks
+    if (_lastSelectedSubtitleIndex == null) {
+      // First time - show selection dialog
+      showSubSelection(context).then((_) {
+        // After dialog closes, store the selected subtitle
+        final newModel = ref.read(playBackModel);
+        final selectedIndex = newModel?.mediaStreams?.defaultSubStreamIndex;
+        if (selectedIndex != null && selectedIndex != -1) {
+          _lastSelectedSubtitleIndex = selectedIndex;
+        }
+      });
+    } else {
+      // Toggle between off and last selected
+      final lastSub = subStreams.firstWhere(
+        (s) => s.index == _lastSelectedSubtitleIndex,
+        orElse: () => availableSubtitles.first,
+      );
+      final newSub = currentIndex == _lastSelectedSubtitleIndex ? SubStreamModel.no() : lastSub;
+      _setSubtitleTrack(newSub, playbackModel, player);
+    }
+  }
+
+  void _setSubtitleTrack(SubStreamModel subModel, PlaybackModel? playbackModel, dynamic player) async {
+    if (playbackModel == null) return;
+    final newModel = await playbackModel.setSubtitle(subModel, player);
+    ref.read(playBackModel.notifier).update((state) => newModel);
+    if (newModel != null) {
+      await ref.read(playbackModelHelper).shouldReload(newModel);
+    }
+  }
+
   bool _onKey(VideoHotKeys value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
@@ -952,6 +1008,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       case VideoHotKeys.prevChapter:
         ref.read(videoPlayerSettingsProvider.notifier).prevChapter();
+        return true;
+      case VideoHotKeys.toggleSubtitles:
+        _toggleSubtitles();
         return true;
       default:
         return false;

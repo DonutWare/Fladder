@@ -1590,6 +1590,7 @@
   },
   "takeScreenshot": "Take screenshot",
   "takeScreenshotClean": "Take screenshot (without subtitles)",
+  "toggleSubtitles": "Toggle subtitles",
   "screenshotTaken": "Screenshot saved!",
   "screenshotCleanTaken": "Screenshot without subtitles saved!",
   "errorTakingScreenshot": "There was an error taking the screenshot",
