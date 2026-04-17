@@ -94,12 +94,9 @@ class Chapter {
 
   Future<bool> isImageValidWithCache({CacheManager? preferredCacheManager}) async {
     try {
-      var cacheManager = preferredCacheManager ?? CustomCacheManager.instance;
-      FileInfo? fileInfo = await cacheManager.getFileFromCache(imageUrl);
-
-      fileInfo ??= await cacheManager.downloadFile(imageUrl);
-
-      return fileInfo.file.existsSync();
+      final cacheManager = preferredCacheManager ?? CustomCacheManager.instance;
+      final file = await cacheManager.getSingleFile(imageUrl);
+      return file.existsSync();
     } catch (e) {
       return false;
     }
@@ -109,5 +106,13 @@ class Chapter {
 extension ChapterExtension on List<Chapter> {
   Chapter? getChapterFromDuration(Duration duration) {
     return lastWhereOrNull((element) => element.startPosition < duration);
+  }
+
+  Future<bool> allChapterImagesValidWithCache({CacheManager? preferredCacheManager}) async {
+    if (isEmpty) return false;
+    for (var element in this) {
+      if (!await element.isImageValidWithCache(preferredCacheManager: preferredCacheManager)) return false;
+    }
+    return true;
   }
 }
