@@ -60,9 +60,9 @@ jobs:
         env:
           CHANGELOG_MSG: "See the full changelog at: https://github.com/${{ github.repository }}/releases/tag/v${{ steps.version.outputs.version }}"
         run: |
-          BUILD_NUMBER="${{ steps.version.outputs.build_number }}"
+          VERSION="${{ steps.version.outputs.version }}"
           mkdir -p fastlane/metadata/android/en-US/changelogs
-          printf '%s' "${{ env.CHANGELOG_MSG }}" > "fastlane/metadata/android/en-US/changelogs/${BUILD_NUMBER}.txt"
+          printf '%s' "${{ env.CHANGELOG_MSG }}" > "fastlane/metadata/android/en-US/changelogs/${VERSION}.txt"
 
       - name: Commit, Merge and Tag
         if: steps.version.outputs.is_new_version == 'true'
