@@ -81,14 +81,16 @@ class MovieDetails extends _$MovieDetails {
         }
       }
 
-      List<Chapter>? newChapters = [];
-      final trickPlay = (await api.getTrickPlay(item: state, ref: ref))?.body;
-      if (trickPlay != null && trickPlay.images.isNotEmpty) {
-        newChapters = state?.chapters
-            .map((chapter) => chapter.copyWith(
-                  trickplayFallback: trickPlay,
-                ))
-            .toList();
+      List<Chapter>? newChapters;
+      if (state?.chapters.any((c) => c.trickplayFallback?.images.isEmpty ?? true) ?? true) {
+        final trickPlay = (await api.getTrickPlay(item: state, ref: ref))?.body;
+        if (trickPlay != null && trickPlay.images.isNotEmpty) {
+          newChapters = state!.chapters
+              .map((chapter) => chapter.copyWith(
+                    trickplayFallback: trickPlay,
+                  ))
+              .toList();
+        }
       }
 
       state = newState.copyWith(

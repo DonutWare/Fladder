@@ -22,7 +22,8 @@ class ChapterRow extends ConsumerWidget {
   final List<Chapter> chapters;
   final EdgeInsets contentPadding;
   final Function(Chapter)? onPressed;
-  late final isTrickPlayValid = chapters[0].trickplayFallback?.allImagesValidWithCache() ?? Future.value(false);
+  late final isTrickPlayValid =
+      chapters.firstOrNull?.trickplayFallback?.allImagesValidWithCache() ?? Future.value(false);
   late final areChapterImagesValid = chapters.allChapterImagesValidWithCache();
   ChapterRow({required this.contentPadding, this.onPressed, required this.chapters, super.key});
 
