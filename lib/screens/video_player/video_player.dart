@@ -59,10 +59,21 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
     super.dispose();
   }
 
+  void _setupListeners() {
+    ref.listenManual(
+      mediaPlaybackProvider.select((value) => value.playing),
+      (previous, next) {
+        playing = next;
+      },
+      fireImmediately: true,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _setupListeners();
     Future.microtask(() {
       ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
       final orientations = ref.read(videoPlayerSettingsProvider.select((value) => value.allowedOrientations));
