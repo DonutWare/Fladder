@@ -57,6 +57,16 @@
       }
     }
   },
+  "track": "{count, plural, one{Track} other{Tracks}}",
+  "@track": {
+    "description": "track",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "autoPlay": "Auto-play",
   "@autoPlay": {},
   "backgroundBlur": "Background blur",

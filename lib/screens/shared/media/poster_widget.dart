@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/album_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/screens/shared/media/components/poster_image.dart';
 import 'package:fladder/theme.dart';
@@ -54,6 +55,12 @@ class PosterWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final opacity = 0.65;
+    final subtitleClick = switch (poster) {
+      AlbumModel album => () {
+          album.parentBaseModel.navigateTo(context);
+        },
+      _ => null,
+    };
     return AspectRatio(
       aspectRatio: aspectRatio ?? AdaptiveLayout.poster(context).ratio,
       child: Column(
@@ -103,6 +110,7 @@ class PosterWidget extends ConsumerWidget {
                       if (poster.subText?.isNotEmpty ?? false)
                         Flexible(
                           child: ClickableText(
+                            onTap: subtitleClick,
                             opacity: opacity,
                             text: poster.subText ?? "",
                             maxLines: 1,
@@ -113,6 +121,7 @@ class PosterWidget extends ConsumerWidget {
                       else
                         Flexible(
                           child: ClickableText(
+                            onTap: subtitleClick,
                             opacity: opacity,
                             text: poster.subTextShort(context.localized) ?? "",
                             maxLines: 1,

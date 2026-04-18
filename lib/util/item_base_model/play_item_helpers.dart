@@ -450,12 +450,22 @@ Future<void> _playVideo(
     Navigator.of(context, rootNavigator: true).pop();
   } catch (_) {}
 
-  ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
+  final useMinimizedPlayer =
+      current.item.type == FladderItemType.audio || current.mediaStreams?.videoStreams.isEmpty == true;
+
+  ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(
+        state: useMinimizedPlayer ? VideoPlayerState.minimized : VideoPlayerState.fullScreen,
+        fullScreen: !useMinimizedPlayer,
+      ));
 
   if (cancelOperation?.isCanceled ?? false) return;
 
-  await ref.read(videoPlayerProvider.notifier).openPlayer(context);
-  if (AdaptiveLayout.of(context).isDesktop && defaultTargetPlatform != TargetPlatform.macOS) {
+  if (!useMinimizedPlayer) {
+    await ref.read(videoPlayerProvider.notifier).openPlayer(context);
+    if (AdaptiveLayout.of(context).isDesktop && defaultTargetPlatform != TargetPlatform.macOS) {
+      fullScreenHelper.closeFullScreen(ref);
+    }
+  } else if (AdaptiveLayout.of(context).isDesktop && defaultTargetPlatform != TargetPlatform.macOS) {
     fullScreenHelper.closeFullScreen(ref);
   }
 

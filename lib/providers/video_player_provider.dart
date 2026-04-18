@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 
+import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
@@ -118,8 +119,13 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     ref.read(playBackModel)?.dispose();
     await state.stop();
     ref.read(playbackRateProvider.notifier).state = 1.0;
+
+    final useMinimizedPlayer =
+        model.item.type == FladderItemType.audio || model.mediaStreams?.videoStreams.isEmpty == true;
+
     mediaState.update((state) => state.copyWith(
-          state: VideoPlayerState.fullScreen,
+          state: useMinimizedPlayer ? VideoPlayerState.minimized : VideoPlayerState.fullScreen,
+          fullScreen: !useMinimizedPlayer,
           buffering: true,
           errorPlaying: false,
           skippedSegments: {},
@@ -135,6 +141,13 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       await state.setAudioTrack(null, model);
       await state.setSubtitleTrack(null, model);
       ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
+
+      ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(
+            state: useMinimizedPlayer ? VideoPlayerState.minimized : VideoPlayerState.fullScreen,
+            buffering: true,
+            errorPlaying: false,
+            skippedSegments: {},
+          ));
 
       await state.play();
       return true;

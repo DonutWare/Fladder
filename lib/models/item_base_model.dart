@@ -10,6 +10,9 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/boxset_model.dart';
+import 'package:fladder/models/items/album_model.dart';
+import 'package:fladder/models/items/artist_model.dart';
+import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/folder_model.dart';
@@ -27,6 +30,8 @@ import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/playlist_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/details_screens/album_detail_screen.dart';
+import 'package:fladder/screens/details_screens/artist_detail_screen.dart';
 import 'package:fladder/screens/details_screens/book_detail_screen.dart';
 import 'package:fladder/screens/details_screens/channel_detail_screen.dart';
 import 'package:fladder/screens/details_screens/details_screens.dart';
@@ -175,6 +180,10 @@ class ItemBaseModel with ItemBaseModelMappable {
         return MovieDetailScreen(item: this);
       case EpisodeModel _:
         return EpisodeDetailScreen(item: this);
+      case AlbumModel album:
+        return AlbumDetailScreen(item: album);
+      case ArtistModel artist:
+        return ArtistDetailScreen(item: artist);
       case SeriesModel series:
         return SeriesDetailScreen(item: series);
       case ChannelModel channel:
@@ -234,6 +243,9 @@ class ItemBaseModel with ItemBaseModelMappable {
       BaseItemKind.boxset => BoxSetModel.fromBaseDto(item, ref),
       BaseItemKind.book => BookModel.fromBaseDto(item, ref),
       BaseItemKind.playlist => PlaylistModel.fromBaseDto(item, ref),
+      BaseItemKind.musicalbum => AlbumModel.fromBaseDto(item, ref),
+      BaseItemKind.musicartist => ArtistModel.fromBaseDto(item, ref),
+      BaseItemKind.audio => AudioModel.fromBaseDto(item, ref),
       BaseItemKind.tvchannel => ChannelModel.fromBaseDto(item, ref),
       _ => ItemBaseModel._fromBaseDto(item, ref)
     };
@@ -277,6 +289,9 @@ class ItemBaseModel with ItemBaseModelMappable {
         BookModel _ => FladderItemType.book,
         PlaylistModel _ => FladderItemType.playlist,
         FolderModel _ => FladderItemType.folder,
+        AlbumModel _ => FladderItemType.musicAlbum,
+        ArtistModel _ => FladderItemType.musicArtist,
+        AudioModel _ => FladderItemType.audio,
         ItemBaseModel _ => FladderItemType.baseType,
       };
 
@@ -303,6 +318,10 @@ enum FladderItemType {
     selectedicon: IconsaxPlusBold.music,
   ),
   musicAlbum(
+    icon: IconsaxPlusLinear.music,
+    selectedicon: IconsaxPlusBold.music,
+  ),
+  musicArtist(
     icon: IconsaxPlusLinear.music,
     selectedicon: IconsaxPlusBold.music,
   ),
@@ -399,6 +418,7 @@ enum FladderItemType {
         FladderItemType.audio => l10n.audio(count),
         FladderItemType.collectionFolder => l10n.collectionFolder(count),
         FladderItemType.musicAlbum => l10n.musicAlbum(count),
+        FladderItemType.musicArtist => l10n.mediaTypePerson(count),
         FladderItemType.musicVideo => l10n.video(count),
         FladderItemType.video => l10n.video(count),
         FladderItemType.movie => l10n.mediaTypeMovie(count),
@@ -420,6 +440,7 @@ enum FladderItemType {
         FladderItemType.audio => BaseItemKind.audio,
         FladderItemType.collectionFolder => BaseItemKind.collectionfolder,
         FladderItemType.musicAlbum => BaseItemKind.musicalbum,
+        FladderItemType.musicArtist => BaseItemKind.musicartist,
         FladderItemType.musicVideo => BaseItemKind.video,
         FladderItemType.video => BaseItemKind.video,
         FladderItemType.movie => BaseItemKind.movie,
