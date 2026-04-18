@@ -1032,6 +1032,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       case VideoHotKeys.toggleSubtitles:
         _toggleSubtitles();
+        return true;
       case VideoHotKeys.stepForward:
         playing ? ref.read(videoPlayerProvider).playOrPause() : stepForward(ref);
         return true;
