@@ -3,7 +3,7 @@ runtime: org.gnome.Platform
 runtime-version: '48'
 sdk: org.gnome.Sdk
 
-command: Fladder
+command: fladder
 add-extensions:
   org.freedesktop.Platform.ffmpeg-full:
     directory: lib/ffmpeg
@@ -142,7 +142,7 @@ modules:
     build-commands:
       - mkdir -p /app/bin
       - cp -r build/linux/x64/release/bundle/* /app/bin/
-      - chmod +x /app/bin/Fladder
+      - chmod +x /app/bin/fladder
       - mkdir -p /app/share/applications
       - mkdir -p /app/share/icons/hicolor/scalable/apps
       - install -Dm644 flatpak/Fladder.desktop /app/share/applications/${FLATPAK_ID}.desktop

@@ -1504,6 +1504,8 @@
   "seekBack": "Seek Back",
   "seekForwardInstant": "Seek Forward (Instant)",
   "seekBackInstant": "Seek Back (Instant)",
+  "stepForward": "Step Forward",
+  "stepBack": "Step Back",
   "mute": "Mute",
   "volumeUp": "Volume Up",
   "volumeDown": "Volume Down",

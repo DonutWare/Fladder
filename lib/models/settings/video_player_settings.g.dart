@@ -158,6 +158,8 @@ const _$VideoHotKeysEnumMap = {
   VideoHotKeys.seekBack: 'seekBack',
   VideoHotKeys.seekForwardInstant: 'seekForwardInstant',
   VideoHotKeys.seekBackInstant: 'seekBackInstant',
+  VideoHotKeys.stepForward: 'stepForward',
+  VideoHotKeys.stepBack: 'stepBack',
   VideoHotKeys.mute: 'mute',
   VideoHotKeys.volumeUp: 'volumeUp',
   VideoHotKeys.volumeDown: 'volumeDown',
