@@ -18,6 +18,7 @@ part 'album_model.mapper.dart';
 @MappableClass()
 class AlbumModel extends ItemBaseModel with AlbumModelMappable {
   final List<String> artistIds;
+  final String albumArtist;
   final List<String> albumArtistIds;
   final List<AudioModel> tracks;
   final List<AlbumModel> relatedAlbums;
@@ -26,6 +27,7 @@ class AlbumModel extends ItemBaseModel with AlbumModelMappable {
 
   const AlbumModel({
     this.artistIds = const [],
+    required this.albumArtist,
     this.albumArtistIds = const [],
     this.tracks = const [],
     this.relatedAlbums = const [],
@@ -78,17 +80,23 @@ class AlbumModel extends ItemBaseModel with AlbumModelMappable {
   bool get syncAble => false;
 
   String get artistLabel {
+    if (albumArtist.isNotEmpty) return albumArtist;
     if (artistIds.isEmpty && albumArtistIds.isEmpty) {
       return overview.people.map((person) => person.name).where((value) => value.isNotEmpty).join(', ');
     }
     final labels = <String>[];
+    if (albumArtistIds.isNotEmpty) albumArtistIds;
     if (artistIds.isNotEmpty) labels.addAll(artistIds);
-    if (albumArtistIds.isNotEmpty) labels.addAll(albumArtistIds);
     return labels.join(', ');
   }
 
   @override
   String? get subText => artistLabel.isNotEmpty ? artistLabel : null;
+
+  @override
+  ImagesData? get getPosters => images?.copyWith(
+        logo: () => images?.primary,
+      );
 
   @override
   String? subTextShort(AppLocalizations l10n) => overview.yearAired?.toString();
@@ -100,6 +108,7 @@ class AlbumModel extends ItemBaseModel with AlbumModelMappable {
     return AlbumModel(
       name: item.name ?? '',
       id: item.id ?? '',
+      albumArtist: item.albumArtist ?? '',
       childCount: item.childCount,
       overview: OverviewModel.fromBaseItemDto(item, ref),
       userData: UserData.fromDto(item.userData),

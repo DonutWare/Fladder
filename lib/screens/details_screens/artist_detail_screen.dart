@@ -64,7 +64,6 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                   alignment: Alignment.center,
                   child: FladderImage(
                     image: artist?.getPosters?.logo,
-                    // image: null,
                     placeHolder: placeHolder,
                     imageErrorBuilder: (context, error, stackTrace) => placeHolder,
                     alignment: Alignment.bottomCenter,

@@ -16,6 +16,7 @@ class ArtistModelMapper extends SubClassMapperBase<ArtistModel> {
       ItemBaseModelMapper.ensureInitialized().addSubMapper(_instance!);
       AlbumModelMapper.ensureInitialized();
       AudioModelMapper.ensureInitialized();
+      ArtistModelMapper.ensureInitialized();
       OverviewModelMapper.ensureInitialized();
       UserDataMapper.ensureInitialized();
     }
@@ -29,6 +30,9 @@ class ArtistModelMapper extends SubClassMapperBase<ArtistModel> {
   static const Field<ArtistModel, List<AlbumModel>> _f$albums = Field('albums', _$albums, opt: true, def: const []);
   static List<AudioModel> _$tracks(ArtistModel v) => v.tracks;
   static const Field<ArtistModel, List<AudioModel>> _f$tracks = Field('tracks', _$tracks, opt: true, def: const []);
+  static List<ArtistModel> _$similarArtists(ArtistModel v) => v.similarArtists;
+  static const Field<ArtistModel, List<ArtistModel>> _f$similarArtists =
+      Field('similarArtists', _$similarArtists, opt: true, def: const []);
   static Map<String, dynamic>? _$providerIds(ArtistModel v) => v.providerIds;
   static const Field<ArtistModel, Map<String, dynamic>> _f$providerIds = Field('providerIds', _$providerIds, opt: true);
   static String _$name(ArtistModel v) => v.name;
@@ -60,6 +64,7 @@ class ArtistModelMapper extends SubClassMapperBase<ArtistModel> {
   final MappableFields<ArtistModel> fields = const {
     #albums: _f$albums,
     #tracks: _f$tracks,
+    #similarArtists: _f$similarArtists,
     #providerIds: _f$providerIds,
     #name: _f$name,
     #id: _f$id,
@@ -88,6 +93,7 @@ class ArtistModelMapper extends SubClassMapperBase<ArtistModel> {
     return ArtistModel(
         albums: data.dec(_f$albums),
         tracks: data.dec(_f$tracks),
+        similarArtists: data.dec(_f$similarArtists),
         providerIds: data.dec(_f$providerIds),
         name: data.dec(_f$name),
         id: data.dec(_f$id),
@@ -120,6 +126,7 @@ extension ArtistModelValueCopy<$R, $Out> on ObjectCopyWith<$R, ArtistModel, $Out
 abstract class ArtistModelCopyWith<$R, $In extends ArtistModel, $Out> implements ItemBaseModelCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, AlbumModel, AlbumModelCopyWith<$R, AlbumModel, AlbumModel>> get albums;
   ListCopyWith<$R, AudioModel, AudioModelCopyWith<$R, AudioModel, AudioModel>> get tracks;
+  ListCopyWith<$R, ArtistModel, ArtistModelCopyWith<$R, ArtistModel, ArtistModel>> get similarArtists;
   MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>? get providerIds;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
@@ -129,6 +136,7 @@ abstract class ArtistModelCopyWith<$R, $In extends ArtistModel, $Out> implements
   $R call(
       {List<AlbumModel>? albums,
       List<AudioModel>? tracks,
+      List<ArtistModel>? similarArtists,
       Map<String, dynamic>? providerIds,
       String? name,
       String? id,
@@ -158,6 +166,9 @@ class _ArtistModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, ArtistMod
   ListCopyWith<$R, AudioModel, AudioModelCopyWith<$R, AudioModel, AudioModel>> get tracks =>
       ListCopyWith($value.tracks, (v, t) => v.copyWith.$chain(t), (v) => call(tracks: v));
   @override
+  ListCopyWith<$R, ArtistModel, ArtistModelCopyWith<$R, ArtistModel, ArtistModel>> get similarArtists =>
+      ListCopyWith($value.similarArtists, (v, t) => v.copyWith.$chain(t), (v) => call(similarArtists: v));
+  @override
   MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>? get providerIds => $value.providerIds != null
       ? MapCopyWith($value.providerIds!, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(providerIds: v))
       : null;
@@ -170,6 +181,7 @@ class _ArtistModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, ArtistMod
   $R call(
           {List<AlbumModel>? albums,
           List<AudioModel>? tracks,
+          List<ArtistModel>? similarArtists,
           Object? providerIds = $none,
           String? name,
           String? id,
@@ -186,6 +198,7 @@ class _ArtistModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, ArtistMod
       $apply(FieldCopyWithData({
         if (albums != null) #albums: albums,
         if (tracks != null) #tracks: tracks,
+        if (similarArtists != null) #similarArtists: similarArtists,
         if (providerIds != $none) #providerIds: providerIds,
         if (name != null) #name: name,
         if (id != null) #id: id,
@@ -204,6 +217,7 @@ class _ArtistModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, ArtistMod
   ArtistModel $make(CopyWithData data) => ArtistModel(
       albums: data.get(#albums, or: $value.albums),
       tracks: data.get(#tracks, or: $value.tracks),
+      similarArtists: data.get(#similarArtists, or: $value.similarArtists),
       providerIds: data.get(#providerIds, or: $value.providerIds),
       name: data.get(#name, or: $value.name),
       id: data.get(#id, or: $value.id),

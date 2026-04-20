@@ -13,6 +13,7 @@ import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
 
 class AlbumDetailScreen extends ConsumerStatefulWidget {
@@ -158,7 +159,10 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('ALBUM', style: Theme.of(context).textTheme.labelLarge?.copyWith(letterSpacing: 1.5)),
+                            Text(
+                              context.localized.musicAlbum(0).toUpperCase(),
+                              style: Theme.of(context).textTheme.labelLarge?.copyWith(letterSpacing: 1.5),
+                            ),
                             const SizedBox(height: 10),
                             Text(current.name, style: Theme.of(context).textTheme.displaySmall),
                             const SizedBox(height: 14),
@@ -173,13 +177,23 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                               Text(albumMeta, style: Theme.of(context).textTheme.bodyLarge),
                             ],
                             const SizedBox(height: 24),
-                            IconButton.filledTonal(
-                              onPressed: tracks.isNotEmpty ? () => tracks.first.play(detailsContext, ref) : null,
-                              icon: const Icon(
-                                IconsaxPlusLinear.play,
-                                size: 36,
-                              ),
-                            ),
+                            Row(
+                              spacing: 8,
+                              children: [
+                                IconButton.filled(
+                                  onPressed: tracks.isNotEmpty ? () => album.play(detailsContext, ref) : null,
+                                  icon: const Icon(
+                                    IconsaxPlusBold.play,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: tracks.isNotEmpty ? () => album.play(detailsContext, ref) : null,
+                                  icon: const Icon(
+                                    IconsaxPlusLinear.shuffle,
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ],
@@ -200,7 +214,7 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                   const SizedBox(height: 16),
                   if (tracks.isNotEmpty) ...[
                     TrackList(
-                      title: 'Tracks',
+                      title: context.localized.track(tracks.length),
                       tracks: tracks,
                       padding: padding,
                       onTrackTap: (track) => track.play(detailsContext, ref),
@@ -216,9 +230,10 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                     ),
                   ],
                   if (current.relatedAlbums.isNotEmpty) ...[
+                    const Divider(),
                     PosterRow(
                       posters: current.relatedAlbums,
-                      label: 'More by $mainArtistLabel',
+                      label: context.localized.moreFrom(mainArtistLabel),
                       contentPadding: padding,
                     ),
                   ],

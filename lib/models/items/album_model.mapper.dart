@@ -27,6 +27,8 @@ class AlbumModelMapper extends SubClassMapperBase<AlbumModel> {
 
   static List<String> _$artistIds(AlbumModel v) => v.artistIds;
   static const Field<AlbumModel, List<String>> _f$artistIds = Field('artistIds', _$artistIds, opt: true, def: const []);
+  static String _$albumArtist(AlbumModel v) => v.albumArtist;
+  static const Field<AlbumModel, String> _f$albumArtist = Field('albumArtist', _$albumArtist);
   static List<String> _$albumArtistIds(AlbumModel v) => v.albumArtistIds;
   static const Field<AlbumModel, List<String>> _f$albumArtistIds =
       Field('albumArtistIds', _$albumArtistIds, opt: true, def: const []);
@@ -68,6 +70,7 @@ class AlbumModelMapper extends SubClassMapperBase<AlbumModel> {
   @override
   final MappableFields<AlbumModel> fields = const {
     #artistIds: _f$artistIds,
+    #albumArtist: _f$albumArtist,
     #albumArtistIds: _f$albumArtistIds,
     #tracks: _f$tracks,
     #relatedAlbums: _f$relatedAlbums,
@@ -99,6 +102,7 @@ class AlbumModelMapper extends SubClassMapperBase<AlbumModel> {
   static AlbumModel _instantiate(DecodingData data) {
     return AlbumModel(
         artistIds: data.dec(_f$artistIds),
+        albumArtist: data.dec(_f$albumArtist),
         albumArtistIds: data.dec(_f$albumArtistIds),
         tracks: data.dec(_f$tracks),
         relatedAlbums: data.dec(_f$relatedAlbums),
@@ -146,6 +150,7 @@ abstract class AlbumModelCopyWith<$R, $In extends AlbumModel, $Out> implements I
   @override
   $R call(
       {List<String>? artistIds,
+      String? albumArtist,
       List<String>? albumArtistIds,
       List<AudioModel>? tracks,
       List<AlbumModel>? relatedAlbums,
@@ -199,6 +204,7 @@ class _AlbumModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AlbumModel
   @override
   $R call(
           {List<String>? artistIds,
+          String? albumArtist,
           List<String>? albumArtistIds,
           List<AudioModel>? tracks,
           List<AlbumModel>? relatedAlbums,
@@ -218,6 +224,7 @@ class _AlbumModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AlbumModel
           Object? jellyType = $none}) =>
       $apply(FieldCopyWithData({
         if (artistIds != null) #artistIds: artistIds,
+        if (albumArtist != null) #albumArtist: albumArtist,
         if (albumArtistIds != null) #albumArtistIds: albumArtistIds,
         if (tracks != null) #tracks: tracks,
         if (relatedAlbums != null) #relatedAlbums: relatedAlbums,
@@ -239,6 +246,7 @@ class _AlbumModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AlbumModel
   @override
   AlbumModel $make(CopyWithData data) => AlbumModel(
       artistIds: data.get(#artistIds, or: $value.artistIds),
+      albumArtist: data.get(#albumArtist, or: $value.albumArtist),
       albumArtistIds: data.get(#albumArtistIds, or: $value.albumArtistIds),
       tracks: data.get(#tracks, or: $value.tracks),
       relatedAlbums: data.get(#relatedAlbums, or: $value.relatedAlbums),

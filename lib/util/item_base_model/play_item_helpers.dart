@@ -224,6 +224,8 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
 
     final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
 
+    log(model.media?.url ?? "No media URL", name: "Playing media");
+
     await _playVideo(context, startPosition: actualStartPosition, current: model, ref: ref, cancelOperation: op);
   }
 }
