@@ -64,7 +64,7 @@ class SeerrRequest implements Interceptor {
     };
     final headers = {...authHeaders, ...customHeaders};
     // On web, route through the same-origin nginx proxy when seerrProxyPath is set.
-    // Nginx injects custom headers server-side so secrets never reach the browser.
+    // Nginx injects the headers server-side so the header values never reach the browser.
     final proxyPath = FladderConfig.seerrProxyPath;
     final apiBaseUri = (kIsWeb && proxyPath != null) ? Uri.base.resolve(proxyPath) : Uri.parse(serverUrl);
 
