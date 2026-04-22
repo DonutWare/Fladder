@@ -108,7 +108,8 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
       if ((FocusProvider.autoFocusOf(context) || widget.autoFocus) &&
           AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad) {
         final nodesOnSameRow = _nodesInRow(parentNode);
-        nodesOnSameRow[widget.startIndex ?? 0].requestFocus();
+        final initialNode = _nodeForItemIndex(context, nodesOnSameRow, widget.startIndex ?? 0);
+        initialNode?.requestFocus();
       }
     });
   }
@@ -401,8 +402,13 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
     final itemBox = node.context!.findRenderObject() as RenderBox?;
     if (scrollableBox == null || itemBox == null) return -1;
 
-    final dx = itemBox.localToGlobal(Offset.zero, ancestor: scrollableBox).dx;
-    final offset = dx + _scrollController.offset - widget.contentPadding.left;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+    final itemTopLeft = itemBox.localToGlobal(Offset.zero, ancestor: scrollableBox);
+    final itemTopRight = itemBox.localToGlobal(Offset(itemBox.size.width, 0), ancestor: scrollableBox);
+    final viewportWidth = scrollableBox.size.width;
+    final startPadding = isRtl ? widget.contentPadding.right : widget.contentPadding.left;
+    final leadingInViewport = isRtl ? (viewportWidth - itemTopRight.dx) : itemTopLeft.dx;
+    final offset = leadingInViewport + _scrollController.offset - startPadding;
 
     if (widget.itemWidthBuilder != null) {
       double cumulative = 0;
@@ -426,13 +432,14 @@ FocusNode? _firstFullyVisibleNode(
   List<FocusNode> nodes,
 ) {
   if (nodes.isEmpty) return null;
+  final isRtl = Directionality.of(context) == TextDirection.rtl;
 
   final scrollable = Scrollable.of(context);
 
   final viewportBox = scrollable.context.findRenderObject() as RenderBox;
   final viewportSize = viewportBox.size;
 
-  for (final node in nodes) {
+  for (final node in isRtl ? nodes.reversed : nodes) {
     final renderObj = node.context?.findRenderObject();
     if (renderObj is RenderBox) {
       final topLeft = renderObj.localToGlobal(Offset.zero, ancestor: viewportBox);
@@ -451,12 +458,23 @@ FocusNode? _firstFullyVisibleNode(
     }
   }
 
-  return nodes.firstOrNull;
+  return isRtl ? nodes.lastOrNull : nodes.firstOrNull;
+}
+
+FocusNode? _nodeForItemIndex(BuildContext context, List<FocusNode> nodes, int index) {
+  if (nodes.isEmpty) return null;
+
+  final maxIndex = nodes.length - 1;
+  final clampedIndex = index.clamp(0, maxIndex);
+  final isRtl = Directionality.of(context) == TextDirection.rtl;
+  final visualIndex = isRtl ? nodes.length - 1 - clampedIndex : clampedIndex;
+
+  return nodes[visualIndex];
 }
 
 List<FocusNode> _nodesInRow(FocusNode parentNode) {
   return parentNode.descendants.where((n) => n.canRequestFocus && n.context != null).toList()
-    ..sort((a, b) => a.rect.left.compareTo(b.rect.left));
+    ..sort((a, b) => a.rect.center.dx.compareTo(b.rect.center.dx));
 }
 
 class HorizontalRailFocus extends WidgetOrderTraversalPolicy {
@@ -476,21 +494,27 @@ class HorizontalRailFocus extends WidgetOrderTraversalPolicy {
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
+    final isRtl = Directionality.of(currentNode.context!) == TextDirection.rtl;
+    final towardsSidebar = isRtl ? TraversalDirection.right : TraversalDirection.left;
     final rowNodes = _nodesInRow(parentNode);
     final index = rowNodes.indexOf(currentNode);
     if (index == -1) return false;
 
     if (direction == TraversalDirection.left) {
       if (index == 0) {
-        if (scrollController.hasClients && scrollController.offset > firstItemWidth * 0.5) {
+        if (direction == towardsSidebar &&
+            scrollController.hasClients &&
+            scrollController.offset > firstItemWidth * 0.5) {
           if (scrollController.hasClients) scrollController.jumpTo(0);
           return true;
         }
 
-        lastMainFocus = currentNode;
-        if (navBarNode.canRequestFocus && navBarNode.context?.mounted == true) {
-          navBarNode.requestFocus();
-          return true;
+        if (direction == towardsSidebar) {
+          lastMainFocus = currentNode;
+          if (navBarNode.canRequestFocus && navBarNode.context?.mounted == true) {
+            navBarNode.requestFocus();
+            return true;
+          }
         }
         return false;
       }
@@ -520,6 +544,12 @@ class HorizontalRailFocus extends WidgetOrderTraversalPolicy {
 
         target.requestFocus();
         onFocused(target, intervalMillis: interval);
+      } else if (direction == towardsSidebar) {
+        lastMainFocus = currentNode;
+        if (navBarNode.canRequestFocus && navBarNode.context?.mounted == true) {
+          navBarNode.requestFocus();
+          return true;
+        }
       }
       return true;
     }

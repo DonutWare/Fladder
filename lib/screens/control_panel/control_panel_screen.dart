@@ -77,7 +77,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
         AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual && context.tabsRouter.current.name == route.routeName;
 
     return Padding(
-      padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
+      padding: EdgeInsetsDirectional.only(start: AdaptiveLayout.of(context).sideBarWidth),
       child: Container(
         color: context.colors.surface,
         child: SettingsScaffold(

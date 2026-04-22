@@ -50,7 +50,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ? Card(
                   elevation: 0,
                   child: Stack(
-                    children: [_leftPane(context), content],
+                    children: [
+                      _leftPane(context),
+                      content,
+                    ],
                   ),
                 )
               : Row(
@@ -60,7 +63,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     Expanded(flex: 2, child: _leftPane(context)),
                     Expanded(
                       flex: 3,
-                      child: content,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: MediaQuery.paddingOf(context).left,
+                        ),
+                        child: content,
+                      ),
                     ),
                   ],
                 ),
@@ -111,7 +119,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final isAdmin = ref.watch(userProvider.select((value) => value?.policy?.isAdministrator ?? false));
 
     return Padding(
-      padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
+      padding: EdgeInsetsDirectional.only(start: AdaptiveLayout.of(context).sideBarWidth),
       child: Container(
         color: context.colors.surface,
         child: SettingsScaffold(

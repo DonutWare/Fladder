@@ -22,6 +22,7 @@ import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/screens/shared/media/components/item_logo.dart';
 import 'package:fladder/screens/video_player/components/video_playback_information.dart';
+import 'package:fladder/screens/video_player/components/video_player_brightness_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_controls_extras.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
@@ -72,6 +73,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   late final double topPadding = MediaQuery.of(context).viewPadding.top;
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
+
+  String? _vDragSide;
+  double? _vDragStartValue;
+  double? _vDragLastValue;
 
   @override
   void initState() {
@@ -130,6 +135,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                         : _handleDoubleTapSeek,
                     onLongPressStart: initInputDevice == InputDevice.touch ? _handleLongPressStart : null,
                     onLongPressEnd: initInputDevice == InputDevice.touch ? _handleLongPressEnd : null,
+                    onVerticalDragStart: initInputDevice == InputDevice.touch ? _handleVerticalDragStart : null,
+                    onVerticalDragUpdate: initInputDevice == InputDevice.touch ? _handleVerticalDragUpdate : null,
+                    onVerticalDragEnd: initInputDevice == InputDevice.touch ? _handleVerticalDragEnd : null,
                   ),
                 ),
                 if (subtitleWidget != null) subtitleWidget,
@@ -155,6 +163,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                 ),
                 VideoPlayerSeekIndicator(controller: _seekController),
                 const VideoPlayerVolumeIndicator(),
+                const VideoPlayerBrightnessIndicator(),
                 const VideoPlayerSpeedIndicator(),
                 const VideoPlayerScreenshotIndicator(),
                 Consumer(
@@ -346,7 +355,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                             icon: const Icon(IconsaxPlusLinear.audio_square),
                           ),
                         ],
-                        if (AdaptiveLayout.layoutOf(context) == ViewSize.desktop) ...[
+                        if (AdaptiveLayout.layoutOf(context) >= ViewSize.desktop) ...[
                           Flexible(
                             child: ElevatedButton.icon(
                               onPressed: () => showSubSelection(context),
@@ -659,17 +668,37 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   void seekBack(WidgetRef ref, {int seconds = 15}) {
-    final mediaPlayback = ref.read(mediaPlaybackProvider);
-    resetTimer();
-    final newPosition = (mediaPlayback.position.inSeconds - seconds).clamp(0, mediaPlayback.duration.inSeconds);
-    ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
+    _seek(ref, -seconds);
   }
 
   void seekForward(WidgetRef ref, {int seconds = 15}) {
+    _seek(ref, seconds);
+  }
+
+  void _seek(WidgetRef ref, int seconds) {
     final mediaPlayback = ref.read(mediaPlaybackProvider);
     resetTimer();
     final newPosition = (mediaPlayback.position.inSeconds + seconds).clamp(0, mediaPlayback.duration.inSeconds);
     ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
+  }
+
+  void stepBack(WidgetRef ref) {
+    _step(ref, -1);
+  }
+
+  void stepForward(WidgetRef ref) {
+    _step(ref, 1);
+  }
+
+  void _step(WidgetRef ref, int frames) {
+    final mediaPlayback = ref.read(mediaPlaybackProvider);
+    final framerate = ref.read(playBackModel.select((value) => value?.mediaStreams?.videoStreams.first.frameRate));
+    if (framerate == null || framerate == 0) return;
+
+    final step = ((1000000.0 / framerate) * frames).round();
+    resetTimer();
+    final newPosition = (mediaPlayback.position.inMicroseconds + step).clamp(0, mediaPlayback.duration.inMicroseconds);
+    ref.read(videoPlayerProvider).seek(Duration(microseconds: newPosition));
   }
 
   void seekBackWithIndicator() {
@@ -830,9 +859,60 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     _deactivateSpeedBoost();
   }
 
+  void _handleVerticalDragStart(DragStartDetails details) {
+    final settings = ref.read(videoPlayerSettingsProvider);
+    if (!settings.enableEdgeGestures) return;
+
+    final size = MediaQuery.sizeOf(context);
+    final y = details.localPosition.dy;
+    // Safety margin of 10% top/bottom to avoid accidental system gestures (notification tray, home bar)
+    if (y < size.height * 0.1 || y > size.height * 0.9) {
+      _vDragSide = null;
+      return;
+    }
+
+    final isLeft = details.localPosition.dx < size.width / 2;
+    final isBrightness = settings.reverseEdgeGestures ? !isLeft : isLeft;
+
+    _vDragSide = isBrightness ? 'brightness' : 'volume';
+
+    if (isBrightness) {
+      _vDragStartValue = settings.screenBrightness ?? 1.0;
+    } else {
+      _vDragStartValue = settings.volume / 100;
+    }
+    _vDragLastValue = _vDragStartValue;
+  }
+
+  void _handleVerticalDragUpdate(DragUpdateDetails details) {
+    if (_vDragSide == null || _vDragStartValue == null) return;
+
+    final screenHeight = MediaQuery.sizeOf(context).height;
+    // Slide up to increase, down to decrease.
+    // details.delta.dy is positive when sliding down.
+    final delta = -details.primaryDelta! / (screenHeight * 0.7); // 70% of screen height for full range
+    final newValue = (_vDragLastValue! + delta).clamp(0.0, 1.0);
+
+    if (newValue == _vDragLastValue) return;
+    _vDragLastValue = newValue;
+
+    if (_vDragSide == 'brightness') {
+      ref.read(videoPlayerSettingsProvider.notifier).setScreenBrightness(newValue);
+    } else {
+      ref.read(videoPlayerSettingsProvider.notifier).setVolume(newValue * 100);
+    }
+  }
+
+  void _handleVerticalDragEnd(DragEndDetails details) {
+    _vDragSide = null;
+    _vDragStartValue = null;
+    _vDragLastValue = null;
+  }
+
   bool _onKey(VideoHotKeys value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
+    final playing = ref.read(mediaPlaybackProvider.select((value) => value.playing));
 
     MediaSegment? segment = mediaSegments?.atPosition(position);
 
@@ -870,8 +950,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         }
         return true;
       case VideoHotKeys.exit:
-        closePlayer();
+        if (ModalRoute.of(context)?.isCurrent == true) {
+          closePlayer();
+          return true;
+        }
         return false;
+
       case VideoHotKeys.mute:
         if (volume != 0) {
           previousVolume = volume;
@@ -889,6 +973,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       case VideoHotKeys.prevChapter:
         ref.read(videoPlayerSettingsProvider.notifier).prevChapter();
+        return true;
+      case VideoHotKeys.stepForward:
+        playing ? ref.read(videoPlayerProvider).playOrPause() : stepForward(ref);
+        return true;
+      case VideoHotKeys.stepBack:
+        playing ? ref.read(videoPlayerProvider).playOrPause() : stepBack(ref);
         return true;
       default:
         return false;

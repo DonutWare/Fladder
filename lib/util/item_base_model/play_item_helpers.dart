@@ -222,7 +222,9 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
       return;
     }
 
-    await _playVideo(context, startPosition: startPosition, current: model, ref: ref, cancelOperation: op);
+    final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
+
+    await _playVideo(context, startPosition: actualStartPosition, current: model, ref: ref, cancelOperation: op);
   }
 }
 
@@ -382,17 +384,17 @@ class _LoadIndicatorCancelable extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              tooltip: context.localized.close,
-              autofocus: AdaptiveLayout.of(context).isDesktop,
-              onPressed: () {
-                try {
-                  op.cancel();
-                } catch (_) {}
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-              icon: const Icon(IconsaxPlusLinear.close_square),
-            ),
+            if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad)
+              IconButton(
+                tooltip: context.localized.close,
+                onPressed: () {
+                  try {
+                    op.cancel();
+                  } catch (_) {}
+                  Navigator.of(context, rootNavigator: true).pop();
+                },
+                icon: const Icon(IconsaxPlusLinear.close_square),
+              ),
           ],
         ),
       ),
