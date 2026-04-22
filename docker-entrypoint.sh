@@ -4,8 +4,12 @@ set -e
 CONFIG="/usr/share/nginx/html/assets/config/config.json"
 NGINX_CONF="/etc/nginx/conf.d/default.conf"
 
+strip_trailing_slashes() {
+  echo "$1" | sed 's|/*$||'
+}
+
 # Strip trailing slashes from SEERR_BASE_URL so proxy_pass doesn't emit a double slash.
-SEERR_BASE_URL=$(echo "$SEERR_BASE_URL" | sed 's|/*$||')
+SEERR_BASE_URL=$(strip_trailing_slashes "$SEERR_BASE_URL")
 
 # --- Build config.json ---
 
@@ -88,7 +92,7 @@ ${PROXY_BLOCK}
 EOF
 else
     echo "Configuring Fladder on subpath: $WEBPATH"
-    WEBPATH_NO_SLASH=$(echo "$WEBPATH" | sed 's|/*$||')
+    WEBPATH_NO_SLASH=$(strip_trailing_slashes "$WEBPATH")
 
     cat > "$NGINX_CONF" <<EOF
 ${GEO_BLOCK}server {
