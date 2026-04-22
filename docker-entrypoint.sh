@@ -82,7 +82,7 @@ if [ -n "$SEERR_PROXY_PATH" ]; then
   #   ${seerr_literal_dollar}  — nginx-level reference to the geo-defined variable above, emits a literal '$'.
   PROXY_BLOCK="
     location ${SEERR_PROXY_PATH}/ {
-        proxy_pass ${SEERR_BASE_URL}/;
+        proxy_pass \"${SEERR_BASE_URL}/\";
         proxy_set_header Host \$proxy_host;
         proxy_ssl_server_name on;
 ${HEADER_DIRECTIVES}
