@@ -4,6 +4,9 @@ set -e
 CONFIG="/usr/share/nginx/html/assets/config/config.json"
 NGINX_CONF="/etc/nginx/conf.d/default.conf"
 
+# Strip trailing slashes from SEERR_BASE_URL so proxy_pass doesn't emit a double slash.
+SEERR_BASE_URL=$(echo "$SEERR_BASE_URL" | sed 's|/*$||')
+
 # --- Build config.json ---
 
 # Determine seerrProxyPath: set when both SEERR_BASE_URL and SEERR_HEADER are provided
