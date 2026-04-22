@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:chopper/chopper.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+
+import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/images_models.dart';
@@ -165,6 +166,37 @@ class SeerrService {
     );
   }
 
+  SeerrDashboardPosterModel? posterFromPersonCredit(SeerrPersonCredit credit) {
+    final type = credit.mediaType ?? (credit.firstAirDate != null ? SeerrMediaType.tvshow : SeerrMediaType.movie);
+    final tmdbId = credit.id ?? credit.mediaInfo?.tmdbId;
+    if (tmdbId == null) return null;
+
+    final title =
+        type == SeerrMediaType.tvshow ? (credit.name ?? credit.title ?? '') : (credit.title ?? credit.name ?? '');
+    if (title.isEmpty) return null;
+
+    String? releaseYear;
+    final dateString = type == SeerrMediaType.tvshow ? credit.firstAirDate : credit.releaseDate;
+    if (dateString != null && dateString.isNotEmpty) {
+      releaseYear = dateString.split('-').first;
+    }
+
+    return _posterFromDetails(
+      type: type,
+      tmdbId: tmdbId,
+      jellyfinItemId: credit.mediaInfo?.primaryJellyfinMediaId,
+      title: title,
+      overview: credit.overview ?? '',
+      posterUrl: resolveImageUrl(path: credit.internalPosterPath),
+      backdropUrl: resolveImageUrl(
+        path: credit.internalBackdropPath,
+      ),
+      mediaStatus: credit.mediaInfo?.mediaStatus,
+      mediaInfo: credit.mediaInfo,
+      releaseYear: releaseYear,
+    );
+  }
+
   Map<int, SeerrMediaStatus> _seasonStatusMap(List<SeerrMediaInfoSeason>? seasons) {
     if (seasons == null) return const {};
     return {
@@ -272,6 +304,13 @@ class SeerrService {
     String? language,
   }) {
     return _api.getSeasonDetails(tvId, seasonNumber, language: language);
+  }
+
+  Future<Response<SeerrCombinedCreditsResponse>> personCombinedCredits({
+    required int personId,
+    String? language,
+  }) {
+    return _api.getPersonCombinedCredits(personId, language: language);
   }
 
   Future<Response<SeerrRequestsResponse>> listRequests({
@@ -464,12 +503,12 @@ class SeerrService {
       SeerrCreateRequestBody(
         mediaType: 'movie',
         mediaId: tmdbId,
-        is4k: is4k,
+        is4k: is4k ?? false,
         userId: userId,
         serverId: serverId,
         profileId: profileId,
         rootFolder: rootFolder,
-        tags: tags,
+        tags: tags?.isEmpty == true ? null : tags,
       ),
     );
   }
@@ -488,13 +527,13 @@ class SeerrService {
       SeerrCreateRequestBody(
         mediaType: 'tv',
         mediaId: tmdbId,
-        is4k: is4k,
-        seasons: seasons,
+        is4k: is4k ?? false,
+        seasons: seasons?.isEmpty == true ? null : seasons,
         userId: userId,
         serverId: serverId,
         profileId: profileId,
         rootFolder: rootFolder,
-        tags: tags,
+        tags: tags?.isEmpty == true ? null : tags,
       ),
     );
   }

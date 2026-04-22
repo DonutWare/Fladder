@@ -11,7 +11,6 @@ import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
@@ -27,9 +26,9 @@ List<Widget> buildClientSettingsVisual(
     context,
     SettingsLabelDivider(label: context.localized.settingsVisual),
     [
-      SettingsListTile(
+      SettingsListTileEnum(
         label: Text(context.localized.displayLanguage),
-        trailing: Localizations.override(
+        currentWidget: Localizations.override(
           context: context,
           locale: ref.watch(clientSettingsProvider.select((value) => (value.selectedLocale ?? currentLocale))),
           child: Builder(builder: (context) {
@@ -37,29 +36,26 @@ List<Widget> buildClientSettingsVisual(
             try {
               language = context.localized.nativeName;
             } catch (_) {}
-            return EnumBox(
-              current: language,
-              itemBuilder: (context) {
-                return [
-                  ...AppLocalizations.supportedLocales.map(
-                    (entry) => ItemActionButton(
-                      label: Localizations.override(
-                        context: context,
-                        locale: entry,
-                        child: Builder(builder: (context) {
-                          return Text("${context.localized.nativeName} (${entry.toDisplayCode()})");
-                        }),
-                      ),
-                      action: () => ref
-                          .read(clientSettingsProvider.notifier)
-                          .update((state) => state.copyWith(selectedLocale: entry)),
-                    ),
-                  )
-                ];
-              },
-            );
+            return Text(language);
           }),
         ),
+        itemBuilder: (context) {
+          return [
+            ...AppLocalizations.supportedLocales.map(
+              (entry) => ItemActionButton(
+                label: Localizations.override(
+                  context: context,
+                  locale: entry,
+                  child: Builder(builder: (context) {
+                    return Text("${context.localized.nativeName} (${entry.toDisplayCode()})");
+                  }),
+                ),
+                action: () =>
+                    ref.read(clientSettingsProvider.notifier).update((state) => state.copyWith(selectedLocale: entry)),
+              ),
+            )
+          ];
+        },
       ),
       SettingsListTile(
         label: Text(context.localized.settingsBlurredPlaceholderTitle),
@@ -108,21 +104,18 @@ List<Widget> buildClientSettingsVisual(
             onChanged: (value) => ref.read(clientSettingsProvider.notifier).setExpandedTVLayout(value),
           ),
         ),
-      SettingsListTile(
+      SettingsListTileEnum(
         label: Text(context.localized.enableBackgroundPostersTitle),
         subLabel: Text(context.localized.enableBackgroundPostersDesc),
-        trailing: EnumBox(
-          current: clientSettings.backgroundImage.label(context),
-          itemBuilder: (context) => BackgroundType.values
-              .map(
-                (e) => ItemActionButton(
-                  label: Text(e.label(context)),
-                  action: () =>
-                      ref.read(clientSettingsProvider.notifier).update((cb) => cb.copyWith(backgroundImage: e)),
-                ),
-              )
-              .toList(),
-        ),
+        current: clientSettings.backgroundImage.label(context),
+        itemBuilder: (context) => BackgroundType.values
+            .map(
+              (e) => ItemActionButton(
+                label: Text(e.label(context)),
+                action: () => ref.read(clientSettingsProvider.notifier).update((cb) => cb.copyWith(backgroundImage: e)),
+              ),
+            )
+            .toList(),
       ),
       SettingsListTile(
         label: Text(context.localized.usePostersForLibraryIconsTitle),

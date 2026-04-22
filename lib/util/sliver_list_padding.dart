@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
-class DefautlSliverBottomPadding extends StatelessWidget {
-  const DefautlSliverBottomPadding({super.key});
+class DefaultSliverBottomPadding extends StatelessWidget {
+  const DefaultSliverBottomPadding({super.key});
 
   @override
   Widget build(BuildContext context) {

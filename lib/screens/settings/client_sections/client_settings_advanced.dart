@@ -9,7 +9,6 @@ import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/option_dialogue.dart';
 
@@ -43,16 +42,17 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
           elevation: 0,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children:
-                  ref.watch(homeSettingsProvider.select((value) => value.layoutStates.toList())).mapWithLast((e, last) {
+            child: Column(
+              spacing: 4,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: ViewSize.values.map((e) {
                 final isCurrent = AdaptiveLayout.viewSizeOf(context) == e;
                 return Row(
                   spacing: 4,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
+                    Text(e.label(context)),
                     if (isCurrent) const Icon(IconsaxPlusLinear.tick_circle, size: 16),
-                    Text("${e.label(context)}${!last ? ", " : ""}"),
                   ],
                 );
               }).toList(),
@@ -85,17 +85,17 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
           elevation: 0,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: ref
-                  .watch(homeSettingsProvider.select((value) => value.screenLayouts.toList()))
-                  .mapWithLast((e, last) {
+            child: Column(
+              spacing: 4,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: LayoutMode.values.map((e) {
                 final isCurrent = AdaptiveLayout.layoutModeOf(context) == e;
                 return Row(
                   spacing: 4,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
+                    Text(e.label(context)),
                     if (isCurrent) const Icon(IconsaxPlusLinear.tick_circle, size: 16),
-                    Text("${e.label(context)}${!last ? ", " : ""}"),
                   ],
                 );
               }).toList(),

@@ -111,7 +111,7 @@ class _SyncedScreenState extends ConsumerState<SyncedScreen> {
                 ),
               )
             ],
-            const DefautlSliverBottomPadding(),
+            const DefaultSliverBottomPadding(),
           ],
         ),
       ),

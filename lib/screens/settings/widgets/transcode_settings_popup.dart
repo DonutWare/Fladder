@@ -4,7 +4,6 @@ import 'package:fladder/models/syncing/transcode_download_model.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
 Future<void> showTranscodeSettingsPopup({
@@ -77,96 +76,86 @@ class _TranscodeSettingsPopupState extends State<TranscodeSettingsPopup> {
                     },
                   ),
                 ),
-                SettingsListTile(
+                SettingsListTileEnum(
                   label: Text(context.localized.bitrateLabel),
-                  trailing: EnumBox(
-                    current: currentModel.maxBitrate.label(context),
-                    itemBuilder: (context) {
-                      return Bitrate.values
-                          .where((element) => element != Bitrate.auto)
-                          .map((e) => ItemActionButton(
-                                label: Text(e.label(context)),
-                                action: () {
-                                  setState(() {
-                                    currentModel = currentModel.copyWith(maxBitrate: e);
-                                  });
-                                },
-                              ))
-                          .toList();
-                    },
-                  ),
+                  current: currentModel.maxBitrate.label(context),
+                  itemBuilder: (context) {
+                    return Bitrate.values
+                        .where((element) => element != Bitrate.auto)
+                        .map((e) => ItemActionButton(
+                              label: Text(e.label(context)),
+                              action: () {
+                                setState(() {
+                                  currentModel = currentModel.copyWith(maxBitrate: e);
+                                });
+                              },
+                            ))
+                        .toList();
+                  },
                 ),
-                SettingsListTile(
+                SettingsListTileEnum(
                   label: Text(context.localized.resolutionLabel),
-                  trailing: EnumBox(
-                    current: currentModel.maxHeight.label,
-                    itemBuilder: (context) {
-                      return MaxHeight.values
-                          .map((e) => ItemActionButton(
-                                label: Text(e.label),
-                                action: () {
-                                  setState(() {
-                                    currentModel = currentModel.copyWith(maxHeight: e);
-                                  });
-                                },
-                              ))
-                          .toList();
-                    },
-                  ),
+                  current: currentModel.maxHeight.label,
+                  itemBuilder: (context) {
+                    return MaxHeight.values
+                        .map((e) => ItemActionButton(
+                              label: Text(e.label),
+                              action: () {
+                                setState(() {
+                                  currentModel = currentModel.copyWith(maxHeight: e);
+                                });
+                              },
+                            ))
+                        .toList();
+                  },
                 ),
-                SettingsListTile(
+                SettingsListTileEnum(
                   label: Text(context.localized.videoCodecLabel),
-                  trailing: EnumBox(
-                    current: currentModel.videoCodec.name,
-                    itemBuilder: (context) {
-                      return VideoCodec.values
-                          .map((e) => ItemActionButton(
-                                label: Text(e.name),
-                                action: () {
-                                  setState(() {
-                                    currentModel = currentModel.copyWith(videoCodec: e);
-                                  });
-                                },
-                              ))
-                          .toList();
-                    },
-                  ),
+                  current: currentModel.videoCodec.name,
+                  itemBuilder: (context) {
+                    return VideoCodec.values
+                        .map((e) => ItemActionButton(
+                              label: Text(e.name),
+                              action: () {
+                                setState(() {
+                                  currentModel = currentModel.copyWith(videoCodec: e);
+                                });
+                              },
+                            ))
+                        .toList();
+                  },
                 ),
-                SettingsListTile(
+                SettingsListTileEnum(
                   label: Text(context.localized.audioCodecLabel),
-                  trailing: EnumBox(
-                    current: currentModel.audioCodec.name,
-                    itemBuilder: (context) {
-                      return AudioCodec.values
-                          .map((e) => ItemActionButton(
-                                label: Text(e.name),
-                                action: () {
-                                  setState(() {
-                                    currentModel = currentModel.copyWith(audioCodec: e);
-                                  });
-                                },
-                              ))
-                          .toList();
-                    },
-                  ),
+                  current: currentModel.audioCodec.name,
+                  itemBuilder: (context) {
+                    return AudioCodec.values
+                        .map((e) => ItemActionButton(
+                              label: Text(e.name),
+                              action: () {
+                                setState(() {
+                                  currentModel = currentModel.copyWith(audioCodec: e);
+                                });
+                              },
+                            ))
+                        .toList();
+                  },
                 ),
-                SettingsListTile(
+                SettingsListTileEnum(
                   label: Text(context.localized.containerLabel),
-                  trailing: EnumBox(
-                    current: currentModel.container.name,
-                    itemBuilder: (context) {
-                      return VideoContainer.values
-                          .map((e) => ItemActionButton(
-                                label: Text(e.name),
-                                action: () {
-                                  setState(() {
-                                    currentModel = currentModel.copyWith(container: e);
-                                  });
-                                },
-                              ))
-                          .toList();
-                    },
-                  ),
+                  current: currentModel.container.name,
+                  itemBuilder: (context) {
+                    return VideoContainer.values
+                        .map((e) => ItemActionButton(
+                              label: Text(e.name),
+                              action: () {
+                                setState(() {
+                                  currentModel = currentModel.copyWith(container: e);
+                                });
+                              },
+                            ))
+                        .toList();
+                  },
                 ),
               ],
             ),

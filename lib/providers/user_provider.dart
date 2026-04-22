@@ -90,8 +90,10 @@ class User extends _$User {
     final currentUserConfiguration = state?.userConfiguration;
     if (currentUserConfiguration == null) return;
 
-    final updated = currentUserConfiguration.copyWith(
-      subtitleLanguagePreference: language?.isEmpty ?? true ? null : language,
+    final normalizedLanguage = language?.trim().toLowerCase();
+    final updated = currentUserConfiguration.copyWithWrapped(
+      subtitleLanguagePreference:
+          Wrapped<String?>.value((normalizedLanguage?.isEmpty ?? true) ? null : normalizedLanguage),
     );
     final newUserConfiguration = await api.updateUserConfiguration(updated);
     if (newUserConfiguration != null) {

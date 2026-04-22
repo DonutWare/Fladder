@@ -305,7 +305,7 @@ class EpisodePoster extends ConsumerWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            episode.status.label(context.localized),
+                            episode.status.label(context.localized, episode.dateAired),
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),

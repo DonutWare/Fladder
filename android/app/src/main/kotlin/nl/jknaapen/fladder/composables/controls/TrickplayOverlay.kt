@@ -29,6 +29,7 @@ import coil3.compose.rememberAsyncImagePainter
 import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.toBitmap
+import kotlin.math.roundToInt
 import kotlin.time.Duration
 
 private data class ThumbnailData(val tileUrl: String, val offset: Pair<Double, Double>)
@@ -156,10 +157,11 @@ private fun Thumbnail(
             .build()
     )
     val imageState by painter.state.collectAsState()
+    val trickPlayTotalWidth = (trickPlayModel.width * trickPlayModel.tileWidth).toFloat()
 
     Box(
         modifier = modifier
-            .aspectRatio(16f / 9f)
+            .aspectRatio(trickPlayModel.width.toFloat() / trickPlayModel.height)
             .clip(
                 shape = RoundedCornerShape(12.dp)
             )
@@ -167,15 +169,18 @@ private fun Thumbnail(
         when (val state = imageState) {
             is AsyncImagePainter.State.Success -> {
                 val imageBitmap = state.result.image.toBitmap().asImageBitmap()
+
+                val trickPlayScalingFactor = state.result.image.width.toFloat() / trickPlayTotalWidth
+
+                val offsetX = (offset.first * trickPlayScalingFactor).roundToInt()
+                val offsetY = (offset.second * trickPlayScalingFactor).roundToInt()
+                val scaledWidth = (trickPlayModel.width * trickPlayScalingFactor).roundToInt()
+                val scaledHeight = (trickPlayModel.height * trickPlayScalingFactor).roundToInt()
                 Canvas(modifier = Modifier.matchParentSize()) {
-                    val (offsetX, offsetY) = offset
                     drawImage(
                         image = imageBitmap,
-                        srcOffset = IntOffset(offsetX.toInt(), offsetY.toInt()),
-                        srcSize = IntSize(
-                            trickPlayModel.width.toInt(),
-                            trickPlayModel.height.toInt()
-                        ),
+                        srcOffset = IntOffset(offsetX, offsetY),
+                        srcSize = IntSize(scaledWidth, scaledHeight),
                         dstSize = IntSize(size.width.toInt(), size.height.toInt())
                     )
                 }

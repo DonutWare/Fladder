@@ -1831,5 +1831,123 @@
     "settingsBlurEffectsTitle": "تفعيل تأثيرات التمويه",
     "settingsBlurEffectsDesc": "تفعيل تأثيرات التمويه في واجهة المستخدم. تعطيلها قد يحسن الأداء على الأجهزة منخفضة الإمكانيات.",
     "profileSettingsOpenAuthAtLaunch": "عرض طريقة المصادقة عند قفل التطبيق",
-    "toggleSidebar": "تبديل الشريط الجانبي"
+    "toggleSidebar": "تبديل الشريط الجانبي",
+    "generateLoginLink": "رمز لـ {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "مشاركة رابط تسجيل الدخول",
+    "shareQRCode": "مشاركة رمز QR",
+    "copyLoginLink": "نسخ الرابط",
+    "includePassword": "تضمين كلمة المرور",
+    "invalidAuthLink": "رابط تسجيل دخول غير صالح",
+    "advancedVideoOptionsTitle": "خيارات الفيديو المتقدمة",
+    "advancedVideoOptionsDesc": "تفعيل HDR، ومعالجة النغمات، وإدارة الألوان المتقدمة (قد تكون غير مستقرة لبعض الأجهزة)",
+    "seerrUrlSchemeWarning": "لم يتمكن من اكتشاف بروتوكول الرابط تلقائيًا. سيتم استخدام https:// افتراضيًا. أضف http:// إذا كان الخادم لا يستخدم HTTPS.",
+    "requestedSuccessForItem": "تم طلب {itemName} بنجاح",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "linkData": "بيانات الرابط",
+    "passwordNotRequired": "غير مطلوب، اتركه فارغاً لعدم تضمين كلمة المرور في الرابط",
+    "authLinkButtonToolTip": "فتح نافذة رابط المصادقة",
+    "connectWithAuthLink": "الاتصال باستخدام رابط المصادقة",
+    "pasteFladderAuthLink": "لصق رابط مصادقة Fladder fladder://login?authLink=...",
+    "connect": "اتصال",
+    "authLinkDesc": "اطلب من مدير الخادم تزويدك برابط المصادقة. يحتوي الرابط على معلومات المصادقة، لذا تأكد من الحفاظ على أمانه.",
+    "deletedItem": "تم حذف {itemName}",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "ترتيب الشاشة الرئيسية",
+    "libraryOrderDescription": "اسحب لإعادة ترتيب المكتبات على الشاشة الرئيسية. المكتبات غير المحددة لن تعرض العناصر المضافة حديثاً.",
+    "hidePlayedInLatestTitle": "إخفاء المحتوى المُشاهد",
+    "hidePlayedInLatestDescription": "إخفاء المحتوى المُشاهد من قسم \"الوسائط المضافة حديثاً\"",
+    "groupedFoldersTitle": "المكتبات المجمّعة",
+    "groupedFoldersDescription": "تجميع المحتوى تلقائياً من المكتبات التالية في أقسام مثل \"الأفلام\"، \"الموسيقى\"، و\"التلفاز\".",
+    "transcodeInfoTitle": "معلومات التحويل",
+    "transcodeInfoNoMetadata": "لا تتوفر بيانات وصفية للتحويل.",
+    "transcodeDetailsTitle": "تفاصيل التحويل",
+    "containerLabel": "الحاوية",
+    "videoCodecLabel": "ترميز الفيديو",
+    "audioCodecLabel": "ترميز الصوت",
+    "bitrateLabel": "معدل البث",
+    "kbps": "كيلوبت/ثانية",
+    "resolutionLabel": "الدقة",
+    "downloadTranscoded": "تنزيل النسخة المحوّلة",
+    "downloadOriginal": "تنزيل النسخة الأصلية",
+    "airsIn": "يُعرض خلال {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "today": "اليوم",
+    "gestures": "الإيماءات",
+    "anyLanguage": "أي لغة",
+    "enableEdgeGesturesTitle": "تفعيل إيماءات الحواف",
+    "enableEdgeGesturesDesc": "التحكم في السطوع والصوت عبر السحب لأعلى أو لأسفل على حواف الشاشة",
+    "reverseEdgeGesturesTitle": "تبديل إيماءات الحواف",
+    "reverseEdgeGesturesDesc": "تبديل الجهة للتحكم في السطوع والصوت",
+    "brightnessIndicator": "السطوع: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "viewTrailer": "مشاهدة الإعلان التشويقي",
+    "personBirthday": "تاريخ الميلاد: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "العمر: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "وُلد في {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "استكشاف الأفلام",
+    "seerrSeries": "استكشاف المسلسلات"
 }

@@ -67,6 +67,8 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
       );
 
       state = state.copyWith(activePrograms: channels);
+    } else {
+      state = state.copyWith(activePrograms: []);
     }
 
     if (viewTypes.containsAny([CollectionType.movies, CollectionType.tvshows])) {

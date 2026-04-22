@@ -762,7 +762,7 @@ extension SyncNotifierHelpers on SyncNotifier {
         seriesId: seriesItem.id,
       );
 
-      final episodes = episodesResponse.body?.items ?? [];
+      final episodes = episodesResponse.body?.items?.where((ep) => ep.seasonId == newSeason.id).toList() ?? [];
 
       final episodeResults = await Future.wait(
         episodes.map((ep) async {

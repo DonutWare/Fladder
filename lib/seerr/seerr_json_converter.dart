@@ -44,6 +44,7 @@ class SeerrJsonConverter extends JsonConverter {
         SeerrQuickConnectCheckResponse: SeerrQuickConnectCheckResponse.fromJson,
         SeerrQuickConnectAuthBody: SeerrQuickConnectAuthBody.fromJson,
         SeerrGenreResponse: SeerrGenreResponse.fromJson,
+        SeerrCombinedCreditsResponse: SeerrCombinedCreditsResponse.fromJson,
         SeerrWatchProvider: SeerrWatchProvider.fromJson,
         SeerrWatchProviderRegion: SeerrWatchProviderRegion.fromJson,
         SeerrCertificationsResponse: SeerrCertificationsResponse.fromJson,

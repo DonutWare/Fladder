@@ -18,7 +18,7 @@ AppDir:
     name: Fladder
     icon: fladder_icon_desktop
     version: latest
-    exec: Fladder
+    exec: fladder
     exec_args: $@
   files:
     include:

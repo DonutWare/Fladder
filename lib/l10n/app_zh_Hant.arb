@@ -1809,5 +1809,52 @@
     "settingsBlurEffectsTitle": "啟用模糊效果",
     "settingsBlurEffectsDesc": "在使用者介面中啟用模糊效果。關閉此功能可提升低階裝置的效能。",
     "profileSettingsOpenAuthAtLaunch": "在應用程式鎖定時顯示驗證方式",
-    "toggleSidebar": "切換側邊欄"
+    "toggleSidebar": "切換側邊欄",
+    "generateLoginLink": "{userName}的代碼",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "分享登入連結",
+    "shareQRCode": "分享 QR 碼",
+    "copyLoginLink": "複製連結",
+    "includePassword": "包含密碼",
+    "invalidAuthLink": "登入連結無效",
+    "advancedVideoOptionsTitle": "進階視訊選項",
+    "advancedVideoOptionsDesc": "啟用 HDR、色調映射與進階色彩處理（部分裝置可能不穩定）",
+    "requestedSuccessForItem": "成功請求 {itemName}",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "linkData": "連結資料",
+    "passwordNotRequired": "非必填，留空表示連結中不包含密碼",
+    "authLinkButtonToolTip": "開啟身份驗證連結對話框",
+    "connectWithAuthLink": "使用身份驗證連結連線",
+    "pasteFladderAuthLink": "請貼上 Fladder 驗證連結：fladder:///login?authLink=...",
+    "connect": "連線",
+    "authLinkDesc": "請伺服器管理員提供驗證連結。該連結包含驗證資訊，請務必妥善保管，確保安全。",
+    "deletedItem": "刪除 {itemName}",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "主畫面順序",
+    "libraryOrderDescription": "拖曳以重新排列主畫面上的資料庫。取消勾選的資料庫不會顯示最近新增的項目。",
+    "hidePlayedInLatestTitle": "隱藏已觀看內容",
+    "hidePlayedInLatestDescription": "隱藏「最近新增的影片」中已觀看的內容",
+    "groupedFoldersTitle": "分組媒體庫",
+    "groupedFoldersDescription": "自動將以下媒體庫的內容分組為「電影」、「音樂」和「電視節目」等檢視項目。"
 }

@@ -29,7 +29,7 @@ class PosterGrid extends ConsumerWidget {
       padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: size.toInt(),
+        crossAxisCount: size.toInt().clamp(1, double.maxFinite).toInt(),
         mainAxisSpacing: (8 * decimals) + 8,
         crossAxisSpacing: (8 * decimals) + 8,
         childAspectRatio: AdaptiveLayout.poster(context).ratio,

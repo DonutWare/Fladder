@@ -2,7 +2,7 @@
 Name=Fladder
 StartupWMClass=nl.jknaapen.fladder
 Comment=A Simple Jellyfin Frontend built on top of Flutter.
-Exec=Fladder
+Exec=fladder
 Icon=nl.jknaapen.fladder
 Terminal=false
 Type=Application

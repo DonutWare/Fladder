@@ -232,12 +232,24 @@ class Vector2 {
   static Vector2 fromPosition(Offset windowPosition) => Vector2(x: windowPosition.dx, y: windowPosition.dy);
 }
 
-Map<GlobalHotKeys, KeyCombination> get _defaultGlobalHotKeys => {
-      for (var hotKey in GlobalHotKeys.values)
-        hotKey: switch (hotKey) {
-          GlobalHotKeys.toggleSideBar => KeyCombination(key: LogicalKeyboardKey.keyQ),
-          GlobalHotKeys.search =>
-            KeyCombination(key: LogicalKeyboardKey.keyK, modifier: LogicalKeyboardKey.controlLeft),
-          GlobalHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.keyQ, modifier: LogicalKeyboardKey.controlLeft),
+Map<GlobalHotKeys, KeyCombination> get _defaultGlobalHotKeys => switch (defaultTargetPlatform) {
+      TargetPlatform.macOS => {
+          for (var hotKey in GlobalHotKeys.values)
+            hotKey: switch (hotKey) {
+              GlobalHotKeys.toggleSideBar => KeyCombination(key: LogicalKeyboardKey.keyQ),
+              GlobalHotKeys.search =>
+                KeyCombination(key: LogicalKeyboardKey.keyK, modifier: LogicalKeyboardKey.superKey),
+              GlobalHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.keyQ, modifier: LogicalKeyboardKey.superKey),
+            },
         },
+      _ => {
+          for (var hotKey in GlobalHotKeys.values)
+            hotKey: switch (hotKey) {
+              GlobalHotKeys.toggleSideBar => KeyCombination(key: LogicalKeyboardKey.keyQ),
+              GlobalHotKeys.search =>
+                KeyCombination(key: LogicalKeyboardKey.keyK, modifier: LogicalKeyboardKey.controlLeft),
+              GlobalHotKeys.exit =>
+                KeyCombination(key: LogicalKeyboardKey.keyQ, modifier: LogicalKeyboardKey.controlLeft),
+            },
+        }
     };
