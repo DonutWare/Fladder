@@ -40,9 +40,25 @@ PORT="${PORT:-$([ "$(id -u)" = "0" ] && echo 80 || echo 8080)}"
 
 # --- Build Seerr proxy block ---
 PROXY_BLOCK=""
+GEO_BLOCK=""
 if [ -n "$SEERR_PROXY_PATH" ]; then
-  HEADER_DIRECTIVES=$(echo "$SEERR_HEADER" | jq -r 'to_entries[] | "        proxy_set_header \(.key) \"\(.value)\";"')
+  # CR/LF are forbidden in HTTP header values (RFC 9110 §5.5) — reject rather than escape.
+  if printf '%s' "$SEERR_HEADER" | jq -e '[.[] | test("[\r\n]")] | any' > /dev/null; then
+    echo "Error: SEERR_HEADER values must not contain newline or carriage return (invalid HTTP header values)" >&2
+    exit 1
+  fi
+  # nginx has no native escape for literal '$' in quoted strings; define a variable
+  # holding "$" at http level and substitute '$' -> '${literal_dollar}' in values.
+  # tojson handles " and \ escaping (nginx shares those conventions with JSON).
+  HEADER_DIRECTIVES=$(printf '%s' "$SEERR_HEADER" | jq -r '
+    to_entries[] |
+    "        proxy_set_header " + .key + " " + (.value | gsub("\\$"; "${literal_dollar}") | tojson) + ";"
+  ')
 
+  GEO_BLOCK='geo $literal_dollar {
+    default "$";
+}
+'
   PROXY_BLOCK="
     location ${SEERR_PROXY_PATH}/ {
         proxy_pass ${SEERR_BASE_URL}/;
@@ -56,7 +72,7 @@ fi
 if [ "$WEBPATH" = "/" ]; then
     echo "Configuring Fladder at root path"
     cat > "$NGINX_CONF" <<EOF
-server {
+${GEO_BLOCK}server {
     listen $PORT;
     listen [::]:$PORT;
     server_name localhost;
@@ -74,7 +90,7 @@ else
     WEBPATH_NO_SLASH=$(echo "$WEBPATH" | sed 's|/*$||')
 
     cat > "$NGINX_CONF" <<EOF
-server {
+${GEO_BLOCK}server {
     listen $PORT;
     listen [::]:$PORT;
     server_name localhost;
