@@ -18,14 +18,11 @@ class FladderConfig {
 
   factory FladderConfig._fromJson(Map<String, dynamic> json) {
     final config = FladderConfig._();
-    final newUrl = json['baseUrl'] as String?;
-    final newSeerrUrl = json['seerrBaseUrl'] as String?;
-    final newProxyPath = json['seerrProxyPath'] as String?;
-
-    config._baseUrl = newUrl?.isEmpty == true ? null : newUrl;
-    config._seerrBaseUrl = newSeerrUrl?.isEmpty == true ? null : newSeerrUrl;
-    config._seerrProxyPath = newProxyPath?.isEmpty == true ? null : newProxyPath;
-
+    config._baseUrl = _nonEmpty(json['baseUrl'] as String?);
+    config._seerrBaseUrl = _nonEmpty(json['seerrBaseUrl'] as String?);
+    config._seerrProxyPath = _nonEmpty(json['seerrProxyPath'] as String?);
     return config;
   }
+
+  static String? _nonEmpty(String? s) => s?.isEmpty == true ? null : s;
 }
