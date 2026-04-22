@@ -46,6 +46,12 @@ PORT="${PORT:-$([ "$(id -u)" = "0" ] && echo 80 || echo 8080)}"
 PROXY_BLOCK=""
 GEO_BLOCK=""
 if [ -n "$SEERR_PROXY_PATH" ]; then
+  # SEERR_HEADER must be a JSON object of strings. Validate up front so the jq
+  # iterations below don't abort with cryptic "cannot iterate over..." errors.
+  if ! printf '%s' "$SEERR_HEADER" | jq -e 'type == "object" and all(.[]; type == "string")' > /dev/null 2>&1; then
+    echo "Error: SEERR_HEADER must be a JSON object with string values, e.g. {\"Header-Name\":\"value\"}" >&2
+    exit 1
+  fi
   # CR/LF are forbidden in HTTP header values (RFC 9110 §5.5) — reject rather than escape.
   if printf '%s' "$SEERR_HEADER" | jq -e '[.[] | test("[\r\n]")] | any' > /dev/null; then
     echo "Error: SEERR_HEADER values must not contain newline or carriage return (invalid HTTP header values)" >&2
