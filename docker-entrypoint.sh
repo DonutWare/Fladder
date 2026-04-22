@@ -52,6 +52,13 @@ if [ -n "$SEERR_PROXY_PATH" ]; then
     echo "Error: SEERR_HEADER must be a JSON object with string values, e.g. {\"Header-Name\":\"value\"}" >&2
     exit 1
   fi
+  # Keys are injected unquoted into the nginx directive — restrict to the common
+  # HTTP header-name form (alpha-start, then alphanumerics and hyphens) so a key
+  # containing whitespace or ';' can't escape the proxy_set_header directive.
+  if ! printf '%s' "$SEERR_HEADER" | jq -e 'all(keys_unsorted[]; test("^[A-Za-z][A-Za-z0-9-]*$"))' > /dev/null 2>&1; then
+    echo "Error: SEERR_HEADER keys must match ^[A-Za-z][A-Za-z0-9-]*\$ (standard HTTP header name format)" >&2
+    exit 1
+  fi
   # CR/LF are forbidden in HTTP header values (RFC 9110 §5.5) — reject rather than escape.
   if printf '%s' "$SEERR_HEADER" | jq -e '[.[] | test("[\r\n]")] | any' > /dev/null; then
     echo "Error: SEERR_HEADER values must not contain newline or carriage return (invalid HTTP header values)" >&2
