@@ -20,8 +20,8 @@ SEERR_PROXY_JSON=$([ -n "$SEERR_PROXY_PATH" ] && echo "\"$SEERR_PROXY_PATH\"" ||
 
 cat > "$CONFIG" <<EOF
 {
-  "baseUrl": $([ -n "$BASE_URL" ] && echo "\"$BASE_URL\"" || echo null),
-  "seerrBaseUrl": $([ -n "$SEERR_BASE_URL" ] && echo "\"$SEERR_BASE_URL\"" || echo null),
+  "baseUrl": "$BASE_URL",
+  "seerrBaseUrl": "$SEERR_BASE_URL",
   "seerrProxyPath": $SEERR_PROXY_JSON
 }
 EOF
