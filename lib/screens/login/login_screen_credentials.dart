@@ -109,6 +109,20 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     final hidePasswordLogin = ref.watch(authProvider.select((value) => value.hidePasswordLogin)) ||
         ref.watch(clientSettingsProvider.select((value) => value.hidePasswordLogin));
 
+    final advancedOptionsButton = IconButton.filledTonal(
+      onPressed: () async {
+        final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+        final result = await showAdvancedLoginOptionsDialog(
+          context,
+          initialSeerrUrl: tempSeerrUrl,
+        );
+        if (result != null) {
+          ref.read(authProvider.notifier).setTempSeerrUrl(result);
+        }
+      },
+      icon: const Icon(IconsaxPlusLinear.setting_3),
+    );
+
     ref.listen(
       authProvider.select((value) => value.serverLoginModel),
       (previous, next) {
@@ -270,7 +284,8 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                                     width: 18,
                                     height: 18,
                                     child: CircularProgressIndicator(
-                                        color: Theme.of(context).colorScheme.inversePrimary, strokeCap: StrokeCap.round),
+                                        color: Theme.of(context).colorScheme.inversePrimary,
+                                        strokeCap: StrokeCap.round),
                                   )
                                 : Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -282,41 +297,14 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                                   ),
                           ),
                         ),
-                        if (FladderConfig.seerrBaseUrl?.isNotEmpty != true)
-                          IconButton.filledTonal(
-                            onPressed: () async {
-                              final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-                              final result = await showAdvancedLoginOptionsDialog(
-                                context,
-                                initialSeerrUrl: tempSeerrUrl,
-                              );
-                              if (result != null) {
-                                ref.read(authProvider.notifier).setTempSeerrUrl(result);
-                              }
-                            },
-                            icon: const Icon(IconsaxPlusLinear.setting_3),
-                          ),
+                        if (FladderConfig.seerrBaseUrl?.isNotEmpty != true) advancedOptionsButton,
                       ],
                     ),
                   ],
                   if (hidePasswordLogin && FladderConfig.seerrBaseUrl?.isNotEmpty != true)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton.filledTonal(
-                          onPressed: () async {
-                            final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-                            final result = await showAdvancedLoginOptionsDialog(
-                              context,
-                              initialSeerrUrl: tempSeerrUrl,
-                            );
-                            if (result != null) {
-                              ref.read(authProvider.notifier).setTempSeerrUrl(result);
-                            }
-                          },
-                          icon: const Icon(IconsaxPlusLinear.setting_3),
-                        ),
-                      ],
+                      children: [advancedOptionsButton],
                     ),
                   if (hasQuickConnect)
                     FilledButton(
