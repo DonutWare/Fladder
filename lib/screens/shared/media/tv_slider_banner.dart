@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/watched_state.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/shared/media/components/media_header.dart';
 import 'package:fladder/screens/shared/media/components/media_play_button.dart';
@@ -13,9 +14,9 @@ import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
-import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/top_navigation_bar.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
@@ -267,6 +268,24 @@ class _BannerInfoOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const opacity = 0.95;
+    final playState = poster.watchedState(context.localized);
+
+    final labelWidget = switch (playState) {
+      PartiallyPlayed(:final label) => SimpleLabel(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          iconColor: Theme.of(context).colorScheme.primary,
+          label: Text(label),
+        ),
+      Played() => SimpleLabel(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          iconColor: Theme.of(context).colorScheme.primary,
+          label: const Icon(
+            Icons.check_rounded,
+            size: 18,
+          ),
+        ),
+      Unplayed() => null,
+    };
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
@@ -307,7 +326,7 @@ class _BannerInfoOverlay extends StatelessWidget {
                     productionYear: episode.overview.productionYear?.toString(),
                     communityRating: episode.overview.communityRating,
                     runTime: episode.overview.runTime,
-                    watched: episode.userData.played == true ? true : null,
+                    additionalLabels: [if (labelWidget != null) labelWidget],
                   ),
                 ],
               ),
@@ -328,7 +347,7 @@ class _BannerInfoOverlay extends StatelessWidget {
                 productionYear: poster.overview.productionYear?.toString(),
                 communityRating: poster.overview.communityRating,
                 runTime: poster.overview.runTime,
-                watched: poster.userData.played == true ? true : null,
+                additionalLabels: [if (labelWidget != null) labelWidget],
               ),
               Genres(
                 genres: poster.overview.genreItems.take(6).toList(),

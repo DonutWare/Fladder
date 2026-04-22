@@ -16,6 +16,7 @@ import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/series_model.dart';
+import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/string_extensions.dart';
 
 part 'episode_model.mapper.dart';
@@ -33,9 +34,9 @@ enum EpisodeStatus {
         EpisodeStatus.missing => Colors.redAccent,
       };
 
-  String label(AppLocalizations l10n) => switch (this) {
+  String label(AppLocalizations l10n, DateTime? airDate) => switch (this) {
         EpisodeStatus.available => l10n.episodeAvailable,
-        EpisodeStatus.unaired => l10n.episodeUnaired,
+        EpisodeStatus.unaired => airDate.dateInDays(l10n) ?? l10n.episodeUnaired,
         EpisodeStatus.missing => l10n.episodeMissing,
       };
 }
@@ -79,6 +80,14 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
         (dateAired?.isBefore(DateTime.now()) == true) ? EpisodeStatus.missing : EpisodeStatus.unaired,
       _ => EpisodeStatus.missing
     };
+  }
+
+  @override
+  String windowTitle(AppLocalizations l10n) {
+    final s = season.toString().padLeft(2, '0');
+    final e = episodeRange.padLeft(2, '0');
+    final prefix = seriesName != null ? '$seriesName • ' : '';
+    return '$prefix${l10n.season(1)[0]}$s${l10n.episode(1)[0]}$e $name';
   }
 
   @override

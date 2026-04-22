@@ -76,6 +76,7 @@ class SeerrDetails extends _$SeerrDetails {
         state = state.copyWith(
           poster: updatedPoster,
           genres: details.genres ?? [],
+          relatedVideos: details.relatedVideos ?? const [],
           voteAverage: details.voteAverage,
           contentRating: contentRating,
           releaseDate: details.firstAirDate,
@@ -103,6 +104,7 @@ class SeerrDetails extends _$SeerrDetails {
         state = state.copyWith(
           poster: updatedPoster,
           genres: details.genres ?? [],
+          relatedVideos: details.relatedVideos ?? const [],
           voteAverage: details.voteAverage,
           contentRating: contentRating,
           releaseDate: details.releaseDate,
@@ -265,6 +267,7 @@ abstract class SeerrDetailsModel with _$SeerrDetailsModel {
     SeerrUserModel? currentUser,
     @Default({}) Map<int, bool> expandedSeasons,
     @Default({}) Map<int, List<SeerrEpisode>> episodesCache,
+    @Default([]) List<SeerrRelatedVideo> relatedVideos,
     SeerrExternalIds? externalIds,
     SeerrRatingsResponse? ratings,
   }) = _SeerrDetailsModel;
@@ -304,6 +307,55 @@ abstract class SeerrDetailsModel with _$SeerrDetailsModel {
         imdbId != null ? 'https://trakt.tv/search/imdb/$imdbId?source=imdb' : 'https://trakt.tv/search/tmdb/$tmdbId');
     addUrl('TVDB', tvdbId != null ? 'http://www.thetvdb.com/?tab=series&id=$tvdbId' : null);
     addUrl('Rotten Tomatoes', rtUrl);
+    return urls;
+  }
+
+  SeerrRelatedVideo? get officialTrailer {
+    if (relatedVideos.isEmpty) return null;
+
+    final trailers = relatedVideos
+        .where(
+          (video) => (video.type ?? '').toLowerCase() == 'trailer',
+        )
+        .toList(growable: false);
+
+    for (final trailer in trailers) {
+      if ((trailer.name ?? '').toLowerCase().contains('official')) {
+        return trailer;
+      }
+    }
+
+    if (trailers.isNotEmpty) {
+      return trailers.first;
+    }
+
+    return relatedVideos.first;
+  }
+
+  String? get officialTrailerUrl {
+    final trailer = officialTrailer;
+    final url = trailer?.url;
+    if (url == null || url.isEmpty) return null;
+    return url;
+  }
+
+  bool get hasTrailerAction => (officialTrailerUrl ?? '').isNotEmpty;
+
+  List<ExternalUrls> buildRelatedVideoUrls() {
+    final urls = <ExternalUrls>[];
+
+    for (var i = 0; i < relatedVideos.length; i++) {
+      final video = relatedVideos[i];
+      final url = video.url;
+      if (url == null || url.isEmpty) continue;
+
+      final videoName = video.name?.trim() ?? '';
+      final videoType = video.type?.trim() ?? '';
+      final label = videoName.isNotEmpty ? videoName : (videoType.isNotEmpty ? videoType : 'Video ${i + 1}');
+
+      urls.add(ExternalUrls(name: label, url: url));
+    }
+
     return urls;
   }
 

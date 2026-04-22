@@ -253,7 +253,10 @@ class KeyListenerWidgetState extends ConsumerState<KeyListenerWidget> {
                             ),
                           Text(
                             currentHotKey?.label ?? "+",
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
                           ),
                         ],
                       ),

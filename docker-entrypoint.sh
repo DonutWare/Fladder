@@ -23,11 +23,21 @@ cat > "$CONFIG" <<EOF
 }
 EOF
 
-# --- Build nginx config ---
+# --- Normalize FLADDER_WEBPATH (e.g. /fladder/) ---
+WEBPATH=$(echo "${FLADDER_WEBPATH:-/}" | sed 's|^/*|/|; s|/*$|/|')
 
+# Update base href in index.html (always at root of build/web)
+if [ -f "/usr/share/nginx/html/index.html" ]; then
+  sed -i "s|<base href=\"[^\"]*\">|<base href=\"$WEBPATH\">|g" /usr/share/nginx/html/index.html
+fi
+
+# --- Determine port ---
+# Honor $PORT from env if set; otherwise default by uid (0 => 80, else 8080).
+PORT="${PORT:-$([ "$(id -u)" = "0" ] && echo 80 || echo 8080)}"
+
+# --- Build Seerr proxy block ---
 PROXY_BLOCK=""
 if [ -n "$SEERR_BASE_URL" ] && [ -n "$SEERR_HEADER" ] && [ "$SEERR_HEADER" != "null" ]; then
-  # Build proxy_set_header directives from JSON object
   HEADER_DIRECTIVES=$(echo "$SEERR_HEADER" | jq -r 'to_entries[] | "        proxy_set_header \(.key) \"\(.value)\";"')
 
   PROXY_BLOCK="
@@ -39,19 +49,55 @@ ${HEADER_DIRECTIVES}
     }"
 fi
 
-cat > "$NGINX_CONF" <<EOF
+# --- Emit nginx config ---
+if [ "$WEBPATH" = "/" ]; then
+    echo "Configuring Fladder at root path"
+    cat > "$NGINX_CONF" <<EOF
 server {
-    listen ${PORT};
-    root /usr/share/nginx/html;
-    index index.html;
+    listen $PORT;
+    listen [::]:$PORT;
+    server_name localhost;
 
     location / {
+        root /usr/share/nginx/html;
+        index index.html;
         try_files \$uri \$uri/ /index.html;
     }
 ${PROXY_BLOCK}
 }
 EOF
+else
+    echo "Configuring Fladder on subpath: $WEBPATH"
+    WEBPATH_NO_SLASH=$(echo "$WEBPATH" | sed 's|/*$||')
+
+    cat > "$NGINX_CONF" <<EOF
+server {
+    listen $PORT;
+    listen [::]:$PORT;
+    server_name localhost;
+
+    # Handle the subpath
+    location $WEBPATH {
+        alias /usr/share/nginx/html/;
+        index index.html;
+        try_files \$uri \$uri/ $WEBPATH/index.html;
+    }
+
+    # Redirect without trailing slash
+    location = $WEBPATH_NO_SLASH {
+        return 301 $WEBPATH;
+    }
+${PROXY_BLOCK}
+
+    # Fallback for root or other paths
+    location / {
+        return 404;
+    }
+}
+EOF
+fi
 
 # --- Start nginx ---
 
 exec nginx -g "daemon off;"
+

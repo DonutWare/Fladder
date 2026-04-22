@@ -135,6 +135,8 @@ class _RowFocusPolicy extends WidgetOrderTraversalPolicy {
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
+    final isRtl = Directionality.of(currentNode.context!) == TextDirection.rtl;
+    final towardsSidebar = isRtl ? TraversalDirection.right : TraversalDirection.left;
     final parent = currentNode.parent;
     final nodes = parent == null
         ? <FocusNode>[]
@@ -149,7 +151,7 @@ class _RowFocusPolicy extends WidgetOrderTraversalPolicy {
       case TraversalDirection.left:
         if (index > 0) {
           nodes[index - 1].requestFocus();
-        } else {
+        } else if (direction == towardsSidebar) {
           lastMainFocus = currentNode;
           if (navBarNode.canRequestFocus && navBarNode.context?.mounted == true && escapeToNavBar) {
             final cb = FocusTraversalPolicy.defaultTraversalRequestFocusCallback;
@@ -160,6 +162,12 @@ class _RowFocusPolicy extends WidgetOrderTraversalPolicy {
       case TraversalDirection.right:
         if (index < nodes.length - 1) {
           nodes[index + 1].requestFocus();
+        } else if (direction == towardsSidebar) {
+          lastMainFocus = currentNode;
+          if (navBarNode.canRequestFocus && navBarNode.context?.mounted == true && escapeToNavBar) {
+            final cb = FocusTraversalPolicy.defaultTraversalRequestFocusCallback;
+            cb(navBarNode);
+          }
         }
         return true;
       case TraversalDirection.up:

@@ -9,7 +9,6 @@ import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
 List<Widget> buildClientSettingsDashboard(BuildContext context, WidgetRef ref) {
@@ -18,65 +17,59 @@ List<Widget> buildClientSettingsDashboard(BuildContext context, WidgetRef ref) {
     context,
     SettingsLabelDivider(label: context.localized.dashboard),
     [
-      SettingsListTile(
+      SettingsListTileEnum(
         label: Text(context.localized.settingsHomeBannerTitle),
         subLabel: Text(context.localized.settingsHomeBannerDescription),
-        trailing: EnumBox(
-          current: ref.watch(
-            homeSettingsProvider.select(
-              (value) => value.homeBanner.label(context),
-            ),
+        current: ref.watch(
+          homeSettingsProvider.select(
+            (value) => value.homeBanner.label(context),
           ),
-          itemBuilder: (context) => HomeBanner.values
-              .map(
-                (entry) => ItemActionButton(
-                  label: Text(entry.label(context)),
-                  action: () =>
-                      ref.read(homeSettingsProvider.notifier).update((context) => context.copyWith(homeBanner: entry)),
-                ),
-              )
-              .toList(),
         ),
+        itemBuilder: (context) => HomeBanner.values
+            .map(
+              (entry) => ItemActionButton(
+                label: Text(entry.label(context)),
+                action: () =>
+                    ref.read(homeSettingsProvider.notifier).update((context) => context.copyWith(homeBanner: entry)),
+              ),
+            )
+            .toList(),
       ),
       if (ref.watch(homeSettingsProvider.select((value) => value.homeBanner)) != HomeBanner.hide)
-        SettingsListTile(
+        SettingsListTileEnum(
           label: Text(context.localized.settingsHomeBannerInformationTitle),
           subLabel: Text(context.localized.settingsHomeBannerInformationDesc),
-          trailing: EnumBox(
-            current: ref.watch(
-              homeSettingsProvider.select((value) => value.carouselSettings.label(context)),
-            ),
-            itemBuilder: (context) => HomeCarouselSettings.values
-                .map(
-                  (entry) => ItemActionButton(
-                    label: Text(entry.label(context)),
-                    action: () => ref
-                        .read(homeSettingsProvider.notifier)
-                        .update((context) => context.copyWith(carouselSettings: entry)),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-      SettingsListTile(
-        label: Text(context.localized.settingsHomeNextUpTitle),
-        subLabel: Text(context.localized.settingsHomeNextUpDesc),
-        trailing: EnumBox(
           current: ref.watch(
-            homeSettingsProvider.select(
-              (value) => value.nextUp.label(context),
-            ),
+            homeSettingsProvider.select((value) => value.carouselSettings.label(context)),
           ),
-          itemBuilder: (context) => HomeNextUp.values
+          itemBuilder: (context) => HomeCarouselSettings.values
               .map(
                 (entry) => ItemActionButton(
                   label: Text(entry.label(context)),
-                  action: () =>
-                      ref.read(homeSettingsProvider.notifier).update((context) => context.copyWith(nextUp: entry)),
+                  action: () => ref
+                      .read(homeSettingsProvider.notifier)
+                      .update((context) => context.copyWith(carouselSettings: entry)),
                 ),
               )
               .toList(),
         ),
+      SettingsListTileEnum(
+        label: Text(context.localized.settingsHomeNextUpTitle),
+        subLabel: Text(context.localized.settingsHomeNextUpDesc),
+        current: ref.watch(
+          homeSettingsProvider.select(
+            (value) => value.nextUp.label(context),
+          ),
+        ),
+        itemBuilder: (context) => HomeNextUp.values
+            .map(
+              (entry) => ItemActionButton(
+                label: Text(entry.label(context)),
+                action: () =>
+                    ref.read(homeSettingsProvider.notifier).update((context) => context.copyWith(nextUp: entry)),
+              ),
+            )
+            .toList(),
       ),
       SettingsListTile(
         label: Text(context.localized.clientSettingsShowAllCollectionsTitle),

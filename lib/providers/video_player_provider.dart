@@ -80,6 +80,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   Future<void> updatePlaying(bool event) async {
     final currentState = playbackState;
     if (!state.hasPlayer || currentState.playing == event) return;
+    if (currentState.state == VideoPlayerState.disposed) return;
     mediaState.update(
       (state) => state.copyWith(playing: event),
     );
@@ -90,6 +91,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     if (!state.hasPlayer) return;
     if (playbackState.playing == false) return;
     final currentState = playbackState;
+    if (currentState.state == VideoPlayerState.disposed) return;
     final currentPosition = currentState.position;
 
     if ((currentPosition - event).inSeconds.abs() < 1) return;
@@ -113,6 +115,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   }
 
   Future<bool> loadPlaybackItem(PlaybackModel model, Duration startPosition) async {
+    ref.read(playBackModel)?.dispose();
     await state.stop();
     ref.read(playbackRateProvider.notifier).state = 1.0;
     mediaState.update((state) => state.copyWith(
@@ -126,25 +129,14 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     PlaybackModel? newPlaybackModel = model;
 
     if (media != null) {
-      await state.loadVideo(model, startPosition, false);
+      await state.loadVideo(model, startPosition, true);
       await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
 
-      state.stateStream?.takeWhile((event) => event.buffering == true).listen(
-        null,
-        onDone: () async {
-          final start = startPosition;
-          if (start != Duration.zero) {
-            await state.seek(start);
-          }
-          await state.setAudioTrack(null, model);
-          await state.setSubtitleTrack(null, model);
-          state.play();
-          ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
-        },
-      );
+      await state.setAudioTrack(null, model);
+      await state.setSubtitleTrack(null, model);
+      ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
 
-      ref.read(playBackModel.notifier).update((state) => model);
-
+      await state.play();
       return true;
     }
 

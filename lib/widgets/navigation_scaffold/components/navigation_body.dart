@@ -105,8 +105,20 @@ class _NavigationBodyState extends ConsumerState<NavigationBody> {
 
   MediaQueryData semiNestedPadding(BuildContext context, bool hasOverlay) {
     final paddingOf = MediaQuery.paddingOf(context);
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
     return MediaQuery.of(context).copyWith(
-      padding: paddingOf.copyWith(left: hasOverlay ? 0 : paddingOf.left),
+      padding: EdgeInsetsDirectional.only(
+        start: isRTL
+            ? hasOverlay
+                ? 0
+                : paddingOf.right
+            : hasOverlay
+                ? 0
+                : paddingOf.left,
+        end: isRTL ? paddingOf.left : paddingOf.right,
+        top: paddingOf.top,
+        bottom: paddingOf.bottom,
+      ).resolve(Directionality.of(context)),
     );
   }
 }
@@ -120,9 +132,11 @@ class GlobalFallbackTraversalPolicy extends ReadingOrderTraversalPolicy {
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {
+    final isRtl = Directionality.of(currentNode.context!) == TextDirection.rtl;
+    final towardsSidebar = isRtl ? TraversalDirection.right : TraversalDirection.left;
     lastMainFocus = null;
     final handled = super.inDirection(currentNode, direction);
-    if (!handled && direction == TraversalDirection.left) {
+    if (!handled && direction == towardsSidebar) {
       lastMainFocus = currentNode;
 
       if (fallbackNode.canRequestFocus && fallbackNode.context?.mounted == true) {

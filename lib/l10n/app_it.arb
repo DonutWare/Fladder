@@ -607,7 +607,7 @@
             }
         }
     },
-    "aboutCreatedBy": "Creato by DonutWare",
+    "aboutCreatedBy": "Creato da DonutWare",
     "aboutSocials": "Socials",
     "aboutLicenses": "Licenze",
     "subtitle": "Sottotitolo",
@@ -1034,7 +1034,7 @@
     },
     "prevChapter": "Capitolo precedente",
     "prevVideo": "Video precedente",
-    "settingsClientDesc": "General, Tempo scaduto, Layout, Tema",
+    "settingsClientDesc": "Generale, Tempo scaduto, Layout, Tema",
     "guestActor": "{count, plural, other{Attori ospiti} one{Attore ospite}}",
     "@guestActor": {
         "description": "Guest actors",
@@ -1870,5 +1870,20 @@
     "bitrateLabel": "Bitrate",
     "kbps": "kbps",
     "resolutionLabel": "Risoluzione",
-    "downloadTranscoded": "Scarica transcodificato"
+    "downloadTranscoded": "Scarica transcodificato",
+    "today": "Oggi",
+    "airsIn": "In onda tra {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    }
 }
