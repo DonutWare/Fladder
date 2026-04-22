@@ -47,15 +47,16 @@ if [ -n "$SEERR_PROXY_PATH" ]; then
     echo "Error: SEERR_HEADER values must not contain newline or carriage return (invalid HTTP header values)" >&2
     exit 1
   fi
-  # nginx has no native escape for literal '$' in quoted strings; define a variable
-  # holding "$" at http level and substitute '$' -> '${literal_dollar}' in values.
+  # nginx has no native escape for literal '$' in quoted strings; define a namespaced
+  # variable holding "$" at http level and substitute '$' -> '${seerr_literal_dollar}'
+  # in values. Namespace prefix avoids collision with user-mounted nginx configs.
   # tojson handles " and \ escaping (nginx shares those conventions with JSON).
   HEADER_DIRECTIVES=$(printf '%s' "$SEERR_HEADER" | jq -r '
     to_entries[] |
-    "        proxy_set_header " + .key + " " + (.value | gsub("\\$"; "${literal_dollar}") | tojson) + ";"
+    "        proxy_set_header " + .key + " " + (.value | gsub("\\$"; "${seerr_literal_dollar}") | tojson) + ";"
   ')
 
-  GEO_BLOCK='geo $literal_dollar {
+  GEO_BLOCK='geo $seerr_literal_dollar {
     default "$";
 }
 '
