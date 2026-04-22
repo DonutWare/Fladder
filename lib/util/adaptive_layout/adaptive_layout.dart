@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -98,15 +100,19 @@ class AdaptiveLayout extends InheritedWidget {
     return result?.data.isDesktop ?? false;
   }
 
-  static EdgeInsets adaptivePadding(BuildContext context, {double horizontalPadding = 16}) {
+  static EdgeInsets adaptivePadding(BuildContext context, {double horizontalPadding = 12}) {
     final viewPadding = MediaQuery.paddingOf(context);
-    final padding = viewPadding.copyWith(
-      left: AdaptiveLayout.of(context).sideBarWidth + horizontalPadding + viewPadding.left,
-      top: 0,
-      bottom: 0,
-      right: viewPadding.right + horizontalPadding,
+    final textDirection = Directionality.of(context);
+    final directionalPadding = EdgeInsetsDirectional.only(
+      start: AdaptiveLayout.of(context).sideBarWidth + horizontalPadding,
+      end: horizontalPadding,
+    ).resolve(textDirection);
+
+    // Keep system safe-area insets physical; only app layout spacing should be directional.
+    return EdgeInsets.only(
+      left: viewPadding.left + directionalPadding.left,
+      right: viewPadding.right + directionalPadding.right,
     );
-    return padding;
   }
 
   static LayoutMode layoutModeOf(BuildContext context) => maybeOf(context)!.data.layoutMode;
@@ -227,7 +233,9 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
               navigationMode: input == InputDevice.dPad ? NavigationMode.directional : NavigationMode.traditional,
               padding: (useAdditionalPadding
                   ? EdgeInsets.only(top: isAndroidTV ? 12 : defaultTitleBarHeight, bottom: 16)
-                  : mediaQuery.padding),
+                  : mediaQuery.padding.copyWith(
+                      top: defaultTargetPlatform == TargetPlatform.iOS ? math.max(24, mediaQuery.padding.top) : null,
+                    )),
               viewPadding: useAdditionalPadding
                   ? EdgeInsets.only(top: isAndroidTV ? 12 : defaultTitleBarHeight, bottom: 16)
                   : null,

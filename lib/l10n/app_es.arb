@@ -1634,5 +1634,176 @@
     "enableDoubleTapSeekDesc": "Doble toque en el lado izquierdo/derecho de la pantalla para retroceder/avanzar. Doble toque en el centro para reproducir/pausar",
     "showLess": "Mostrar menos",
     "requestMore": "Solicitar más",
-    "activeTvChannels": "Canales de TV activos"
+    "activeTvChannels": "Canales de TV activos",
+    "generateLoginLink": "Código para {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "Compartir enlace de inicio de sesión",
+    "shareQRCode": "Compartir código QR",
+    "copyLoginLink": "Compartir enlace",
+    "includePassword": "Incluir contraseña",
+    "invalidAuthLink": "Enlace de inicio de sesión inválido",
+    "gestures": "Gestos",
+    "anyLanguage": "Cualquier idioma",
+    "enableEdgeGesturesTitle": "Habilitar gestos de borde",
+    "enableEdgeGesturesDesc": "Controlar brillo y volumen deslizando en los bordes de la pantalla",
+    "reverseEdgeGesturesTitle": "Intercambiar gestos de borde",
+    "reverseEdgeGesturesDesc": "Intercambiar el lado de control del brillo y del volumen",
+    "advancedVideoOptionsTitle": "Opciones de video avanzadas",
+    "advancedVideoOptionsDesc": "Habilitar HDR, mapeo de tonos, y manejo avanzado de color (inestable en algunos dispositivos)",
+    "brightnessIndicator": "Brillo: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "airsIn": "Se emite en {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "transcodeInfoTitle": "Información de transcodificación",
+    "transcodeInfoNoMetadata": "No hay metadata de transcodificación disponible.",
+    "transcodeDetailsTitle": "Detalles de Transcodificación",
+    "containerLabel": "Contenedor",
+    "videoCodecLabel": "Codec de video",
+    "audioCodecLabel": "Codec de audio",
+    "bitrateLabel": "Bitrate",
+    "kbps": "kbps",
+    "resolutionLabel": "Resolución",
+    "seerrUrlSchemeWarning": "No se pudo detectar automáticamente el esquema de la URL. Se usará https:// por defecto. Añade el prefijo http:// si tu servidor no utiliza HTTPS.",
+    "viewTrailer": "Ver tráiler",
+    "enableNewTVLayout": "Habilitar nuevo diseño de TV",
+    "liveTV": "TV en vivo",
+    "liveTvManageTunersEpg": "Administrar sintonizadores y proveedores de EPG",
+    "tunerDevices": "Sintonizadores",
+    "epgGuideProviders": "Proveedores de guía EPG",
+    "noTunerDevicesConfigured": "No hay sintonizadores configurados",
+    "noEpgProvidersConfigured": "No hay proveedores de EPG configurados",
+    "addTunerDevice": "Agregar Sintonizador",
+    "addProvider": "Agregar proveedor",
+    "tunerHostAddedSuccessfully": "Host del sintonizador agregado correctamente",
+    "failedToAddTunerHost": "No se pudo agregar el host del sintonizador: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "Host del sintonizador actualizado correctamente",
+    "failedToUpdateTunerHost": "No se pudo actualizar el host del sintonizador: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "Eliminar host del sintonizador",
+    "deleteTunerHostConfirm": "¿Está seguro que desea eliminar \"{name}\"?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "Host del sintonizador eliminado correctamente",
+    "failedToDeleteTunerHost": "No se pudo eliminar el host del sintonizador: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "Proovedor EPG agregado correctamente",
+    "failedToAddEpgProvider": "No se pudo agregar el proovedor EPG: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "Proovedor EPG actualizado correctamente",
+    "failedToUpdateEpgProvider": "No se pudo actualizar el proovedor EPG: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "Eliminar proovedor EPG",
+    "deleteEpgProviderConfirm": "¿Está seguro que desea eliminar este proovedor?",
+    "epgProviderDeletedSuccessfully": "Proovedor EPG eliminado correctamente",
+    "failedToDeleteEpgProvider": "No se pudo eliminar el proovedor EPG: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "Editar Sintonizador",
+    "userAgent": "Agente de usuario",
+    "userAgentOptional": "Agente de usuario (opcional)",
+    "maxConcurrentStreams": "Máximo de transmisiones simultáneas",
+    "addEpgProvider": "Agregar proovedor EPG",
+    "editEpgProvider": "Editar proveedor EPG",
+    "xmltvPathUrl": "Ruta/URL de XMLTV",
+    "enableAllTuners": "Habilitar para todos los sintonizadores",
+    "enabledTuners": "Sintonizadores habilitados",
+    "selectTuners": "Seleccionar sintonizadores",
+    "sportsCategories": "Categorías de deportes",
+    "kidsCategories": "Categorías infantiles",
+    "fileOrUrl": "Archivo o URL",
+    "tunerIpAddress": "Dirección IP del sintonizador",
+    "fallbackMaxBitrate": "Bitrate máximo alternativo (Mbps)",
+    "concurrentStreams": "Máximas transmisiones simultáneas",
+    "concurrentStreamsHint": "0 = Sin límite",
+    "allowFmp4Container": "Permitir contenedor de transcodificación fMP4",
+    "allowStreamSharing": "Permitir compartir transmisiones",
+    "enableStreamLooping": "Habilitar reproducción en bucle",
+    "ignoreDts": "Ignorar marcas de tiempo DTS",
+    "readAtNativeFramerate": "Leer con la tasa de fotogramas nativa",
+    "failedToDiscoverDevices": "No se pudieron encontrar dispositivos: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "Ruta",
+    "friendlyName": "Nombre amistoso",
+    "url": "URL",
+    "moviePrefix": "Prefijo de película",
+    "movieCategories": "Categorías de películas",
+    "newsCategories": "Categorías de noticias",
+    "importFavoritesOnly": "Importar sólo canales favoritos",
+    "allowHWTranscoding": "Permitir la transcodificación de hardware",
+    "detectDevices": "Detectar dispositivos",
+    "discoveredDevices": "Dispositivos descubiertos",
+    "noDevicesFound": "No se encontraron dispositivos",
+    "noCategories": "Sin categorías"
 }

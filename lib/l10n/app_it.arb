@@ -57,7 +57,7 @@
     "dashboardContinueListening": "Continua l'ascolto",
     "dashboardContinueReading": "Continua la lettura",
     "dashboardContinueWatching": "Continua a guardare",
-    "nextUp": "Prossimo in arrivo",
+    "nextUp": "Prossimo",
     "dashboardRecentlyAdded": "Aggiunto di recente in {name}",
     "@dashboardRecentlyAdded": {
         "description": "Recently added on home screen",
@@ -607,7 +607,7 @@
             }
         }
     },
-    "aboutCreatedBy": "Creato by DonutWare",
+    "aboutCreatedBy": "Creato da DonutWare",
     "aboutSocials": "Socials",
     "aboutLicenses": "Licenze",
     "subtitle": "Sottotitolo",
@@ -1034,7 +1034,7 @@
     },
     "prevChapter": "Capitolo precedente",
     "prevVideo": "Video precedente",
-    "settingsClientDesc": "General, Tempo scaduto, Layout, Tema",
+    "settingsClientDesc": "Generale, Tempo scaduto, Layout, Tema",
     "guestActor": "{count, plural, other{Attori ospiti} one{Attore ospite}}",
     "@guestActor": {
         "description": "Guest actors",
@@ -1841,5 +1841,49 @@
     "shareQRCode": "Condividi codice QR",
     "copyLoginLink": "Copia link",
     "includePassword": "Includi password",
-    "invalidAuthLink": "Link di accesso non valido"
+    "invalidAuthLink": "Link di accesso non valido",
+    "advancedVideoOptionsTitle": "Opzioni video avanzate",
+    "advancedVideoOptionsDesc": "Abilita HDR, tone mapping e gestione avanzata del colore (instabile su alcuni dispositivi)",
+    "deletedItem": "{itemName} eliminato",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "Ordine schermata home",
+    "libraryOrderDescription": "Trascina per riordinare le librerie sulla schermata home. Le librerie non selezionate non mostreranno gli elementi aggiunti di recente.",
+    "hidePlayedInLatestTitle": "Nascondi contenuti già visti",
+    "hidePlayedInLatestDescription": "Media'Nascondi contenuti già visti da \"Media aggiunti di recente\"",
+    "groupedFoldersTitle": "Librerie raggruppate",
+    "groupedFoldersDescription": "Raggruppa automaticamente i contenuti dalle seguenti librerie in viste come \"Film\", \"Musica\" e \"Serie TV\".",
+    "seerrUrlSchemeWarning": "Impossibile rilevare automaticamente lo schema dell'URL. Si passa di default a https://. Prefissa con http:// se il tuo server non utilizza HTTPS.",
+    "downloadOriginal": "Scarica originale",
+    "transcodeInfoTitle": "Info transcodifica",
+    "transcodeInfoNoMetadata": "Nessun metadato di transcodifica disponibile.",
+    "transcodeDetailsTitle": "Dettagli transcodifica",
+    "containerLabel": "Contenitore",
+    "videoCodecLabel": "Codec video",
+    "audioCodecLabel": "Codec audio",
+    "bitrateLabel": "Bitrate",
+    "kbps": "kbps",
+    "resolutionLabel": "Risoluzione",
+    "downloadTranscoded": "Scarica transcodificato",
+    "today": "Oggi",
+    "airsIn": "In onda tra {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    }
 }

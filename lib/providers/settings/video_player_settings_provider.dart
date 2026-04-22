@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
+import 'package:volume_controller/volume_controller.dart';
 
 import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
@@ -18,9 +21,37 @@ final videoPlayerSettingsProvider =
 final playbackRateProvider = StateProvider<double>((ref) => 1.0);
 
 class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {
-  VideoPlayerSettingsProviderNotifier(this.ref) : super(VideoPlayerSettingsModel());
+  VideoPlayerSettingsProviderNotifier(this.ref) : super(VideoPlayerSettingsModel()) {
+    _initVolumeSync();
+  }
 
   final Ref ref;
+
+  void _initVolumeSync() async {
+    // Initialize volume from system volume on mobile/supported platforms
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+      VolumeController.instance.showSystemUI = false;
+      final initialVolume = await VolumeController.instance.getVolume();
+      state = state.copyWith(internalVolume: initialVolume * 100);
+
+      VolumeController.instance.addListener((volume) {
+        // Update both the model and the player when system volume changes (hardware buttons)
+        final newVolume = volume * 100;
+        if ((state.internalVolume - newVolume).abs() > 0.1) {
+          state = state.copyWith(internalVolume: newVolume);
+          ref.read(videoPlayerProvider).setVolume(newVolume);
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+      VolumeController.instance.removeListener();
+    }
+    super.dispose();
+  }
 
   @override
   set state(VideoPlayerSettingsModel value) {
@@ -63,12 +94,18 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setVolume(double value) {
     state = state.copyWith(internalVolume: value);
     ref.read(videoPlayerProvider).setVolume(value);
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+      VolumeController.instance.setVolume(value / 100);
+    }
   }
 
   void steppedVolume(int i) {
     final value = (state.volume + i).clamp(0, 100).toDouble();
     state = state.copyWith(internalVolume: value);
     ref.read(videoPlayerProvider).setVolume(value);
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+      VolumeController.instance.setVolume(value / 100);
+    }
   }
 
   void steppedSpeed(double i) {
@@ -137,4 +174,8 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setEnableDoubleTapSeek(bool value) => state = state.copyWith(enableDoubleTapSeek: value);
 
   void setEnableAdvancedVideoOptions(bool value) => state = state.copyWith(enableAdvancedVideoOptions: value);
+
+  void setEnableEdgeGestures(bool value) => state = state.copyWith(enableEdgeGestures: value);
+
+  void setReverseEdgeGestures(bool value) => state = state.copyWith(reverseEdgeGestures: value);
 }

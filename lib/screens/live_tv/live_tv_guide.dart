@@ -291,15 +291,15 @@ class _LiveTvGuideState extends ConsumerState<LiveTvGuide> {
             builder: (context, child) {
               final scrollOffset =
                   widget.horizontalScrollController.hasClients ? widget.horizontalScrollController.offset : 0.0;
-              final left = (GuideConstants.leftColumnWidth + nowLeft - scrollOffset);
-              final lineLeft =
-                  left.clamp(GuideConstants.leftColumnWidth, GuideConstants.leftColumnWidth + timelineWidth);
-              final bubbleLeft =
-                  (left - 24).clamp(GuideConstants.leftColumnWidth, GuideConstants.leftColumnWidth + timelineWidth);
+              final start = (GuideConstants.leftColumnWidth + nowLeft - scrollOffset);
+              final lineStart =
+                  start.clamp(GuideConstants.leftColumnWidth, GuideConstants.leftColumnWidth + timelineWidth);
+              final bubbleStart =
+                  (start - 24).clamp(GuideConstants.leftColumnWidth, GuideConstants.leftColumnWidth + timelineWidth);
               return Stack(
                 children: [
-                  Positioned(
-                    left: lineLeft - 2,
+                  PositionedDirectional(
+                    start: lineStart - 2,
                     top: 0,
                     bottom: 0,
                     child: IgnorePointer(
@@ -309,8 +309,8 @@ class _LiveTvGuideState extends ConsumerState<LiveTvGuide> {
                       ),
                     ),
                   ),
-                  Positioned(
-                    left: bubbleLeft,
+                  PositionedDirectional(
+                    start: bubbleStart,
                     top: 0,
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),

@@ -899,7 +899,7 @@
     "exitFladderTitle": "Quitter Fladder",
     "recommended": "Recommandés",
     "playbackTypeOffline": "Hors ligne",
-    "latestReleases": "Dernières sorties",
+    "latestReleases": "Dernières versions",
     "newUpdateFoundOnGithub": "Nouvelle mise à jour trouvée sur Github",
     "rememberAudioSelectionsDesc": "Essayer de définir la piste audio la plus proche de la dernière vidéo.",
     "playbackTypeDirect": "Direct",
@@ -1818,5 +1818,114 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "generateLoginLink": "Code pour {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "Partager le lien de connexion",
+    "shareQRCode": "Partager le code QR",
+    "copyLoginLink": "Copier le lien",
+    "includePassword": "Inclure le mot de passe",
+    "invalidAuthLink": "Lien de connexion invalide",
+    "pasteFladderAuthLink": "Collez le lien d’authentification Fladder fladder:///login?authLink=...",
+    "connect": "Connexion",
+    "authLinkDesc": "Demandez à l’administrateur du serveur de fournir le lien d’authentification. Le lien contient des informations d’authentification, veillez donc à le garder sécurisé.",
+    "deletedItem": "{itemName} supprimé",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "Ordre de l’écran d’accueil",
+    "connectWithAuthLink": "Se connecter avec un lien d’authentification",
+    "libraryOrderDescription": "Faites glisser pour réorganiser les bibliothèques sur l’écran d’accueil. Les bibliothèques non cochées n’afficheront pas les éléments récemment ajoutés.",
+    "hidePlayedInLatestTitle": "Masquer le contenu regardé",
+    "hidePlayedInLatestDescription": "Masquer le contenu regardé dans 'Médias récemment ajoutés'",
+    "groupedFoldersTitle": "Bibliothèques groupées",
+    "groupedFoldersDescription": "Regrouper automatiquement le contenu des bibliothèques suivantes dans des vues comme 'Films', 'Musique' et 'Séries TV'.",
+    "advancedVideoOptionsTitle": "Options vidéo avancées",
+    "advancedVideoOptionsDesc": "Activer le HDR, le tone mapping et la gestion avancée des couleurs (instable sur certains appareils)",
+    "linkData": "Données du lien",
+    "passwordNotRequired": "Non requis, laissez vide pour ne pas inclure le mot de passe dans le lien",
+    "authLinkButtonToolTip": "Ouvrir la fenêtre du lien d’authentification",
+    "today": "Aujourd'hui",
+    "airsIn": "Diffusé dans {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "transcodeInfoTitle": "Info de transcodage",
+    "transcodeDetailsTitle": "Détails de transcodage",
+    "videoCodecLabel": "Codec Vidéo",
+    "audioCodecLabel": "Codec Audio",
+    "bitrateLabel": "Débit",
+    "resolutionLabel": "Définition",
+    "seerrUrlSchemeWarning": "Impossible d'auto-détecter le protocole. Utilisation de https:// par défaut. Préfixez l'URL par http:// si votre serveur n'utilise pas HTTPS.",
+    "downloadTranscoded": "Télécharger la version transcodée",
+    "downloadOriginal": "Télécharger la version originale",
+    "transcodeInfoNoMetadata": "Aucune métadonnées de transcodage n ' est disponible.",
+    "kbps": "kbps",
+    "containerLabel": "Conteneur",
+    "gestures": "Gestes",
+    "anyLanguage": "Toutes les langues",
+    "enableEdgeGesturesTitle": "Activer les gestes sur les bords",
+    "enableEdgeGesturesDesc": "Ajustez la luminosité et le volume en glissant verticalement sur les bords de l’écran",
+    "reverseEdgeGesturesTitle": "Inverser les gestes sur les bords",
+    "reverseEdgeGesturesDesc": "Inverser les côtés pour le contrôle de la luminosité et du volume",
+    "brightnessIndicator": "Luminosité : {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "viewTrailer": "Regarder la bande-annonce",
+    "personBirthday": "Date de naissance : {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Âge : {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Né à {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Découvrir des films",
+    "seerrSeries": "Découvrir des séries"
 }

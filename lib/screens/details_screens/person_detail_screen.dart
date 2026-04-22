@@ -7,12 +7,14 @@ import 'package:intl/intl.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/providers/items/person_details_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/list_extensions.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/widget_extensions.dart';
 import 'package:fladder/widgets/shared/selectable_icon_button.dart';
@@ -89,9 +91,11 @@ class _PersonDetailScreenState extends ConsumerState<PersonDetailScreen> {
                       ),
                     ),
                     if (details?.dateOfBirth != null)
-                      Text("Birthday: ${DateFormat.yMEd().format(details?.dateOfBirth ?? DateTime.now()).toString()}"),
-                    if (details?.age != null) Text("Age: ${details?.age}"),
-                    if (details?.birthPlace.isEmpty == false) Text("Born in ${details?.birthPlace.join(",")}"),
+                      Text(context.localized.personBirthday(
+                          DateFormat.yMEd(context.localized.localeName).format(details!.dateOfBirth!).toString())),
+                    if (details?.age != null) Text(context.localized.personAge(details!.age!)),
+                    if (details?.birthPlace.isEmpty == false)
+                      Text(context.localized.personBirthPlace(details!.birthPlace.join(", "))),
                   ],
                 ),
               ],
@@ -99,9 +103,29 @@ class _PersonDetailScreenState extends ConsumerState<PersonDetailScreen> {
           ),
           const SizedBox(height: 32),
           if (details?.movies.isNotEmpty ?? false)
-            PosterRow(contentPadding: padding, posters: details?.movies ?? [], label: "Movies"),
+            PosterRow(
+              contentPadding: padding,
+              posters: details?.movies ?? [],
+              label: context.localized.mediaTypeMovie(details?.movies.length ?? 2),
+            ),
           if (details?.series.isNotEmpty ?? false)
-            PosterRow(contentPadding: padding, posters: details?.series ?? [], label: "Series"),
+            PosterRow(
+              contentPadding: padding,
+              posters: details?.series ?? [],
+              label: context.localized.mediaTypeSeries(details?.series.length ?? 2),
+            ),
+          if (details?.seerrMovies.isNotEmpty ?? false)
+            SeerrPosterRow(
+              contentPadding: padding,
+              posters: details?.seerrMovies ?? [],
+              label: context.localized.seerrMovies,
+            ),
+          if (details?.seerrSeries.isNotEmpty ?? false)
+            SeerrPosterRow(
+              contentPadding: padding,
+              posters: details?.seerrSeries ?? [],
+              label: context.localized.seerrSeries,
+            ),
           if (details?.overview.externalUrls?.isNotEmpty ?? false)
             ExternalUrlsRow(
               urls: details?.overview.externalUrls,

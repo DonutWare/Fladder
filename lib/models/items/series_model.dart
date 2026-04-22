@@ -4,6 +4,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
+import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/images_models.dart';
@@ -11,9 +12,9 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/special_feature_model.dart';
+import 'package:fladder/models/items/watched_state.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/screens/details_screens/series_detail_screen.dart';
-import 'package:fladder/l10n/generated/app_localizations.dart';
 
 part 'series_model.mapper.dart';
 
@@ -62,7 +63,7 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   String detailedName(AppLocalizations l10n) => name;
 
   @override
-  ItemBaseModel get parentBaseModel => copyWith(id: parentId ?? id);
+  ItemBaseModel get parentBaseModel => copyWith(id: id);
 
   @override
   Widget get detailScreenWidget => SeriesDetailScreen(item: this);
@@ -88,7 +89,11 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   }
 
   @override
-  String? unplayedLabel(AppLocalizations l10n) => userData.played ? null : userData.unPlayedItemCount?.toString();
+  WatchedState watchedState(AppLocalizations l10n) => userData.played
+      ? const Played()
+      : userData.unPlayedItemCount != null
+          ? PartiallyPlayed(userData.unPlayedItemCount!.toString())
+          : const Unplayed();
 
   @override
   bool get syncAble => true;
