@@ -64,6 +64,9 @@ if [ -n "$SEERR_PROXY_PATH" ]; then
     default "$";
 }
 '
+  # Two '$' conventions coexist below:
+  #   \$proxy_host             — backslash escapes the shell; nginx sees $proxy_host (built-in variable).
+  #   ${seerr_literal_dollar}  — nginx-level reference to the geo-defined variable above, emits a literal '$'.
   PROXY_BLOCK="
     location ${SEERR_PROXY_PATH}/ {
         proxy_pass ${SEERR_BASE_URL}/;
