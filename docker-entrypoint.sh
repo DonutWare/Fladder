@@ -37,7 +37,7 @@ PORT="${PORT:-$([ "$(id -u)" = "0" ] && echo 80 || echo 8080)}"
 
 # --- Build Seerr proxy block ---
 PROXY_BLOCK=""
-if [ -n "$SEERR_BASE_URL" ] && [ -n "$SEERR_HEADER" ] && [ "$SEERR_HEADER" != "null" ]; then
+if [ -n "$SEERR_PROXY_PATH" ]; then
   HEADER_DIRECTIVES=$(echo "$SEERR_HEADER" | jq -r 'to_entries[] | "        proxy_set_header \(.key) \"\(.value)\";"')
 
   PROXY_BLOCK="
