@@ -13,6 +13,8 @@ import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
+import 'package:fladder/util/string_extensions.dart';
 
 extension SyncMediaHelpers on SyncNotifier {
   Future<List<SubStreamModel>> saveExternalSubtitles(List<SubStreamModel>? subtitles, SyncedItem item) async {
@@ -109,15 +111,28 @@ extension SyncMediaHelpers on SyncNotifier {
     await saveDirectory.create(recursive: true);
 
     final saveChapters = await Stream.fromIterable(data).asyncMap((event) async {
-      final fileName = "${event.name}.jpg";
-      final response = await http.get(Uri.parse(event.imageUrl));
-      final file = File(path.joinAll([saveDirectory.path, fileName]));
-      if (response.bodyBytes.isEmpty) return null;
-      file.writeAsBytesSync(response.bodyBytes);
-      return event.copyWith(
-        imageUrl: path.joinAll([SyncedItem.chaptersPath, fileName]),
-      );
+      if (event.imageUrl.isEmpty) return event;
+
+      final safeName = event.name.sanitizedFileName;
+      final fileName = '$safeName.jpg';
+
+      try {
+        final response = await http.get(Uri.parse(event.imageUrl));
+        if (response.statusCode != 200 || response.bodyBytes.isEmpty) return event;
+
+        final file = File(path.joinAll([saveDirectory.path, fileName]));
+        await file.parent.create(recursive: true);
+        await file.writeAsBytes(response.bodyBytes);
+
+        return event.copyWith(
+          imageUrl: path.joinAll([SyncedItem.chaptersPath, fileName]),
+        );
+      } catch (e, stackTrace) {
+        FladderSnack.showException(e, stackTrace: stackTrace);
+        return event;
+      }
     }).toList();
+
     return saveChapters.nonNulls.toList();
   }
 

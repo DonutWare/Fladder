@@ -35,6 +35,8 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   double get speedBoostRate;
   bool get enableDoubleTapSeek;
   bool get enableAdvancedVideoOptions;
+  bool get enableEdgeGestures;
+  bool get reverseEdgeGestures;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -72,12 +74,14 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
       ..add(DiagnosticsProperty(
-          'enableAdvancedVideoOptions', enableAdvancedVideoOptions));
+          'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty('enableEdgeGestures', enableEdgeGestures))
+      ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures)';
   }
 }
 
@@ -108,7 +112,9 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       bool enableSpeedBoost,
       double speedBoostRate,
       bool enableDoubleTapSeek,
-      bool enableAdvancedVideoOptions});
+      bool enableAdvancedVideoOptions,
+      bool enableEdgeGestures,
+      bool reverseEdgeGestures});
 }
 
 /// @nodoc
@@ -145,6 +151,8 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? speedBoostRate = null,
     Object? enableDoubleTapSeek = null,
     Object? enableAdvancedVideoOptions = null,
+    Object? enableEdgeGestures = null,
+    Object? reverseEdgeGestures = null,
   }) {
     return _then(_self.copyWith(
       screenBrightness: freezed == screenBrightness
@@ -230,6 +238,14 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
       enableAdvancedVideoOptions: null == enableAdvancedVideoOptions
           ? _self.enableAdvancedVideoOptions
           : enableAdvancedVideoOptions // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enableEdgeGestures: null == enableEdgeGestures
+          ? _self.enableEdgeGestures
+          : enableEdgeGestures // ignore: cast_nullable_to_non_nullable
+              as bool,
+      reverseEdgeGestures: null == reverseEdgeGestures
+          ? _self.reverseEdgeGestures
+          : reverseEdgeGestures // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -349,7 +365,9 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enableSpeedBoost,
             double speedBoostRate,
             bool enableDoubleTapSeek,
-            bool enableAdvancedVideoOptions)?
+            bool enableAdvancedVideoOptions,
+            bool enableEdgeGestures,
+            bool reverseEdgeGestures)?
         $default, {
     required TResult orElse(),
   }) {
@@ -377,7 +395,9 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enableSpeedBoost,
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
-            _that.enableAdvancedVideoOptions);
+            _that.enableAdvancedVideoOptions,
+            _that.enableEdgeGestures,
+            _that.reverseEdgeGestures);
       case _:
         return orElse();
     }
@@ -419,7 +439,9 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enableSpeedBoost,
             double speedBoostRate,
             bool enableDoubleTapSeek,
-            bool enableAdvancedVideoOptions)
+            bool enableAdvancedVideoOptions,
+            bool enableEdgeGestures,
+            bool reverseEdgeGestures)
         $default,
   ) {
     final _that = this;
@@ -446,7 +468,9 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enableSpeedBoost,
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
-            _that.enableAdvancedVideoOptions);
+            _that.enableAdvancedVideoOptions,
+            _that.enableEdgeGestures,
+            _that.reverseEdgeGestures);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -487,7 +511,9 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enableSpeedBoost,
             double speedBoostRate,
             bool enableDoubleTapSeek,
-            bool enableAdvancedVideoOptions)?
+            bool enableAdvancedVideoOptions,
+            bool enableEdgeGestures,
+            bool reverseEdgeGestures)?
         $default,
   ) {
     final _that = this;
@@ -514,7 +540,9 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enableSpeedBoost,
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
-            _that.enableAdvancedVideoOptions);
+            _that.enableAdvancedVideoOptions,
+            _that.enableEdgeGestures,
+            _that.reverseEdgeGestures);
       case _:
         return null;
     }
@@ -530,7 +558,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.videoFit = BoxFit.contain,
       this.fillScreen = false,
       this.hardwareAccel = true,
-      this.useLibass = false,
+      this.useLibass = true,
       this.enableTunneling = false,
       this.bufferSize = 32,
       this.playerOptions,
@@ -547,7 +575,9 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.enableSpeedBoost = false,
       this.speedBoostRate = 2.0,
       this.enableDoubleTapSeek = true,
-      this.enableAdvancedVideoOptions = false})
+      this.enableAdvancedVideoOptions = false,
+      this.enableEdgeGestures = true,
+      this.reverseEdgeGestures = false})
       : _allowedOrientations = allowedOrientations,
         _segmentSkipSettings = segmentSkipSettings,
         _hotKeys = hotKeys,
@@ -636,6 +666,12 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
   @override
   @JsonKey()
   final bool enableAdvancedVideoOptions;
+  @override
+  @JsonKey()
+  final bool enableEdgeGestures;
+  @override
+  @JsonKey()
+  final bool reverseEdgeGestures;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -678,12 +714,14 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
       ..add(DiagnosticsProperty(
-          'enableAdvancedVideoOptions', enableAdvancedVideoOptions));
+          'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty('enableEdgeGestures', enableEdgeGestures))
+      ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures)';
   }
 }
 
@@ -716,7 +754,9 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
       bool enableSpeedBoost,
       double speedBoostRate,
       bool enableDoubleTapSeek,
-      bool enableAdvancedVideoOptions});
+      bool enableAdvancedVideoOptions,
+      bool enableEdgeGestures,
+      bool reverseEdgeGestures});
 }
 
 /// @nodoc
@@ -753,6 +793,8 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? speedBoostRate = null,
     Object? enableDoubleTapSeek = null,
     Object? enableAdvancedVideoOptions = null,
+    Object? enableEdgeGestures = null,
+    Object? reverseEdgeGestures = null,
   }) {
     return _then(_VideoPlayerSettingsModel(
       screenBrightness: freezed == screenBrightness
@@ -838,6 +880,14 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
       enableAdvancedVideoOptions: null == enableAdvancedVideoOptions
           ? _self.enableAdvancedVideoOptions
           : enableAdvancedVideoOptions // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enableEdgeGestures: null == enableEdgeGestures
+          ? _self.enableEdgeGestures
+          : enableEdgeGestures // ignore: cast_nullable_to_non_nullable
+              as bool,
+      reverseEdgeGestures: null == reverseEdgeGestures
+          ? _self.reverseEdgeGestures
+          : reverseEdgeGestures // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }

@@ -99,6 +99,31 @@ class FladderSnack {
     }
   }
 
+  static void showException(
+    Object exception, {
+    StackTrace? stackTrace,
+    BuildContext? context,
+    Duration? duration,
+    bool permanent = false,
+    String? actionLabel,
+    VoidCallback? onActionPressed,
+    bool showCloseButton = false,
+  }) {
+    if (stackTrace != null) {
+      debugPrint(stackTrace.toString());
+    }
+
+    show(
+      exception.toString(),
+      context: context,
+      duration: duration,
+      permanent: permanent,
+      actionLabel: actionLabel,
+      onActionPressed: onActionPressed,
+      showCloseButton: showCloseButton,
+    );
+  }
+
   static Future<ApiResult<T>> showResponse<T>(
     Future<ApiResult<T>?> future, {
     String? successTitle,

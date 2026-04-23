@@ -50,11 +50,19 @@ class Media {
 }
 
 extension PlaybackModelExtension on PlaybackModel? {
-  SubStreamModel? get defaultSubStream =>
-      this?.subStreams?.firstWhereOrNull((element) => element.index == this?.mediaStreams?.defaultSubStreamIndex);
+  SubStreamModel? get defaultSubStream {
+    final streams = this?.subStreams;
+    if (streams == null) return null;
+    return streams.firstWhereOrNull((element) => element.index == this?.mediaStreams?.defaultSubStreamIndex) ??
+        SubStreamModel.no();
+  }
 
-  AudioStreamModel? get defaultAudioStream =>
-      this?.audioStreams?.firstWhereOrNull((element) => element.index == this?.mediaStreams?.defaultAudioStreamIndex);
+  AudioStreamModel? get defaultAudioStream {
+    final streams = this?.audioStreams;
+    if (streams == null) return null;
+    return streams.firstWhereOrNull((element) => element.index == this?.mediaStreams?.defaultAudioStreamIndex) ??
+        AudioStreamModel.no();
+  }
 
   String? label(BuildContext context) => switch (this) {
         DirectPlaybackModel _ => PlaybackType.directStream.name(context),
@@ -82,6 +90,8 @@ class PlaybackModel {
   Future<PlaybackModel?> playbackStarted(Duration position, Ref ref) => throw UnimplementedError();
   Future<PlaybackModel?> playbackStopped(Duration position, Duration? totalDuration, Ref ref) =>
       throw UnimplementedError();
+
+  void dispose() {}
 
   final MediaStreamsModel? mediaStreams;
   List<SubStreamModel>? get subStreams => throw UnimplementedError();
@@ -195,8 +205,8 @@ class PlaybackModelHelper {
     if (syncedItemModel == null || syncedItem == null || !await syncedItem.videoFile.exists()) return null;
 
     final children = await ref.read(syncProvider.notifier).getSiblings(syncedItem);
-    final syncedItems =
-        children.where((element) => element.videoFile.existsSync() && element.id != syncedItem.id).toList();
+
+    final syncedItems = children.where((element) => element.videoFile.existsSync()).toList();
     final itemQueue = syncedItems.map((e) => e.itemModel).nonNulls;
 
     return OfflinePlaybackModel(
@@ -246,6 +256,8 @@ class PlaybackModelHelper {
 
       final firstItemIsSynced = syncedItem != null && syncedItem.status == TaskStatus.complete;
 
+      final actualStartPosition = startPosition ?? fullItem.userData.playBackPosition;
+
       final options = {
         PlaybackType.directStream,
         PlaybackType.transcode,
@@ -269,7 +281,7 @@ class PlaybackModelHelper {
               forcedPlaybackType ?? playbackType,
               oldModel: oldModel,
               libraryQueue: queue,
-              startPosition: startPosition,
+              startPosition: actualStartPosition,
             ),
           PlaybackType.offline => await _createOfflinePlaybackModel(
               fullItem,
@@ -283,7 +295,7 @@ class PlaybackModelHelper {
               fullItem,
               item.streamModel,
               forcedPlaybackType ?? PlaybackType.directStream,
-              startPosition: startPosition,
+              startPosition: actualStartPosition,
               oldModel: oldModel,
               libraryQueue: queue,
             )) ??

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,20 +6,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 
-bool get _isDesktop {
-  if (kIsWeb) return false;
-  return [
-    TargetPlatform.windows,
-    TargetPlatform.linux,
-    TargetPlatform.macOS,
-  ].contains(defaultTargetPlatform);
-}
-
 class FladderAppBar extends StatelessWidget implements PreferredSize {
   final double height;
   final String? label;
   final bool automaticallyImplyLeading;
-  const FladderAppBar({this.height = 35, this.automaticallyImplyLeading = false, this.label, super.key});
+  final bool isDesktop;
+  const FladderAppBar({
+    this.height = 35,
+    this.automaticallyImplyLeading = false,
+    this.label,
+    required this.isDesktop,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,5 +54,5 @@ class FladderAppBar extends StatelessWidget implements PreferredSize {
   Widget get child => Container();
 
   @override
-  Size get preferredSize => Size(double.infinity, _isDesktop ? height : 0);
+  Size get preferredSize => Size(double.infinity, isDesktop ? height : 0);
 }

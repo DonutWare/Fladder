@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -67,6 +69,7 @@ Future<void> openSearchModeDialog(
                     onChanged: (_) {
                       Navigator.pop(dialogContext);
                       notifier.setSearchMode(mode);
+                      context.refreshData();
                     },
                     title: Row(
                       spacing: 8,
@@ -112,11 +115,17 @@ Future<void> openYearDialog(
       start?.toStringAsFixed(0) ?? context.localized.none,
       end?.toStringAsFixed(0) ?? context.localized.none,
     ].join(' - '),
-    onClear: () async => notifier.setYearRange(minYear: null, maxYear: null),
-    onSave: (start, end) async => notifier.setYearRange(
-      minYear: start?.round(),
-      maxYear: end?.round(),
-    ),
+    onClear: () async {
+      notifier.setYearRangeWithoutSubmit(minYear: null, maxYear: null);
+      await context.refreshData();
+    },
+    onSave: (start, end) async {
+      notifier.setYearRangeWithoutSubmit(
+        minYear: start?.round(),
+        maxYear: end?.round(),
+      );
+      await context.refreshData();
+    },
   );
 }
 
@@ -141,14 +150,14 @@ Future<void> openRatingDialog(
     summaryBuilder: (start, end) => '${(start ?? 0).toStringAsFixed(1)} - ${(end ?? 10).toStringAsFixed(1)}',
     onClear: () async {
       notifier.setVoteAverageRange(null, null);
-      notifier.submit();
+      await context.refreshData();
     },
     onSave: (start, end) async {
       notifier.setVoteAverageRange(
         (start ?? 0) > 0 ? start : null,
         (end ?? 10) < 10 ? end : null,
       );
-      notifier.submit();
+      await context.refreshData();
     },
   );
 }
@@ -178,14 +187,14 @@ Future<void> openRuntimeDialog(
     allowEmpty: true,
     onClear: () async {
       notifier.setRuntimeRange(null, null);
-      notifier.submit();
+      await context.refreshData();
     },
     onSave: (start, end) async {
       notifier.setRuntimeRange(
         (start ?? 0) > 0 ? start?.round() : null,
         (end ?? 300) < 300 ? end?.round() : null,
       );
-      notifier.submit();
+      await context.refreshData();
     },
   );
 }
@@ -212,7 +221,7 @@ Future<void> openSortDialog(
                       if (sortBy != filters.sortBy) {
                         notifier.setSortBy(sortBy);
                         Navigator.pop(dialogContext);
-                        notifier.submit();
+                        context.refreshData();
                       }
                     },
                     title: Text(sortBy.label(context)),
@@ -232,6 +241,7 @@ Future<void> openWatchRegionDialog(
   SeerrFilterModel filters,
   List<SeerrWatchProviderRegion> watchRegions,
 ) async {
+  final rootContext = context;
   final currentRegion = (filters.watchRegion ?? 'US').toUpperCase();
   final regionDisplayNames = <SeerrWatchProviderRegion, String>{
     for (final region in watchRegions) region: region.englishName ?? region.nativeName ?? region.iso31661 ?? '',
@@ -261,10 +271,10 @@ Future<void> openWatchRegionDialog(
                         context.ensureVisible();
                       }
                     },
-                    onChanged: (value) {
-                      notifier.setWatchRegion(code);
+                    onChanged: (value) async {
+                      await notifier.setWatchRegionWithoutSubmit(code);
                       Navigator.pop(dialogContext);
-                      context.refreshData();
+                      await rootContext.refreshData();
                     },
                   );
                 });
@@ -367,9 +377,9 @@ Future<void> _showRangeDialog({
             actions: [
               if (onClear != null)
                 TextButton(
-                  onPressed: () async {
-                    await onClear();
-                    if (context.mounted) Navigator.pop(dialogContext);
+                  onPressed: () {
+                    Navigator.pop(dialogContext);
+                    unawaited(onClear());
                   },
                   child: Text(context.localized.clear),
                 ),
@@ -378,9 +388,9 @@ Future<void> _showRangeDialog({
                 child: Text(context.localized.cancel),
               ),
               TextButton(
-                onPressed: () async {
-                  await onSave(currentStart, currentEnd);
-                  if (context.mounted) Navigator.pop(dialogContext);
+                onPressed: () {
+                  Navigator.pop(dialogContext);
+                  unawaited(onSave(currentStart, currentEnd));
                 },
                 child: Text(context.localized.save),
               ),
@@ -402,6 +412,7 @@ Future<void> openStudioDialog(
     builder: (dialogContext) {
       return _StudioSearchDialog(
         notifier: notifier,
+        parentContext: context,
         selectedStudio: filters.studio,
       );
     },
@@ -410,10 +421,12 @@ Future<void> openStudioDialog(
 
 class _StudioSearchDialog extends StatefulWidget {
   final SeerrSearch notifier;
+  final BuildContext parentContext;
   final SeerrCompany? selectedStudio;
 
   const _StudioSearchDialog({
     required this.notifier,
+    required this.parentContext,
     this.selectedStudio,
   });
 
@@ -535,8 +548,8 @@ class _StudioSearchDialogState extends State<_StudioSearchDialog> {
           TextButton(
             onPressed: () {
               widget.notifier.setStudio(null);
-              widget.notifier.submit();
               Navigator.pop(context);
+              unawaited(widget.parentContext.refreshData());
             },
             child: Text(context.localized.clear),
           ),
@@ -547,8 +560,8 @@ class _StudioSearchDialogState extends State<_StudioSearchDialog> {
         TextButton(
           onPressed: () {
             widget.notifier.setStudio(_selectedStudio);
-            widget.notifier.submit();
             Navigator.pop(context);
+            unawaited(widget.parentContext.refreshData());
           },
           child: Text(context.localized.save),
         ),

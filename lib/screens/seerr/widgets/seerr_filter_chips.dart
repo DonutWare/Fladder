@@ -29,14 +29,7 @@ class SeerrFilterChips extends ConsumerWidget {
     final showFilters = searchMode == SeerrSearchMode.discoverMovies || searchMode == SeerrSearchMode.discoverTv;
 
     final chips = [
-      ExpressiveButton(
-        isSelected: true,
-        icon: Icon(searchMode.icon),
-        label: Text(searchMode.label(context)),
-        onPressed: () => openSearchModeDialog(context, notifier, searchMode),
-      ),
       if (showFilters) ...[
-        const VerticalDivider(),
         if (filters.genres.isNotEmpty)
           CategoryChip<SeerrGenre>(
             label: Text(context.localized.genre(filters.genres.values.where((v) => v).length)),
@@ -101,12 +94,12 @@ class SeerrFilterChips extends ConsumerWidget {
             ),
             onSave: (value) {
               notifier.setWatchProviders(value);
-              notifier.submit();
+              context.refreshData();
             },
             onCancel: () => notifier.setWatchProviders(filters.watchProviders),
             onClear: () {
               notifier.setWatchProviders(filters.watchProviders.setAll(false));
-              notifier.submit();
+              context.refreshData();
             },
           ),
         ExpressiveButton(
@@ -146,14 +139,23 @@ class SeerrFilterChips extends ConsumerWidget {
       policy: ReadingOrderTraversalPolicy(),
       child: Row(
         spacing: 4,
-        children: chips.mapIndexed(
-          (index, element) {
-            final position = index == 0
-                ? PositionContext.first
-                : (index == chips.length - 1 ? PositionContext.last : PositionContext.middle);
-            return PositionProvider(position: position, child: element);
-          },
-        ).toList(),
+        children: [
+          ExpressiveButton(
+            isSelected: true,
+            icon: Icon(searchMode.icon),
+            label: Text(searchMode.label(context)),
+            onPressed: () => openSearchModeDialog(context, notifier, searchMode),
+          ),
+          const VerticalDivider(),
+          ...chips.mapIndexed(
+            (index, element) {
+              final position = index == 0
+                  ? PositionContext.first
+                  : (index == chips.length - 1 ? PositionContext.last : PositionContext.middle);
+              return PositionProvider(position: position, child: element);
+            },
+          )
+        ],
       ),
     );
   }

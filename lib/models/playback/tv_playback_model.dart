@@ -21,11 +21,12 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 
 class TvPlaybackModel extends PlaybackModel {
-  Timer? _refreshTimer;
-  Timer? _tickTimer;
+  static Timer? _refreshTimer;
+  static Timer? _tickTimer;
 
-  DateTime? _lastScheduledAt;
-  String? _lastGuideProgId;
+  static DateTime? _lastScheduledAt;
+  static String? _lastGuideProgId;
+  static bool _isSwitching = false;
   final ChannelModel channel;
 
   final bool isNativePlayerBackend;
@@ -61,6 +62,13 @@ class TvPlaybackModel extends PlaybackModel {
 
   void stopTracking() {
     _stopTimers();
+    _isSwitching = false;
+    _lastGuideProgId = null;
+  }
+
+  @override
+  void dispose() {
+    stopTracking();
   }
 
   void _stopTimers() {
@@ -72,7 +80,13 @@ class TvPlaybackModel extends PlaybackModel {
   }
 
   void _tick(Ref ref) {
-    final currentProgram = playingProgram;
+    final model = ref.read(playBackModel);
+    if (model is! TvPlaybackModel) {
+      _stopTimers();
+      return;
+    }
+
+    final currentProgram = model.playingProgram;
     if (currentProgram == null || !ref.read(mediaPlaybackProvider).playing) {
       return;
     }
@@ -89,7 +103,7 @@ class TvPlaybackModel extends PlaybackModel {
     final newPosition = now.isBefore(start) ? Duration.zero : now.difference(start);
     final newDuration = end.difference(start);
 
-    ref.read(playBackModel.notifier).update((state) => copyWith(
+    ref.read(playBackModel.notifier).update((state) => model.copyWith(
           position: newPosition,
           duration: newDuration,
         ));
@@ -100,33 +114,53 @@ class TvPlaybackModel extends PlaybackModel {
   }
 
   Future<void> _switchProgram(Ref ref) async {
-    final tempState = await ref.read(liveTvProvider.notifier).fetchDashboard();
-    final updatedChannel = tempState.channels.firstWhereOrNull((c) => c.id == channel.id) ?? channel;
-    final currentChannelPrograms = await ref.read(liveTvProvider.notifier).fetchPrograms(updatedChannel);
-    final channelWithPrograms = updatedChannel.copyChannelWith(programs: currentChannelPrograms);
+    if (_isSwitching) return;
+    _isSwitching = true;
+    try {
+      final currentModel = ref.read(playBackModel);
+      if (currentModel is! TvPlaybackModel) {
+        _stopTimers();
+        return;
+      }
 
-    final now = DateTime.now();
-    final prog = channelWithPrograms.currentProgram;
+      final tempState = await ref.read(liveTvProvider.notifier).fetchDashboard();
+      final updatedChannel =
+          tempState.channels.firstWhereOrNull((c) => c.id == currentModel.channel.id) ?? currentModel.channel;
+      final currentChannelPrograms = await ref.read(liveTvProvider.notifier).fetchPrograms(updatedChannel);
+      final channelWithPrograms = updatedChannel.copyChannelWith(programs: currentChannelPrograms);
 
-    final start = prog?.startDate ?? now;
-    final end = prog?.endDate ?? now;
-    final newPosition = now.isBefore(start) ? Duration.zero : now.difference(start);
-    final newDuration = end.difference(start);
+      final now = DateTime.now();
+      final prog = channelWithPrograms.currentProgram;
 
-    final newModel = copyWith(
-      channel: channelWithPrograms,
-      currentProgram: prog,
-      position: newPosition,
-      duration: newDuration,
-    );
+      final start = prog?.startDate ?? now;
+      final end = prog?.endDate ?? now;
+      final newPosition = now.isBefore(start) ? Duration.zero : now.difference(start);
+      final newDuration = end.difference(start);
 
-    ref.read(playBackModel.notifier).update((state) => newModel);
+      // Re-read in case model changed during async operations
+      final latestModel = ref.read(playBackModel);
+      if (latestModel is! TvPlaybackModel) {
+        _stopTimers();
+        return;
+      }
 
-    if (prog != null && prog.endDate.isAfter(now)) {
-      _scheduleRefreshAt(prog.endDate, ref);
+      final newModel = latestModel.copyWith(
+        channel: channelWithPrograms,
+        currentProgram: prog,
+        position: newPosition,
+        duration: newDuration,
+      );
+
+      ref.read(playBackModel.notifier).update((state) => newModel);
+
+      if (prog != null && prog.endDate.isAfter(now)) {
+        _scheduleRefreshAt(prog.endDate, ref);
+      }
+
+      await _sendNativeGuideUpdate(ref, prog, channelWithPrograms, tempState, latestModel.isNativePlayerBackend);
+    } finally {
+      _isSwitching = false;
     }
-
-    await _sendNativeGuideUpdate(ref, prog, channelWithPrograms, tempState);
   }
 
   Future<void> _sendNativeGuideUpdate(
@@ -134,9 +168,9 @@ class TvPlaybackModel extends PlaybackModel {
     ChannelProgram? prog,
     ChannelModel channelWithPrograms,
     LiveTvModel tempState,
+    bool isNativePlayerBackend,
   ) async {
-    final isNativePlayer = isNativePlayerBackend;
-    if (!isNativePlayer || tempState.channels.isEmpty || _lastGuideProgId == prog?.id) {
+    if (!isNativePlayerBackend || tempState.channels.isEmpty || _lastGuideProgId == prog?.id) {
       return;
     }
 

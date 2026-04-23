@@ -54,6 +54,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
 
     return DetailScaffold(
       label: widget.item.name,
+      windowTitle: widget.item.windowTitle(context.localized),
       item: details.episode,
       actions: (context) => details.episode?.generateActions(
         context,
@@ -152,7 +153,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     originalTitle: details.series?.originalTitle,
                     onTitleClicked: () => details.series?.navigateTo(detailsContext),
                     productionYear: details.episode?.dateAired != null
-                        ? DateFormat.yMMMEd().format(details.episode!.dateAired!)
+                        ? DateFormat.yMMMEd(context.localized.localeName).format(details.episode!.dateAired!)
                         : null,
                     runTime: details.episode?.overview.runTime,
                     studios: details.series?.overview.studios ?? [],

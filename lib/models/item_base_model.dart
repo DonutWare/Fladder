@@ -22,6 +22,7 @@ import 'package:fladder/models/items/person_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
+import 'package:fladder/models/items/watched_state.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/playlist_model.dart';
 import 'package:fladder/providers/api_provider.dart';
@@ -101,6 +102,8 @@ class ItemBaseModel with ItemBaseModelMappable {
 
   String get title => name;
 
+  String windowTitle(AppLocalizations l10n) => name;
+
   ///Used for retrieving the correct id when fetching queue
   String get streamId => id;
 
@@ -116,7 +119,7 @@ class ItemBaseModel with ItemBaseModelMappable {
 
   bool get watched => userData.played;
 
-  String? unplayedLabel(AppLocalizations l10n) => null;
+  WatchedState watchedState(AppLocalizations l10n) => userData.played ? const Played() : const Unplayed();
 
   String? detailedName(AppLocalizations l10n) =>
       "$name${overview.yearAired != null || overview.productionYear != null ? " (${overview.yearAired ?? overview.productionYear})" : ""}";
@@ -276,6 +279,17 @@ class ItemBaseModel with ItemBaseModelMappable {
         FolderModel _ => FladderItemType.folder,
         ItemBaseModel _ => FladderItemType.baseType,
       };
+
+  @override
+  bool operator ==(covariant ItemBaseModel other) {
+    if (identical(this, other)) return true;
+    return other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode;
+  }
 }
 
 // Currently supported types

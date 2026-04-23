@@ -19,6 +19,7 @@ import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
@@ -44,7 +45,9 @@ class SeerrSearchScreen extends ConsumerStatefulWidget {
 
 class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
   late final TextEditingController controller = TextEditingController();
+  final GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
   final ScrollController scrollController = ScrollController();
+  bool _forceSubmitOnRefresh = false;
 
   final Debouncer debouncer = Debouncer(const Duration(milliseconds: 500));
 
@@ -62,28 +65,66 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
       if (widget.yearGte != null) {
         notifier.setYearRange(minYear: widget.yearGte);
       }
+      scrollController.addListener(_onScroll);
+
+      _maybeTriggerLoadMore();
     });
-    scrollController.addListener(_onScroll);
   }
 
   void _onScroll() {
-    if (scrollController.position.pixels > scrollController.position.maxScrollExtent * 0.65) {
-      ref.read(seerrSearchProvider.notifier).loadMore();
+    if (!ref.read(seerrSearchProvider).canLoadMore) return;
+    if (_isNearBottom(scrollController.position)) {
+      refreshKey.currentState?.show();
     }
   }
 
-  void _maybeTriggerLoadMore(SeerrSearchModel state) {
+  bool _isNearBottom(ScrollPosition position) {
+    return position.pixels > position.maxScrollExtent * 0.65 || position.extentAfter < position.viewportDimension * 0.2;
+  }
+
+  Future<void> _refreshSearch() async {
+    final state = ref.read(seerrSearchProvider);
+    final notifier = ref.read(seerrSearchProvider.notifier);
+
+    if (_forceSubmitOnRefresh) {
+      _forceSubmitOnRefresh = false;
+      await notifier.submit();
+      return;
+    }
+
+    if (scrollController.hasClients && state.canLoadMore) {
+      final position = scrollController.position;
+      final notScrollable = position.maxScrollExtent <= 0;
+      if (notScrollable || _isNearBottom(position)) {
+        await notifier.loadMore();
+        return;
+      }
+    }
+
+    await notifier.submit();
+  }
+
+  void _triggerSubmitViaRefresh({String? value}) {
+    final notifier = ref.read(seerrSearchProvider.notifier);
+    if (value != null) {
+      notifier.setQuery(value);
+    }
+    _forceSubmitOnRefresh = true;
+    refreshKey.currentState?.show();
+  }
+
+  void _maybeTriggerLoadMore() {
     if (!mounted) return;
-    if (state.isLoading || state.isLoadingMore) return;
-    if (state.totalPages == null || state.currentPage >= state.totalPages!) return;
+    final state = ref.read(seerrSearchProvider);
+    if (!state.canLoadMore) return;
     if (!scrollController.hasClients) return;
 
     final position = scrollController.position;
     final notScrollable = position.maxScrollExtent <= 0;
-    final nearBottom = position.extentAfter < position.viewportDimension * 0.2;
+    final nearBottom = _isNearBottom(position);
 
     if (notScrollable || nearBottom) {
-      ref.read(seerrSearchProvider.notifier).loadMore();
+      refreshKey.currentState?.show();
     }
   }
 
@@ -96,14 +137,14 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
 
   Future<void> openRequest(BuildContext context, SeerrDashboardPosterModel poster) async {
     await openSeerrRequestPopup(context, poster);
-    await ref.read(seerrSearchProvider.notifier).submit();
+    _triggerSubmitViaRefresh();
   }
 
   @override
   Widget build(BuildContext context) {
     final searchState = ref.watch(seerrSearchProvider);
     final surfaceColor = Theme.of(context).colorScheme.surface;
-    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeTriggerLoadMore(searchState));
+
     ref.listen(
       seerrSearchProvider.select((value) => value.query),
       (previous, next) {
@@ -124,7 +165,7 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
     return NestedScaffold(
       background: BackgroundImage(images: backgroundImages),
       body: Padding(
-        padding: EdgeInsets.only(left: AdaptiveLayout.of(context).sideBarWidth),
+        padding: EdgeInsetsDirectional.only(start: AdaptiveLayout.of(context).sideBarWidth),
         child: Scaffold(
           extendBody: true,
           backgroundColor: Colors.transparent,
@@ -143,7 +184,8 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
                 )
               : null,
           body: PullToRefresh(
-            onRefresh: () => ref.read(seerrSearchProvider.notifier).submit(),
+            refreshKey: refreshKey,
+            onRefresh: _refreshSearch,
             child: (context) => CustomScrollView(
               controller: scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
@@ -202,23 +244,19 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
                                       autoFocus: widget.mode == SeerrSearchMode.search,
                                       controller: controller,
                                       textInputAction: TextInputAction.search,
-                                      onSubmitted: (value) => ref.read(seerrSearchProvider.notifier).submit(value),
+                                      onSubmitted: (value) => _triggerSubmitViaRefresh(value: value),
                                       onChanged: (value) {
                                         ref.read(seerrSearchProvider.notifier).setQuery(value);
                                         if (searchState.searchMode == SeerrSearchMode.search) {
                                           debouncer.run(() {
-                                            ref.read(seerrSearchProvider.notifier).submit(value);
+                                            _triggerSubmitViaRefresh();
                                           });
                                         }
                                       },
                                       decoration: InputDecoration(
                                         hintText: "${context.localized.search}...",
                                         contentPadding: const EdgeInsets.only(top: 6),
-                                        icon: IconButton(
-                                          onPressed: () =>
-                                              ref.read(seerrSearchProvider.notifier).submit(controller.text),
-                                          icon: const Icon(IconsaxPlusLinear.search_status),
-                                        ),
+                                        icon: const Icon(IconsaxPlusLinear.search_status),
                                         border: InputBorder.none,
                                       ),
                                     ),
@@ -311,15 +349,8 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
                       },
                     ),
                   ),
-                  if (searchState.isLoadingMore)
-                    const SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Center(child: CircularProgressIndicator()),
-                      ),
-                    ),
                 ],
-                const DefautlSliverBottomPadding(),
+                const DefaultSliverBottomPadding(),
               ],
             ),
           ),
@@ -341,16 +372,7 @@ class _SeerrSearchBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasFilters = searchState.filters.genres.values.any((v) => v) ||
-        searchState.filters.watchProviders.values.any((v) => v) ||
-        searchState.filters.certifications.values.any((v) => v) ||
-        searchState.filters.yearGte != null ||
-        searchState.filters.yearLte != null ||
-        searchState.filters.voteAverageGte != null ||
-        searchState.filters.voteAverageLte != null ||
-        searchState.filters.runtimeGte != null ||
-        searchState.filters.runtimeLte != null ||
-        searchState.filters.studio != null;
+    final hasFilters = searchState.hasFilters;
 
     final paddingOf = MediaQuery.paddingOf(context);
     final barContent = Padding(
@@ -368,7 +390,7 @@ class _SeerrSearchBottomBar extends StatelessWidget {
             onPressed: hasFilters
                 ? () async {
                     notifier.clearFilters();
-                    await notifier.submit();
+                    await context.refreshData();
                   }
                 : null,
           ),

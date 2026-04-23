@@ -158,7 +158,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                         Hero(
                                           tag: videoPlayerHeroTag,
                                           child: player.videoWidget(
-                                                UniqueKey(),
+                                                const ValueKey("mini_player_video"),
                                                 BoxFit.fitHeight,
                                               ) ??
                                               const SizedBox.shrink(),
