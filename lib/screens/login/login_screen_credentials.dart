@@ -123,6 +123,26 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       icon: const Icon(IconsaxPlusLinear.setting_3),
     );
 
+    final backButton = AspectRatio(
+      aspectRatio: 1,
+      child: IconButton.filledTonal(
+        onPressed: () => provider.goUserSelect(),
+        icon: const Icon(IconsaxPlusLinear.arrow_left_2),
+      ),
+    );
+
+    final refreshButton = AspectRatio(
+      aspectRatio: 1,
+      child: Tooltip(
+        message: context.localized.retrievePublicListOfUsers,
+        waitDuration: const Duration(seconds: 1),
+        child: IconButton.filled(
+          onPressed: () => provider.setServer(serverTextController.text),
+          icon: const Icon(IconsaxPlusLinear.refresh),
+        ),
+      ),
+    );
+
     ref.listen(
       authProvider.select((value) => value.serverLoginModel),
       (previous, next) {
@@ -137,22 +157,14 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 16,
       children: [
-        IntrinsicHeight(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: 8,
-            children: [
-              AspectRatio(
-                aspectRatio: 1,
-                child: IconButton.filledTonal(
-                  onPressed: () => provider.goUserSelect(),
-                  icon: const Icon(
-                    IconsaxPlusLinear.arrow_left_2,
-                  ),
-                ),
-              ),
-              if (!hasBaseUrl)
+        if (!hasBaseUrl)
+          IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 8,
+              children: [
+                if (existingUsers.isNotEmpty) backButton,
                 Expanded(
                   child: OutlinedTextField(
                     controller: serverTextController,
@@ -165,22 +177,10 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                     errorText: urlError,
                   ),
                 ),
-              AspectRatio(
-                aspectRatio: 1,
-                child: Tooltip(
-                  message: context.localized.retrievePublicListOfUsers,
-                  waitDuration: const Duration(seconds: 1),
-                  child: IconButton.filled(
-                    onPressed: () => provider.setServer(serverTextController.text),
-                    icon: const Icon(
-                      IconsaxPlusLinear.refresh,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+                refreshButton,
+              ],
+            ),
           ),
-        ),
         if (serverCredentials == null)
           Column(
             mainAxisSize: MainAxisSize.max,
@@ -301,10 +301,15 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                       ],
                     ),
                   ],
-                  if (hidePasswordLogin && FladderConfig.seerrBaseUrl?.isNotEmpty != true)
+                  if (hasBaseUrl)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [advancedOptionsButton],
+                      spacing: 8,
+                      children: [
+                        if (existingUsers.isNotEmpty) backButton,
+                        refreshButton,
+                        if (hidePasswordLogin && FladderConfig.seerrBaseUrl?.isNotEmpty != true) advancedOptionsButton,
+                      ],
                     ),
                   if (hasQuickConnect)
                     FilledButton(
