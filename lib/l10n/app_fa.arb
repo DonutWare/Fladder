@@ -1,1 +1,1954 @@
-{}
+{
+    "nativeName": "فارسی",
+    "about": "درباره",
+    "accept": "تأیید",
+    "active": "فعال",
+    "addAsFavorite": "افزودن به علاقه‌مندی‌ها",
+    "addToCollection": "افزودن به مجموعه",
+    "addToPlaylist": "افزودن به لیست پخش",
+    "advanced": "پیشرفته",
+    "all": "همه",
+    "amoledBlack": "مشکی عمیق",
+    "appLockAutoLogin": "ورود خودکار",
+    "appLockPasscode": "کد عبور",
+    "ascending": "صعودی",
+    "audio": "{count, plural, one{صدا} other{صداها}}",
+    "autoPlay": "پخش خودکار",
+    "backgroundBlur": "تار کردن پس‌زمینه",
+    "backgroundOpacity": "شفافیت پس‌زمینه",
+    "appLockBiometrics": "احراز هویت بیومتریک",
+    "bold": "ضخیم",
+    "appLockTitle": "تنظیم روش ورود برای {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "cancel": "لغو",
+    "change": "تغییر",
+    "clear": "پاک کردن",
+    "clearAllSettings": "پاک کردن تمام تنظیمات",
+    "clearAllSettingsQuestion": "آیا می‌خواهید تمام تنظیمات را پاک کنید؟",
+    "clearChanges": "پاک کردن تغییرات",
+    "clearSelection": "پاک کردن انتخاب",
+    "close": "بستن",
+    "code": "کد",
+    "collectionFolder": "{count, plural, one{پوشه مجموعه} other{پوشه‌های مجموعه‌ها}}",
+    "color": "رنگ",
+    "combined": "ترکیبی",
+    "communityRating": "امتیاز جامعه",
+    "continuePage": "ادامه - صفحه {page}",
+    "@continuePage": {
+        "description": "Continue - page 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "controls": "کنترل‌ها",
+    "dashboard": "داشبورد",
+    "dashboardContinue": "ادامه",
+    "dashboardContinueListening": "ادامه گوش دادن",
+    "dashboardContinueReading": "ادامه خواندن",
+    "dashboardContinueWatching": "ادامه تماشا",
+    "nextUp": "بعدی",
+    "dateLastContentAdded": "تاریخ آخرین محتوای افزوده‌شده",
+    "datePlayed": "تاریخ پخش",
+    "days": "{count, plural, one{روز} other{روزها}}",
+    "delete": "حذف",
+    "deleteFileFromSystem": "حذف این مورد {item} باعث حذف آن از سیستم فایل و کتابخانه رسانه شما می‌شود. آیا از ادامه مطمئن هستید؟",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteItem": "آیا می‌خواهید {item} را حذف کنید؟",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "descending": "نزولی",
+    "disableFilters": "غیرفعال کردن فیلترها",
+    "disabled": "غیرفعال",
+    "discovered": "کشف شده",
+    "displayLanguage": "زبان نمایش",
+    "downloadsClearDesc": "آیا می‌خواهید تمام داده‌های همگام‌سازی شده را حذف و تمام داده‌های هر کاربر همگام‌سازی شده را پاک کنید؟",
+    "downloadsClearTitle": "پاک کردن داده‌های همگام‌سازی شده",
+    "downloadsSyncedData": "داده‌های همگام‌سازی شده",
+    "downloadsTitle": "دانلودها",
+    "dynamicText": "پویا",
+    "editMetadata": "ویرایش متادیتا",
+    "empty": "خالی",
+    "enabled": "روشن",
+    "endsAt": "در {date} پایان می‌یابد",
+    "@endsAt": {
+        "description": "endsAt",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "error": "خطا",
+    "failedToLoadImage": "بارگذاری تصویر ناموفق بود",
+    "favorite": "علاقه‌مندی",
+    "favorites": "علاقه‌مندی‌ها",
+    "fetchingLibrary": "در حال دریافت موارد کتابخانه…",
+    "folders": "پوشه‌ها",
+    "fontColor": "رنگ قلم",
+    "fontSize": "اندازه قلم",
+    "forceRefresh": "به‌روزرسانی اجباری",
+    "goTo": "رفتن به",
+    "grid": "شبکه‌ای",
+    "group": "گروه",
+    "groupBy": "گروه‌بندی بر اساس",
+    "heightOffset": "انحراف ارتفاع",
+    "hide": "پنهان کردن",
+    "hideEmpty": "پنهان کردن خالی‌ها",
+    "home": "خانه",
+    "homeBannerSlideshow": "نمایش اسلاید",
+    "homeBannerCarousel": "کاروسل",
+    "immediately": "فوری",
+    "identify": "شناسایی",
+    "info": "اطلاعات",
+    "invalidUrl": "آدرس URL نامعتبر",
+    "itemCount": "تعداد موارد: {count}",
+    "@itemCount": {
+        "description": "Item count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "libraryPageSizeTitle": "اندازه صفحه کتابخانه",
+    "light": "روشن",
+    "list": "لیست",
+    "loggedIn": "وارد شده",
+    "login": "ورود",
+    "logout": "خروج",
+    "logoutUserPopupContent": "این کار باعث خروج {userName} و حذف کاربر از اپلیکیشن می‌شود.\nباید دوباره در {serverName} وارد شوید.",
+    "@logoutUserPopupContent": {
+        "description": "Pop-up for logging out the user description",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "serverName": {
+                "type": "String"
+            }
+        }
+    },
+    "logoutUserPopupTitle": "خروج از {userName}؟",
+    "@logoutUserPopupTitle": {
+        "description": "Pop-up for logging out the user",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "loop": "تکرار",
+    "markAsUnwatched": "علامت‌گذاری به عنوان دیده‌نشده",
+    "markAsWatched": "علامت‌گذاری به عنوان دیده‌شده",
+    "mediaTypeBase": "نوع پایه",
+    "mediaTypeBook": "{count, plural, one{کتاب} other{کتاب‌ها}}",
+    "mediaTypeEpisode": "{count, plural, one{قسمت} other{قسمت‌ها}}",
+    "mediaTypeFolder": "{count, plural, one{پوشه} other{پوشه‌ها}}",
+    "mediaTypeMovie": "{count, plural, one{فیلم} other{فیلم‌ها}}",
+    "mediaTypePerson": "{count, plural, one{شخص} other{اشخاص}}",
+    "metadataRefreshFull": "جایگزینی تمام متادیتاها",
+    "metadataRefreshValidation": "جستجوی متادیتای مفقود",
+    "mode": "حالت",
+    "moreFrom": "بیشتر از {info}",
+    "@moreFrom": {
+        "description": "More from",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "moreOptions": "گزینه‌های بیشتر",
+    "mouseDragSupport": "کشیدن با ماوس",
+    "musicAlbum": "{count, plural, one{آلبوم موسیقی} other{آلبوم‌های موسیقی}}",
+    "name": "نام",
+    "navigation": "ناوبری",
+    "navigationDashboard": "داشبورد ناوبری",
+    "navigationFavorites": "علاقه‌مندی‌ها",
+    "navigationSync": "همگام‌سازی شده",
+    "never": "هرگز",
+    "noItemsSynced": "هیچ موردی همگام‌سازی نشده است",
+    "noItemsToShow": "هیچ موردی برای نمایش وجود ندارد",
+    "noRating": "بدون امتیاز",
+    "noResults": "نتیجه‌ای یافت نشد",
+    "noServersFound": "هیچ سرور جدیدی یافت نشد",
+    "notPartOfAlbum": "بخشی از یک آلبوم نیست",
+    "openParent": "باز کردن والد",
+    "openShow": "باز کردن نمایش",
+    "openWebLink": "باز کردن لینک وب",
+    "options": "گزینه‌ها",
+    "other": "سایر",
+    "outlineColor": "رنگ حاشیه",
+    "outlineSize": "اندازه حاشیه",
+    "overview": "بررسی اجمالی",
+    "page": "صفحه {index}",
+    "@page": {
+        "description": "page",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "parentalRating": "رده‌بندی سنی",
+    "password": "رمز عبور",
+    "pathClearTitle": "پاک کردن مسیر دانلودها",
+    "pathEditSelect": "انتخاب مقصد دانلودها",
+    "pathEditTitle": "تغییر مکان",
+    "play": "پخش {item}",
+    "@play": {
+        "description": "Play with",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "playCount": "تعداد پخش",
+    "playFrom": "پخش از {name}",
+    "@playFrom": {
+        "description": "playFrom",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playLabel": "پخش",
+    "played": "پخش شده",
+    "quickConnectAction": "کد اتصال سریع را وارد کنید",
+    "quickConnectTitle": "اتصال سریع",
+    "playFromStart": "پخش {name} از ابتدا",
+    "@playFromStart": {
+        "description": "speel vanaf het begin",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playVideos": "پخش ویدیوها",
+    "quickConnectInputACode": "وارد کردن کد",
+    "reWatch": "مشاهده مجدد",
+    "readFromStart": "خواندن {item} از ابتدا",
+    "@readFromStart": {
+        "description": "Read book from start",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "refresh": "به‌روزرسانی",
+    "refreshPopup": "به‌روزرسانی - {name}",
+    "@refreshPopup": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "refreshPopupContentMetadata": "متادیتا بر اساس تنظیمات و سرویس‌های اینترنتی فعال در داشبورد به‌روزرسانی می‌شود.",
+    "releaseDate": "تاریخ انتشار",
+    "removeAsFavorite": "حذف از علاقه‌مندی‌ها",
+    "removeFromCollection": "حذف از مجموعه",
+    "removeFromPlaylist": "حذف از لیست پخش",
+    "replaceAllImages": "جایگزینی تمام تصاویر",
+    "saved": "ذخیره شد",
+    "scanBiometricHint": "تأیید هویت",
+    "scanLibrary": "اسکن کتابخانه",
+    "scanningName": "در حال اسکن - {name}…",
+    "@scanningName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "scrollToTop": "اسکرول به بالا",
+    "search": "جستجو",
+    "selectAll": "انتخاب همه",
+    "read": "بخوان {item}",
+    "@read": {
+        "description": "read",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "scanYourFingerprintToAuthenticate": "اثر انگشت خود را برای تأیید هویت {user} اسکن کنید",
+    "@scanYourFingerprintToAuthenticate": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "selectTime": "انتخاب زمان",
+    "selectViewType": "انتخاب نوع نمایش",
+    "selected": "انتخاب شده",
+    "selectedWith": "{info} انتخاب شده",
+    "@selectedWith": {
+        "description": "selected",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "server": "سرور",
+    "set": "تنظیم",
+    "@set": {
+        "description": "Use for setting a certain value",
+        "context": "Set 'time'"
+    },
+    "separate": "جداسازی",
+    "setIdentityTo": "تغییر هویت به {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "settingSecurityApplockTitle": "قفل اپلیکیشن",
+    "settingsBlurEpisodesDesc": "تار کردن تمام قسمت‌های آینده",
+    "settingsBlurEpisodesTitle": "تار کردن قسمت‌های بعدی",
+    "settingsClientTitle": "فلادر",
+    "settingsContinue": "ادامه",
+    "settingsEnableOsMediaControls": "فعال کردن کنترل‌های رسانه سیستم‌عامل",
+    "settingsBlurredPlaceholderDesc": "نمایش پس‌زمینه تار هنگام بارگذاری پوسترها",
+    "settingsHomeBannerDescription": "نمایش به صورت اسلاید، کاروسل یا پنهان کردن بنر",
+    "settingsHomeBannerTitle": "بنر اصلی",
+    "settingsBlurredPlaceholderTitle": "جایگزین تار",
+    "settingsPlayerCustomSubtitlesTitle": "شخصی‌سازی زیرنویس",
+    "settingsPlayerDesc": "نسبت ابعاد، پیشرفته",
+    "settingsHomeNextUpDesc": "نوع پوسترهای نمایش‌داده‌شده در صفحه داشبورد",
+    "settingsHomeNextUpTitle": "پوسترهای بعدی",
+    "settingsPlayerTitle": "پخش‌کننده",
+    "shadow": "سایه",
+    "showAlbum": "نمایش آلبوم",
+    "showDetails": "نمایش جزئیات",
+    "showEmpty": "نمایش خالی",
+    "shuffleGallery": "پخش تصادفی گالری",
+    "shuffleVideos": "پخش تصادفی ویدیوها",
+    "somethingWentWrong": "خطایی رخ داد",
+    "somethingWentWrongPasswordCheck": "خطایی رخ داد. رمز عبور خود را بررسی کنید.",
+    "sortBy": "مرتب‌سازی بر اساس",
+    "sortName": "نام",
+    "sortOrder": "ترتیب مرتب‌سازی",
+    "start": "شروع",
+    "subtitleConfigurator": "پیکربندی زیرنویس",
+    "subtitleConfiguratorPlaceHolder": "این یک متن جایگزین است، چیزی اینجا نیست.",
+    "subtitles": "زیرنویس‌ها",
+    "switchUser": "تعویض کاربر",
+    "sync": "همگام‌سازی",
+    "syncDeleteItemTitle": "حذف مورد همگام‌سازی شده",
+    "syncDetails": "جزئیات همگام‌سازی",
+    "syncRemoveDataDesc": "حذف داده‌های ویدیوی همگام‌سازی شده؟ این عمل دائمی است و باید فایل‌ها را دوباره همگام‌سازی کنید",
+    "syncRemoveDataTitle": "حذف داده‌های همگام‌سازی شده؟",
+    "theme": "پوسته",
+    "themeColor": "رنگ پوسته",
+    "themeModeDark": "تیره",
+    "themeModeLight": "روشن",
+    "themeModeSystem": "سیستم",
+    "timeAndAnnotation": "{minutes} و {seconds}",
+    "@timeAndAnnotation": {
+        "description": "timeAndAnnotation",
+        "placeholders": {
+            "minutes": {
+                "type": "String"
+            },
+            "seconds": {
+                "type": "String"
+            }
+        }
+    },
+    "videoScalingFillScreenDesc": "پر کردن نوار ناوبری و نوار وضعیت",
+    "videoScalingFillScreenNotif": "پر کردن صفحه فراتر از تناسب ویدیو، در حالت افقی",
+    "videoScalingFillScreenTitle": "تمام صفحه",
+    "videoScalingFill": "پر کردن",
+    "videoScalingFitHeight": "تناسب ارتفاع",
+    "videoScalingFitWidth": "تناسب عرض",
+    "videoScalingScaleDown": "کاهش اندازه عرض",
+    "viewPhotos": "نمایش عکس‌ها",
+    "watchOn": "تماشا در",
+    "addedToPlaylist": "به لیست پخش {playlistName} اضافه شد",
+    "@addedToPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "addItemsToPlaylist": "افزودن {itemLength} مورد به لیست پخش",
+    "@addItemsToPlaylist": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "syncStatusEnqueued": "در صف",
+    "syncStatusNotFound": "یافت نشد",
+    "syncStatusFailed": "ناموفق",
+    "syncStatusCanceled": "لغو شد",
+    "syncStatusWaitingToRetry": "در انتظار تلاش مجدد",
+    "syncStatusPaused": "متوقف شده",
+    "syncStatusSynced": "همگام‌سازی شد",
+    "syncStatusPartially": "جزئی",
+    "syncOverlayDeleting": "حذف مورد همگام‌سازی شده",
+    "syncOverlaySyncing": "همگام‌سازی جزئیات مورد",
+    "syncSelectDownloadsFolder": "انتخاب پوشه دانلودها",
+    "syncNoFolderSetup": "پوشه همگام‌سازی تنظیم نشده است",
+    "syncRemoveUnableToDeleteItem": "حذف مورد همگام‌سازی شده ناموفق بود، خطایی رخ داد",
+    "syncAddItemForSyncing": "{item} برای همگام‌سازی اضافه شد",
+    "@syncAddItemForSyncing": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "startedSyncingItem": "همگام‌سازی {item} شروع شد",
+    "@startedSyncingItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutBuild": "شماره ساخت: {buildNumber}",
+    "@aboutBuild": {
+        "placeholders": {
+            "buildNumber": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutCreatedBy": "ساخته شده توسط DonutWare",
+    "aboutSocials": "شبکه‌های اجتماعی",
+    "aboutLicenses": "مجوزها",
+    "unableToSyncItem": "همگام‌سازی {item} ناموفق بود، خطایی رخ داد",
+    "@unableToSyncItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutVersion": "نسخه: {version}",
+    "@aboutVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "subtitle": "زیرنویس",
+    "subtitleConfiguration": "تنظیمات زیرنویس",
+    "off": "خاموش",
+    "screenBrightness": "روشنایی صفحه",
+    "scale": "مقیاس",
+    "playBackSettings": "تنظیمات پخش",
+    "settingsAutoNextTitle": "پیش‌نمایش بعدی",
+    "autoNextOffSmartTitle": "هوشمند",
+    "autoNextOffStaticTitle": "ثابت",
+    "autoNextOffStaticDesc": "نمایش صفحه مورد بعدی وقتی ۳۰ ثانیه از زمان پخش باقی مانده است",
+    "playbackRate": "نرخ پخش",
+    "speed": "سرعت",
+    "autoNextOffSmartDesc": "صفحه «بعدی» را وقتی تیتراژ شروع می‌شود نشان می‌دهد اگر بیش از ۱۰ ثانیه بعد از تیتراژ باقی نمانده باشد. در غیر این صورت صفحه «بعدی» را با ۳۰ ثانیه باقی‌مانده از زمان پخش نشان می‌دهد",
+    "settingsAutoNextDesc": "پیش‌نمایشی از نمایش بعدی را در نزدیکی پایان نشان می‌دهد اگر نمایش دیگری در لیست پخش باشد",
+    "mediaSegmentOutro": "پایان",
+    "mediaSegmentIntro": "مقدمه",
+    "biometricsFailedCheckAgain": "احراز هویت بیومتریک ناموفق بود. تنظیمات را بررسی و دوباره تلاش کنید.",
+    "dateAdded": "تاریخ افزوده‌شدن",
+    "dashboardRecentlyAdded": "اخیراً در {name} اضافه شده است",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "downloadsPath": "مسیر",
+    "incorrectPinTryAgain": "پین کد اشتباه است. دوباره تلاش کنید.",
+    "invalidUrlDesc": "آدرس URL باید با http(s):// شروع شود",
+    "addToNewPlaylist": "لیست پخش جدید",
+    "addedToCollection": "به مجموعه {collectionName} اضافه شد",
+    "@addedToCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncStatusRunning": "در حال اجرا",
+    "addToNewCollection": "مجموعه جدید",
+    "addItemsToCollection": "افزودن {itemLength} مورد به مجموعه",
+    "@addItemsToCollection": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "removedFromCollection": "از مجموعه {collectionName} حذف شد",
+    "@removedFromCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncStatusComplete": "کامل شد",
+    "libraryFetchNoItemsFound": "موردی یافت نشد. تنظیمات مختلف را امتحان کنید.",
+    "mediaTypePhoto": "{count, plural, one{عکس} other{عکس‌ها}}",
+    "mediaTypeSeries": "{count, plural, one{سریال} other{سریال‌ها}}",
+    "retry": "تلاش مجدد",
+    "lockscreen": "صفحه قفل",
+    "metadataRefreshDefault": "اسکن برای فایل‌های جدید و به‌روزرسانی‌شده",
+    "noSuggestionsFound": "پیشنهادی یافت نشد",
+    "libraryPageSizeDesc": "مقداری که باید در هر بار بارگذاری شود را انتخاب کنید. مقدار ۰ صفحه‌بندی را متوقف می‌کند.",
+    "mediaTypePhotoAlbum": "{count, plural, one{آلبوم عکس} other{آلبوم‌های عکس}}",
+    "mediaTypePlaylist": "{count, plural, one{لیست پخش} other{لیست‌های پخش}}",
+    "retrievePublicListOfUsers": "دریافت لیست عمومی کاربران",
+    "pathEditDesc": "این مکان برای تمام کاربران تنظیم شده است و داده‌های همگام‌سازی شده دیگر قابل دسترسی نخواهند بود. آن‌ها روی دستگاه ذخیره‌سازی شما باقی می‌مانند.",
+    "resume": "ادامه {item}",
+    "@resume": {
+        "description": "resume",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "quickConnectWrongCode": "کد اشتباه",
+    "settings": "تنظیمات",
+    "mediaTypeSeason": "{count, plural, one{فصل} other{فصل‌ها}}",
+    "normal": "عادی",
+    "save": "ذخیره",
+    "none": "هیچ‌کدام",
+    "random": "تصادفی",
+    "result": "نتیجه",
+    "resumable": "قابل ادامه",
+    "runTime": "زمان اجرا",
+    "refreshMetadata": "به‌روزرسانی متادیتا",
+    "replaceExistingImages": "جایگزینی تصاویر موجود",
+    "related": "مرتبط",
+    "restart": "راه‌اندازی مجدد",
+    "settingsHomeBannerInformationDesc": "اطلاعاتی که باید در بنر اصلی نمایش داده شود",
+    "settingsHomeBannerInformationTitle": "اطلاعات بنر",
+    "settingsPosterSize": "اندازه پوستر",
+    "metaDataSavedFor": "متادیتا برای {item} ذخیره شد",
+    "@metaDataSavedFor": {
+        "description": "metaDataSavedFor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeletePopupPermanent": "این عمل دائمی است و تمام فایل‌های همگام‌سازی شده محلی را حذف می‌کند",
+    "syncDeleteItemDesc": "حذف تمام داده‌های همگام‌سازی شده برای {item}؟",
+    "@syncDeleteItemDesc": {
+        "description": "Sync delete item pop-up window",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "syncedItems": "موارد همگام‌سازی شده",
+    "settingsPlayerMobileWarning": "فعال کردن شتاب‌دهنده سخت‌افزاری و زیرنویس نیتیو libass در اندروید ممکن است باعث عدم نمایش برخی زیرنویس‌ها شود.",
+    "settingsPlayerNativeLibassAccelTitle": "زیرنویس‌های نیتیو libass",
+    "settingsProfileDesc": "صفحه قفل، لینک محلی، Seerr",
+    "settingsProfileTitle": "پروفایل",
+    "settingsQuickConnectTitle": "اتصال سریع",
+    "settingsSecurity": "امنیت",
+    "settingsShowScaleSlider": "نمایش نوار لغزنده اندازه پوستر",
+    "settingsPosterSlider": "نمایش مقیاس لغزنده",
+    "timeOut": "پایان مهلت",
+    "totalSize": "اندازه کل: {size}",
+    "@totalSize": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "unPlayed": "پخش نشده",
+    "unableToConnectHost": "عدم توانایی در اتصال به میزبان",
+    "unableToReverseAction": "این عمل قابل بازگشت نیست. تمام تنظیمات را حذف خواهد کرد.",
+    "useDefaults": "تنظیمات پیش‌فرض",
+    "userName": "نام کاربری",
+    "video": "{count, plural, one{ویدیو} other{ویدیوها}}",
+    "videoScaling": "مقیاس‌بندی ویدیو",
+    "videoScalingContain": "گنجاندن",
+    "videoScalingCover": "پوشش",
+    "unableToPlayMedia": "خطایی در یافتن نوع رسانه سازگار رخ داد",
+    "defaultFilterForLibrary": "تنظیمات فیلتر پیش‌فرض کتابخانه",
+    "updateFilterForLibrary": "به‌روزرسانی فیلتر",
+    "libraryFiltersLimitReached": "به حد مجاز فیلترها (۱۰) رسیدید، برخی فیلترها را حذف کنید",
+    "libraryFiltersRemoveAll": "حذف تمام فیلترها",
+    "playerSettingsOrientationTitle": "جهت پخش‌کننده",
+    "playerSettingsOrientationDesc": "اجبار پخش‌کننده ویدیو به جهت‌های خاص",
+    "deviceOrientationPortraitUp": "عمودی رو به بالا",
+    "deviceOrientationPortraitDown": "عمودی رو به پایین",
+    "deviceOrientationLandscapeLeft": "افقی به چپ",
+    "schemeSettingsMonochrome": "تک‌رنگ",
+    "schemeSettingsNeutral": "خنثی",
+    "schemeSettingsVibrant": "زنده",
+    "schemeSettingsRainbow": "رنگین‌کمان",
+    "clientSettingsRequireWifiDesc": "دانلود فقط هنگام اتصال به Wi-Fi",
+    "libraryShuffleAndPlayItems": "پخش تصادفی موارد",
+    "clientSettingsRequireWifiTitle": "نیاز به Wi-Fi",
+    "unknown": "نامشخص",
+    "libraryFiltersRemoveAllConfirm": "این کار تمام فیلترهای ذخیره‌شده برای هر کتابخانه را حذف می‌کند",
+    "deleteFilterConfirmation": "آیا مطمئن هستید که می‌خواهید این فیلتر را حذف کنید؟",
+    "unableToPlayBooksOnWeb": "کتاب‌ها در حال حاضر در وب پشتیبانی نمی‌شوند",
+    "removeFilterForLibrary": "حذف {filter}؟",
+    "@removeFilterForLibrary": {
+        "description": "removeFilterForLibrary",
+        "placeholders": {
+            "filter": {
+                "type": "String"
+            }
+        }
+    },
+    "errorOpeningMedia": "هنگام تلاش برای پخش این رسانه خطایی رخ داد",
+    "schemeSettingsExpressive": "رسا",
+    "schemeSettingsContent": "محتوا",
+    "deviceOrientationLandscapeRight": "افقی به راست",
+    "schemeSettingsFruitSalad": "سالاد میوه",
+    "syncOpenParent": "باز کردن پوشه والد",
+    "clientSettingsSchemeVariantTitle": "طرح رنگ",
+    "schemeSettingsFidelity": "دقت",
+    "libraryPlayItems": "پخش موارد",
+    "clientSettingsShowAllCollectionsTitle": "نمایش تمام انواع مجموعه‌ها",
+    "resumeVideo": "ادامه ویدیو",
+    "closeVideo": "بستن ویدیو",
+    "playNextVideo": "پخش ویدیوی بعدی",
+    "playerSettingsBackendDesc": "پخش‌کننده رسانه مورد علاقه خود را برای تجربه پخش بهینه انتخاب کنید",
+    "defaultLabel": "پیش‌فرض",
+    "@defaultLabel": {
+        "description": "To indicate a default value, default video player backend"
+    },
+    "mdkExperimental": "MDK هنوز در مرحله آزمایشی است",
+    "noVideoPlayerOptions": "بک‌انند انتخاب شده گزینه‌ای ندارد",
+    "playerSettingsBackendTitle": "بک‌انند پخش‌کننده ویدیو",
+    "skipButtonLabel": "رد کردن {segment}",
+    "@skipButtonLabel": {
+        "placeholders": {
+            "segment": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentUnknown": "نامشخص",
+    "mediaSegmentCommercial": "تبلیغ",
+    "mediaSegmentPreview": "پیش‌نمایش",
+    "mediaSegmentRecap": "خلاصه",
+    "errorLogs": "لاگ‌های خطا",
+    "external": "خارجی",
+    "desktop": "دسکتاپ",
+    "layoutModeDual": "دوتایی",
+    "layoutModeSingle": "تکی",
+    "copiedToClipboard": "در حافظه موقت کپی شد",
+    "downloadFile": "دانلود {type}",
+    "@downloadFile": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "copyStreamUrl": "کپی لینک استریم",
+    "settingsLayoutSizesDesc": "اندازه‌های چیدمانی را که اپلیکیشن می‌تواند بر اساس اندازه پنجره استفاده کند، انتخاب کنید",
+    "settingsLayoutModesDesc": "کنترل کنید که آیا اپلیکیشن می‌تواند از چیدمان‌های تک‌پنلی یا دوپنلی استفاده کند",
+    "phone": "تلفن",
+    "settingsLayoutSizesTitle": "اندازه‌های چیدمان",
+    "settingsLayoutModesTitle": "حالت‌های چیدمان",
+    "internetStreamingQualityTitle": "کیفیت اینترنت",
+    "internetStreamingQualityDesc": "حداکثر کیفیت پخش اینترنتی (موبایل)",
+    "homeStreamingQualityTitle": "کیفیت خانگی",
+    "homeStreamingQualityDesc": "حداکثر کیفیت پخش هنگام اتصال به شبکه خانگی",
+    "qualityOptionsTitle": "گزینه‌های کیفیت",
+    "qualityOptionsOriginal": "اصلی",
+    "qualityOptionsAuto": "خودکار",
+    "version": "نسخه",
+    "mediaSegmentActions": "عملیات بخش‌های رسانه",
+    "segmentActionNone": "هیچ‌کدام",
+    "loading": "در حال بارگذاری",
+    "segmentActionAskToSkip": "درخواست رد کردن",
+    "clientSettingsShowAllCollectionsDesc": "در صورت فعال بودن، تمام انواع مجموعه‌ها نمایش داده می‌شوند، از جمله آن‌هایی که توسط فلادر پشتیبانی نمی‌شوند",
+    "settingsVisual": "بصری",
+    "stop": "توقف",
+    "segmentActionSkip": "رد کردن",
+    "tablet": "تبلت",
+    "settingsPosterPinch": "نیشگون گرفتن برای تغییر اندازه پوسترها",
+    "settingsPlayerVideoHWAccelTitle": "شتاب‌دهنده سخت‌افزاری",
+    "themeModeSystem": "سیستم",
+    "schemeSettingsTonalSpot": "نقطه رنگی",
+    "episodeAvailable": "موجود",
+    "episodeUnaired": "پخش نشده",
+    "episodeMissing": "مفقود",
+    "actor": "{count, plural, other{بازیگران} one{بازیگر}}",
+    "@actor": {
+        "description": "actor",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "chapter": "{count, plural, other{فصل‌ها} one{فصل}}",
+    "@chapter": {
+        "description": "chapter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "genre": "{count, plural, other{ژانرها} one{ژانر}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "seconds": "{count, plural, other{ثانیه} one{ثانیه}}",
+    "@seconds": {
+        "description": "second",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "settingsClientDesc": "عمومی، مهلت، چیدمان، پوسته",
+    "settingsNextUpCutoffDays": "تعداد روزهای قطع پخش بعدی",
+    "settingsPlayerCustomSubtitlesDesc": "شخصی‌سازی اندازه، رنگ، موقعیت، حاشیه",
+    "settingsPlayerNativeLibassAccelDesc": "استفاده از موتور رندر زیرنویس libass در پخش‌کننده ویدیو",
+    "studio": "{count, plural, other{استودیوها} one{استودیو}}",
+    "@studio": {
+        "description": "studio",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "tag": "{count, plural, one{برچسب} other{برچسب‌ها}}",
+    "@tag": {
+        "description": "tag",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "type": "{count, plural, one{نوع} other{انواع}}",
+    "@type": {
+        "description": "type",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeBoxset": "{count, plural, one{باکس‌ست} other{باکس‌ست‌ها}}",
+    "minutes": "{count, plural, other{دقیقه} one{دقیقه}}",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "settingsPlayerVideoHWAccelDesc": "استفاده از واحد پردازش گرافیکی برای نمایش ویدیو (توصیه می‌شود)",
+    "recursive": "تکرار شونده",
+    "episode": "{count, plural, other{قسمت‌ها} one{قسمت}}",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "year": "{count, plural, other{سال‌ها} one{سال}}",
+    "@year": {
+        "description": "year",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "writer": "{count, plural, other{نویسندگان} one{نویسنده}}",
+    "@writer": {
+        "description": "writer",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "director": "{count, plural, other{کارگردانان} one{کارگردان}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "filter": "{count, plural, other{فیلترها} one{فیلتر}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "label": "{count, plural, other{برچسب‌ها} one{برچسب}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{کتابخانه‌ها} one{کتابخانه}}",
+    "@library": {
+        "description": "Plural",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "rating": "{count, plural, other{امتیازها} one{امتیاز}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "season": "{count, plural, other{فصل‌ها} one{فصل}}",
+    "@season": {
+        "description": "season",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "masonry": "چیدمان شبکه‌ای",
+    "castAndCrew": "عوامل و بازیگران",
+    "guestActor": "{count, plural, one{بازیگر مهمان} other{بازیگران مهمان}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "settingsPlayerBufferSizeTitle": "اندازه بافر ویدیو",
+    "settingsPlayerBufferSizeDesc": "اندازه حافظه بافر را برای پخش ویدیو پیکربندی کنید، که مقدار داده‌های بارگذاری شده در حافظه موقت را تعیین می‌کند.",
+    "maxConcurrentDownloadsTitle": "حداکثر دانلودهای همزمان",
+    "maxConcurrentDownloadsDesc": "حداکثر تعداد دانلودهایی را که می‌توانند همزمان انجام شوند تعیین می‌کند. برای غیرفعال کردن محدودیت، آن را روی ۰ تنظیم کنید.",
+    "playbackTrackSelection": "انتخاب ترک پخش",
+    "rememberSubtitleSelections": "به خاطر سپردن انتخاب‌های زیرنویس بر اساس مورد قبلی",
+    "rememberAudioSelections": "به خاطر سپردن انتخاب‌های صوتی بر اساس مورد قبلی",
+    "rememberAudioSelectionsDesc": "تلاش برای تنظیم ترک صوتی که بیشترین مطابقت را با ویدیوی قبلی دارد.",
+    "rememberSubtitleSelectionsDesc": "تلاش برای تنظیم ترک زیرنویس که بیشترین مطابقت را با ویدیوی قبلی دارد.",
+    "exitFladderTitle": "خروج از فلادر",
+    "similarToLikedItem": "مشابه مورد پسندیده شده",
+    "hasActorFromRecentlyPlayed": "شامل بازیگری از فیلم‌های اخیراً پخش شده است",
+    "hasLikedActor": "شامل بازیگر محبوب است",
+    "hasDirectorFromRecentlyPlayed": "شامل کارگردانی از فیلم‌های اخیراً پخش شده است",
+    "hasLikedDirector": "شامل کارگردان محبوب است",
+    "playbackTypeDirect": "مستقیم",
+    "latestReleases": "جدیدترین نسخه‌ها",
+    "autoCheckForUpdates": "بررسی خودکار برای به‌روزرسانی‌ها",
+    "newUpdateFoundOnGithub": "یک به‌روزرسانی جدید در گیت‌هاب پیدا شد",
+    "similarToRecentlyPlayed": "مشابه موارد اخیراً پخش شده",
+    "playbackTypeOffline": "آفلاین",
+    "latest": "جدیدترین",
+    "playbackTypeTranscode": "تبدیل فرمت",
+    "newReleaseFoundTitle": "به‌روزرسانی {newRelease} اکنون در دسترس است!",
+    "@newReleaseFoundTitle": {
+        "placeholders": {
+            "newRelease": {
+                "type": "String"
+            }
+        }
+    },
+    "recommended": "توصیه‌شده",
+    "playbackType": "نوع پخش",
+    "enableBackgroundPostersDesc": "نمایش پوسترهای تصادفی در صفحات مناسب",
+    "enableBackgroundPostersTitle": "فعال‌سازی پوسترهای پس‌زمینه",
+    "settingsEnableOsMediaControlsDesc": "لطفاً اجازه دهید کنترل پخش با استفاده از کلیدهای رسانه انجام شود و رسانه در حال پخش در سیستم‌عامل نمایش داده شود",
+    "notificationDownloadingDownloading": "در حال دانلود",
+    "notificationDownloadingPaused": "دانلود متوقف شد",
+    "notificationDownloadingFinished": "دانلود تکمیل شد",
+    "notificationDownloadingError": "خطا در دانلود",
+    "syncAllItemsTitle": "آیا می‌خواهید تمام موارد از {itemName} را همگام‌سازی کنید؟",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAllItemsDesc": "تعداد ({itemCount}) مورد از «{itemName}» با دستگاه شما همگام‌سازی خواهد شد.\nبسته به تعداد موارد، ممکن است مدتی طول بکشد.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "آیا می‌خواهید تمام موارد همگام‌سازی شده از {itemName} را حذف کنید؟",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsDesc": "تمام موارد همگام‌سازی شده از «{itemName}» حذف خواهند شد.\nاین عملیات دائمی است و بعداً باید ({itemCount}) فایل را دوباره همگام‌سازی کنید.",
+    "@syncDeleteAllItemsDesc": {
+        "description": "syncDeleteAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncPauseAll": "توقف همه",
+    "syncResumeAll": "ادامه همه",
+    "syncStopAll": "توقف کامل همه",
+    "syncDeleteAll": "حذف تمام فایل‌ها",
+    "syncAllFiles": "همگام‌سازی تمام فایل‌ها",
+    "usePostersForLibraryIconsTitle": "نمایش پوستر برای آیکون‌های کتابخانه",
+    "usePostersForLibraryIconsDesc": "نمایش پوستر به جای آیکون برای کتابخانه‌ها",
+    "offline": "آفلاین",
+    "shortCuts": "میان‌برها",
+    "skipForwardLength": "زمان جلو رفتن",
+    "skipBackLength": "زمان عقب رفتن",
+    "playPause": "پخش/توقف",
+    "seekForward": "جلو رفتن",
+    "seekBack": "عقب رفتن",
+    "mute": "بی‌صدا",
+    "volumeUp": "افزایش صدا",
+    "volumeDown": "کاهش صدا",
+    "nextVideo": "ویدیوی بعدی",
+    "prevVideo": "ویدیوی قبلی",
+    "nextChapter": "فصل بعدی",
+    "prevChapter": "فصل قبلی",
+    "fullScreen": "تمام صفحه",
+    "skipMediaSegment": "رد کردن بخش رسانه",
+    "exit": "خروج",
+    "shortCutAlreadyAssigned": "میان‌بر «{hotKey}» قبلاً اختصاص داده شده است",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "blurred": "تار",
+    "volumeIndicator": "سطح صدا: {volume}",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    },
+    "television": "تلویزیون",
+    "exitFladderDesc": "آیا مطمئن هستید که می‌خواهید فلادر را ببندید؟",
+    "keyboardShortCuts": "میان‌برهای صفحه‌کلید",
+    "speedUp": "افزایش سرعت",
+    "speedDown": "کاهش سرعت",
+    "quickConnectEnterCodeDescription": "کد زیر را برای ورود وارد کنید",
+    "quickConnectPostFailed": "دریافت کد اتصال سریع ناموفق بود",
+    "quickConnectLoginUsingCode": "استفاده از اتصال سریع",
+    "speedIndicator": "نرخ پخش: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "showMore": "نمایش بیشتر",
+    "itemColorsTitle": "رنگ موارد",
+    "itemColorsDesc": "استفاده از رنگ اصلی مورد برای استایل‌دهی به صفحه جزئیات",
+    "mediaTunnelingTitle": "تونل‌زنی رسانه",
+    "mediaTunnelingDesc": "فعال‌سازی تونل‌زنی رسانه برای پخش‌کننده رسانه نیتیو",
+    "clientSettingsUseSystemIMETitle": "استفاده از صفحه‌کلید سیستم",
+    "clientSettingsUseSystemIMEDesc": "از صفحه‌کلید داخلی که سیستم شما ارائه می‌دهد استفاده کنید",
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "nextUpInCount": "بعدی در {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "openImeKeyboard": "باز کردن صفحه‌کلید IME",
+    "screensaverTime": "زمان",
+    "screensaverDvd": "DVD",
+    "screensaverLogo": "لوگو",
+    "screensaverBlack": "سیاه",
+    "playerSettingsScreensaverTitle": "محافظ صفحه نمایش",
+    "playerSettingsScreensaverDesc": "محافظ صفحه‌ای را انتخاب کنید که پس از مدتی عدم فعالیت در پخش‌کننده ظاهر می‌شود",
+    "settingsLocalUrlTitle": "آدرس سرور محلی",
+    "settingsLocalUrlSetTitle": "تنظیم آدرس URL محلی",
+    "settingsLocalUrlSetDesc": "آدرس سرور محلی را مشخص کنید. فلادر هنگام اتصال دستگاه به همان شبکه، به طور خودکار از این لینک استفاده خواهد کرد.",
+    "takeScreenshot": "گرفتن اسکرین‌شات",
+    "takeScreenshotClean": "گرفتن اسکرین‌شات (بدون زیرنویس)",
+    "screenshots": "اسکرین‌شات‌ها",
+    "screenshotTaken": "اسکرین‌شات ذخیره شد!",
+    "screenshotCleanTaken": "اسکرین‌شات بدون زیرنویس ذخیره شد!",
+    "errorTakingScreenshot": "خطایی هنگام گرفتن اسکرین‌شات رخ داد",
+    "regenerateTrickplayImages": "تولید مجدد تصاویر پیش‌نمایش سریع",
+    "segmentActionSkipOnce": "یک بار رد کن",
+    "controlPanel": "پنل کنترل",
+    "controlPanelDesc": "سرور، فعالیت، کاربران، کتابخانه",
+    "controlDashboard": "داشبورد کنترل",
+    "serverName": "نام سرور",
+    "serverVersion": "نسخه سرور",
+    "webVersion": "نسخه وب",
+    "devices": "دستگاه‌ها",
+    "used": "استفاده شده",
+    "storagePaths": "مسیرهای ذخیره‌سازی",
+    "programData": "داده‌های برنامه",
+    "web": "وب",
+    "cache": "ککش",
+    "logs": "لاگ‌ها",
+    "transcodingTemp": "فایل‌های تبدیل موقت",
+    "count": "تعداد",
+    "scanAllLibraries": "اسکن تمام کتابخانه‌ها",
+    "restartServer": "راه‌اندازی مجدد سرور",
+    "shutDownServer": "خاموش کردن سرور",
+    "dashboardDesc": "سرور، تعداد، دستگاه‌ها، ذخیره‌سازی",
+    "lastActivity": "آخرین فعالیت",
+    "activeTasks": "وظایف فعال",
+    "hours": "{count, plural, one{ساعت} other{ساعت}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{هفته} other{هفته‌ها}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{ماه} other{ماه‌ها}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{سال} other{سال‌ها}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "timeAgo": "{time} پیش",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lastRunTaking": "آخرین اجرا در {date}، زمان صرف شده: {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "کمتر از یک دقیقه",
+    "plannedTasks": "وظایف زمان‌بندی شده",
+    "taskTriggerTypeInterval": "بازه زمانی",
+    "taskTriggerTypeDaily": "روزانه",
+    "taskTriggerTypeWeekly": "هفتگی",
+    "taskTriggerTypeStartup": "هنگام راه‌اندازی",
+    "create": "ایجاد",
+    "taskTriggerTypeName": "نوع محرک",
+    "newTrigger": "محرک جدید",
+    "newTaskTrigger": "محرک وظیفه جدید",
+    "dayOfTheWeek": "روز هفته",
+    "time": "زمان",
+    "interval": "بازه زمانی",
+    "taskTimeLimitInHours": "محدودیت زمانی (به ساعت)",
+    "taskTriggerIntervalDesc": "هر {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "روزانه در {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "هفتگی در روز {day} ساعت {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "محدودیت زمانی: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "عملکرد",
+    "serverNameLabel": "نام سرور",
+    "cachePath": "مسیر کش",
+    "metadataPath": "مسیر متادیتا",
+    "maxConcurrentLibraryScanLabel": "حداکثر اسکن همزمان کتابخانه‌ها",
+    "maxConcurrentLibraryScanDesc": "حداکثر وظایف همزمان هنگام اسکن کتابخانه‌ها. خالی گذاشتن این فیلد باعث انتخاب خودکار محدودیت بر اساس تعداد هسته‌های سیستم شما می‌شود. هشدار: تنظیم عدد بسیار بالا ممکن است باعث بروز مشکل در سیستم‌های فایل شبکه‌ای شود؛ اگر با مشکلی مواجه شدید، این عدد را کاهش دهید.",
+    "maxImageDecodingThreadsLabel": "حداکثر ترد‌های رمزگشایی تصویر",
+    "maxImageDecodingThreadsDesc": "حداکثر عملیات رمزگذاری تصویر مجاز برای اجرای موازی. خالی گذاشتن این فیلد باعث انتخاب خودکار محدودیت بر اساس تعداد هسته‌های سیستم شما می‌شود.",
+    "controlPanelServerDesc": "نام سرور، اتصال سریع، عملکرد",
+    "deleteUserTitle": "حذف کاربر {user}؟",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "کاربر {user} و تمام تنظیمات او برای همیشه حذف خواهند شد.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "اطلاعات کاربر",
+    "allowManageServer": "اجازه به این کاربر برای مدیریت سرور",
+    "allowCollections": "اجازه به این کاربر برای مدیریت مجموعه‌ها",
+    "allowEditSubtitles": "اجازه به این کاربر برای ویرایش زیرنویس‌ها",
+    "featureAccess": "دسترسی به ویژگی‌ها",
+    "allowLiveTVAccess": "اجازه دسترسی به تلویزیون زنده",
+    "allowLiveTVRecording": "اجازه مدیریت ضبط تلویزیون زنده",
+    "mediaPlayback": "پخش رسانه",
+    "allowMediaPlayback": "اجازه پخش رسانه",
+    "allowVideoTranscoding": "اجازه پخش ویدیوهایی که نیاز به تبدیل فرمت دارند",
+    "allowAudioTranscoding": "اجازه پخش صداهایی که نیاز به تبدیل فرمت دارند",
+    "allowMediaConversion": "اجازه پخش ویدیوهایی که نیاز به تبدیل رسانه دارند",
+    "forceRemoteTranscoding": "اجبار به تبدیل فرمت از منبع راه دور",
+    "syncplay": "پخش همزمان",
+    "syncplayAccess": "دسترسی به پخش همزمان",
+    "allowMediaDeletion": "اجازه حذف رسانه",
+    "allLibraries": "تمام کتابخانه‌ها",
+    "libraryAccess": "دسترسی به کتابخانه",
+    "enableAllLibraries": "فعال‌سازی دسترسی به تمام کتابخانه‌ها",
+    "enableAllDevices": "فعال‌سازی دسترسی به تمام دستگاه‌ها",
+    "parentalControl": "کنترل والدین",
+    "blockedItemsNoRating": "موارد مسدود شده بدون رده‌بندی یا با رده‌بندی ناشناخته",
+    "maxParentalRating": "حداکثر رده‌بندی کنترل والدین",
+    "allowItemsTags": "اجازه به مواردی که دارای برچسب هستند",
+    "blockItemsTags": "مسدود کردن مواردی که دارای برچسب هستند",
+    "accessSchedule": "زمان‌بندی دسترسی",
+    "accessSchedules": "زمان‌بندی‌های دسترسی",
+    "addAccessSchedule": "افزودن زمان‌بندی دسترسی",
+    "dayOfWeek": "روز هفته",
+    "startTime": "زمان شروع",
+    "endTime": "زمان پایان",
+    "addTag": "افزودن برچسب",
+    "createNewUser": "ایجاد کاربر جدید",
+    "createUser": "ایجاد کاربر",
+    "users": "کاربران",
+    "editUser": "ویرایش کاربر",
+    "general": "عمومی",
+    "access": "دسترسی",
+    "passwordSettingsComing": "تنظیمات رمز عبور به زودی اضافه می‌شود",
+    "endTimeMustBeAfter": "زمان پایان باید بعد از زمان شروع باشد",
+    "assignLibraries": "اختصاص کتابخانه‌ها",
+    "enableAccessAllLibraries": "فعال‌سازی دسترسی به تمام کتابخانه‌ها",
+    "currentPassword": "رمز عبور فعلی",
+    "newPassword": "رمز عبور جدید",
+    "confirmPassword": "تأیید رمز عبور",
+    "resetPassword": "بازنشانی رمز عبور",
+    "passwordResetSuccess": "رمز عبور با موفقیت بازنشانی شد",
+    "passwordResetFailed": "بازنشانی رمز عبور ناموفق بود",
+    "passwordMismatch": "رمز عبور جدید و تأیید آن مطابقت ندارند",
+    "passwordChangeSuccess": "رمز عبور با موفقیت تغییر کرد",
+    "passwordChangeFailed": "تغيير رمز عبور ناموفق بود",
+    "savePassword": "ذخیره رمز عبور",
+    "deleteLibraryConfirmTitle": "حذف کتابخانه؟",
+    "deleteLibraryConfirmMessage": "آیا مطمئن هستید که می‌خواهید {libraryName} را حذف کنید؟\nاین عمل قابل بازگشت نیست.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "هیچ کتابخانه‌ای انتخاب نشده است",
+    "enabledPhotos": "فعال‌سازی عکس‌ها",
+    "enabledLUFSScan": "فعال‌سازی اسکن LUFS",
+    "enabledRealtimeMonitoring": "فعال‌سازی نظارت لحظه‌ای",
+    "automaticallyAddToCollection": "افزودن خودکار به مجموعه",
+    "enabledEmbeddedTitles": "فعال‌سازی عنوان‌های داخلی",
+    "enabledEmbeddedExtrasTitles": "فعال‌سازی عنوان‌های اضافی داخلی",
+    "automaticRefreshInterval": "بازه به‌روزرسانی خودکار",
+    "autoRefreshIntervalNote": "فعال‌سازی این گزینه ممکن است زمان به‌روزرسانی کتابخانه را افزایش دهد.",
+    "preferredDownloadLanguage": "زبان ترجیحی برای دانلود",
+    "countryRegion": "کشور / منطقه",
+    "saveMetadata": "ذخیره متادیتا",
+    "metadataFetchers": "دریافت‌کنندگان متادیتا ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "فعال‌سازی و اولویت‌بندی دریافت‌کنندگان متادیتا.",
+    "enableAndRankImagesFetchers": "فعال‌سازی و اولویت‌بندی دریافت‌کنندگان تصویر.",
+    "imageFetchers": "دریافت‌کنندگان تصویر ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankImageFetchers": "فعال‌سازی و اولویت‌بندی دریافت‌کنندگان تصویر.",
+    "mediaSegmentProviders": "ارائه‌دهندگان بخش‌های رسانه",
+    "enableAndRankMediaSegmentProviders": "فعال‌سازی و اولویت‌بندی ارائه‌دهندگان بخش‌های رسانه.",
+    "trickplay": "پیش‌نمایش سریع (Trickplay)",
+    "enableTrickplayImageExtraction": "فعال‌سازی استخراج تصاویر پیش‌نمایش سریع",
+    "extractTrickplayImagesDuringLibraryScan": "استخراج تصاویر پیش‌نمایش سریع هنگام اسکن کتابخانه",
+    "saveTrickplayImagesNextToMedia": "ذخیره تصاویر پیش‌نمایش سریع در کنار فایل‌های رسانه",
+    "chapterImages": "تصاویر فصل‌ها",
+    "enableChapterImageExtraction": "فعال‌سازی استخراج تصاویر فصل",
+    "extractChapterImagesDuringLibraryScan": "استخراج تصاویر فصل هنگام اسکن کتابخانه",
+    "subtitleDownloads": "دانلود زیرنویس",
+    "downloadLanguages": "زبان‌های دانلود",
+    "subtitleDownloaders": "دانلودکنندگان زیرنویس",
+    "onlyPerfectSubtitleMatch": "دانلود زیرنویس‌هایی که دقیقاً با رسانه مطابقت دارند",
+    "perfectSubtitleMatchDescription": "درخواست تطابق کامل، زیرنویس‌ها را فیلتر می‌کند تا فقط مواردی را شامل شود که با فایل ویدیوی شما آزمایش و تأیید شده‌اند. لغو انتخاب این گزینه احتمال دانلود زیرنویس را افزایش می‌دهد، اما احتمال ناهماهنگی زمانی یا متن نادرست را نیز بالا می‌برد.",
+    "skipSubtitlesIfAudioMatches": "در صورتی که ترک صوتی پیش‌فرض با زبان دانلود مطابقت دارد، از زیرنویس صرف‌نظر کن",
+    "skipSubtitlesIfEmbedded": "در صورتی که ویدیو از قبل دارای زیرنویس داخلی است، از دانلود زیرنویس صرف‌نظر کن",
+    "saveSubtitlesNextToMedia": "ذخیره زیرنویس‌ها در کنار فایل‌های رسانه",
+    "saveArtWorkNextToMedia": "ذخیره تصاویر تبلیغاتی و پوسترهای هنری در کنار فایل‌های رسانه",
+    "saveArtWorkNextToMediaDesc": "ذخیره تصاویر تبلیغاتی و پوسترهای هنری در پوشه‌های رسانه، دسترسی و ویرایش آن‌ها را آسان‌تر می‌کند.",
+    "select": "انتخاب",
+    "newLibrary": "کتابخانه جدید",
+    "contentType": "نوع محتوا",
+    "metadataImageLongPressTouch": "برای حذف تصویر نگه دارید",
+    "metadataImageLongPressClick": "برای حذف تصویر راست‌کلیک کنید",
+    "primary": "اصلی",
+    "logo": "{count, plural, one{لوگو} other{لوگوها}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, one{پس‌زمینه} other{پس‌زمینه}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "پوشه را برای افزودن انتخاب کنید",
+    "systemRootFolder": "پوشه ریشه سیستم",
+    "selectedPath": "مسیر انتخاب شده: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteRequestConfirmation": "آیا مطمئن هستید که می‌خواهید این درخواست را حذف کنید؟",
+    "recentlyAdded": "اخیراً اضافه شده",
+    "recentRequests": "درخواست‌های اخیر",
+    "trending": "ترند",
+    "popularMovies": "فیلم‌های محبوب",
+    "expectedMovies": "فیلم‌های مورد انتظار",
+    "expectedSeries": "سریال‌های مورد انتظار",
+    "requestConfiguration": "تنظیمات درخواست",
+    "qualityProfile": "پروفایل کیفیت",
+    "selectProfile": "انتخاب پروفایل کیفیت",
+    "rootFolder": "پوشه ریشه",
+    "selectFolder": "انتخاب پوشه",
+    "tags": "برچسب‌ها",
+    "noTags": "بدون برچسب",
+    "requestAs": "درخواست به نام",
+    "requestQuotaTitle": "سهمیه درخواست",
+    "requestQuotaStatus": "باقیمانده {remaining} از {limit} (بازنشانی هر {days} روز)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "به حداکثر سهمیه درخواست برای {mediaType} رسیدید.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "ارسال درخواست",
+    "noOverviewAvailable": "هیچ بررسی اجمالی در دسترس نیست.",
+    "downloading": "در حال دانلود",
+    "request": "درخواست",
+    "viewRequest": "مشاهده درخواست",
+    "email": "ایمیل",
+    "username": "نام کاربری",
+    "ok": "تأیید",
+    "seerr": "سییر (Seerr)",
+    "seerrNotConfigured": "پیکربندی نشده",
+    "seerrLoadingUser": "در حال بارگذاری کاربر",
+    "seerrUnknownUser": "کاربر ناشناخته",
+    "loggedInAs": "وارد شده با نام {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrSetServerFirst": "ابتدا سرور Seerr را تنظیم کنید",
+    "seerrLocalLoginTitle": "ورود محلی به Seerr",
+    "seerrJellyfinLoginTitle": "ورود از طریق Jellyfin به Seerr",
+    "seerrSessionSaved": "نشست Seerr ذخیره شد",
+    "seerrStatusVersion": "Seerr: نسخه {version}",
+    "@seerrStatusVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "سرور Seerr",
+    "seerrAuthenticateLocal": "احراز هویت Seerr (محلی)",
+    "seerrAuthenticateJellyfin": "احراز هویت Seerr از طریق Jellyfin",
+    "seerrSessionConfigured": "نشست پیکربندی شد",
+    "seerrConfigured": "پیکربندی شد",
+    "seerrTestConnection": "تست اتصال Seerr",
+    "rootFolderDefaultLabel": "{folder} (پیش‌فرض)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* این مجموعه از نوع انیمه است.",
+    "seerrAutoApproveNotice": "درخواست‌هایی که ارسال می‌کنید به طور خودکار تأیید می‌شوند.",
+    "seerrPermissionDenied": "شما اجازه درخواست این نوع رسانه را ندارید.",
+    "seerrAuthApiKey": "کلید API",
+    "seerrAuthLocal": "محلی",
+    "seerrAuthJellyfin": "جلی‌فین (Jellyfin)",
+    "seerrUserFetchFailed": "دریافت کاربر از Seerr ناموفق بود",
+    "seerrEnterServerUrlFirst": "ابتدا آدرس سرور Seerr را وارد کنید",
+    "seerrApiKeySaved": "کلید API ذخیره شد",
+    "seerrLoggedIn": "به Seerr وارد شدید",
+    "seerrConnectedToServer": "به سرور Seerr متصل شد: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "emailUsername": "ایمیل / نام کاربری",
+    "discover": "اکتشاف",
+    "popularity": "محبوبیت",
+    "contentRating": "رده‌بندی محتوا",
+    "runtimeMinutesTitle": "زمان پخش (دقیقه)",
+    "runtimeRangeMinutes": "از {min} تا {max} دقیقه",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} دقیقه",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "ارائه‌دهندگان سرویس ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsProfileSubtitleLanguage": "زبان ترجیحی زیرنویس",
+    "settingsProfileSubtitleMode": "حالت زیرنویس",
+    "subtitlePlaybackModeDefault": "پیش‌فرض",
+    "subtitlePlaybackModeAlways": "همیشه روشن",
+    "subtitlePlaybackModeOnlyForced": "فقط زیرنویس‌های اجباری",
+    "subtitlePlaybackModeNone": "هیچ‌کدام",
+    "subtitlePlaybackModeSmart": "هوشمند",
+    "syncplayAccessCreateAndJoinGroups": "ایجاد و پیوستن به گروه‌ها",
+    "syncplayAccessJoinGroups": "پیوستن به گروه‌ها",
+    "syncplayAccessNone": "هیچ‌کدام",
+    "popularSeries": "سریال‌های محبوب",
+    "seerrRequestStatusPending": "در انتظار",
+    "seerrRequestStatusApproved": "تأیید شده",
+    "seerrRequestStatusDeclined": "رد شده",
+    "seerrRequestStatusFailed": "ناموفق",
+    "seerrRequestStatusCompleted": "تکمیل شده",
+    "seerrMediaStatusProcessing": "در حال پردازش",
+    "seerrMediaStatusPartiallyAvailable": "به طور جزئی موجود",
+    "seerrMediaStatusAvailable": "موجود",
+    "seerrMediaStatusBlacklisted": "در لیست سیاه",
+    "seerrMediaStatusDeleted": "حذف شده",
+    "sponsor": "حامی",
+    "sponsorMessage": "اگر از استفاده از فلادر لذت می‌برید، برای حمایت از توسعه و بهبود مستمر آن، حمایت مالی از پروژه را در نظر بگیرید. از حمایت شما سپاسگزاریم!",
+    "min": "حداقل",
+    "max": "حداکثر",
+    "manageRequest": "مدیریت درخواست",
+    "requestAll": "درخواست همه",
+    "openInSeerr": "باز کردن در Seerr",
+    "openInSonarr": "باز کردن در Sonarr",
+    "openInRadarr": "باز کردن در Radarr",
+    "removeFromSonarr": "حذف از Sonarr",
+    "removeFromRadarr": "حذف از Radarr",
+    "markAllSeasonsAsAvailable": "علامت‌گذاری تمام فصل‌ها به عنوان موجود",
+    "markAsAvailable": "علامت‌گذاری به عنوان موجود",
+    "deleteData": "حذف داده‌ها",
+    "removeSeriesFromSonarrConfirm": "آیا می‌خواهید این سریال را از Sonarr حذف کنید؟ تمام داده‌ها از جمله فایل‌ها حذف خواهند شد.",
+    "removeMovieFromRadarrConfirm": "آیا می‌خواهید این فیلم را از Radarr حذف کنید؟ تمام داده‌ها از جمله فایل‌ها حذف خواهند شد.",
+    "removedFromSonarr": "از Sonarr حذف شد",
+    "removedFromRadarr": "از Radarr حذف شد",
+    "markAllSeasonsAsAvailableConfirm": "علامت‌گذاری تمام فصل‌ها به عنوان موجود؟",
+    "markAsAvailableConfirm": "علامت‌گذاری به عنوان موجود؟",
+    "markedAsAvailable": "به عنوان موجود علامت‌گذاری شد",
+    "deleteSeerrDataConfirm": "آیا می‌خواهید تمام فایل‌ها را از Seerr حذف کنید؟ این عمل قابل بازگشت نیست.\nاگر داده‌ها هنوز در {service} موجود باشند، می‌توان آن‌ها را دوباره وارد کرد.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "داده‌ها حذف شدند",
+    "approve": "تأیید",
+    "decline": "رد",
+    "pendingRequests": "{count, plural, one{{count} درخواست در انتظار} other{{count} درخواست در انتظار}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "در حال پردازش",
+    "seerrDetails": "جزئیات Seerr",
+    "specialFeature": "{count, plural, one{ویژگی خاص} other{ویژگی‌های خاص}}",
+    "@specialFeature": {
+        "description": "special feature",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeTV": "{count, plural, one{کانال تلویزیونی} other{کانال‌های تلویزیونی}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playbackTypeTV": "تلویزیون",
+    "seerrCustomHeaders": "هدرهای سفارشی",
+    "seerrHeader": "هدر",
+    "seerrHeaderValue": "مقدار",
+    "watch": "تماشا",
+    "watchChannel": "تماشای {channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "اکنون",
+    "noPrograms": "برنامه‌ای در دسترس نیست",
+    "switchChannel": "تغییر کانال",
+    "switchChannelDesc": "آیا می‌خواهید «{programName}» را در {channelName} تماشا کنید؟",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "homeBannerDetailed": "بجزئیات",
+    "homeBannerTV": "تلویزیون",
+    "enableSpeedBoostTitle": "فعال‌سازی افزایش سرعت",
+    "enableSpeedBoostDesc": "برای افزایش موقت سرعت پخش، روی صفحه (تلفن) نگه دارید یا کلید Space (کامپیوتر) را فشار دهید",
+    "speedBoostRateTitle": "نرخ افزایش سرعت",
+    "speedBoostRateDesc": "سرعت پخش هنگام فعال بودن افزایش سرعت",
+    "enableDoubleTapSeekTitle": "دوبار ضربه برای جلو رفتن/پخش/توقف",
+    "enableDoubleTapSeekDesc": "دو بار روی سمت چپ/راست صفحه ضربه بزنید تا به عقب یا جلو بروید. دو بار در مرکز ضربه بزنید تا پخش یا متوقف شود",
+    "showLess": "نمایش کمتر",
+    "activeTvChannels": "کانال‌های تلویزیونی فعال",
+    "enableNewTVLayout": "فعال‌سازی چیدمان جدید تلویزیون",
+    "enableNewTVLayoutDesc": "نمایش بنرهای بزرگتر به سبک تلویزیون در داشبورد. این چیدمان در نسخه‌های بعدی به صورت پیش‌فرض در خواهد آمد",
+    "backgroundColor": "رنگ پس‌زمینه",
+    "liveTvManageTunersEpg": "مدیریت تیونرها و ارائه‌دهندگان راهنمای برنامه‌ها (EPG)",
+    "tunerDevices": "تیونرها",
+    "epgGuideProviders": "ارائه‌دهندگان راهنمای برنامه‌ها (EPG)",
+    "noTunerDevicesConfigured": "هیچ تیونری پیکربندی نشده است",
+    "noEpgProvidersConfigured": "هیچ ارائه‌دهنده راهنمای برنامه‌ای پیکربندی نشده است",
+    "addTunerDevice": "افزودن تیونر",
+    "addProvider": "افزودن ارائه‌دهنده",
+    "tunerHostAddedSuccessfully": "تیونر با موفقیت اضافه شد",
+    "failedToAddTunerHost": "افزودن تیونر ناموفق بود: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "تیونر با موفقیت به‌روزرسانی شد",
+    "failedToUpdateTunerHost": "به‌روزرسانی تیونر ناموفق بود: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "حذف تیونر",
+    "deleteTunerHostConfirm": "آیا مطمئن هستید که می‌خواهید «{name}» را حذف کنید؟",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "تیونر با موفقیت حذف شد",
+    "failedToDeleteTunerHost": "حذف تیونر ناموفق بود: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "ارائه‌دهنده راهنمای برنامه با موفقیت اضافه شد",
+    "failedToAddEpgProvider": "افزودن ارائه‌دهنده راهنمای برنامه ناموفق بود: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "ارائه‌دهنده راهنمای برنامه با موفقیت به‌روزرسانی شد",
+    "failedToUpdateEpgProvider": "به‌روزرسانی ارائه‌دهنده راهنمای برنامه ناموفق بود: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "liveTV": "تلویزیون زنده",
+    "deleteEpgProvider": "حذف ارائه‌دهنده راهنمای برنامه (EPG)",
+    "deleteEpgProviderConfirm": "آیا مطمئن هستید که می‌خواهید این ارائه‌دهنده را حذف کنید؟",
+    "epgProviderDeletedSuccessfully": "ارائه‌دهنده راهنمای برنامه با موفقیت حذف شد",
+    "failedToDeleteEpgProvider": "حذف ارائه‌دهنده راهنمای برنامه ناموفق بود: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "ویرایش تیونر",
+    "friendlyName": "نام دوستانه",
+    "url": "آدرس (URL)",
+    "userAgent": "User Agent",
+    "userAgentOptional": "User Agent (اختیاری)",
+    "maxConcurrentStreams": "حداکثر استریم‌های همزمان",
+    "addEpgProvider": "افزودن ارائه‌دهنده راهنمای برنامه",
+    "editEpgProvider": "ویرایش ارائه‌دهنده راهنمای برنامه",
+    "xmltvPathUrl": "مسیر/آدرس XMLTV",
+    "enableAllTuners": "فعال‌سازی برای تمام تیونرها",
+    "enabledTuners": "تیونرهای فعال",
+    "selectTuners": "انتخاب تیونرها",
+    "moviePrefix": "پیشوند فیلم",
+    "movieCategories": "دسته‌بندی‌های فیلم",
+    "newsCategories": "دسته‌بندی‌های اخبار",
+    "sportsCategories": "دسته‌بندی‌های ورزشی",
+    "kidsCategories": "دسته‌بندی‌های کودکان",
+    "fileOrUrl": "فایل یا آدرس",
+    "tunerIpAddress": "آدرس IP تیونر",
+    "fallbackMaxBitrate": "حداکثر بیت‌ریت جایگزین (Mbps)",
+    "concurrentStreams": "حداکثر استریم‌های همزمان",
+    "concurrentStreamsHint": "۰ = نامحدود",
+    "allowFmp4Container": "اجازه به کانتینر ترنس‌کد fMP4",
+    "allowStreamSharing": "اجازه اشتراک‌گذاری استریم",
+    "enableStreamLooping": "فعال‌سازی تکرار استریم",
+    "ignoreDts": "نادیده گرفتن برچسب‌های زمانی DTS",
+    "readAtNativeFramerate": "خواندن با نرخ فریم اصلی",
+    "importFavoritesOnly": "فقط وارد کردن کانال‌های مورد علاقه",
+    "allowHWTranscoding": "اجازه تبدیل فرمت سخت‌افزاری",
+    "detectDevices": "شناسایی دستگاه‌ها",
+    "discoveredDevices": "دستگاه‌های شناسایی شده",
+    "noDevicesFound": "هیچ دستگاهی یافت نشد",
+    "failedToDiscoverDevices": "شناسایی دستگاه‌ها ناموفق بود: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "مسیر",
+    "maxConcurrentStreamsLabel": "حداکثر استریم‌های همزمان",
+    "noCategories": "بدون دسته‌بندی",
+    "moviePrefixSubLabel": "اگر پیشوندی به عناوین فیلم اضافه شده است، آن را اینجا بنویسید تا سرور بتواند آن را به درستی پردازش کند.",
+    "movieCategoriesSubLabel": "دسته‌بندی‌های سفارشی برای کانال‌هایی که با پیشوند فیلم مطابقت دارند",
+    "newsCategoriesSubLabel": "دسته‌بندی‌های سفارشی برای کانال‌هایی که با پیشوند اخبار مطابقت دارند",
+    "sportsCategoriesSubLabel": "دسته‌بندی‌های سفارشی برای کانال‌هایی که با پیشوند ورزش مطابقت دارند",
+    "kidsCategoriesSubLabel": "دسته‌بندی‌های سفارشی برای کانال‌هایی که با پیشوند کودکان مطابقت دارند",
+    "notifications": "اعلان‌ها",
+    "showNewItemNotificationTitle": "اعلان‌ها برای موارد کتابخانه",
+    "notificationChannelDescription": "اعلان‌ها برای مواردی که اخیراً اضافه شده‌اند",
+    "notificationNewEpisodes": "قسمت‌های جدید اضافه شد",
+    "notificationNewItems": "{count, plural, one{{count} مورد جدید} other{{count} مورد جدید}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": "سیستم‌عامل iOS تصمیم می‌گیرد که چه زمانی به‌روزرسانی‌ها انجام شوند، بنابراین ممکن است اعلان‌ها با تأخیر نمایش داده شوند یا اصلاً نمایش داده نشوند.",
+    "updateCheckInterval": "بازه زمانی بررسی به‌روزرسانی‌ها",
+    "updateCheckIntervalDesc": "تعداد دفعات اجرای وظیفه در پس‌زمینه",
+    "notificationsIntervalClientReminder": "بازه زمانی اعلان‌ها برای تمام کاربران تنظیم شده است.",
+    "requestMore": "درخواست بیشتر",
+    "seerrRequestNotifications": "اعلان‌ها برای درخواست‌های Seerr",
+    "notificationNewRequests": "{count, plural, one{{count} درخواست جدید} other{{count} درخواست جدید}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "batteryOptimizationDesc": "بهینه‌سازی باتری ممکن است باعث تأخیر در اعلان‌های پس‌زمینه اپلیکیشن فلادر شود.\nبرای باز کردن تنظیمات سیستم و غیرفعال کردن بهینه‌سازی برای فلادر، ضربه بزنید.",
+    "lastUpdateAt": "آخرین به‌روزرسانی در {date} ساعت {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "شامل کردن کتابخانه‌های پنهان",
+    "includeHiddenItemsDesc": "شامل کردن کتابخانه‌های پنهان از پنل کنترل",
+    "settingsBlurEffectsTitle": "فعال‌سازی جلوه‌های تاری",
+    "settingsBlurEffectsDesc": "فعال‌سازی جلوه‌های تاری در رابط کاربری. غیرفعال کردن آن ممکن است عملکرد را در دستگاه‌های ضعیف بهبود بخشد.",
+    "profileSettingsOpenAuthAtLaunch": "نمایش روش احراز هویت هنگام قفل شدن اپلیکیشن",
+    "toggleSidebar": "تغییر وضعیت نوار کناری",
+    "generateLoginLink": "کد برای {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "اشتراک‌گذاری لینک ورود",
+    "shareQRCode": "اشتراک‌گذاری کد QR",
+    "copyLoginLink": "کپی لینک",
+    "includePassword": "شامل کردن رمز عبور",
+    "invalidAuthLink": "لینک ورود نامعتبر",
+    "advancedVideoOptionsTitle": "گزینه‌های پیشرفته ویدیو",
+    "advancedVideoOptionsDesc": "فعال‌سازی HDR، مپینگ تن (Tone Mapping) و مدیریت پیشرفته رنگ (ممکن است در برخی دستگاه‌ها ناپایدار باشد)",
+    "seerrUrlSchemeWarning": "پروتکل لینک به طور خودکار شناسایی نشد. به طور پیش‌فرض از https:// استفاده می‌شود. اگر سرور از HTTPS استفاده نمی‌کند، http:// را اضافه کنید.",
+    "requestedSuccessForItem": "{itemName} با موفقیت درخواست شد",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "linkData": "داده‌های لینک",
+    "passwordNotRequired": "الزامی نیست، برای عدم درج رمز عبور در لینک، آن را خالی بگذارید",
+    "authLinkButtonToolTip": "باز کردن پنجره لینک احراز هویت",
+    "connectWithAuthLink": "اتصال با استفاده از لینک احراز هویت",
+    "pasteFladderAuthLink": "چسباندن لینک احراز هویت فلادر fladder://login?authLink=...",
+    "connect": "اتصال",
+    "authLinkDesc": "از مدیر سرور بخواهید لینک احراز هویت را در اختیار شما قرار دهد. این لینک حاوی اطلاعات احراز هویت است، بنابراین در حفظ امنیت آن کوشا باشید.",
+    "deletedItem": "{itemName} حذف شد",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "ترتیب صفحه اصلی",
+    "libraryOrderDescription": "برای تغییر ترتیب کتابخانه‌ها در صفحه اصلی بکشید. کتابخانه‌های انتخاب نشده موارد جدیداً اضافه شده را نشان نخواهند داد.",
+    "hidePlayedInLatestTitle": "پنهان کردن محتوای پخش شده",
+    "hidePlayedInLatestDescription": "پنهان کردن محتوای پخش شده از بخش «رسانه‌های اخیراً اضافه شده»",
+    "groupedFoldersTitle": "کتابخانه‌های گروه‌بندی شده",
+    "groupedFoldersDescription": "گروه‌بندی خودکار محتوا از کتابخانه‌های زیر در بخش‌هایی مانند «فیلم‌ها»، «موسیقی» و «تلویزیون».",
+    "transcodeInfoTitle": "اطلاعات تبدیل فرمت",
+    "transcodeInfoNoMetadata": "اطلاعات متادیتایی برای تبدیل فرمت در دسترس نیست.",
+    "transcodeDetailsTitle": "جزئیات تبدیل فرمت",
+    "containerLabel": "کانتینر",
+    "videoCodecLabel": "کدک ویدیو",
+    "audioCodecLabel": "کدک صدا",
+    "bitrateLabel": "بیت‌ریت",
+    "kbps": "kbps",
+    "resolutionLabel": "رزولوشن",
+    "downloadTranscoded": "دانلود نسخه تبدیل شده",
+    "downloadOriginal": "دانلود نسخه اصلی",
+    "airsIn": "در {count} {duration} پخش می‌شود",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "today": "امروز",
+    "gestures": "ژست‌ها",
+    "anyLanguage": "هر زبانی",
+    "enableEdgeGesturesTitle": "فعال‌سازی ژست‌های لبه‌ای",
+    "enableEdgeGesturesDesc": "کنترل روشنایی و صدا با کشیدن به بالا یا پایین در لبه‌های صفحه",
+    "reverseEdgeGesturesTitle": "معکوس کردن ژست‌های لبه‌ای",
+    "reverseEdgeGesturesDesc": "تغییر جهت کنترل روشنایی و صدا",
+    "brightnessIndicator": "روشنایی: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "viewTrailer": "تماشای تریلر",
+    "personBirthday": "تاریخ تولد: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "سن: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "متولد شده در {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "اکتشاف فیلم‌ها",
+    "seerrSeries": "اکتشاف سریال‌ها"
+}
