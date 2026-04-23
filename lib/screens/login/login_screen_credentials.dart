@@ -123,23 +123,17 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       icon: const Icon(IconsaxPlusLinear.setting_3),
     );
 
-    final backButton = AspectRatio(
-      aspectRatio: 1,
-      child: IconButton.filledTonal(
-        onPressed: () => provider.goUserSelect(),
-        icon: const Icon(IconsaxPlusLinear.arrow_left_2),
-      ),
+    final backButton = IconButton.filledTonal(
+      onPressed: () => provider.goUserSelect(),
+      icon: const Icon(IconsaxPlusLinear.arrow_left_2),
     );
 
-    final refreshButton = AspectRatio(
-      aspectRatio: 1,
-      child: Tooltip(
-        message: context.localized.retrievePublicListOfUsers,
-        waitDuration: const Duration(seconds: 1),
-        child: IconButton.filled(
-          onPressed: () => provider.setServer(serverTextController.text),
-          icon: const Icon(IconsaxPlusLinear.refresh),
-        ),
+    final refreshButton = Tooltip(
+      message: context.localized.retrievePublicListOfUsers,
+      waitDuration: const Duration(seconds: 1),
+      child: IconButton.filled(
+        onPressed: () => provider.setServer(serverTextController.text),
+        icon: const Icon(IconsaxPlusLinear.refresh),
       ),
     );
 
@@ -164,7 +158,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
               crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: 8,
               children: [
-                if (existingUsers.isNotEmpty) backButton,
+                if (existingUsers.isNotEmpty) AspectRatio(aspectRatio: 1, child: backButton),
                 Expanded(
                   child: OutlinedTextField(
                     controller: serverTextController,
@@ -177,7 +171,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                     errorText: urlError,
                   ),
                 ),
-                refreshButton,
+                AspectRatio(aspectRatio: 1, child: refreshButton),
               ],
             ),
           ),
