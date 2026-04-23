@@ -159,18 +159,19 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
               spacing: 8,
               children: [
                 if (existingUsers.isNotEmpty) AspectRatio(aspectRatio: 1, child: backButton),
-                Expanded(
-                  child: OutlinedTextField(
-                    controller: serverTextController,
-                    onSubmitted: (value) => provider.setServer(value),
-                    autoFillHints: const [AutofillHints.url],
-                    keyboardType: TextInputType.url,
-                    autocorrect: false,
-                    textInputAction: TextInputAction.go,
-                    label: context.localized.server,
-                    errorText: urlError,
+                if (!hasBaseUrl)
+                  Expanded(
+                    child: OutlinedTextField(
+                      controller: serverTextController,
+                      onSubmitted: (value) => provider.setServer(value),
+                      autoFillHints: const [AutofillHints.url],
+                      keyboardType: TextInputType.url,
+                      autocorrect: false,
+                      textInputAction: TextInputAction.go,
+                      label: context.localized.server,
+                      errorText: urlError,
+                    ),
                   ),
-                ),
                 AspectRatio(aspectRatio: 1, child: refreshButton),
               ],
             ),
