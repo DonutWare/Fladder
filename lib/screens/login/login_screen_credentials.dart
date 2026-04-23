@@ -151,7 +151,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 16,
       children: [
-        if (!hasBaseUrl)
+        if (!(hasBaseUrl && hidePasswordLogin))
           IntrinsicHeight(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -295,15 +295,20 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                       ],
                     ),
                   ],
-                  if (hasBaseUrl)
+                  if (hasBaseUrl && hidePasswordLogin)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 8,
                       children: [
                         if (existingUsers.isNotEmpty) backButton,
                         refreshButton,
-                        if (hidePasswordLogin && FladderConfig.seerrBaseUrl?.isNotEmpty != true) advancedOptionsButton,
+                        if (FladderConfig.seerrBaseUrl?.isNotEmpty != true) advancedOptionsButton,
                       ],
+                    ),
+                  if (!hasBaseUrl && hidePasswordLogin && FladderConfig.seerrBaseUrl?.isNotEmpty != true)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [advancedOptionsButton],
                     ),
                   if (hasQuickConnect)
                     FilledButton(
