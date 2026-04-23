@@ -126,7 +126,8 @@ class _LoginCodeDialogState extends ConsumerState<LoginCodeDialog> {
                   TextButton.icon(
                     onPressed: () async {
                       final baseUrl =
-                          FladderConfig.baseUrl ?? ref.read(authProvider).serverLoginModel?.tempCredentials.url;
+                          (FladderConfig.baseUrl ?? ref.read(authProvider).serverLoginModel?.tempCredentials.url)
+                              ?.replaceAll(RegExp(r'/+$'), '');
                       if (baseUrl != null && baseUrl.isNotEmpty) {
                         await ext.launchUrl(context, '$baseUrl/web/#/quickconnect');
                         timer?.reset();
