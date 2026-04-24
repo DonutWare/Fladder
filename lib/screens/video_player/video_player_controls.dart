@@ -668,17 +668,37 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   void seekBack(WidgetRef ref, {int seconds = 15}) {
-    final mediaPlayback = ref.read(mediaPlaybackProvider);
-    resetTimer();
-    final newPosition = (mediaPlayback.position.inSeconds - seconds).clamp(0, mediaPlayback.duration.inSeconds);
-    ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
+    _seek(ref, -seconds);
   }
 
   void seekForward(WidgetRef ref, {int seconds = 15}) {
+    _seek(ref, seconds);
+  }
+
+  void _seek(WidgetRef ref, int seconds) {
     final mediaPlayback = ref.read(mediaPlaybackProvider);
     resetTimer();
     final newPosition = (mediaPlayback.position.inSeconds + seconds).clamp(0, mediaPlayback.duration.inSeconds);
     ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
+  }
+
+  void stepBack(WidgetRef ref) {
+    _step(ref, -1);
+  }
+
+  void stepForward(WidgetRef ref) {
+    _step(ref, 1);
+  }
+
+  void _step(WidgetRef ref, int frames) {
+    final mediaPlayback = ref.read(mediaPlaybackProvider);
+    final framerate = ref.read(playBackModel.select((value) => value?.mediaStreams?.videoStreams.first.frameRate));
+    if (framerate == null || framerate == 0) return;
+
+    final step = ((1000000.0 / framerate) * frames).round();
+    resetTimer();
+    final newPosition = (mediaPlayback.position.inMicroseconds + step).clamp(0, mediaPlayback.duration.inMicroseconds);
+    ref.read(videoPlayerProvider).seek(Duration(microseconds: newPosition));
   }
 
   void seekBackWithIndicator() {
@@ -892,6 +912,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   bool _onKey(VideoHotKeys value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
+    final playing = ref.read(mediaPlaybackProvider.select((value) => value.playing));
 
     MediaSegment? segment = mediaSegments?.atPosition(position);
 
@@ -952,6 +973,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       case VideoHotKeys.prevChapter:
         ref.read(videoPlayerSettingsProvider.notifier).prevChapter();
+        return true;
+      case VideoHotKeys.stepForward:
+        playing ? ref.read(videoPlayerProvider).playOrPause() : stepForward(ref);
+        return true;
+      case VideoHotKeys.stepBack:
+        playing ? ref.read(videoPlayerProvider).playOrPause() : stepBack(ref);
         return true;
       default:
         return false;

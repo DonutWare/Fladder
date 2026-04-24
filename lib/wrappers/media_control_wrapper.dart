@@ -371,9 +371,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
     final playerState = _player;
     if (playerState != null) {
+      final position = playerState.lastState.position;
+      ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(position: position));
+
       final model = ref.read(playBackModel);
       if (model != null) {
-        await _updatePositionWithRetry(model, playerState.lastState.position, playerState.lastState.playing);
+        await _updatePositionWithRetry(model, position, playerState.lastState.playing);
       }
     }
   }
