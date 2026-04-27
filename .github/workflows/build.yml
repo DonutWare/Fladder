@@ -168,35 +168,25 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Build Android APK (PRs)
-        if: needs.fetch-info.outputs.build_type == 'development'
-        run: |
-          flutter build apk --debug --split-per-abi --build-number=${{github.run_number}} --flavor production
-
-      - name: Build Android APK and AAB
-        if: needs.fetch-info.outputs.build_type != 'development'
+      - name: Build Android APK
         run: |
           flutter build apk --release --split-per-abi --build-number=${{github.run_number}} --flavor production
-          flutter build appbundle --release --build-number=${{github.run_number}} --flavor production
 
-      - name: Rename APK for PR
-        if: needs.fetch-info.outputs.build_type == 'development'
-        run: |
-          mkdir -p build/app/outputs/android_artifacts
-          # Move split debug APKs
-          cp build/app/outputs/flutter-apk/app-armeabi-v7a-production-debug.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-armeabi-v7a.apk || true
-          cp build/app/outputs/flutter-apk/app-arm64-v8a-production-debug.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-arm64-v8a.apk || true
-          cp build/app/outputs/flutter-apk/app-x86_64-production-debug.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-x86_64.apk || true
-
-      - name: Rename APK and AAB
+      - name: Build Android AAB
         if: needs.fetch-info.outputs.build_type != 'development'
         run: |
+          flutter build appbundle --release --build-number=${{github.run_number}} --flavor production
+
+      - name: Rename APK
+        run: |
           mkdir -p build/app/outputs/android_artifacts
-          # Move split APKs
           cp build/app/outputs/flutter-apk/app-armeabi-v7a-production-release.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-armeabi-v7a.apk || true
           cp build/app/outputs/flutter-apk/app-arm64-v8a-production-release.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-arm64-v8a.apk || true
           cp build/app/outputs/flutter-apk/app-x86_64-production-release.apk build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}-x86_64.apk || true
-          # Move AAB
+
+      - name: Rename AAB
+        if: needs.fetch-info.outputs.build_type != 'development'
+        run: |
           mv build/app/outputs/bundle/productionRelease/app-production-release.aab build/app/outputs/android_artifacts/${{ env.ARTIFACT_SUFFIX }}.aab
 
       - name: Archive Android artifacts
