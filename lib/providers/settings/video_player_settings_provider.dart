@@ -28,14 +28,12 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   final Ref ref;
 
   void _initVolumeSync() async {
-    // Initialize volume from system volume on mobile/supported platforms
     if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       VolumeController.instance.showSystemUI = false;
       final initialVolume = await VolumeController.instance.getVolume();
       state = state.copyWith(internalVolume: initialVolume * 100);
 
       VolumeController.instance.addListener((volume) {
-        // Update both the model and the player when system volume changes (hardware buttons)
         final newVolume = volume * 100;
         if ((state.internalVolume - newVolume).abs() > 0.1) {
           state = state.copyWith(internalVolume: newVolume);
@@ -174,6 +172,8 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setEnableDoubleTapSeek(bool value) => state = state.copyWith(enableDoubleTapSeek: value);
 
   void setEnableAdvancedVideoOptions(bool value) => state = state.copyWith(enableAdvancedVideoOptions: value);
+
+  void setDVPlayerChoice(DVPlayerChoice value) => state = state.copyWith(dvPlayerChoice: value);
 
   void setEnableEdgeGestures(bool value) => state = state.copyWith(enableEdgeGestures: value);
 

@@ -92,6 +92,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(2.0) double speedBoostRate,
     @Default(true) bool enableDoubleTapSeek,
     @Default(false) bool enableAdvancedVideoOptions,
+    @Default(DVPlayerChoice.ask) DVPlayerChoice dvPlayerChoice,
     @Default(true) bool enableEdgeGestures,
     @Default(false) bool reverseEdgeGestures,
   }) = _VideoPlayerSettingsModel;
@@ -266,3 +267,19 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
         },
     };
+
+enum DVPlayerChoice {
+  internalPlayer,
+  ask,
+  energyPlayer;
+
+  const DVPlayerChoice();
+
+  String label(BuildContext context) {
+    return switch (this) {
+      DVPlayerChoice.internalPlayer => context.localized.dvPlayerDisabled,
+      DVPlayerChoice.ask => context.localized.dvPlayerAsk,
+      DVPlayerChoice.energyPlayer => context.localized.dvPlayerEnergyPlayer,
+    };
+  }
+}

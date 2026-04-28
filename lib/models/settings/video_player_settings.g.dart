@@ -52,6 +52,9 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
       enableDoubleTapSeek: json['enableDoubleTapSeek'] as bool? ?? true,
       enableAdvancedVideoOptions:
           json['enableAdvancedVideoOptions'] as bool? ?? false,
+      dvPlayerChoice: $enumDecodeNullable(
+              _$DVPlayerChoiceEnumMap, json['dvPlayerChoice']) ??
+          DVPlayerChoice.ask,
       enableEdgeGestures: json['enableEdgeGestures'] as bool? ?? true,
       reverseEdgeGestures: json['reverseEdgeGestures'] as bool? ?? false,
     );
@@ -84,6 +87,7 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
       'speedBoostRate': instance.speedBoostRate,
       'enableDoubleTapSeek': instance.enableDoubleTapSeek,
       'enableAdvancedVideoOptions': instance.enableAdvancedVideoOptions,
+      'dvPlayerChoice': _$DVPlayerChoiceEnumMap[instance.dvPlayerChoice]!,
       'enableEdgeGestures': instance.enableEdgeGestures,
       'reverseEdgeGestures': instance.reverseEdgeGestures,
     };
@@ -182,4 +186,10 @@ const _$ScreensaverEnumMap = {
   Screensaver.logo: 'logo',
   Screensaver.time: 'time',
   Screensaver.black: 'black',
+};
+
+const _$DVPlayerChoiceEnumMap = {
+  DVPlayerChoice.internalPlayer: 'internalPlayer',
+  DVPlayerChoice.ask: 'ask',
+  DVPlayerChoice.energyPlayer: 'energyPlayer',
 };
