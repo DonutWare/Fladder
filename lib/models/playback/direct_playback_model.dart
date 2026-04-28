@@ -62,7 +62,7 @@ class DirectPlaybackModel extends PlaybackModel {
           body: PlaybackStartInfo(
             canSeek: true,
             itemId: item.id,
-            mediaSourceId: item.id,
+            mediaSourceId: mediaStreams?.currentVersionStream?.id ?? item.id,
             playSessionId: playbackInfo?.playSessionId,
             subtitleStreamIndex: item.streamModel?.defaultSubStreamIndex,
             audioStreamIndex: item.streamModel?.defaultAudioStreamIndex,
@@ -84,7 +84,7 @@ class DirectPlaybackModel extends PlaybackModel {
     await ref.read(jellyApiProvider).sessionsPlayingStoppedPost(
           body: PlaybackStopInfo(
             itemId: item.id,
-            mediaSourceId: item.id,
+            mediaSourceId: mediaStreams?.currentVersionStream?.id ?? item.id,
             playSessionId: playbackInfo?.playSessionId,
             positionTicks: position.toRuntimeTicks,
           ),
@@ -100,7 +100,7 @@ class DirectPlaybackModel extends PlaybackModel {
       body: PlaybackProgressInfo(
         canSeek: true,
         itemId: item.id,
-        mediaSourceId: item.id,
+        mediaSourceId: mediaStreams?.currentVersionStream?.id ?? item.id,
         playSessionId: playbackInfo?.playSessionId,
         subtitleStreamIndex: item.streamModel?.defaultSubStreamIndex,
         audioStreamIndex: item.streamModel?.defaultAudioStreamIndex,

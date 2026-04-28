@@ -13,6 +13,7 @@ import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/season_model.dart';
@@ -344,6 +345,8 @@ class PlaybackModelHelper {
           oldModel?.mediaStreams?.currentSubStream,
           newStreamModel?.subStreams,
           newStreamModel?.defaultSubStreamIndex);
+      final actualItem =
+          (item is ItemStreamModel && newStreamModel != null) ? item.copyWith(mediaStreams: newStreamModel) : item;
 
       //Native player does not allow for loading external subtitles with transcoding
       final isNativePlayer =
@@ -351,7 +354,7 @@ class PlaybackModelHelper {
       final isExternalSub = newStreamModel?.currentSubStream?.isExternal == true;
 
       final Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
-        itemId: item.id,
+        itemId: actualItem.id,
         body: PlaybackInfoDto(
           startTimeTicks: startPosition?.toRuntimeTicks,
           audioStreamIndex: audioStreamIndex,
@@ -374,7 +377,11 @@ class PlaybackModelHelper {
         return null;
       }
 
-      final mediaSource = playbackInfo.mediaSources?[newStreamModel?.versionStreamIndex ?? 0];
+      final requestedMediaSourceId = newStreamModel?.currentVersionStream?.id;
+      final mediaSource = (requestedMediaSourceId != null)
+          ? (playbackInfo.mediaSources?.firstWhereOrNull((element) => element.id == requestedMediaSourceId) ??
+              playbackInfo.mediaSources?.firstOrNull)
+          : playbackInfo.mediaSources?[newStreamModel?.versionStreamIndex ?? 0];
 
       if (mediaSource == null) {
         return null;
@@ -396,12 +403,13 @@ class PlaybackModelHelper {
 
       if (type == PlaybackType.tv && mediaPath != null) {
         final tvModel = TvPlaybackModel(
-          channel: item as ChannelModel,
+          channel: actualItem as ChannelModel,
           isNativePlayerBackend: isNativePlayer,
-          item: item,
+          item: actualItem,
           queue: libraryQueue,
           playbackInfo: playbackInfo,
           media: Media(url: mediaPath),
+          mediaStreams: mediaStreamsWithUrls,
         );
         tvModel.startTracking(ref);
         return tvModel;
@@ -429,7 +437,7 @@ class PlaybackModelHelper {
         );
 
         return DirectPlaybackModel(
-          item: item,
+          item: actualItem,
           queue: libraryQueue,
           mediaSegments: mediaSegments?.body,
           chapters: chapters,
@@ -441,7 +449,7 @@ class PlaybackModelHelper {
         );
       } else if ((mediaSource.supportsTranscoding ?? false) && mediaSource.transcodingUrl != null) {
         return TranscodePlaybackModel(
-          item: item,
+          item: actualItem,
           queue: libraryQueue,
           mediaSegments: mediaSegments?.body,
           chapters: chapters,

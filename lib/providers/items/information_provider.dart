@@ -40,8 +40,11 @@ class InformationNotifier extends StateNotifier<InformationProviderModel> {
   Future<Response> getItemInformation(ItemBaseModel item) async {
     state = state.copyWith(loading: true);
     final response = await api.usersUserIdItemsItemIdGetBaseItem(itemId: item.id);
+    final selectedMediaSourceId = item.streamModel?.currentVersionStream?.id;
     await Future.delayed(const Duration(milliseconds: 250));
-    state = state.copyWith(loading: false, model: InformationModel.fromResponse(response.body));
+    state = state.copyWith(
+        loading: false,
+        model: InformationModel.fromResponse(response.body, selectedMediaSourceId: selectedMediaSourceId));
     return response;
   }
 }

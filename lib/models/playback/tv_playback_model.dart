@@ -51,6 +51,7 @@ class TvPlaybackModel extends PlaybackModel {
     this.isNativePlayerBackend = false,
     super.media,
     super.queue,
+    super.mediaStreams,
   });
 
   void startTracking(Ref ref) {
@@ -261,7 +262,7 @@ class TvPlaybackModel extends PlaybackModel {
           body: PlaybackStartInfo(
             canSeek: true,
             itemId: item.id,
-            mediaSourceId: item.id,
+            mediaSourceId: mediaStreams?.currentVersionStream?.id ?? item.id,
             playSessionId: playbackInfo?.playSessionId,
             subtitleStreamIndex: item.streamModel?.defaultSubStreamIndex,
             audioStreamIndex: item.streamModel?.defaultAudioStreamIndex,
@@ -283,7 +284,7 @@ class TvPlaybackModel extends PlaybackModel {
     await ref.read(jellyApiProvider).sessionsPlayingStoppedPost(
           body: PlaybackStopInfo(
             itemId: item.id,
-            mediaSourceId: item.id,
+            mediaSourceId: mediaStreams?.currentVersionStream?.id ?? item.id,
             playSessionId: playbackInfo?.playSessionId,
           ),
         );
@@ -334,5 +335,6 @@ class TvPlaybackModel extends PlaybackModel {
         duration: duration ?? this.duration,
         media: media ?? this.media,
         queue: queue ?? this.queue,
+        mediaStreams: mediaStreams,
       );
 }
