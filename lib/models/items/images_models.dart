@@ -29,7 +29,7 @@ class ImagesData {
   }
 
   ImageData? get firstOrNull {
-    return primary ?? backDrop?[0];
+    return primary ?? backDrop?.firstOrNull;
   }
 
   ImageData? get randomBackDrop => (backDrop?..shuffle())?.firstOrNull ?? primary;
