@@ -925,34 +925,32 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     if (availableSubtitles.isEmpty) return;
 
     final currentIndex = playbackModel?.mediaStreams?.defaultSubStreamIndex ?? -1;
-
-    // If only one subtitle track, toggle between it and off
-    if (availableSubtitles.length == 1) {
-      final singleSub = availableSubtitles.first;
-      final newSub = currentIndex == singleSub.index ? SubStreamModel.no() : singleSub;
-      _setSubtitleTrack(newSub, playbackModel, player);
-      return;
-    }
-
-    // Multiple subtitle tracks
-    if (_lastSelectedSubtitleIndex == null) {
-      // First time - show selection dialog
-      showSubSelection(context).then((_) {
-        // After dialog closes, store the selected subtitle
-        final newModel = ref.read(playBackModel);
-        final selectedIndex = newModel?.mediaStreams?.defaultSubStreamIndex;
-        if (selectedIndex != null && selectedIndex != -1) {
-          _lastSelectedSubtitleIndex = selectedIndex;
-        }
-      });
+    if (currentIndex != -1) {
+      // Subtitles are ON -> Turn OFF and remember this index
+      _lastSelectedSubtitleIndex = currentIndex;
+      _setSubtitleTrack(SubStreamModel.no(), playbackModel, player);
     } else {
-      // Toggle between off and last selected
-      final lastSub = subStreams.firstWhere(
-        (s) => s.index == _lastSelectedSubtitleIndex,
-        orElse: () => availableSubtitles.first,
-      );
-      final newSub = currentIndex == _lastSelectedSubtitleIndex ? SubStreamModel.no() : lastSub;
-      _setSubtitleTrack(newSub, playbackModel, player);
+      // Subtitles are OFF -> Turn ON
+      if (_lastSelectedSubtitleIndex != null) {
+        // Use the last selected index
+        final lastSub = subStreams.firstWhere(
+          (s) => s.index == _lastSelectedSubtitleIndex,
+          orElse: () => availableSubtitles.first,
+        );
+        _setSubtitleTrack(lastSub, playbackModel, player);
+      } else if (availableSubtitles.length == 1) {
+        // If only one subtitle is available, just use it
+        _setSubtitleTrack(availableSubtitles.first, playbackModel, player);
+      } else {
+        // Multiple subtitles and no last selection -> Show selection dialog
+        showSubSelection(context).then((_) {
+          final newModel = ref.read(playBackModel);
+          final selectedIndex = newModel?.mediaStreams?.defaultSubStreamIndex;
+          if (selectedIndex != null && selectedIndex != -1) {
+            _lastSelectedSubtitleIndex = selectedIndex;
+          }
+        });
+      }
     }
   }
 
