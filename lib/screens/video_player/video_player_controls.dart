@@ -974,6 +974,16 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       case VideoHotKeys.prevChapter:
         ref.read(videoPlayerSettingsProvider.notifier).prevChapter();
         return true;
+      case VideoHotKeys.seekForwardInstant:
+        final seekForwardSeconds =
+            ref.read(userProvider.select((value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30));
+        seekForward(ref, seconds: seekForwardSeconds);
+        return true;
+      case VideoHotKeys.seekBackInstant:
+        final seekBackSeconds =
+            ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
+        seekBack(ref, seconds: seekBackSeconds);
+        return true;
       case VideoHotKeys.stepForward:
         playing ? ref.read(videoPlayerProvider).playOrPause() : stepForward(ref);
         return true;
