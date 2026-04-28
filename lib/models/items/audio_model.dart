@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/l10n/generated/app_localizations.dart';
+import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/item_stream_model.dart';
@@ -48,6 +50,12 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
   });
 
   @override
+  ItemBaseModel get parentBaseModel => copyWith(id: albumId ?? parentId);
+
+  @override
+  ImagesData? get getPosters => images ?? parentImages;
+
+  @override
   Widget get detailScreenWidget => EmptyItem(item: this);
 
   @override
@@ -77,28 +85,49 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
   }
 
   @override
+  String? detailedName(AppLocalizations l10n) {
+    if (artistNames.isNotEmpty) {
+      return artistNames.join(', ');
+    }
+    return album;
+  }
+
+  @override
   String? subTextShort(AppLocalizations l10n) => album;
 
   @override
   String? label(AppLocalizations l10n) => subText;
 
   factory AudioModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
+    final images = ref != null ? ImagesData.fromBaseItem(item, ref) : null;
+    final parentImages = ref != null
+        ? ImagesData.fromBaseItemParent(
+            item.copyWith(
+              seriesPrimaryImageTag: item.albumPrimaryImageTag,
+              parentPrimaryImageTag: item.albumPrimaryImageTag,
+              seriesId: item.albumId ?? item.parentId,
+              parentId: item.albumId ?? item.parentId,
+            ),
+            ref)
+        : null;
     return AudioModel(
       name: item.name ?? '',
       id: item.id ?? '',
       childCount: item.childCount,
       overview: OverviewModel.fromBaseItemDto(item, ref),
       userData: UserData.fromDto(item.userData),
-      parentId: item.parentId,
+      parentId: item.albumId ?? item.parentId,
       playlistId: item.playlistItemId,
-      images: ref != null ? ImagesData.fromBaseItem(item, ref) : null,
-      parentImages: ref != null ? ImagesData.fromBaseItemParent(item, ref) : null,
+      images: images?.copyWith(
+        primary: () => images.primary ?? parentImages?.primary,
+      ),
+      parentImages: parentImages,
       primaryRatio: item.primaryImageAspectRatio,
       mediaStreams: ref != null
           ? MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref)
           : MediaStreamsModel(versionStreams: []),
       album: item.album,
-      albumId: item.albumId,
+      albumId: item.albumId ?? item.parentId,
       artistNames: item.artists?.whereType<String>().toList() ?? const [],
       albumArtists: item.albumArtists?.whereType<String>().toList() ?? const [],
       trackNumber: item.indexNumber,

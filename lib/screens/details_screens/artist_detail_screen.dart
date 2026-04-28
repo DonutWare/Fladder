@@ -89,7 +89,7 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                           Text(current.subText!, style: Theme.of(context).textTheme.bodyLarge),
                         const SizedBox(height: 16),
                         ElevatedButton.icon(
-                          onPressed: tracks.isNotEmpty ? () => tracks.first.play(detailsContext, ref) : null,
+                          onPressed: tracks.isNotEmpty ? () => current.playLatestTracks(detailsContext, ref) : null,
                           icon: const Icon(IconsaxPlusLinear.play),
                           label: Text(context.localized.play(current.name)),
                         ),
@@ -115,7 +115,9 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                         child: TrackList(
                           title: 'Latest tracks',
                           tracks: tracks.take(8).toList(),
-                          onTrackTap: (track) => track.play(detailsContext, ref),
+                          enableSorting: false,
+                          onTrackTap: (track) => track.navigateTo(detailsContext),
+                          onTrackPlayTap: (track) => current.playLatestTracks(detailsContext, ref, startTrack: track),
                           onTrackArtistTap: (_) => current.parentBaseModel.navigateTo(detailsContext),
                           onTrackSecondaryTap: (track, details) {
                             track.showDetailsMenu(

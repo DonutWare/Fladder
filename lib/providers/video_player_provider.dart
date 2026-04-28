@@ -42,7 +42,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       s.cancel();
     }
 
-    final subscription = state.stateStream?.listen((value) {
+    final subscription = state.stateStream.listen((value) {
       updateBuffering(value.buffering);
       updateBuffer(value.buffer);
       updatePlaying(value.playing);
@@ -50,9 +50,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       updateDuration(value.duration);
     });
 
-    if (subscription != null) {
-      subscriptions.add(subscription);
-    }
+    subscriptions.add(subscription);
   }
 
   Future<void> updateBuffering(bool event) async =>
@@ -135,12 +133,12 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     PlaybackModel? newPlaybackModel = model;
 
     if (media != null) {
+      ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
       await state.loadVideo(model, startPosition, true);
       await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
 
       await state.setAudioTrack(null, model);
       await state.setSubtitleTrack(null, model);
-      ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
 
       ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(
             state: useMinimizedPlayer ? VideoPlayerState.minimized : VideoPlayerState.fullScreen,
@@ -155,6 +153,75 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
     mediaState.update((state) => state.copyWith(errorPlaying: true));
     return false;
+  }
+
+  Future<bool> loadAudioPlaybackItem(
+    PlaybackModel model,
+    List<ItemBaseModel> queue,
+    int currentIndex,
+    Duration startPosition,
+  ) async {
+    ref.read(playBackModel.notifier).update((state) => model);
+    ref.read(playbackRateProvider.notifier).state = 1.0;
+
+    mediaState.update((state) => state.copyWith(
+          state: VideoPlayerState.minimized,
+          fullScreen: false,
+          buffering: true,
+          errorPlaying: false,
+          skippedSegments: {},
+          duration: model.item.overview.runTime ?? Duration.zero,
+        ));
+
+    await state.loadAudioQueue(
+      queue,
+      currentIndex,
+      startPosition,
+      true,
+      (item) => state.buildAudioUrl(item),
+    );
+    await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
+
+    mediaState.update((state) => state.copyWith(
+          buffering: false,
+          playing: true,
+          position: startPosition,
+          duration: model.item.overview.runTime ?? Duration.zero,
+        ));
+    return true;
+  }
+
+  PlaybackModel _updateQueueOnModel(PlaybackModel playbackModel, List<ItemBaseModel> queue) =>
+      playbackModel.updateQueueModel(queue);
+
+  Future<void> reorderAudioQueue(List<ItemBaseModel> queue) async {
+    final playbackModel = ref.read(playBackModel);
+    if (playbackModel == null) return;
+
+    final currentIndex = queue.indexWhere((element) => element.id == playbackModel.item.id).clamp(0, queue.length - 1);
+    final updatedModel = _updateQueueOnModel(playbackModel, queue);
+    ref.read(playBackModel.notifier).update((state) => updatedModel);
+
+    await loadAudioPlaybackItem(updatedModel, queue, currentIndex, ref.read(mediaPlaybackProvider).position);
+  }
+
+  Future<void> playAudioQueueItem(ItemBaseModel item) async {
+    final playbackModel = ref.read(playBackModel);
+    if (playbackModel == null) return;
+
+    final queue = playbackModel.queue;
+    final index = queue.indexWhere((element) => element.id == item.id).clamp(0, queue.length - 1);
+    final updatedPlaybackModel = await ref.read(playbackModelHelper).createPlaybackModel(
+          null,
+          item,
+          oldModel: playbackModel,
+          libraryQueue: queue,
+          showPlaybackOptions: false,
+        );
+    if (updatedPlaybackModel == null) return;
+
+    ref.read(playBackModel.notifier).update((state) => updatedPlaybackModel);
+    await loadAudioPlaybackItem(updatedPlaybackModel, queue, index, Duration.zero);
   }
 
   Future<void> openPlayer(BuildContext context) async => state.openPlayer(context);

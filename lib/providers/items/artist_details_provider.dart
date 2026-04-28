@@ -12,6 +12,33 @@ import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 
+Future<List<AudioModel>> fetchArtistLatestTracks(
+  JellyService api,
+  String artistId, {
+  int limit = 10,
+}) async {
+  final response = await api.itemsGet(
+    parentId: artistId,
+    includeItemTypes: [BaseItemKind.audio],
+    enableUserData: true,
+    enableImages: true,
+    recursive: true,
+    imageTypeLimit: 1,
+    fields: [ItemFields.primaryimageaspectratio],
+    sortBy: [
+      ItemSortBy.playcount,
+      ItemSortBy.productionyear,
+      ItemSortBy.premieredate,
+      ItemSortBy.datecreated,
+      ItemSortBy.sortname,
+    ],
+    sortOrder: [SortOrder.descending],
+    limit: limit,
+  );
+
+  return response.body?.items.whereType<AudioModel>().toList() ?? [];
+}
+
 final artistDetailsProvider =
     StateNotifierProvider.autoDispose.family<ArtistDetailsNotifier, ArtistModel?, String>((ref, id) {
   return ArtistDetailsNotifier(ref);
@@ -85,32 +112,11 @@ class ArtistDetailsNotifier extends StateNotifier<ArtistModel?> {
     }
   }
 
-  Future<void> fetchTracks() async {
+  Future<void> fetchTracks({int limit = 10}) async {
     if (state == null) return;
     try {
-      final response = await api.itemsGet(
-        parentId: state!.id,
-        includeItemTypes: [BaseItemKind.audio],
-        enableUserData: true,
-        enableImages: true,
-        recursive: true,
-        imageTypeLimit: 1,
-        fields: [ItemFields.primaryimageaspectratio],
-        sortBy: [
-          ItemSortBy.playcount,
-          ItemSortBy.productionyear,
-          ItemSortBy.premieredate,
-          ItemSortBy.datecreated,
-          ItemSortBy.sortname,
-        ],
-        sortOrder: [SortOrder.descending],
-        limit: 10,
-      );
-
-      final tracks = response.body?.items.whereType<AudioModel>().toList();
-      if (tracks != null) {
-        state = state?.copyWith(tracks: tracks);
-      }
+      final tracks = await fetchArtistLatestTracks(api, state!.id, limit: limit);
+      state = state?.copyWith(tracks: tracks);
     } catch (error, stack) {
       log('Failed to fetch tracks for artist ${state?.id} due to $error',
           level: logging.Level.WARNING.value, error: error, stackTrace: stack);

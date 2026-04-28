@@ -51,6 +51,7 @@ class TvPlaybackModel extends PlaybackModel {
     this.isNativePlayerBackend = false,
     super.media,
     super.queue,
+    super.queueSource,
   });
 
   void startTracking(Ref ref) {
@@ -324,6 +325,7 @@ class TvPlaybackModel extends PlaybackModel {
     Duration? duration,
     Media? media,
     List<ItemBaseModel>? queue,
+    PlaybackQueueSource? queueSource,
   }) =>
       TvPlaybackModel(
         channel: channel ?? this.channel,
@@ -334,5 +336,6 @@ class TvPlaybackModel extends PlaybackModel {
         duration: duration ?? this.duration,
         media: media ?? this.media,
         queue: queue ?? this.queue,
+        queueSource: queueSource ?? this.queueSource,
       );
 }

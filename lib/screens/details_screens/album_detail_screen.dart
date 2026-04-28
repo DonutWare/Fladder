@@ -9,6 +9,7 @@ import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/track_list.dart';
 import 'package:fladder/theme.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
@@ -103,11 +104,11 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                     colors: [
-                      Theme.of(context).colorScheme.surface.withAlpha(230),
-                      Theme.of(context).colorScheme.surface.withAlpha(13),
+                      Theme.of(detailsContext).colorScheme.primaryContainer,
+                      Theme.of(detailsContext).colorScheme.surfaceContainer,
                     ],
                   ),
                   border: BoxBorder.fromLTRB(
@@ -160,7 +161,7 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              context.localized.musicAlbum(0).toUpperCase(),
+                              context.localized.musicAlbum(1).toUpperCase(),
                               style: Theme.of(context).textTheme.labelLarge?.copyWith(letterSpacing: 1.5),
                             ),
                             const SizedBox(height: 10),
@@ -181,6 +182,7 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                               spacing: 8,
                               children: [
                                 IconButton.filled(
+                                  autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
                                   onPressed: tracks.isNotEmpty ? () => album.play(detailsContext, ref) : null,
                                   icon: const Icon(
                                     IconsaxPlusBold.play,
@@ -215,9 +217,11 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                   if (tracks.isNotEmpty) ...[
                     TrackList(
                       title: context.localized.track(tracks.length),
+                      enableSorting: false,
                       tracks: tracks,
                       padding: padding,
-                      onTrackTap: (track) => track.play(detailsContext, ref),
+                      onTrackTap: (track) {},
+                      onTrackPlayTap: (track) => track.play(detailsContext, ref),
                       onTrackArtistTap: (_) => current.parentBaseModel.navigateTo(detailsContext),
                       showAlbum: false,
                       onTrackSecondaryTap: (track, details) {

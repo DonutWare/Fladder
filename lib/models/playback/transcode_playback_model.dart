@@ -27,6 +27,7 @@ class TranscodePlaybackModel extends PlaybackModel {
     super.chapters,
     super.trickPlay,
     super.queue = const [],
+    super.queueSource,
     super.bitRateOptions,
   });
 
@@ -125,6 +126,11 @@ class TranscodePlaybackModel extends PlaybackModel {
   }
 
   @override
+  TranscodePlaybackModel updateQueueModel(List<ItemBaseModel> newQueue) {
+    return copyWith(queue: newQueue);
+  }
+
+  @override
   String toString() => 'TranscodePlaybackModel(item: $item, playbackInfo: $playbackInfo)';
 
   @override
@@ -138,6 +144,7 @@ class TranscodePlaybackModel extends PlaybackModel {
     ValueGetter<List<Chapter>?>? chapters,
     ValueGetter<TrickPlayModel?>? trickPlay,
     List<ItemBaseModel>? queue,
+    PlaybackQueueSource? queueSource,
     Map<Bitrate, bool>? bitRateOptions,
   }) {
     return TranscodePlaybackModel(
@@ -149,6 +156,7 @@ class TranscodePlaybackModel extends PlaybackModel {
       chapters: chapters != null ? chapters() : this.chapters,
       trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
       queue: queue ?? this.queue,
+      queueSource: queueSource ?? this.queueSource,
       bitRateOptions: bitRateOptions ?? this.bitRateOptions,
     );
   }

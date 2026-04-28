@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/screens/shared/media/item_detail_list_widget.dart';
-import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/util/widget_extensions.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
+import 'package:fladder/providers/video_player_provider.dart';
 
 void showFullScreenItemQueue(
   BuildContext context, {
@@ -20,7 +19,7 @@ void showFullScreenItemQueue(
     useRootNavigator: true,
     context: context,
     builder: (context) {
-      return Dialog.fullscreen(
+      return Dialog(
         child: VideoPlayerQueue(
           items: items,
           currentItem: currentItem,
@@ -48,21 +47,17 @@ class _VideoPlayerQueueState extends ConsumerState<VideoPlayerQueue> {
   final controller = ScrollController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: FladderAppBar(
-        label: "",
-        automaticallyImplyLeading: true,
-        isDesktop: AdaptiveLayout.of(context).isDesktop,
-      ),
-      body: Column(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 64),
-            child: Row(
-              children: [
-                const BackButton(),
-                Column(
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -79,75 +74,60 @@ class _VideoPlayerQueueState extends ConsumerState<VideoPlayerQueue> {
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              IconButton(
+                onPressed: () {
+                  context.maybePop();
+                },
+                icon: const Icon(IconsaxPlusBold.close_circle),
+              ),
+            ],
           ),
           const Divider(),
           Flexible(
-            child: ReorderableListView.builder(
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(horizontal: 64).copyWith(bottom: 64),
-              scrollController: controller,
-              itemCount: items.length,
-              proxyDecorator: (child, index, animation) {
-                return child;
-              },
-              onReorder: (int oldIndex, int newIndex) {
-                setState(() {
-                  if (oldIndex < newIndex) {
-                    newIndex -= 1;
-                  }
-                  final ItemBaseModel item = items.removeAt(oldIndex);
-                  items.insert(newIndex, item);
-                });
-                // ref.read(videoPlaybackProvider.notifier).setQueue(items);
-              },
-              itemBuilder: (context, index) {
-                final item = items[index];
-                final isCurrentItem = item.id == (widget.currentItem?.id ?? "");
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: SizedBox(
-                    height: 125,
-                    child: ItemDetailListWidget(
-                      item: item,
-                      elevation: isCurrentItem ? 50 : 1,
-                      iconOverlay: !isCurrentItem
-                          ? IconButton(
-                              onPressed: () {
-                                widget.playSelected?.call(item);
-                                Navigator.of(context).pop();
-                              },
-                              iconSize: 80,
-                              icon: const Icon(
-                                Icons.play_arrow_rounded,
-                              ),
-                            )
-                          : const IconButton(
-                              onPressed: null,
-                              iconSize: 80,
-                              icon: Icon(Icons.play_arrow_rounded),
-                            ),
-                      actions: [
-                        if (!isCurrentItem)
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                items.remove(item);
-                              });
-                              // ref.read(videoPlaybackProvider.notifier).setQueue(items);
-                            },
-                            icon: const Icon(
-                              Icons.delete_rounded,
-                            ),
-                          )
-                      ],
+            child: SizedBox(
+              height: 512,
+              width: 512,
+              child: ReorderableListView.builder(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(horizontal: 64).copyWith(bottom: 64),
+                scrollController: controller,
+                itemCount: items.length,
+                onReorder: (int oldIndex, int newIndex) {
+                  setState(() {
+                    if (oldIndex < newIndex) {
+                      newIndex -= 1;
+                    }
+                    final ItemBaseModel item = items.removeAt(oldIndex);
+                    items.insert(newIndex, item);
+                  });
+                  ref.read(videoPlayerProvider.notifier).reorderAudioQueue(items);
+                },
+                itemBuilder: (context, index) {
+                  final item = items[index];
+                  final isCurrentItem = item.id == (widget.currentItem?.id ?? "");
+                  return Padding(
+                    key: Key(item.id),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: SizedBox(
+                      height: 125,
+                      width: 250,
+                      child: Column(
+                        children: [
+                          Text(
+                            item.name,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: isCurrentItem ? FontWeight.bold : null,
+                                ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ).setKey(
-                  Key('$index'),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ],

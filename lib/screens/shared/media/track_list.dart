@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/audio_model.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/duration_extensions.dart';
+import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
@@ -18,9 +20,11 @@ typedef TrackSecondaryTapCallback = void Function(AudioModel track, TapDownDetai
 
 class TrackList extends StatefulWidget {
   final String title;
+  final bool enableSorting;
   final List<AudioModel> tracks;
   final int? maxTracks;
   final bool showAlbum;
+  final Function(AudioModel track)? onTrackPlayTap;
   final Function(AudioModel track)? onTrackTap;
   final Function(AudioModel track)? onTrackArtistTap;
   final Function(AudioModel track, TapDownDetails details)? onTrackSecondaryTap;
@@ -28,9 +32,11 @@ class TrackList extends StatefulWidget {
 
   const TrackList({
     required this.title,
+    this.enableSorting = true,
     required this.tracks,
     this.maxTracks,
     this.showAlbum = true,
+    this.onTrackPlayTap,
     this.onTrackTap,
     this.onTrackArtistTap,
     this.onTrackSecondaryTap,
@@ -44,14 +50,14 @@ class TrackList extends StatefulWidget {
 
 const double _trackCellSpacing = 16;
 
-enum _TrackSortColumn { title, album, plays, duration }
+enum _TrackSortColumn { position, title, album, plays, duration }
 
 enum _TrackColumn {
-  position(label: '#', width: 45, sortable: false, align: TextAlign.center),
+  position(label: '#', width: 45, sortable: false, sortColumn: _TrackSortColumn.position, align: TextAlign.center),
   title(label: 'Title', flex: 4, sortable: true, sortColumn: _TrackSortColumn.title),
   album(label: 'Album', flex: 3, sortable: true, sortColumn: _TrackSortColumn.album),
-  plays(label: 'Plays', width: 64, sortable: true, sortColumn: _TrackSortColumn.plays, align: TextAlign.end),
-  duration(label: 'Duration', width: 72, sortable: true, sortColumn: _TrackSortColumn.duration, align: TextAlign.end),
+  plays(label: 'Plays', width: 90, sortable: true, sortColumn: _TrackSortColumn.plays, align: TextAlign.end),
+  duration(label: 'Duration', width: 80, sortable: true, sortColumn: _TrackSortColumn.duration, align: TextAlign.end),
   action(label: '', width: 40, sortable: false);
 
   final String label;
@@ -96,6 +102,9 @@ class _TrackListState extends State<TrackList> {
     sorted.sort((a, b) {
       int result;
       switch (_sortColumn!) {
+        case _TrackSortColumn.position:
+          result = (a.trackNumber ?? 0).compareTo(b.trackNumber ?? 0);
+          break;
         case _TrackSortColumn.title:
           result = a.name.toLowerCase().compareTo(b.name.toLowerCase());
           break;
@@ -124,7 +133,11 @@ class _TrackListState extends State<TrackList> {
 
     if (!column.sortable) {
       return Align(
-        alignment: column.align == TextAlign.end ? Alignment.centerRight : Alignment.centerLeft,
+        alignment: switch (column.align) {
+          TextAlign.center => Alignment.center,
+          TextAlign.end => Alignment.centerRight,
+          _ => Alignment.centerLeft,
+        },
         child: Text(column.label, style: style, textAlign: column.align),
       );
     }
@@ -135,18 +148,32 @@ class _TrackListState extends State<TrackList> {
         minimumSize: const Size(0, 0),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
-      onPressed: () {
-        if (column.sortColumn != null) {
-          _toggleSort(column.sortColumn!);
-        }
-      },
+      onPressed: widget.enableSorting
+          ? () {
+              if (column.sortColumn != null) {
+                _toggleSort(column.sortColumn!);
+              }
+            }
+          : null,
       child: Row(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: column.align == TextAlign.end ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: switch (column.align) {
+          TextAlign.center => MainAxisAlignment.center,
+          TextAlign.end => MainAxisAlignment.end,
+          _ => MainAxisAlignment.start,
+        },
+        spacing: 4,
         children: [
-          Text(column.label, style: style, textAlign: column.align),
-          if (active) ...[
-            const SizedBox(width: 4),
+          Flexible(
+            child: Text(
+              column.label,
+              style: style,
+              textAlign: column.align,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ),
+          if (active && widget.enableSorting) ...[
             Icon(
               _ascending ? Icons.arrow_upward : Icons.arrow_downward,
               size: 14,
@@ -180,9 +207,10 @@ class _TrackListState extends State<TrackList> {
                 (index, track) => TableRow(
                   children: [
                     _TrackListItem(
-                      index: index + 1,
+                      index: widget.showAlbum ? index + 1 : track.trackNumber ?? index + 1,
                       track: track,
                       onTap: widget.onTrackTap,
+                      onTrackPlayTap: widget.onTrackPlayTap,
                       onArtistTap: widget.onTrackArtistTap,
                       onSecondaryTap: widget.onTrackSecondaryTap,
                       showAlbum: widget.showAlbum,
@@ -244,11 +272,13 @@ class _TrackListItem extends ConsumerStatefulWidget {
   final TrackTapCallback? onTap;
   final TrackArtistTapCallback? onArtistTap;
   final TrackSecondaryTapCallback? onSecondaryTap;
+  final Function(AudioModel track)? onTrackPlayTap;
   final bool showAlbum;
 
   const _TrackListItem({
     required this.index,
     required this.track,
+    this.onTrackPlayTap,
     this.onTap,
     this.onArtistTap,
     this.onSecondaryTap,
@@ -272,6 +302,8 @@ class _TrackListItemState extends ConsumerState<_TrackListItem> {
     final durationText = widget.track.overview.runTime?.readAbleDuration;
     final playCountText = widget.track.userData.playCount > 0 ? 'x${widget.track.userData.playCount}' : '-';
 
+    final radius = FladderTheme.smallShape.borderRadius;
+
     return FocusButton(
       onHover: _handleHover,
       onTap: widget.onTap != null ? () => widget.onTap?.call(widget.track) : null,
@@ -291,12 +323,34 @@ class _TrackListItemState extends ConsumerState<_TrackListItem> {
             children: [
               SizedBox(
                 width: _TrackColumn.position.width!,
-                height: 45,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  child: _hovering
-                      ? const Icon(IconsaxPlusBold.play, size: 20)
-                      : Text('${widget.index}', style: Theme.of(context).textTheme.bodyLarge),
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    child: _hovering
+                        ? IconButton(
+                            onPressed:
+                                widget.onTrackPlayTap != null ? () => widget.onTrackPlayTap?.call(widget.track) : null,
+                            icon: const Icon(IconsaxPlusBold.play),
+                          )
+                        : widget.showAlbum
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: radius,
+                                  color: Theme.of(context).colorScheme.surfaceContainer,
+                                ),
+                                foregroundDecoration: BoxDecoration(
+                                  borderRadius: radius,
+                                  border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
+                                ),
+                                clipBehavior: Clip.hardEdge,
+                                child: FladderImage(
+                                  image: widget.track.images?.primary,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : Text('${widget.index}', style: Theme.of(context).textTheme.bodyLarge),
+                  ),
                 ),
               ),
               const SizedBox(width: _trackCellSpacing),

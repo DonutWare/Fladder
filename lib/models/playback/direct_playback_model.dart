@@ -27,6 +27,7 @@ class DirectPlaybackModel extends PlaybackModel {
     super.chapters,
     super.trickPlay,
     super.queue,
+    super.queueSource,
     super.bitRateOptions,
   });
 
@@ -126,6 +127,11 @@ class DirectPlaybackModel extends PlaybackModel {
   }
 
   @override
+  DirectPlaybackModel updateQueueModel(List<ItemBaseModel> newQueue) {
+    return copyWith(queue: newQueue);
+  }
+
+  @override
   String toString() => 'DirectPlaybackModel(item: $item, playbackInfo: $playbackInfo)';
 
   @override
@@ -139,6 +145,7 @@ class DirectPlaybackModel extends PlaybackModel {
     ValueGetter<List<Chapter>?>? chapters,
     ValueGetter<TrickPlayModel?>? trickPlay,
     List<ItemBaseModel>? queue,
+    PlaybackQueueSource? queueSource,
     Map<Bitrate, bool>? bitRateOptions,
   }) {
     return DirectPlaybackModel(
@@ -150,6 +157,7 @@ class DirectPlaybackModel extends PlaybackModel {
       chapters: chapters != null ? chapters() : this.chapters,
       trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
       queue: queue ?? this.queue,
+      queueSource: queueSource ?? this.queueSource,
       bitRateOptions: bitRateOptions ?? this.bitRateOptions,
     );
   }

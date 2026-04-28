@@ -25,6 +25,7 @@ class OfflinePlaybackModel extends PlaybackModel {
     super.mediaSegments,
     super.trickPlay,
     super.queue = const [],
+    super.queueSource,
     this.syncedQueue = const [],
   });
 
@@ -110,6 +111,11 @@ class OfflinePlaybackModel extends PlaybackModel {
   }
 
   @override
+  OfflinePlaybackModel updateQueueModel(List<ItemBaseModel> newQueue) {
+    return copyWith(queue: newQueue);
+  }
+
+  @override
   String toString() => 'OfflinePlaybackModel(item: $item, syncedItem: $syncedItem)';
 
   @override
@@ -121,6 +127,7 @@ class OfflinePlaybackModel extends PlaybackModel {
     ValueGetter<MediaSegmentsModel?>? mediaSegments,
     ValueGetter<TrickPlayModel?>? trickPlay,
     List<ItemBaseModel>? queue,
+    PlaybackQueueSource? queueSource,
     List<SyncedItem>? syncedQueue,
   }) {
     return OfflinePlaybackModel(
@@ -131,6 +138,7 @@ class OfflinePlaybackModel extends PlaybackModel {
       mediaSegments: mediaSegments != null ? mediaSegments() : this.mediaSegments,
       trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
       queue: queue ?? this.queue,
+      queueSource: queueSource ?? this.queueSource,
       syncedQueue: syncedQueue ?? this.syncedQueue,
     );
   }

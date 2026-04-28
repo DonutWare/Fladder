@@ -4,6 +4,12 @@ enum VideoPlayerState {
   disposed,
 }
 
+enum AudioRepeatMode {
+  off,
+  one,
+  all,
+}
+
 class MediaPlaybackModel {
   final VideoPlayerState state;
   final bool playing;
@@ -15,6 +21,8 @@ class MediaPlaybackModel {
   final bool errorPlaying;
   final bool buffering;
   final bool fullScreen;
+  final bool shuffleEnabled;
+  final AudioRepeatMode repeatMode;
   final Set<String> skippedSegments;
   MediaPlaybackModel({
     this.state = VideoPlayerState.disposed,
@@ -27,6 +35,8 @@ class MediaPlaybackModel {
     this.errorPlaying = false,
     this.buffering = false,
     this.fullScreen = false,
+    this.shuffleEnabled = false,
+    this.repeatMode = AudioRepeatMode.off,
     this.skippedSegments = const {},
   });
 
@@ -41,6 +51,8 @@ class MediaPlaybackModel {
     bool? errorPlaying,
     bool? buffering,
     bool? fullScreen,
+    bool? shuffleEnabled,
+    AudioRepeatMode? repeatMode,
     Set<String>? skippedSegments,
   }) {
     return MediaPlaybackModel(
@@ -54,6 +66,8 @@ class MediaPlaybackModel {
       errorPlaying: errorPlaying ?? this.errorPlaying,
       buffering: buffering ?? this.buffering,
       fullScreen: fullScreen ?? this.fullScreen,
+      shuffleEnabled: shuffleEnabled ?? this.shuffleEnabled,
+      repeatMode: repeatMode ?? this.repeatMode,
       skippedSegments: skippedSegments ?? this.skippedSegments,
     );
   }
