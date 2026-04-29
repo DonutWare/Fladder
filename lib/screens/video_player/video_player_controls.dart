@@ -135,11 +135,24 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                         : _handleDoubleTapSeek,
                     onLongPressStart: initInputDevice == InputDevice.touch ? _handleLongPressStart : null,
                     onLongPressEnd: initInputDevice == InputDevice.touch ? _handleLongPressEnd : null,
-                    onVerticalDragStart: initInputDevice == InputDevice.touch ? _handleVerticalDragStart : null,
-                    onVerticalDragUpdate: initInputDevice == InputDevice.touch ? _handleVerticalDragUpdate : null,
-                    onVerticalDragEnd: initInputDevice == InputDevice.touch ? _handleVerticalDragEnd : null,
                   ),
                 ),
+                if (initInputDevice == InputDevice.touch)
+                  Positioned.fill(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.deferToChild,
+                      onVerticalDragStart: _handleVerticalDragStart,
+                      onVerticalDragUpdate: _handleVerticalDragUpdate,
+                      onVerticalDragEnd: _handleVerticalDragEnd,
+                      child: Row(
+                        children: [
+                          Expanded(flex: 15, child: Container(color: Colors.transparent)),
+                          const Spacer(flex: 70),
+                          Expanded(flex: 15, child: Container(color: Colors.transparent)),
+                        ],
+                      ),
+                    ),
+                  ),
                 if (subtitleWidget != null) subtitleWidget,
                 if (AdaptiveLayout.of(context).isDesktop)
                   Consumer(builder: (context, ref, child) {
@@ -864,14 +877,24 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     if (!settings.enableEdgeGestures) return;
 
     final size = MediaQuery.sizeOf(context);
+    final x = details.localPosition.dx;
     final y = details.localPosition.dy;
-    // Safety margin of 10% top/bottom to avoid accidental system gestures (notification tray, home bar)
+
+    // Safety margin of 10% top/bottom to avoid accidental system gestures
     if (y < size.height * 0.1 || y > size.height * 0.9) {
       _vDragSide = null;
       return;
     }
 
-    final isLeft = details.localPosition.dx < size.width / 2;
+    // Check if it's in the edge zones (15% width)
+    final bool isLeft = x < size.width * 0.15;
+    final bool isRight = x > size.width * 0.85;
+
+    if (!isLeft && !isRight) {
+      _vDragSide = null;
+      return;
+    }
+
     final isBrightness = settings.reverseEdgeGestures ? !isLeft : isLeft;
 
     _vDragSide = isBrightness ? 'brightness' : 'volume';
