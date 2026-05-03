@@ -94,6 +94,9 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool enableAdvancedVideoOptions,
     @Default(true) bool enableEdgeGestures,
     @Default(false) bool reverseEdgeGestures,
+    @Default(true) bool enableReplayGain,
+    @Default(ReplayGainMode.automatic) ReplayGainMode replayGainMode,
+    @Default(ReplayGainVolumeLevel.normal) ReplayGainVolumeLevel replayGainVolumeLevel,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => internalVolume;
@@ -176,6 +179,49 @@ enum PlayerOptions {
         PlayerOptions.libMPV => "MPV",
         PlayerOptions.nativePlayer => "Native",
       };
+}
+
+enum ReplayGainMode {
+  automatic,
+  track,
+  album;
+
+  const ReplayGainMode();
+
+  String label(BuildContext context) => switch (this) {
+        ReplayGainMode.automatic => context.localized.playerSettingsReplayGainModeAutomatic,
+        ReplayGainMode.track => context.localized.playerSettingsReplayGainModeTrack,
+        ReplayGainMode.album => context.localized.playerSettingsReplayGainModeAlbum,
+      };
+}
+
+double clampReplayGainDb(double gainDb) {
+  return gainDb.clamp(-60.0, 20.0).toDouble();
+}
+
+enum ReplayGainVolumeLevel {
+  // Keep enum ids stable for persisted settings; labels are user-facing.
+  quiet,
+  normal,
+  loud;
+
+  const ReplayGainVolumeLevel();
+
+  String label(BuildContext context) => switch (this) {
+        ReplayGainVolumeLevel.quiet => 'Normal',
+        ReplayGainVolumeLevel.normal => 'Increased',
+        ReplayGainVolumeLevel.loud => 'High',
+      };
+
+  double get replayGainOffsetDb => switch (this) {
+        ReplayGainVolumeLevel.quiet => 0.0,
+        ReplayGainVolumeLevel.normal => 6.0,
+        ReplayGainVolumeLevel.loud => 8.0,
+      };
+
+  double adjustedReplayGainDb(double? trackGainDb) {
+    return clampReplayGainDb((trackGainDb ?? 0) + replayGainOffsetDb);
+  }
 }
 
 enum Screensaver {

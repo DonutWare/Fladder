@@ -428,6 +428,43 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     },
                   ),
                 ),
+              SettingsListTile(
+                label: Text(context.localized.playerSettingsReplayGainTitle),
+                subLabel: Text(context.localized.playerSettingsReplayGainDesc),
+                onTap: () => provider.setEnableReplayGain(!videoSettings.enableReplayGain),
+                trailing: Switch(
+                  value: videoSettings.enableReplayGain,
+                  onChanged: (value) => provider.setEnableReplayGain(value),
+                ),
+              ),
+              if (videoSettings.enableReplayGain)
+                SettingsListTileEnum(
+                  label: Text(context.localized.playerSettingsReplayGainModeTitle),
+                  subLabel: Text(context.localized.playerSettingsReplayGainModeDesc),
+                  current: videoSettings.replayGainMode.label(context),
+                  itemBuilder: (context) => ReplayGainMode.values
+                      .map(
+                        (entry) => ItemActionButton(
+                          label: Text(entry.label(context)),
+                          action: () => provider.setReplayGainMode(entry),
+                        ),
+                      )
+                      .toList(),
+                ),
+              if (videoSettings.enableReplayGain)
+                SettingsListTileEnum(
+                  label: const Text('ReplayGain volume level'),
+                  subLabel: const Text('Adjust the baseline loudness applied with ReplayGain.'),
+                  current: videoSettings.replayGainVolumeLevel.label(context),
+                  itemBuilder: (context) => ReplayGainVolumeLevel.values
+                      .map(
+                        (entry) => ItemActionButton(
+                          label: Text(entry.label(context)),
+                          action: () => provider.setReplayGainVolumeLevel(entry),
+                        ),
+                      )
+                      .toList(),
+                ),
               if (currentPlayer == PlayerOptions.libMDK)
                 SettingsListTile(
                   label: Text(context.localized.advancedVideoOptionsTitle),

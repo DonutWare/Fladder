@@ -25,6 +25,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
   final List<String> albumArtists;
   final int? trackNumber;
   final Map<String, dynamic>? providerIds;
+  final double? normalizationGain;
 
   const AudioModel({
     this.album,
@@ -33,6 +34,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
     this.albumArtists = const [],
     this.trackNumber,
     this.providerIds,
+    this.normalizationGain,
     required super.name,
     required super.id,
     required super.overview,
@@ -110,6 +112,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
             ),
             ref)
         : null;
+
     return AudioModel(
       name: item.name ?? '',
       id: item.id ?? '',
@@ -132,6 +135,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
       albumArtists: item.albumArtists?.whereType<String>().toList() ?? const [],
       trackNumber: item.indexNumber,
       providerIds: item.providerIds,
+      normalizationGain: item.normalizationGain,
       canDelete: item.canDelete,
       canDownload: item.canDownload,
       jellyType: item.type,
