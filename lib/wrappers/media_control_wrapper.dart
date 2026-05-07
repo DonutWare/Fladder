@@ -12,6 +12,7 @@ import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
@@ -29,7 +30,6 @@ import 'package:fladder/providers/window_title_provider.dart';
 import 'package:fladder/src/video_player_helper.g.dart' hide PlaybackState;
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
-import 'package:fladder/wrappers/players/just_audio_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
     if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
@@ -168,17 +168,23 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     bool startPlayback,
     Uri Function(ItemBaseModel item) urlBuilder,
   ) async {
-    if (_player is! JustAudioPlayer) {
+    final isActiveAudioQueue = _player is LibMPV && (_player as LibMPV).isAudioQueueActive;
+    if (!isActiveAudioQueue) {
       _previousPlayer = _player;
       await _player?.stop();
     }
 
-    await setup(JustAudioPlayer(onCurrentIndexChanged: _onAudioQueueTrackChanged));
-    await (_player as JustAudioPlayer).loadAudioQueue(queue, initialIndex, startPosition, urlBuilder);
+    await setup(LibMPV(onCurrentIndexChanged: _onAudioQueueTrackChanged));
+    await (_player as LibMPV).loadAudioQueue(queue, initialIndex, startPosition, urlBuilder);
 
     final playbackInfo = ref.read(mediaPlaybackProvider);
-    await (_player as JustAudioPlayer).setShuffleModeEnabled(playbackInfo.shuffleEnabled);
-    await (_player as JustAudioPlayer).setAudioRepeatMode(playbackInfo.repeatMode);
+    await (_player as LibMPV).setShuffleModeEnabled(playbackInfo.shuffleEnabled);
+    await (_player as LibMPV).setAudioRepeatMode(playbackInfo.repeatMode);
+
+    final playbackModel = ref.read(playBackModel);
+    if (playbackModel != null) {
+      await _refreshMediaControls(model: playbackModel, playing: startPlayback);
+    }
 
     if (startPlayback) {
       await play();
@@ -186,17 +192,45 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   Future<void> setShuffleEnabled(bool enabled) async {
-    if (_player is JustAudioPlayer) {
-      await (_player as JustAudioPlayer).setShuffleModeEnabled(enabled);
+    if (_player is LibMPV && (_player as LibMPV).isAudioQueueActive) {
+      await (_player as LibMPV).setShuffleModeEnabled(enabled);
     }
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(shuffleEnabled: enabled));
   }
 
   Future<void> setAudioRepeatMode(AudioRepeatMode repeatMode) async {
-    if (_player is JustAudioPlayer) {
-      await (_player as JustAudioPlayer).setAudioRepeatMode(repeatMode);
+    if (_player is LibMPV && (_player as LibMPV).isAudioQueueActive) {
+      await (_player as LibMPV).setAudioRepeatMode(repeatMode);
     }
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(repeatMode: repeatMode));
+  }
+
+  Future<void> reorderAudioQueue(List<ItemBaseModel> queue) async {
+    if (_player is LibMPV && (_player as LibMPV).isAudioQueueActive) {
+      await (_player as LibMPV).reorderAudioQueue(queue);
+    }
+  }
+
+  List<ItemBaseModel> audioQueueForDisplay({required bool wrapAround}) {
+    if (_player is LibMPV && (_player as LibMPV).isAudioQueueActive) {
+      return (_player as LibMPV).queueForDisplay(wrapAround: wrapAround);
+    }
+
+    final playbackModel = ref.read(playBackModel);
+    if (playbackModel == null || playbackModel.queue.isEmpty) {
+      return const <ItemBaseModel>[];
+    }
+
+    final queue = playbackModel.queue;
+    final currentIndex = queue.indexWhere((item) => item.id == playbackModel.item.id);
+    if (currentIndex < 0) {
+      return List<ItemBaseModel>.from(queue);
+    }
+
+    return <ItemBaseModel>[
+      ...queue.sublist(currentIndex),
+      if (wrapAround) ...queue.sublist(0, currentIndex),
+    ];
   }
 
   Uri buildAudioUrl(ItemBaseModel item) {
@@ -229,7 +263,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
     final queue = playbackModel.queue;
     if (index < 0 || index >= queue.length) return;
-    if (queue[index].id == playbackModel.item.id) return;
+    if (queue[index].id == playbackModel.item.id) {
+      await _refreshMediaControls(model: playbackModel, playing: _player?.lastState.playing ?? false);
+      return;
+    }
 
     final nextModel = await ref.read(playbackModelHelper).createPlaybackModel(
           null,
@@ -345,8 +382,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   @override
   Future<void> skipToNext() async {
-    if (_player is JustAudioPlayer) {
-      await (_player as JustAudioPlayer).skipToNext();
+    if (_player is LibMPV && (_player as LibMPV).isAudioQueueActive) {
+      await (_player as LibMPV).skipToNext();
       return;
     }
     return loadNextVideo();
@@ -354,8 +391,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   @override
   Future<void> skipToPrevious() async {
-    if (_player is JustAudioPlayer) {
-      await (_player as JustAudioPlayer).skipToPrevious();
+    if (_player is LibMPV && (_player as LibMPV).isAudioQueueActive) {
+      await (_player as LibMPV).skipToPrevious();
       return;
     }
     return loadPreviousVideo();
@@ -368,12 +405,13 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       playing: false,
       controls: [MediaControl.play],
     ));
-    WakelockPlus.disable();
+    await WakelockPlus.disable();
     final playerState = _player;
     if (playerState != null) {
       final model = ref.read(playBackModel);
       if (model != null) {
         await _updatePositionWithRetry(model, playerState.lastState.position, false);
+        await _refreshMediaControls(model: model, playing: false);
       }
     }
     return super.pause();
@@ -381,7 +419,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   @override
   Future<void> play() async {
-    WakelockPlus.enable();
+    // Only enable wakelock for video; audio can continue with screen off
+    final playBackItem = ref.read(playBackModel.select((value) => value?.item));
+    if (playBackItem is! AudioModel) {
+      await WakelockPlus.enable();
+    }
+
     await _player?.play();
 
     final currentPosition = await ref.read(playBackModel.select((value) => value?.startDuration()));
@@ -389,9 +432,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       _isNewPlayback = false;
       ref.read(playBackModel)?.playbackStarted(currentPosition ?? Duration.zero, ref);
     }
-
-    final playBackItem = ref.read(playBackModel.select((value) => value?.item));
     if (playBackItem == null) return;
+
+    final playbackModel = ref.read(playBackModel);
+    if (playbackModel != null) {
+      await _refreshMediaControls(model: playbackModel, playing: true);
+    }
 
     return super.play();
   }
@@ -412,6 +458,17 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     final hasNextVideo = ref.read(playBackModel.select((value) => value?.nextVideo != null));
     final hasPreviousVideo = ref.read(playBackModel.select((value) => value?.previousVideo != null));
 
+    final queue = playbackModel.queue;
+    final currentQueueIndex = queue.indexWhere((entry) => entry.id == playbackModel.item.id);
+    final hasAudioQueue = queue.length > 1;
+    final hasNextAudio = hasAudioQueue && (currentQueueIndex >= 0 ? currentQueueIndex < queue.length - 1 : true);
+    final hasPreviousAudio = hasAudioQueue && (currentQueueIndex > 0 || currentQueueIndex == -1);
+
+    final canSkipNext = hasNextVideo || hasNextAudio;
+    final canSkipPrevious = hasPreviousVideo || hasPreviousAudio;
+
+    final isMusic = playBackItem is AudioModel;
+
     mediaItem.add(MediaItem(
       id: playBackItem.id,
       title: playBackItem.title,
@@ -423,16 +480,16 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       playing: playing,
       controls: [
         if (playing) MediaControl.pause else MediaControl.play,
-        if (hasNextVideo) MediaControl.skipToNext,
-        if (hasPreviousVideo) MediaControl.skipToPrevious,
+        if (canSkipNext) MediaControl.skipToNext,
+        if (canSkipPrevious) MediaControl.skipToPrevious,
       ],
       systemActions: {
-        if (hasNextVideo) MediaAction.skipToNext,
-        if (hasPreviousVideo) MediaAction.skipToPrevious,
+        if (canSkipNext) MediaAction.skipToNext,
+        if (canSkipPrevious) MediaAction.skipToPrevious,
         MediaAction.seek,
-        MediaAction.fastForward,
+        if (!isMusic) MediaAction.fastForward,
         MediaAction.setSpeed,
-        MediaAction.rewind,
+        if (!isMusic) MediaAction.rewind,
       },
       processingState: AudioProcessingState.ready,
     ));
@@ -482,7 +539,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     await playbackModel.playbackStopped(position ?? Duration.zero, totalDuration, ref);
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(position: Duration.zero));
 
-    if (_player is JustAudioPlayer) {
+    if (_player is LibMPV && (_player as LibMPV).isAudioQueueActive) {
       await _restorePreviousPlayer();
     }
 
@@ -509,9 +566,13 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     ));
 
     if (playing) {
-      WakelockPlus.enable();
+      // Only enable wakelock for video; audio can continue with screen off
+      final playBackItem = ref.read(playBackModel.select((value) => value?.item));
+      if (playBackItem is! AudioModel) {
+        await WakelockPlus.enable();
+      }
     } else {
-      WakelockPlus.disable();
+      await WakelockPlus.disable();
     }
 
     final playerState = _player;

@@ -1,9 +1,10 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:volume_controller/volume_controller.dart';
@@ -178,4 +179,10 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setEnableEdgeGestures(bool value) => state = state.copyWith(enableEdgeGestures: value);
 
   void setReverseEdgeGestures(bool value) => state = state.copyWith(reverseEdgeGestures: value);
+
+  void setEnableReplayGain(bool value) => state = state.copyWith(enableReplayGain: value);
+
+  void setReplayGainMode(ReplayGainMode value) => state = state.copyWith(replayGainMode: value);
+
+  void setReplayGainVolumeLevel(ReplayGainVolumeLevel value) => state = state.copyWith(replayGainVolumeLevel: value);
 }
