@@ -23,6 +23,7 @@ void showFullScreenItemQueue(
         child: VideoPlayerQueue(
           items: items,
           currentItem: currentItem,
+          onListChanged: onListChanged,
           playSelected: playSelected,
         ),
       );

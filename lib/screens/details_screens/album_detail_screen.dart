@@ -28,31 +28,11 @@ class AlbumDetailScreen extends ConsumerStatefulWidget {
 class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
   late final AlbumDetailsNotifier provider = ref.read(albumDetailsProvider(widget.item.id).notifier);
 
-  Color? backgroundColor;
-  ImageProvider? _lastImageProvider;
-
-  void _updateBackgroundColor(dynamic imageData) {
-    final provider = imageData?.imageProvider;
-    if (provider == null || identical(provider, _lastImageProvider)) return;
-    _lastImageProvider = provider;
-
-    getDominantColor(provider).then((color) {
-      if (!mounted || !identical(provider, _lastImageProvider)) return;
-      setState(() {
-        backgroundColor = color;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final album = ref.watch(albumDetailsProvider(widget.item.id));
     final current = album ?? widget.item;
     final tracks = current.tracks;
-    final imageData = current.images?.primary ?? current.images?.backDrop?.firstOrNull;
-    if (backgroundColor == null) {
-      _updateBackgroundColor(imageData);
-    }
 
     final artistLabel = current.artistLabel.isNotEmpty ? current.artistLabel : 'Artist';
     final mainArtistLabel = artistLabel.split(',').first.trim();
@@ -88,19 +68,6 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
           children: [
             Container(
               width: double.infinity,
-              decoration: BoxDecoration(
-                image: imageData != null
-                    ? DecorationImage(
-                        image: imageData.imageProvider,
-                        fit: BoxFit.cover,
-                        opacity: 0.1,
-                        colorFilter: ColorFilter.mode(
-                          backgroundColor ?? Colors.black,
-                          BlendMode.softLight,
-                        ),
-                      )
-                    : null,
-              ),
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -157,46 +124,50 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                             ),
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              context.localized.musicAlbum(1).toUpperCase(),
-                              style: Theme.of(context).textTheme.labelLarge?.copyWith(letterSpacing: 1.5),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(current.name, style: Theme.of(context).textTheme.displaySmall),
-                            const SizedBox(height: 14),
-                            ClickableText(
-                              text: mainArtistLabel,
-                              style: Theme.of(context).textTheme.titleLarge,
-                              onTap:
-                                  hasArtistNavigation ? () => current.parentBaseModel.navigateTo(detailsContext) : null,
-                            ),
-                            if (albumMeta.isNotEmpty) ...[
-                              const SizedBox(height: 12),
-                              Text(albumMeta, style: Theme.of(context).textTheme.bodyLarge),
-                            ],
-                            const SizedBox(height: 24),
-                            Row(
-                              spacing: 8,
-                              children: [
-                                IconButton.filled(
-                                  autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
-                                  onPressed: tracks.isNotEmpty ? () => album.play(detailsContext, ref) : null,
-                                  icon: const Icon(
-                                    IconsaxPlusBold.play,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: tracks.isNotEmpty ? () => album.play(detailsContext, ref) : null,
-                                  icon: const Icon(
-                                    IconsaxPlusLinear.shuffle,
-                                  ),
-                                ),
+                        IntrinsicWidth(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                context.localized.musicAlbum(1).toUpperCase(),
+                                style: Theme.of(context).textTheme.labelLarge?.copyWith(letterSpacing: 1.5),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(current.name, style: Theme.of(context).textTheme.displaySmall),
+                              const SizedBox(height: 14),
+                              ClickableText(
+                                text: mainArtistLabel,
+                                style: Theme.of(context).textTheme.titleLarge,
+                                onTap: hasArtistNavigation
+                                    ? () => current.parentBaseModel.navigateTo(detailsContext)
+                                    : null,
+                              ),
+                              if (albumMeta.isNotEmpty) ...[
+                                const SizedBox(height: 12),
+                                Text(albumMeta, style: Theme.of(context).textTheme.bodyLarge),
                               ],
-                            )
-                          ],
+                              const SizedBox(height: 24),
+                              Row(
+                                spacing: 8,
+                                children: [
+                                  IconButton.filled(
+                                    autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+                                    onPressed: tracks.isNotEmpty ? () => album.play(detailsContext, ref) : null,
+                                    icon: const Icon(
+                                      IconsaxPlusBold.play,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: tracks.isNotEmpty ? () => album.play(detailsContext, ref) : null,
+                                    icon: const Icon(
+                                      IconsaxPlusLinear.shuffle,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ],
                     ),

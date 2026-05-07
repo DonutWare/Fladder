@@ -161,12 +161,15 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     int currentIndex,
     Duration startPosition,
   ) async {
+    final currentPlayerState = ref.read(mediaPlaybackProvider).state;
+    final keepFullScreenLayout = currentPlayerState == VideoPlayerState.fullScreen;
+
     ref.read(playBackModel.notifier).update((state) => model);
     ref.read(playbackRateProvider.notifier).state = 1.0;
 
     mediaState.update((state) => state.copyWith(
-          state: VideoPlayerState.minimized,
-          fullScreen: false,
+          state: keepFullScreenLayout ? VideoPlayerState.fullScreen : VideoPlayerState.minimized,
+          fullScreen: keepFullScreenLayout,
           buffering: true,
           errorPlaying: false,
           skippedSegments: {},
@@ -198,11 +201,10 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     final playbackModel = ref.read(playBackModel);
     if (playbackModel == null) return;
 
-    final currentIndex = queue.indexWhere((element) => element.id == playbackModel.item.id).clamp(0, queue.length - 1);
+    await state.reorderAudioQueue(queue);
+
     final updatedModel = _updateQueueOnModel(playbackModel, queue);
     ref.read(playBackModel.notifier).update((state) => updatedModel);
-
-    await loadAudioPlaybackItem(updatedModel, queue, currentIndex, ref.read(mediaPlaybackProvider).position);
   }
 
   Future<void> playAudioQueueItem(ItemBaseModel item) async {

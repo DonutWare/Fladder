@@ -10,7 +10,6 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
-import 'package:fladder/screens/video_player/audio_player_full_screen.dart';
 import 'package:fladder/screens/video_player/video_player.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -43,10 +42,16 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
     setState(() => showExpandButton = false);
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
     final item = ref.read(playBackModel.select((value) => value?.item));
+    if (item is AudioModel) {
+      if (context.mounted) {
+        await context.refreshData();
+      }
+      return;
+    }
     await Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute(
         builder: (context) {
-          return item is AudioModel ? const AudioPlayerFullScreen() : const VideoPlayer();
+          return const VideoPlayer();
         },
       ),
     );
