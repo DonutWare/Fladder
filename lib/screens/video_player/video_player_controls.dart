@@ -128,7 +128,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
               children: [
                 Positioned.fill(
                   child: GestureDetector(
-                    onTap: initInputDevice == InputDevice.pointer ? () => player.playOrPause() : () => toggleOverlay(),
+                    onTap: initInputDevice == InputDevice.pointer ? null : () => toggleOverlay(),
                     onDoubleTapDown: initInputDevice == InputDevice.touch ? _handleDoubleTapDown : null,
                     onDoubleTap: initInputDevice == InputDevice.pointer
                         ? () => fullScreenHelper.toggleFullScreen(ref)
@@ -138,6 +138,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     onVerticalDragStart: initInputDevice == InputDevice.touch ? _handleVerticalDragStart : null,
                     onVerticalDragUpdate: initInputDevice == InputDevice.touch ? _handleVerticalDragUpdate : null,
                     onVerticalDragEnd: initInputDevice == InputDevice.touch ? _handleVerticalDragEnd : null,
+                    //better play/pause handling on Desktop (works with dragging on click)
+                    onHorizontalDragDown:
+                        initInputDevice == InputDevice.pointer ? (details) => player.playOrPause() : null,
                   ),
                 ),
                 if (subtitleWidget != null) subtitleWidget,
