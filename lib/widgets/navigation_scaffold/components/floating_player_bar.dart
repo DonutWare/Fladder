@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:intl/intl.dart';
 import 'package:overflow_view/overflow_view.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -66,6 +68,13 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
     final playbackInfo = ref.watch(mediaPlaybackProvider);
     final player = ref.watch(videoPlayerProvider);
     final item = ref.watch(playBackModel.select((value) => value?.item));
+    final episodeAirDate = item is EpisodeModel && item.dateAired != null
+        ? DateFormat.yMMMEd(context.localized.localeName).format(item.dateAired!)
+        : null;
+    final subtitleText = [
+      if (item?.detailedName(context.localized)?.isNotEmpty == true) item?.detailedName(context.localized),
+      if (episodeAirDate != null) episodeAirDate,
+    ].nonNulls.join(' - ');
     if (!changingSliderValue) {
       lastPosition = playbackInfo.position;
     }
@@ -199,10 +208,10 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
                                         maxLines: 1,
                                       ),
                                     ),
-                                    if (item?.detailedName(context.localized)?.isNotEmpty == true)
+                                    if (subtitleText.isNotEmpty)
                                       Flexible(
                                         child: Text(
-                                          item?.detailedName(context.localized) ?? "",
+                                          subtitleText,
                                           overflow: TextOverflow.ellipsis,
                                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                                 color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65),
