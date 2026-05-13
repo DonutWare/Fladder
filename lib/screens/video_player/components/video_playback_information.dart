@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/session_info_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -28,6 +30,10 @@ class _VideoPlaybackInformation extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final playbackModel = ref.watch(playBackModel);
     final sessionInfo = ref.watch(sessionInfoProvider);
+    final playbackItem = playbackModel?.item;
+    final episodeAirDate = playbackItem is EpisodeModel && playbackItem.dateAired != null
+        ? DateFormat.yMMMEd(context.localized.localeName).format(playbackItem.dateAired!)
+        : null;
     final backend = ref.read(videoPlayerProvider.select((value) => value.backend));
     final playbackState = ref.watch(videoPlayerProvider.select((value) => value.lastState));
     return Dialog(
@@ -97,6 +103,11 @@ class _VideoPlaybackInformation extends ConsumerWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [const Text('type: '), Text(playbackModel.label(context) ?? "")],
                         ),
+                        if (episodeAirDate != null)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [const Text('air date: '), Text(episodeAirDate)],
+                          ),
                         if (sessionInfo.transCodeInfo != null) ...[
                           Text("Transcoding", style: Theme.of(context).textTheme.titleMedium),
                           if (sessionInfo.transCodeInfo?.transcodeReasons?.isNotEmpty == true)
