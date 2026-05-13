@@ -8,9 +8,11 @@ import 'package:flutter/services.dart';
 import 'package:async/async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:intl/intl.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
@@ -452,8 +454,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       builder: (context, ref, child) {
         final playbackModel = ref.watch(playBackModel);
         final item = playbackModel?.item;
+        final episodeAirDate = item is EpisodeModel && item.dateAired != null
+            ? DateFormat.yMMMEd(context.localized.localeName).format(item.dateAired!)
+            : null;
         final List<String?> details = [
           if (AdaptiveLayout.of(context).isDesktop) item?.label(context.localized),
+          if (episodeAirDate != null) episodeAirDate,
           context.localized.endsAt(DateTime.now().add(Duration(
             milliseconds: (mediaPlayback.duration.inMilliseconds - mediaPlayback.position.inMilliseconds) ~/
                 ref.read(playbackRateProvider),
