@@ -71,8 +71,9 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
     final episodeAirDate = item is EpisodeModel && item.dateAired != null
         ? DateFormat.yMMMEd(context.localized.localeName).format(item.dateAired!)
         : null;
+    final detailedName = item?.detailedName(context.localized);
     final subtitleText = [
-      if (item?.detailedName(context.localized)?.isNotEmpty == true) item?.detailedName(context.localized),
+      if (detailedName?.isNotEmpty == true) detailedName,
       if (episodeAirDate != null) episodeAirDate,
     ].nonNulls.join(' - ');
     if (!changingSliderValue) {
