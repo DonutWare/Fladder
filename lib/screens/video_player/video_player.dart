@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/tv_playback_model.dart';
+import 'package:fladder/providers/pip_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/video_player/components/video_player_guide_wrapper.dart';
@@ -17,6 +19,7 @@ import 'package:fladder/screens/video_player/video_player_controls.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/themes_data.dart';
 import 'package:fladder/widgets/shared/back_intent_dpad.dart';
+import 'package:fladder/wrappers/pip_manager.dart';
 
 class VideoPlayer extends ConsumerStatefulWidget {
   const VideoPlayer({super.key});
@@ -33,10 +36,14 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
 
   late PlaybackModel? currentPlaybackModel = ref.read(playBackModel);
 
+  PipManager? _pipManager;
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //Don't pause on desktop focus loss
     if (!(AdaptiveLayout.of(context).isDesktop || kIsWeb)) {
+      // Don't pause when entering PiP — playback must continue.
+      final inPip = ref.read(pipStateProvider).asData?.value ?? false;
       switch (state) {
         case AppLifecycleState.resumed:
           if (playing) ref.read(videoPlayerProvider).play();
@@ -44,7 +51,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
         case AppLifecycleState.hidden:
         case AppLifecycleState.paused:
         case AppLifecycleState.detached:
-          if (playing) ref.read(videoPlayerProvider).pause();
+          if (playing && !inPip) ref.read(videoPlayerProvider).pause();
           break;
         default:
           break;
@@ -56,6 +63,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+    _pipManager?.disable();
     super.dispose();
   }
 
@@ -70,6 +78,16 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
           orientations?.isNotEmpty == true ? orientations!.toList() : DeviceOrientation.values);
       return ref.read(videoPlayerSettingsProvider.notifier).setSavedBrightness();
     });
+    Future.microtask(_maybeConfigurePip);
+  }
+
+  void _maybeConfigurePip() {
+    if (kIsWeb) return;
+    if (!(Platform.isAndroid || Platform.isIOS)) return;
+    _pipManager = ref.read(pipManagerProvider);
+    final autoEnter = ref.read(videoPlayerSettingsProvider).enablePictureInPicture;
+    // 16:9 default — PlayerState does not expose real video dimensions.
+    _pipManager?.enable(aspectWidth: 16.0, aspectHeight: 9.0, autoEnter: autoEnter);
   }
 
   @override
@@ -100,6 +118,14 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
         if (previous != next) {
           SystemChrome.setPreferredOrientations(next?.isNotEmpty == true ? next!.toList() : DeviceOrientation.values);
         }
+      },
+    );
+
+    ref.listen(
+      videoPlayerSettingsProvider.select((value) => value.enablePictureInPicture),
+      (previous, next) {
+        if (previous == next) return;
+        _pipManager?.enable(aspectWidth: 16.0, aspectHeight: 9.0, autoEnter: next);
       },
     );
 

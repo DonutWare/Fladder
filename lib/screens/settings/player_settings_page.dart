@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -78,6 +80,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                         : Container(),
                   ),
                 ],
+              ),
+            if (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
+              SettingsListTile(
+                label: Text(context.localized.pictureInPictureAutoTitle),
+                subLabel: Text(context.localized.pictureInPictureSubtitle),
+                onTap: () => provider.setEnablePictureInPicture(!videoSettings.enablePictureInPicture),
+                trailing: Switch(
+                  value: videoSettings.enablePictureInPicture,
+                  onChanged: (value) => provider.setEnablePictureInPicture(value),
+                ),
               ),
             SettingsListTileEnum(
               label: Text(context.localized.videoScaling),

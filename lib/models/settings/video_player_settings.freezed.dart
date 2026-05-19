@@ -37,6 +37,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   bool get enableAdvancedVideoOptions;
   bool get enableEdgeGestures;
   bool get reverseEdgeGestures;
+  bool get enablePictureInPicture;
   bool get enableReplayGain;
   ReplayGainVolumeLevel get replayGainVolumeLevel;
   bool get enablePlayPauseFade;
@@ -48,7 +49,8 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $VideoPlayerSettingsModelCopyWith<VideoPlayerSettingsModel> get copyWith =>
-      _$VideoPlayerSettingsModelCopyWithImpl<VideoPlayerSettingsModel>(this as VideoPlayerSettingsModel, _$identity);
+      _$VideoPlayerSettingsModelCopyWithImpl<VideoPlayerSettingsModel>(
+          this as VideoPlayerSettingsModel, _$identity);
 
   /// Serializes this VideoPlayerSettingsModel to a JSON map.
   Map<String, dynamic> toJson();
@@ -77,9 +79,12 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('enableSpeedBoost', enableSpeedBoost))
       ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
-      ..add(DiagnosticsProperty('enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty(
+          'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
       ..add(DiagnosticsProperty('enableEdgeGestures', enableEdgeGestures))
       ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures))
+      ..add(
+          DiagnosticsProperty('enablePictureInPicture', enablePictureInPicture))
       ..add(DiagnosticsProperty('enableReplayGain', enableReplayGain))
       ..add(DiagnosticsProperty('replayGainVolumeLevel', replayGainVolumeLevel))
       ..add(DiagnosticsProperty('enablePlayPauseFade', enablePlayPauseFade))
@@ -89,14 +94,14 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs)';
   }
 }
 
 /// @nodoc
 abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
-  factory $VideoPlayerSettingsModelCopyWith(
-          VideoPlayerSettingsModel value, $Res Function(VideoPlayerSettingsModel) _then) =
+  factory $VideoPlayerSettingsModelCopyWith(VideoPlayerSettingsModel value,
+          $Res Function(VideoPlayerSettingsModel) _then) =
       _$VideoPlayerSettingsModelCopyWithImpl;
   @useResult
   $Res call(
@@ -123,6 +128,7 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       bool enableAdvancedVideoOptions,
       bool enableEdgeGestures,
       bool reverseEdgeGestures,
+      bool enablePictureInPicture,
       bool enableReplayGain,
       ReplayGainVolumeLevel replayGainVolumeLevel,
       bool enablePlayPauseFade,
@@ -131,7 +137,8 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$VideoPlayerSettingsModelCopyWithImpl<$Res> implements $VideoPlayerSettingsModelCopyWith<$Res> {
+class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
+    implements $VideoPlayerSettingsModelCopyWith<$Res> {
   _$VideoPlayerSettingsModelCopyWithImpl(this._self, this._then);
 
   final VideoPlayerSettingsModel _self;
@@ -165,6 +172,7 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res> implements $VideoPlayerSettin
     Object? enableAdvancedVideoOptions = null,
     Object? enableEdgeGestures = null,
     Object? reverseEdgeGestures = null,
+    Object? enablePictureInPicture = null,
     Object? enableReplayGain = null,
     Object? replayGainVolumeLevel = null,
     Object? enablePlayPauseFade = null,
@@ -263,6 +271,10 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res> implements $VideoPlayerSettin
       reverseEdgeGestures: null == reverseEdgeGestures
           ? _self.reverseEdgeGestures
           : reverseEdgeGestures // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enablePictureInPicture: null == enablePictureInPicture
+          ? _self.enablePictureInPicture
+          : enablePictureInPicture // ignore: cast_nullable_to_non_nullable
               as bool,
       enableReplayGain: null == enableReplayGain
           ? _self.enableReplayGain
@@ -405,6 +417,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enableAdvancedVideoOptions,
             bool enableEdgeGestures,
             bool reverseEdgeGestures,
+            bool enablePictureInPicture,
             bool enableReplayGain,
             ReplayGainVolumeLevel replayGainVolumeLevel,
             bool enablePlayPauseFade,
@@ -440,6 +453,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enableAdvancedVideoOptions,
             _that.enableEdgeGestures,
             _that.reverseEdgeGestures,
+            _that.enablePictureInPicture,
             _that.enableReplayGain,
             _that.replayGainVolumeLevel,
             _that.enablePlayPauseFade,
@@ -489,6 +503,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enableAdvancedVideoOptions,
             bool enableEdgeGestures,
             bool reverseEdgeGestures,
+            bool enablePictureInPicture,
             bool enableReplayGain,
             ReplayGainVolumeLevel replayGainVolumeLevel,
             bool enablePlayPauseFade,
@@ -523,6 +538,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enableAdvancedVideoOptions,
             _that.enableEdgeGestures,
             _that.reverseEdgeGestures,
+            _that.enablePictureInPicture,
             _that.enableReplayGain,
             _that.replayGainVolumeLevel,
             _that.enablePlayPauseFade,
@@ -571,6 +587,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enableAdvancedVideoOptions,
             bool enableEdgeGestures,
             bool reverseEdgeGestures,
+            bool enablePictureInPicture,
             bool enableReplayGain,
             ReplayGainVolumeLevel replayGainVolumeLevel,
             bool enablePlayPauseFade,
@@ -605,6 +622,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enableAdvancedVideoOptions,
             _that.enableEdgeGestures,
             _that.reverseEdgeGestures,
+            _that.enablePictureInPicture,
             _that.enableReplayGain,
             _that.replayGainVolumeLevel,
             _that.enablePlayPauseFade,
@@ -618,7 +636,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
 
 /// @nodoc
 @JsonSerializable()
-class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with DiagnosticableTreeMixin {
+class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
+    with DiagnosticableTreeMixin {
   _VideoPlayerSettingsModel(
       {this.screenBrightness,
       this.videoFit = BoxFit.contain,
@@ -634,7 +653,8 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
       this.maxHomeBitrate = Bitrate.original,
       this.maxInternetBitrate = Bitrate.original,
       this.audioDevice,
-      final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings = defaultSegmentSkipValues,
+      final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings =
+          defaultSegmentSkipValues,
       final Map<VideoHotKeys, KeyCombination> hotKeys = const {},
       this.screensaver = Screensaver.logo,
       this.enableSpeedBoost = false,
@@ -643,6 +663,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
       this.enableAdvancedVideoOptions = false,
       this.enableEdgeGestures = true,
       this.reverseEdgeGestures = false,
+      this.enablePictureInPicture = true,
       this.enableReplayGain = true,
       this.replayGainVolumeLevel = ReplayGainVolumeLevel.quiet,
       this.enablePlayPauseFade = true,
@@ -652,7 +673,8 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
         _segmentSkipSettings = segmentSkipSettings,
         _hotKeys = hotKeys,
         super._();
-  factory _VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) => _$VideoPlayerSettingsModelFromJson(json);
+  factory _VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) =>
+      _$VideoPlayerSettingsModelFromJson(json);
 
   @override
   final double? screenBrightness;
@@ -684,7 +706,8 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
   Set<DeviceOrientation>? get allowedOrientations {
     final value = _allowedOrientations;
     if (value == null) return null;
-    if (_allowedOrientations is EqualUnmodifiableSetView) return _allowedOrientations;
+    if (_allowedOrientations is EqualUnmodifiableSetView)
+      return _allowedOrientations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(value);
   }
@@ -704,7 +727,8 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
   @override
   @JsonKey()
   Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings {
-    if (_segmentSkipSettings is EqualUnmodifiableMapView) return _segmentSkipSettings;
+    if (_segmentSkipSettings is EqualUnmodifiableMapView)
+      return _segmentSkipSettings;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_segmentSkipSettings);
   }
@@ -741,6 +765,9 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
   final bool reverseEdgeGestures;
   @override
   @JsonKey()
+  final bool enablePictureInPicture;
+  @override
+  @JsonKey()
   final bool enableReplayGain;
   @override
   @JsonKey()
@@ -761,7 +788,8 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   _$VideoPlayerSettingsModelCopyWith<_VideoPlayerSettingsModel> get copyWith =>
-      __$VideoPlayerSettingsModelCopyWithImpl<_VideoPlayerSettingsModel>(this, _$identity);
+      __$VideoPlayerSettingsModelCopyWithImpl<_VideoPlayerSettingsModel>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -794,9 +822,12 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
       ..add(DiagnosticsProperty('enableSpeedBoost', enableSpeedBoost))
       ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
-      ..add(DiagnosticsProperty('enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty(
+          'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
       ..add(DiagnosticsProperty('enableEdgeGestures', enableEdgeGestures))
       ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures))
+      ..add(
+          DiagnosticsProperty('enablePictureInPicture', enablePictureInPicture))
       ..add(DiagnosticsProperty('enableReplayGain', enableReplayGain))
       ..add(DiagnosticsProperty('replayGainVolumeLevel', replayGainVolumeLevel))
       ..add(DiagnosticsProperty('enablePlayPauseFade', enablePlayPauseFade))
@@ -806,14 +837,15 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res> implements $VideoPlayerSettingsModelCopyWith<$Res> {
-  factory _$VideoPlayerSettingsModelCopyWith(
-          _VideoPlayerSettingsModel value, $Res Function(_VideoPlayerSettingsModel) _then) =
+abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
+    implements $VideoPlayerSettingsModelCopyWith<$Res> {
+  factory _$VideoPlayerSettingsModelCopyWith(_VideoPlayerSettingsModel value,
+          $Res Function(_VideoPlayerSettingsModel) _then) =
       __$VideoPlayerSettingsModelCopyWithImpl;
   @override
   @useResult
@@ -841,6 +873,7 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res> implements $VideoP
       bool enableAdvancedVideoOptions,
       bool enableEdgeGestures,
       bool reverseEdgeGestures,
+      bool enablePictureInPicture,
       bool enableReplayGain,
       ReplayGainVolumeLevel replayGainVolumeLevel,
       bool enablePlayPauseFade,
@@ -849,7 +882,8 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res> implements $VideoP
 }
 
 /// @nodoc
-class __$VideoPlayerSettingsModelCopyWithImpl<$Res> implements _$VideoPlayerSettingsModelCopyWith<$Res> {
+class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
+    implements _$VideoPlayerSettingsModelCopyWith<$Res> {
   __$VideoPlayerSettingsModelCopyWithImpl(this._self, this._then);
 
   final _VideoPlayerSettingsModel _self;
@@ -883,6 +917,7 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res> implements _$VideoPlayerSett
     Object? enableAdvancedVideoOptions = null,
     Object? enableEdgeGestures = null,
     Object? reverseEdgeGestures = null,
+    Object? enablePictureInPicture = null,
     Object? enableReplayGain = null,
     Object? replayGainVolumeLevel = null,
     Object? enablePlayPauseFade = null,
@@ -981,6 +1016,10 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res> implements _$VideoPlayerSett
       reverseEdgeGestures: null == reverseEdgeGestures
           ? _self.reverseEdgeGestures
           : reverseEdgeGestures // ignore: cast_nullable_to_non_nullable
+              as bool,
+      enablePictureInPicture: null == enablePictureInPicture
+          ? _self.enablePictureInPicture
+          : enablePictureInPicture // ignore: cast_nullable_to_non_nullable
               as bool,
       enableReplayGain: null == enableReplayGain
           ? _self.enableReplayGain

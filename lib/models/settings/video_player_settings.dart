@@ -104,6 +104,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool enableAdvancedVideoOptions,
     @Default(true) bool enableEdgeGestures,
     @Default(false) bool reverseEdgeGestures,
+    @Default(true) bool enablePictureInPicture,
     @Default(true) bool enableReplayGain,
     @Default(ReplayGainVolumeLevel.quiet) ReplayGainVolumeLevel replayGainVolumeLevel,
     @Default(true) bool enablePlayPauseFade,

@@ -1186,6 +1186,22 @@
   "@videoScalingFillScreenNotif": {},
   "videoScalingFillScreenTitle": "Fill screen",
   "@videoScalingFillScreenTitle": {},
+  "pictureInPictureTitle": "Picture-in-Picture",
+  "@pictureInPictureTitle": {
+    "description": "Tooltip on the in-player PiP button"
+  },
+  "pictureInPictureAutoTitle": "Auto Picture-in-Picture",
+  "@pictureInPictureAutoTitle": {
+    "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+  },
+  "pictureInPictureSubtitle": "Automatically enter Picture-in-Picture when you leave the player. The PiP button in the controls always works regardless of this setting.",
+  "@pictureInPictureSubtitle": {
+    "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+  },
+  "pictureInPictureNotSupported": "Picture-in-Picture is not available on this device",
+  "@pictureInPictureNotSupported": {
+    "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+  },
   "videoScalingFitHeight": "Fit Height",
   "@videoScalingFitHeight": {},
   "videoScalingFitWidth": "Fit Width",
