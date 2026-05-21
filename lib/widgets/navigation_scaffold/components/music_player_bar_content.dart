@@ -5,6 +5,7 @@ import 'package:overflow_view/overflow_view.dart';
 
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/shared/player_bar_shared.dart';
@@ -57,6 +58,7 @@ class MusicFloatingPlayerBarContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewSize = AdaptiveLayout.viewSizeOf(context);
     return ThemeOverwrite(
         image: item.getPosters?.primary?.imageProvider,
         child: (context) {
@@ -103,7 +105,7 @@ class MusicFloatingPlayerBarContent extends StatelessWidget {
                             spacing: 4,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              if (constraints.maxWidth > 450)
+                              if (viewSize > ViewSize.phone)
                                 Flexible(
                                   child: Text(
                                     "${lastPosition.readAbleDuration} / ${playbackInfo.duration.readAbleDuration}",
@@ -112,10 +114,11 @@ class MusicFloatingPlayerBarContent extends StatelessWidget {
                                         ),
                                   ),
                                 ),
-                              IconButton(
-                                onPressed: onPrevious,
-                                icon: const Icon(IconsaxPlusBold.previous),
-                              ),
+                              if (viewSize > ViewSize.phone)
+                                IconButton(
+                                  onPressed: onPrevious,
+                                  icon: const Icon(IconsaxPlusBold.previous),
+                                ),
                               IconButton.filledTonal(
                                 onPressed: onPlayPause,
                                 iconSize: 32,
@@ -123,10 +126,11 @@ class MusicFloatingPlayerBarContent extends StatelessWidget {
                                     ? const Icon(IconsaxPlusBold.pause)
                                     : const Icon(IconsaxPlusBold.play),
                               ),
-                              IconButton(
-                                onPressed: onNext,
-                                icon: const Icon(IconsaxPlusBold.next),
-                              ),
+                              if (viewSize > ViewSize.phone)
+                                IconButton(
+                                  onPressed: onNext,
+                                  icon: const Icon(IconsaxPlusBold.next),
+                                ),
                             ],
                           ),
                         ),
@@ -154,16 +158,18 @@ class MusicFloatingPlayerBarContent extends StatelessWidget {
                                       : Theme.of(context).colorScheme.primary,
                                 ),
                               ),
-                              OverflowView.flexible(
-                                builder: (context, remainingItemCount) => PopupMenuButton(
-                                  iconColor: Theme.of(context).colorScheme.onSurface.withAlpha(125),
-                                  padding: EdgeInsets.zero,
-                                  itemBuilder: (context) => itemActions
-                                      .sublist(itemActions.length - remainingItemCount)
-                                      .map((e) => e.toPopupMenuItem(useIcons: true))
-                                      .toList(),
+                              Flexible(
+                                child: OverflowView.flexible(
+                                  builder: (context, remainingItemCount) => PopupMenuButton(
+                                    iconColor: Theme.of(context).colorScheme.onSurface.withAlpha(125),
+                                    padding: EdgeInsets.zero,
+                                    itemBuilder: (context) => itemActions
+                                        .sublist(itemActions.length - remainingItemCount)
+                                        .map((e) => e.toPopupMenuItem(useIcons: true))
+                                        .toList(),
+                                  ),
+                                  children: itemActions.map((e) => e.toButton()).toList(),
                                 ),
-                                children: itemActions.map((e) => e.toButton()).toList(),
                               )
                             ],
                           ),

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' show Random;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -277,11 +278,16 @@ extension ArtistModelLatestTracksPlayback on ArtistModel? {
     AudioModel? startTrack,
     Duration? startPosition,
     bool showPlaybackOption = false,
+    bool? shuffleEnabled,
   }) async {
     final artist = this;
     if (artist == null) return;
 
     await ref.read(videoPlayerProvider.notifier).init();
+
+    if (shuffleEnabled != null) {
+      ref.read(mediaPlaybackProvider.notifier).update((s) => s.copyWith(shuffleEnabled: shuffleEnabled));
+    }
 
     final queueSource = ArtistLatestTracksQueueSource(artistId: artist.id, limit: 20);
     final queue = artist.tracks.isNotEmpty
@@ -295,7 +301,9 @@ extension ArtistModelLatestTracksPlayback on ArtistModel? {
 
     final selectedItem = startTrack != null
         ? queue.firstWhereOrNull((element) => element.id == startTrack.id) ?? queue.first
-        : queue.first;
+        : (shuffleEnabled == true && queue.length > 1)
+            ? queue[Random().nextInt(queue.length)]
+            : queue.first;
     final currentIndex = queue.indexWhere((element) => element.id == selectedItem.id).clamp(0, queue.length - 1);
 
     final op = CancelableOperation.fromFuture(ref.read(playbackModelHelper).createPlaybackModel(
@@ -323,6 +331,96 @@ extension ArtistModelLatestTracksPlayback on ArtistModel? {
           currentIndex,
           actualStartPosition,
         );
+  }
+}
+
+extension AudioModelListPlayback on List<AudioModel> {
+  Future<void> play(
+    BuildContext context,
+    WidgetRef ref, {
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+  }) async {
+    if (isEmpty) return;
+
+    await ref.read(videoPlayerProvider.notifier).init();
+
+    final queue = cast<ItemBaseModel>().toList();
+
+    final op = CancelableOperation.fromFuture(ref.read(playbackModelHelper).createPlaybackModel(
+          context,
+          queue.first,
+          libraryQueue: queue,
+          showPlaybackOptions: showPlaybackOption,
+          startPosition: startPosition,
+        ));
+
+    final model = await op.valueOrCancellation(null);
+    if (op.isCanceled || model == null) {
+      if (!op.isCanceled && !showPlaybackOption) {
+        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      }
+      return;
+    }
+
+    final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
+
+    await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
+          model,
+          queue,
+          0,
+          actualStartPosition,
+        );
+  }
+}
+
+extension AlbumModelAddToQueue on AlbumModel? {
+  Future<void> addToQueue(BuildContext context, WidgetRef ref) async {
+    final album = this;
+    if (album == null) return;
+
+    final queue = await _fetchAlbumQueue(album, ref);
+    if (queue.isEmpty) {
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      return;
+    }
+
+    await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue(queue);
+    if (context.mounted) {
+      FladderSnack.show(context.localized.addedToQueue(queue.length), context: context);
+    }
+  }
+}
+
+extension AudioModelAddToQueue on AudioModel? {
+  Future<void> addToQueue(BuildContext context, WidgetRef ref) async {
+    final audio = this;
+    if (audio == null) return;
+
+    await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue([audio]);
+    FladderSnack.show(context.localized.addedToQueue(1), context: context);
+  }
+}
+
+extension ArtistModelAddToQueue on ArtistModel? {
+  Future<void> addToQueue(BuildContext context, WidgetRef ref) async {
+    final artist = this;
+    if (artist == null) return;
+
+    final queueSource = ArtistLatestTracksQueueSource(artistId: artist.id, limit: 20);
+    final queue = artist.tracks.isNotEmpty
+        ? artist.tracks.cast<ItemBaseModel>().toList()
+        : await queueSource.fetchQueue(ref as Ref);
+
+    if (queue.isEmpty) {
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      return;
+    }
+
+    await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue(queue);
+    if (context.mounted) {
+      FladderSnack.show(context.localized.addedToQueue(queue.length), context: context);
+    }
   }
 }
 

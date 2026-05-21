@@ -24,6 +24,16 @@
   "@addToCollection": {},
   "addToPlaylist": "Add to playlist",
   "@addToPlaylist": {},
+  "addToQueue": "Add to queue",
+  "@addToQueue": {},
+  "addedToQueue": "{count, plural, one{Added {count} track to queue} other{Added {count} tracks to queue}}",
+  "@addedToQueue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "advanced": "Advanced",
   "@advanced": {},
   "all": "All",
@@ -2327,6 +2337,25 @@
     }
   },
   "now": "Now",
+  "@now": {},
+  "nowPlaying": "Now playing",
+  "@nowPlaying": {},
+  "upNext": "Up next",
+  "@upNext": {},
+  "queue": "Queue",
+  "@queue": {},
+  "queueIsEmpty": "Queue is empty",
+  "@queueIsEmpty": {},
+  "queueItemCount": "{count} items",
+  "@queueItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "removeFromQueue": "Remove from queue",
+  "@removeFromQueue": {},
   "noPrograms": "No programs available",
   "switchChannel": "Switch channel",
   "switchChannelDesc": "Do you want to watch \"{programName}\" on {channelName}?",

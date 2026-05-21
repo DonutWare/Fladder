@@ -5,6 +5,9 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/album_model.dart';
 import 'package:fladder/providers/items/album_details_provider.dart';
+import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/wrappers/media_control_wrapper.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/track_list.dart';
@@ -153,13 +156,23 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                                 children: [
                                   IconButton.filled(
                                     autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
-                                    onPressed: tracks.isNotEmpty ? () => album.play(detailsContext, ref) : null,
+                                    onPressed: tracks.isNotEmpty
+                                        ? () async {
+                                            await ref.read(videoPlayerProvider).setShuffleEnabled(false);
+                                            await album.play(detailsContext, ref);
+                                          }
+                                        : null,
                                     icon: const Icon(
                                       IconsaxPlusBold.play,
                                     ),
                                   ),
                                   IconButton(
-                                    onPressed: tracks.isNotEmpty ? () => album.play(detailsContext, ref) : null,
+                                    onPressed: tracks.isNotEmpty
+                                        ? () async {
+                                            await ref.read(videoPlayerProvider).setShuffleEnabled(true);
+                                            await album.play(detailsContext, ref);
+                                          }
+                                        : null,
                                     icon: const Icon(
                                       IconsaxPlusLinear.shuffle,
                                     ),
@@ -191,10 +204,19 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                       enableSorting: false,
                       tracks: tracks,
                       padding: padding,
-                      onTrackTap: (track) {},
                       onTrackPlayTap: (track) => track.play(detailsContext, ref),
                       onTrackArtistTap: (_) => current.parentBaseModel.navigateTo(detailsContext),
                       showAlbum: false,
+                      onPlaySelected: (selected) => selected.play(detailsContext, ref),
+                      onAddToQueueSelected: (selected) async {
+                        await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue(selected);
+                        if (detailsContext.mounted) {
+                          FladderSnack.show(
+                            detailsContext.localized.addedToQueue(selected.length),
+                            context: detailsContext,
+                          );
+                        }
+                      },
                       onTrackSecondaryTap: (track, details) {
                         track.showDetailsMenu(
                           context,

@@ -201,31 +201,27 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                   bottom: calculatedBottomViewPadding,
                 ),
               ),
-              child: Builder(
-                builder: (context) {
-                  if (!showAudioSidePanel) {
-                    return buildMainScaffold(context);
-                  }
-
-                  return LayoutBuilder(
-                    builder: (context, constraints) {
-                      final panelWidth = constraints.maxWidth / 3;
-                      return Row(
-                        children: [
-                          SizedBox(
-                            width: constraints.maxWidth - panelWidth,
-                            child: buildMainScaffold(context),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final panelWidth = constraints.maxWidth / 3;
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: buildMainScaffold(context),
+                      ),
+                      AnimatedSize(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        child: SizedBox(
+                          width: showAudioSidePanel ? panelWidth : 0,
+                          height: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 6.0),
+                            child: audioOverlay,
                           ),
-                          SizedBox(
-                            width: panelWidth,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 6.0),
-                              child: audioOverlay,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+                        ),
+                      ),
+                    ],
                   );
                 },
               ),

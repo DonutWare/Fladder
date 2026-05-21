@@ -10,6 +10,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -27,6 +28,7 @@ class TranscodePlaybackModel extends PlaybackModel {
     super.chapters,
     super.trickPlay,
     super.queue = const [],
+    super.playbackQueue,
     super.queueSource,
     super.bitRateOptions,
   });
@@ -126,8 +128,8 @@ class TranscodePlaybackModel extends PlaybackModel {
   }
 
   @override
-  TranscodePlaybackModel updateQueueModel(List<ItemBaseModel> newQueue) {
-    return copyWith(queue: newQueue);
+  TranscodePlaybackModel updatePlaybackQueue(PlaybackQueueState newQueue) {
+    return copyWith(playbackQueue: newQueue);
   }
 
   @override
@@ -144,6 +146,7 @@ class TranscodePlaybackModel extends PlaybackModel {
     ValueGetter<List<Chapter>?>? chapters,
     ValueGetter<TrickPlayModel?>? trickPlay,
     List<ItemBaseModel>? queue,
+    PlaybackQueueState? playbackQueue,
     PlaybackQueueSource? queueSource,
     Map<Bitrate, bool>? bitRateOptions,
   }) {
@@ -156,6 +159,7 @@ class TranscodePlaybackModel extends PlaybackModel {
       chapters: chapters != null ? chapters() : this.chapters,
       trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
       queue: queue ?? this.queue,
+      playbackQueue: playbackQueue ?? this.playbackQueue,
       queueSource: queueSource ?? this.queueSource,
       bitRateOptions: bitRateOptions ?? this.bitRateOptions,
     );

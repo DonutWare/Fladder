@@ -8,6 +8,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync_provider.dart';
@@ -25,6 +26,7 @@ class OfflinePlaybackModel extends PlaybackModel {
     super.mediaSegments,
     super.trickPlay,
     super.queue = const [],
+    super.playbackQueue,
     super.queueSource,
     this.syncedQueue = const [],
   });
@@ -111,8 +113,8 @@ class OfflinePlaybackModel extends PlaybackModel {
   }
 
   @override
-  OfflinePlaybackModel updateQueueModel(List<ItemBaseModel> newQueue) {
-    return copyWith(queue: newQueue);
+  OfflinePlaybackModel updatePlaybackQueue(PlaybackQueueState newQueue) {
+    return copyWith(playbackQueue: newQueue);
   }
 
   @override
@@ -127,6 +129,7 @@ class OfflinePlaybackModel extends PlaybackModel {
     ValueGetter<MediaSegmentsModel?>? mediaSegments,
     ValueGetter<TrickPlayModel?>? trickPlay,
     List<ItemBaseModel>? queue,
+    PlaybackQueueState? playbackQueue,
     PlaybackQueueSource? queueSource,
     List<SyncedItem>? syncedQueue,
   }) {
@@ -138,6 +141,7 @@ class OfflinePlaybackModel extends PlaybackModel {
       mediaSegments: mediaSegments != null ? mediaSegments() : this.mediaSegments,
       trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
       queue: queue ?? this.queue,
+      playbackQueue: playbackQueue ?? this.playbackQueue,
       queueSource: queueSource ?? this.queueSource,
       syncedQueue: syncedQueue ?? this.syncedQueue,
     );

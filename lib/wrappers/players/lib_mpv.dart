@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:math' show Random;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ import 'package:media_kit_video/media_kit_video.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
-import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
@@ -25,9 +23,7 @@ import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
 class LibMPV extends BasePlayer {
-  LibMPV({this.onCurrentIndexChanged});
-
-  bool get isAudioQueueActive => _queue.isNotEmpty;
+  LibMPV();
 
   mpv.Player? _player;
   VideoController? _controller;
@@ -38,32 +34,15 @@ class LibMPV extends BasePlayer {
   Stream<PlayerState> get stateStream => _stateController.stream;
 
   StreamSubscription<bool>? _onCompleted;
-  StreamSubscription<bool>? _audioQueueOnCompleted;
 
-  final Random _random = Random();
-  List<ItemBaseModel> _queue = <ItemBaseModel>[];
-  List<Uri> _queueUris = <Uri>[];
-  List<int> _playOrder = <int>[];
-  int _orderCursor = -1;
-  bool _shuffleEnabled = false;
-  AudioRepeatMode _repeatMode = AudioRepeatMode.off;
-  bool _manualTrackTransition = false;
   bool _replayGainFallbackLogged = false;
   VideoPlayerSettingsModel _settings = VideoPlayerSettingsModel();
-  void Function(int index, ItemBaseModel item)? onCurrentIndexChanged;
 
   RestartableTimer? _retryTimer;
   DateTime _firstLoadAttempt = DateTime.now();
   final Duration _maxRetryDuration = const Duration(minutes: 1);
   final Duration _currentRetryDuration = const Duration(seconds: 5);
   Completer<void>? _loadCompleter;
-
-  int get _currentQueueIndex {
-    if (_playOrder.isEmpty || _orderCursor < 0 || _orderCursor >= _playOrder.length) {
-      return -1;
-    }
-    return _playOrder[_orderCursor];
-  }
 
   @override
   Future<void> init(VideoPlayerSettingsModel settings) async {
@@ -96,12 +75,13 @@ class LibMPV extends BasePlayer {
       _player!.stream.volume.listen((value) => setState(lastState.update(volume: value)));
       _player!.stream.rate.listen((value) => setState(lastState.update(rate: value)));
       _player!.stream.buffer.listen((value) => setState(lastState.update(buffer: value)));
-      _audioQueueOnCompleted = _player!.stream.completed.listen(_onAudioQueueCompleted);
+      _player!.stream.completed.listen((value) => setState(lastState.update(completed: value)));
     }
 
     if (_player?.platform is mpv.NativePlayer) {
       final nativePlayer = _player!.platform as dynamic;
       await nativePlayer.setProperty('force-seekable', 'yes');
+      await nativePlayer.setProperty('gapless-audio', 'weak');
 
       if (defaultTargetPlatform == TargetPlatform.android) {
         // Use audiotrack as it is generally more stable on modern Android
@@ -116,20 +96,11 @@ class LibMPV extends BasePlayer {
   Future<void> dispose() async {
     _onCompleted?.cancel();
     _onCompleted = null;
-    _audioQueueOnCompleted?.cancel();
-    _audioQueueOnCompleted = null;
     _player?.stop();
     _player?.dispose();
     _player = null;
     _retryTimer?.cancel();
     _retryTimer = null;
-    _queue = <ItemBaseModel>[];
-    _queueUris = <Uri>[];
-    _playOrder = <int>[];
-    _orderCursor = -1;
-    _shuffleEnabled = false;
-    _repeatMode = AudioRepeatMode.off;
-    _manualTrackTransition = false;
   }
 
   void setState(PlayerState state) {
@@ -199,125 +170,17 @@ class LibMPV extends BasePlayer {
     return setState(lastState.update(buffering: true));
   }
 
-  @override
-  Future<void> loadAudioQueue(
-    List<ItemBaseModel> queue,
-    int initialIndex,
-    Duration startPosition,
-    Uri Function(ItemBaseModel item) urlBuilder,
-  ) async {
-    _queue = List<ItemBaseModel>.from(queue);
-    _queueUris = _queue.map(urlBuilder).toList(growable: false);
-
-    if (_queue.isEmpty) {
-      await stop();
-      return;
-    }
-
-    final selectedIndex = initialIndex.clamp(0, _queue.length - 1);
-    _rebuildPlayOrder(aroundIndex: selectedIndex);
-    await _openCurrentQueueTrack(startPosition: startPosition, play: false, notifyIndex: true);
-  }
-
-  void _rebuildPlayOrder({required int aroundIndex}) {
-    final clampedIndex = aroundIndex.clamp(0, _queue.length - 1);
-    if (!_shuffleEnabled) {
-      _playOrder = List<int>.generate(_queue.length, (index) => index);
-      _orderCursor = clampedIndex;
-      return;
-    }
-
-    final others = List<int>.generate(_queue.length, (index) => index)..remove(clampedIndex);
-    others.shuffle(_random);
-    _playOrder = <int>[clampedIndex, ...others];
-    _orderCursor = 0;
-  }
-
-  Future<void> _openCurrentQueueTrack({
-    Duration startPosition = Duration.zero,
-    required bool play,
-    required bool notifyIndex,
-  }) async {
-    final index = _currentQueueIndex;
-    if (index < 0 || index >= _queueUris.length) return;
-
-    final trackGainDb = _trackNormalizationGainDb(index);
-    _manualTrackTransition = true;
-    try {
-      await _applyReplayGainSettings(trackGainDb: trackGainDb);
-      await loadVideo(_queueUris[index].toString(), play, startPosition: startPosition);
-      if (notifyIndex) {
-        onCurrentIndexChanged?.call(index, _queue[index]);
+  /// Apply ReplayGain normalization for the given [item] before loading it.
+  /// Call this before [loadVideo] when starting an audio queue item.
+  Future<void> applyReplayGainForItem(ItemBaseModel? item) async {
+    double? gainDb;
+    if (item is AudioModel) {
+      final gain = item.normalizationGain;
+      if (gain != null && !gain.isNaN && !gain.isInfinite) {
+        gainDb = gain.clamp(-60.0, 20.0).toDouble();
       }
-      setState(lastState.update(completed: false));
-    } finally {
-      _manualTrackTransition = false;
     }
-  }
-
-  double? _trackNormalizationGainDb(int queueIndex) {
-    if (queueIndex < 0 || queueIndex >= _queue.length) {
-      return null;
-    }
-
-    final item = _queue[queueIndex];
-    if (item is! AudioModel) {
-      return null;
-    }
-
-    final gain = item.normalizationGain;
-    if (gain == null || gain.isNaN || gain.isInfinite) {
-      return null;
-    }
-
-    return gain.clamp(-60.0, 20.0).toDouble();
-  }
-
-  Future<void> _onAudioQueueCompleted(bool completed) async {
-    if (!completed || _manualTrackTransition || _queue.isEmpty) {
-      return;
-    }
-
-    if (_repeatMode == AudioRepeatMode.one) {
-      await _openCurrentQueueTrack(play: true, notifyIndex: false);
-      return;
-    }
-
-    if (_advanceQueueCursor()) {
-      await _openCurrentQueueTrack(play: true, notifyIndex: true);
-    }
-  }
-
-  bool _advanceQueueCursor() {
-    if (_playOrder.isEmpty) return false;
-
-    if (_orderCursor + 1 < _playOrder.length) {
-      _orderCursor += 1;
-      return true;
-    }
-
-    if (_repeatMode == AudioRepeatMode.all) {
-      _orderCursor = 0;
-      return true;
-    }
-
-    return false;
-  }
-
-  bool _retreatQueueCursor() {
-    if (_playOrder.isEmpty) return false;
-
-    if (_orderCursor > 0) {
-      _orderCursor -= 1;
-      return true;
-    }
-
-    if (_repeatMode == AudioRepeatMode.all) {
-      _orderCursor = _playOrder.length - 1;
-      return true;
-    }
-
-    return false;
+    await _applyReplayGainSettings(trackGainDb: gainDb);
   }
 
   double get _replayGainVolumeOffsetDb {
@@ -411,138 +274,6 @@ class LibMPV extends BasePlayer {
   Future<void> seek(Duration position) async => _player?.seek(position);
 
   @override
-  Future<void> setShuffleModeEnabled(bool enabled) async {
-    if (_shuffleEnabled == enabled || _queue.isEmpty) {
-      _shuffleEnabled = enabled;
-      return;
-    }
-
-    final currentIndex = _currentQueueIndex.clamp(0, _queue.length - 1);
-    _shuffleEnabled = enabled;
-    _rebuildPlayOrder(aroundIndex: currentIndex);
-  }
-
-  @override
-  Future<void> setAudioRepeatMode(AudioRepeatMode mode) async {
-    _repeatMode = mode;
-  }
-
-  List<ItemBaseModel> queueForDisplay({required bool wrapAround}) {
-    if (_queue.isEmpty) {
-      return const <ItemBaseModel>[];
-    }
-
-    if (_shuffleEnabled && _playOrder.isNotEmpty) {
-      final cursor = _orderCursor.clamp(0, _playOrder.length - 1);
-      final orderedIndices = <int>[
-        ..._playOrder.sublist(cursor),
-        if (wrapAround) ..._playOrder.sublist(0, cursor),
-      ];
-
-      return orderedIndices
-          .where((index) => index >= 0 && index < _queue.length)
-          .map((index) => _queue[index])
-          .toList(growable: false);
-    }
-
-    final currentIndex = _currentQueueIndex;
-    if (currentIndex < 0 || currentIndex >= _queue.length) {
-      return List<ItemBaseModel>.from(_queue);
-    }
-
-    return <ItemBaseModel>[
-      ..._queue.sublist(currentIndex),
-      if (wrapAround) ..._queue.sublist(0, currentIndex),
-    ];
-  }
-
-  @override
-  Future<void> reorderAudioQueue(List<ItemBaseModel> queue) async {
-    if (queue.isEmpty || _queue.isEmpty) return;
-
-    final oldQueue = List<ItemBaseModel>.from(_queue);
-    final oldQueueUris = List<Uri>.from(_queueUris);
-    final currentIndex = _currentQueueIndex;
-    if (currentIndex < 0 || currentIndex >= oldQueue.length) {
-      return;
-    }
-
-    final currentItemId = oldQueue[currentIndex].id;
-
-    _queue = List<ItemBaseModel>.from(queue);
-    _queueUris = _queue
-        .map((item) {
-          final oldIndex = oldQueue.indexWhere((oldItem) => oldItem.id == item.id);
-          if (oldIndex < 0 || oldIndex >= oldQueueUris.length) {
-            return null;
-          }
-          return oldQueueUris[oldIndex];
-        })
-        .whereType<Uri>()
-        .toList(growable: false);
-
-    final newCurrentIndex = _queue.indexWhere((item) => item.id == currentItemId);
-    if (newCurrentIndex < 0 || _queueUris.length != _queue.length) {
-      _queue = oldQueue;
-      _queueUris = oldQueueUris;
-      return;
-    }
-
-    if (!_shuffleEnabled) {
-      _playOrder = List<int>.generate(_queue.length, (index) => index);
-      _orderCursor = newCurrentIndex;
-      return;
-    }
-
-    final newIndexById = {
-      for (var i = 0; i < _queue.length; i++) _queue[i].id: i,
-    };
-
-    final reordered = <int>[newCurrentIndex];
-    for (final oldIndex in _playOrder) {
-      if (oldIndex < 0 || oldIndex >= oldQueue.length) continue;
-      final id = oldQueue[oldIndex].id;
-      final mapped = newIndexById[id];
-      if (mapped != null && mapped != newCurrentIndex && !reordered.contains(mapped)) {
-        reordered.add(mapped);
-      }
-    }
-
-    for (var i = 0; i < _queue.length; i++) {
-      if (!reordered.contains(i)) {
-        reordered.add(i);
-      }
-    }
-
-    _playOrder = reordered;
-    _orderCursor = 0;
-  }
-
-  @override
-  Future<void> skipToNext() async {
-    if (_queue.isEmpty) return;
-    if (!_advanceQueueCursor()) return;
-    await _openCurrentQueueTrack(play: true, notifyIndex: true);
-  }
-
-  @override
-  Future<void> skipToPrevious() async {
-    if (_queue.isEmpty) return;
-
-    if (lastState.position >= const Duration(seconds: 3)) {
-      await seek(Duration.zero);
-      return;
-    }
-
-    if (!_retreatQueueCursor()) {
-      await seek(Duration.zero);
-      return;
-    }
-
-    await _openCurrentQueueTrack(play: true, notifyIndex: true);
-  }
-
-  @override
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async {
     final wantedAudioStream = model ?? playbackModel.defaultAudioStream;
     if (wantedAudioStream == null) return -1;
@@ -581,6 +312,21 @@ class LibMPV extends BasePlayer {
     }
     return wantedSubtitle.index;
   }
+
+  @override
+  Future<void> addToPlaylist(String url) async => _player?.add(mpv.Media(url));
+
+  @override
+  Future<void> removeFromPlaylist(int index) async => _player?.remove(index);
+
+  @override
+  Future<void> playerNext() async => _player?.next();
+
+  @override
+  Future<void> playerPrevious() async => _player?.previous();
+
+  @override
+  Stream<int> get playlistIndexStream => _player?.stream.playlist.map((p) => p.index) ?? const Stream<int>.empty();
 
   @override
   Future<void> stop() async => _player?.stop();

@@ -11,6 +11,7 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/wrappers/media_control_wrapper.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/video_player/components/audio_player_queue_dialog.dart';
 import 'package:fladder/util/duration_extensions.dart';
@@ -85,12 +86,32 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
 
     final currentItem = playbackModel.item as AudioModel;
     final queue = playbackModel.queue;
-    final shouldWrapQueue = playbackInfo.repeatMode == AudioRepeatMode.all;
+    final shouldWrapQueue =
+        playbackInfo.repeatMode == AudioRepeatMode.all || playbackInfo.repeatMode == AudioRepeatMode.one;
     final queueFromPlayer = player.audioQueueForDisplay(wrapAround: shouldWrapQueue);
     final queueFromCurrent = queueFromPlayer.isNotEmpty
         ? queueFromPlayer
         : _queueFromCurrent(queue, currentItem, wrapAround: shouldWrapQueue);
-    final previewQueue = queueFromCurrent.take(5).toList();
+    final tempStart =
+        queueFromPlayer.isNotEmpty ? player.temporaryQueueStartInDisplay(wrapAround: shouldWrapQueue) : null;
+    final tempCount = queueFromPlayer.isNotEmpty ? (player.temporaryQueueCountInDisplay() ?? 0) : 0;
+
+    final nowPlaying = queueFromCurrent.isNotEmpty ? queueFromCurrent.first : null;
+    final nextUpItems = <ItemBaseModel>[];
+    final existingItems = <ItemBaseModel>[];
+
+    if (queueFromCurrent.isNotEmpty) {
+      final tempStartValue = tempStart ?? -1;
+      final tempEnd = tempStartValue + tempCount;
+      for (var i = 1; i < queueFromCurrent.length; i++) {
+        final isNextUp = tempStartValue >= 0 && tempCount > 0 && i >= tempStartValue && i < tempEnd;
+        if (isNextUp) {
+          nextUpItems.add(queueFromCurrent[i]);
+        } else {
+          existingItems.add(queueFromCurrent[i]);
+        }
+      }
+    }
     final duration = playbackInfo.duration;
 
     if (!changingSliderValue) {
@@ -231,13 +252,133 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
     }
 
     Widget queuePreview(BuildContext context) {
+      Widget sectionHeader({
+        required IconData icon,
+        required String title,
+        Widget? trailing,
+      }) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 6, bottom: 4),
+          child: Row(
+            children: [
+              Icon(icon, size: 16),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.8,
+                      ),
+                ),
+              ),
+              if (trailing != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: trailing,
+                ),
+            ],
+          ),
+        );
+      }
+
+      Widget queueItem(
+        ItemBaseModel item, {
+        bool isCurrent = false,
+        bool canRemove = true,
+      }) {
+        Future<void> removeItem() {
+          return ref.read(videoPlayerProvider.notifier).removeAudioQueueItem(item);
+        }
+
+        return FocusButton(
+          onTap: () {
+            ref.read(videoPlayerProvider.notifier).playAudioQueueItem(item);
+          },
+          onSecondaryTapDown: (details) {
+            final itemActions = item.generateActions(
+              context,
+              ref,
+              exclude: {
+                ItemActions.play,
+                ItemActions.refreshMetaData,
+              },
+              onUserDataChanged: (newData) {
+                if (newData == null) return;
+                ref.read(playBackModel.notifier).update(
+                      (state) => state?.updateUserData(newData),
+                    );
+              },
+            );
+            showMenu(
+              context: context,
+              position: RelativeRect.fromLTRB(
+                details.globalPosition.dx,
+                details.globalPosition.dy,
+                details.globalPosition.dx,
+                details.globalPosition.dy,
+              ),
+              items: [
+                if (canRemove)
+                  ItemActionButton(
+                    label: Text(context.localized.removeFromQueue),
+                    icon: const Icon(IconsaxPlusLinear.minus_cirlce),
+                    action: removeItem,
+                  ),
+                ItemActionButton(
+                  label: Text(
+                    context.localized.play(item.title),
+                  ),
+                  icon: const Icon(IconsaxPlusLinear.play),
+                  action: () {
+                    ref.read(videoPlayerProvider.notifier).playAudioQueueItem(item);
+                  },
+                ),
+                ...itemActions,
+              ].popupMenuItems(useIcons: true),
+            );
+          },
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+            minLeadingWidth: 0,
+            leading: ClipOval(
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child: FladderImage(
+                  image: item.images?.primary,
+                  fit: BoxFit.cover,
+                  placeHolder: const Center(child: Icon(Icons.music_note_rounded, size: 20)),
+                  imageErrorBuilder: (context, error, stack) =>
+                      const Center(child: Icon(Icons.music_note_rounded, size: 20)),
+                ),
+              ),
+            ),
+            title: Text(
+              item.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: isCurrent ? FontWeight.bold : null,
+                  ),
+            ),
+            subtitle: Text(
+              item.subTextShort(context.localized) ?? '',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: isCurrent ? Icon(Icons.play_arrow_rounded, color: Theme.of(context).colorScheme.primary) : null,
+          ),
+        );
+      }
+
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Text(
-                'Queue',
+                context.localized.queue,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               const Spacer(),
@@ -246,7 +387,13 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                   onPressed: () {
                     showAudioQueueDialog(
                       context,
-                      onListChanged: ref.read(videoPlayerProvider.notifier).reorderAudioQueue,
+                      onSectionReorder: (section, oldIndex, newIndex) {
+                        return ref.read(videoPlayerProvider.notifier).reorderAudioQueueSection(
+                              section,
+                              oldIndex,
+                              newIndex,
+                            );
+                      },
                       playSelected: ref.read(videoPlayerProvider.notifier).playAudioQueueItem,
                     );
                   },
@@ -255,104 +402,55 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          if (previewQueue.isEmpty)
+          if (nowPlaying == null)
             Text(
-              'Queue is empty',
+              context.localized.queueIsEmpty,
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium
                   ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
             )
-          else
-            ...previewQueue.map((item) {
-              final isActive = item.id == currentItem.id;
-              return FocusButton(
-                onTap: () {
-                  ref.read(videoPlayerProvider.notifier).playAudioQueueItem(item);
-                },
-                onSecondaryTapDown: (details) {
-                  final itemActions = item.generateActions(
-                    context,
-                    ref,
-                    exclude: {
-                      ItemActions.play,
-                      ItemActions.refreshMetaData,
-                    },
-                    onUserDataChanged: (newData) {
-                      if (newData == null) return;
-                      ref.read(playBackModel.notifier).update(
-                            (state) => state?.updateUserData(newData),
-                          );
-                    },
-                  );
-                  showMenu(
-                    context: context,
-                    position: RelativeRect.fromLTRB(
-                      details.globalPosition.dx,
-                      details.globalPosition.dy,
-                      details.globalPosition.dx,
-                      details.globalPosition.dy,
-                    ),
-                    items: [
-                      ItemActionButton(
-                        label: Text(
-                          context.localized.play(item.title),
-                        ),
-                        icon: const Icon(IconsaxPlusLinear.play),
-                        action: () {
-                          ref.read(videoPlayerProvider.notifier).playAudioQueueItem(item);
+          else ...[
+            if (nextUpItems.isNotEmpty) ...[
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest.withAlpha(175),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  children: [
+                    sectionHeader(
+                      icon: IconsaxPlusBold.music_playlist,
+                      title: context.localized.upNext,
+                      trailing: IconButton(
+                        tooltip: context.localized.clear,
+                        onPressed: () async {
+                          await ref.read(videoPlayerProvider.notifier).clearTemporaryQueue();
                         },
+                        icon: const Icon(Icons.clear_all_rounded),
                       ),
-                      ...itemActions,
-                    ].popupMenuItems(useIcons: true),
-                  );
-                },
+                    ),
+                    ...nextUpItems.map((item) => queueItem(item)),
+                    const SizedBox(height: 8),
+                  ],
+                ),
+              )
+            ],
+            if (existingItems.isEmpty)
+              Opacity(
+                opacity: 0.6,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Theme.of(context).colorScheme.surfaceContainer,
-                        ),
-                        width: 42,
-                        height: 42,
-                        clipBehavior: Clip.hardEdge,
-                        child: FladderImage(
-                          image: item.images?.primary,
-                          fit: BoxFit.cover,
-                          placeHolder: const Center(child: Icon(Icons.music_note_rounded, size: 20)),
-                          imageErrorBuilder: (context, error, stack) =>
-                              const Center(child: Icon(Icons.music_note_rounded, size: 20)),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item.title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            item.subTextShort(context.localized) ?? '',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                ),
-                          ),
-                        ],
-                      )),
-                      if (isActive) Icon(Icons.play_arrow_rounded, color: Theme.of(context).colorScheme.primary)
-                    ],
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Text(
+                    context.localized.queueIsEmpty,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
-              );
-            }),
+              )
+            else
+              ...existingItems.map((item) => queueItem(item)),
+          ],
         ],
       );
     }

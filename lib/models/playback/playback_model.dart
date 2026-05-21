@@ -18,6 +18,7 @@ import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/playback/direct_playback_model.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
 import 'package:fladder/models/playback/playback_options_dialogue.dart';
@@ -78,7 +79,9 @@ extension PlaybackModelExtension on PlaybackModel? {
 class PlaybackModel {
   final ItemBaseModel item;
   final Media? media;
-  final List<ItemBaseModel> queue;
+  final PlaybackQueueState playbackQueue;
+  List<ItemBaseModel> get queue => playbackQueue.queue;
+  List<ItemBaseModel> get nextUpQueue => playbackQueue.nextUpQueue;
   final PlaybackQueueSource? queueSource;
   final MediaSegmentsModel? mediaSegments;
   final PlaybackInfoResponse? playbackInfo;
@@ -108,19 +111,10 @@ class PlaybackModel {
   Future<PlaybackModel>? setAudio(AudioStreamModel? model, MediaControlsWrapper player) => throw UnimplementedError();
   Future<PlaybackModel>? setQualityOption(Map<Bitrate, bool> map) => throw UnimplementedError();
 
-  PlaybackModel updateQueueModel(List<ItemBaseModel> newQueue) => throw UnimplementedError();
+  PlaybackModel updatePlaybackQueue(PlaybackQueueState newQueue) => throw UnimplementedError();
 
-  ItemBaseModel? get nextVideo {
-    final index = queue.indexWhere((e) => e.id == item.id);
-    if (index == -1 || index + 1 >= queue.length) return null;
-    return queue.elementAt(index + 1);
-  }
-
-  ItemBaseModel? get previousVideo {
-    final index = queue.indexWhere((e) => e.id == item.id);
-    if (index <= 0) return null;
-    return queue.elementAt(index - 1);
-  }
+  ItemBaseModel? get nextVideo => playbackQueue.nextItem(item.id);
+  ItemBaseModel? get previousVideo => playbackQueue.previousItem(item.id);
 
   PlaybackModel copyWith() => throw UnimplementedError();
 
@@ -129,13 +123,18 @@ class PlaybackModel {
     this.mediaStreams,
     required this.item,
     required this.media,
-    this.queue = const [],
+    List<ItemBaseModel> queue = const [],
+    PlaybackQueueState? playbackQueue,
     this.queueSource,
     this.bitRateOptions = const {},
     this.mediaSegments,
     this.chapters,
     this.trickPlay,
-  });
+  }) : playbackQueue = playbackQueue ??
+            PlaybackQueueState.fromQueue(
+              queue,
+              initialItemId: item.id,
+            );
 }
 
 final playbackModelHelper = Provider<PlaybackModelHelper>((ref) {
@@ -223,6 +222,7 @@ class PlaybackModelHelper {
       mediaSegments: syncedItem.mediaSegments,
       media: Media(url: syncedItem.videoFile.path),
       queue: itemQueue.nonNulls.toList(),
+      playbackQueue: oldModel?.playbackQueue,
       queueSource: queueSource ?? oldModel?.queueSource,
       syncedQueue: children,
       mediaStreams: item.streamModel ?? syncedItemModel.streamModel,
@@ -417,6 +417,7 @@ class PlaybackModelHelper {
           isNativePlayerBackend: isNativePlayer,
           item: item,
           queue: libraryQueue,
+          playbackQueue: oldModel?.playbackQueue,
           queueSource: queueSource,
           playbackInfo: playbackInfo,
           media: Media(url: mediaPath),
@@ -449,6 +450,7 @@ class PlaybackModelHelper {
         return DirectPlaybackModel(
           item: item,
           queue: libraryQueue,
+          playbackQueue: oldModel?.playbackQueue,
           queueSource: queueSource,
           mediaSegments: mediaSegments?.body,
           chapters: chapters,
@@ -462,6 +464,7 @@ class PlaybackModelHelper {
         return TranscodePlaybackModel(
           item: item,
           queue: libraryQueue,
+          playbackQueue: oldModel?.playbackQueue,
           queueSource: queueSource,
           mediaSegments: mediaSegments?.body,
           chapters: chapters,
@@ -592,6 +595,7 @@ class PlaybackModelHelper {
       newModel = DirectPlaybackModel(
         item: playbackModel.item,
         queue: playbackModel.queue,
+        playbackQueue: playbackModel.playbackQueue,
         mediaSegments: playbackModel.mediaSegments,
         chapters: playbackModel.chapters,
         playbackInfo: playbackInfo,
@@ -604,6 +608,7 @@ class PlaybackModelHelper {
       newModel = TranscodePlaybackModel(
         item: playbackModel.item,
         queue: playbackModel.queue,
+        playbackQueue: playbackModel.playbackQueue,
         mediaSegments: playbackModel.mediaSegments,
         chapters: playbackModel.chapters,
         playbackInfo: playbackInfo,

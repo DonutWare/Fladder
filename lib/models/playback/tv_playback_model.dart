@@ -11,6 +11,7 @@ import 'package:fladder/models/items/channel_program.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/live_tv_model.dart';
+import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/live_tv_provider.dart';
@@ -51,6 +52,7 @@ class TvPlaybackModel extends PlaybackModel {
     this.isNativePlayerBackend = false,
     super.media,
     super.queue,
+    super.playbackQueue,
     super.queueSource,
   });
 
@@ -316,6 +318,9 @@ class TvPlaybackModel extends PlaybackModel {
   Future<PlaybackModel>? setSubtitle(SubStreamModel? model, MediaControlsWrapper player) async => this;
 
   @override
+  PlaybackModel updatePlaybackQueue(PlaybackQueueState newQueue) => copyWith(playbackQueue: newQueue);
+
+  @override
   PlaybackModel copyWith({
     ChannelModel? channel,
     ChannelProgram? currentProgram,
@@ -325,6 +330,7 @@ class TvPlaybackModel extends PlaybackModel {
     Duration? duration,
     Media? media,
     List<ItemBaseModel>? queue,
+    PlaybackQueueState? playbackQueue,
     PlaybackQueueSource? queueSource,
   }) =>
       TvPlaybackModel(
@@ -336,6 +342,7 @@ class TvPlaybackModel extends PlaybackModel {
         duration: duration ?? this.duration,
         media: media ?? this.media,
         queue: queue ?? this.queue,
+        playbackQueue: playbackQueue ?? this.playbackQueue,
         queueSource: queueSource ?? this.queueSource,
       );
 }

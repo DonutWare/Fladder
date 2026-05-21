@@ -5,6 +5,8 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/artist_model.dart';
 import 'package:fladder/providers/items/artist_details_provider.dart';
+import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/track_list.dart';
@@ -88,10 +90,28 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                         if (current.subText?.isNotEmpty == true)
                           Text(current.subText!, style: Theme.of(context).textTheme.bodyLarge),
                         const SizedBox(height: 16),
-                        ElevatedButton.icon(
-                          onPressed: tracks.isNotEmpty ? () => current.playLatestTracks(detailsContext, ref) : null,
-                          icon: const Icon(IconsaxPlusLinear.play),
-                          label: Text(context.localized.play(current.name)),
+                        Row(
+                          spacing: 8,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: tracks.isNotEmpty
+                                  ? () async {
+                                      await current.playLatestTracks(detailsContext, ref, shuffleEnabled: false);
+                                    }
+                                  : null,
+                              icon: const Icon(IconsaxPlusLinear.play),
+                              label: Text(context.localized.play(current.name)),
+                            ),
+                            IconButton(
+                              onPressed: tracks.isNotEmpty
+                                  ? () async {
+                                      await current.playLatestTracks(detailsContext, ref, shuffleEnabled: true);
+                                    }
+                                  : null,
+                              icon: const Icon(IconsaxPlusLinear.shuffle),
+                              tooltip: context.localized.shuffleVideos,
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 16)
                       ],
@@ -116,9 +136,18 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                           title: 'Latest tracks',
                           tracks: tracks.take(8).toList(),
                           enableSorting: false,
-                          onTrackTap: (track) => track.navigateTo(detailsContext),
                           onTrackPlayTap: (track) => current.playLatestTracks(detailsContext, ref, startTrack: track),
                           onTrackArtistTap: (_) => current.parentBaseModel.navigateTo(detailsContext),
+                          onPlaySelected: (selected) => selected.play(detailsContext, ref),
+                          onAddToQueueSelected: (selected) async {
+                            await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue(selected);
+                            if (detailsContext.mounted) {
+                              FladderSnack.show(
+                                detailsContext.localized.addedToQueue(selected.length),
+                                context: detailsContext,
+                              );
+                            }
+                          },
                           onTrackSecondaryTap: (track, details) {
                             track.showDetailsMenu(
                               context,

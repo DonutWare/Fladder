@@ -52,9 +52,14 @@ class OpenQueueButton extends ConsumerWidget {
                 context,
                 items: state?.queue ?? [],
                 currentItem: state?.item,
-                playSelected: (itemStreamModel) {
-                  throw UnimplementedError();
+                onSectionReorder: (section, oldIndex, newIndex) {
+                  return ref.read(videoPlayerProvider.notifier).reorderAudioQueueSection(
+                        section,
+                        oldIndex,
+                        newIndex,
+                      );
                 },
+                playSelected: ref.read(videoPlayerProvider.notifier).playAudioQueueItem,
               );
             }
           : null,

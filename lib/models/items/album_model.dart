@@ -74,7 +74,7 @@ class AlbumModel extends ItemBaseModel with AlbumModelMappable {
   Widget get detailScreenWidget => AlbumDetailScreen(item: this);
 
   @override
-  bool get playAble => false;
+  bool get playAble => true;
 
   @override
   bool get syncAble => false;

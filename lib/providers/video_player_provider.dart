@@ -9,6 +9,7 @@ import 'package:path/path.dart' as p;
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
@@ -163,8 +164,17 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   ) async {
     final currentPlayerState = ref.read(mediaPlaybackProvider).state;
     final keepFullScreenLayout = currentPlayerState == VideoPlayerState.fullScreen;
+    final playbackSettings = ref.read(mediaPlaybackProvider);
 
-    ref.read(playBackModel.notifier).update((state) => model);
+    final initializedQueueState = PlaybackQueueState.fromQueue(
+      queue,
+      initialItemId: queue[currentIndex.clamp(0, queue.length - 1)].id,
+      shuffleEnabled: playbackSettings.shuffleEnabled,
+      repeatMode: playbackSettings.repeatMode,
+    );
+    final queuedModel = model.updatePlaybackQueue(initializedQueueState);
+
+    ref.read(playBackModel.notifier).update((state) => queuedModel);
     ref.read(playbackRateProvider.notifier).state = 1.0;
 
     mediaState.update((state) => state.copyWith(
@@ -173,57 +183,51 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
           buffering: true,
           errorPlaying: false,
           skippedSegments: {},
-          duration: model.item.overview.runTime ?? Duration.zero,
+          duration: queuedModel.item.overview.runTime ?? Duration.zero,
         ));
 
-    await state.loadAudioQueue(
-      queue,
-      currentIndex,
-      startPosition,
-      true,
-      (item) => state.buildAudioUrl(item),
-    );
+    await state.loadAudioQueue(queue, currentIndex, startPosition, true);
     await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
 
     mediaState.update((state) => state.copyWith(
           buffering: false,
           playing: true,
           position: startPosition,
-          duration: model.item.overview.runTime ?? Duration.zero,
+          duration: queuedModel.item.overview.runTime ?? Duration.zero,
         ));
     return true;
   }
 
-  PlaybackModel _updateQueueOnModel(PlaybackModel playbackModel, List<ItemBaseModel> queue) =>
-      playbackModel.updateQueueModel(queue);
+  Future<void> reorderAudioQueueSection(
+    AudioQueueSection section,
+    int oldIndex,
+    int newIndex,
+  ) async {
+    await state.reorderAudioQueueSection(section, oldIndex, newIndex);
+  }
 
-  Future<void> reorderAudioQueue(List<ItemBaseModel> queue) async {
-    final playbackModel = ref.read(playBackModel);
-    if (playbackModel == null) return;
+  Future<void> addToTemporaryQueue(List<ItemBaseModel> items) async {
+    await state.addToTemporaryQueue(items);
+  }
 
-    await state.reorderAudioQueue(queue);
+  Future<void> clearTemporaryQueue() async {
+    state.clearTemporaryQueue();
+  }
 
-    final updatedModel = _updateQueueOnModel(playbackModel, queue);
-    ref.read(playBackModel.notifier).update((state) => updatedModel);
+  Future<void> removeAudioQueueItem(ItemBaseModel item) async {
+    await state.removeAudioQueueItem(item.id);
+  }
+
+  Future<void> removeAudioQueueSectionItem(
+    AudioQueueSection section,
+    int sectionIndex,
+  ) async {
+    await state.removeAudioQueueSectionItem(section, sectionIndex);
   }
 
   Future<void> playAudioQueueItem(ItemBaseModel item) async {
-    final playbackModel = ref.read(playBackModel);
-    if (playbackModel == null) return;
-
-    final queue = playbackModel.queue;
-    final index = queue.indexWhere((element) => element.id == item.id).clamp(0, queue.length - 1);
-    final updatedPlaybackModel = await ref.read(playbackModelHelper).createPlaybackModel(
-          null,
-          item,
-          oldModel: playbackModel,
-          libraryQueue: queue,
-          showPlaybackOptions: false,
-        );
-    if (updatedPlaybackModel == null) return;
-
-    ref.read(playBackModel.notifier).update((state) => updatedPlaybackModel);
-    await loadAudioPlaybackItem(updatedPlaybackModel, queue, index, Duration.zero);
+    if (ref.read(playBackModel) == null) return;
+    await state.jumpToQueueItem(item);
   }
 
   Future<void> openPlayer(BuildContext context) async => state.openPlayer(context);
