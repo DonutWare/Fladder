@@ -401,6 +401,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     onChanged: (value) => provider.setMediaTunneling(value),
                   ),
                 ),
+              if (currentPlayer == PlayerOptions.nativePlayer)
+                SettingsListTile(
+                  label: Text(context.localized.refreshRateSwitchingTitle),
+                  subLabel: Text(context.localized.refreshRateSwitchingDesc),
+                  onTap: () => provider.setRefreshRateSwitching(!videoSettings.refreshRateSwitching),
+                  trailing: Switch(
+                    value: videoSettings.refreshRateSwitching,
+                    onChanged: (value) => provider.setRefreshRateSwitching(value),
+                  ),
+                ),
               if (ref.read(argumentsStateProvider).leanBackMode)
                 SettingsListTileEnum(
                   label: Text(context.localized.playerSettingsScreensaverTitle),

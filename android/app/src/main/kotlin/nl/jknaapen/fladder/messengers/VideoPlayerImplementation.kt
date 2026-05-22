@@ -117,6 +117,18 @@ class VideoPlayerImplementation(
                 player?.playWhenReady = play
                 callback(Result.success(true))
                 subsInitialized = false
+
+                // Apply refresh rate matching if enabled and video metadata is available
+                if (PlayerSettingsObject.settings.value?.refreshRateSwitching == true) {
+                    val data = playbackData.value
+                    val w = data?.videoWidth?.toInt()
+                    val h = data?.videoHeight?.toInt()
+                    val fps = data?.videoFrameRate?.toFloat()
+                    if (w != null && w > 0 && h != null && h > 0 && fps != null && fps > 0f) {
+                        VideoPlayerObject.currentActivity?.applyVideoRefreshRate(w, h, fps)
+                    }
+                }
+
                 return@postDelayed
             } catch (e: Exception) {
                 println("Error playing video $e")

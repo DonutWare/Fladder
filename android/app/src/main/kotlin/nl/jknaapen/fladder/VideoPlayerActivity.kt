@@ -1,6 +1,7 @@
 package nl.jknaapen.fladder
 
 import android.graphics.PixelFormat
+import android.hardware.display.DisplayManager
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
@@ -12,12 +13,17 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.media3.common.util.UnstableApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import nl.jknaapen.fladder.composables.controls.CustomVideoControls
 import nl.jknaapen.fladder.composables.overlays.screensavers.ScreenSaver
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.player.ExoPlayer
 import nl.jknaapen.fladder.utility.ScaledContent
+import nl.jknaapen.fladder.utility.applyRefreshRate
 import nl.jknaapen.fladder.utility.leanBackEnabled
+import nl.jknaapen.fladder.utility.resetRefreshRate
 
 class VideoPlayerActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -40,9 +46,22 @@ class VideoPlayerActivity : ComponentActivity() {
         }
     }
 
+    fun applyVideoRefreshRate(videoWidth: Int, videoHeight: Int, frameRate: Float) {
+        val displayManager = getSystemService(DISPLAY_SERVICE) as DisplayManager
+        CoroutineScope(Dispatchers.IO).launch {
+            applyRefreshRate(window, displayManager, videoWidth, videoHeight, frameRate)
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         VideoPlayerObject.implementation.pause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        resetRefreshRate(window)
+        VideoPlayerObject.currentActivity = null
     }
 }
 

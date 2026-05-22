@@ -1686,6 +1686,8 @@
   "itemColorsDesc": "Use item's primary color to theme the details page",
   "mediaTunnelingTitle": "Media tunneling",
   "mediaTunnelingDesc": "Enable media tunneling for native player",
+  "refreshRateSwitchingTitle": "Refresh Rate Matching",
+  "refreshRateSwitchingDesc": "Match display refresh rate to video frame rate",
   "clientSettingsUseSystemIMETitle": "Use system keyboard",
   "clientSettingsUseSystemIMEDesc": "Use the built-in keyboard provided by your system",
   "nextUpInCount": "Next-up in {seconds}",
