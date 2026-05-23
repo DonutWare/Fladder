@@ -7,6 +7,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/theme.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
@@ -24,6 +25,7 @@ typedef TrackSecondaryTapCallback = void Function(AudioModel track, TapDownDetai
 class TrackList extends ConsumerStatefulWidget {
   final String title;
   final bool enableSorting;
+  final bool showHeader;
   final List<AudioModel> tracks;
   final int? maxTracks;
   final bool showAlbum;
@@ -38,6 +40,7 @@ class TrackList extends ConsumerStatefulWidget {
   const TrackList({
     required this.title,
     this.enableSorting = true,
+    this.showHeader = true,
     required this.tracks,
     this.maxTracks,
     this.showAlbum = true,
@@ -260,6 +263,7 @@ class _TrackListState extends ConsumerState<TrackList> {
   @override
   Widget build(BuildContext context) {
     final visibleTracks = _sortedTracks();
+    final showCompactLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
     if (visibleTracks.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -270,11 +274,11 @@ class _TrackListState extends ConsumerState<TrackList> {
         spacing: 8,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(widget.title, style: Theme.of(context).textTheme.titleLarge),
+          if (widget.title.isNotEmpty) Text(widget.title, style: Theme.of(context).textTheme.titleLarge),
           Table(
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             children: [
-              _buildHeaderRow(context),
+              if (widget.showHeader) _buildHeaderRow(context),
               ...visibleTracks.mapIndexed(
                 (index, track) => TableRow(
                   children: [
@@ -287,6 +291,7 @@ class _TrackListState extends ConsumerState<TrackList> {
                       onArtistTap: widget.onTrackArtistTap,
                       onSecondaryTap: widget.onTrackSecondaryTap,
                       showAlbum: widget.showAlbum,
+                      compactLayout: showCompactLayout,
                       isSelected: _selectionEnabled && _selectedTrackIds.contains(track.id),
                     ),
                   ],
@@ -300,6 +305,8 @@ class _TrackListState extends ConsumerState<TrackList> {
   }
 
   TableRow _buildHeaderRow(BuildContext context) {
+    final showCompactLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
+
     return TableRow(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -316,15 +323,17 @@ class _TrackListState extends ConsumerState<TrackList> {
               ),
               const SizedBox(width: _trackCellSpacing),
               Expanded(flex: _TrackColumn.title.flex!, child: _buildHeaderLabel(context, _TrackColumn.title)),
-              if (widget.showAlbum) ...[
+              if (!showCompactLayout && widget.showAlbum) ...[
                 const SizedBox(width: _trackCellSpacing),
                 Expanded(flex: _TrackColumn.album.flex!, child: _buildHeaderLabel(context, _TrackColumn.album)),
               ],
-              const SizedBox(width: _trackCellSpacing),
-              SizedBox(
-                width: _TrackColumn.plays.width!,
-                child: _buildHeaderLabel(context, _TrackColumn.plays),
-              ),
+              if (!showCompactLayout) ...[
+                const SizedBox(width: _trackCellSpacing),
+                SizedBox(
+                  width: _TrackColumn.plays.width!,
+                  child: _buildHeaderLabel(context, _TrackColumn.plays),
+                ),
+              ],
               const SizedBox(width: _trackCellSpacing),
               SizedBox(
                 width: _TrackColumn.duration.width!,
@@ -349,6 +358,7 @@ class _TrackListItem extends ConsumerStatefulWidget {
   final TrackSecondaryTapCallback? onSecondaryTap;
   final Function(AudioModel track)? onTrackPlayTap;
   final bool showAlbum;
+  final bool compactLayout;
   final bool isSelected;
 
   const _TrackListItem({
@@ -360,6 +370,7 @@ class _TrackListItem extends ConsumerStatefulWidget {
     this.onArtistTap,
     this.onSecondaryTap,
     this.showAlbum = true,
+    this.compactLayout = false,
     this.isSelected = false,
   });
 
@@ -488,7 +499,7 @@ class _TrackListItemState extends ConsumerState<_TrackListItem> {
                     ],
                   ),
                 ),
-                if (widget.showAlbum && _TrackColumn.album.flex != null) ...[
+                if (!widget.compactLayout && widget.showAlbum && _TrackColumn.album.flex != null) ...[
                   const SizedBox(width: _trackCellSpacing),
                   Expanded(
                     flex: _TrackColumn.album.flex!,
@@ -498,15 +509,17 @@ class _TrackListItemState extends ConsumerState<_TrackListItem> {
                     ),
                   ),
                 ],
-                const SizedBox(width: _trackCellSpacing),
-                SizedBox(
-                  width: _TrackColumn.plays.width,
-                  child: Text(
-                    playCountText,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white54),
-                    textAlign: TextAlign.end,
+                if (!widget.compactLayout) ...[
+                  const SizedBox(width: _trackCellSpacing),
+                  SizedBox(
+                    width: _TrackColumn.plays.width,
+                    child: Text(
+                      playCountText,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white54),
+                      textAlign: TextAlign.end,
+                    ),
                   ),
-                ),
+                ],
                 const SizedBox(width: _trackCellSpacing),
                 SizedBox(
                   width: _TrackColumn.duration.width,

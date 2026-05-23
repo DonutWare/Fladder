@@ -2092,6 +2092,12 @@
   },
   "recentlyAdded": "Recently added",
   "@recentlyAdded": {},
+  "recentlyPlayed": "Recently played",
+  "@recentlyPlayed": {},
+  "recentlyFavorited": "Recently favorited",
+  "@recentlyFavorited": {},
+  "mostPlayed": "Most played",
+  "@mostPlayed": {},
   "recentRequests": "Recent requests",
   "@recentRequests": {},
   "trending": "Trending",
@@ -2674,5 +2680,6 @@
   },
   "seerrMovies": "Discover Movies",
   "seerrSeries": "Discover Series",
-  "today": "Today"
+  "today": "Today",
+  "musicDashboard": "Music Dashboard"
 }
