@@ -12,10 +12,14 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MimeTypes
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearAudioTrack
@@ -105,6 +109,7 @@ class VideoPlayerImplementation(
 
                 val mediaItem = mediaItemBuilder.build()
 
+                player?.playWhenReady = false
                 player?.stop()
                 player?.clearMediaItems()
                 player?.setMediaItem(mediaItem)
@@ -114,21 +119,27 @@ class VideoPlayerImplementation(
                 if (startPosition > 0L) {
                     player?.seekTo(startPosition)
                 }
-                player?.playWhenReady = play
                 callback(Result.success(true))
                 subsInitialized = false
 
-                // Apply refresh rate matching if enabled and video metadata is available
-                if (PlayerSettingsObject.settings.value?.refreshRateSwitching == true) {
+                // Apply refresh rate before starting playback so the mode switch doesn't interrupt video
+                val activity = VideoPlayerObject.currentActivity
+                if (PlayerSettingsObject.settings.value?.refreshRateSwitching == true && activity != null) {
                     val data = playbackData.value
                     val w = data?.videoWidth?.toInt()
                     val h = data?.videoHeight?.toInt()
                     val fps = data?.videoFrameRate?.toFloat()
                     if (w != null && w > 0 && h != null && h > 0 && fps != null && fps > 0f) {
-                        VideoPlayerObject.currentActivity?.applyVideoRefreshRate(w, h, fps)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            activity.applyVideoRefreshRate(w, h, fps)
+                            withContext(Dispatchers.Main) {
+                                player?.playWhenReady = play
+                            }
+                        }
+                        return@postDelayed
                     }
                 }
-
+                player?.playWhenReady = play
                 return@postDelayed
             } catch (e: Exception) {
                 println("Error playing video $e")

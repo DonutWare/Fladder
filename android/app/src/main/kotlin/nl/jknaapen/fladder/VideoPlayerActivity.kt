@@ -13,9 +13,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.media3.common.util.UnstableApi
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import nl.jknaapen.fladder.composables.controls.CustomVideoControls
 import nl.jknaapen.fladder.composables.overlays.screensavers.ScreenSaver
 import nl.jknaapen.fladder.objects.VideoPlayerObject
@@ -46,11 +43,9 @@ class VideoPlayerActivity : ComponentActivity() {
         }
     }
 
-    fun applyVideoRefreshRate(videoWidth: Int, videoHeight: Int, frameRate: Float) {
+    suspend fun applyVideoRefreshRate(videoWidth: Int, videoHeight: Int, frameRate: Float) {
         val displayManager = getSystemService(DISPLAY_SERVICE) as DisplayManager
-        CoroutineScope(Dispatchers.IO).launch {
-            applyRefreshRate(window, displayManager, videoWidth, videoHeight, frameRate)
-        }
+        applyRefreshRate(window, displayManager, videoWidth, videoHeight, frameRate)
     }
 
     override fun onPause() {
