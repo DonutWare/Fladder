@@ -638,7 +638,8 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
   Future<void> closePlayer() async {
     clearOverlaySettings();
     ref.read(videoPlayerProvider).stop();
-    Navigator.of(context).pop();
+    await WidgetsBinding.instance.endOfFrame;
+    if (context.mounted) Navigator.of(context).pop();
   }
 
   Future<void> clearOverlaySettings() async {
