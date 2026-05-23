@@ -418,7 +418,7 @@ enum FladderItemType {
         FladderItemType.audio => l10n.audio(count),
         FladderItemType.collectionFolder => l10n.collectionFolder(count),
         FladderItemType.musicAlbum => l10n.musicAlbum(count),
-        FladderItemType.musicArtist => l10n.mediaTypePerson(count),
+        FladderItemType.musicArtist => l10n.mediaTypeArtists(count),
         FladderItemType.musicVideo => l10n.video(count),
         FladderItemType.video => l10n.video(count),
         FladderItemType.movie => l10n.mediaTypeMovie(count),

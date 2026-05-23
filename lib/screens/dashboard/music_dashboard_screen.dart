@@ -144,15 +144,17 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
                   MusicPlaylistRow(
                     playlists: musicDashboard.playlists,
                     contentPadding: padding,
-                    label: FladderItemType.playlist.label(context.localized, count: 2),
+                    label: FladderItemType.playlist.label(context.localized, count: musicDashboard.playlists.length),
                     onPlaylistPlayTap: _playPlaylistFromDashboard,
                   ),
                 if (musicDashboard.recentlyAddedAlbums.isNotEmpty)
                   PosterRow(
                     tvMode: useTVExpandedLayout,
                     contentPadding: padding,
-                    label: context.localized.dashboardRecentlyAdded(
-                      FladderItemType.musicAlbum.label(context.localized, count: 2),
+                    label: context.localized.dashboardRecentlyAddedItems(
+                      FladderItemType.musicAlbum
+                          .label(context.localized, count: musicDashboard.recentlyAddedAlbums.length)
+                          .toLowerCase(),
                     ),
                     collectionAspectRatio: FladderItemType.musicAlbum.aspectRatio,
                     posters: musicDashboard.recentlyAddedAlbums,
@@ -205,8 +207,10 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
                   PosterRow(
                     tvMode: useTVExpandedLayout,
                     contentPadding: padding,
-                    label: context.localized.dashboardRecentlyAdded(
-                      FladderItemType.musicArtist.label(context.localized, count: 2),
+                    label: context.localized.dashboardRecentlyAddedItems(
+                      FladderItemType.musicArtist
+                          .label(context.localized, count: musicDashboard.recentlyAddedArtists.length)
+                          .toLowerCase(),
                     ),
                     collectionAspectRatio: FladderItemType.musicAlbum.aspectRatio,
                     posters: musicDashboard.recentlyAddedArtists,
@@ -233,7 +237,7 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
                   .toList()
                   .addInBetween(
                     const SliverToBoxAdapter(
-                      child: SizedBox(height: 16),
+                      child: SizedBox(height: 32),
                     ),
                   ),
               const DefaultSliverBottomPadding(),

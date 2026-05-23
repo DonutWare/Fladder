@@ -194,6 +194,15 @@
       }
     }
   },
+  "dashboardRecentlyAddedItems": "Recently added {name}",
+  "@dashboardRecentlyAddedItems": {
+    "description": "Recently added items on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "dateAdded": "Date added",
   "@dateAdded": {},
   "dateLastContentAdded": "Date last content added",
@@ -480,6 +489,16 @@
   "mediaTypePerson": "{count, plural, one{Person} other{People}}",
   "@mediaTypePerson": {
     "description": "Person (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeArtists": "{count, plural, one{Artist} other{Artists}}",
+  "@mediaTypeArtists": {
+    "description": "Artist (plural)",
     "placeholders": {
       "count": {
         "type": "int",
