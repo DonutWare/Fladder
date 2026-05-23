@@ -67,6 +67,16 @@
       }
     }
   },
+  "audioPlayerPlaybackOptionsTitle": "Playback options",
+  "@audioPlayerPlaybackOptionsTitle": {},
+  "audioPlayerRepeatAll": "Repeat all",
+  "@audioPlayerRepeatAll": {},
+  "audioPlayerRepeatOff": "Repeat off",
+  "@audioPlayerRepeatOff": {},
+  "audioPlayerRepeatOne": "Repeat one",
+  "@audioPlayerRepeatOne": {},
+  "audioPlayerShuffle": "Shuffle",
+  "@audioPlayerShuffle": {},
   "track": "{count, plural, one{Track} other{Tracks}}",
   "@track": {
     "description": "track",

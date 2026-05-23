@@ -11,7 +11,6 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/wrappers/media_control_wrapper.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/video_player/components/audio_player_queue_dialog.dart';
 import 'package:fladder/util/duration_extensions.dart';
@@ -25,6 +24,7 @@ import 'package:fladder/widgets/shared/clickable_text.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/theme_overwrite.dart';
+import 'package:fladder/wrappers/media_control_wrapper.dart';
 
 class AudioPlayerFullScreen extends ConsumerStatefulWidget {
   const AudioPlayerFullScreen({
@@ -210,7 +210,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Playback options',
+            context.localized.audioPlayerPlaybackOptionsTitle,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
@@ -222,7 +222,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
             children: [
               ExpressiveButton(
                 icon: const Icon(IconsaxPlusBold.shuffle),
-                label: const Text('Shuffle'),
+                label: Text(context.localized.audioPlayerShuffle),
                 isSelected: playbackInfo.shuffleEnabled,
                 onPressed: () => ref.read(videoPlayerProvider).setShuffleEnabled(!playbackInfo.shuffleEnabled),
               ),
@@ -231,10 +231,10 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                     ? IconsaxPlusBold.repeate_one
                     : IconsaxPlusBold.repeate_music),
                 label: Text(playbackInfo.repeatMode == AudioRepeatMode.off
-                    ? 'Repeat off'
+                    ? context.localized.audioPlayerRepeatOff
                     : playbackInfo.repeatMode == AudioRepeatMode.one
-                        ? 'Repeat one'
-                        : 'Repeat all'),
+                        ? context.localized.audioPlayerRepeatOne
+                        : context.localized.audioPlayerRepeatAll),
                 isSelected: playbackInfo.repeatMode != AudioRepeatMode.off,
                 onPressed: () {
                   final nextMode = switch (playbackInfo.repeatMode) {
