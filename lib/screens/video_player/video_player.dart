@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ import 'package:fladder/screens/video_player/video_player_controls.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/themes_data.dart';
 import 'package:fladder/widgets/shared/back_intent_dpad.dart';
-import 'package:fladder/wrappers/pip_manager.dart';
 
 class VideoPlayer extends ConsumerStatefulWidget {
   const VideoPlayer({super.key});
@@ -35,8 +33,6 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
   bool playing = false;
 
   late PlaybackModel? currentPlaybackModel = ref.read(playBackModel);
-
-  PipManager? _pipManager;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -63,7 +59,6 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     SystemChrome.setPreferredOrientations(DeviceOrientation.values);
-    _pipManager?.disable();
     super.dispose();
   }
 
@@ -78,16 +73,6 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
           orientations?.isNotEmpty == true ? orientations!.toList() : DeviceOrientation.values);
       return ref.read(videoPlayerSettingsProvider.notifier).setSavedBrightness();
     });
-    Future.microtask(_maybeConfigurePip);
-  }
-
-  void _maybeConfigurePip() {
-    if (kIsWeb) return;
-    if (!(Platform.isAndroid || Platform.isIOS)) return;
-    _pipManager = ref.read(pipManagerProvider);
-    final autoEnter = ref.read(videoPlayerSettingsProvider).enablePictureInPicture;
-    // 16:9 default — PlayerState does not expose real video dimensions.
-    _pipManager?.enable(aspectWidth: 16.0, aspectHeight: 9.0, autoEnter: autoEnter);
   }
 
   @override
@@ -118,14 +103,6 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
         if (previous != next) {
           SystemChrome.setPreferredOrientations(next?.isNotEmpty == true ? next!.toList() : DeviceOrientation.values);
         }
-      },
-    );
-
-    ref.listen(
-      videoPlayerSettingsProvider.select((value) => value.enablePictureInPicture),
-      (previous, next) {
-        if (previous == next) return;
-        _pipManager?.enable(aspectWidth: 16.0, aspectHeight: 9.0, autoEnter: next);
       },
     );
 

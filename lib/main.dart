@@ -23,6 +23,7 @@ import 'package:fladder/util/deep_link_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/themes_data.dart';
 import 'package:fladder/widgets/media_query_scaler.dart';
+import 'package:fladder/widgets/pip_lifecycle_controller.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -126,7 +127,7 @@ class _FladderApp extends ConsumerWidget {
             },
             builder: (context, child) => MediaQueryScaler(
               child: LocalizationContextWrapper(
-                child: child ?? Container(),
+                child: PipLifecycleController(child: child ?? Container()),
                 currentLocale: language,
               ),
               enable: ref.read(argumentsStateProvider).leanBackMode,
