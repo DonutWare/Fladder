@@ -269,7 +269,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     if (childIds.isEmpty) return [];
 
     final children = await Future.wait(childIds.map(getSyncedItem));
-    return children.whereType<SyncedItem>().toList();
+    return children.whereType<SyncedItem>().where((child) => child.itemModel is AudioModel).toList();
   }
 
   Future<List<SyncedItem>> getSiblings(SyncedItem syncedItem) async {
