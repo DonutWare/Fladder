@@ -6,8 +6,8 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/items/artist_model.dart';
 import 'package:fladder/providers/items/artist_details_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/track_list.dart';
 import 'package:fladder/util/fladder_image.dart';
@@ -85,7 +85,7 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Text(current.name, style: Theme.of(context).textTheme.displaySmall),
+                        Text(current.name, style: Theme.of(context).textTheme.displaySmall),
                         const SizedBox(height: 16),
                         if (current.subText?.isNotEmpty == true)
                           Text(current.subText!, style: Theme.of(context).textTheme.bodyLarge),
@@ -133,9 +133,10 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                       Padding(
                         padding: padding,
                         child: TrackList(
-                          title: 'Latest tracks',
+                          title: context.localized.latest,
                           tracks: tracks.take(8).toList(),
                           enableSorting: false,
+                          showSyncStatus: true,
                           onTrackPlayTap: (track) => current.playLatestTracks(detailsContext, ref, startTrack: track),
                           onTrackArtistTap: (_) => current.parentBaseModel.navigateTo(detailsContext),
                           onPlaySelected: (selected) => selected.play(detailsContext, ref),
@@ -161,8 +162,9 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                     if (albums.isNotEmpty)
                       PosterRow(
                         posters: albums,
-                        label: 'Albums',
+                        label: context.localized.musicAlbum(2),
                         contentPadding: padding,
+                        showSyncStatus: true,
                       ),
                   ],
                 ),

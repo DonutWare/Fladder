@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/audio_model.dart';
+import 'package:fladder/providers/sync/sync_provider_helpers.dart';
+import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
@@ -29,6 +31,7 @@ class TrackList extends ConsumerStatefulWidget {
   final List<AudioModel> tracks;
   final int? maxTracks;
   final bool showAlbum;
+  final bool showSyncStatus;
   final Function(AudioModel track)? onTrackPlayTap;
   final Function(AudioModel track)? onTrackTap;
   final Function(AudioModel track)? onTrackArtistTap;
@@ -44,6 +47,7 @@ class TrackList extends ConsumerStatefulWidget {
     required this.tracks,
     this.maxTracks,
     this.showAlbum = true,
+    this.showSyncStatus = false,
     this.onTrackPlayTap,
     this.onTrackTap,
     this.onTrackArtistTap,
@@ -68,6 +72,7 @@ enum _TrackColumn {
   album(label: 'Album', flex: 3, sortable: true, sortColumn: _TrackSortColumn.album),
   plays(label: 'Plays', width: 90, sortable: true, sortColumn: _TrackSortColumn.plays, align: TextAlign.end),
   duration(label: 'Duration', width: 80, sortable: true, sortColumn: _TrackSortColumn.duration, align: TextAlign.end),
+  sync(label: '', width: 40, sortable: false),
   action(label: '', width: 40, sortable: false);
 
   final String label;
@@ -291,6 +296,7 @@ class _TrackListState extends ConsumerState<TrackList> {
                       onArtistTap: widget.onTrackArtistTap,
                       onSecondaryTap: widget.onTrackSecondaryTap,
                       showAlbum: widget.showAlbum,
+                      showSyncStatus: widget.showSyncStatus,
                       compactLayout: showCompactLayout,
                       isSelected: _selectionEnabled && _selectedTrackIds.contains(track.id),
                     ),
@@ -339,6 +345,13 @@ class _TrackListState extends ConsumerState<TrackList> {
                 width: _TrackColumn.duration.width!,
                 child: _buildHeaderLabel(context, _TrackColumn.duration),
               ),
+              if (widget.showSyncStatus) ...[
+                const SizedBox(width: _trackCellSpacing),
+                SizedBox(
+                  width: _TrackColumn.sync.width!,
+                  child: _buildHeaderLabel(context, _TrackColumn.sync),
+                ),
+              ],
               const SizedBox(width: _trackCellSpacing),
               SizedBox(width: _TrackColumn.action.width!),
             ],
@@ -358,6 +371,7 @@ class _TrackListItem extends ConsumerStatefulWidget {
   final TrackSecondaryTapCallback? onSecondaryTap;
   final Function(AudioModel track)? onTrackPlayTap;
   final bool showAlbum;
+  final bool showSyncStatus;
   final bool compactLayout;
   final bool isSelected;
 
@@ -370,6 +384,7 @@ class _TrackListItem extends ConsumerStatefulWidget {
     this.onArtistTap,
     this.onSecondaryTap,
     this.showAlbum = true,
+    this.showSyncStatus = false,
     this.compactLayout = false,
     this.isSelected = false,
   });
@@ -529,6 +544,25 @@ class _TrackListItemState extends ConsumerState<_TrackListItem> {
                     textAlign: TextAlign.end,
                   ),
                 ),
+                if (widget.showSyncStatus) ...[
+                  const SizedBox(width: _trackCellSpacing),
+                  SizedBox(
+                    width: _TrackColumn.sync.width,
+                    child: ref.watch(syncedItemProvider(widget.track)).when(
+                          error: (error, stackTrace) => const SizedBox.shrink(),
+                          data: (syncedItem) {
+                            if (syncedItem == null) {
+                              return const SizedBox.shrink();
+                            }
+                            return Align(
+                              alignment: Alignment.centerRight,
+                              child: SyncButton(item: widget.track, syncedItem: syncedItem),
+                            );
+                          },
+                          loading: () => const SizedBox.shrink(),
+                        ),
+                  ),
+                ],
                 const SizedBox(width: _trackCellSpacing),
                 SizedBox(
                   width: _TrackColumn.action.width,

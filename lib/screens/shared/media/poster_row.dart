@@ -20,6 +20,7 @@ class PosterRow extends ConsumerWidget {
   final Function(ItemBaseModel focused)? onFocused;
   final bool primaryPosters;
   final bool tvMode;
+  final bool showSyncStatus;
   const PosterRow({
     required this.posters,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 16),
@@ -29,6 +30,7 @@ class PosterRow extends ConsumerWidget {
     this.onFocused,
     this.primaryPosters = false,
     this.tvMode = false,
+    this.showSyncStatus = false,
     super.key,
   });
 
@@ -68,6 +70,7 @@ class PosterRow extends ConsumerWidget {
           poster: poster,
           aspectRatio: dominantRatio,
           primaryPosters: primaryPosters,
+          showSyncStatus: showSyncStatus,
         );
       },
     );

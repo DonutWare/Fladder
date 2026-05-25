@@ -32,6 +32,7 @@ class PosterWidget extends ConsumerWidget {
   final Function(VoidCallback action, ItemBaseModel item)? onPressed;
   final bool primaryPosters;
   final Function(bool focus)? onFocusChanged;
+  final bool showSyncStatus;
 
   const PosterWidget({
     required this.poster,
@@ -49,6 +50,7 @@ class PosterWidget extends ConsumerWidget {
     this.onPressed,
     this.primaryPosters = false,
     this.onFocusChanged,
+    this.showSyncStatus = false,
     super.key,
   });
 
@@ -80,6 +82,7 @@ class PosterWidget extends ConsumerWidget {
               onPressed: onPressed,
               primaryPosters: primaryPosters,
               onFocusChanged: onFocusChanged,
+              showSyncStatus: showSyncStatus,
             ),
           ),
           if (!inlineTitle && underTitle)

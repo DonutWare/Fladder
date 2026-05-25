@@ -5,8 +5,10 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/screens/shared/media/components/poster_overlays.dart';
 import 'package:fladder/screens/shared/media/components/poster_placeholder.dart';
+import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
@@ -17,6 +19,7 @@ import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
+import 'package:fladder/widgets/shared/status_card.dart';
 
 class PosterImage extends ConsumerWidget {
   final ItemBaseModel poster;
@@ -31,6 +34,7 @@ class PosterImage extends ConsumerWidget {
   final Function(Function() action, ItemBaseModel item)? onPressed;
   final bool primaryPosters;
   final Function(bool focus)? onFocusChanged;
+  final bool showSyncStatus;
 
   const PosterImage({
     required this.poster,
@@ -45,6 +49,7 @@ class PosterImage extends ConsumerWidget {
     this.onUserDataChanged,
     this.primaryPosters = false,
     this.onFocusChanged,
+    this.showSyncStatus = false,
     super.key,
   });
 
@@ -89,6 +94,22 @@ class PosterImage extends ConsumerWidget {
           ),
         ),
         overlays: [
+          if (showSyncStatus)
+            Align(
+              alignment: Alignment.topRight,
+              child: ref.watch(syncedItemProvider(poster)).when(
+                    error: (error, stackTrace) => const SizedBox.shrink(),
+                    data: (syncedItem) {
+                      if (syncedItem == null) {
+                        return const SizedBox.shrink();
+                      }
+                      return StatusCard(
+                        child: SyncButton(item: poster, syncedItem: syncedItem),
+                      );
+                    },
+                    loading: () => const SizedBox.shrink(),
+                  ),
+            ),
           if (selected == true)
             SelectedPosterOverlay(
               poster: poster,
