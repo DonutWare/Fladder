@@ -104,7 +104,31 @@ class ArtistDetailsNotifier extends StateNotifier<ArtistModel?> {
 
       final albums = response.body?.items.whereType<AlbumModel>().toList();
       if (albums != null) {
-        state = state?.copyWith(albums: albums);
+        final tracksResponse = await api.itemsGet(
+          parentId: state!.id,
+          includeItemTypes: [BaseItemKind.audio],
+          enableUserData: false,
+          recursive: true,
+          fields: [ItemFields.candownload],
+          limit: 5000,
+        );
+
+        final downloadableAlbumIds = tracksResponse.body?.items
+                .whereType<AudioModel>()
+                .where((track) => track.canDownload == true)
+                .map((track) => track.albumId ?? track.parentId)
+                .toSet() ??
+            {};
+
+        state = state?.copyWith(
+          albums: albums
+              .map(
+                (album) => album.copyWith(
+                  canDownload: album.canDownload == true || downloadableAlbumIds.contains(album.id),
+                ),
+              )
+              .toList(),
+        );
       }
     } catch (error, stack) {
       log('Failed to fetch albums for artist ${state?.id} due to $error',
