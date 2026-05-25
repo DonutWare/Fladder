@@ -43,6 +43,7 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(Map<String, dynamic
       replayGainMode: $enumDecodeNullable(_$ReplayGainModeEnumMap, json['replayGainMode']) ?? ReplayGainMode.automatic,
       replayGainVolumeLevel: $enumDecodeNullable(_$ReplayGainVolumeLevelEnumMap, json['replayGainVolumeLevel']) ??
           ReplayGainVolumeLevel.normal,
+      enablePlayPauseFade: json['enablePlayPauseFade'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$VideoPlayerSettingsModelToJson(_VideoPlayerSettingsModel instance) => <String, dynamic>{
@@ -73,6 +74,7 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(_VideoPlayerSettingsModel 
       'enableReplayGain': instance.enableReplayGain,
       'replayGainMode': _$ReplayGainModeEnumMap[instance.replayGainMode]!,
       'replayGainVolumeLevel': _$ReplayGainVolumeLevelEnumMap[instance.replayGainVolumeLevel]!,
+      'enablePlayPauseFade': instance.enablePlayPauseFade,
     };
 
 const _$BoxFitEnumMap = {

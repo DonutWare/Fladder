@@ -40,6 +40,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   bool get enableReplayGain;
   ReplayGainMode get replayGainMode;
   ReplayGainVolumeLevel get replayGainVolumeLevel;
+  bool get enablePlayPauseFade;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -80,12 +81,13 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures))
       ..add(DiagnosticsProperty('enableReplayGain', enableReplayGain))
       ..add(DiagnosticsProperty('replayGainMode', replayGainMode))
-      ..add(DiagnosticsProperty('replayGainVolumeLevel', replayGainVolumeLevel));
+      ..add(DiagnosticsProperty('replayGainVolumeLevel', replayGainVolumeLevel))
+      ..add(DiagnosticsProperty('enablePlayPauseFade', enablePlayPauseFade));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enableReplayGain: $enableReplayGain, replayGainMode: $replayGainMode, replayGainVolumeLevel: $replayGainVolumeLevel)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enableReplayGain: $enableReplayGain, replayGainMode: $replayGainMode, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade)';
   }
 }
 
@@ -121,7 +123,8 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       bool reverseEdgeGestures,
       bool enableReplayGain,
       ReplayGainMode replayGainMode,
-      ReplayGainVolumeLevel replayGainVolumeLevel});
+      ReplayGainVolumeLevel replayGainVolumeLevel,
+      bool enablePlayPauseFade});
 }
 
 /// @nodoc
@@ -162,6 +165,7 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res> implements $VideoPlayerSettin
     Object? enableReplayGain = null,
     Object? replayGainMode = null,
     Object? replayGainVolumeLevel = null,
+    Object? enablePlayPauseFade = null,
   }) {
     return _then(_self.copyWith(
       screenBrightness: freezed == screenBrightness
@@ -268,6 +272,10 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res> implements $VideoPlayerSettin
           ? _self.replayGainVolumeLevel
           : replayGainVolumeLevel // ignore: cast_nullable_to_non_nullable
               as ReplayGainVolumeLevel,
+      enablePlayPauseFade: null == enablePlayPauseFade
+          ? _self.enablePlayPauseFade
+          : enablePlayPauseFade // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -391,7 +399,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool reverseEdgeGestures,
             bool enableReplayGain,
             ReplayGainMode replayGainMode,
-            ReplayGainVolumeLevel replayGainVolumeLevel)?
+            ReplayGainVolumeLevel replayGainVolumeLevel,
+            bool enablePlayPauseFade)?
         $default, {
     required TResult orElse(),
   }) {
@@ -424,7 +433,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.reverseEdgeGestures,
             _that.enableReplayGain,
             _that.replayGainMode,
-            _that.replayGainVolumeLevel);
+            _that.replayGainVolumeLevel,
+            _that.enablePlayPauseFade);
       case _:
         return orElse();
     }
@@ -471,7 +481,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool reverseEdgeGestures,
             bool enableReplayGain,
             ReplayGainMode replayGainMode,
-            ReplayGainVolumeLevel replayGainVolumeLevel)
+            ReplayGainVolumeLevel replayGainVolumeLevel,
+            bool enablePlayPauseFade)
         $default,
   ) {
     final _that = this;
@@ -503,7 +514,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.reverseEdgeGestures,
             _that.enableReplayGain,
             _that.replayGainMode,
-            _that.replayGainVolumeLevel);
+            _that.replayGainVolumeLevel,
+            _that.enablePlayPauseFade);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -549,7 +561,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool reverseEdgeGestures,
             bool enableReplayGain,
             ReplayGainMode replayGainMode,
-            ReplayGainVolumeLevel replayGainVolumeLevel)?
+            ReplayGainVolumeLevel replayGainVolumeLevel,
+            bool enablePlayPauseFade)?
         $default,
   ) {
     final _that = this;
@@ -581,7 +594,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.reverseEdgeGestures,
             _that.enableReplayGain,
             _that.replayGainMode,
-            _that.replayGainVolumeLevel);
+            _that.replayGainVolumeLevel,
+            _that.enablePlayPauseFade);
       case _:
         return null;
     }
@@ -617,7 +631,8 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
       this.reverseEdgeGestures = false,
       this.enableReplayGain = true,
       this.replayGainMode = ReplayGainMode.automatic,
-      this.replayGainVolumeLevel = ReplayGainVolumeLevel.normal})
+      this.replayGainVolumeLevel = ReplayGainVolumeLevel.normal,
+      this.enablePlayPauseFade = true})
       : _allowedOrientations = allowedOrientations,
         _segmentSkipSettings = segmentSkipSettings,
         _hotKeys = hotKeys,
@@ -718,6 +733,9 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
   @override
   @JsonKey()
   final ReplayGainVolumeLevel replayGainVolumeLevel;
+  @override
+  @JsonKey()
+  final bool enablePlayPauseFade;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -763,12 +781,13 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
       ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures))
       ..add(DiagnosticsProperty('enableReplayGain', enableReplayGain))
       ..add(DiagnosticsProperty('replayGainMode', replayGainMode))
-      ..add(DiagnosticsProperty('replayGainVolumeLevel', replayGainVolumeLevel));
+      ..add(DiagnosticsProperty('replayGainVolumeLevel', replayGainVolumeLevel))
+      ..add(DiagnosticsProperty('enablePlayPauseFade', enablePlayPauseFade));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enableReplayGain: $enableReplayGain, replayGainMode: $replayGainMode, replayGainVolumeLevel: $replayGainVolumeLevel)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enableReplayGain: $enableReplayGain, replayGainMode: $replayGainMode, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade)';
   }
 }
 
@@ -805,7 +824,8 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res> implements $VideoP
       bool reverseEdgeGestures,
       bool enableReplayGain,
       ReplayGainMode replayGainMode,
-      ReplayGainVolumeLevel replayGainVolumeLevel});
+      ReplayGainVolumeLevel replayGainVolumeLevel,
+      bool enablePlayPauseFade});
 }
 
 /// @nodoc
@@ -846,6 +866,7 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res> implements _$VideoPlayerSett
     Object? enableReplayGain = null,
     Object? replayGainMode = null,
     Object? replayGainVolumeLevel = null,
+    Object? enablePlayPauseFade = null,
   }) {
     return _then(_VideoPlayerSettingsModel(
       screenBrightness: freezed == screenBrightness
@@ -952,6 +973,10 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res> implements _$VideoPlayerSett
           ? _self.replayGainVolumeLevel
           : replayGainVolumeLevel // ignore: cast_nullable_to_non_nullable
               as ReplayGainVolumeLevel,
+      enablePlayPauseFade: null == enablePlayPauseFade
+          ? _self.enablePlayPauseFade
+          : enablePlayPauseFade // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }

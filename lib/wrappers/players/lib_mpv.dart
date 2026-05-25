@@ -43,6 +43,9 @@ class LibMPV extends BasePlayer {
   final Duration _maxRetryDuration = const Duration(minutes: 1);
   final Duration _currentRetryDuration = const Duration(seconds: 5);
   Completer<void>? _loadCompleter;
+  double _preferredVolume = 100;
+  int _fadeGeneration = 0;
+  Duration get playPauseFadeDuration => const Duration(milliseconds: 150);
 
   @override
   Future<void> init(VideoPlayerSettingsModel settings) async {
@@ -72,7 +75,10 @@ class LibMPV extends BasePlayer {
       _player!.stream.buffering.listen((value) => setState(lastState.update(buffering: value)));
       _player!.stream.position.listen((value) => setState(lastState.update(position: value)));
       _player!.stream.duration.listen((value) => setState(lastState.update(duration: value)));
-      _player!.stream.volume.listen((value) => setState(lastState.update(volume: value)));
+      _player!.stream.volume.listen((value) {
+        if (_fadeGeneration == 0) _preferredVolume = value.clamp(0.0, 100.0);
+        setState(lastState.update(volume: value));
+      });
       _player!.stream.rate.listen((value) => setState(lastState.update(rate: value)));
       _player!.stream.buffer.listen((value) => setState(lastState.update(buffer: value)));
       _player!.stream.completed.listen((value) => setState(lastState.update(completed: value)));
@@ -94,6 +100,7 @@ class LibMPV extends BasePlayer {
 
   @override
   Future<void> dispose() async {
+    _fadeGeneration++;
     _onCompleted?.cancel();
     _onCompleted = null;
     _player?.stop();
@@ -261,14 +268,56 @@ class LibMPV extends BasePlayer {
   List<mpv.AudioTrack> get audioTracks => _player?.state.tracks.audio ?? [];
   mpv.AudioTrack get audioTrack => _player?.state.track.audio ?? mpv.AudioTrack.no();
 
-  @override
-  Future<void> pause() async => _player?.pause();
+  Future<void> _fadePlayback(bool fadingIn) async {
+    final player = _player;
+    if (player == null) return;
+
+    if (!_settings.enablePlayPauseFade) {
+      if (fadingIn) {
+        await player.play();
+      } else {
+        await player.pause();
+      }
+      return;
+    }
+
+    final generation = ++_fadeGeneration;
+    final from = fadingIn ? 0.0 : player.state.volume.clamp(0.0, 100.0);
+    final to = fadingIn ? _preferredVolume : 0.0;
+    const stepMs = 16;
+    final steps = playPauseFadeDuration.inMilliseconds ~/ stepMs;
+
+    if (fadingIn) {
+      await player.play();
+      await player.setVolume(from);
+    }
+
+    for (var i = 1; i <= steps; i++) {
+      if (generation != _fadeGeneration || _player == null) return;
+      await player.setVolume(from + (to - from) * i / steps);
+      if (i < steps) await Future.delayed(const Duration(milliseconds: stepMs));
+    }
+
+    if (!fadingIn && generation == _fadeGeneration && _player != null) {
+      _fadeGeneration++;
+      await player.pause();
+    }
+  }
 
   @override
-  Future<void> play() async => _player?.play();
+  Future<void> pause() async => _fadePlayback(false);
 
   @override
-  Future<void> playOrPause() async => _player?.playOrPause();
+  Future<void> play() async => _fadePlayback(true);
+
+  @override
+  Future<void> playOrPause() async {
+    if ((_player?.state.playing ?? lastState.playing) == true) {
+      await pause();
+    } else {
+      await play();
+    }
+  }
 
   @override
   Future<void> seek(Duration position) async => _player?.seek(position);
@@ -368,7 +417,11 @@ class LibMPV extends BasePlayer {
           : null;
 
   @override
-  Future<void> setVolume(double volume) async => _player?.setVolume(volume);
+  Future<void> setVolume(double volume) async {
+    _preferredVolume = volume.clamp(0.0, 100.0);
+    _fadeGeneration++;
+    await _player?.setVolume(_preferredVolume);
+  }
 
   @override
   Future<void> loop(bool loop) async {

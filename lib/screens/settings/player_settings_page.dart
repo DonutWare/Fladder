@@ -416,6 +416,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               ),
               if (currentPlayer == PlayerOptions.libMPV)
                 SettingsListTile(
+                  label: Text(context.localized.settingsPlayerPlayPauseFadeTitle),
+                  subLabel: Text(context.localized.settingsPlayerPlayPauseFadeDesc),
+                  onTap: () => provider.setEnablePlayPauseFade(!videoSettings.enablePlayPauseFade),
+                  trailing: Switch(
+                    value: videoSettings.enablePlayPauseFade,
+                    onChanged: (value) => provider.setEnablePlayPauseFade(value),
+                  ),
+                ),
+              if (currentPlayer == PlayerOptions.libMPV)
+                SettingsListTile(
                   label: Text(context.localized.settingsPlayerBufferSizeTitle),
                   subLabel: Text(context.localized.settingsPlayerBufferSizeDesc),
                   trailing: IntInputField(

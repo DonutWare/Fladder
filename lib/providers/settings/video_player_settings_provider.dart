@@ -182,6 +182,8 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   void setEnableReplayGain(bool value) => state = state.copyWith(enableReplayGain: value);
 
+  void setEnablePlayPauseFade(bool value) => state = state.copyWith(enablePlayPauseFade: value);
+
   void setReplayGainMode(ReplayGainMode value) => state = state.copyWith(replayGainMode: value);
 
   void setReplayGainVolumeLevel(ReplayGainVolumeLevel value) => state = state.copyWith(replayGainVolumeLevel: value);

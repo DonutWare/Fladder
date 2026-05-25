@@ -97,6 +97,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(true) bool enableReplayGain,
     @Default(ReplayGainMode.automatic) ReplayGainMode replayGainMode,
     @Default(ReplayGainVolumeLevel.normal) ReplayGainVolumeLevel replayGainVolumeLevel,
+    @Default(true) bool enablePlayPauseFade,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => internalVolume;
