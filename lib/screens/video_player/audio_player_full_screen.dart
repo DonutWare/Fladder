@@ -7,12 +7,19 @@ import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as dto;
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/models/playback/direct_playback_model.dart';
+import 'package:fladder/models/playback/offline_playback_model.dart';
+import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/playback/transcode_playback_model.dart';
+import 'package:fladder/models/playback/tv_playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/video_player/components/audio_player_queue_dialog.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
@@ -127,7 +134,12 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
     final isFavourite = currentItem.userData.isFavourite;
 
     void closeFullScreen() {
-      ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.minimized));
+      final isSingleLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
+      if (isSingleLayout) {
+        ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.minimized));
+      } else {
+        ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
+      }
     }
 
     Widget buildMetadata(BuildContext context) {
@@ -171,6 +183,8 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                         ),
                   ),
                 const SizedBox(height: 10),
+                _PlaybackTypeChip(playbackModel: playbackModel),
+                const SizedBox(height: 6),
                 AudioPropertyLabelsRow(item: currentItem, replayGainVolumeLevel: replayGainVolumeLevel),
               ],
             ),
@@ -653,7 +667,11 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                         onPressed: closeFullScreen,
                         icon: const Icon(IconsaxPlusLinear.arrow_down),
                       ),
-                      const SizedBox(width: 8),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () => ref.read(videoPlayerProvider).stop(),
+                        icon: const Icon(IconsaxPlusBold.stop),
+                      ),
                     ],
                   ),
                   Column(
