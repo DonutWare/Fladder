@@ -133,9 +133,9 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
 
     final isFavourite = currentItem.userData.isFavourite;
 
-    void closeFullScreen() {
+    void closeFullScreen({bool force = false}) {
       final isSingleLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
-      if (isSingleLayout) {
+      if (isSingleLayout || force) {
         ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.minimized));
       } else {
         ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
@@ -664,7 +664,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: closeFullScreen,
+                        onPressed: () => closeFullScreen(force: true),
                         icon: const Icon(IconsaxPlusLinear.arrow_down),
                       ),
                       const Spacer(),
