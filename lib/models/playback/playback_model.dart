@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
@@ -18,11 +19,11 @@ import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
-import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/playback/direct_playback_model.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
 import 'package:fladder/models/playback/playback_options_dialogue.dart';
 import 'package:fladder/models/playback/playback_queue_source.dart';
+import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/playback/transcode_playback_model.dart';
 import 'package:fladder/models/playback/tv_playback_model.dart';
 export 'playback_queue_source.dart';
@@ -275,6 +276,20 @@ class PlaybackModelHelper {
       };
 
       final isOffline = ref.read(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
+
+      if (firstItemToPlay is AudioModel && firstItemIsSynced) {
+        final offlinePlayback = await _createOfflinePlaybackModel(
+          fullItem,
+          item.streamModel,
+          syncedItem,
+          oldModel: oldModel,
+          queueSource: effectiveQueueSource,
+        );
+
+        if (offlinePlayback != null) {
+          return offlinePlayback;
+        }
+      }
 
       if (((showPlaybackOptions || firstItemIsSynced) && !isOffline) && context != null) {
         final playbackType = await showPlaybackTypeSelection(

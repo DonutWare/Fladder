@@ -85,8 +85,6 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(current.name, style: Theme.of(context).textTheme.displaySmall),
-                        const SizedBox(height: 16),
                         if (current.subText?.isNotEmpty == true)
                           Text(current.subText!, style: Theme.of(context).textTheme.bodyLarge),
                         const SizedBox(height: 16),

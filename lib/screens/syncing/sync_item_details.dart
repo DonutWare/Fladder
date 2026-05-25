@@ -59,8 +59,9 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
     final downloadTask = ref.watch(downloadTasksProvider(syncedItem.id));
     final syncedChildren = ref.watch(syncedChildrenProvider(syncedItem));
     final nestedChildren = ref.watch(syncedNestedChildrenProvider(syncedItem));
-    final canDeleteSyncedItem =
-        syncedItem.parentId == null || baseItem?.type == FladderItemType.musicAlbum || baseItem?.type == FladderItemType.audio;
+    final canDeleteSyncedItem = syncedItem.parentId == null ||
+        baseItem?.type == FladderItemType.musicAlbum ||
+        baseItem?.type == FladderItemType.audio;
     return PullToRefresh(
       refreshOnStart: false,
       onRefresh: () async {

@@ -799,6 +799,42 @@ class AudioPropertyLabelsRow extends StatelessWidget {
   }
 }
 
+class _PlaybackTypeChip extends StatelessWidget {
+  final PlaybackModel playbackModel;
+
+  const _PlaybackTypeChip({required this.playbackModel});
+
+  @override
+  Widget build(BuildContext context) {
+    final type = switch (playbackModel) {
+      DirectPlaybackModel _ => PlaybackType.directStream,
+      TranscodePlaybackModel _ => PlaybackType.transcode,
+      OfflinePlaybackModel _ => PlaybackType.offline,
+      TvPlaybackModel _ => PlaybackType.tv,
+      _ => null,
+    };
+    if (type == null) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest.withAlpha(150),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(type.icon, size: 14, color: Theme.of(context).textTheme.labelMedium?.color),
+            const SizedBox(width: 5),
+            Text(type.name(context), style: Theme.of(context).textTheme.labelMedium),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _AudioPropertyChip extends StatelessWidget {
   final String value;
 
