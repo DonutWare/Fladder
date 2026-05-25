@@ -21,7 +21,9 @@ import 'package:fladder/models/items/album_model.dart';
 import 'package:fladder/models/items/artist_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/items/season_model.dart';
@@ -614,10 +616,12 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     final directory = await Directory(syncItem.directory.path).create(recursive: true);
 
     final newState = VideoStream.fromPlayBackInfo(playbackData, ref)?.copyWith();
-    final subtitles = await saveExternalSubtitles(newState?.mediaStreamsModel?.subStreams, syncItem);
+    final subtitles = isAudioItem
+        ? <SubStreamModel>[]
+        : await saveExternalSubtitles(newState?.mediaStreamsModel?.subStreams, syncItem);
 
-    final trickPlayFile = await saveTrickPlayData(item, directory);
-    final mediaSegments = (await api.mediaSegmentsGet(id: syncItem.id))?.body;
+    final trickPlayFile = isAudioItem ? null : await saveTrickPlayData(item, directory);
+    final mediaSegments = isAudioItem ? null : (await api.mediaSegmentsGet(id: syncItem.id))?.body;
 
     syncItem = syncItem.copyWith(
       fChapters: await saveChapterImages(item.overview.chapters, directory) ?? [],
@@ -824,7 +828,9 @@ extension SyncNotifierHelpers on SyncNotifier {
 
     File dataFile = File(path.joinAll([directory.path, 'data.json']));
     await dataFile.writeAsString(jsonEncode(response.toJson()));
-    final imageData = await saveImageData(item.images, directory);
+    final imageData = item is AudioModel
+        ? _audioImageDataFromParent(parent: parent, directory: directory)
+        : await saveImageData(item.images, directory);
 
     SyncedItem syncItem = SyncedItem(
       syncing: true,
@@ -837,6 +843,29 @@ extension SyncNotifierHelpers on SyncNotifier {
       userData: item.userData,
     );
     return syncItem;
+  }
+
+  ImagesData? _audioImageDataFromParent({required SyncedItem? parent, required Directory directory}) {
+    final parentImages = parent?.fImages;
+    final parentDirectory = parent?.directory;
+
+    if (parentImages == null || parentDirectory == null) return null;
+
+    ImageData? rebasePath(ImageData? image) {
+      final imagePath = image?.path;
+      if (imagePath == null || imagePath.isEmpty) return null;
+
+      final absoluteParentPath = path.join(parentDirectory.path, imagePath);
+      final relativePath = path.relative(absoluteParentPath, from: directory.path);
+
+      return image?.copyWith(path: relativePath);
+    }
+
+    return parentImages.copyWith(
+      primary: () => rebasePath(parentImages.primary),
+      logo: () => rebasePath(parentImages.logo),
+      backDrop: () => (parentImages.backDrop ?? []).map((image) => rebasePath(image)).whereType<ImageData>().toList(),
+    );
   }
 
   Future<SyncedItem?> syncMovie(
