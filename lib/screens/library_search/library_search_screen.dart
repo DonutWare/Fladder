@@ -8,10 +8,10 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
-import 'package:fladder/models/playlist_model.dart';
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';

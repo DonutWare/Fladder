@@ -142,7 +142,8 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
               ...[
                 if (musicDashboard.playlists.isNotEmpty)
                   MusicPlaylistRow(
-                    playlists: musicDashboard.playlists,
+                    playlists:
+                        musicDashboard.playlists.map((playlist) => playlist.copyWith(canDownload: true)).toList(),
                     contentPadding: padding,
                     label: FladderItemType.playlist.label(context.localized, count: musicDashboard.playlists.length),
                     onPlaylistPlayTap: _playPlaylistFromDashboard,

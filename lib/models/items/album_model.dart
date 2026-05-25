@@ -77,7 +77,7 @@ class AlbumModel extends ItemBaseModel with AlbumModelMappable {
   bool get playAble => true;
 
   @override
-  bool get syncAble => false;
+  bool get syncAble => true;
 
   String get artistLabel {
     if (albumArtist.isNotEmpty) return albumArtist;

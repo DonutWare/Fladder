@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 
@@ -18,7 +19,7 @@ enum MusicTrackSection {
 
 class MusicDashboardModel {
   final bool loading;
-  final List<ItemBaseModel> playlists;
+  final List<PlaylistModel> playlists;
   final List<ItemBaseModel> recentlyAddedAlbums;
   final List<AudioModel> recentlyAddedSongs;
   final List<AudioModel> recentlyPlayedSongs;
@@ -39,7 +40,7 @@ class MusicDashboardModel {
 
   MusicDashboardModel copyWith({
     bool? loading,
-    List<ItemBaseModel>? playlists,
+    List<PlaylistModel>? playlists,
     List<ItemBaseModel>? recentlyAddedAlbums,
     List<AudioModel>? recentlyAddedSongs,
     List<AudioModel>? recentlyPlayedSongs,
@@ -139,81 +140,106 @@ class MusicDashboardNotifier extends StateNotifier<MusicDashboardModel> {
       const posterLimit = 16;
       const trackLimit = 20;
 
-      final responses = await Future.wait([
-        api.itemsGet(
-          includeItemTypes: [BaseItemKind.playlist],
-          sortBy: [ItemSortBy.datecreated],
-          sortOrder: [SortOrder.descending],
-          recursive: true,
-          enableImageTypes: enableImageTypes,
-          fields: fields,
-          limit: posterLimit,
-        ),
-        api.itemsGet(
-          includeItemTypes: [BaseItemKind.musicalbum],
-          sortBy: [ItemSortBy.datecreated],
-          sortOrder: [SortOrder.descending],
-          recursive: true,
-          enableImageTypes: enableImageTypes,
-          fields: fields,
-          limit: posterLimit,
-        ),
-        api.itemsGet(
-          includeItemTypes: [BaseItemKind.audio],
-          sortBy: [ItemSortBy.datecreated],
-          sortOrder: [SortOrder.descending],
-          recursive: true,
-          enableImageTypes: enableImageTypes,
-          fields: fields,
-          limit: trackLimit,
-        ),
-        api.itemsGet(
-          includeItemTypes: [BaseItemKind.musicartist],
-          sortBy: [ItemSortBy.datecreated],
-          sortOrder: [SortOrder.descending],
-          recursive: true,
-          enableImageTypes: enableImageTypes,
-          fields: fields,
-          limit: posterLimit,
-        ),
-        api.itemsGet(
-          includeItemTypes: [BaseItemKind.musicalbum],
-          sortBy: [ItemSortBy.playcount],
-          sortOrder: [SortOrder.descending],
-          recursive: true,
-          enableImageTypes: enableImageTypes,
-          fields: fields,
-          limit: posterLimit,
-        ),
-        api.itemsGet(
-          includeItemTypes: [BaseItemKind.audio],
-          sortBy: [ItemSortBy.dateplayed, ItemSortBy.datecreated],
-          sortOrder: [SortOrder.descending],
-          recursive: true,
-          isPlayed: true,
-          enableImageTypes: enableImageTypes,
-          fields: fields,
-          limit: trackLimit,
-        ),
-        api.itemsGet(
-          includeItemTypes: [BaseItemKind.audio],
-          sortBy: [ItemSortBy.dateplayed, ItemSortBy.datecreated],
-          sortOrder: [SortOrder.descending],
-          recursive: true,
-          isFavorite: true,
-          enableImageTypes: enableImageTypes,
-          fields: fields,
-          limit: trackLimit,
-        ),
+      final playlistsFuture = api.itemsGet(
+        includeItemTypes: [BaseItemKind.playlist],
+        sortBy: [ItemSortBy.datecreated],
+        sortOrder: [SortOrder.descending],
+        recursive: true,
+        enableImageTypes: enableImageTypes,
+        fields: fields,
+        limit: posterLimit,
+      );
+
+      final recentlyAddedAlbumsFuture = api.itemsGet(
+        includeItemTypes: [BaseItemKind.musicalbum],
+        sortBy: [ItemSortBy.datecreated],
+        sortOrder: [SortOrder.descending],
+        recursive: true,
+        enableImageTypes: enableImageTypes,
+        fields: fields,
+        limit: posterLimit,
+      );
+
+      final recentlyAddedSongsFuture = api.itemsGet(
+        includeItemTypes: [BaseItemKind.audio],
+        sortBy: [ItemSortBy.datecreated],
+        sortOrder: [SortOrder.descending],
+        recursive: true,
+        enableImageTypes: enableImageTypes,
+        fields: fields,
+        limit: trackLimit,
+      );
+
+      final recentlyAddedArtistsFuture = api.itemsGet(
+        includeItemTypes: [BaseItemKind.musicartist],
+        sortBy: [ItemSortBy.datecreated],
+        sortOrder: [SortOrder.descending],
+        recursive: true,
+        enableImageTypes: enableImageTypes,
+        fields: fields,
+        limit: posterLimit,
+      );
+
+      final mostPlayedFuture = api.itemsGet(
+        includeItemTypes: [BaseItemKind.musicalbum],
+        sortBy: [ItemSortBy.playcount],
+        sortOrder: [SortOrder.descending],
+        recursive: true,
+        enableImageTypes: enableImageTypes,
+        fields: fields,
+        limit: posterLimit,
+      );
+
+      final recentlyPlayedSongsFuture = api.itemsGet(
+        includeItemTypes: [BaseItemKind.audio],
+        sortBy: [ItemSortBy.dateplayed, ItemSortBy.datecreated],
+        sortOrder: [SortOrder.descending],
+        recursive: true,
+        isPlayed: true,
+        enableImageTypes: enableImageTypes,
+        fields: fields,
+        limit: trackLimit,
+      );
+
+      final recentlyFavoritedSongsFuture = api.itemsGet(
+        includeItemTypes: [BaseItemKind.audio],
+        sortBy: [ItemSortBy.dateplayed, ItemSortBy.datecreated],
+        sortOrder: [SortOrder.descending],
+        recursive: true,
+        isFavorite: true,
+        enableImageTypes: enableImageTypes,
+        fields: fields,
+        limit: trackLimit,
+      );
+
+      final [
+        playlistsResponse,
+        recentlyAddedAlbumsResponse,
+        recentlyAddedSongsResponse,
+        recentlyAddedArtistsResponse,
+        mostPlayedResponse,
+        recentlyPlayedSongsResponse,
+        recentlyFavoritedSongsResponse,
+      ] = await Future.wait([
+        playlistsFuture,
+        recentlyAddedAlbumsFuture,
+        recentlyAddedSongsFuture,
+        recentlyAddedArtistsFuture,
+        mostPlayedFuture,
+        recentlyPlayedSongsFuture,
+        recentlyFavoritedSongsFuture,
       ]);
 
-      final playlists = responses[0].body?.items ?? const <ItemBaseModel>[];
-      final recentlyAddedAlbums = responses[1].body?.items ?? const <ItemBaseModel>[];
-      final recentlyAddedSongs = responses[2].body?.items.whereType<AudioModel>().toList() ?? const <AudioModel>[];
-      final recentlyAddedArtists = responses[3].body?.items ?? const <ItemBaseModel>[];
-      final mostPlayed = responses[4].body?.items ?? const <ItemBaseModel>[];
-      final recentlyPlayedSongs = responses[5].body?.items.whereType<AudioModel>().toList() ?? const <AudioModel>[];
-      final recentlyFavoritedSongs = responses[6].body?.items.whereType<AudioModel>().toList() ?? const <AudioModel>[];
+      final playlists = playlistsResponse.body?.items.whereType<PlaylistModel>().toList() ?? const <PlaylistModel>[];
+      final recentlyAddedAlbums = recentlyAddedAlbumsResponse.body?.items ?? const <ItemBaseModel>[];
+      final recentlyAddedSongs =
+          recentlyAddedSongsResponse.body?.items.whereType<AudioModel>().toList() ?? const <AudioModel>[];
+      final recentlyAddedArtists = recentlyAddedArtistsResponse.body?.items ?? const <ItemBaseModel>[];
+      final mostPlayed = mostPlayedResponse.body?.items ?? const <ItemBaseModel>[];
+      final recentlyPlayedSongs =
+          recentlyPlayedSongsResponse.body?.items.whereType<AudioModel>().toList() ?? const <AudioModel>[];
+      final recentlyFavoritedSongs =
+          recentlyFavoritedSongsResponse.body?.items.whereType<AudioModel>().toList() ?? const <AudioModel>[];
 
       state = state.copyWith(
         playlists: playlists,

@@ -4,11 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
 class MusicPlaylistRow extends ConsumerWidget {
   const MusicPlaylistRow({
@@ -19,9 +23,9 @@ class MusicPlaylistRow extends ConsumerWidget {
     super.key,
   });
 
-  final List<ItemBaseModel> playlists;
+  final List<PlaylistModel> playlists;
   final String label;
-  final Future<void> Function(ItemBaseModel playlist) onPlaylistPlayTap;
+  final Future<void> Function(PlaylistModel playlist) onPlaylistPlayTap;
   final EdgeInsets contentPadding;
 
   int _columnsForSize(ViewSize size) {
@@ -42,6 +46,37 @@ class MusicPlaylistRow extends ConsumerWidget {
     const rowHeight = 90.0;
     final rowCount = (playlists.length / columns).ceil();
     final gridHeight = rowCount == 0 ? 0.0 : (rowCount * rowHeight) + ((rowCount - 1) * mainAxisSpacing);
+
+    void showBottomSheet(BuildContext context, WidgetRef ref, ItemBaseModel playlist) {
+      showBottomSheetPill(
+        context: context,
+        item: playlist,
+        content: (scrollContext, scrollController) => ListView(
+          shrinkWrap: true,
+          controller: scrollController,
+          children: playlist
+              .generateActions(
+                context,
+                ref,
+              )
+              .listTileItems(scrollContext, useIcons: true),
+        ),
+      );
+    }
+
+    Future<void> showContextMenu(BuildContext context, WidgetRef ref, Offset globalPos, ItemBaseModel playlist) async {
+      final position = RelativeRect.fromLTRB(globalPos.dx, globalPos.dy, globalPos.dx, globalPos.dy);
+      await showMenu(
+        context: context,
+        position: position,
+        items: playlist
+            .generateActions(
+              context,
+              ref,
+            )
+            .popupMenuItems(useIcons: true),
+      );
+    }
 
     return Padding(
       padding: horizontalPadding,
@@ -77,6 +112,9 @@ class MusicPlaylistRow extends ConsumerWidget {
                       context.ensureVisible();
                     }
                   },
+                  onLongPress: () => showBottomSheet(context, ref, playlist),
+                  onSecondaryTapDown: (globalPos) => showContextMenu(context, ref, globalPos.localPosition, playlist),
+                  borderRadius: FladderTheme.smallShape.borderRadius,
                   overlays: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,

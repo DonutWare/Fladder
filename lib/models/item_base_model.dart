@@ -27,7 +27,7 @@ import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/watched_state.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
-import 'package:fladder/models/playlist_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/details_screens/album_detail_screen.dart';

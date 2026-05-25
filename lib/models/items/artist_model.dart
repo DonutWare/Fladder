@@ -1,5 +1,6 @@
-import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter/material.dart';
+
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
@@ -46,7 +47,7 @@ class ArtistModel extends ItemBaseModel with ArtistModelMappable {
   bool get playAble => false;
 
   @override
-  bool get syncAble => false;
+  bool get syncAble => true;
 
   @override
   String get title => name;

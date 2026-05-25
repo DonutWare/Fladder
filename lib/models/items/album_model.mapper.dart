@@ -26,14 +26,17 @@ class AlbumModelMapper extends SubClassMapperBase<AlbumModel> {
   final String id = 'AlbumModel';
 
   static List<String> _$artistIds(AlbumModel v) => v.artistIds;
-  static const Field<AlbumModel, List<String>> _f$artistIds = Field('artistIds', _$artistIds, opt: true, def: const []);
+  static const Field<AlbumModel, List<String>> _f$artistIds =
+      Field('artistIds', _$artistIds, opt: true, def: const []);
   static String _$albumArtist(AlbumModel v) => v.albumArtist;
-  static const Field<AlbumModel, String> _f$albumArtist = Field('albumArtist', _$albumArtist);
+  static const Field<AlbumModel, String> _f$albumArtist =
+      Field('albumArtist', _$albumArtist);
   static List<String> _$albumArtistIds(AlbumModel v) => v.albumArtistIds;
   static const Field<AlbumModel, List<String>> _f$albumArtistIds =
       Field('albumArtistIds', _$albumArtistIds, opt: true, def: const []);
   static List<AudioModel> _$tracks(AlbumModel v) => v.tracks;
-  static const Field<AlbumModel, List<AudioModel>> _f$tracks = Field('tracks', _$tracks, opt: true, def: const []);
+  static const Field<AlbumModel, List<AudioModel>> _f$tracks =
+      Field('tracks', _$tracks, opt: true, def: const []);
   static List<AlbumModel> _$relatedAlbums(AlbumModel v) => v.relatedAlbums;
   static const Field<AlbumModel, List<AlbumModel>> _f$relatedAlbums =
       Field('relatedAlbums', _$relatedAlbums, opt: true, def: const []);
@@ -41,31 +44,42 @@ class AlbumModelMapper extends SubClassMapperBase<AlbumModel> {
   static const Field<AlbumModel, List<AudioModel>> _f$relatedTracks =
       Field('relatedTracks', _$relatedTracks, opt: true, def: const []);
   static Map<String, dynamic>? _$providerIds(AlbumModel v) => v.providerIds;
-  static const Field<AlbumModel, Map<String, dynamic>> _f$providerIds = Field('providerIds', _$providerIds, opt: true);
+  static const Field<AlbumModel, Map<String, dynamic>> _f$providerIds =
+      Field('providerIds', _$providerIds, opt: true);
   static String _$name(AlbumModel v) => v.name;
   static const Field<AlbumModel, String> _f$name = Field('name', _$name);
   static String _$id(AlbumModel v) => v.id;
   static const Field<AlbumModel, String> _f$id = Field('id', _$id);
   static OverviewModel _$overview(AlbumModel v) => v.overview;
-  static const Field<AlbumModel, OverviewModel> _f$overview = Field('overview', _$overview);
+  static const Field<AlbumModel, OverviewModel> _f$overview =
+      Field('overview', _$overview);
   static String? _$parentId(AlbumModel v) => v.parentId;
-  static const Field<AlbumModel, String> _f$parentId = Field('parentId', _$parentId);
+  static const Field<AlbumModel, String> _f$parentId =
+      Field('parentId', _$parentId);
   static String? _$playlistId(AlbumModel v) => v.playlistId;
-  static const Field<AlbumModel, String> _f$playlistId = Field('playlistId', _$playlistId);
+  static const Field<AlbumModel, String> _f$playlistId =
+      Field('playlistId', _$playlistId);
   static ImagesData? _$images(AlbumModel v) => v.images;
-  static const Field<AlbumModel, ImagesData> _f$images = Field('images', _$images);
+  static const Field<AlbumModel, ImagesData> _f$images =
+      Field('images', _$images);
   static int? _$childCount(AlbumModel v) => v.childCount;
-  static const Field<AlbumModel, int> _f$childCount = Field('childCount', _$childCount);
+  static const Field<AlbumModel, int> _f$childCount =
+      Field('childCount', _$childCount);
   static double? _$primaryRatio(AlbumModel v) => v.primaryRatio;
-  static const Field<AlbumModel, double> _f$primaryRatio = Field('primaryRatio', _$primaryRatio);
+  static const Field<AlbumModel, double> _f$primaryRatio =
+      Field('primaryRatio', _$primaryRatio);
   static UserData _$userData(AlbumModel v) => v.userData;
-  static const Field<AlbumModel, UserData> _f$userData = Field('userData', _$userData);
+  static const Field<AlbumModel, UserData> _f$userData =
+      Field('userData', _$userData);
   static bool? _$canDelete(AlbumModel v) => v.canDelete;
-  static const Field<AlbumModel, bool> _f$canDelete = Field('canDelete', _$canDelete, opt: true);
+  static const Field<AlbumModel, bool> _f$canDelete =
+      Field('canDelete', _$canDelete, opt: true);
   static bool? _$canDownload(AlbumModel v) => v.canDownload;
-  static const Field<AlbumModel, bool> _f$canDownload = Field('canDownload', _$canDownload, opt: true);
+  static const Field<AlbumModel, bool> _f$canDownload =
+      Field('canDownload', _$canDownload, opt: true);
   static dto.BaseItemKind? _$jellyType(AlbumModel v) => v.jellyType;
-  static const Field<AlbumModel, dto.BaseItemKind> _f$jellyType = Field('jellyType', _$jellyType, opt: true);
+  static const Field<AlbumModel, dto.BaseItemKind> _f$jellyType =
+      Field('jellyType', _$jellyType, opt: true);
 
   @override
   final MappableFields<AlbumModel> fields = const {
@@ -97,7 +111,8 @@ class AlbumModelMapper extends SubClassMapperBase<AlbumModel> {
   @override
   final dynamic discriminatorValue = 'AlbumModel';
   @override
-  late final ClassMapperBase superMapper = ItemBaseModelMapper.ensureInitialized();
+  late final ClassMapperBase superMapper =
+      ItemBaseModelMapper.ensureInitialized();
 
   static AlbumModel _instantiate(DecodingData data) {
     return AlbumModel(
@@ -128,21 +143,29 @@ class AlbumModelMapper extends SubClassMapperBase<AlbumModel> {
 
 mixin AlbumModelMappable {
   AlbumModelCopyWith<AlbumModel, AlbumModel, AlbumModel> get copyWith =>
-      _AlbumModelCopyWithImpl<AlbumModel, AlbumModel>(this as AlbumModel, $identity, $identity);
+      _AlbumModelCopyWithImpl<AlbumModel, AlbumModel>(
+          this as AlbumModel, $identity, $identity);
 }
 
-extension AlbumModelValueCopy<$R, $Out> on ObjectCopyWith<$R, AlbumModel, $Out> {
+extension AlbumModelValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, AlbumModel, $Out> {
   AlbumModelCopyWith<$R, AlbumModel, $Out> get $asAlbumModel =>
       $base.as((v, t, t2) => _AlbumModelCopyWithImpl<$R, $Out>(v, t, t2));
 }
 
-abstract class AlbumModelCopyWith<$R, $In extends AlbumModel, $Out> implements ItemBaseModelCopyWith<$R, $In, $Out> {
+abstract class AlbumModelCopyWith<$R, $In extends AlbumModel, $Out>
+    implements ItemBaseModelCopyWith<$R, $In, $Out> {
   ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get artistIds;
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get albumArtistIds;
-  ListCopyWith<$R, AudioModel, AudioModelCopyWith<$R, AudioModel, AudioModel>> get tracks;
-  ListCopyWith<$R, AlbumModel, AlbumModelCopyWith<$R, AlbumModel, AlbumModel>> get relatedAlbums;
-  ListCopyWith<$R, AudioModel, AudioModelCopyWith<$R, AudioModel, AudioModel>> get relatedTracks;
-  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>? get providerIds;
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>
+      get albumArtistIds;
+  ListCopyWith<$R, AudioModel, AudioModelCopyWith<$R, AudioModel, AudioModel>>
+      get tracks;
+  ListCopyWith<$R, AlbumModel, AlbumModelCopyWith<$R, AlbumModel, AlbumModel>>
+      get relatedAlbums;
+  ListCopyWith<$R, AudioModel, AudioModelCopyWith<$R, AudioModel, AudioModel>>
+      get relatedTracks;
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>?
+      get providerIds;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
   @override
@@ -171,36 +194,50 @@ abstract class AlbumModelCopyWith<$R, $In extends AlbumModel, $Out> implements I
   AlbumModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _AlbumModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AlbumModel, $Out>
+class _AlbumModelCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, AlbumModel, $Out>
     implements AlbumModelCopyWith<$R, AlbumModel, $Out> {
   _AlbumModelCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<AlbumModel> $mapper = AlbumModelMapper.ensureInitialized();
+  late final ClassMapperBase<AlbumModel> $mapper =
+      AlbumModelMapper.ensureInitialized();
   @override
   ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get artistIds =>
-      ListCopyWith($value.artistIds, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(artistIds: v));
+      ListCopyWith($value.artistIds, (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(artistIds: v));
   @override
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get albumArtistIds =>
-      ListCopyWith($value.albumArtistIds, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(albumArtistIds: v));
+  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>>
+      get albumArtistIds => ListCopyWith(
+          $value.albumArtistIds,
+          (v, t) => ObjectCopyWith(v, $identity, t),
+          (v) => call(albumArtistIds: v));
   @override
-  ListCopyWith<$R, AudioModel, AudioModelCopyWith<$R, AudioModel, AudioModel>> get tracks =>
-      ListCopyWith($value.tracks, (v, t) => v.copyWith.$chain(t), (v) => call(tracks: v));
+  ListCopyWith<$R, AudioModel, AudioModelCopyWith<$R, AudioModel, AudioModel>>
+      get tracks => ListCopyWith($value.tracks, (v, t) => v.copyWith.$chain(t),
+          (v) => call(tracks: v));
   @override
-  ListCopyWith<$R, AlbumModel, AlbumModelCopyWith<$R, AlbumModel, AlbumModel>> get relatedAlbums =>
-      ListCopyWith($value.relatedAlbums, (v, t) => v.copyWith.$chain(t), (v) => call(relatedAlbums: v));
+  ListCopyWith<$R, AlbumModel, AlbumModelCopyWith<$R, AlbumModel, AlbumModel>>
+      get relatedAlbums => ListCopyWith($value.relatedAlbums,
+          (v, t) => v.copyWith.$chain(t), (v) => call(relatedAlbums: v));
   @override
-  ListCopyWith<$R, AudioModel, AudioModelCopyWith<$R, AudioModel, AudioModel>> get relatedTracks =>
-      ListCopyWith($value.relatedTracks, (v, t) => v.copyWith.$chain(t), (v) => call(relatedTracks: v));
+  ListCopyWith<$R, AudioModel, AudioModelCopyWith<$R, AudioModel, AudioModel>>
+      get relatedTracks => ListCopyWith($value.relatedTracks,
+          (v, t) => v.copyWith.$chain(t), (v) => call(relatedTracks: v));
   @override
-  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>? get providerIds => $value.providerIds != null
-      ? MapCopyWith($value.providerIds!, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(providerIds: v))
-      : null;
+  MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>?
+      get providerIds => $value.providerIds != null
+          ? MapCopyWith(
+              $value.providerIds!,
+              (v, t) => ObjectCopyWith(v, $identity, t),
+              (v) => call(providerIds: v))
+          : null;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
   @override
-  UserDataCopyWith<$R, UserData, UserData> get userData => $value.userData.copyWith.$chain((v) => call(userData: v));
+  UserDataCopyWith<$R, UserData, UserData> get userData =>
+      $value.userData.copyWith.$chain((v) => call(userData: v));
   @override
   $R call(
           {List<String>? artistIds,
@@ -266,6 +303,7 @@ class _AlbumModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AlbumModel
       jellyType: data.get(#jellyType, or: $value.jellyType));
 
   @override
-  AlbumModelCopyWith<$R2, AlbumModel, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+  AlbumModelCopyWith<$R2, AlbumModel, $Out2> $chain<$R2, $Out2>(
+          Then<$Out2, $R2> t) =>
       _AlbumModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }

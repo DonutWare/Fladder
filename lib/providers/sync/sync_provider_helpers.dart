@@ -22,7 +22,7 @@ Stream<SyncedItem?> syncedItem(Ref ref, ItemBaseModel? item) {
 @riverpod
 class SyncedChildren extends _$SyncedChildren {
   @override
-  FutureOr<List<SyncedItem>> build(SyncedItem item) => ref.read(syncProvider.notifier).getChildren(item.id);
+  FutureOr<List<SyncedItem>> build(SyncedItem item) => ref.read(syncProvider.notifier).getChildrenForItem(item);
 }
 
 @riverpod

@@ -71,6 +71,16 @@ abstract class SyncedItem with _$SyncedItem {
   File get dataFile => File(joinAll(["$path", "data.json"]));
   File get overlayFile => File(joinAll(["$path", "overlay.json"]));
 
+  List<String> get playlistChildIds {
+    if (!overlayFile.existsSync()) return [];
+    try {
+      final overlay = jsonDecode(overlayFile.readAsStringSync()) as Map<String, dynamic>;
+      final ids = overlay['playlistChildIds'];
+      if (ids is List) return ids.whereType<String>().toList();
+    } catch (_) {}
+    return [];
+  }
+
   bool get isTranscoded {
     if (!overlayFile.existsSync()) return false;
     final overlay = jsonDecode(overlayFile.readAsStringSync()) as Map<String, dynamic>;
