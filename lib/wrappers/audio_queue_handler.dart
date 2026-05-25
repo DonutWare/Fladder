@@ -66,7 +66,7 @@ extension AudioQueueHandler on MediaControlsWrapper {
 
     final playbackModel = ref.read(playBackModel);
     if (playbackModel != null) {
-      await _refreshMediaControls(model: playbackModel, playing: startPlayback);
+      await _refreshMediaControls(model: playbackModel, playing: false);
     }
 
     if (startPlayback) {
@@ -115,7 +115,8 @@ extension AudioQueueHandler on MediaControlsWrapper {
   }
 
   Future<void> _onAudioTrackCompleted() async {
-    if (_mpvPlaylistItems.length > _mpvPlaylistCurrentIndex + 1) return;
+    final remainingItems = _mpvPlaylistItems.length - _mpvPlaylistCurrentIndex - 1;
+    if (remainingItems > 0) return;
     final playbackModel = ref.read(playBackModel);
     if (playbackModel == null || !_isAudioQueueMode) return;
 
@@ -226,15 +227,21 @@ extension AudioQueueHandler on MediaControlsWrapper {
   }
 
   Future<void> _onMpvPlaylistIndexChanged(int newIndex) async {
-    if (newIndex == _mpvPlaylistCurrentIndex || !_isAudioQueueMode) return;
+    if (!_isAudioQueueMode) return;
+    if (newIndex < 0 || newIndex >= _mpvPlaylistItems.length || newIndex == _mpvPlaylistCurrentIndex) return;
+
+    _mpvPlaylistCurrentIndex = newIndex;
+    if (_audioQueueTransitioning) {
+      await _syncMpvPlaylist();
+      return;
+    }
 
     await _withQueueTransition(() async {
       final playbackModel = ref.read(playBackModel);
-      if (playbackModel == null || newIndex >= _mpvPlaylistItems.length) return;
+      if (playbackModel == null) return;
       final newItem = _mpvPlaylistItems[newIndex];
       final fromId = playbackModel.item.id;
       final newQueueState = playbackModel.playbackQueue.advanceFromCurrentTo(fromId, newItem.id);
-      _mpvPlaylistCurrentIndex = newIndex;
       await _applyQueueItem(newItem, newQueueState, playbackModel, Duration.zero, load: false);
     });
     await _syncMpvPlaylist();
@@ -251,6 +258,14 @@ extension AudioQueueHandler on MediaControlsWrapper {
       final playbackModel = ref.read(playBackModel);
       if (playbackModel == null) return;
       final player = _player as LibMPV;
+
+      if (_mpvPlaylistItems.isEmpty) {
+        _mpvPlaylistCurrentIndex = 0;
+        return;
+      }
+      if (_mpvPlaylistCurrentIndex >= _mpvPlaylistItems.length) {
+        _mpvPlaylistCurrentIndex = _mpvPlaylistItems.length - 1;
+      }
 
       for (var i = _mpvPlaylistItems.length - 1; i > _mpvPlaylistCurrentIndex; i--) {
         await player.removeFromPlaylist(i);
