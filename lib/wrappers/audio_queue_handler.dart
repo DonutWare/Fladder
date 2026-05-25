@@ -186,7 +186,14 @@ extension AudioQueueHandler on MediaControlsWrapper {
         );
     if (nextModel == null) return;
 
-    final updatedModel = nextModel.updatePlaybackQueue(newQueueState);
+    final latestNextUpQueue = ref.read(playBackModel)?.playbackQueue.nextUpQueue ?? const [];
+    final originalNextUpQueue = currentModel.playbackQueue.nextUpQueue;
+    final concurrentItems = latestNextUpQueue.where((e) => !originalNextUpQueue.any((q) => q.id == e.id)).toList();
+    final mergedQueueState = concurrentItems.isNotEmpty
+        ? newQueueState.copyWith(nextUpQueue: [...newQueueState.nextUpQueue, ...concurrentItems])
+        : newQueueState;
+
+    final updatedModel = nextModel.updatePlaybackQueue(mergedQueueState);
     ref.read(playBackModel.notifier).update((_) => updatedModel);
 
     await _applyReplayGain(item);
