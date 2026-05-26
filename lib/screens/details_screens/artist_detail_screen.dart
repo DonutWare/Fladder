@@ -92,22 +92,25 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                           spacing: 8,
                           children: [
                             ElevatedButton.icon(
-                              onPressed: tracks.isNotEmpty
-                                  ? () async {
-                                      await current.playLatestTracks(detailsContext, ref, shuffleEnabled: false);
-                                    }
-                                  : null,
+                              onPressed: () async {
+                                await current.playLatestTracks(detailsContext, ref, shuffleEnabled: false);
+                              },
                               icon: const Icon(IconsaxPlusLinear.play),
                               label: Text(context.localized.play(current.name)),
                             ),
                             IconButton(
-                              onPressed: tracks.isNotEmpty
-                                  ? () async {
-                                      await current.playLatestTracks(detailsContext, ref, shuffleEnabled: true);
-                                    }
-                                  : null,
+                              onPressed: () async {
+                                await current.playLatestTracks(detailsContext, ref, shuffleEnabled: true);
+                              },
                               icon: const Icon(IconsaxPlusLinear.shuffle),
                               tooltip: context.localized.shuffleVideos,
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                await current.playInstantMix(detailsContext, ref);
+                              },
+                              icon: const Icon(IconsaxPlusLinear.blend_2),
+                              tooltip: context.localized.instantMix,
                             ),
                           ],
                         ),

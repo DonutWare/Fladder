@@ -42,6 +42,9 @@ extension AudioQueueHandler on MediaControlsWrapper {
     _prefetchBuffer = AudioPrefetchBuffer();
     _mpvPlaylistItems = [];
     _mpvPlaylistCurrentIndex = 0;
+    _audioQueueRefillInProgress = false;
+    _audioQueueSourceDepleted = false;
+    _audioQueueNextStartIndex = queue.length;
 
     final resolver = AudioUrlResolver(ref);
     final currentItem = queue[initialIndex.clamp(0, queue.length - 1)];
@@ -283,10 +286,14 @@ extension AudioQueueHandler on MediaControlsWrapper {
 
       final buffer = _prefetchBuffer;
       if (buffer == null) return;
+      await _tryRefillAudioQueue(playbackModel, buffer.bufferSize);
+
+      final refreshedModel = ref.read(playBackModel);
+      if (refreshedModel == null) return;
       final resolver = AudioUrlResolver(ref);
       final queued = <String>{};
 
-      for (final item in playbackModel.playbackQueue.queueAheadForPrefetch()) {
+      for (final item in refreshedModel.playbackQueue.queueAheadForPrefetch()) {
         if (queued.contains(item.id)) continue;
         if (_mpvPlaylistItems.length - _mpvPlaylistCurrentIndex - 1 >= buffer.bufferSize) break;
 
@@ -304,6 +311,40 @@ extension AudioQueueHandler on MediaControlsWrapper {
         _syncPlaylistPending = false;
         unawaited(_syncMpvPlaylist());
       }
+    }
+  }
+
+  Future<void> _tryRefillAudioQueue(PlaybackModel playbackModel, int bufferSize) async {
+    final queueSource = playbackModel.queueSource;
+    if (queueSource == null || !queueSource.supportsRefill) return;
+    if (_audioQueueRefillInProgress || _audioQueueSourceDepleted) return;
+
+    final remaining = playbackModel.playbackQueue.queueAheadForPrefetch().length;
+    if (remaining > bufferSize) return;
+
+    _audioQueueRefillInProgress = true;
+    try {
+      final fetchedItems = await queueSource.fetchQueue(
+        ref.read,
+        limit: queueSource.limit,
+        startIndex: _audioQueueNextStartIndex,
+      );
+      _audioQueueNextStartIndex += fetchedItems.length;
+      if (fetchedItems.isEmpty) {
+        _audioQueueSourceDepleted = true;
+        return;
+      }
+
+      final currentModel = ref.read(playBackModel);
+      if (currentModel == null) return;
+      final updatedModel = currentModel.updatePlaybackQueue(
+        currentModel.playbackQueue.appendToQueue(fetchedItems),
+      );
+      ref.read(playBackModel.notifier).update((_) => updatedModel);
+    } catch (error, stackTrace) {
+      log('Audio queue refill failed: $error\n$stackTrace');
+    } finally {
+      _audioQueueRefillInProgress = false;
     }
   }
 

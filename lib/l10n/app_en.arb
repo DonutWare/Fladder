@@ -26,6 +26,8 @@
   "@addToPlaylist": {},
   "addToQueue": "Add to queue",
   "@addToQueue": {},
+  "instantMix": "Instant mix",
+  "@instantMix": {},
   "addedToQueue": "{count, plural, one{Added {count} track to queue} other{Added {count} tracks to queue}}",
   "@addedToQueue": {
     "placeholders": {

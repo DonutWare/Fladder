@@ -85,6 +85,7 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
 enum ItemActions {
   play,
   addToQueue,
+  instantMix,
   openShow,
   openParent,
   details,
@@ -189,6 +190,18 @@ extension ItemBaseModelExtensions on ItemBaseModel {
             },
             icon: const Icon(IconsaxPlusLinear.music_playlist),
             label: Text(context.localized.addToQueue),
+          ),
+      if (!exclude.contains(ItemActions.instantMix))
+        if (this is AudioModel || this is AlbumModel || this is ArtistModel)
+          ItemActionButton(
+            action: () => switch (this) {
+              AudioModel audio => audio.playInstantMix(context, ref),
+              AlbumModel album => album.playInstantMix(context, ref),
+              ArtistModel artist => artist.playInstantMix(context, ref),
+              _ => Future.value(),
+            },
+            icon: const Icon(IconsaxPlusLinear.blend_2),
+            label: Text(context.localized.instantMix),
           ),
       if (parentAction != null) parentAction,
       if (!galleryItem && !exclude.contains(ItemActions.details))

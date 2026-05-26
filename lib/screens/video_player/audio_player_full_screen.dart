@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
@@ -13,6 +14,7 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/transcode_playback_model.dart';
 import 'package:fladder/models/playback/tv_playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -831,13 +833,18 @@ class _PlaybackTypeChip extends StatelessWidget {
       TvPlaybackModel _ => PlaybackType.tv,
       _ => null,
     };
+
+    final backgroundColor = switch (type) {
+      PlaybackType.offline => TaskStatus.complete.color(context),
+      _ => Theme.of(context).colorScheme.surfaceContainerHighest,
+    };
     if (type == null) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(top: 6),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest.withAlpha(150),
+          color: backgroundColor.withAlpha(75),
           borderRadius: BorderRadius.circular(999),
         ),
         child: Row(

@@ -80,6 +80,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   StreamSubscription<int>? _playlistIndexSub;
   bool _syncingPlaylist = false;
   bool _syncPlaylistPending = false;
+  bool _audioQueueRefillInProgress = false;
+  bool _audioQueueSourceDepleted = false;
+  int _audioQueueNextStartIndex = 0;
 
   Future<void> init() async {
     if (!initializedWrapper) {

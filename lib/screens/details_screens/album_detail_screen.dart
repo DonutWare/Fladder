@@ -6,9 +6,8 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/items/album_model.dart';
 import 'package:fladder/providers/items/album_details_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/wrappers/media_control_wrapper.dart';
-import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/track_list.dart';
 import 'package:fladder/theme.dart';
@@ -19,6 +18,7 @@ import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
+import 'package:fladder/wrappers/media_control_wrapper.dart';
 
 class AlbumDetailScreen extends ConsumerStatefulWidget {
   final AlbumModel item;
@@ -176,6 +176,15 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                                     icon: const Icon(
                                       IconsaxPlusLinear.shuffle,
                                     ),
+                                  ),
+                                  IconButton(
+                                    onPressed: tracks.isNotEmpty
+                                        ? () async {
+                                            await album.playInstantMix(detailsContext, ref);
+                                          }
+                                        : null,
+                                    icon: const Icon(IconsaxPlusLinear.blend_2),
+                                    tooltip: context.localized.instantMix,
                                   ),
                                 ],
                               )

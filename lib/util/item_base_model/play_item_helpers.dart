@@ -289,10 +289,8 @@ extension ArtistModelLatestTracksPlayback on ArtistModel? {
       ref.read(mediaPlaybackProvider.notifier).update((s) => s.copyWith(shuffleEnabled: shuffleEnabled));
     }
 
-    final queueSource = ArtistLatestTracksQueueSource(artistId: artist.id, limit: 20);
-    final queue = artist.tracks.isNotEmpty
-        ? artist.tracks.cast<ItemBaseModel>().toList()
-        : await queueSource.fetchQueue(ref as Ref);
+    final queueSource = ArtistCatalogQueueSource(artistId: artist.id, limit: 300);
+    final queue = await queueSource.fetchQueue(ref.read);
 
     if (queue.isEmpty) {
       FladderSnack.show(context.localized.unableToPlayMedia, context: context);
@@ -374,6 +372,66 @@ extension AudioModelListPlayback on List<AudioModel> {
   }
 }
 
+extension AlbumModelInstantMixPlayback on AlbumModel? {
+  Future<void> playInstantMix(
+    BuildContext context,
+    WidgetRef ref, {
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+  }) async {
+    final album = this;
+    if (album == null) return;
+
+    await _playInstantMix(
+      context,
+      ref,
+      queueSource: AlbumInstantMixQueueSource(albumId: album.id, limit: 50),
+      startPosition: startPosition,
+      showPlaybackOption: showPlaybackOption,
+    );
+  }
+}
+
+extension ArtistModelInstantMixPlayback on ArtistModel? {
+  Future<void> playInstantMix(
+    BuildContext context,
+    WidgetRef ref, {
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+  }) async {
+    final artist = this;
+    if (artist == null) return;
+
+    await _playInstantMix(
+      context,
+      ref,
+      queueSource: ArtistInstantMixQueueSource(artistId: artist.id, limit: 50),
+      startPosition: startPosition,
+      showPlaybackOption: showPlaybackOption,
+    );
+  }
+}
+
+extension AudioModelInstantMixPlayback on AudioModel? {
+  Future<void> playInstantMix(
+    BuildContext context,
+    WidgetRef ref, {
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+  }) async {
+    final audio = this;
+    if (audio == null) return;
+
+    await _playInstantMix(
+      context,
+      ref,
+      queueSource: AudioInstantMixQueueSource(audioId: audio.id, limit: 50),
+      startPosition: startPosition,
+      showPlaybackOption: showPlaybackOption,
+    );
+  }
+}
+
 extension AlbumModelAddToQueue on AlbumModel? {
   Future<void> addToQueue(BuildContext context, WidgetRef ref) async {
     final album = this;
@@ -407,10 +465,8 @@ extension ArtistModelAddToQueue on ArtistModel? {
     final artist = this;
     if (artist == null) return;
 
-    final queueSource = ArtistLatestTracksQueueSource(artistId: artist.id, limit: 20);
-    final queue = artist.tracks.isNotEmpty
-        ? artist.tracks.cast<ItemBaseModel>().toList()
-        : await queueSource.fetchQueue(ref as Ref);
+    final queueSource = ArtistCatalogQueueSource(artistId: artist.id, limit: 300);
+    final queue = await queueSource.fetchQueue(ref.read);
 
     if (queue.isEmpty) {
       FladderSnack.show(context.localized.unableToPlayMedia, context: context);
@@ -475,6 +531,49 @@ Future<List<ItemBaseModel>> _fetchAudioTrackQueue(AudioModel audio, WidgetRef re
     return [audio];
   }
   return tracks;
+}
+
+Future<void> _playInstantMix(
+  BuildContext context,
+  WidgetRef ref, {
+  required PlaybackQueueSource queueSource,
+  Duration? startPosition,
+  bool showPlaybackOption = false,
+}) async {
+  await ref.read(videoPlayerProvider.notifier).init();
+
+  final queue = await queueSource.fetchQueue(ref.read);
+  if (queue.isEmpty) {
+    FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+    return;
+  }
+
+  final op = CancelableOperation.fromFuture(ref.read(playbackModelHelper).createPlaybackModel(
+        context,
+        queue.first,
+        libraryQueue: queue,
+        queueSource: queueSource,
+        showPlaybackOptions: showPlaybackOption,
+        startPosition: startPosition,
+      ));
+
+  final model = await op.valueOrCancellation(null);
+  if (op.isCanceled || model == null) {
+    if (!op.isCanceled && !showPlaybackOption) {
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+    }
+    return;
+  }
+
+  final currentIndex = queue.indexWhere((element) => element.id == model.item.id).clamp(0, queue.length - 1);
+  final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
+
+  await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
+        model,
+        queue,
+        currentIndex,
+        actualStartPosition,
+      );
 }
 
 extension ItemBaseModelExtensions on ItemBaseModel? {

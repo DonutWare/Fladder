@@ -167,6 +167,30 @@ class PlaybackQueueState {
     return copyWith(nextUpQueue: [...nextUpQueue, ...items]);
   }
 
+  PlaybackQueueState appendToQueue(List<ItemBaseModel> items, {Random? random}) {
+    if (items.isEmpty) return this;
+
+    final existingIds = {
+      ...queue.map((item) => item.id),
+      ...nextUpQueue.map((item) => item.id),
+    };
+    final uniqueItems = items.where((item) => !existingIds.contains(item.id)).toList();
+    if (uniqueItems.isEmpty) return this;
+
+    final updatedOriginalQueue = [...originalQueue, ...uniqueItems];
+    final updatedQueue = shuffleEnabled
+        ? [
+            ...queue,
+            ...uniqueItems..shuffle(),
+          ]
+        : [...queue, ...uniqueItems];
+
+    return copyWith(
+      queue: updatedQueue,
+      originalQueue: updatedOriginalQueue,
+    );
+  }
+
   PlaybackQueueState clearNextUp() {
     if (nextUpQueue.isEmpty) return this;
     return copyWith(nextUpQueue: const []);
