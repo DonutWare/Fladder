@@ -71,7 +71,12 @@ class LibMPV extends BasePlayer {
         ),
       );
 
-      _player!.stream.playing.listen((value) => setState(lastState.update(playing: value)));
+      _player!.stream.playing.listen((value) {
+        if (value && _fadeGeneration == 0 && _player?.state.volume == 0 && _preferredVolume > 0) {
+          _player?.setVolume(_preferredVolume);
+        }
+        setState(lastState.update(playing: value));
+      });
       _player!.stream.buffering.listen((value) => setState(lastState.update(buffering: value)));
       _player!.stream.position.listen((value) => setState(lastState.update(position: value)));
       _player!.stream.duration.listen((value) => setState(lastState.update(duration: value)));
