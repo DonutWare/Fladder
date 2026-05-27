@@ -96,7 +96,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool reverseEdgeGestures,
     @Default(true) bool enableReplayGain,
     @Default(ReplayGainMode.automatic) ReplayGainMode replayGainMode,
-    @Default(ReplayGainVolumeLevel.normal) ReplayGainVolumeLevel replayGainVolumeLevel,
+    @Default(ReplayGainVolumeLevel.quiet) ReplayGainVolumeLevel replayGainVolumeLevel,
     @Default(true) bool enablePlayPauseFade,
   }) = _VideoPlayerSettingsModel;
 
@@ -209,9 +209,9 @@ enum ReplayGainVolumeLevel {
   const ReplayGainVolumeLevel();
 
   String label(BuildContext context) => switch (this) {
-        ReplayGainVolumeLevel.quiet => 'Normal',
-        ReplayGainVolumeLevel.normal => 'Increased',
-        ReplayGainVolumeLevel.loud => 'High',
+        ReplayGainVolumeLevel.quiet => context.localized.quiet,
+        ReplayGainVolumeLevel.normal => context.localized.normal,
+        ReplayGainVolumeLevel.loud => context.localized.loud,
       };
 
   double get replayGainOffsetDb => switch (this) {

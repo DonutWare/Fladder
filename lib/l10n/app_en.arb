@@ -2724,5 +2724,7 @@
   "seerrMovies": "Discover Movies",
   "seerrSeries": "Discover Series",
   "today": "Today",
-  "musicDashboard": "Music Dashboard"
+  "musicDashboard": "Music Dashboard",
+  "quiet": "Quiet",
+  "loud": "Loud"
 }
