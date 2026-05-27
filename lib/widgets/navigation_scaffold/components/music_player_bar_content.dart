@@ -9,6 +9,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/shared/player_bar_shared.dart';
+import 'package:fladder/widgets/shared/clickable_text.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/theme_overwrite.dart';
 
@@ -90,11 +91,39 @@ class MusicFloatingPlayerBarContent extends StatelessWidget {
                                   ),
                                 ),
                               Flexible(
-                                child: FloatingPlayerBarTitle(
-                                  title: item.title,
-                                  subtitle:
-                                      item.artistNames.isNotEmpty ? item.artistNames.join(', ') : item.album ?? "",
-                                  onTap: () => item.navigateTo(context),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Flexible(
+                                      child: ClickableText(
+                                        text: item.name,
+                                        style: Theme.of(context).textTheme.titleMedium,
+                                        maxLines: 1,
+                                        onTap: () {
+                                          item.navigateTo(context);
+                                        },
+                                      ),
+                                    ),
+                                    if (item.albumArtists.isNotEmpty)
+                                      Flexible(
+                                        child: ClickableText(
+                                            text: item.albumArtists.map((e) => e.name).join(', '),
+                                            overflow: TextOverflow.ellipsis,
+                                            opacity: 0.65,
+                                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                                  color:
+                                                      Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65),
+                                                ),
+                                            maxLines: 1,
+                                            onTap: () {
+                                              final artistModel = item.artistModel;
+                                              if (artistModel != null) {
+                                                artistModel.navigateTo(context);
+                                              }
+                                            }),
+                                      ),
+                                  ],
                                 ),
                               )
                             ],

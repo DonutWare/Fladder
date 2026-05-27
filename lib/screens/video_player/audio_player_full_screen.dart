@@ -94,6 +94,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
     }
 
     final currentItem = playbackModel.item as AudioModel;
+
     final queue = playbackModel.queue;
     final shouldWrapQueue =
         playbackInfo.repeatMode == AudioRepeatMode.all || playbackInfo.repeatMode == AudioRepeatMode.one;
@@ -159,8 +160,17 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 6),
-                Text(
-                  currentItem.artistNames.isNotEmpty ? currentItem.artistNames.join(', ') : currentItem.album ?? '',
+                ClickableText(
+                  text: currentItem.albumArtists.isNotEmpty
+                      ? currentItem.albumArtists.map((e) => e.name).join(', ')
+                      : currentItem.album ?? '',
+                  onTap: () {
+                    final artistModel = currentItem.artistModel;
+                    if (artistModel != null) {
+                      closeFullScreen();
+                      artistModel.navigateTo(context, ref: ref);
+                    }
+                  },
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)

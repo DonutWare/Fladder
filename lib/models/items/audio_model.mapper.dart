@@ -6,6 +6,75 @@
 
 part of 'audio_model.dart';
 
+class MusicArtistModelMapper extends ClassMapperBase<MusicArtistModel> {
+  MusicArtistModelMapper._();
+
+  static MusicArtistModelMapper? _instance;
+  static MusicArtistModelMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = MusicArtistModelMapper._());
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'MusicArtistModel';
+
+  static String _$name(MusicArtistModel v) => v.name;
+  static const Field<MusicArtistModel, String> _f$name = Field('name', _$name);
+  static String _$id(MusicArtistModel v) => v.id;
+  static const Field<MusicArtistModel, String> _f$id = Field('id', _$id);
+
+  @override
+  final MappableFields<MusicArtistModel> fields = const {
+    #name: _f$name,
+    #id: _f$id,
+  };
+  @override
+  final bool ignoreNull = true;
+
+  static MusicArtistModel _instantiate(DecodingData data) {
+    return MusicArtistModel(name: data.dec(_f$name), id: data.dec(_f$id));
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+}
+
+mixin MusicArtistModelMappable {
+  MusicArtistModelCopyWith<MusicArtistModel, MusicArtistModel, MusicArtistModel> get copyWith =>
+      _MusicArtistModelCopyWithImpl<MusicArtistModel, MusicArtistModel>(this as MusicArtistModel, $identity, $identity);
+}
+
+extension MusicArtistModelValueCopy<$R, $Out> on ObjectCopyWith<$R, MusicArtistModel, $Out> {
+  MusicArtistModelCopyWith<$R, MusicArtistModel, $Out> get $asMusicArtistModel =>
+      $base.as((v, t, t2) => _MusicArtistModelCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class MusicArtistModelCopyWith<$R, $In extends MusicArtistModel, $Out>
+    implements ClassCopyWith<$R, $In, $Out> {
+  $R call({String? name, String? id});
+  MusicArtistModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
+}
+
+class _MusicArtistModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, MusicArtistModel, $Out>
+    implements MusicArtistModelCopyWith<$R, MusicArtistModel, $Out> {
+  _MusicArtistModelCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<MusicArtistModel> $mapper = MusicArtistModelMapper.ensureInitialized();
+  @override
+  $R call({String? name, String? id}) =>
+      $apply(FieldCopyWithData({if (name != null) #name: name, if (id != null) #id: id}));
+  @override
+  MusicArtistModel $make(CopyWithData data) =>
+      MusicArtistModel(name: data.get(#name, or: $value.name), id: data.get(#id, or: $value.id));
+
+  @override
+  MusicArtistModelCopyWith<$R2, MusicArtistModel, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+      _MusicArtistModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
 class AudioModelMapper extends SubClassMapperBase<AudioModel> {
   AudioModelMapper._();
 
@@ -14,6 +83,7 @@ class AudioModelMapper extends SubClassMapperBase<AudioModel> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = AudioModelMapper._());
       ItemStreamModelMapper.ensureInitialized().addSubMapper(_instance!);
+      MusicArtistModelMapper.ensureInitialized();
       OverviewModelMapper.ensureInitialized();
       UserDataMapper.ensureInitialized();
     }
@@ -27,11 +97,11 @@ class AudioModelMapper extends SubClassMapperBase<AudioModel> {
   static const Field<AudioModel, String> _f$album = Field('album', _$album, opt: true);
   static String? _$albumId(AudioModel v) => v.albumId;
   static const Field<AudioModel, String> _f$albumId = Field('albumId', _$albumId, opt: true);
-  static List<String> _$artistNames(AudioModel v) => v.artistNames;
-  static const Field<AudioModel, List<String>> _f$artistNames =
-      Field('artistNames', _$artistNames, opt: true, def: const []);
-  static List<String> _$albumArtists(AudioModel v) => v.albumArtists;
-  static const Field<AudioModel, List<String>> _f$albumArtists =
+  static List<MusicArtistModel> _$artists(AudioModel v) => v.artists;
+  static const Field<AudioModel, List<MusicArtistModel>> _f$artists =
+      Field('artists', _$artists, opt: true, def: const []);
+  static List<MusicArtistModel> _$albumArtists(AudioModel v) => v.albumArtists;
+  static const Field<AudioModel, List<MusicArtistModel>> _f$albumArtists =
       Field('albumArtists', _$albumArtists, opt: true, def: const []);
   static int? _$trackNumber(AudioModel v) => v.trackNumber;
   static const Field<AudioModel, int> _f$trackNumber = Field('trackNumber', _$trackNumber, opt: true);
@@ -73,7 +143,7 @@ class AudioModelMapper extends SubClassMapperBase<AudioModel> {
   final MappableFields<AudioModel> fields = const {
     #album: _f$album,
     #albumId: _f$albumId,
-    #artistNames: _f$artistNames,
+    #artists: _f$artists,
     #albumArtists: _f$albumArtists,
     #trackNumber: _f$trackNumber,
     #providerIds: _f$providerIds,
@@ -107,7 +177,7 @@ class AudioModelMapper extends SubClassMapperBase<AudioModel> {
     return AudioModel(
         album: data.dec(_f$album),
         albumId: data.dec(_f$albumId),
-        artistNames: data.dec(_f$artistNames),
+        artists: data.dec(_f$artists),
         albumArtists: data.dec(_f$albumArtists),
         trackNumber: data.dec(_f$trackNumber),
         providerIds: data.dec(_f$providerIds),
@@ -143,8 +213,8 @@ extension AudioModelValueCopy<$R, $Out> on ObjectCopyWith<$R, AudioModel, $Out> 
 }
 
 abstract class AudioModelCopyWith<$R, $In extends AudioModel, $Out> implements ItemStreamModelCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get artistNames;
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get albumArtists;
+  ListCopyWith<$R, MusicArtistModel, MusicArtistModelCopyWith<$R, MusicArtistModel, MusicArtistModel>> get artists;
+  ListCopyWith<$R, MusicArtistModel, MusicArtistModelCopyWith<$R, MusicArtistModel, MusicArtistModel>> get albumArtists;
   MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>? get providerIds;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
@@ -154,8 +224,8 @@ abstract class AudioModelCopyWith<$R, $In extends AudioModel, $Out> implements I
   $R call(
       {String? album,
       String? albumId,
-      List<String>? artistNames,
-      List<String>? albumArtists,
+      List<MusicArtistModel>? artists,
+      List<MusicArtistModel>? albumArtists,
       int? trackNumber,
       Map<String, dynamic>? providerIds,
       double? normalizationGain,
@@ -183,11 +253,12 @@ class _AudioModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AudioModel
   @override
   late final ClassMapperBase<AudioModel> $mapper = AudioModelMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get artistNames =>
-      ListCopyWith($value.artistNames, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(artistNames: v));
+  ListCopyWith<$R, MusicArtistModel, MusicArtistModelCopyWith<$R, MusicArtistModel, MusicArtistModel>> get artists =>
+      ListCopyWith($value.artists, (v, t) => v.copyWith.$chain(t), (v) => call(artists: v));
   @override
-  ListCopyWith<$R, String, ObjectCopyWith<$R, String, String>> get albumArtists =>
-      ListCopyWith($value.albumArtists, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(albumArtists: v));
+  ListCopyWith<$R, MusicArtistModel, MusicArtistModelCopyWith<$R, MusicArtistModel, MusicArtistModel>>
+      get albumArtists =>
+          ListCopyWith($value.albumArtists, (v, t) => v.copyWith.$chain(t), (v) => call(albumArtists: v));
   @override
   MapCopyWith<$R, String, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>? get providerIds => $value.providerIds != null
       ? MapCopyWith($value.providerIds!, (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(providerIds: v))
@@ -201,8 +272,8 @@ class _AudioModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AudioModel
   $R call(
           {Object? album = $none,
           Object? albumId = $none,
-          List<String>? artistNames,
-          List<String>? albumArtists,
+          List<MusicArtistModel>? artists,
+          List<MusicArtistModel>? albumArtists,
           Object? trackNumber = $none,
           Object? providerIds = $none,
           Object? normalizationGain = $none,
@@ -223,7 +294,7 @@ class _AudioModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AudioModel
       $apply(FieldCopyWithData({
         if (album != $none) #album: album,
         if (albumId != $none) #albumId: albumId,
-        if (artistNames != null) #artistNames: artistNames,
+        if (artists != null) #artists: artists,
         if (albumArtists != null) #albumArtists: albumArtists,
         if (trackNumber != $none) #trackNumber: trackNumber,
         if (providerIds != $none) #providerIds: providerIds,
@@ -247,7 +318,7 @@ class _AudioModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AudioModel
   AudioModel $make(CopyWithData data) => AudioModel(
       album: data.get(#album, or: $value.album),
       albumId: data.get(#albumId, or: $value.albumId),
-      artistNames: data.get(#artistNames, or: $value.artistNames),
+      artists: data.get(#artists, or: $value.artists),
       albumArtists: data.get(#albumArtists, or: $value.albumArtists),
       trackNumber: data.get(#trackNumber, or: $value.trackNumber),
       providerIds: data.get(#providerIds, or: $value.providerIds),

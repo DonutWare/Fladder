@@ -42,7 +42,7 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(Map<String, dynamic
       enableReplayGain: json['enableReplayGain'] as bool? ?? true,
       replayGainMode: $enumDecodeNullable(_$ReplayGainModeEnumMap, json['replayGainMode']) ?? ReplayGainMode.automatic,
       replayGainVolumeLevel: $enumDecodeNullable(_$ReplayGainVolumeLevelEnumMap, json['replayGainVolumeLevel']) ??
-          ReplayGainVolumeLevel.normal,
+          ReplayGainVolumeLevel.quiet,
       enablePlayPauseFade: json['enablePlayPauseFade'] as bool? ?? true,
     );
 

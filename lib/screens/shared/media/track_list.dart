@@ -411,7 +411,13 @@ class _TrackListItemState extends ConsumerState<_TrackListItem> {
 
   @override
   Widget build(BuildContext context) {
-    final trackArtists = widget.track.artistNames.isNotEmpty ? widget.track.artistNames.join(', ') : null;
+    final trackArtists = widget.track.artists.isNotEmpty
+        ? widget.track.artists
+            .map(
+              (e) => e.name,
+            )
+            .join(', ')
+        : null;
     final durationText = widget.track.overview.runTime?.readAbleDuration;
     final playCountText = widget.track.userData.playCount > 0 ? 'x${widget.track.userData.playCount}' : '-';
 

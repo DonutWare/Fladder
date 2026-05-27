@@ -631,7 +631,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with Diagnostic
       this.reverseEdgeGestures = false,
       this.enableReplayGain = true,
       this.replayGainMode = ReplayGainMode.automatic,
-      this.replayGainVolumeLevel = ReplayGainVolumeLevel.normal,
+      this.replayGainVolumeLevel = ReplayGainVolumeLevel.quiet,
       this.enablePlayPauseFade = true})
       : _allowedOrientations = allowedOrientations,
         _segmentSkipSettings = segmentSkipSettings,

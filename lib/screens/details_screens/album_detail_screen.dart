@@ -52,6 +52,8 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
 
     final radius = FladderTheme.smallShape.borderRadius;
 
+    final smallScreen = AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone;
+
     return DetailScaffold(
       label: current.name,
       item: current,
@@ -98,8 +100,8 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 24, bottom: 16),
                     child: Wrap(
-                      alignment: WrapAlignment.start,
-                      runAlignment: WrapAlignment.start,
+                      alignment: smallScreen ? WrapAlignment.center : WrapAlignment.start,
+                      runAlignment: smallScreen ? WrapAlignment.center : WrapAlignment.start,
                       spacing: 24,
                       runSpacing: 24,
                       crossAxisAlignment: WrapCrossAlignment.center,
@@ -130,14 +132,18 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                         IntrinsicWidth(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: smallScreen ? CrossAxisAlignment.center : CrossAxisAlignment.start,
                             children: [
                               Text(
                                 context.localized.musicAlbum(1).toUpperCase(),
                                 style: Theme.of(context).textTheme.labelLarge?.copyWith(letterSpacing: 1.5),
                               ),
                               const SizedBox(height: 10),
-                              Text(current.name, style: Theme.of(context).textTheme.displaySmall),
+                              Text(
+                                current.name,
+                                style: Theme.of(context).textTheme.displaySmall,
+                                textAlign: TextAlign.center,
+                              ),
                               const SizedBox(height: 14),
                               ClickableText(
                                 text: mainArtistLabel,
@@ -151,42 +157,50 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
                                 Text(albumMeta, style: Theme.of(context).textTheme.bodyLarge),
                               ],
                               const SizedBox(height: 24),
-                              Row(
-                                spacing: 8,
-                                children: [
-                                  IconButton.filled(
-                                    autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
-                                    onPressed: tracks.isNotEmpty
-                                        ? () async {
-                                            await ref.read(videoPlayerProvider).setShuffleEnabled(false);
-                                            await album.play(detailsContext, ref);
-                                          }
-                                        : null,
-                                    icon: const Icon(
-                                      IconsaxPlusBold.play,
-                                    ),
+                              FittedBox(
+                                child: SizedBox(
+                                  height: 45,
+                                  child: Row(
+                                    spacing: 8,
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
+                                      IconButton.filled(
+                                        autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+                                        onPressed: tracks.isNotEmpty
+                                            ? () async {
+                                                await ref.read(videoPlayerProvider).setShuffleEnabled(false);
+                                                await album.play(detailsContext, ref);
+                                              }
+                                            : null,
+                                        icon: const Icon(
+                                          IconsaxPlusBold.play,
+                                        ),
+                                        tooltip: context.localized.playLabel,
+                                      ),
+                                      FilledButton.tonalIcon(
+                                        onPressed: tracks.isNotEmpty
+                                            ? () async {
+                                                await ref.read(videoPlayerProvider).setShuffleEnabled(true);
+                                                await album.play(detailsContext, ref);
+                                              }
+                                            : null,
+                                        label: Text(context.localized.audioPlayerShuffle),
+                                        icon: const Icon(
+                                          IconsaxPlusLinear.shuffle,
+                                        ),
+                                      ),
+                                      FilledButton.tonalIcon(
+                                        onPressed: tracks.isNotEmpty
+                                            ? () async {
+                                                await album.playInstantMix(detailsContext, ref);
+                                              }
+                                            : null,
+                                        icon: const Icon(IconsaxPlusLinear.blend_2),
+                                        label: Text(context.localized.instantMix),
+                                      ),
+                                    ],
                                   ),
-                                  IconButton(
-                                    onPressed: tracks.isNotEmpty
-                                        ? () async {
-                                            await ref.read(videoPlayerProvider).setShuffleEnabled(true);
-                                            await album.play(detailsContext, ref);
-                                          }
-                                        : null,
-                                    icon: const Icon(
-                                      IconsaxPlusLinear.shuffle,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: tracks.isNotEmpty
-                                        ? () async {
-                                            await album.playInstantMix(detailsContext, ref);
-                                          }
-                                        : null,
-                                    icon: const Icon(IconsaxPlusLinear.blend_2),
-                                    tooltip: context.localized.instantMix,
-                                  ),
-                                ],
+                                ),
                               )
                             ],
                           ),

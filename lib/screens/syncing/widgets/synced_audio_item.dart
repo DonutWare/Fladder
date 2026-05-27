@@ -76,7 +76,7 @@ class _SyncedAudioItemState extends ConsumerState<SyncedAudioItem> {
   Widget build(BuildContext context) {
     final downloadTask = ref.watch(downloadTasksProvider(syncedItem.id));
     final hasFile = syncedItem.videoFile.existsSync();
-    final artistLabel = widget.audio.artistNames.join(', ');
+    final artistLabel = widget.audio.artists.join(', ');
     final trackLabel = _trackLabel(context, widget.audio.trackNumber);
     final albumLabel = _albumLabel();
     final coverImage = widget.audio.getPosters?.primary ??

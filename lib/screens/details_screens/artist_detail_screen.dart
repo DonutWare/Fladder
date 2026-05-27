@@ -88,31 +88,35 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                         if (current.subText?.isNotEmpty == true)
                           Text(current.subText!, style: Theme.of(context).textTheme.bodyLarge),
                         const SizedBox(height: 16),
-                        Row(
-                          spacing: 8,
-                          children: [
-                            ElevatedButton.icon(
-                              onPressed: () async {
-                                await current.playLatestTracks(detailsContext, ref, shuffleEnabled: false);
-                              },
-                              icon: const Icon(IconsaxPlusLinear.play),
-                              label: Text(context.localized.play(current.name)),
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                await current.playLatestTracks(detailsContext, ref, shuffleEnabled: true);
-                              },
-                              icon: const Icon(IconsaxPlusLinear.shuffle),
-                              tooltip: context.localized.shuffleVideos,
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                await current.playInstantMix(detailsContext, ref);
-                              },
-                              icon: const Icon(IconsaxPlusLinear.blend_2),
-                              tooltip: context.localized.instantMix,
-                            ),
-                          ],
+                        SizedBox(
+                          height: 45,
+                          child: Row(
+                            spacing: 8,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              IconButton.filled(
+                                onPressed: () async {
+                                  await current.playLatestTracks(detailsContext, ref, shuffleEnabled: false);
+                                },
+                                icon: const Icon(IconsaxPlusBold.play),
+                                tooltip: context.localized.play(current.name),
+                              ),
+                              FilledButton.tonalIcon(
+                                onPressed: () async {
+                                  await current.playLatestTracks(detailsContext, ref, shuffleEnabled: true);
+                                },
+                                icon: const Icon(IconsaxPlusLinear.shuffle),
+                                label: Text(context.localized.shuffleVideos),
+                              ),
+                              FilledButton.tonalIcon(
+                                onPressed: () async {
+                                  await current.playInstantMix(detailsContext, ref);
+                                },
+                                icon: const Icon(IconsaxPlusLinear.blend_2),
+                                label: Text(context.localized.instantMix),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 16)
                       ],

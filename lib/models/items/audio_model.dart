@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/artist_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/item_stream_model.dart';
@@ -18,11 +19,22 @@ import 'package:fladder/screens/details_screens/empty_item.dart';
 part 'audio_model.mapper.dart';
 
 @MappableClass()
+class MusicArtistModel with MusicArtistModelMappable {
+  final String name;
+  final String id;
+
+  MusicArtistModel({
+    required this.name,
+    required this.id,
+  });
+}
+
+@MappableClass()
 class AudioModel extends ItemStreamModel with AudioModelMappable {
   final String? album;
   final String? albumId;
-  final List<String> artistNames;
-  final List<String> albumArtists;
+  final List<MusicArtistModel> artists;
+  final List<MusicArtistModel> albumArtists;
   final int? trackNumber;
   final Map<String, dynamic>? providerIds;
   final double? normalizationGain;
@@ -30,7 +42,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
   const AudioModel({
     this.album,
     this.albumId,
-    this.artistNames = const [],
+    this.artists = const [],
     this.albumArtists = const [],
     this.trackNumber,
     this.providerIds,
@@ -53,6 +65,24 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
 
   @override
   ItemBaseModel get parentBaseModel => copyWith(id: albumId ?? parentId);
+
+  ArtistModel? get artistModel {
+    final artistId = albumArtists.firstOrNull?.id;
+    if (artistId == null) {
+      return null;
+    }
+    return ArtistModel(
+      name: albumArtists.firstOrNull?.name ?? '',
+      id: artistId,
+      overview: const OverviewModel(),
+      parentId: artistId,
+      playlistId: '',
+      images: null,
+      childCount: null,
+      primaryRatio: null,
+      userData: const UserData(),
+    );
+  }
 
   @override
   ImagesData? get getPosters => images ?? parentImages;
@@ -78,7 +108,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
 
   @override
   String? get subText {
-    final artistText = artistNames.isNotEmpty ? artistNames.join(', ') : null;
+    final artistText = artists.isNotEmpty ? artists.join(', ') : null;
     final albumText = album;
     if (artistText != null && albumText != null && albumText.isNotEmpty) {
       return '$artistText • $albumText';
@@ -88,8 +118,8 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
 
   @override
   String? detailedName(AppLocalizations l10n) {
-    if (artistNames.isNotEmpty) {
-      return artistNames.join(', ');
+    if (artists.isNotEmpty) {
+      return artists.join(', ');
     }
     return album;
   }
@@ -131,8 +161,12 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
           : MediaStreamsModel(versionStreams: []),
       album: item.album,
       albumId: item.albumId ?? item.parentId,
-      artistNames: item.artists?.whereType<String>().toList() ?? const [],
-      albumArtists: item.albumArtists?.whereType<String>().toList() ?? const [],
+      artists:
+          item.artistItems?.map((artist) => MusicArtistModel(name: artist.name ?? '', id: artist.id ?? '')).toList() ??
+              const [],
+      albumArtists:
+          item.albumArtists?.map((artist) => MusicArtistModel(name: artist.name ?? '', id: artist.id ?? '')).toList() ??
+              const [],
       trackNumber: item.indexNumber,
       providerIds: item.providerIds,
       normalizationGain: item.normalizationGain,
