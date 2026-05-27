@@ -23,11 +23,11 @@ import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/person_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/watched_state.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
-import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/details_screens/album_detail_screen.dart';
@@ -394,6 +394,8 @@ enum FladderItemType {
         FladderItemType.photoAlbum => 0.8,
         FladderItemType.folder => 0.8,
         FladderItemType.musicAlbum => 0.8,
+        FladderItemType.musicArtist => 0.8,
+        FladderItemType.audio => 0.8,
         FladderItemType.baseType => 0.8,
         FladderItemType.tvchannel => 0.8,
         _ => 0.55,
@@ -406,6 +408,12 @@ enum FladderItemType {
         FladderItemType.movie,
         FladderItemType.musicVideo,
         FladderItemType.tvchannel,
+      };
+
+  static Set<FladderItemType> get musicPlayable => {
+        FladderItemType.audio,
+        FladderItemType.musicAlbum,
+        FladderItemType.musicArtist,
       };
 
   static Set<FladderItemType> get galleryItem => {

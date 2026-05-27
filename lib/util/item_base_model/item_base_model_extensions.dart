@@ -136,7 +136,6 @@ extension ItemBaseModelExtensions on ItemBaseModel {
     final hasSeerrData = overview.seerrUrl?.isNotEmpty == true;
     final showMarkAs = switch (this) {
       AlbumModel() => false,
-      AudioModel() => false,
       ArtistModel() => false,
       _ => true,
     };
@@ -159,7 +158,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           ? ItemActionButton(
               icon: Icon(FladderItemType.musicArtist.icon),
               action: () => album.parentBaseModel.navigateTo(context),
-              label: const Text('Show artist'),
+              label: Text(context.localized.showArtist),
             )
           : null,
       SeriesModel _ => null,

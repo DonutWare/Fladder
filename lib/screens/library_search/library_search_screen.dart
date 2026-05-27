@@ -181,12 +181,20 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                             isExtended: visible,
                             tooltip: context.localized.playVideos,
                             onPressed: () async {
-                              if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
+                              if (librarySearchResults.showGalleryButtons &&
+                                  !librarySearchResults.showPlayButtons &&
+                                  !librarySearchResults.showMusicButtons) {
                                 libraryProvider.viewGallery(context);
                                 return;
                               } else if (!librarySearchResults.showGalleryButtons &&
-                                  librarySearchResults.showPlayButtons) {
+                                  librarySearchResults.showPlayButtons &&
+                                  !librarySearchResults.showMusicButtons) {
                                 libraryProvider.playLibraryItems(context, ref);
+                                return;
+                              } else if (!librarySearchResults.showGalleryButtons &&
+                                  !librarySearchResults.showPlayButtons &&
+                                  librarySearchResults.showMusicButtons) {
+                                libraryProvider.playMusicItems(context, ref);
                                 return;
                               }
 
@@ -195,6 +203,9 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                                 context.localized.libraryPlayItems,
                                 playVideos: librarySearchResults.showPlayButtons
                                     ? () => libraryProvider.playLibraryItems(context, ref)
+                                    : null,
+                                playMusic: librarySearchResults.showMusicButtons
+                                    ? () => libraryProvider.playMusicItems(context, ref)
                                     : null,
                                 viewGallery: librarySearchResults.showGalleryButtons
                                     ? () => libraryProvider.viewGallery(context)
@@ -783,11 +794,20 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                 IconButton(
                   tooltip: context.localized.shuffleVideos,
                   onPressed: () async {
-                    if (librarySearchResults.showGalleryButtons && !librarySearchResults.showPlayButtons) {
+                    if (librarySearchResults.showGalleryButtons &&
+                        !librarySearchResults.showPlayButtons &&
+                        !librarySearchResults.showMusicButtons) {
                       libraryProvider.viewGallery(context, shuffle: true);
                       return;
-                    } else if (!librarySearchResults.showGalleryButtons && librarySearchResults.showPlayButtons) {
+                    } else if (!librarySearchResults.showGalleryButtons &&
+                        librarySearchResults.showPlayButtons &&
+                        !librarySearchResults.showMusicButtons) {
                       libraryProvider.playLibraryItems(context, ref, shuffle: true);
+                      return;
+                    } else if (!librarySearchResults.showGalleryButtons &&
+                        !librarySearchResults.showPlayButtons &&
+                        librarySearchResults.showMusicButtons) {
+                      libraryProvider.playMusicItems(context, ref, shuffle: true);
                       return;
                     }
 
@@ -796,6 +816,9 @@ class _LibrarySearchBottomBar extends ConsumerWidget {
                       context.localized.libraryShuffleAndPlayItems,
                       playVideos: librarySearchResults.showPlayButtons
                           ? () => libraryProvider.playLibraryItems(context, ref, shuffle: true)
+                          : null,
+                      playMusic: librarySearchResults.showMusicButtons
+                          ? () => libraryProvider.playMusicItems(context, ref, shuffle: true)
                           : null,
                       viewGallery: librarySearchResults.showGalleryButtons
                           ? () => libraryProvider.viewGallery(context, shuffle: true)

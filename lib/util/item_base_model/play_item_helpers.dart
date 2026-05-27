@@ -690,6 +690,91 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
       }
     }
   }
+
+  Future<void> playMusicItems(BuildContext context, WidgetRef ref, {bool shuffle = false}) async {
+    if (isEmpty) return;
+
+    await ref.read(videoPlayerProvider.notifier).init();
+
+    final op = CancelableOperation.fromFuture(Future(() async {
+      final newList = await Future.wait(map((element) async {
+        switch (element) {
+          case AudioModel audio:
+            return <ItemBaseModel>[audio];
+          case AlbumModel album:
+            return await _fetchAlbumQueue(album, ref);
+          case ArtistModel artist:
+            return await ArtistCatalogQueueSource(artistId: artist.id, limit: 300).fetchQueue(ref.read);
+          default:
+            return const <ItemBaseModel>[];
+        }
+      }));
+
+      final expandedList =
+          newList.expand((element) => element).whereType<AudioModel>().cast<ItemBaseModel>().toList().uniqueBy(
+                (value) => value.id,
+              );
+
+      if (shuffle) {
+        expandedList.shuffle();
+      }
+
+      final model = await ref.read(playbackModelHelper).createPlaybackModel(
+            context,
+            expandedList.firstOrNull,
+            libraryQueue: expandedList,
+          );
+
+      return (model, expandedList);
+    }));
+
+    _showLoadingIndicator(context, null, op);
+
+    final result = await op.valueOrCancellation(null);
+    if (op.isCanceled || result == null) {
+      try {
+        Navigator.of(context, rootNavigator: true).pop();
+      } catch (e) {
+        log('Error closing loading dialog: $e');
+      }
+      if (!op.isCanceled) {
+        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      }
+      return;
+    }
+
+    final PlaybackModel? model = result.$1;
+    final List<ItemBaseModel> expandedList = result.$2;
+
+    if (model == null || expandedList.isEmpty) {
+      try {
+        Navigator.of(context, rootNavigator: true).pop();
+      } catch (e) {
+        log('Error closing loading dialog: $e');
+      }
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      return;
+    }
+
+    final currentIndex =
+        expandedList.indexWhere((element) => element.id == model.item.id).clamp(0, expandedList.length - 1);
+    final actualStartPosition = await model.startDuration() ?? Duration.zero;
+
+    try {
+      Navigator.of(context, rootNavigator: true).pop();
+    } catch (_) {}
+
+    await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
+          model,
+          expandedList,
+          currentIndex,
+          actualStartPosition,
+        );
+
+    if (context.mounted) {
+      RefreshState.maybeOf(context)?.refresh();
+    }
+  }
 }
 
 Future<void> _showLoadingIndicator(BuildContext context, ItemBaseModel? item, CancelableOperation op) async {

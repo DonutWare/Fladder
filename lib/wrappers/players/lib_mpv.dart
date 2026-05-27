@@ -45,7 +45,7 @@ class LibMPV extends BasePlayer {
   Completer<void>? _loadCompleter;
   double _preferredVolume = 100;
   int _fadeGeneration = 0;
-  Duration get playPauseFadeDuration => const Duration(milliseconds: 150);
+  Duration get playPauseFadeDuration => const Duration(milliseconds: 175);
 
   @override
   Future<void> init(VideoPlayerSettingsModel settings) async {
@@ -72,7 +72,7 @@ class LibMPV extends BasePlayer {
       );
 
       _player!.stream.playing.listen((value) {
-        if (value && _fadeGeneration == 0 && _player?.state.volume == 0 && _preferredVolume > 0) {
+        if (value && _player?.state.volume == 0 && _preferredVolume > 0) {
           _player?.setVolume(_preferredVolume);
         }
         setState(lastState.update(playing: value));

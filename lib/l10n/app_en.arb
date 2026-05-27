@@ -79,6 +79,7 @@
   "@audioPlayerRepeatOne": {},
   "audioPlayerShuffle": "Shuffle",
   "@audioPlayerShuffle": {},
+  "showArtist": "Show artist",
   "track": "{count, plural, one{Track} other{Tracks}}",
   "@track": {
     "description": "track",
@@ -716,6 +717,8 @@
   "@playLabel": {},
   "playVideos": "Play videos",
   "@playVideos": {},
+  "playMusic": "Play music",
+  "@playMusic": {},
   "played": "Played",
   "@played": {},
   "quickConnectAction": "Enter quick connect code for",

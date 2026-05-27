@@ -6,8 +6,16 @@ enum VideoPlayerState {
 
 enum AudioRepeatMode {
   off,
-  one,
   all,
+  one;
+
+  const AudioRepeatMode();
+
+  AudioRepeatMode get next => switch (this) {
+        AudioRepeatMode.off => AudioRepeatMode.all,
+        AudioRepeatMode.all => AudioRepeatMode.one,
+        AudioRepeatMode.one => AudioRepeatMode.off,
+      };
 }
 
 class MediaPlaybackModel {

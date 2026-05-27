@@ -601,6 +601,24 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     }
   }
 
+  Future<void> playMusicItems(BuildContext context, WidgetRef ref, {bool shuffle = false}) async {
+    List<ItemBaseModel> itemsToPlay = [];
+
+    if (state.selectedPosters.isNotEmpty) {
+      itemsToPlay = shuffle ? state.selectedPosters.random() : state.selectedPosters;
+    } else {
+      itemsToPlay = await showLoadingOverlay(context, callBack: _loadAllItems(shuffle: shuffle));
+    }
+
+    itemsToPlay = itemsToPlay.where((element) => FladderItemType.musicPlayable.contains(element.type)).toList();
+
+    if (itemsToPlay.isNotEmpty) {
+      await itemsToPlay.playMusicItems(context, ref, shuffle: shuffle);
+    } else {
+      FladderSnack.show(context.localized.libraryFetchNoItemsFound, context: context);
+    }
+  }
+
   Future<List<PhotoModel>> fetchGallery({bool shuffle = false}) async {
     try {
       List<ItemBaseModel> itemsToPlay = [];

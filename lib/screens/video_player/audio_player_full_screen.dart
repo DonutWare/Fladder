@@ -263,12 +263,9 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                         : context.localized.audioPlayerRepeatAll),
                 isSelected: playbackInfo.repeatMode != AudioRepeatMode.off,
                 onPressed: () {
-                  final nextMode = switch (playbackInfo.repeatMode) {
-                    AudioRepeatMode.off => AudioRepeatMode.one,
-                    AudioRepeatMode.one => AudioRepeatMode.all,
-                    AudioRepeatMode.all => AudioRepeatMode.off,
-                  };
-                  ref.read(videoPlayerProvider).setAudioRepeatMode(nextMode);
+                  ref.read(videoPlayerProvider).setAudioRepeatMode(
+                        playbackInfo.repeatMode.next,
+                      );
                 },
               ),
             ],

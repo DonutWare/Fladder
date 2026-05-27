@@ -108,7 +108,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
 
   @override
   String? get subText {
-    final artistText = artists.isNotEmpty ? artists.join(', ') : null;
+    final artistText = artists.isNotEmpty ? artists.map((e) => e.name).join(', ') : null;
     final albumText = album;
     if (artistText != null && albumText != null && albumText.isNotEmpty) {
       return '$artistText • $albumText';
@@ -119,7 +119,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
   @override
   String? detailedName(AppLocalizations l10n) {
     if (artists.isNotEmpty) {
-      return artists.join(', ');
+      return artists.map((e) => e.name).join(', ');
     }
     return album;
   }
