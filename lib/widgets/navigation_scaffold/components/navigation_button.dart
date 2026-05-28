@@ -40,8 +40,7 @@ class NavigationButton extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _NavigationButtonState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _NavigationButtonState();
 }
 
 class _NavigationButtonState extends ConsumerState<NavigationButton> {
@@ -56,14 +55,11 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
         : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45);
     final isFocused = onHover || hasFocus;
 
-    final backgroundColor = Theme.of(context)
-        .colorScheme
-        .primary
-        .withAlpha(widget.expanded && widget.selected
-            ? 255
-            : isFocused
-                ? 25
-                : 0);
+    final backgroundColor = Theme.of(context).colorScheme.primary.withAlpha(widget.expanded && widget.selected
+        ? 255
+        : isFocused
+            ? 25
+            : 0);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: widget.horizontal ? 6 : 0),
@@ -84,17 +80,11 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
             border: Border.all(
               width: 3.0,
               strokeAlign: BorderSide.strokeAlignInside,
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary
-                  .withValues(alpha: isFocused ? 6 : 0),
+              color: Theme.of(context).colorScheme.primary.withValues(alpha: isFocused ? 6 : 0),
             ),
           ),
           child: DefaultTextStyle(
-            style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: foreGroundColor) ??
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: foreGroundColor) ??
                 TextStyle(color: foreGroundColor),
             child: IconTheme(
               data: IconThemeData(
@@ -106,8 +96,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                     ? Padding(
                         padding: widget.customIcon != null
                             ? EdgeInsetsGeometry.zero
-                            : const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 10),
+                            : const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
                         child: SizedBox(
                           height: widget.customIcon != null ? 60 : 35,
                           child: Row(
@@ -125,11 +114,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .primary
-                                      .withValues(
-                                          alpha: widget.selected &&
-                                                  !widget.expanded
-                                              ? 1
-                                              : 0),
+                                      .withValues(alpha: widget.selected && !widget.expanded ? 1 : 0),
                                 ),
                               ),
                               widget.customIcon ??
@@ -138,12 +123,9 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                                     children: [
                                       AnimatedSwitcher(
                                         duration: widget.duration,
-                                        child: widget.selected
-                                            ? widget.selectedIcon
-                                            : widget.icon,
+                                        child: widget.selected ? widget.selectedIcon : widget.icon,
                                       ),
-                                      if (widget.badge != null &&
-                                          !widget.expanded)
+                                      if (widget.badge != null && !widget.expanded)
                                         Transform.translate(
                                           offset: const Offset(8, -8),
                                           child: widget.badge,
@@ -155,13 +137,10 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                                 if (widget.label != null)
                                   Expanded(
                                     child: ConstrainedBox(
-                                      constraints:
-                                          const BoxConstraints(minWidth: 80),
+                                      constraints: const BoxConstraints(minWidth: 80),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           Flexible(
                                             child: Text(
@@ -171,8 +150,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                                               softWrap: false,
                                             ),
                                           ),
-                                          if (widget.badge != null)
-                                            widget.badge!,
+                                          if (widget.badge != null) widget.badge!,
                                         ],
                                       ),
                                     ),
@@ -182,8 +160,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                                     tooltip: context.localized.options,
                                     iconColor: foreGroundColor,
                                     iconSize: 18,
-                                    itemBuilder: (context) => widget.trailing
-                                        .popupMenuItems(useIcons: true),
+                                    itemBuilder: (context) => widget.trailing.popupMenuItems(useIcons: true),
                                   )
                               ],
                             ],
@@ -191,9 +168,7 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                         ),
                       )
                     : Padding(
-                        padding: widget.customIcon != null
-                            ? EdgeInsetsGeometry.zero
-                            : const EdgeInsets.all(8),
+                        padding: widget.customIcon != null ? EdgeInsetsGeometry.zero : const EdgeInsets.all(8),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -206,36 +181,27 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                                       children: [
                                         AnimatedSwitcher(
                                           duration: widget.duration,
-                                          child: widget.selected
-                                              ? widget.selectedIcon
-                                              : widget.icon,
+                                          child: widget.selected ? widget.selectedIcon : widget.icon,
                                         ),
-                                        if (widget.badge != null &&
-                                            !widget.expanded)
+                                        if (widget.badge != null && !widget.expanded)
                                           Transform.translate(
                                             offset: const Offset(8, -8),
                                             child: widget.badge,
                                           ),
                                       ],
                                     ),
-                                if (widget.label != null &&
-                                    widget.horizontal &&
-                                    widget.expanded)
+                                if (widget.label != null && widget.horizontal && widget.expanded)
                                   Flexible(child: Text(widget.label!))
                               ],
                             ),
                             AnimatedContainer(
                               duration: const Duration(milliseconds: 250),
-                              margin:
-                                  EdgeInsets.only(top: widget.selected ? 4 : 0),
+                              margin: EdgeInsets.only(top: widget.selected ? 4 : 0),
                               height: widget.selected ? 6 : 0,
                               width: widget.selected ? 14 : 0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primary
-                                    .withValues(alpha: widget.selected ? 1 : 0),
+                                color: Theme.of(context).colorScheme.primary.withValues(alpha: widget.selected ? 1 : 0),
                               ),
                             ),
                           ],
