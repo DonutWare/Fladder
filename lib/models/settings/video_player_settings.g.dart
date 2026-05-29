@@ -44,6 +44,8 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(Map<String, dynamic
       replayGainVolumeLevel: $enumDecodeNullable(_$ReplayGainVolumeLevelEnumMap, json['replayGainVolumeLevel']) ??
           ReplayGainVolumeLevel.quiet,
       enablePlayPauseFade: json['enablePlayPauseFade'] as bool? ?? true,
+      enableCrossfade: json['enableCrossfade'] as bool? ?? true,
+      crossfadeDurationMs: (json['crossfadeDurationMs'] as num?)?.toInt() ?? 400,
     );
 
 Map<String, dynamic> _$VideoPlayerSettingsModelToJson(_VideoPlayerSettingsModel instance) => <String, dynamic>{
@@ -75,6 +77,8 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(_VideoPlayerSettingsModel 
       'replayGainMode': _$ReplayGainModeEnumMap[instance.replayGainMode]!,
       'replayGainVolumeLevel': _$ReplayGainVolumeLevelEnumMap[instance.replayGainVolumeLevel]!,
       'enablePlayPauseFade': instance.enablePlayPauseFade,
+      'enableCrossfade': instance.enableCrossfade,
+      'crossfadeDurationMs': instance.crossfadeDurationMs,
     };
 
 const _$BoxFitEnumMap = {

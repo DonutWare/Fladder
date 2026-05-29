@@ -273,10 +273,14 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
           _player is LibMPV &&
           _isMpvPlaylistInSync() &&
           _mpvPlaylistItems.length > _mpvPlaylistCurrentIndex + 1) {
-        await (_player as LibMPV).playerNext();
-        return;
+        final current = _mpvPlaylistItems[_mpvPlaylistCurrentIndex];
+        final next = _mpvPlaylistItems[_mpvPlaylistCurrentIndex + 1];
+        if (!_shouldCrossfade(current, next, manual: true)) {
+          await (_player as LibMPV).playerNext();
+          return;
+        }
       }
-      await _playNextQueueItem();
+      await _playNextQueueItem(manual: true);
       return;
     }
     return loadNextVideo();
@@ -291,8 +295,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       }
       final wasRepeatOne = await _disableRepeatOneForSkip();
       if (!wasRepeatOne && _player is LibMPV && _isMpvPlaylistInSync() && _mpvPlaylistCurrentIndex > 0) {
-        await (_player as LibMPV).playerPrevious();
-        return;
+        final current = _mpvPlaylistItems[_mpvPlaylistCurrentIndex];
+        final previous = _mpvPlaylistItems[_mpvPlaylistCurrentIndex - 1];
+        if (!_shouldCrossfade(current, previous, manual: true)) {
+          await (_player as LibMPV).playerPrevious();
+          return;
+        }
       }
       await _playPreviousQueueItem();
       return;

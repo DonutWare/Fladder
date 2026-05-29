@@ -134,14 +134,14 @@ extension AudioQueueHandler on MediaControlsWrapper {
     await _playNextQueueItem();
   }
 
-  Future<void> _playNextQueueItem({Duration startPosition = Duration.zero}) async {
+  Future<void> _playNextQueueItem({Duration startPosition = Duration.zero, bool manual = false}) async {
     await _withQueueTransition(() async {
       final playbackModel = ref.read(playBackModel);
       if (playbackModel == null) return;
       final fromId = playbackModel.item.id;
       final transition = playbackModel.playbackQueue.nextTransition(fromId);
       if (transition == null) return;
-      await _applyQueueItem(transition.item, transition.state, playbackModel, startPosition);
+      await _applyQueueItem(transition.item, transition.state, playbackModel, startPosition, manual: manual);
     });
     await _syncMpvPlaylist();
   }
@@ -155,7 +155,7 @@ extension AudioQueueHandler on MediaControlsWrapper {
         await _player?.seek(Duration.zero);
         return;
       }
-      await _applyQueueItem(transition.item, transition.state, playbackModel, Duration.zero);
+      await _applyQueueItem(transition.item, transition.state, playbackModel, Duration.zero, manual: true);
     });
     await _syncMpvPlaylist();
   }
@@ -172,12 +172,27 @@ extension AudioQueueHandler on MediaControlsWrapper {
     await _syncMpvPlaylist();
   }
 
+  bool _shouldCrossfade(ItemBaseModel current, ItemBaseModel next, {bool manual = false}) {
+    if (!ref.read(videoPlayerSettingsProvider).enableCrossfade) return false;
+    if (manual) return true;
+    if (current is! AudioModel || next is! AudioModel) return false;
+    final currentAlbumId = current.albumId;
+    final nextAlbumId = next.albumId;
+    if (currentAlbumId == null || currentAlbumId.isEmpty) return true;
+    if (currentAlbumId != nextAlbumId) return true;
+    final currentTrack = current.trackNumber;
+    final nextTrack = next.trackNumber;
+    if (currentTrack == null || nextTrack == null || currentTrack <= 0 || nextTrack <= 0) return true;
+    return nextTrack != currentTrack + 1;
+  }
+
   Future<void> _applyQueueItem(
     ItemBaseModel item,
     PlaybackQueueState newQueueState,
     PlaybackModel currentModel,
     Duration startPosition, {
     bool load = true,
+    bool manual = false,
   }) async {
     final nextModel = await ref.read(playbackModelHelper).createPlaybackModel(
           null,
@@ -199,9 +214,24 @@ extension AudioQueueHandler on MediaControlsWrapper {
     final updatedModel = nextModel.updatePlaybackQueue(mergedQueueState);
     ref.read(playBackModel.notifier).update((_) => updatedModel);
 
-    await _applyReplayGain(item);
     if (load) {
-      await _player?.loadVideo(updatedModel.media?.url ?? '', true, startPosition: startPosition);
+      final url = updatedModel.media?.url ?? '';
+      if (_isAudioQueueMode && _player is LibMPV && _shouldCrossfade(currentModel.item, item, manual: manual)) {
+        final mpvPlayer = _player as LibMPV;
+        double? gainDb;
+        if (item is AudioModel) {
+          final gain = item.normalizationGain;
+          if (gain != null && !gain.isNaN && !gain.isInfinite) {
+            gainDb = gain.clamp(-60.0, 20.0).toDouble();
+          }
+        }
+        await mpvPlayer.crossfadeToUrl(url, startPosition, replayGainDb: gainDb);
+        _playlistIndexSub?.cancel();
+        _playlistIndexSub = mpvPlayer.playlistIndexStream.listen(_onMpvPlaylistIndexChanged);
+      } else {
+        await _applyReplayGain(item);
+        await _player?.loadVideo(url, true, startPosition: startPosition);
+      }
       _player?.applySubtitleSettings(ref.read(subtitleSettingsProvider));
       if (_player is LibMPV) {
         _mpvPlaylistItems = [item];

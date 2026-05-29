@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,6 @@ import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
 class LibMPV extends BasePlayer {
-  LibMPV();
-
   mpv.Player? _player;
   VideoController? _controller;
   String _currentSubtitleCodec = '';
@@ -43,8 +42,10 @@ class LibMPV extends BasePlayer {
   final Duration _maxRetryDuration = const Duration(minutes: 1);
   final Duration _currentRetryDuration = const Duration(seconds: 5);
   Completer<void>? _loadCompleter;
+  final List<StreamSubscription> _playerStreamSubs = [];
   double _preferredVolume = 100;
   int _fadeGeneration = 0;
+  bool _isFading = false;
   Duration get playPauseFadeDuration => const Duration(milliseconds: 175);
 
   @override
@@ -70,23 +71,7 @@ class LibMPV extends BasePlayer {
           enableHardwareAcceleration: settings.hardwareAccel,
         ),
       );
-
-      _player!.stream.playing.listen((value) {
-        if (value && _player?.state.volume == 0 && _preferredVolume > 0) {
-          _player?.setVolume(_preferredVolume);
-        }
-        setState(lastState.update(playing: value));
-      });
-      _player!.stream.buffering.listen((value) => setState(lastState.update(buffering: value)));
-      _player!.stream.position.listen((value) => setState(lastState.update(position: value)));
-      _player!.stream.duration.listen((value) => setState(lastState.update(duration: value)));
-      _player!.stream.volume.listen((value) {
-        if (_fadeGeneration == 0) _preferredVolume = value.clamp(0.0, 100.0);
-        setState(lastState.update(volume: value));
-      });
-      _player!.stream.rate.listen((value) => setState(lastState.update(rate: value)));
-      _player!.stream.buffer.listen((value) => setState(lastState.update(buffer: value)));
-      _player!.stream.completed.listen((value) => setState(lastState.update(completed: value)));
+      _setupPlayerStreams(_player!);
     }
 
     if (_player?.platform is mpv.NativePlayer) {
@@ -106,6 +91,7 @@ class LibMPV extends BasePlayer {
   @override
   Future<void> dispose() async {
     _fadeGeneration++;
+    _cancelPlayerStreams();
     _onCompleted?.cancel();
     _onCompleted = null;
     _player?.stop();
@@ -118,6 +104,116 @@ class LibMPV extends BasePlayer {
   void setState(PlayerState state) {
     lastState = state;
     _stateController.add(state);
+  }
+
+  void _cancelPlayerStreams() {
+    for (final sub in _playerStreamSubs) {
+      sub.cancel();
+    }
+    _playerStreamSubs.clear();
+  }
+
+  void _setupPlayerStreams(mpv.Player player) {
+    _playerStreamSubs.addAll([
+      player.stream.playing.listen((value) {
+        if (value && _player?.state.volume == 0 && _preferredVolume > 0) {
+          _player?.setVolume(_preferredVolume);
+        }
+        setState(lastState.update(playing: value));
+      }),
+      player.stream.buffering.listen((value) => setState(lastState.update(buffering: value))),
+      player.stream.position.listen((value) => setState(lastState.update(position: value))),
+      player.stream.duration.listen((value) => setState(lastState.update(duration: value))),
+      player.stream.volume.listen((value) {
+        if (!_isFading) {
+          _preferredVolume = value.clamp(0.0, 100.0);
+          setState(lastState.update(volume: value));
+        }
+      }),
+      player.stream.rate.listen((value) => setState(lastState.update(rate: value))),
+      player.stream.buffer.listen((value) => setState(lastState.update(buffer: value))),
+      player.stream.completed.listen((value) => setState(lastState.update(completed: value))),
+    ]);
+  }
+
+  Future<void> crossfadeToUrl(String url, Duration startPosition, {double? replayGainDb}) async {
+    final oldPlayer = _player;
+    if (oldPlayer == null) {
+      await loadVideo(url, true, startPosition: startPosition);
+      return;
+    }
+
+    const stepMs = 16;
+    final steps = math.max(1, _settings.crossfadeDurationMs ~/ stepMs);
+
+    final incomingPlayer = mpv.Player(
+      configuration: mpv.PlayerConfiguration(
+        title: "nl.jknaapen.fladder",
+        libassAndroidFont: libassFallbackFont,
+        libass: !kIsWeb && _settings.useLibass,
+        bufferSize: _settings.bufferSize * 1024 * 1024,
+      ),
+    );
+
+    if (incomingPlayer.platform is mpv.NativePlayer) {
+      final native = incomingPlayer.platform as dynamic;
+      await native.setProperty('force-seekable', 'yes');
+      await native.setProperty('gapless-audio', 'weak');
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        await native.setProperty('ao', 'audiotrack');
+      }
+      await native.setProperty('start', '${startPosition.inMilliseconds / 1000}');
+    }
+
+    await _applyReplayGainSettings(trackGainDb: replayGainDb, targetPlayer: incomingPlayer);
+    await incomingPlayer.setVolume(0.0);
+    await incomingPlayer.open(mpv.Media(url), play: true);
+
+    final generation = ++_fadeGeneration;
+    _isFading = true;
+    final fromVolume = oldPlayer.state.volume.clamp(0.0, 100.0);
+
+    bool aborted = false;
+    for (var i = 1; i <= steps; i++) {
+      if (generation != _fadeGeneration) {
+        aborted = true;
+        break;
+      }
+      final progress = i / steps;
+      await oldPlayer.setVolume(fromVolume * (1.0 - progress));
+      await incomingPlayer.setVolume(_preferredVolume * progress);
+      if (i < steps) await Future.delayed(const Duration(milliseconds: stepMs));
+    }
+
+    if (aborted || generation != _fadeGeneration) {
+      _isFading = false;
+      incomingPlayer.stop();
+      incomingPlayer.dispose();
+      return;
+    }
+
+    _cancelPlayerStreams();
+    _player = incomingPlayer;
+    _controller = null;
+    _setupPlayerStreams(incomingPlayer);
+
+    _retryTimer?.cancel();
+    _retryTimer = null;
+    _loadCompleter = null;
+
+    oldPlayer.stop();
+    oldPlayer.dispose();
+
+    _isFading = false;
+    setState(lastState.update(
+      playing: incomingPlayer.state.playing,
+      buffering: incomingPlayer.state.buffering,
+      position: incomingPlayer.state.position,
+      duration: incomingPlayer.state.duration,
+      volume: _preferredVolume,
+      buffer: incomingPlayer.state.buffer,
+      completed: false,
+    ));
   }
 
   @override
@@ -199,12 +295,13 @@ class LibMPV extends BasePlayer {
     return _settings.replayGainVolumeLevel.replayGainOffsetDb;
   }
 
-  Future<void> _applyReplayGainSettings({double? trackGainDb}) async {
-    if (_player?.platform is! mpv.NativePlayer) {
+  Future<void> _applyReplayGainSettings({double? trackGainDb, mpv.Player? targetPlayer}) async {
+    final player = targetPlayer ?? _player;
+    if (player?.platform is! mpv.NativePlayer) {
       return;
     }
 
-    final nativePlayer = _player!.platform as dynamic;
+    final nativePlayer = player!.platform as dynamic;
 
     if (!_settings.enableReplayGain) {
       try {
@@ -287,6 +384,7 @@ class LibMPV extends BasePlayer {
     }
 
     final generation = ++_fadeGeneration;
+    _isFading = true;
     final from = fadingIn ? 0.0 : player.state.volume.clamp(0.0, 100.0);
     final to = fadingIn ? _preferredVolume : 0.0;
     const stepMs = 16;
@@ -298,7 +396,10 @@ class LibMPV extends BasePlayer {
     }
 
     for (var i = 1; i <= steps; i++) {
-      if (generation != _fadeGeneration || _player == null) return;
+      if (generation != _fadeGeneration || _player == null) {
+        _isFading = false;
+        return;
+      }
       await player.setVolume(from + (to - from) * i / steps);
       if (i < steps) await Future.delayed(const Duration(milliseconds: stepMs));
     }
@@ -307,6 +408,8 @@ class LibMPV extends BasePlayer {
       _fadeGeneration++;
       await player.pause();
     }
+    _isFading = false;
+    setState(lastState.update(volume: _preferredVolume));
   }
 
   @override
@@ -423,6 +526,7 @@ class LibMPV extends BasePlayer {
 
   @override
   Future<void> setVolume(double volume) async {
+    _isFading = false;
     _preferredVolume = volume.clamp(0.0, 100.0);
     _fadeGeneration++;
     await _player?.setVolume(_preferredVolume);

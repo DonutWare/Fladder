@@ -463,8 +463,8 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 ),
               if (videoSettings.enableReplayGain)
                 SettingsListTileEnum(
-                  label: const Text('ReplayGain volume level'),
-                  subLabel: const Text('Adjust the baseline loudness applied with ReplayGain.'),
+                  label: Text(context.localized.playerSettingsReplayGainLevelTitle),
+                  subLabel: Text(context.localized.playerSettingsReplayGainLevelDesc),
                   current: videoSettings.replayGainVolumeLevel.label(context),
                   itemBuilder: (context) => ReplayGainVolumeLevel.values
                       .map(
@@ -474,6 +474,54 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                         ),
                       )
                       .toList(),
+                ),
+              if (currentPlayer == PlayerOptions.libMPV)
+                SettingsListTile(
+                  label: Text(context.localized.settingsPlayerCrossfadeTitle),
+                  subLabel: Text(context.localized.settingsPlayerCrossfadeDesc),
+                  onTap: () => provider.setEnableCrossfade(!videoSettings.enableCrossfade),
+                  trailing: Switch(
+                    value: videoSettings.enableCrossfade,
+                    onChanged: (value) => provider.setEnableCrossfade(value),
+                  ),
+                ),
+              if (currentPlayer == PlayerOptions.libMPV && videoSettings.enableCrossfade)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.localized.settingsPlayerCrossfadeDurationTitle,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          context.localized.settingsPlayerCrossfadeDurationDesc,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: FladderSlider(
+                              min: 200,
+                              max: 3000,
+                              value: videoSettings.crossfadeDurationMs.toDouble(),
+                              divisions: 28,
+                              onChanged: (value) => provider.setCrossfadeDurationMs(value.round()),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            '${videoSettings.crossfadeDurationMs} ms',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               if (currentPlayer == PlayerOptions.libMDK)
                 SettingsListTile(
