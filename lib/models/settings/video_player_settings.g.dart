@@ -40,7 +40,6 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(Map<String, dynamic
       enableEdgeGestures: json['enableEdgeGestures'] as bool? ?? true,
       reverseEdgeGestures: json['reverseEdgeGestures'] as bool? ?? false,
       enableReplayGain: json['enableReplayGain'] as bool? ?? true,
-      replayGainMode: $enumDecodeNullable(_$ReplayGainModeEnumMap, json['replayGainMode']) ?? ReplayGainMode.automatic,
       replayGainVolumeLevel: $enumDecodeNullable(_$ReplayGainVolumeLevelEnumMap, json['replayGainVolumeLevel']) ??
           ReplayGainVolumeLevel.quiet,
       enablePlayPauseFade: json['enablePlayPauseFade'] as bool? ?? true,
@@ -74,7 +73,6 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(_VideoPlayerSettingsModel 
       'enableEdgeGestures': instance.enableEdgeGestures,
       'reverseEdgeGestures': instance.reverseEdgeGestures,
       'enableReplayGain': instance.enableReplayGain,
-      'replayGainMode': _$ReplayGainModeEnumMap[instance.replayGainMode]!,
       'replayGainVolumeLevel': _$ReplayGainVolumeLevelEnumMap[instance.replayGainVolumeLevel]!,
       'enablePlayPauseFade': instance.enablePlayPauseFade,
       'enableCrossfade': instance.enableCrossfade,
@@ -175,12 +173,6 @@ const _$ScreensaverEnumMap = {
   Screensaver.logo: 'logo',
   Screensaver.time: 'time',
   Screensaver.black: 'black',
-};
-
-const _$ReplayGainModeEnumMap = {
-  ReplayGainMode.automatic: 'automatic',
-  ReplayGainMode.track: 'track',
-  ReplayGainMode.album: 'album',
 };
 
 const _$ReplayGainVolumeLevelEnumMap = {

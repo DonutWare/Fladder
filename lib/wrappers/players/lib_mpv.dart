@@ -312,16 +312,11 @@ class LibMPV extends BasePlayer {
       return;
     }
 
-    final replayGainMode = switch (_settings.replayGainMode) {
-      ReplayGainMode.automatic => 'track',
-      ReplayGainMode.track => 'track',
-      ReplayGainMode.album => 'album',
-    };
     final replayGainOffsetDb = clampReplayGainDb(_replayGainVolumeOffsetDb);
     final replayGainFallbackDb = _settings.replayGainVolumeLevel.adjustedReplayGainDb(trackGainDb);
 
     try {
-      await nativePlayer.setProperty('replaygain', replayGainMode);
+      await nativePlayer.setProperty('replaygain', 'track');
       await nativePlayer.setProperty('replaygain-clip', 'yes');
       await nativePlayer.setProperty('replaygain-fallback', '$replayGainFallbackDb');
       await nativePlayer.setProperty('replaygain-preamp', '$replayGainOffsetDb');

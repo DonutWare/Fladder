@@ -449,20 +449,6 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               ),
               if (videoSettings.enableReplayGain)
                 SettingsListTileEnum(
-                  label: Text(context.localized.playerSettingsReplayGainModeTitle),
-                  subLabel: Text(context.localized.playerSettingsReplayGainModeDesc),
-                  current: videoSettings.replayGainMode.label(context),
-                  itemBuilder: (context) => ReplayGainMode.values
-                      .map(
-                        (entry) => ItemActionButton(
-                          label: Text(entry.label(context)),
-                          action: () => provider.setReplayGainMode(entry),
-                        ),
-                      )
-                      .toList(),
-                ),
-              if (videoSettings.enableReplayGain)
-                SettingsListTileEnum(
                   label: Text(context.localized.playerSettingsReplayGainLevelTitle),
                   subLabel: Text(context.localized.playerSettingsReplayGainLevelDesc),
                   current: videoSettings.replayGainVolumeLevel.label(context),
