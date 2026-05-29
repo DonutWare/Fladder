@@ -1401,7 +1401,7 @@
   "resumeVideo": "Resume video",
   "closeVideo": "Close video",
   "playNextVideo": "Play next video",
-  "playerSettingsBackendTitle": "Video player Backend",
+  "playerSettingsBackendTitle": "Media player Backend",
   "playerSettingsBackendDesc": "Choose your preferred media player for optimal playback experience",
   "playerSettingsReplayGainTitle": "ReplayGain",
   "playerSettingsReplayGainDesc": "Normalize music loudness using ReplayGain tags.",
@@ -1417,7 +1417,7 @@
   "@settingsPlayerCrossfadeDurationDesc": {},
   "defaultLabel": "Default",
   "@defaultLabel": {
-    "description": "To indicate a default value, default video player backend"
+    "description": "To indicate a default value, default media player backend"
   },
   "noVideoPlayerOptions": "The selected backend has no options",
   "mdkExperimental": "MDK is still in a experimental stage",

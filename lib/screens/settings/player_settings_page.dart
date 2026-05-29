@@ -357,6 +357,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 ],
               ),
             ...[
+              if (currentPlayer == PlayerOptions.libMPV) SettingsLabelDivider(label: context.localized.video(1)),
               if (currentPlayer == PlayerOptions.libMPV) ...[
                 SettingsListTile(
                   label: Text(context.localized.settingsPlayerVideoHWAccelTitle),
@@ -438,6 +439,36 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     },
                   ),
                 ),
+              Column(
+                children: [
+                  SettingsListTileEnum(
+                    label: Text(context.localized.settingsAutoNextTitle),
+                    subLabel: Text(context.localized.settingsAutoNextDesc),
+                    current: ref.watch(
+                      videoPlayerSettingsProvider.select(
+                        (value) => value.nextVideoType.label(context),
+                      ),
+                    ),
+                    itemBuilder: (context) => AutoNextType.values
+                        .map(
+                          (entry) => ItemActionButton(
+                            label: Text(entry.label(context)),
+                            action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                                videoSettings.copyWith(nextVideoType: entry),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                  AnimatedFadeSize(
+                    child: switch (ref.watch(videoPlayerSettingsProvider.select((value) => value.nextVideoType))) {
+                      AutoNextType.smart => SettingsMessageBox(AutoNextType.smart.desc(context)),
+                      AutoNextType.static => SettingsMessageBox(AutoNextType.static.desc(context)),
+                      _ => const SizedBox.shrink(),
+                    },
+                  ),
+                ],
+              ),
+              if (currentPlayer == PlayerOptions.libMPV) SettingsLabelDivider(label: context.localized.audio(1)),
               SettingsListTile(
                 label: Text(context.localized.playerSettingsReplayGainTitle),
                 subLabel: Text(context.localized.playerSettingsReplayGainDesc),
@@ -526,35 +557,6 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   ),
                 ),
             ],
-            Column(
-              children: [
-                SettingsListTileEnum(
-                  label: Text(context.localized.settingsAutoNextTitle),
-                  subLabel: Text(context.localized.settingsAutoNextDesc),
-                  current: ref.watch(
-                    videoPlayerSettingsProvider.select(
-                      (value) => value.nextVideoType.label(context),
-                    ),
-                  ),
-                  itemBuilder: (context) => AutoNextType.values
-                      .map(
-                        (entry) => ItemActionButton(
-                          label: Text(entry.label(context)),
-                          action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                              videoSettings.copyWith(nextVideoType: entry),
-                        ),
-                      )
-                      .toList(),
-                ),
-                AnimatedFadeSize(
-                  child: switch (ref.watch(videoPlayerSettingsProvider.select((value) => value.nextVideoType))) {
-                    AutoNextType.smart => SettingsMessageBox(AutoNextType.smart.desc(context)),
-                    AutoNextType.static => SettingsMessageBox(AutoNextType.static.desc(context)),
-                    _ => const SizedBox.shrink(),
-                  },
-                ),
-              ],
-            ),
             if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb && !ref.read(argumentsStateProvider).htpcMode)
               SettingsListTile(
                 label: Text(context.localized.playerSettingsOrientationTitle),
