@@ -133,6 +133,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
     final replayGainVolumeLevel = ref.watch(
       videoPlayerSettingsProvider.select((value) => value.replayGainVolumeLevel),
     );
+    final showQueueRefillIndicator = playbackInfo.queueRefilling && playbackModel.queueSource?.supportsRefill == true;
 
     final isFavourite = currentItem.userData.isFavourite;
 
@@ -404,6 +405,14 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                 context.localized.queue,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
+              if (showQueueRefillIndicator) ...[
+                const SizedBox(width: 8),
+                const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ],
               const Spacer(),
               if (queueCount > 0)
                 IconButton(

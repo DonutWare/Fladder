@@ -45,4 +45,7 @@ class PlaylistModel extends ItemBaseModel with PlaylistModelMappable {
 
   @override
   bool get syncAble => true;
+
+  @override
+  bool get playAble => true;
 }

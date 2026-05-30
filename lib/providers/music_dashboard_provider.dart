@@ -95,24 +95,6 @@ class MusicDashboardNotifier extends StateNotifier<MusicDashboardModel> {
     return response.body?.items.whereType<AudioModel>().toList() ?? const <ItemBaseModel>[];
   }
 
-  Future<List<ItemBaseModel>> fetchPlaylistQueue(ItemBaseModel playlist) async {
-    final response = await api.playlistsPlaylistIdItemsGet(
-      playlistId: playlist.id,
-      enableUserData: true,
-      enableImages: true,
-      imageTypeLimit: 1,
-      fields: [
-        ItemFields.primaryimageaspectratio,
-        ItemFields.mediasources,
-        ItemFields.mediastreams,
-        ItemFields.parentid,
-        ItemFields.overview,
-      ],
-    );
-
-    return response.body?.items.whereType<AudioModel>().toList() ?? const <ItemBaseModel>[];
-  }
-
   Future<void> fetchMusicHome() async {
     if (state.loading) return;
     state = state.copyWith(loading: true);

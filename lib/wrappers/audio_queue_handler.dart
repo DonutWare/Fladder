@@ -45,6 +45,7 @@ extension AudioQueueHandler on MediaControlsWrapper {
     _audioQueueRefillInProgress = false;
     _audioQueueSourceDepleted = false;
     _audioQueueNextStartIndex = queue.length;
+    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(queueRefilling: false));
 
     final resolver = AudioUrlResolver(ref);
     final currentItem = queue[initialIndex.clamp(0, queue.length - 1)];
@@ -353,6 +354,7 @@ extension AudioQueueHandler on MediaControlsWrapper {
     if (remaining > bufferSize) return;
 
     _audioQueueRefillInProgress = true;
+    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(queueRefilling: true));
     try {
       final fetchedItems = await queueSource.fetchQueue(
         ref.read,
@@ -375,6 +377,7 @@ extension AudioQueueHandler on MediaControlsWrapper {
       log('Audio queue refill failed: $error\n$stackTrace');
     } finally {
       _audioQueueRefillInProgress = false;
+      ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(queueRefilling: false));
     }
   }
 

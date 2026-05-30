@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'dart:math' show Random;
+import 'dart:math' show Random, min;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,7 @@ import 'package:fladder/models/items/album_model.dart';
 import 'package:fladder/models/items/artist_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/tv_playback_model.dart';
@@ -28,6 +29,7 @@ import 'package:fladder/providers/items/book_details_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_screen.dart';
+import 'package:fladder/screens/library_search/widgets/library_play_options_.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -36,6 +38,8 @@ import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
+
+part 'play_playlist_helpers.dart';
 
 extension BookBaseModelExtension on BookModel? {
   Future<void> play(
@@ -93,12 +97,12 @@ extension PhotoAlbumExtension on PhotoAlbumModel? {
 
     final getChildItems = await op.valueOrCancellation(null);
     if (op.isCanceled || getChildItems == null) {
-      try {
-        Navigator.of(context, rootNavigator: true).pop();
-      } catch (e) {
-        log('Error closing loading dialog: $e');
-      }
       if (!op.isCanceled) {
+        try {
+          Navigator.of(context, rootNavigator: true).pop();
+        } catch (e) {
+          log('Error closing loading dialog: $e');
+        }
         FladderSnack.show(context.localized.unableToPlayMedia, context: context);
       }
       return;
@@ -152,12 +156,12 @@ extension ChannelModelExtension on ChannelModel? {
     final model = await op.valueOrCancellation(null);
 
     if (op.isCanceled || model == null) {
-      try {
-        Navigator.of(context, rootNavigator: true).pop();
-      } catch (e) {
-        log('Error closing loading dialog: $e');
-      }
       if (!op.isCanceled) {
+        try {
+          Navigator.of(context, rootNavigator: true).pop();
+        } catch (e) {
+          log('Error closing loading dialog: $e');
+        }
         FladderSnack.show(context.localized.unableToPlayMedia, context: context);
       }
       return;
@@ -587,6 +591,12 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
         PhotoAlbumModel album => album.play(context, ref),
         AlbumModel album => album.play(context, ref),
         AudioModel audio => audio.play(context, ref),
+        PlaylistModel playlist => playlist.play(
+            context,
+            ref,
+            startPosition: startPosition,
+            showPlaybackOption: showPlaybackOption,
+          ),
         BookModel book => book.play(context, ref),
         ChannelModel channel => channel.play(context, ref),
         _ => _default(context, this, ref, startPosition: startPosition, showPlaybackOption: showPlaybackOption),
@@ -614,13 +624,15 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
 
     final model = await op.valueOrCancellation(null);
     if (op.isCanceled || model == null) {
-      try {
-        Navigator.of(context, rootNavigator: true).pop();
-      } catch (e) {
-        log('Error closing loading dialog: $e');
-      }
-      if (!op.isCanceled && !showPlaybackOption) {
-        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      if (!op.isCanceled) {
+        try {
+          Navigator.of(context, rootNavigator: true).pop();
+        } catch (e) {
+          log('Error closing loading dialog: $e');
+        }
+        if (!showPlaybackOption) {
+          FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+        }
       }
       return;
     }
@@ -669,12 +681,12 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
 
     final result = await op.valueOrCancellation(null);
     if (op.isCanceled || result == null) {
-      try {
-        Navigator.of(context, rootNavigator: true).pop();
-      } catch (e) {
-        log('Error closing loading dialog: $e');
-      }
       if (!op.isCanceled) {
+        try {
+          Navigator.of(context, rootNavigator: true).pop();
+        } catch (e) {
+          log('Error closing loading dialog: $e');
+        }
         FladderSnack.show(context.localized.unableToPlayMedia, context: context);
       }
       return;
@@ -732,12 +744,12 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
 
     final result = await op.valueOrCancellation(null);
     if (op.isCanceled || result == null) {
-      try {
-        Navigator.of(context, rootNavigator: true).pop();
-      } catch (e) {
-        log('Error closing loading dialog: $e');
-      }
       if (!op.isCanceled) {
+        try {
+          Navigator.of(context, rootNavigator: true).pop();
+        } catch (e) {
+          log('Error closing loading dialog: $e');
+        }
         FladderSnack.show(context.localized.unableToPlayMedia, context: context);
       }
       return;

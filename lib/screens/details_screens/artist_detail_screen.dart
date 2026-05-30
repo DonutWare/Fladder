@@ -106,7 +106,7 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                                   await current.playLatestTracks(detailsContext, ref, shuffleEnabled: true);
                                 },
                                 icon: const Icon(IconsaxPlusLinear.shuffle),
-                                label: Text(context.localized.shuffleVideos),
+                                label: Text(context.localized.audioPlayerShuffle),
                               ),
                               FilledButton.tonalIcon(
                                 onPressed: () async {

@@ -23,6 +23,7 @@ import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
+import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
@@ -146,7 +147,7 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
                         musicDashboard.playlists.map((playlist) => playlist.copyWith(canDownload: true)).toList(),
                     contentPadding: padding,
                     label: FladderItemType.playlist.label(context.localized, count: musicDashboard.playlists.length),
-                    onPlaylistPlayTap: _playPlaylistFromDashboard,
+                    onPlaylistPlayTap: (playlist) => playlist.play(context, ref),
                   ),
                 if (musicDashboard.recentlyAddedAlbums.isNotEmpty)
                   PosterRow(
@@ -278,41 +279,6 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
           model,
           queue,
           currentIndex,
-          startPosition,
-        );
-  }
-
-  Future<void> _playPlaylistFromDashboard(ItemBaseModel playlist) async {
-    await ref.read(videoPlayerProvider.notifier).init();
-
-    final queue = await ref.read(musicDashboardProvider.notifier).fetchPlaylistQueue(playlist);
-    if (queue.isEmpty) {
-      if (mounted) {
-        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
-      }
-      return;
-    }
-
-    final model = await ref.read(playbackModelHelper).createPlaybackModel(
-          context,
-          queue.first,
-          libraryQueue: queue,
-          showPlaybackOptions: false,
-        );
-
-    if (model == null) {
-      if (mounted) {
-        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
-      }
-      return;
-    }
-
-    final startPosition = await model.startDuration() ?? Duration.zero;
-
-    await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
-          model,
-          queue,
-          0,
           startPosition,
         );
   }
