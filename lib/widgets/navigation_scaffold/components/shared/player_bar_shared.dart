@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:overflow_view/overflow_view.dart';
 
 import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
@@ -162,43 +164,53 @@ class FloatingPlayerBarActionsRow extends StatelessWidget {
   }
 }
 
-class FloatingPlayerBarProgress extends StatelessWidget {
+class FloatingPlayerBarProgress extends ConsumerStatefulWidget {
   const FloatingPlayerBarProgress({
     super.key,
-    required this.playbackInfo,
-    required this.lastPosition,
-    required this.onChangeStart,
-    required this.onChanged,
-    required this.onChangeEnd,
+    required this.onSeek,
   });
 
-  final MediaPlaybackModel playbackInfo;
-  final Duration lastPosition;
-  final VoidCallback onChangeStart;
-  final ValueChanged<Duration> onChanged;
-  final ValueChanged<Duration> onChangeEnd;
+  final Future<void> Function(Duration) onSeek;
+
+  @override
+  ConsumerState<FloatingPlayerBarProgress> createState() => _FloatingPlayerBarProgressState();
+}
+
+class _FloatingPlayerBarProgressState extends ConsumerState<FloatingPlayerBarProgress> {
+  Duration? _dragPosition;
 
   @override
   Widget build(BuildContext context) {
+    final playback = ref.watch(mediaPlaybackProvider.select((s) => (
+          position: s.position,
+          duration: s.duration,
+        )));
+    final position = _dragPosition ?? playback.position;
+
     return AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
         ? SizedBox(
             height: 8,
             child: FladderSlider(
-              value: lastPosition.inMilliseconds.toDouble(),
+              value: position.inMilliseconds.toDouble(),
               min: 0.0,
-              max: playbackInfo.duration.inMilliseconds.toDouble(),
+              max: playback.duration.inMilliseconds.toDouble(),
               thumbWidth: 8,
-              onChangeStart: (_) => onChangeStart(),
-              onChangeEnd: (value) => onChangeEnd(Duration(milliseconds: value.toInt())),
-              onChanged: (value) => onChanged(Duration(milliseconds: value.toInt())),
+              onChangeStart: (value) => setState(() => _dragPosition = Duration(milliseconds: value.toInt())),
+              onChanged: (value) => setState(() => _dragPosition = Duration(milliseconds: value.toInt())),
+              onChangeEnd: (value) async {
+                final seekPos = Duration(milliseconds: value.toInt());
+                setState(() => _dragPosition = seekPos);
+                await widget.onSeek(seekPos);
+                if (mounted) setState(() => _dragPosition = null);
+              },
             ),
           )
         : LinearProgressIndicator(
             minHeight: 8,
             backgroundColor: Colors.black.withValues(alpha: 0.25),
             color: Theme.of(context).colorScheme.primary,
-            value: playbackInfo.duration.inMilliseconds > 0
-                ? (playbackInfo.position.inMilliseconds / playbackInfo.duration.inMilliseconds).clamp(0, 1)
+            value: playback.duration.inMilliseconds > 0
+                ? (position.inMilliseconds / playback.duration.inMilliseconds).clamp(0, 1)
                 : 0,
           );
   }

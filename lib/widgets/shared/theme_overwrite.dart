@@ -6,10 +6,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/theme.dart';
 
-class ThemeOverwrite extends ConsumerWidget {
-  final ImageProvider? image;
-  final Color? color;
-  final Widget Function(BuildContext) child;
+class ThemeOverwrite extends ConsumerStatefulWidget {
   const ThemeOverwrite({
     super.key,
     this.image,
@@ -17,62 +14,76 @@ class ThemeOverwrite extends ConsumerWidget {
     required this.child,
   });
 
+  final ImageProvider? image;
+  final Color? color;
+  final Widget Function(BuildContext) child;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ThemeOverwrite> createState() => _ThemeOverwriteState();
+}
+
+class _ThemeOverwriteState extends ConsumerState<ThemeOverwrite> {
+  Color? _dominantColor;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.image != null) _fetchColor(widget.image!);
+  }
+
+  @override
+  void didUpdateWidget(ThemeOverwrite old) {
+    super.didUpdateWidget(old);
+    if (widget.image != old.image) {
+      _dominantColor = null;
+      if (widget.image != null) _fetchColor(widget.image!);
+    }
+  }
+
+  Future<void> _fetchColor(ImageProvider image) async {
+    final color = await getDominantColor(image);
+    if (!mounted || widget.image != image) return;
+    setState(() => _dominantColor = color);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final deriveColorFromItem = ref.watch(clientSettingsProvider.select((value) => value.deriveColorsFromItem));
-    if (!deriveColorFromItem) {
-      return child(context);
-    }
+    if (!deriveColorFromItem) return widget.child(context);
 
-    ThemeData themeData(Color? color) {
-      final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
-      final newColorScheme = color != null
-          ? ColorScheme.fromSeed(
-              seedColor: color,
-              brightness: Theme.brightnessOf(context),
-              dynamicSchemeVariant: schemeVariant,
-            )
-          : null;
-      final amoledBlack = ref.watch(clientSettingsProvider.select((value) => value.amoledBlack));
-      final amoledOverwrite = amoledBlack ? Colors.black : null;
+    final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
+    final amoledBlack = ref.watch(clientSettingsProvider.select((value) => value.amoledBlack));
+    final effectiveColor = widget.image != null ? _dominantColor : widget.color;
+    final amoledOverwrite = amoledBlack ? Colors.black : null;
 
-      return newColorScheme != null
-          ? FladderTheme.theme(newColorScheme, schemeVariant).copyWith(
-              scaffoldBackgroundColor: amoledOverwrite,
-              cardColor: amoledOverwrite,
-              canvasColor: amoledOverwrite,
-              colorScheme: newColorScheme.copyWith(
-                surface: amoledOverwrite,
-                surfaceContainerHighest: amoledOverwrite,
-                surfaceContainerLow: amoledOverwrite,
-              ),
-            )
-          : Theme.of(context).copyWith(
-              scaffoldBackgroundColor: amoledOverwrite,
-              cardColor: amoledOverwrite,
-              canvasColor: amoledOverwrite,
-            );
-    }
+    final newColorScheme = effectiveColor != null
+        ? ColorScheme.fromSeed(
+            seedColor: effectiveColor,
+            brightness: Theme.brightnessOf(context),
+            dynamicSchemeVariant: schemeVariant,
+          )
+        : null;
 
-    if (image != null) {
-      return FutureBuilder<Color?>(
-        future: getDominantColor(image!),
-        builder: (context, snapshot) {
-          return Theme(
-            data: themeData(snapshot.data),
-            child: Builder(
-              builder: (context) => child(context),
+    final themeData = newColorScheme != null
+        ? FladderTheme.theme(newColorScheme, schemeVariant).copyWith(
+            scaffoldBackgroundColor: amoledOverwrite,
+            cardColor: amoledOverwrite,
+            canvasColor: amoledOverwrite,
+            colorScheme: newColorScheme.copyWith(
+              surface: amoledOverwrite,
+              surfaceContainerHighest: amoledOverwrite,
+              surfaceContainerLow: amoledOverwrite,
             ),
+          )
+        : Theme.of(context).copyWith(
+            scaffoldBackgroundColor: amoledOverwrite,
+            cardColor: amoledOverwrite,
+            canvasColor: amoledOverwrite,
           );
-        },
-      );
-    }
 
     return Theme(
-      data: themeData(color),
-      child: Builder(
-        builder: (context) => child(context),
-      ),
+      data: themeData,
+      child: Builder(builder: (context) => widget.child(context)),
     );
   }
 }

@@ -45,9 +45,6 @@ class AudioPlayerFullScreen extends ConsumerStatefulWidget {
 }
 
 class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
-  bool changingSliderValue = false;
-  Duration sliderPosition = Duration.zero;
-
   ItemBaseModel? lastItem;
 
   Color? dominantColor;
@@ -74,7 +71,11 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
   @override
   Widget build(BuildContext context) {
     final playbackModel = ref.watch(playBackModel);
-    final playbackInfo = ref.watch(mediaPlaybackProvider);
+    final playbackInfo = ref.watch(mediaPlaybackProvider.select((state) => (
+          shuffleEnabled: state.shuffleEnabled,
+          repeatMode: state.repeatMode,
+          queueRefilling: state.queueRefilling,
+        )));
     final player = ref.watch(videoPlayerProvider);
 
     if (playbackModel == null || playbackModel.item is! AudioModel) {
@@ -122,18 +123,13 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
         }
       }
     }
-    final duration = playbackInfo.duration;
-
-    if (!changingSliderValue) {
-      sliderPosition = playbackInfo.position;
-    }
+    final showQueueRefillIndicator = playbackInfo.queueRefilling && playbackModel.queueSource?.supportsRefill == true;
 
     final artwork = currentItem.images?.primary;
     final queueCount = queueFromCurrent.length;
     final replayGainVolumeLevel = ref.watch(
       videoPlayerSettingsProvider.select((value) => value.replayGainVolumeLevel),
     );
-    final showQueueRefillIndicator = playbackInfo.queueRefilling && playbackModel.queueSource?.supportsRefill == true;
 
     final isFavourite = currentItem.userData.isFavourite;
 
@@ -566,86 +562,6 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
       );
     }
 
-    Widget controls(BuildContext context) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: 4,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.primary.withAlpha(35),
-                  blurRadius: 60,
-                )
-              ],
-            ),
-            child: FladderSlider(
-              thumbWidth: 12,
-              value: sliderPosition.inMilliseconds.toDouble().clamp(0, duration.inMilliseconds.toDouble()),
-              min: 0,
-              max: duration.inMilliseconds > 0 ? duration.inMilliseconds.toDouble() : 1,
-              onChanged: (value) {
-                setState(() {
-                  sliderPosition = Duration(milliseconds: value.round());
-                });
-              },
-              onChangeStart: (_) {
-                setState(() {
-                  changingSliderValue = true;
-                });
-              },
-              onChangeEnd: (value) async {
-                final position = Duration(milliseconds: value.round());
-                await player.seek(position);
-                await Future.delayed(const Duration(milliseconds: 250));
-                if (player.lastState?.playing == true) {
-                  await player.play();
-                }
-                setState(() {
-                  changingSliderValue = false;
-                });
-              },
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                playbackInfo.position.readAbleDuration,
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-              Text(
-                duration.readAbleDuration,
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: () => ref.read(videoPlayerProvider).skipToPrevious(),
-                icon: const Icon(IconsaxPlusBold.previous),
-              ),
-              const SizedBox(width: 8),
-              IconButton.filledTonal(
-                onPressed: () => ref.read(videoPlayerProvider).playOrPause(),
-                iconSize: 42,
-                icon: playbackInfo.playing ? const Icon(IconsaxPlusBold.pause) : const Icon(IconsaxPlusBold.play),
-              ),
-              const SizedBox(width: 8),
-              IconButton(
-                onPressed: () => ref.read(videoPlayerProvider).skipToNext(),
-                icon: const Icon(IconsaxPlusBold.next),
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -699,7 +615,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                       albumArt(context),
                       const SizedBox(height: 24),
                       buildMetadata(context),
-                      controls(context),
+                      const _AudioPlayerControls(),
                     ],
                   ),
                   const Divider(),
@@ -729,6 +645,94 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
       ...queue.sublist(currentIndex),
       if (wrapAround) ...queue.sublist(0, currentIndex),
     ];
+  }
+}
+
+class _AudioPlayerControls extends ConsumerStatefulWidget {
+  const _AudioPlayerControls();
+
+  @override
+  ConsumerState<_AudioPlayerControls> createState() => _AudioPlayerControlsState();
+}
+
+class _AudioPlayerControlsState extends ConsumerState<_AudioPlayerControls> {
+  bool _changingSliderValue = false;
+  Duration _sliderPosition = Duration.zero;
+
+  @override
+  Widget build(BuildContext context) {
+    final playback = ref.watch(mediaPlaybackProvider.select((s) => (
+          position: s.position,
+          duration: s.duration,
+          playing: s.playing,
+        )));
+
+    if (!_changingSliderValue) {
+      _sliderPosition = playback.position;
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      spacing: 4,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.primary.withAlpha(35),
+                blurRadius: 60,
+              )
+            ],
+          ),
+          child: FladderSlider(
+            thumbWidth: 12,
+            value: _sliderPosition.inMilliseconds.toDouble().clamp(0, playback.duration.inMilliseconds.toDouble()),
+            min: 0,
+            max: playback.duration.inMilliseconds > 0 ? playback.duration.inMilliseconds.toDouble() : 1,
+            onChanged: (value) => setState(() => _sliderPosition = Duration(milliseconds: value.round())),
+            onChangeStart: (_) => setState(() => _changingSliderValue = true),
+            onChangeEnd: (value) async {
+              final pos = Duration(milliseconds: value.round());
+              final player = ref.read(videoPlayerProvider);
+              await player.seek(pos);
+              await Future.delayed(const Duration(milliseconds: 250));
+              if (player.lastState?.playing == true) {
+                await player.play();
+              }
+              if (mounted) setState(() => _changingSliderValue = false);
+            },
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(_sliderPosition.readAbleDuration, style: Theme.of(context).textTheme.labelMedium),
+            Text(playback.duration.readAbleDuration, style: Theme.of(context).textTheme.labelMedium),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () => ref.read(videoPlayerProvider).skipToPrevious(),
+              icon: const Icon(IconsaxPlusBold.previous),
+            ),
+            const SizedBox(width: 8),
+            IconButton.filledTonal(
+              onPressed: () => ref.read(videoPlayerProvider).playOrPause(),
+              iconSize: 42,
+              icon: playback.playing ? const Icon(IconsaxPlusBold.pause) : const Icon(IconsaxPlusBold.play),
+            ),
+            const SizedBox(width: 8),
+            IconButton(
+              onPressed: () => ref.read(videoPlayerProvider).skipToNext(),
+              icon: const Icon(IconsaxPlusBold.next),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
 

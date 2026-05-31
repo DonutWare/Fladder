@@ -18,7 +18,6 @@ import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/music_player_bar_content.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/video_player_bar_content.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
-import 'package:fladder/wrappers/media_control_wrapper.dart';
 
 double floatingPlayerHeight(BuildContext context) => switch (AdaptiveLayout.viewSizeOf(context)) {
       ViewSize.phone => 75,
@@ -36,8 +35,6 @@ class FloatingPlayerBar extends ConsumerStatefulWidget {
 
 class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
   bool showExpandButton = false;
-  bool changingSliderValue = false;
-  Duration lastPosition = Duration.zero;
 
   Future<void> openFullScreenPlayer() async {
     setState(() => showExpandButton = false);
@@ -67,43 +64,16 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
     }
   }
 
-  Future<void> stopPlayer() async => ref.read(videoPlayerProvider).stop();
-
   void _setShowExpandButton(bool value) {
     if (showExpandButton != value) {
       setState(() => showExpandButton = value);
     }
   }
 
-  void _setSliderChanging(bool value) {
-    if (changingSliderValue != value) {
-      setState(() => changingSliderValue = value);
-    }
-  }
-
-  void _updateLastPosition(Duration value) {
-    setState(() => lastPosition = value);
-  }
-
-  Future<void> _seekTrack(Duration position, dynamic player) async {
-    await player.seek(position);
-    await Future.delayed(const Duration(milliseconds: 250));
-    if (player.lastState?.playing == true) {
-      player.play();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final playbackInfo = ref.watch(mediaPlaybackProvider);
-    final player = ref.watch(videoPlayerProvider);
     final item = ref.watch(playBackModel.select((value) => value?.item));
-    if (!changingSliderValue) {
-      lastPosition = playbackInfo.position;
-    }
-
-    var isFavourite = item?.userData.isFavourite == true;
-
+    final isFavourite = item?.userData.isFavourite == true;
     final isDesktop = AdaptiveLayout.of(context).isDesktop;
 
     final itemActions = [
@@ -111,19 +81,20 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
           label: Text(context.localized.audio(1)),
           icon: Consumer(
             builder: (context, ref, child) {
-              var volume = (player.lastState?.volume ?? 0) <= 0;
+              final volume = (ref.watch(videoPlayerProvider).lastState?.volume ?? 0) <= 0;
               return Icon(
                 volume ? IconsaxPlusBold.volume_cross : IconsaxPlusBold.volume_high,
               );
             },
           ),
           action: () {
+            final player = ref.read(videoPlayerProvider);
             final volume = player.lastState?.volume == 0 ? 100.0 : 0.0;
             player.setVolume(volume);
           }),
       ItemActionButton(
         label: Text(context.localized.stop),
-        action: () async => stopPlayer(),
+        action: () async => ref.read(videoPlayerProvider).stop(),
         icon: const Icon(IconsaxPlusBold.stop),
       ),
       ItemActionButton(
@@ -145,6 +116,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
         },
       ),
     ];
+
     return Padding(
       padding: MediaQuery.paddingOf(context).copyWith(
         top: 0,
@@ -156,7 +128,7 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
           if (direction == DismissDirection.up) {
             await openFullScreenPlayer();
           } else {
-            await stopPlayer();
+            await ref.read(videoPlayerProvider).stop();
           }
           return false;
         },
@@ -173,50 +145,19 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
               return switch (item) {
                 AudioModel audioItem => MusicFloatingPlayerBarContent(
                     constraints: constraints,
-                    playbackInfo: playbackInfo,
-                    player: player,
                     item: audioItem,
                     itemActions: itemActions,
                     showExpandButton: showExpandButton,
                     onShowExpandButton: _setShowExpandButton,
                     openFullScreenPlayer: openFullScreenPlayer,
-                    lastPosition: lastPosition,
-                    onChangeStart: () => _setSliderChanging(true),
-                    onChanged: _updateLastPosition,
-                    onChangeEnd: (position) async {
-                      await _seekTrack(position, player);
-                      _setSliderChanging(false);
-                    },
-                    onPlayPause: () => ref.read(videoPlayerProvider).playOrPause(),
-                    onPrevious: () => ref.read(videoPlayerProvider).skipToPrevious(),
-                    onNext: () => ref.read(videoPlayerProvider).skipToNext(),
-                    shuffleEnabled: playbackInfo.shuffleEnabled,
-                    repeatMode: playbackInfo.repeatMode,
-                    onToggleShuffle: () =>
-                        ref.read(videoPlayerProvider).setShuffleEnabled(!playbackInfo.shuffleEnabled),
-                    onCycleRepeatMode: () {
-                      ref.read(videoPlayerProvider).setAudioRepeatMode(
-                            playbackInfo.repeatMode.next,
-                          );
-                    },
                   ),
                 _ => VideoFloatingPlayerBarContent(
                     constraints: constraints,
-                    playbackInfo: playbackInfo,
-                    player: player,
                     item: item,
                     itemActions: itemActions,
                     showExpandButton: showExpandButton,
                     onShowExpandButton: _setShowExpandButton,
                     openFullScreenPlayer: openFullScreenPlayer,
-                    lastPosition: lastPosition,
-                    onChangeStart: () => _setSliderChanging(true),
-                    onChanged: _updateLastPosition,
-                    onChangeEnd: (position) async {
-                      await _seekTrack(position, player);
-                      _setSliderChanging(false);
-                    },
-                    onPlayPause: () => ref.read(videoPlayerProvider).playOrPause(),
                   ),
               };
             }),
