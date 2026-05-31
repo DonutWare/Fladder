@@ -1078,9 +1078,9 @@
     "screensaverBlack": "أسود",
     "playerSettingsScreensaverTitle": "شاشة التوقف",
     "playerSettingsScreensaverDesc": "اختر شاشة التوقف التي ستظهر بعد فترة من عدم النشاط في المشغّل",
-    "settingsLocalUrlTitle": "عنوان الخادم المحلي",
-    "settingsLocalUrlSetTitle": "إعداد عنوان URL المحلي",
-    "settingsLocalUrlSetDesc": "حدد عنوان الخادم المحلي. سيستخدم Fladder هذا الرابط تلقائياً عند اتصال الجهاز بنفس الشبكة.",
+    "settingsLocalUrlTitle": "رابط Jellyfin المحلي",
+    "settingsLocalUrlSetTitle": "إعداد رابط Jellyfin المحلي",
+    "settingsLocalUrlSetDesc": "حدّد عنوان Jellyfin المحلي. سيستخدم Fladder هذا الرابط تلقائيًا عندما يكون جهازك على نفس الشبكة.",
     "takeScreenshot": "التقط لقطة شاشة",
     "takeScreenshotClean": "التقط لقطة شاشة (بدون ترجمات)",
     "screenshots": "لقطات الشاشة",
@@ -1949,5 +1949,9 @@
         }
     },
     "seerrMovies": "استكشاف الأفلام",
-    "seerrSeries": "استكشاف المسلسلات"
+    "seerrSeries": "استكشاف المسلسلات",
+    "stepForward": "التقدم خطوة",
+    "stepBack": "الرجوع خطوة",
+    "seekForwardInstant": "تقديم فوري",
+    "seekBackInstant": "رجوع فوري"
 }

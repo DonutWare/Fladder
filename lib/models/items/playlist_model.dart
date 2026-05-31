@@ -1,11 +1,16 @@
+import 'package:dart_mappable/dart_mappable.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/overview_model.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PlaylistModel extends ItemBaseModel {
+part 'playlist_model.mapper.dart';
+
+@MappableClass()
+class PlaylistModel extends ItemBaseModel with PlaylistModelMappable {
   PlaylistModel({
     required super.name,
     required super.id,
@@ -37,4 +42,10 @@ class PlaylistModel extends ItemBaseModel {
       jellyType: item.type,
     );
   }
+
+  @override
+  bool get syncAble => true;
+
+  @override
+  bool get playAble => true;
 }

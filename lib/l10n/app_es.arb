@@ -1805,5 +1805,125 @@
     "detectDevices": "Detectar dispositivos",
     "discoveredDevices": "Dispositivos descubiertos",
     "noDevicesFound": "No se encontraron dispositivos",
-    "noCategories": "Sin categorías"
+    "noCategories": "Sin categorías",
+    "stepForward": "Adelantar",
+    "stepBack": "Atrasar",
+    "moviePrefixSubLabel": "Si los títulos de películas tienen un prefijo, escríbelo aquí para que el servidor pueda procesarlo correctamente.",
+    "movieCategoriesSubLabel": "Categorías para los canales que coincidan con el prefijo de películas",
+    "newsCategoriesSubLabel": "Categorías para los canales que coincidan con el prefijo de noticias",
+    "sportsCategoriesSubLabel": "Categorías para los canales que coincidan con el prefijo de deportes",
+    "kidsCategoriesSubLabel": "Categorías para los canales que coincidan con el prefijo de niños",
+    "enableNewTVLayoutDesc": "Mostrar banners más grandes estilo TV en el panel principal. Este será el diseño predeterminado en una versión futura.",
+    "maxConcurrentStreamsLabel": "Transmisiones simultáneas máximas",
+    "notifications": "Notificaciones",
+    "showNewItemNotificationTitle": "Notificaciones para elementos de la biblioteca",
+    "notificationChannelDescription": "Notificaciones para elementos recién agregados",
+    "seerrRequestNotifications": "Notificaciones para solicitudes de Seerr",
+    "notificationNewEpisodes": "Nuevos episodios agregados",
+    "notificationNewItems": "{count, plural, one{{count} elemento nuevo} other{{count} elementos nuevos}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationNewRequests": "{count, plural, one{{count} nueva solicitud} other{{count} nuevas solicitudes}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " iOS decide cuándo y si las actualizaciones se ejecutan, por lo que las notificaciones pueden retrasarse o no aparecer.",
+    "batteryOptimizationDesc": "Las optimizaciones de batería pueden retrasar las notificaciones en segundo plano de Fladder. \nToca para abrir la configuración del sistema y desactivar las optimizaciones de Fladder para mejorar la fiabilidad de las notificaciones.",
+    "updateCheckInterval": "Intervalo de verificación de actualizaciones",
+    "updateCheckIntervalDesc": "Con qué frecuencia se ejecuta la tarea en segundo plano",
+    "notificationsIntervalClientReminder": "El intervalo de notificaciones está configurado para todos los usuarios.",
+    "lastUpdateAt": "Última actualización el {date} a las {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "Incluir bibliotecas ocultas",
+    "includeHiddenItemsDesc": "Incluir bibliotecas ocultas del panel principal",
+    "settingsBlurEffectsTitle": "Activar efectos de desenfoque",
+    "settingsBlurEffectsDesc": "Activar efectos de desenfoque en la interfaz. Desactivar esto puede mejorar el rendimiento en dispositivos de gama baja.",
+    "profileSettingsOpenAuthAtLaunch": "Mostrar método de autenticación en el bloqueo de la app",
+    "toggleSidebar": "Alternar barra lateral",
+    "requestedSuccessForItem": "Solicitud de {itemName} realizada con éxito",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "passwordNotRequired": "No requerido, déjalo vacío para no incluir contraseña en el enlace",
+    "authLinkButtonToolTip": "Abrir ventana de enlace de autenticación",
+    "connectWithAuthLink": "Conectar con enlace de autenticación",
+    "pasteFladderAuthLink": "Pega el enlace de autenticación de Fladder: fladder:///login?authLink=...",
+    "connect": "Conectar",
+    "authLinkDesc": "Pide al administrador del servidor que te proporcione el enlace de autenticación. El enlace contiene información de autenticación, así que asegúrate de mantenerlo seguro.",
+    "deletedItem": "Se eliminó {itemName}",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "Orden de la pantalla principal",
+    "libraryOrderDescription": "Arrastra para reordenar las bibliotecas en la pantalla principal. Las bibliotecas sin marcar no mostrarán elementos recién agregados.",
+    "hidePlayedInLatestTitle": "Ocultar contenido visto",
+    "hidePlayedInLatestDescription": "Ocultar contenido visto de 'Medios Agregados Recientemente'",
+    "groupedFoldersTitle": "Bibliotecas agrupadas",
+    "groupedFoldersDescription": "Agrupa automáticamente el contenido de las siguientes bibliotecas en vistas como 'Películas', 'Música' y 'TV'.",
+    "downloadTranscoded": "Descargar transcodificado",
+    "downloadOriginal": "Descargar original",
+    "personBirthday": "Cumpleaños: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Edad: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Nacido en {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Descubrir Películas",
+    "seerrSeries": "Descubrir Series",
+    "today": "Hoy",
+    "linkData": "Ligar datos"
 }

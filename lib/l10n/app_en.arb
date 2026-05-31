@@ -24,6 +24,18 @@
   "@addToCollection": {},
   "addToPlaylist": "Add to playlist",
   "@addToPlaylist": {},
+  "addToQueue": "Add to queue",
+  "@addToQueue": {},
+  "instantMix": "Instant mix",
+  "@instantMix": {},
+  "addedToQueue": "{count, plural, one{Added {count} track to queue} other{Added {count} tracks to queue}}",
+  "@addedToQueue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "advanced": "Advanced",
   "@advanced": {},
   "all": "All",
@@ -50,6 +62,27 @@
   "audio": "{count, plural, one{Audio} other{Audio}}",
   "@audio": {
     "description": "Audio (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "audioPlayerPlaybackOptionsTitle": "Playback options",
+  "@audioPlayerPlaybackOptionsTitle": {},
+  "audioPlayerRepeatAll": "Repeat all",
+  "@audioPlayerRepeatAll": {},
+  "audioPlayerRepeatOff": "Repeat off",
+  "@audioPlayerRepeatOff": {},
+  "audioPlayerRepeatOne": "Repeat one",
+  "@audioPlayerRepeatOne": {},
+  "audioPlayerShuffle": "Shuffle",
+  "@audioPlayerShuffle": {},
+  "showArtist": "Show artist",
+  "track": "{count, plural, one{Track} other{Tracks}}",
+  "@track": {
+    "description": "track",
     "placeholders": {
       "count": {
         "type": "int",
@@ -158,6 +191,15 @@
   "dashboardRecentlyAdded": "Recently added in {name}",
   "@dashboardRecentlyAdded": {
     "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardRecentlyAddedItems": "Recently added {name}",
+  "@dashboardRecentlyAddedItems": {
+    "description": "Recently added items on home screen",
     "placeholders": {
       "name": {
         "type": "String"
@@ -457,6 +499,16 @@
       }
     }
   },
+  "mediaTypeArtists": "{count, plural, one{Artist} other{Artists}}",
+  "@mediaTypeArtists": {
+    "description": "Artist (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "mediaTypePhoto": "{count, plural, one{Photo} other{Photos}}",
   "@mediaTypePhoto": {
     "description": "Photo (plural)",
@@ -665,6 +717,8 @@
   "@playLabel": {},
   "playVideos": "Play videos",
   "@playVideos": {},
+  "playMusic": "Play music",
+  "@playMusic": {},
   "played": "Played",
   "@played": {},
   "quickConnectAction": "Enter quick connect code for",
@@ -926,6 +980,10 @@
   "@settingsPlayerNativeLibassAccelTitle": {},
   "settingsPlayerBufferSizeTitle": "Video buffer size",
   "@settingsPlayerBufferSizeTitle": {},
+  "settingsPlayerPlayPauseFadeTitle": "Play/pause volume fade",
+  "@settingsPlayerPlayPauseFadeTitle": {},
+  "settingsPlayerPlayPauseFadeDesc": "Fade volume in and out when playing or pausing",
+  "@settingsPlayerPlayPauseFadeDesc": {},
   "settingsPlayerBufferSizeDesc": "Configure the buffer size for video playback, determining how much data is loaded into the cache.",
   "@settingsPlayerBufferSizeDesc": {},
   "settingsPlayerTitle": "Player",
@@ -1022,6 +1080,14 @@
   "@syncDeleteItemTitle": {},
   "syncDeletePopupPermanent": "This action is permanent and will remove all locally synced files",
   "@syncDeletePopupPermanent": {},
+  "syncPlaylistDeleteTitle": "Delete synced playlist",
+  "@syncPlaylistDeleteTitle": {},
+  "syncPlaylistDeleteContent": "Do you also want to remove the tracks synced from this playlist?",
+  "@syncPlaylistDeleteContent": {},
+  "syncPlaylistKeepTracks": "Keep tracks",
+  "@syncPlaylistKeepTracks": {},
+  "syncPlaylistRemoveTracks": "Remove tracks",
+  "@syncPlaylistRemoveTracks": {},
   "syncDetails": "Sync details",
   "@syncDetails": {},
   "syncOpenParent": "Open parent",
@@ -1192,6 +1258,14 @@
       }
     }
   },
+  "removedFromPlaylist": "Removed from {playlistName} playlist",
+  "@removedFromPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
   "syncStatusEnqueued": "Enqueued",
   "@syncStatusEnqueued": {},
   "syncStatusRunning": "Running",
@@ -1327,11 +1401,23 @@
   "resumeVideo": "Resume video",
   "closeVideo": "Close video",
   "playNextVideo": "Play next video",
-  "playerSettingsBackendTitle": "Video player Backend",
+  "playerSettingsBackendTitle": "Media player Backend",
   "playerSettingsBackendDesc": "Choose your preferred media player for optimal playback experience",
+  "playerSettingsReplayGainTitle": "ReplayGain",
+  "playerSettingsReplayGainDesc": "Normalize music loudness using ReplayGain tags.",
+  "playerSettingsReplayGainLevelTitle": "ReplayGain level",
+  "playerSettingsReplayGainLevelDesc": "Set the target loudness level for ReplayGain normalization. A common standard is -14 dB, but you can adjust it to your preference.",
+  "settingsPlayerCrossfadeTitle": "Crossfade",
+  "@settingsPlayerCrossfadeTitle": {},
+  "settingsPlayerCrossfadeDesc": "Fade between tracks that are not consecutive in the same album",
+  "@settingsPlayerCrossfadeDesc": {},
+  "settingsPlayerCrossfadeDurationTitle": "Crossfade duration",
+  "@settingsPlayerCrossfadeDurationTitle": {},
+  "settingsPlayerCrossfadeDurationDesc": "Duration of the crossfade",
+  "@settingsPlayerCrossfadeDurationDesc": {},
   "defaultLabel": "Default",
   "@defaultLabel": {
-    "description": "To indicate a default value, default video player backend"
+    "description": "To indicate a default value, default media player backend"
   },
   "noVideoPlayerOptions": "The selected backend has no options",
   "mdkExperimental": "MDK is still in a experimental stage",
@@ -2057,6 +2143,12 @@
   },
   "recentlyAdded": "Recently added",
   "@recentlyAdded": {},
+  "recentlyPlayed": "Recently played",
+  "@recentlyPlayed": {},
+  "recentlyFavorited": "Recently favorited",
+  "@recentlyFavorited": {},
+  "mostPlayed": "Most played",
+  "@mostPlayed": {},
   "recentRequests": "Recent requests",
   "@recentRequests": {},
   "trending": "Trending",
@@ -2302,6 +2394,25 @@
     }
   },
   "now": "Now",
+  "@now": {},
+  "nowPlaying": "Now playing",
+  "@nowPlaying": {},
+  "upNext": "Up next",
+  "@upNext": {},
+  "queue": "Queue",
+  "@queue": {},
+  "queueIsEmpty": "Queue is empty",
+  "@queueIsEmpty": {},
+  "queueItemCount": "{count} items",
+  "@queueItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "removeFromQueue": "Remove from queue",
+  "@removeFromQueue": {},
   "noPrograms": "No programs available",
   "switchChannel": "Switch channel",
   "switchChannelDesc": "Do you want to watch \"{programName}\" on {channelName}?",
@@ -2620,5 +2731,8 @@
   },
   "seerrMovies": "Discover Movies",
   "seerrSeries": "Discover Series",
-  "today": "Today"
+  "today": "Today",
+  "musicDashboard": "Music Dashboard",
+  "quiet": "Quiet",
+  "loud": "Loud"
 }

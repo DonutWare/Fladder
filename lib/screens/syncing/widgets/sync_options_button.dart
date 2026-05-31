@@ -7,12 +7,15 @@ import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/syncing/transcode_download_model.dart';
+import 'package:fladder/models/syncing/transcode_music_download_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/screens/settings/widgets/transcode_music_settings_popup.dart';
 import 'package:fladder/screens/settings/widgets/transcode_settings_popup.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
@@ -35,6 +38,8 @@ class SyncOptionsButton extends ConsumerWidget {
           final hasDownload = ref.read(syncDownloadStatusProvider(element, []));
           return element.hasVideoFile && !element.videoFile.existsSync() && hasDownload?.status == TaskStatus.notFound;
         }).toList();
+        final isAudioBatch =
+            unSyncedChildren.isNotEmpty && unSyncedChildren.every((element) => element.itemModel is AudioModel);
 
         final syncedChildren =
             children.where((element) => element.hasVideoFile && element.videoFile.existsSync()).toList();
@@ -90,19 +95,36 @@ class SyncOptionsButton extends ConsumerWidget {
                   IconButton(
                     onPressed: () async {
                       TranscodeDownloadModel? transcodeModel;
+                      TranscodeMusicDownloadModel? musicTranscodeModel;
                       bool cancelled = true;
-                      await showTranscodeSettingsPopup(
-                        context: context,
-                        current: ref.read(clientSettingsProvider
-                            .select((value) => value.transcodeDownloadModel.copyWith(enabled: true))),
-                        onChanged: (value) {
-                          transcodeModel = value;
-                          cancelled = false;
-                        },
-                        onClosed: () {
-                          cancelled = true;
-                        },
-                      );
+                      if (isAudioBatch) {
+                        await showTranscodeMusicSettingsPopup(
+                          context: context,
+                          current: ref.read(clientSettingsProvider.select(
+                            (value) => value.transcodeMusicDownloadModel.copyWith(enabled: true),
+                          )),
+                          onChanged: (value) {
+                            musicTranscodeModel = value;
+                            cancelled = false;
+                          },
+                          onClosed: () {
+                            cancelled = true;
+                          },
+                        );
+                      } else {
+                        await showTranscodeSettingsPopup(
+                          context: context,
+                          current: ref.read(clientSettingsProvider
+                              .select((value) => value.transcodeDownloadModel.copyWith(enabled: true))),
+                          onChanged: (value) {
+                            transcodeModel = value;
+                            cancelled = false;
+                          },
+                          onClosed: () {
+                            cancelled = true;
+                          },
+                        );
+                      }
                       if (cancelled) {
                         return;
                       }
@@ -112,6 +134,7 @@ class SyncOptionsButton extends ConsumerWidget {
                         unSyncedChildren,
                         ref,
                         transcodeModel: transcodeModel,
+                        musicTranscodeModel: musicTranscodeModel,
                       );
                     },
                     icon: const Icon(
@@ -222,6 +245,7 @@ Future<dynamic> _syncRemainingItems(
   List<SyncedItem> unSyncedChildren,
   WidgetRef ref, {
   TranscodeDownloadModel? transcodeModel,
+  TranscodeMusicDownloadModel? musicTranscodeModel,
 }) {
   return showDialog(
     context: context,
@@ -243,6 +267,7 @@ Future<dynamic> _syncRemainingItems(
                   e,
                   false,
                   transcodeModel: transcodeModel,
+                  musicTranscodeModel: musicTranscodeModel,
                 ));
             await Future.wait(syncList);
             Navigator.of(context).pop();

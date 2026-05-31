@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit/media_kit.dart' as mpv;
 import 'package:media_kit_video/media_kit_video.dart';
 
+import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
@@ -31,14 +34,23 @@ class LibMPV extends BasePlayer {
 
   StreamSubscription<bool>? _onCompleted;
 
+  bool _replayGainFallbackLogged = false;
+  VideoPlayerSettingsModel _settings = VideoPlayerSettingsModel();
+
   RestartableTimer? _retryTimer;
   DateTime _firstLoadAttempt = DateTime.now();
   final Duration _maxRetryDuration = const Duration(minutes: 1);
   final Duration _currentRetryDuration = const Duration(seconds: 5);
   Completer<void>? _loadCompleter;
+  final List<StreamSubscription> _playerStreamSubs = [];
+  double _preferredVolume = 100;
+  int _fadeGeneration = 0;
+  bool _isFading = false;
+  Duration get playPauseFadeDuration => const Duration(milliseconds: 175);
 
   @override
   Future<void> init(VideoPlayerSettingsModel settings) async {
+    _settings = settings;
     dispose();
 
     mpv.MediaKit.ensureInitialized();
@@ -59,29 +71,27 @@ class LibMPV extends BasePlayer {
           enableHardwareAcceleration: settings.hardwareAccel,
         ),
       );
-
-      _player!.stream.playing.listen((value) => setState(lastState.update(playing: value)));
-      _player!.stream.buffering.listen((value) => setState(lastState.update(buffering: value)));
-      _player!.stream.position.listen((value) => setState(lastState.update(position: value)));
-      _player!.stream.duration.listen((value) => setState(lastState.update(duration: value)));
-      _player!.stream.volume.listen((value) => setState(lastState.update(volume: value)));
-      _player!.stream.rate.listen((value) => setState(lastState.update(rate: value)));
-      _player!.stream.buffer.listen((value) => setState(lastState.update(buffer: value)));
+      _setupPlayerStreams(_player!);
     }
 
     if (_player?.platform is mpv.NativePlayer) {
       final nativePlayer = _player!.platform as dynamic;
       await nativePlayer.setProperty('force-seekable', 'yes');
+      await nativePlayer.setProperty('gapless-audio', 'weak');
 
       if (defaultTargetPlatform == TargetPlatform.android) {
         // Use audiotrack as it is generally more stable on modern Android
         await nativePlayer.setProperty('ao', 'audiotrack');
       }
     }
+
+    await _applyReplayGainSettings();
   }
 
   @override
   Future<void> dispose() async {
+    _fadeGeneration++;
+    _cancelPlayerStreams();
     _onCompleted?.cancel();
     _onCompleted = null;
     _player?.stop();
@@ -94,6 +104,122 @@ class LibMPV extends BasePlayer {
   void setState(PlayerState state) {
     lastState = state;
     _stateController.add(state);
+  }
+
+  void _cancelPlayerStreams() {
+    for (final sub in _playerStreamSubs) {
+      sub.cancel();
+    }
+    _playerStreamSubs.clear();
+  }
+
+  void _setupPlayerStreams(mpv.Player player) {
+    _playerStreamSubs.addAll([
+      player.stream.playing.listen((value) {
+        if (value && _player?.state.volume == 0 && _preferredVolume > 0) {
+          _player?.setVolume(_preferredVolume);
+        }
+        setState(lastState.update(playing: value));
+      }),
+      player.stream.buffering.listen((value) => setState(lastState.update(buffering: value))),
+      player.stream.position.listen((value) => setState(lastState.update(position: value))),
+      player.stream.duration.listen((value) => setState(lastState.update(duration: value))),
+      player.stream.volume.listen((value) {
+        if (!_isFading) {
+          _preferredVolume = value.clamp(0.0, 100.0);
+          setState(lastState.update(volume: value));
+        }
+      }),
+      player.stream.rate.listen((value) => setState(lastState.update(rate: value))),
+      player.stream.buffer.listen((value) => setState(lastState.update(buffer: value))),
+      player.stream.completed.listen((value) => setState(lastState.update(completed: value))),
+    ]);
+  }
+
+  Future<void> crossfadeToUrl(String url, Duration startPosition, {double? replayGainDb}) async {
+    if (!_settings.enableCrossfade || !VideoPlayerSettingsModel.crossfadeSupportedOnCurrentPlatform) {
+      await _applyReplayGainSettings(trackGainDb: replayGainDb);
+      await loadVideo(url, true, startPosition: startPosition);
+      return;
+    }
+
+    final oldPlayer = _player;
+    if (oldPlayer == null) {
+      await loadVideo(url, true, startPosition: startPosition);
+      return;
+    }
+
+    const stepMs = 16;
+    final steps = math.max(1, _settings.crossfadeDurationMs ~/ stepMs);
+
+    final incomingPlayer = mpv.Player(
+      configuration: mpv.PlayerConfiguration(
+        title: "nl.jknaapen.fladder",
+        libassAndroidFont: libassFallbackFont,
+        libass: !kIsWeb && _settings.useLibass,
+        bufferSize: _settings.bufferSize * 1024 * 1024,
+      ),
+    );
+
+    if (incomingPlayer.platform is mpv.NativePlayer) {
+      final native = incomingPlayer.platform as dynamic;
+      await native.setProperty('force-seekable', 'yes');
+      await native.setProperty('gapless-audio', 'weak');
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        await native.setProperty('ao', 'audiotrack');
+      }
+      await native.setProperty('start', '${startPosition.inMilliseconds / 1000}');
+    }
+
+    await _applyReplayGainSettings(trackGainDb: replayGainDb, targetPlayer: incomingPlayer);
+    await incomingPlayer.setVolume(0.0);
+    await incomingPlayer.open(mpv.Media(url), play: true);
+
+    final generation = ++_fadeGeneration;
+    _isFading = true;
+    final fromVolume = oldPlayer.state.volume.clamp(0.0, 100.0);
+
+    bool aborted = false;
+    for (var i = 1; i <= steps; i++) {
+      if (generation != _fadeGeneration) {
+        aborted = true;
+        break;
+      }
+      final progress = i / steps;
+      await oldPlayer.setVolume(fromVolume * (1.0 - progress));
+      await incomingPlayer.setVolume(_preferredVolume * progress);
+      if (i < steps) await Future.delayed(const Duration(milliseconds: stepMs));
+    }
+
+    if (aborted || generation != _fadeGeneration) {
+      _isFading = false;
+      incomingPlayer.stop();
+      incomingPlayer.dispose();
+      return;
+    }
+
+    _cancelPlayerStreams();
+    _player = incomingPlayer;
+    _controller = null;
+    _setupPlayerStreams(incomingPlayer);
+
+    _retryTimer?.cancel();
+    _retryTimer = null;
+    _loadCompleter = null;
+
+    oldPlayer.stop();
+    oldPlayer.dispose();
+
+    _isFading = false;
+    setState(lastState.update(
+      playing: incomingPlayer.state.playing,
+      buffering: incomingPlayer.state.buffering,
+      position: incomingPlayer.state.position,
+      duration: incomingPlayer.state.duration,
+      volume: _preferredVolume,
+      buffer: incomingPlayer.state.buffer,
+      completed: false,
+    ));
   }
 
   @override
@@ -158,6 +284,65 @@ class LibMPV extends BasePlayer {
     return setState(lastState.update(buffering: true));
   }
 
+  /// Apply ReplayGain normalization for the given [item] before loading it.
+  /// Call this before [loadVideo] when starting an audio queue item.
+  Future<void> applyReplayGainForItem(ItemBaseModel? item) async {
+    double? gainDb;
+    if (item is AudioModel) {
+      final gain = item.normalizationGain;
+      if (gain != null && !gain.isNaN && !gain.isInfinite) {
+        gainDb = gain.clamp(-60.0, 20.0).toDouble();
+      }
+    }
+    await _applyReplayGainSettings(trackGainDb: gainDb);
+  }
+
+  double get _replayGainVolumeOffsetDb {
+    return _settings.replayGainVolumeLevel.replayGainOffsetDb;
+  }
+
+  Future<void> _applyReplayGainSettings({double? trackGainDb, mpv.Player? targetPlayer}) async {
+    final player = targetPlayer ?? _player;
+    if (player?.platform is! mpv.NativePlayer) {
+      return;
+    }
+
+    final nativePlayer = player!.platform as dynamic;
+
+    if (!_settings.enableReplayGain) {
+      try {
+        await nativePlayer.setProperty('af', '');
+      } catch (_) {
+        // Best effort clear.
+      }
+      return;
+    }
+
+    final replayGainOffsetDb = clampReplayGainDb(_replayGainVolumeOffsetDb);
+    final replayGainFallbackDb = _settings.replayGainVolumeLevel.adjustedReplayGainDb(trackGainDb);
+
+    try {
+      await nativePlayer.setProperty('replaygain', 'track');
+      await nativePlayer.setProperty('replaygain-clip', 'yes');
+      await nativePlayer.setProperty('replaygain-fallback', '$replayGainFallbackDb');
+      await nativePlayer.setProperty('replaygain-preamp', '$replayGainOffsetDb');
+      await nativePlayer.setProperty('af', '');
+      _replayGainFallbackLogged = false;
+    } catch (error, stackTrace) {
+      if (!_replayGainFallbackLogged) {
+        log('ReplayGain unsupported by current mpv backend, falling back to loudnorm. $error\n$stackTrace');
+      }
+      _replayGainFallbackLogged = true;
+
+      try {
+        final gainFilter = ',volume=${replayGainFallbackDb}dB';
+        await nativePlayer.setProperty('af', 'format=stereo,loudnorm$gainFilter');
+      } catch (fallbackError, fallbackStackTrace) {
+        log('Unable to set loudnorm fallback filter. $fallbackError\n$fallbackStackTrace');
+      }
+    }
+  }
+
   Future<void> setStartPosition(Duration position) async {
     if (_player?.platform is mpv.NativePlayer) {
       await (_player?.platform as dynamic).setProperty(
@@ -186,14 +371,62 @@ class LibMPV extends BasePlayer {
   List<mpv.AudioTrack> get audioTracks => _player?.state.tracks.audio ?? [];
   mpv.AudioTrack get audioTrack => _player?.state.track.audio ?? mpv.AudioTrack.no();
 
-  @override
-  Future<void> pause() async => _player?.pause();
+  Future<void> _fadePlayback(bool fadingIn) async {
+    final player = _player;
+    if (player == null) return;
+
+    if (!_settings.enablePlayPauseFade) {
+      if (fadingIn) {
+        await player.play();
+      } else {
+        await player.pause();
+      }
+      return;
+    }
+
+    final generation = ++_fadeGeneration;
+    _isFading = true;
+    final from = fadingIn ? 0.0 : player.state.volume.clamp(0.0, 100.0);
+    final to = fadingIn ? _preferredVolume : 0.0;
+    const stepMs = 16;
+    final steps = playPauseFadeDuration.inMilliseconds ~/ stepMs;
+
+    if (fadingIn) {
+      await player.play();
+      await player.setVolume(from);
+    }
+
+    for (var i = 1; i <= steps; i++) {
+      if (generation != _fadeGeneration || _player == null) {
+        _isFading = false;
+        return;
+      }
+      await player.setVolume(from + (to - from) * i / steps);
+      if (i < steps) await Future.delayed(const Duration(milliseconds: stepMs));
+    }
+
+    if (!fadingIn && generation == _fadeGeneration && _player != null) {
+      _fadeGeneration++;
+      await player.pause();
+    }
+    _isFading = false;
+    setState(lastState.update(volume: _preferredVolume));
+  }
 
   @override
-  Future<void> play() async => _player?.play();
+  Future<void> pause() async => _fadePlayback(false);
 
   @override
-  Future<void> playOrPause() async => _player?.playOrPause();
+  Future<void> play() async => _fadePlayback(true);
+
+  @override
+  Future<void> playOrPause() async {
+    if ((_player?.state.playing ?? lastState.playing) == true) {
+      await pause();
+    } else {
+      await play();
+    }
+  }
 
   @override
   Future<void> seek(Duration position) async => _player?.seek(position);
@@ -239,6 +472,21 @@ class LibMPV extends BasePlayer {
   }
 
   @override
+  Future<void> addToPlaylist(String url) async => _player?.add(mpv.Media(url));
+
+  @override
+  Future<void> removeFromPlaylist(int index) async => _player?.remove(index);
+
+  @override
+  Future<void> playerNext() async => _player?.next();
+
+  @override
+  Future<void> playerPrevious() async => _player?.previous();
+
+  @override
+  Stream<int> get playlistIndexStream => _player?.stream.playlist.map((p) => p.index) ?? const Stream<int>.empty();
+
+  @override
   Future<void> stop() async => _player?.stop();
 
   @override
@@ -278,7 +526,12 @@ class LibMPV extends BasePlayer {
           : null;
 
   @override
-  Future<void> setVolume(double volume) async => _player?.setVolume(volume);
+  Future<void> setVolume(double volume) async {
+    _isFading = false;
+    _preferredVolume = volume.clamp(0.0, 100.0);
+    _fadeGeneration++;
+    await _player?.setVolume(_preferredVolume);
+  }
 
   @override
   Future<void> loop(bool loop) async {

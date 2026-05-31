@@ -1082,15 +1082,15 @@
     "screensaverTime": "Zeit",
     "screensaverBlack": "Schwarz",
     "playerSettingsScreensaverTitle": "Bildschirmschoner",
-    "settingsLocalUrlSetTitle": "konfiguriere lokale URL",
-    "settingsLocalUrlSetDesc": "Geben Sie die lokale Serveradresse an. Fladder wird diese URL automatisch verwenden, wenn Ihr Gerät im selben Netzwerk ist.",
+    "settingsLocalUrlSetTitle": "Konfiguriere lokale Jellyfin URL",
+    "settingsLocalUrlSetDesc": "Geben Sie die lokale Jellyfinadresse an. Fladder wird diese URL automatisch verwenden, wenn Ihr Gerät im selben Netzwerk ist.",
     "takeScreenshot": "Screenshot aufnehmen",
     "takeScreenshotClean": "Screenshot aufnehmen (ohne Untertitel)",
     "screenshots": "Screenshots",
     "screenshotTaken": "Screenshot gespeichert!",
     "screenshotCleanTaken": "Screenshot ohne Untertitel gespeichert!",
     "errorTakingScreenshot": "Beim Erstellen des Screenshots ist ein Fehler aufgetreten",
-    "settingsLocalUrlTitle": "Lokale Server URL",
+    "settingsLocalUrlTitle": "Lokale Jellyfin URL",
     "regenerateTrickplayImages": "Trickplay-Bilder neu generieren",
     "segmentActionSkipOnce": "Einmalig überspringen",
     "serverVersion": "Server Version",
@@ -1953,5 +1953,9 @@
         }
     },
     "seerrMovies": "Filme entdecken",
-    "seerrSeries": "Serien entdecken"
+    "seerrSeries": "Serien entdecken",
+    "stepBack": "Schritt zurück",
+    "stepForward": "Schritt vorwärts",
+    "seekForwardInstant": "Vorspulen (sofort)",
+    "seekBackInstant": "Zurückspulen (sofort)"
 }

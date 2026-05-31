@@ -52,6 +52,8 @@ class FavouritesNotifier extends StateNotifier<FavouritesModel> {
       BaseItemKind.photo,
       BaseItemKind.book,
       BaseItemKind.photoalbum,
+      BaseItemKind.musicalbum,
+      BaseItemKind.audio,
     ];
     final futures = kinds.map((kind) => fetchTypes(viewModel?.id, [kind])).toList();
     final results = await Future.wait(futures);

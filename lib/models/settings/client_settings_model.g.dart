@@ -11,6 +11,10 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       syncPath: json['syncPath'] as String?,
       transcodeDownloadModel: TranscodeDownloadModel.fromJson(
           json['transcodeDownloadModel'] as Map<String, dynamic>),
+      transcodeMusicDownloadModel: json['transcodeMusicDownloadModel'] == null
+          ? const TranscodeMusicDownloadModel()
+          : TranscodeMusicDownloadModel.fromJson(
+              json['transcodeMusicDownloadModel'] as Map<String, dynamic>),
       position: json['position'] == null
           ? const Vector2(x: 0, y: 0)
           : Vector2.fromJson(json['position'] as String),
@@ -71,6 +75,7 @@ Map<String, dynamic> _$ClientSettingsModelToJson(
     <String, dynamic>{
       'syncPath': instance.syncPath,
       'transcodeDownloadModel': instance.transcodeDownloadModel,
+      'transcodeMusicDownloadModel': instance.transcodeMusicDownloadModel,
       'position': instance.position,
       'size': instance.size,
       'timeOut': instance.timeOut?.inMicroseconds,

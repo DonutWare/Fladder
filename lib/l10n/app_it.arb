@@ -1885,5 +1885,49 @@
                 "example": "days"
             }
         }
-    }
+    },
+    "gestures": "Gesti",
+    "anyLanguage": "Qualsiasi lingua",
+    "enableEdgeGesturesTitle": "Abilita gesti sui bordi",
+    "enableEdgeGesturesDesc": "Controlla luminosità e volume scorrendo verso l'alto o il basso sui bordi dello schermo",
+    "reverseEdgeGesturesTitle": "Inverti gesti sui bordi",
+    "reverseEdgeGesturesDesc": "Inverti lato per controllo luminosità e volume",
+    "brightnessIndicator": "Luminosità: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "viewTrailer": "Guarda trailer",
+    "personBirthday": "Data di nascita: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Età: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Nato a {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Scopri film",
+    "seerrSeries": "Scopri serie"
 }

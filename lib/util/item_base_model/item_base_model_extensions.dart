@@ -7,6 +7,9 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/album_model.dart';
+import 'package:fladder/models/items/artist_model.dart';
+import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/movie_model.dart';
@@ -81,6 +84,8 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
 
 enum ItemActions {
   play,
+  addToQueue,
+  instantMix,
   openShow,
   openParent,
   details,
@@ -99,6 +104,18 @@ enum ItemActions {
 }
 
 extension ItemBaseModelExtensions on ItemBaseModel {
+  Future<void> showDetailsMenu(BuildContext context, WidgetRef ref, Offset globalPos) async {
+    final position = RelativeRect.fromLTRB(globalPos.dx, globalPos.dy, globalPos.dx, globalPos.dy);
+    await showMenu(
+      context: context,
+      position: position,
+      items: generateActions(
+        context,
+        ref,
+      ).popupMenuItems(useIcons: true),
+    );
+  }
+
   List<ItemAction> generateActions(
     BuildContext context,
     WidgetRef ref, {
@@ -117,6 +134,42 @@ extension ItemBaseModelExtensions on ItemBaseModel {
     final downloadUrl = ref.read(userProvider.notifier).createDownloadUrl(this);
     final syncedItemFuture = ref.read(syncProvider.notifier).getSyncedItem(id);
     final hasSeerrData = overview.seerrUrl?.isNotEmpty == true;
+    final showMarkAs = switch (this) {
+      AlbumModel() => false,
+      ArtistModel() => false,
+      _ => true,
+    };
+    final ItemAction? parentAction = switch (this) {
+      EpisodeModel _ => !exclude.contains(ItemActions.openShow)
+          ? ItemActionButton(
+              icon: Icon(FladderItemType.series.icon),
+              action: () => parentBaseModel.navigateTo(context),
+              label: Text(context.localized.openShow),
+            )
+          : null,
+      AudioModel _ => !exclude.contains(ItemActions.openParent)
+          ? ItemActionButton(
+              icon: Icon(FladderItemType.musicAlbum.icon),
+              action: () => parentBaseModel.navigateTo(context),
+              label: Text(context.localized.showAlbum),
+            )
+          : null,
+      AlbumModel album => !exclude.contains(ItemActions.openParent)
+          ? ItemActionButton(
+              icon: Icon(FladderItemType.musicArtist.icon),
+              action: () => album.parentBaseModel.navigateTo(context),
+              label: Text(context.localized.showArtist),
+            )
+          : null,
+      SeriesModel _ => null,
+      _ => !exclude.contains(ItemActions.openParent) && !galleryItem
+          ? ItemActionButton(
+              icon: Icon(FladderItemType.folder.icon),
+              action: () => parentBaseModel.navigateTo(context),
+              label: Text(context.localized.openParent),
+            )
+          : null,
+    };
     return [
       if (!exclude.contains(ItemActions.play))
         if (playAble)
@@ -125,20 +178,31 @@ extension ItemBaseModelExtensions on ItemBaseModel {
             icon: const Icon(IconsaxPlusLinear.play),
             label: Text(playButtonLabel(context.localized)),
           ),
-      if (parentId?.isNotEmpty == true) ...[
-        if (!exclude.contains(ItemActions.openShow) && this is EpisodeModel)
+      if (!exclude.contains(ItemActions.addToQueue))
+        if (this is AudioModel || this is AlbumModel || this is ArtistModel)
           ItemActionButton(
-            icon: Icon(FladderItemType.series.icon),
-            action: () => parentBaseModel.navigateTo(context),
-            label: Text(context.localized.openShow),
+            action: () => switch (this) {
+              AudioModel audio => audio.addToQueue(context, ref),
+              AlbumModel album => album.addToQueue(context, ref),
+              ArtistModel artist => artist.addToQueue(context, ref),
+              _ => Future.value(),
+            },
+            icon: const Icon(IconsaxPlusLinear.music_playlist),
+            label: Text(context.localized.addToQueue),
           ),
-        if (!exclude.contains(ItemActions.openParent) && this is! EpisodeModel && !galleryItem)
+      if (!exclude.contains(ItemActions.instantMix))
+        if (this is AudioModel || this is AlbumModel || this is ArtistModel)
           ItemActionButton(
-            icon: Icon(FladderItemType.folder.icon),
-            action: () => parentBaseModel.navigateTo(context),
-            label: Text(context.localized.openParent),
+            action: () => switch (this) {
+              AudioModel audio => audio.playInstantMix(context, ref),
+              AlbumModel album => album.playInstantMix(context, ref),
+              ArtistModel artist => artist.playInstantMix(context, ref),
+              _ => Future.value(),
+            },
+            icon: const Icon(IconsaxPlusLinear.blend_2),
+            label: Text(context.localized.instantMix),
           ),
-      ],
+      if (parentAction != null) parentAction,
       if (!galleryItem && !exclude.contains(ItemActions.details))
         ItemActionButton(
           action: () async => await navigateTo(context),
@@ -187,32 +251,34 @@ extension ItemBaseModelExtensions on ItemBaseModel {
             },
             label: Text(context.localized.addToPlaylist),
           ),
-      if (!exclude.contains(ItemActions.markPlayed))
-        ItemActionButton(
-          icon: const Icon(IconsaxPlusLinear.eye),
-          action: () async {
-            try {
-              final userData = await ref.read(userProvider.notifier).markAsPlayed(true, id);
-              onUserDataChanged?.call(userData?.bodyOrThrow);
-            } finally {
-              context.refreshData();
-            }
-          },
-          label: Text(context.localized.markAsWatched),
-        ),
-      if (!exclude.contains(ItemActions.markUnplayed))
-        ItemActionButton(
-          icon: const Icon(IconsaxPlusLinear.eye_slash),
-          label: Text(context.localized.markAsUnwatched),
-          action: () async {
-            try {
-              final userData = await ref.read(userProvider.notifier).markAsPlayed(false, id);
-              onUserDataChanged?.call(userData?.bodyOrThrow);
-            } finally {
-              context.refreshData();
-            }
-          },
-        ),
+      if (showMarkAs) ...[
+        if (!exclude.contains(ItemActions.markPlayed))
+          ItemActionButton(
+            icon: const Icon(IconsaxPlusLinear.eye),
+            action: () async {
+              try {
+                final userData = await ref.read(userProvider.notifier).markAsPlayed(true, id);
+                onUserDataChanged?.call(userData?.bodyOrThrow);
+              } finally {
+                context.refreshData();
+              }
+            },
+            label: Text(context.localized.markAsWatched),
+          ),
+        if (!exclude.contains(ItemActions.markUnplayed))
+          ItemActionButton(
+            icon: const Icon(IconsaxPlusLinear.eye_slash),
+            label: Text(context.localized.markAsUnwatched),
+            action: () async {
+              try {
+                final userData = await ref.read(userProvider.notifier).markAsPlayed(false, id);
+                onUserDataChanged?.call(userData?.bodyOrThrow);
+              } finally {
+                context.refreshData();
+              }
+            },
+          ),
+      ],
       if (!exclude.contains(ItemActions.setFavorite))
         ItemActionButton(
           icon: Icon(userData.isFavourite ? IconsaxPlusLinear.heart_remove : IconsaxPlusLinear.heart_add),

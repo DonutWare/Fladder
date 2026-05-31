@@ -145,8 +145,9 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                                           Flexible(
                                             child: Text(
                                               widget.label!,
-                                              maxLines: 2,
+                                              maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
+                                              softWrap: false,
                                             ),
                                           ),
                                           if (widget.badge != null) widget.badge!,
@@ -154,16 +155,12 @@ class _NavigationButtonState extends ConsumerState<NavigationButton> {
                                       ),
                                     ),
                                   ),
-                                if (widget.trailing.isNotEmpty)
-                                  AnimatedOpacity(
-                                    duration: const Duration(milliseconds: 125),
-                                    opacity: onHover ? 1 : 0,
-                                    child: PopupMenuButton(
-                                      tooltip: context.localized.options,
-                                      iconColor: foreGroundColor,
-                                      iconSize: 18,
-                                      itemBuilder: (context) => widget.trailing.popupMenuItems(useIcons: true),
-                                    ),
+                                if (widget.trailing.isNotEmpty && onHover)
+                                  PopupMenuButton(
+                                    tooltip: context.localized.options,
+                                    iconColor: foreGroundColor,
+                                    iconSize: 18,
+                                    itemBuilder: (context) => widget.trailing.popupMenuItems(useIcons: true),
                                   )
                               ],
                             ],

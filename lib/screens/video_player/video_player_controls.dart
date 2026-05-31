@@ -311,10 +311,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Widget bottomButtons(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final mediaPlayback = ref.watch(mediaPlaybackProvider);
+      final playing = ref.watch(mediaPlaybackProvider.select((state) => state.playing));
       final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
       return Container(
-        key: _bottomControlsKey, // Add key to measure height
+        key: _bottomControlsKey,
         decoration: BoxDecoration(
             gradient: LinearGradient(
           begin: Alignment.bottomCenter,
@@ -332,7 +332,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: progressBar(mediaPlayback),
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    final mediaPlayback = ref.watch(mediaPlaybackProvider);
+                    return progressBar(mediaPlayback);
+                  },
+                ),
               ),
               const SizedBox(height: 8),
               Row(
@@ -398,7 +403,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                       ref.read(videoPlayerProvider).playOrPause();
                     },
                     icon: Icon(
-                      mediaPlayback.playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play,
+                      playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play,
                     ),
                   ),
                   seekForwardButton(ref),
