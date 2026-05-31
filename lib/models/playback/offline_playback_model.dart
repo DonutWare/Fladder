@@ -8,8 +8,8 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
-import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
@@ -38,7 +38,7 @@ class OfflinePlaybackModel extends PlaybackModel {
   List<Chapter>? get chapters => syncedItem.chapters;
 
   @override
-  Future<Duration>? startDuration() async => item.userData.playBackPosition;
+  Future<Duration>? startDuration() async => isAudioPlayback ? Duration.zero : item.userData.playBackPosition;
 
   @override
   ItemBaseModel? get nextVideo => queue.nextOrNull(item);
@@ -71,10 +71,12 @@ class OfflinePlaybackModel extends PlaybackModel {
 
   @override
   Future<PlaybackModel?> playbackStopped(Duration position, Duration? totalDuration, Ref ref) async {
-    final progress = position.inMilliseconds / (item.overview.runTime?.inMilliseconds ?? 0) * 100;
-    final isPlayed = UserData.isPlayed(position, item.overview.runTime ?? Duration.zero);
+    final effectiveDuration = totalDuration ?? item.overview.runTime ?? Duration.zero;
+    final effectivePosition = resolvedStopPosition(position, totalDuration);
+    final progress = _progressFor(effectivePosition, effectiveDuration);
+    final isPlayed = UserData.isPlayed(effectivePosition, effectiveDuration);
     final userData = syncedItem.userData?.copyWith(
-      playbackPositionTicks: isPlayed != false ? 0 : position.toRuntimeTicks,
+      playbackPositionTicks: isPlayed != false ? 0 : effectivePosition.toRuntimeTicks,
       progress: isPlayed != false ? 0.0 : progress,
       played: isPlayed,
       lastPlayed: DateTime.now().toUtc(),
@@ -88,8 +90,9 @@ class OfflinePlaybackModel extends PlaybackModel {
 
   @override
   Future<PlaybackModel?> updatePlaybackPosition(Duration position, bool isPlaying, Ref ref) async {
-    final progress = position.inMilliseconds / (item.overview.runTime?.inMilliseconds ?? 0) * 100;
-    final isPlayed = UserData.isPlayed(position, item.overview.runTime ?? Duration.zero);
+    final effectiveDuration = item.overview.runTime ?? Duration.zero;
+    final progress = _progressFor(position, effectiveDuration);
+    final isPlayed = UserData.isPlayed(position, effectiveDuration);
     final userData = syncedItem.userData?.copyWith(
       playbackPositionTicks: isPlayed != false ? 0 : position.toRuntimeTicks,
       progress: isPlayed != false ? 0.0 : progress,
@@ -101,6 +104,12 @@ class OfflinePlaybackModel extends PlaybackModel {
     );
     await ref.read(syncProvider.notifier).updateItem(newItem);
     return null;
+  }
+
+  double _progressFor(Duration position, Duration totalDuration) {
+    if (totalDuration.inMilliseconds <= 0) return 0;
+    final progress = position.inMilliseconds / totalDuration.inMilliseconds * 100;
+    return progress.clamp(0.0, 100.0).toDouble();
   }
 
   @override

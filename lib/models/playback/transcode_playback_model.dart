@@ -82,13 +82,14 @@ class TranscodePlaybackModel extends PlaybackModel {
   @override
   Future<PlaybackModel?> playbackStopped(Duration position, Duration? totalDuration, Ref ref) async {
     ref.read(playBackModel.notifier).update((state) => null);
+    final stopPosition = resolvedStopPosition(position, totalDuration);
 
     await ref.read(jellyApiProvider).sessionsPlayingStoppedPost(
           body: PlaybackStopInfo(
             itemId: item.id,
             mediaSourceId: item.id,
             playSessionId: playbackInfo?.playSessionId,
-            positionTicks: position.toRuntimeTicks,
+            positionTicks: stopPosition.toRuntimeTicks,
           ),
         );
 

@@ -104,7 +104,19 @@ class PlaybackModel {
   List<SubStreamModel>? get subStreams => throw UnimplementedError();
   List<AudioStreamModel>? get audioStreams => throw UnimplementedError();
 
-  Future<Duration>? startDuration() async => item.userData.playBackPosition;
+  bool get isAudioPlayback => item is AudioModel || item.type == FladderItemType.audio;
+
+  Duration resolvedStopPosition(Duration position, Duration? totalDuration) {
+    if (!isAudioPlayback) return position;
+    return totalDuration ?? item.overview.runTime ?? position;
+  }
+
+  Future<Duration> resolvedStartPosition([Duration? requestedStartPosition]) async {
+    if (isAudioPlayback) return Duration.zero;
+    return requestedStartPosition ?? await startDuration() ?? Duration.zero;
+  }
+
+  Future<Duration>? startDuration() async => isAudioPlayback ? Duration.zero : item.userData.playBackPosition;
 
   PlaybackModel? updateUserData(UserData userData) => throw UnimplementedError();
 

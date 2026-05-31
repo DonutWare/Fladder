@@ -132,10 +132,11 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
     final media = model.media;
     PlaybackModel? newPlaybackModel = model;
+    final effectiveStartPosition = await model.resolvedStartPosition(startPosition);
 
     if (media != null) {
       ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
-      await state.loadVideo(model, startPosition, true);
+      await state.loadVideo(model, effectiveStartPosition, true);
       await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
 
       await state.setAudioTrack(null, model);
@@ -173,6 +174,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       repeatMode: playbackSettings.repeatMode,
     );
     final queuedModel = model.updatePlaybackQueue(initializedQueueState);
+    final effectiveStartPosition = await queuedModel.resolvedStartPosition(startPosition);
 
     ref.read(playBackModel.notifier).update((state) => queuedModel);
     ref.read(playbackRateProvider.notifier).state = 1.0;
@@ -186,13 +188,13 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
           duration: queuedModel.item.overview.runTime ?? Duration.zero,
         ));
 
-    await state.loadAudioQueue(queue, currentIndex, startPosition, true);
+    await state.loadAudioQueue(queue, currentIndex, effectiveStartPosition, true);
     await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
 
     mediaState.update((state) => state.copyWith(
           buffering: false,
           playing: true,
-          position: startPosition,
+          position: effectiveStartPosition,
           duration: queuedModel.item.overview.runTime ?? Duration.zero,
         ));
     return true;

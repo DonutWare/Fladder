@@ -195,6 +195,13 @@ extension AudioQueueHandler on MediaControlsWrapper {
     bool load = true,
     bool manual = false,
   }) async {
+    final isChangingItem = currentModel.item.id != item.id;
+    if (isChangingItem) {
+      final stopPosition = _player?.lastState.position ?? Duration.zero;
+      final stopDuration = _player?.lastState.duration ?? currentModel.item.overview.runTime;
+      await currentModel.playbackStopped(stopPosition, stopDuration, ref);
+    }
+
     final nextModel = await ref.read(playbackModelHelper).createPlaybackModel(
           null,
           item,
