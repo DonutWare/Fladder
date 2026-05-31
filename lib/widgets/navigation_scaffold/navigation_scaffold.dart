@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' hide ConnectionState;
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -13,6 +14,7 @@ import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/nested_bottom_appbar.dart';
+import 'package:fladder/screens/video_player/audio_player_full_screen.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
@@ -71,7 +73,11 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
   Widget build(BuildContext context) {
     final views = ref.watch(viewsProvider.select((value) => value.views));
     final playerState = ref.watch(mediaPlaybackProvider.select((value) => value.state));
+    final currentItem = ref.watch(playBackModel.select((value) => value?.item));
     final showPlayerBar = playerState == VideoPlayerState.minimized;
+    final showAudioFullScreen = playerState == VideoPlayerState.fullScreen && currentItem is AudioModel;
+    final showAudioSidePanel = showAudioFullScreen && AdaptiveLayout.layoutModeOf(context) == LayoutMode.dual;
+    final showAudioOverlay = showAudioFullScreen && !showAudioSidePanel;
 
     final isDesktop = AdaptiveLayout.of(context).isDesktop || kIsWeb;
 
@@ -97,9 +103,85 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
 
     final fullScreenChildRoute = fullScreenRoutes.contains(context.router.current.name);
 
+    Widget buildMainScaffold(BuildContext scaffoldContext) {
+      return Scaffold(
+        key: _key,
+        appBar: fullScreenChildRoute || showAudioFullScreen
+            ? null
+            : FladderAppBar(
+                isDesktop: isDesktop,
+                label: currentIndex == -1 ? "" : null,
+              ),
+        extendBodyBehindAppBar: true,
+        resizeToAvoidBottomInset: false,
+        extendBody: true,
+        floatingActionButton:
+            !showAudioFullScreen && AdaptiveLayout.layoutModeOf(scaffoldContext) == LayoutMode.single && isHomeScreen
+                ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
+                : null,
+        drawer: !showAudioFullScreen && homeRoutes.any((element) => element.name.contains(currentLocation))
+            ? NestedNavigationDrawer(
+                actionButton: null,
+                toggleExpanded: (value) => _key.currentState?.closeDrawer(),
+                views: views,
+                destinations: widget.destinations,
+                currentLocation: currentLocation,
+              )
+            : null,
+        bottomNavigationBar: AnimatedVisibility(
+          visible:
+              !showAudioFullScreen && (isHomeScreen && AdaptiveLayout.viewSizeOf(scaffoldContext) == ViewSize.phone),
+          hiddenHeight: calculatedBottomViewPadding,
+          duration: const Duration(milliseconds: 250),
+          child: HideOnScroll(
+            controller: AdaptiveLayout.scrollOf(scaffoldContext, currentTab),
+            forceHide: !homeRoutes.any((element) => element.name.contains(currentLocation)),
+            child: NestedBottomAppBar(
+              child: SizedBox(
+                height: 65,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: widget.destinations
+                      .map(
+                        (destination) => destination.toNavigationButton(
+                          widget.currentRouteName == destination.route?.routeName,
+                          false,
+                          false,
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+          ),
+        ),
+        body: widget.nestedChild != null
+            ? NavigationBody(
+                child: widget.nestedChild!,
+                parentContext: scaffoldContext,
+                currentIndex: currentIndex,
+                destinations: widget.destinations,
+                currentLocation: currentLocation,
+                drawerKey: _key,
+              )
+            : null,
+      );
+    }
+
+    final Widget audioOverlay = showAudioFullScreen
+        ? const AudioPlayerFullScreen(
+            key: ValueKey("audio_full_screen"),
+          )
+        : const SizedBox.shrink();
+
     return PopScope(
-      canPop: currentIndex == 0,
+      canPop: !showAudioOverlay && currentIndex == 0,
       onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        if (showAudioOverlay) {
+          return;
+        }
         if (currentIndex != 0) {
           widget.destinations.first.action!();
         }
@@ -119,78 +201,42 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                   bottom: calculatedBottomViewPadding,
                 ),
               ),
-              //Builder to correctly apply new padding
-              child: Builder(builder: (context) {
-                return Scaffold(
-                  key: _key,
-                  appBar: fullScreenChildRoute
-                      ? null
-                      : FladderAppBar(
-                          isDesktop: isDesktop,
-                          label: currentIndex == -1 ? "" : null,
-                        ),
-                  extendBodyBehindAppBar: true,
-                  resizeToAvoidBottomInset: false,
-                  extendBody: true,
-                  floatingActionButton: AdaptiveLayout.layoutModeOf(context) == LayoutMode.single && isHomeScreen
-                      ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
-                      : null,
-                  drawer: homeRoutes.any((element) => element.name.contains(currentLocation))
-                      ? NestedNavigationDrawer(
-                          actionButton: null,
-                          toggleExpanded: (value) => _key.currentState?.closeDrawer(),
-                          views: views,
-                          destinations: widget.destinations,
-                          currentLocation: currentLocation,
-                        )
-                      : null,
-                  bottomNavigationBar: AnimatedVisibility(
-                    visible: (isHomeScreen && AdaptiveLayout.viewSizeOf(context) == ViewSize.phone),
-                    hiddenHeight: calculatedBottomViewPadding,
-                    duration: const Duration(milliseconds: 250),
-                    child: HideOnScroll(
-                      controller: AdaptiveLayout.scrollOf(context, currentTab),
-                      forceHide: !homeRoutes.any((element) => element.name.contains(currentLocation)),
-                      child: NestedBottomAppBar(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final panelWidth = constraints.maxWidth / 3;
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: buildMainScaffold(context),
+                      ),
+                      AnimatedSize(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
                         child: SizedBox(
-                          height: 65,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: widget.destinations
-                                .map(
-                                  (destination) => destination.toNavigationButton(
-                                      widget.currentRouteName == destination.route?.routeName, false, false),
-                                )
-                                .toList(),
+                          width: showAudioSidePanel ? panelWidth : 0,
+                          height: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 6.0),
+                            child: audioOverlay,
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  body: widget.nestedChild != null
-                      ? NavigationBody(
-                          child: widget.nestedChild!,
-                          parentContext: context,
-                          currentIndex: currentIndex,
-                          destinations: widget.destinations,
-                          currentLocation: currentLocation,
-                          drawerKey: _key,
-                        )
-                      : null,
-                );
-              }),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
           Material(
             color: Colors.transparent,
             child: AnimatedFadeSize(
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: showPlayerBar ? const FloatingPlayerBar() : const SizedBox.shrink(),
               ),
             ),
           ),
+          if (showAudioOverlay) audioOverlay,
           if (!AdaptiveLayout.of(context).isDesktop)
             Align(
               alignment: Alignment.topCenter,
@@ -201,14 +247,15 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                   height: kToolbarHeight + offlineMessageHeight,
                   alignment: Alignment.bottomCenter,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                    colors: [
-                      theme.colorScheme.errorContainer.withValues(alpha: 0.8),
-                      theme.colorScheme.errorContainer.withValues(alpha: 0.25),
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  )),
+                    gradient: LinearGradient(
+                      colors: [
+                        theme.colorScheme.errorContainer.withValues(alpha: 0.8),
+                        theme.colorScheme.errorContainer.withValues(alpha: 0.25),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
                   child: const Padding(
                     padding: EdgeInsets.only(bottom: 8),
                     child: OfflineBanner(),

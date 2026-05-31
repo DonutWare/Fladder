@@ -10,9 +10,9 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/providers/api_provider.dart';
-import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
@@ -27,6 +27,8 @@ class DirectPlaybackModel extends PlaybackModel {
     super.chapters,
     super.trickPlay,
     super.queue,
+    super.playbackQueue,
+    super.queueSource,
     super.bitRateOptions,
   });
 
@@ -79,14 +81,14 @@ class DirectPlaybackModel extends PlaybackModel {
 
   @override
   Future<PlaybackModel?> playbackStopped(Duration position, Duration? totalDuration, Ref ref) async {
-    ref.read(playBackModel.notifier).update((state) => null);
+    final stopPosition = resolvedStopPosition(position, totalDuration);
 
     await ref.read(jellyApiProvider).sessionsPlayingStoppedPost(
           body: PlaybackStopInfo(
             itemId: item.id,
             mediaSourceId: item.id,
             playSessionId: playbackInfo?.playSessionId,
-            positionTicks: position.toRuntimeTicks,
+            positionTicks: stopPosition.toRuntimeTicks,
           ),
         );
 
@@ -126,6 +128,11 @@ class DirectPlaybackModel extends PlaybackModel {
   }
 
   @override
+  DirectPlaybackModel updatePlaybackQueue(PlaybackQueueState newQueue) {
+    return copyWith(playbackQueue: newQueue);
+  }
+
+  @override
   String toString() => 'DirectPlaybackModel(item: $item, playbackInfo: $playbackInfo)';
 
   @override
@@ -139,6 +146,8 @@ class DirectPlaybackModel extends PlaybackModel {
     ValueGetter<List<Chapter>?>? chapters,
     ValueGetter<TrickPlayModel?>? trickPlay,
     List<ItemBaseModel>? queue,
+    PlaybackQueueState? playbackQueue,
+    PlaybackQueueSource? queueSource,
     Map<Bitrate, bool>? bitRateOptions,
   }) {
     return DirectPlaybackModel(
@@ -150,6 +159,8 @@ class DirectPlaybackModel extends PlaybackModel {
       chapters: chapters != null ? chapters() : this.chapters,
       trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
       queue: queue ?? this.queue,
+      playbackQueue: playbackQueue ?? this.playbackQueue,
+      queueSource: queueSource ?? this.queueSource,
       bitRateOptions: bitRateOptions ?? this.bitRateOptions,
     );
   }

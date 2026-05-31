@@ -68,10 +68,10 @@ Future<void> _showTranscodeDetails(BuildContext context, WidgetRef ref, SyncedIt
 
   final container = item.videoFileName != null ? path.extension(item.videoFileName!).replaceFirst('.', '') : null;
 
-  final bitrate = videoStream?.bitRate;
+  final bitrate = videoStream?.bitRate ?? audioStream?.bitRate;
   final videoCodec = videoStream?.codec;
   final audioCodec = audioStream?.codec;
-  final resolution = streamModel?.resolutionText ?? context.localized.unknown;
+  final resolution = streamModel?.resolutionText;
 
   await showDialog<void>(
     context: context,
@@ -93,8 +93,7 @@ Future<void> _showTranscodeDetails(BuildContext context, WidgetRef ref, SyncedIt
           if (videoCodec != null && videoCodec.isNotEmpty) Text('${context.localized.videoCodecLabel}: $videoCodec'),
           if (audioCodec != null && audioCodec.isNotEmpty) Text('${context.localized.audioCodecLabel}: $audioCodec'),
           if (bitrate != null) Text('${context.localized.bitrateLabel}: ${bitrate ~/ 1000} ${context.localized.kbps}'),
-          Text(
-              '${context.localized.resolutionLabel}: ${resolution.isNotEmpty ? resolution : context.localized.unknown}'),
+          if (resolution != null && resolution.isNotEmpty) Text('${context.localized.resolutionLabel}: $resolution'),
         ],
       ),
       actions: [

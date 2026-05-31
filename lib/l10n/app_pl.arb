@@ -36,7 +36,7 @@
             }
         }
     },
-    "downloadsClearDesc": "Usunąć wszystkie zsynchronizowane dane, czyszcząc tym wszystkie dane dla każdego zsynchronizowanego użytkownika?",
+    "downloadsClearDesc": "Usunąć wszystkie pobrane dane, czyszcząc tym wszystkie dane dla każdego użytkownika?",
     "removeFromCollection": "Usuń z kolekcji",
     "settingsBlurredPlaceholderDesc": "Pokaż rozmazane tła podczas ładowania plakatów",
     "settingsEnableOsMediaControls": "Włącz systemowe kontrolki multimediów",
@@ -127,9 +127,9 @@
     },
     "descending": "Malejąco",
     "displayLanguage": "Język wyświetlania",
-    "downloadsClearTitle": "Wyczyść zsynchronizowane dane",
+    "downloadsClearTitle": "Wyczyść pobrane dane",
     "downloadsPath": "Ścieżka",
-    "downloadsSyncedData": "Zsynchronizowane dane",
+    "downloadsSyncedData": "Pobrane dane",
     "downloadsTitle": "Pobrane",
     "empty": "Pusty",
     "dynamicText": "Dynamiczny",
@@ -173,7 +173,7 @@
     },
     "goTo": "Idź do",
     "grid": "Siatka",
-    "group": "Grupa",
+    "group": "Grupuj",
     "groupBy": "Grupuj według",
     "hide": "Ukryj",
     "hideEmpty": "Ukryj puste",
@@ -221,7 +221,7 @@
     },
     "mediaTypeBook": "{count, plural, one{Książka} few{Książki} many{Książek} other{Książek}}",
     "mediaTypeEpisode": "{count, plural, one{Odcinek} few{Odcinki} many{Odcinków} other{Odcinków}}",
-    "masonry": "Kamieniarski",
+    "masonry": "Bez tytułów",
     "mediaTypeBoxset": "{count, plural, one{Zestaw} few{Zestawy} many{Zestawów} other{Zestawów}}",
     "mediaTypePhoto": "{count, plural, one{Zdjęcie} few{Zdjęcia} many{Zdjęć} other{Zdjęć}}",
     "mediaTypePhotoAlbum": "{count, plural, one{Album fotograficzny} few{Albumy fotograficzne} many{Albumów fotograficznych} other{Albumów fotograficznych}}",
@@ -239,8 +239,8 @@
     "navigation": "Nawigacja",
     "navigationDashboard": "Kokpit",
     "navigationFavorites": "Ulubione",
-    "navigationSync": "Zsynchronizowane",
-    "noItemsSynced": "Brak zsynchronizowanych przedmiotów",
+    "navigationSync": "Pobrane",
+    "noItemsSynced": "Brak pobranych mediów",
     "noItemsToShow": "Brak przedmiotów do pokazania",
     "noRating": "Brak oceny",
     "noSuggestionsFound": "Nie znaleziono sugestii",
@@ -363,10 +363,10 @@
     "subtitleConfiguratorPlaceHolder": "Tu nic ciekawego, to tylko placeholder.",
     "subtitles": "Napisy",
     "switchUser": "Zmień użytkownika",
-    "sync": "Zsynchronizuj",
+    "sync": "Pobierz",
     "syncOpenParent": "Otwórz nadrzędny",
-    "syncRemoveDataTitle": "Usunąć zsynchronizowane dane?",
-    "syncedItems": "Zsynchronizowane elementy",
+    "syncRemoveDataTitle": "Usunąć pobrane dane?",
+    "syncedItems": "Pobrane elementy",
     "themeModeDark": "Ciemny",
     "themeModeLight": "Jasny",
     "themeModeSystem": "Systemowy",
@@ -567,7 +567,7 @@
     },
     "markAsWatched": "Zaznacz jako obejrzane",
     "mediaTypeFolder": "{count, plural, one{Folder} few{Foldery} many{Folderów} other{Folderów}}",
-    "syncDeletePopupPermanent": "Ta akcja jest nieodwracalna i usunie wszystkie lokalnie zsynchronizowane pliki",
+    "syncDeletePopupPermanent": "Ta akcja jest nieodwracalna i usunie wszystkie lokalnie pobrane pliki",
     "readFromStart": "Przeczytaj {item} od samego początku",
     "@readFromStart": {
         "description": "Read book from start",
@@ -599,7 +599,7 @@
     },
     "playLabel": "Odtwórz",
     "somethingWentWrongPasswordCheck": "Coś poszło nie tak. Sprawdź swoje hasło ponownie.",
-    "syncDeleteItemTitle": "Usuń zsynchronizowany przedmiot",
+    "syncDeleteItemTitle": "Usuń pobrany element",
     "never": "Nigdy",
     "other": "Inne",
     "search": "Wyszukaj",
@@ -652,7 +652,7 @@
             }
         }
     },
-    "syncDetails": "Zsynchronizuj szczegóły",
+    "syncDetails": "Odśwież pobrane",
     "save": "Zapisz",
     "settingSecurityApplockTitle": "Blokada aplikacji",
     "scanYourFingerprintToAuthenticate": "Zeskanuj swój odcisk palca, żeby uwierzytelnić {user}",
@@ -708,7 +708,7 @@
         }
     },
     "syncStatusPartially": "Częściowo",
-    "syncStatusSynced": "Zsynchronizowane",
+    "syncStatusSynced": "Pobrane",
     "unableToConnectHost": "Nie udało się połączyć z hostem",
     "removedFromCollection": "Usunięto z kolekcji {collectionName}",
     "@removedFromCollection": {
@@ -725,7 +725,7 @@
     "showDetails": "Pokaż detale",
     "themeColor": "Kolor motywu",
     "addToNewPlaylist": "Nowa playlista",
-    "syncDeleteItemDesc": "Czy chcesz usunąć wszystkie zsynchronizowane dane dla {item}?",
+    "syncDeleteItemDesc": "Czy chcesz usunąć wszystkie pobrane dane dla {item}?",
     "@syncDeleteItemDesc": {
         "description": "Sync delete item pop-up window",
         "placeholders": {
@@ -801,7 +801,7 @@
     "schemeSettingsTonalSpot": "Plama tonalna",
     "schemeSettingsFidelity": "Wierność",
     "clientSettingsSchemeVariantTitle": "Wariant schematu",
-    "syncOverlayDeleting": "Usuwanie zsynchronizowanego elementu",
+    "syncOverlayDeleting": "Usuwanie pobranego elementu",
     "copiedToClipboard": "Skopiowano do schowka",
     "phone": "Telefon",
     "tablet": "Tablet",
@@ -825,8 +825,8 @@
             }
         }
     },
-    "pathEditDesc": "Ta lokalizacja jest ustawiana dla wszystkich użytkowników, żadne dane zsynchronizowane dotychczas nie będą już dostępne, ale pozostaną na urządzeniu.",
-    "syncRemoveDataDesc": "Usunąć zsynchronizowane dane? Ta operacja jest nieodwracalna w związku z czym konieczna będzie ponowna synchronizacja",
+    "pathEditDesc": "Ta lokalizacja jest ustawiana dla wszystkich użytkowników, żadne pobrane dane dotychczas nie będą już dostępne, ale pozostaną na urządzeniu.",
+    "syncRemoveDataDesc": "Usunąć pobrane dane? Ta operacja jest nieodwracalna w związku z czym konieczna będzie ponowne pobranie plików",
     "writer": "{count, plural, one{Scenarzysta} few{Scenarzyści} many{Scenarzystów} other{Scenarzystów}}",
     "@writer": {
         "description": "writer",
@@ -846,9 +846,9 @@
             }
         }
     },
-    "syncOverlaySyncing": "Synchronizowanie szczegółów przedmiotu",
-    "syncNoFolderSetup": "Folder synchronizacji nie jest ustawiony",
-    "syncAddItemForSyncing": "Dodano {item} do synchronizacji",
+    "syncOverlaySyncing": "Szczegółu pobranego elementu",
+    "syncNoFolderSetup": "Folder pobranych nie jest ustawiony",
+    "syncAddItemForSyncing": "Dodano {item} do kolejki pobierania",
     "@syncAddItemForSyncing": {
         "placeholders": {
             "item": {
@@ -856,7 +856,7 @@
             }
         }
     },
-    "startedSyncingItem": "Rozpoczęto synchronizację {item}",
+    "startedSyncingItem": "Rozpoczęto pobieranie {item}",
     "@startedSyncingItem": {
         "placeholders": {
             "item": {
@@ -903,10 +903,10 @@
     "syncResumeAll": "Ponów wszystkie",
     "syncStopAll": "Zatrzymaj wszystkie",
     "syncDeleteAll": "Usuń wszystkie pliki",
-    "syncAllFiles": "Synchronizuj wszystkie pliki",
+    "syncAllFiles": "Pobierz wszystkie pliki",
     "playPause": "Odtwórz/Pauza",
-    "seekForward": "Przewiń do Przodu",
-    "seekBack": "Przewiń do Tyłu",
+    "seekForward": "Przewiń do przodu",
+    "seekBack": "Przewiń do tyłu",
     "mute": "Wycisz",
     "volumeUp": "Podgłośnij",
     "volumeDown": "Przycisz",
@@ -1000,8 +1000,8 @@
     "subtitlePlaybackModeSmart": "Inteligentnie",
     "backgroundColor": "Kolor tła",
     "videoScalingFillScreenNotif": "Wypełnianie ekranu nadpisuje dopasowanie wideo w orientacji poziomej",
-    "syncRemoveUnableToDeleteItem": "Nie można usunąć zsynchronizowanego elementu, coś poszło nie tak",
-    "unableToSyncItem": "Nie można zsynchronizować {item}, coś poszło nie tak",
+    "syncRemoveUnableToDeleteItem": "Nie można usunąć pobranego elementu, coś poszło nie tak",
+    "unableToSyncItem": "Nie można pobrać {item}, coś poszło nie tak",
     "@unableToSyncItem": {
         "placeholders": {
             "item": {
@@ -1044,8 +1044,8 @@
     "rememberAudioSelections": "Ustaw ścieżkę audio na podstawie poprzedniego elementu",
     "rememberSubtitleSelectionsDesc": "Spróbuj ustawić ścieżkę napisów na najbliższe trafienie do ostatniego wideo.",
     "rememberAudioSelectionsDesc": "Spróbuj ustawić ścieżkę audio na najbliższe trafienie do ostatniego wideo.",
-    "similarToRecentlyPlayed": "Podobne do niedawno odtwarzanych",
-    "similarToLikedItem": "Podobne do polubionych elementów",
+    "similarToRecentlyPlayed": "Po obejrzeniu",
+    "similarToLikedItem": "Bo polubiono",
     "hasDirectorFromRecentlyPlayed": "Ma reżysera z niedawno odtwarzanych",
     "hasActorFromRecentlyPlayed": "Ma aktora z niedawno odtwarzanych",
     "hasLikedDirector": "Ma polubionych reżyserów",
@@ -1054,7 +1054,7 @@
     "playbackTypeTV": "TV",
     "latestReleases": "Najnowsze wydania",
     "autoCheckForUpdates": "Okresowo sprawdzaj aktualizacje",
-    "syncAllItemsTitle": "Zsynchronizować wszystkie elementy z {itemName}?",
+    "syncAllItemsTitle": "Pobrać wszystkie elementy z {itemName}?",
     "@syncAllItemsTitle": {
         "description": "syncAllItemsFrom",
         "placeholders": {
@@ -1063,7 +1063,7 @@
             }
         }
     },
-    "syncAllItemsDesc": "To zsynchronizuje ({itemCount}) elementów z '{itemName}' na Twoje urządzenie.\nTo może zająć chwilę, w zależności od liczby elementów.",
+    "syncAllItemsDesc": "To pobierze ({itemCount}) elementów z '{itemName}' na Twoje urządzenie.\nTo może zająć chwilę, w zależności od liczby elementów.",
     "@syncAllItemsDesc": {
         "description": "syncAllitemsFromDesc",
         "placeholders": {
@@ -1075,7 +1075,7 @@
             }
         }
     },
-    "syncDeleteAllItemsTitle": "Usunąć wszystkie zsynchronizowane elementy z {itemName}?",
+    "syncDeleteAllItemsTitle": "Usunąć wszystkie pobrane elementy z {itemName}?",
     "@syncDeleteAllItemsTitle": {
         "description": "syncDeleteAllitemsFrom",
         "placeholders": {
@@ -1084,7 +1084,7 @@
             }
         }
     },
-    "syncDeleteAllItemsDesc": "To usunie wszystkie zsynchronizowane elementy z '{itemName}'.\nTo jest nieodwracalne i będziesz musiał ponownie zsynchronizować ({itemCount}) pliki.",
+    "syncDeleteAllItemsDesc": "To usunie wszystkie pobrane elementy z '{itemName}'.\nTo jest nieodwracalne i będziesz musiał ponownie zsynchronizować ({itemCount}) pliki.",
     "@syncDeleteAllItemsDesc": {
         "description": "syncDeleteAllitemsFromDesc",
         "placeholders": {
@@ -1162,9 +1162,9 @@
     "screensaverBlack": "Czarny",
     "playerSettingsScreensaverTitle": "Wygaszacz ekranu",
     "playerSettingsScreensaverDesc": "Wybierz wygaszacz ekranu który będzie pokazywany po braku aktywności odtwarzacza",
-    "settingsLocalUrlTitle": "Lokalny URL serwera",
-    "settingsLocalUrlSetTitle": "Konfiguruj Lokalny URL",
-    "settingsLocalUrlSetDesc": "Określ lokalny adres serwera. Fladder będzie automatycznie używać ten URL gdy Twoje urządzenie będzie w tej samej sieci.",
+    "settingsLocalUrlTitle": "Lokalny adres serwera Jellyfin",
+    "settingsLocalUrlSetTitle": "Konfiguruj lokalny adres serwera Jellyfin",
+    "settingsLocalUrlSetDesc": "Określ lokalny adres serwera Jellyfin. Fladder będzie automatycznie używać ten URL gdy Twoje urządzenie będzie w tej samej sieci.",
     "regenerateTrickplayImages": "Regeneruj obrazy trickplay",
     "controlPanel": "Panel Sterowania",
     "controlPanelDesc": "Serwer, Aktywność, Użytkownicy, Biblioteka",
@@ -1897,5 +1897,39 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "stepForward": "Do przodu",
+    "stepBack": "Do tyłu",
+    "anyLanguage": "Dowolny język",
+    "personBirthday": "Data urodzenia: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Wiek: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Urodzony w {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Odkryj filmy",
+    "seerrSeries": "Odkryj seriale",
+    "seekForwardInstant": "Przewiń do przodu (natychmiast)",
+    "seekBackInstant": "Przewiń do tyłu (natychmiast)"
 }

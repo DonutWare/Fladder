@@ -1080,9 +1080,9 @@
     "screensaverBlack": "Zwart",
     "playerSettingsScreensaverTitle": "Screensaver",
     "playerSettingsScreensaverDesc": "Selecteer screensaver die wordt weergegeven als er geen speler-activiteit is",
-    "settingsLocalUrlTitle": "Lokale server-URL",
-    "settingsLocalUrlSetTitle": "Lokale URL configureren",
-    "settingsLocalUrlSetDesc": "Geef het lokale serveradres op. Fladder zal automatisch deze URL gebruiken wanneer je apparaat op hetzelfde netwerk staat.",
+    "settingsLocalUrlTitle": "Lokale Jellyfin URL",
+    "settingsLocalUrlSetTitle": "Lokale Jellyfin URL configureren",
+    "settingsLocalUrlSetDesc": "Geef het lokale Jellyfin-adres op. Fladder zal automatisch deze URL gebruiken wanneer je apparaat op hetzelfde netwerk staat.",
     "regenerateTrickplayImages": "Trickplay-afbeeldingen opnieuw genereren",
     "controlPanel": "Controlecentrum",
     "controlPanelDesc": "Server, Activiteit, Gebruikers, Bibliotheek",
@@ -1616,13 +1616,13 @@
     "backgroundColor": "Achtergrond kleur",
     "playbackTypeTV": "TV",
     "enableSpeedBoostTitle": "Speed boost inschakelen",
-    "enableSpeedBoostDesc": "Houd het scherm (mobiel) of de spatiebalk (desktop) ingedrukt om de afspeelsnelheid tijdelijk te verhogen.",
+    "enableSpeedBoostDesc": "Houd het scherm (mobiel) of de spatiebalk (desktop) ingedrukt om de afspeelsnelheid tijdelijk te verhogen",
     "speedBoostRateTitle": "Snelheidsverhoging",
     "speedBoostRateDesc": "Afspeelsnelheid wanneer de snelheidsboost is geactiveerd",
     "enableDoubleTapSeekTitle": "Dubbeltik om vooruit/achteruit te spoelen/af te spelen/pauzeren",
-    "enableDoubleTapSeekDesc": "Tik twee keer op de linker- of rechterkant van het scherm om terug/vooruit te spoelen. Tik twee keer op het midden om af te spelen/pauzeren.",
+    "enableDoubleTapSeekDesc": "Tik twee keer op de linker- of rechterkant van het scherm om terug/vooruit te spoelen. Tik twee keer op het midden om af te spelen/pauzeren",
     "showLess": "Minder laten zien",
-    "seerrCustomHeaders": "Custom headers",
+    "seerrCustomHeaders": "Aangepaste headers",
     "seerrHeader": "Header",
     "seerrHeaderValue": "Waarde",
     "watch": "Bekijken",
@@ -1828,11 +1828,11 @@
             }
         }
     },
-    "shareQRCode": "Deel QR code",
+    "shareQRCode": "Deel de QR code",
     "copyLoginLink": "Link kopiëren",
     "includePassword": "Wachtwoord includeren",
     "invalidAuthLink": "Ongeldige login link",
-    "shareLoginLink": "Deel login code",
+    "shareLoginLink": "Deel de login link",
     "gestures": "Gebaren",
     "enableEdgeGesturesTitle": "Schakel randgebaren in",
     "enableEdgeGesturesDesc": "Regel helderheid en volume door op en neer te schuiven aan de randen van het scherm",
@@ -1907,5 +1907,39 @@
     "groupedFoldersDescription": "Automatisch content uit de volgende bibliotheken groeperen in weergaven zoals 'Films', 'Muziek' en 'Tv'.",
     "downloadTranscoded": "Getranscodeerd downloaden",
     "downloadOriginal": "Origineel downloaden",
-    "today": "Vandaag"
+    "today": "Vandaag",
+    "personAge": "Leeftijd: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Geboren in {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Ontdek films",
+    "seerrSeries": "Ontdek Series",
+    "seekBackInstant": "Zoek terug (Direct)",
+    "seekForwardInstant": "Zoek vooruit (Direct)",
+    "stepForward": "Stap Vooruit",
+    "stepBack": "Stap Terug",
+    "personBirthday": "Geboortedatum: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "anyLanguage": "Een taal"
 }

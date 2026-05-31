@@ -1073,9 +1073,9 @@
     "screensaverBlack": "黑色",
     "playerSettingsScreensaverTitle": "屏幕保护程序",
     "playerSettingsScreensaverDesc": "选择在播发无活动后显示的屏幕保护程序",
-    "settingsLocalUrlTitle": "本地服务器网址",
-    "settingsLocalUrlSetTitle": "配置本地网址",
-    "settingsLocalUrlSetDesc": "指定本地服务器地址。当您的设备与服务器位于同一网络时，Fladder 将自动使用此网址。",
+    "settingsLocalUrlTitle": "本地 Jellyfin 地址",
+    "settingsLocalUrlSetTitle": "配置本地 Jellyfin 地址",
+    "settingsLocalUrlSetDesc": "指定本地 Jellyfin 地址。当您的设备连接到同一网络时，Fladder 将自动使用此地址。",
     "takeScreenshot": "截屏",
     "takeScreenshotClean": "截取屏幕截图（不含字幕）",
     "screenshots": "屏幕截图",
@@ -1902,5 +1902,53 @@
             }
         }
     },
-    "today": "今天"
+    "today": "今天",
+    "gestures": "手势",
+    "anyLanguage": "任何语言",
+    "enableEdgeGesturesTitle": "启用边缘手势",
+    "enableEdgeGesturesDesc": "通过在屏幕边缘上下滑动，调节亮度和音量",
+    "reverseEdgeGesturesTitle": "切换边缘手势",
+    "reverseEdgeGesturesDesc": "切换亮度与音量控制的侧边",
+    "brightnessIndicator": "亮度: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "viewTrailer": "观看预告片",
+    "personBirthday": "生日: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "年龄: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "出生于 {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "推荐电影",
+    "seerrSeries": "推荐节目",
+    "stepForward": "向前",
+    "stepBack": "向后",
+    "seekForwardInstant": "向前（即时）",
+    "seekBackInstant": "向后（即时）"
 }

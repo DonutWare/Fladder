@@ -11,6 +11,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/models/syncing/transcode_download_model.dart';
+import 'package:fladder/models/syncing/transcode_music_download_model.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/src/directory_bookmark.g.dart';
 import 'package:fladder/util/custom_color_themes.dart';
@@ -64,6 +65,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
   factory ClientSettingsModel.internal({
     String? syncPath,
     required TranscodeDownloadModel transcodeDownloadModel,
+    @Default(TranscodeMusicDownloadModel()) TranscodeMusicDownloadModel transcodeMusicDownloadModel,
     @Default(Vector2(x: 0, y: 0)) Vector2 position,
     @Default(Vector2(x: 1280, y: 720)) Vector2 size,
     @Default(Duration(seconds: 30)) Duration? timeOut,

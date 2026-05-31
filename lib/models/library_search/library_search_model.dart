@@ -71,6 +71,11 @@ extension LibrarySearchModelX on LibrarySearchModel {
 
   bool get showPlayButtons {
     if (totalItemCount == 0) return false;
+    if (activePosters.isNotEmpty) {
+      return activePosters.any(
+        (element) => {...FladderItemType.playable, FladderItemType.folder}.contains(element.type),
+      );
+    }
     return filters.types.included.isEmpty ||
         filters.types.included.containsAny(
           {...FladderItemType.playable, FladderItemType.folder},
@@ -79,9 +84,28 @@ extension LibrarySearchModelX on LibrarySearchModel {
 
   bool get showGalleryButtons {
     if (totalItemCount == 0) return false;
+    if (activePosters.isNotEmpty) {
+      return activePosters.any(
+        (element) =>
+            {...FladderItemType.galleryItem, FladderItemType.photoAlbum, FladderItemType.folder}.contains(element.type),
+      );
+    }
     return filters.types.included.isEmpty ||
         filters.types.included.containsAny(
           {...FladderItemType.galleryItem, FladderItemType.photoAlbum, FladderItemType.folder},
+        );
+  }
+
+  bool get showMusicButtons {
+    if (totalItemCount == 0) return false;
+    if (activePosters.isNotEmpty) {
+      return activePosters.any(
+        (element) => {...FladderItemType.musicPlayable, FladderItemType.folder}.contains(element.type),
+      );
+    }
+    return filters.types.included.isEmpty ||
+        filters.types.included.containsAny(
+          {...FladderItemType.musicPlayable, FladderItemType.folder},
         );
   }
 

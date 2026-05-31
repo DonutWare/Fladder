@@ -4,6 +4,7 @@ import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/providers/sync_provider.dart';
@@ -49,20 +50,24 @@ class SyncListItem extends ConsumerWidget {
           ),
           direction: DismissDirection.startToEnd,
           confirmDismiss: (direction) async {
-            await showDefaultAlertDialog(
-                context,
-                context.localized.deleteItem(baseItem?.detailedName(context.localized) ?? ""),
-                context.localized.syncDeletePopupPermanent,
-                (context) async {
-                  ref.read(syncProvider.notifier).removeSync(context, syncedItem);
-                  Navigator.of(context).pop();
-                  return true;
-                },
-                context.localized.delete,
-                (context) async {
-                  Navigator.of(context).pop();
-                },
-                context.localized.cancel);
+            if (baseItem?.type == FladderItemType.playlist) {
+              await _showPlaylistDeleteDialog(context, ref, syncedItem);
+            } else {
+              await showDefaultAlertDialog(
+                  context,
+                  context.localized.deleteItem(baseItem?.detailedName(context.localized) ?? ""),
+                  context.localized.syncDeletePopupPermanent,
+                  (context) async {
+                    ref.read(syncProvider.notifier).removeSync(context, syncedItem);
+                    Navigator.of(context).pop();
+                    return true;
+                  },
+                  context.localized.delete,
+                  (context) async {
+                    Navigator.of(context).pop();
+                  },
+                  context.localized.cancel);
+            }
             return false;
           },
           child: FocusButton(
@@ -151,4 +156,52 @@ class SyncListItem extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// Shows a three-button dialog for deleting a synced playlist.
+///
+/// The user can cancel, keep linked tracks (delete only the playlist entry),
+/// or remove linked tracks alongside the playlist entry.
+Future<void> _showPlaylistDeleteDialog(
+  BuildContext context,
+  WidgetRef ref,
+  SyncedItem item,
+) {
+  return showDialog(
+    context: context,
+    builder: (dialogContext) {
+      final localized = context.localized;
+      return AlertDialog(
+        title: Text(localized.syncPlaylistDeleteTitle),
+        content: Text(localized.syncPlaylistDeleteContent),
+        actions: [
+          Consumer(
+            builder: (context, ref, _) => ElevatedButton(
+              autofocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(localized.cancel),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+              ref.read(syncProvider.notifier).removePlaylistSync(context, item, removeLinkedItems: false);
+            },
+            child: Text(localized.syncPlaylistKeepTracks),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.errorContainer,
+              foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+            ),
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+              ref.read(syncProvider.notifier).removePlaylistSync(context, item, removeLinkedItems: true);
+            },
+            child: Text(localized.syncPlaylistRemoveTracks),
+          ),
+        ],
+      );
+    },
+  );
 }

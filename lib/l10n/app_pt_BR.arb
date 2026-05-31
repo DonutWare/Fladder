@@ -216,7 +216,7 @@
         }
     },
     "mediaTypeMovie": "{count, plural, one{Filme} other{Filmes}}",
-    "mediaTypePlaylist": "{count, plural, one{Playlist} other{Playlists}}",
+    "mediaTypePlaylist": "{count, plural, one{Lista de Reprodução} other{Listas de Reprodução}}",
     "mediaTypeSeason": "{count, plural, one{Temporada} other{Temporadas}}",
     "mediaTypePhotoAlbum": "{count, plural, one{Álbum de Foto} other{Álbuns de Fotos}}",
     "metadataRefreshDefault": "Verificar se há arquivos novos e atualizados",
@@ -255,7 +255,7 @@
     "other": "Outro",
     "pathEditDesc": "Este local é definido para todos os usuários, quaisquer dados sincronizados não estarão mais acessíveis. Eles permanecerão no seu armazenamento.",
     "outlineColor": "Cor do contorno",
-    "overview": "Visão geral",
+    "overview": "Sinopse",
     "password": "Senha",
     "pathClearTitle": "Limpar caminho de downloads",
     "pathEditSelect": "Selecione o destino dos downloads",
@@ -390,7 +390,7 @@
     },
     "settings": "Configurações",
     "settingsBlurEpisodesTitle": "Desfocar os próximos episódios",
-    "settingsBlurredPlaceholderDesc": "Mostrar fundo desfocado ao carregar pôsteres",
+    "settingsBlurredPlaceholderDesc": "Mostrar fundo desfocado enquanto pôsters carregam",
     "deleteItem": "Excluir {item}?",
     "@deleteItem": {
         "description": "deleteItem",
@@ -548,7 +548,7 @@
     },
     "hideEmpty": "Ocultar vazios",
     "invalidUrlDesc": "A URL precisa começar com http(s)://",
-    "settingsNextUpCutoffDays": "Próximos dias de corte",
+    "settingsNextUpCutoffDays": "Dias até desaparecer de \"Próximos episódios\"",
     "settingsPlayerCustomSubtitlesDesc": "Personalize o tamanho, a cor, a posição e o contorno",
     "settingsSecurity": "Segurança",
     "settingsPlayerMobileWarning": "Ativar a aceleração de hardware e as legendas nativas do Libass no Android pode fazer com que algumas legendas não sejam renderizadas.",
@@ -670,11 +670,11 @@
     "video": "{count, plural, one{Vídeo} other{Vídeos}}",
     "videoScaling": "Dimensionamento de vídeo",
     "videoScalingFill": "Preencher",
-    "videoScalingFillScreenTitle": "Tela cheia",
+    "videoScalingFillScreenTitle": "Preencher tela",
     "videoScalingFitHeight": "Ajustar altura",
     "videoScalingContain": "Conter",
     "videoScalingFillScreenDesc": "Preencha a barra de navegação e status",
-    "videoScalingCover": "Capa",
+    "videoScalingCover": "Cobrir",
     "nativeName": "Português (Brasil)",
     "homeBannerSlideshow": "Apresentação de slides",
     "settingsHomeBannerInformationDesc": "Informações para mostrar no banner inicial",
@@ -801,7 +801,7 @@
     "deleteFilterConfirmation": "Tem certeza de que deseja excluir este filtro?",
     "playerSettingsOrientationTitle": "Orientação do player",
     "playerSettingsOrientationDesc": "Forçar o player de vídeo em certas orientações",
-    "clientSettingsSchemeVariantTitle": "Variante de esquema",
+    "clientSettingsSchemeVariantTitle": "Variante de paleta",
     "schemeSettingsMonochrome": "Monocromático",
     "schemeSettingsVibrant": "Vibrante",
     "updateFilterForLibrary": "Atualizar filtro",
@@ -1004,11 +1004,11 @@
     "offline": "Offline",
     "shortCuts": "Atalho",
     "keyboardShortCuts": "Atalhos do teclado",
-    "skipForwardLength": "Avançar",
-    "skipBackLength": "Retroceder",
+    "skipForwardLength": "Comprimento do Avançar",
+    "skipBackLength": "Comprimento do Retroceder",
     "playPause": "Reproduzir/Pausar",
     "seekForward": "Avançar",
-    "seekBack": "Retornar",
+    "seekBack": "Retroceder",
     "mute": "Silenciar",
     "volumeUp": "Aumentar Volume",
     "volumeDown": "Diminuir Volume",
@@ -1050,7 +1050,7 @@
     "quickConnectLoginUsingCode": "Usando conexão rápida",
     "quickConnectEnterCodeDescription": "Entre o código abaixo para realizar login",
     "showMore": "Mostrar mais",
-    "itemColorsTitle": "Cor do item",
+    "itemColorsTitle": "Cor de itens",
     "itemColorsDesc": "Usar a cor principal do item para definir o tema da página de detalhes",
     "mediaTunnelingTitle": "Tunelamento de mídia",
     "mediaTunnelingDesc": "Ative o tunelamento de mídia para o player nativo",
@@ -1567,7 +1567,7 @@
     "seerrAutoApproveNotice": "As solicitações que você enviar serão aprovadas automaticamente.",
     "seerrPermissionDenied": "Você não tem permissão para solicitar este tipo de mídia.",
     "seerrRequestStatusDeclined": "Recusado",
-    "noOverviewAvailable": "Nenhuma visão geral disponível.",
+    "noOverviewAvailable": "Nenhuma sinopse disponível.",
     "noTags": "Nenhuma etiqueta",
     "email": "Email",
     "seerrNotConfigured": "Não configurado",
@@ -1860,8 +1860,66 @@
     "audioCodecLabel": "Codec de áudio",
     "bitrateLabel": "Taxa de bits",
     "transcodeInfoNoMetadata": "Não há metadados de transcodificação disponíveis.",
-    "containerLabel": "Container",
+    "containerLabel": "Contêiner",
     "kbps": "kbps",
     "resolutionLabel": "Resolução",
-    "downloadOriginal": "Baixar original"
+    "downloadOriginal": "Baixar original",
+    "gestures": "Gestos",
+    "anyLanguage": "Qualquer idioma",
+    "enableEdgeGesturesTitle": "Ativar gestos de borda",
+    "enableEdgeGesturesDesc": "Controlar o brilho e volume deslizando para cima e para baixo nos cantos da tela",
+    "reverseEdgeGesturesTitle": "Inverter gestos de borda",
+    "reverseEdgeGesturesDesc": "Inverter de lados o controle de volume e brilho",
+    "stepForward": "Avançar um quadro",
+    "stepBack": "Retroceder um quadro",
+    "brightnessIndicator": "Brilho: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "viewTrailer": "Assistir trailer",
+    "downloadTranscoded": "Baixar convertido",
+    "personBirthday": "Data de nascimento: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Idade: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Nascido em {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Descobrir Filmes",
+    "seerrSeries": "Descobrir Séries",
+    "today": "Hoje",
+    "specialFeature": "{count, plural, other{Conteúdos extra} one{Conteúdo extra} }",
+    "@specialFeature": {
+        "description": "special feature",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    }
 }

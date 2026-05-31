@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/list_extensions.dart';
 
 class SortableItemList<T> extends StatelessWidget {
   final T? selected;
@@ -31,10 +32,7 @@ class SortableItemList<T> extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: items.length,
       onReorder: (oldIndex, newIndex) {
-        final updatedList = List<T>.from(items);
-        final item = updatedList.removeAt(oldIndex);
-        updatedList.insert(newIndex > oldIndex ? newIndex - 1 : newIndex, item);
-        onReorder?.call(updatedList);
+        onReorder?.call(items.reordered(oldIndex, newIndex));
       },
       buildDefaultDragHandles: false,
       itemBuilder: (context, index) {

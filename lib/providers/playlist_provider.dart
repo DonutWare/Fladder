@@ -1,10 +1,11 @@
 import 'package:chopper/chopper.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
-import 'package:fladder/models/playlist_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class _PlaylistProviderModel {
   final List<ItemBaseModel> items;
@@ -52,7 +53,12 @@ class BoxSetNotifier extends StateNotifier<_PlaylistProviderModel> {
 
     if (state.items.length == 1 && (playlists?.length ?? 0) < 25) {
       final List<Future<bool>> itemChecks = playlists?.map((element) async {
-            final itemList = await api.usersUserIdItemsGet(parentId: element.id);
+            final itemList = await api.playlistsPlaylistIdItemsGet(
+              playlistId: element.id,
+              enableImages: false,
+              enableUserData: false,
+              fields: [],
+            );
             final List<String?> items = (itemList.body?.items ?? []).map((e) => e.id).toList();
             return items.contains(state.items.firstOrNull?.id);
           }).toList() ??
@@ -70,8 +76,23 @@ class BoxSetNotifier extends StateNotifier<_PlaylistProviderModel> {
     }
   }
 
-  Future<Response> addToPlaylist({required PlaylistModel playlist}) async =>
-      await api.playlistsPlaylistIdItemsPost(playlistId: playlist.id, ids: state.items.map((e) => e.id).toList());
+  Future<Response> addToPlaylist({required PlaylistModel playlist}) async {
+    final response =
+        await api.playlistsPlaylistIdItemsPost(playlistId: playlist.id, ids: state.items.map((e) => e.id).toList());
+    if (response.isSuccessful) {
+      await _init();
+    }
+    return response;
+  }
+
+  Future<Response> removeFromPlaylist({required PlaylistModel playlist}) async {
+    final response = await api.playlistsPlaylistIdItemsDelete(
+        playlistId: playlist.id, entryIds: state.items.map((e) => e.id).toList());
+    if (response.isSuccessful) {
+      await _init();
+    }
+    return response;
+  }
 
   Future<Response> addToNewPlaylist({required String name}) async {
     final result = await api.playlistsPost(name: name, ids: state.items.map((e) => e.id).toList(), body: null);

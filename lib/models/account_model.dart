@@ -6,12 +6,12 @@ import 'package:flutter/widgets.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:local_auth/local_auth.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/seerr_credentials_model.dart';
-import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'account_model.freezed.dart';
@@ -108,15 +108,17 @@ enum Authentication {
         Authentication.none => false,
       };
 
-  bool available(BuildContext context) {
-    switch (this) {
-      case Authentication.none:
-      case Authentication.autoLogin:
-      case Authentication.passcode:
-        return true;
-      case Authentication.biometrics:
-        return !AdaptiveLayout.of(context).isDesktop;
-    }
+  static Future<Set<Authentication>> available() async {
+    final localAuthentication = LocalAuthentication();
+    final canCheckBiometrics = await localAuthentication.canCheckBiometrics;
+    final getAvailableBiometrics = await localAuthentication.getAvailableBiometrics();
+    final bool hasBiometrics = canCheckBiometrics || getAvailableBiometrics.isNotEmpty;
+    return {
+      Authentication.autoLogin,
+      if (hasBiometrics) Authentication.biometrics,
+      Authentication.passcode,
+      Authentication.none,
+    };
   }
 
   String name(BuildContext context) {

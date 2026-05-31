@@ -26,6 +26,7 @@ import 'package:fladder/widgets/navigation_scaffold/components/settings_user_ico
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
+import 'package:fladder/widgets/shared/theme_overwrite.dart';
 
 Future<Color?> getDominantColor(ImageProvider imageProvider) async {
   final paletteGenerator = await PaletteGeneratorMaster.fromImageProvider(
@@ -34,7 +35,7 @@ Future<Color?> getDominantColor(ImageProvider imageProvider) async {
     maximumColorCount: 2,
   );
 
-  return paletteGenerator.dominantColor?.color;
+  return paletteGenerator.vibrantColor?.color ?? paletteGenerator.dominantColor?.color;
 }
 
 class DetailScaffold extends ConsumerStatefulWidget {
@@ -160,274 +161,244 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
         .add(directionalSidePadding.resolve(Directionality.of(context)))
         .add(EdgeInsets.only(top: topBarPadding))
         .add(EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 12));
-    final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
-    final newColorScheme = dominantColor != null
-        ? ColorScheme.fromSeed(
-            seedColor: dominantColor!,
-            brightness: Theme.brightnessOf(context),
-            dynamicSchemeVariant: schemeVariant,
-          )
-        : null;
-    final amoledBlack = ref.watch(clientSettingsProvider.select((value) => value.amoledBlack));
-    final amoledOverwrite = amoledBlack ? Colors.black : null;
 
-    final themeData =
-        newColorScheme != null && ref.watch(clientSettingsProvider.select((value) => value.deriveColorsFromItem))
-            ? FladderTheme.theme(newColorScheme, schemeVariant).copyWith(
-                scaffoldBackgroundColor: amoledOverwrite,
-                cardColor: amoledOverwrite,
-                canvasColor: amoledOverwrite,
-                colorScheme: newColorScheme.copyWith(
-                  surface: amoledOverwrite,
-                  surfaceContainerHighest: amoledOverwrite,
-                  surfaceContainerLow: amoledOverwrite,
-                ),
-              )
-            : Theme.of(context).copyWith(
-                scaffoldBackgroundColor: amoledOverwrite,
-                cardColor: amoledOverwrite,
-                canvasColor: amoledOverwrite,
-              );
-
-    return Theme(
-      data: themeData,
-      child: Builder(builder: (context) {
-        return PullToRefresh(
-          onRefresh: () async {
-            await widget.onRefresh?.call();
-            if (mounted) {
-              setState(() {
-                if (widget.backDrops?.backDrop?.contains(backgroundImage) == true) {
-                  backgroundImage = widget.backDrops?.randomBackDrop;
-                }
-              });
-            }
-          },
-          refreshOnStart: true,
-          child: (context) => Scaffold(
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            extendBodyBehindAppBar: true,
-            body: Stack(
-              children: [
-                SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Stack(
-                    children: [
-                      SizedBox(
-                        height: maxHeight,
-                        width: size.width,
-                        child: FladderImage(
-                          image: backgroundImage,
-                          blurOnly: !widget.posterFillsContent,
-                        ),
+    return ThemeOverwrite(
+      color: dominantColor,
+      child: (context) => PullToRefresh(
+        onRefresh: () async {
+          await widget.onRefresh?.call();
+          if (mounted) {
+            setState(() {
+              if (widget.backDrops?.backDrop?.contains(backgroundImage) == true) {
+                backgroundImage = widget.backDrops?.randomBackDrop;
+              }
+            });
+          }
+        },
+        refreshOnStart: true,
+        child: (context) => Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          extendBodyBehindAppBar: true,
+          body: Stack(
+            children: [
+              SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      height: maxHeight,
+                      width: size.width,
+                      child: FladderImage(
+                        image: backgroundImage,
+                        blurOnly: !widget.posterFillsContent,
                       ),
-                      if (backgroundImage != null && !widget.posterFillsContent)
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.only(
-                              start: sideBarPadding / 1.5,
-                              top: topBarPadding / 1.5,
-                            ),
-                            child: RepaintBoundary(
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  minWidth: double.infinity,
-                                  minHeight: minHeight - 22,
-                                  maxHeight: maxHeight.clamp(minHeight, 2500) - (20 + topBarPadding),
-                                ),
-                                child: FadeEdges(
-                                  leftFade: sideBarPadding > 0 && !isRtl ? 0.05 : 0.0,
-                                  rightFade: sideBarPadding > 0 && isRtl ? 0.05 : 0.0,
-                                  topFade: topBarPadding > 0 ? 0.1 : 0.0,
-                                  bottomFade: 0.2,
-                                  child: FadeInImage(
-                                    placeholder: ResizeImage(
-                                      backgroundImage!.imageProvider,
-                                      height: maxHeight ~/ 1.5,
-                                    ),
-                                    placeholderColor: Colors.transparent,
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment.topCenter,
-                                    placeholderFit: BoxFit.cover,
-                                    excludeFromSemantics: true,
-                                    image: ResizeImage(
-                                      backgroundImage!.imageProvider,
-                                      height: maxHeight ~/ 1.5,
-                                    ),
+                    ),
+                    if (backgroundImage != null && !widget.posterFillsContent)
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            start: sideBarPadding / 1.5,
+                            top: topBarPadding / 1.5,
+                          ),
+                          child: RepaintBoundary(
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minWidth: double.infinity,
+                                minHeight: minHeight - 22,
+                                maxHeight: maxHeight.clamp(minHeight, 2500) - (20 + topBarPadding),
+                              ),
+                              child: FadeEdges(
+                                leftFade: sideBarPadding > 0 && !isRtl ? 0.05 : 0.0,
+                                rightFade: sideBarPadding > 0 && isRtl ? 0.05 : 0.0,
+                                topFade: topBarPadding > 0 ? 0.1 : 0.0,
+                                bottomFade: 0.2,
+                                child: FadeInImage(
+                                  placeholder: ResizeImage(
+                                    backgroundImage!.imageProvider,
+                                    height: maxHeight ~/ 1.5,
+                                  ),
+                                  placeholderColor: Colors.transparent,
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.topCenter,
+                                  placeholderFit: BoxFit.cover,
+                                  excludeFromSemantics: true,
+                                  image: ResizeImage(
+                                    backgroundImage!.imageProvider,
+                                    height: maxHeight ~/ 1.5,
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      Container(
-                        width: double.infinity,
-                        height: maxHeight + 10,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: widget.posterFillsContent
-                                ? [
-                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0),
-                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0.95),
-                                    Theme.of(context).colorScheme.surface.withValues(alpha: 1),
-                                  ]
-                                : [
-                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0),
-                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0.10),
-                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0.35),
-                                    Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
-                                    Theme.of(context).colorScheme.surface,
-                                  ],
-                          ),
-                        ),
                       ),
-                      Container(
-                        height: size.height,
-                        width: size.width,
-                        color: widget.backgroundColor,
-                      ),
-                      FocusScope(
-                        autofocus: true,
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minHeight: size.height,
-                            maxWidth: size.width,
-                          ),
-                          child: widget.content(
-                            context,
-                            contentPadding,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                //Top row buttons
-                if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad)
-                  IconTheme(
-                    data: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
-                    child: Padding(
-                      padding: topRowPadding,
-                      child: Row(
-                        children: [
-                          IconButton.filledTonal(
-                            style: IconButton.styleFrom(
-                              backgroundColor: backGroundColor,
-                            ),
-                            onPressed: () => context.router.popBack(),
-                            icon: Padding(
-                              padding:
-                                  EdgeInsets.all(AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer ? 0 : 4),
-                              child: const BackButtonIcon(),
-                            ),
-                          ),
-                          const Spacer(),
-                          AnimatedSize(
-                            duration: const Duration(milliseconds: 250),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: backGroundColor, borderRadius: FladderTheme.defaultShape.borderRadius),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (item != null) ...[
-                                    ref.watch(syncedItemProvider(item)).when(
-                                          error: (error, stackTrace) => const SizedBox.shrink(),
-                                          data: (syncedItem) {
-                                            if (syncedItem == null &&
-                                                ref.read(userProvider.select(
-                                                  (value) => value?.canDownload ?? false,
-                                                )) &&
-                                                item?.syncAble == true) {
-                                              return IconButton(
-                                                onPressed: () =>
-                                                    ref.read(syncProvider.notifier).addSyncItem(context, item!),
-                                                icon: const Icon(
-                                                  IconsaxPlusLinear.arrow_down_2,
-                                                ),
-                                              );
-                                            } else if (syncedItem != null) {
-                                              return IconButton(
-                                                onPressed: () => showSyncItemDetails(context, syncedItem, ref),
-                                                icon: SyncButton(item: item!, syncedItem: syncedItem),
-                                              );
-                                            }
-                                            return const SizedBox.shrink();
-                                          },
-                                          loading: () => const SizedBox.shrink(),
-                                        ),
-                                    Builder(
-                                      builder: (context) {
-                                        final newActions = widget.actions?.call(context);
-                                        if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer) {
-                                          return PopupMenuButton(
-                                            tooltip: context.localized.moreOptions,
-                                            enabled: newActions?.isNotEmpty == true,
-                                            icon: Icon(
-                                              item!.type.icon,
-                                              color: Theme.of(context).colorScheme.onSurface,
-                                            ),
-                                            itemBuilder: (context) => newActions?.popupMenuItems(useIcons: true) ?? [],
-                                          );
-                                        } else {
-                                          return IconButton(
-                                            onPressed: () => showBottomSheetPill(
-                                              context: context,
-                                              content: (context, scrollController) => ListView(
-                                                controller: scrollController,
-                                                shrinkWrap: true,
-                                                children: newActions?.listTileItems(context, useIcons: true) ?? [],
-                                              ),
-                                            ),
-                                            icon: Icon(
-                                              item!.type.icon,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                    ),
-                                  ],
-                                  if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
-                                    Tooltip(
-                                      message: context.localized.refresh,
-                                      child: IconButton(
-                                        onPressed: () => context.refreshData(),
-                                        icon: const Icon(IconsaxPlusLinear.refresh),
-                                      ),
-                                    ),
-                                  if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single ||
-                                      AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
-                                    Container(
-                                      margin: const EdgeInsets.symmetric(horizontal: 6),
-                                      child: const SizedBox(
-                                        height: 30,
-                                        width: 30,
-                                        child: SettingsUserIcon(),
-                                      ),
-                                    ),
-                                  if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single)
-                                    Tooltip(
-                                        message: context.localized.home,
-                                        child: IconButton(
-                                          onPressed: () => context.navigateTo(const DashboardRoute()),
-                                          icon: const Icon(IconsaxPlusLinear.home),
-                                        )),
+                    Container(
+                      width: double.infinity,
+                      height: maxHeight + 10,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: widget.posterFillsContent
+                              ? [
+                                  Theme.of(context).colorScheme.surface.withValues(alpha: 0),
+                                  Theme.of(context).colorScheme.surface.withValues(alpha: 0.95),
+                                  Theme.of(context).colorScheme.surface.withValues(alpha: 1),
+                                ]
+                              : [
+                                  Theme.of(context).colorScheme.surface.withValues(alpha: 0),
+                                  Theme.of(context).colorScheme.surface.withValues(alpha: 0.10),
+                                  Theme.of(context).colorScheme.surface.withValues(alpha: 0.35),
+                                  Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
+                                  Theme.of(context).colorScheme.surface,
                                 ],
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
+                    Container(
+                      height: size.height,
+                      width: size.width,
+                      color: widget.backgroundColor,
+                    ),
+                    FocusScope(
+                      autofocus: true,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: size.height,
+                          maxWidth: size.width,
+                        ),
+                        child: widget.content(
+                          context,
+                          contentPadding,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //Top row buttons
+              if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad)
+                IconTheme(
+                  data: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
+                  child: Padding(
+                    padding: topRowPadding,
+                    child: Row(
+                      children: [
+                        IconButton.filledTonal(
+                          style: IconButton.styleFrom(
+                            backgroundColor: backGroundColor,
+                          ),
+                          onPressed: () => context.router.popBack(),
+                          icon: Padding(
+                            padding:
+                                EdgeInsets.all(AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer ? 0 : 4),
+                            child: const BackButtonIcon(),
+                          ),
+                        ),
+                        const Spacer(),
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 250),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: backGroundColor, borderRadius: FladderTheme.defaultShape.borderRadius),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (item != null) ...[
+                                  ref.watch(syncedItemProvider(item)).when(
+                                        error: (error, stackTrace) => const SizedBox.shrink(),
+                                        data: (syncedItem) {
+                                          if (syncedItem == null &&
+                                              ref.read(userProvider.select(
+                                                (value) => value?.canDownload ?? false,
+                                              )) &&
+                                              item?.syncAble == true) {
+                                            return IconButton(
+                                              onPressed: () =>
+                                                  ref.read(syncProvider.notifier).addSyncItem(context, item!),
+                                              icon: const Icon(
+                                                IconsaxPlusLinear.arrow_down_2,
+                                              ),
+                                            );
+                                          } else if (syncedItem != null) {
+                                            return IconButton(
+                                              onPressed: () => showSyncItemDetails(context, syncedItem, ref),
+                                              icon: SyncButton(item: item!, syncedItem: syncedItem),
+                                            );
+                                          }
+                                          return const SizedBox.shrink();
+                                        },
+                                        loading: () => const SizedBox.shrink(),
+                                      ),
+                                  Builder(
+                                    builder: (context) {
+                                      final newActions = widget.actions?.call(context);
+                                      if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer) {
+                                        return PopupMenuButton(
+                                          tooltip: context.localized.moreOptions,
+                                          enabled: newActions?.isNotEmpty == true,
+                                          icon: Icon(
+                                            item!.type.icon,
+                                            color: Theme.of(context).colorScheme.onSurface,
+                                          ),
+                                          itemBuilder: (context) => newActions?.popupMenuItems(useIcons: true) ?? [],
+                                        );
+                                      } else {
+                                        return IconButton(
+                                          onPressed: () => showBottomSheetPill(
+                                            context: context,
+                                            content: (context, scrollController) => ListView(
+                                              controller: scrollController,
+                                              shrinkWrap: true,
+                                              children: newActions?.listTileItems(context, useIcons: true) ?? [],
+                                            ),
+                                          ),
+                                          icon: Icon(
+                                            item!.type.icon,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ],
+                                if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
+                                  Tooltip(
+                                    message: context.localized.refresh,
+                                    child: IconButton(
+                                      onPressed: () => context.refreshData(),
+                                      icon: const Icon(IconsaxPlusLinear.refresh),
+                                    ),
+                                  ),
+                                if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single ||
+                                    AdaptiveLayout.viewSizeOf(context) == ViewSize.phone)
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(horizontal: 6),
+                                    child: const SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: SettingsUserIcon(),
+                                    ),
+                                  ),
+                                if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single)
+                                  Tooltip(
+                                      message: context.localized.home,
+                                      child: IconButton(
+                                        onPressed: () => context.navigateTo(const DashboardRoute()),
+                                        icon: const Icon(IconsaxPlusLinear.home),
+                                      )),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 }

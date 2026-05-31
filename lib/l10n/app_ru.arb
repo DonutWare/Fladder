@@ -1078,8 +1078,8 @@
     "screensaverBlack": "Черный",
     "playerSettingsScreensaverTitle": "Заставка",
     "playerSettingsScreensaverDesc": "Выберите заставку, которая будет отображаться при отсутствии активности плеера",
-    "settingsLocalUrlTitle": "URL локального сервера",
-    "settingsLocalUrlSetTitle": "Настройки локального URL",
+    "settingsLocalUrlTitle": "URL локального сервера Jellyfin",
+    "settingsLocalUrlSetTitle": "Настройте URL локального сервера Jellyfin",
     "settingsLocalUrlSetDesc": "Укажите адрес локального сервера. Fladder будет автоматически использовать этот URL, когда ваше устройство находится в той же сети.",
     "takeScreenshot": "Сделать скриншот",
     "takeScreenshotClean": "Сделать скриншот (без субтитров)",
@@ -1928,5 +1928,9 @@
     },
     "seerrMovies": "Найти новые фильмы",
     "seerrSeries": "Найти новые сериалы",
-    "anyLanguage": "Любой язык"
+    "anyLanguage": "Любой язык",
+    "stepForward": "Кадр вперёд",
+    "stepBack": "Кадр назад",
+    "seekForwardInstant": "Премотка вперёд (Мгновенно)",
+    "seekBackInstant": "Премотка назад (Мгновенно)"
 }

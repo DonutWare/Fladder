@@ -1063,6 +1063,63 @@ class JellyService {
         enableTotalRecordCount: enableTotalRecordCount,
       );
 
+  Future<Response<ServerQueryResult>> albumInstantMixGet({
+    required String itemId,
+    int? limit,
+  }) async {
+    final response = await api.albumsItemIdInstantMixGet(
+      userId: account?.id,
+      itemId: itemId,
+      limit: limit,
+      fields: [ItemFields.primaryimageaspectratio, ItemFields.mediasources, ItemFields.mediastreams],
+      enableImages: true,
+      enableUserData: true,
+      imageTypeLimit: 1,
+      enableImageTypes: [ImageType.primary],
+    );
+    return response.copyWith(
+      body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow, ref),
+    );
+  }
+
+  Future<Response<ServerQueryResult>> artistInstantMixGet({
+    required String itemId,
+    int? limit,
+  }) async {
+    final response = await api.artistsItemIdInstantMixGet(
+      userId: account?.id,
+      itemId: itemId,
+      limit: limit,
+      fields: [ItemFields.primaryimageaspectratio, ItemFields.mediasources, ItemFields.mediastreams],
+      enableImages: true,
+      enableUserData: true,
+      imageTypeLimit: 1,
+      enableImageTypes: [ImageType.primary],
+    );
+    return response.copyWith(
+      body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow, ref),
+    );
+  }
+
+  Future<Response<ServerQueryResult>> audioInstantMixGet({
+    required String itemId,
+    int? limit,
+  }) async {
+    final response = await api.songsItemIdInstantMixGet(
+      userId: account?.id,
+      itemId: itemId,
+      limit: limit,
+      fields: [ItemFields.primaryimageaspectratio, ItemFields.mediasources, ItemFields.mediastreams],
+      enableImages: true,
+      enableUserData: true,
+      imageTypeLimit: 1,
+      enableImageTypes: [ImageType.primary],
+    );
+    return response.copyWith(
+      body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow, ref),
+    );
+  }
+
   Future<Response<ServerQueryResult>> playlistsPlaylistIdItemsGet({
     required String? playlistId,
     int? startIndex,

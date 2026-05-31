@@ -17,9 +17,15 @@ import 'package:path_provider/path_provider.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/api_result.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/album_model.dart';
+import 'package:fladder/models/items/artist_model.dart';
+import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/syncing/database_item.dart';
@@ -27,6 +33,7 @@ import 'package:fladder/models/syncing/download_stream.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/syncing/sync_settings_model.dart';
 import 'package:fladder/models/syncing/transcode_download_model.dart';
+import 'package:fladder/models/syncing/transcode_music_download_model.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
@@ -124,14 +131,18 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     if (userId == null) return;
 
-    final queryStream = _db.getParentItems.watch().distinct();
-    final initItems = await _db.getParentItems.get();
+    final queryStream = _db.getAllItems.watch().map(_rootSyncItems);
+    final initItems = _rootSyncItems(await _db.getAllItems.get());
 
     state = state.copyWith(items: initItems);
 
     _subscription = queryStream.listen((items) {
       state = state.copyWith(items: items);
     });
+  }
+
+  List<SyncedItem> _rootSyncItems(List<SyncedItem> items) {
+    return items.where((item) => item.parentId == null).toList();
   }
 
   Future<void> cleanupTemporaryFiles() async {
@@ -237,11 +248,31 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     super.dispose();
   }
 
-  Future<void> refresh() async => state = state.copyWith(items: (await _db.getParentItems.get()));
+  Future<void> refresh() async => state = state.copyWith(items: _rootSyncItems(await _db.getAllItems.get()));
 
-  Future<List<SyncedItem>> getNestedChildren(SyncedItem item) async => _db.getNestedChildren(item);
+  Future<List<SyncedItem>> getNestedChildren(SyncedItem item) async {
+    if (item.itemModel?.type == FladderItemType.playlist) {
+      return _getPlaylistChildrenFromOverlay(item);
+    }
+    return _db.getNestedChildren(item);
+  }
 
   Future<List<SyncedItem>> getChildren(String parentId) async => await _db.getChildren(parentId).get();
+
+  Future<List<SyncedItem>> getChildrenForItem(SyncedItem item) async {
+    if (item.itemModel?.type == FladderItemType.playlist) {
+      return _getPlaylistChildrenFromOverlay(item);
+    }
+    return getChildren(item.id);
+  }
+
+  Future<List<SyncedItem>> _getPlaylistChildrenFromOverlay(SyncedItem item) async {
+    final childIds = item.playlistChildIds;
+    if (childIds.isEmpty) return [];
+
+    final children = await Future.wait(childIds.map(getSyncedItem));
+    return children.whereType<SyncedItem>().where((child) => child.itemModel is AudioModel).toList();
+  }
 
   Future<List<SyncedItem>> getSiblings(SyncedItem syncedItem) async {
     if (syncedItem.parentId == null) return [];
@@ -323,6 +354,10 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         SeasonModel season => await syncSeries(item.parentBaseModel, season: season),
         SeriesModel series => await syncSeries(series),
         MovieModel movie => await syncMovie(movie),
+        AudioModel audio => await syncAudio(audio),
+        AlbumModel album => await syncAlbum(album),
+        ArtistModel artist => await syncArtist(artist),
+        PlaylistModel playlist => await syncPlaylist(playlist),
         _ => null
       };
       if (context.mounted) {
@@ -383,6 +418,114 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     }
   }
 
+  Future<bool> removePlaylistSync(
+    BuildContext context,
+    SyncedItem item, {
+    required bool removeLinkedItems,
+  }) async {
+    try {
+      state = state.copyWith(
+          items: state.items.map((e) => e.copyWith(markedForDelete: e.id == item.id ? true : false)).toList());
+
+      await ref.read(backgroundDownloaderProvider).cancelTaskWithId(item.id);
+
+      if (removeLinkedItems) {
+        final linkedIds = item.playlistChildIds;
+        final removedTracks = <SyncedItem>[];
+        for (final id in linkedIds) {
+          final linkedItem = await getSyncedItem(id);
+          if (linkedItem == null) continue;
+          if (linkedItem.itemModel is AudioModel) {
+            removedTracks.add(linkedItem);
+          }
+          await _deleteSyncedItemAndFiles(linkedItem);
+        }
+
+        await _cleanupOrphanedMusicParents(removedTracks);
+      }
+
+      await _deleteSyncedItemAndFiles(item);
+
+      return true;
+    } catch (e) {
+      log('Error deleting synced playlist ${e.toString()}');
+      state = state.copyWith(items: state.items.map((e) => e.copyWith(markedForDelete: false)).toList());
+      FladderSnack.show(context.localized.syncRemoveUnableToDeleteItem, context: context);
+      return false;
+    }
+  }
+
+  Future<void> _deleteSyncedItemAndFiles(SyncedItem item) async {
+    await ref.read(backgroundDownloaderProvider).cancelTaskWithId(item.id);
+    await _db.deleteAllItems([item]);
+    if (await item.directory.exists()) {
+      await item.directory.delete(recursive: true);
+    }
+  }
+
+  Future<bool> _hasSyncedAudioDescendants(String parentId) async {
+    final queue = <SyncedItem>[...await getChildren(parentId)];
+
+    while (queue.isNotEmpty) {
+      final current = queue.removeLast();
+      if (current.itemModel is AudioModel) return true;
+      queue.addAll(await getChildren(current.id));
+    }
+
+    return false;
+  }
+
+  Future<void> _cleanupOrphanedMusicParents(Iterable<SyncedItem> removedTracks) async {
+    final candidateAlbumIds = <String>{};
+    final candidateArtistIds = <String>{};
+
+    for (final removedTrack in removedTracks) {
+      final parentId = removedTrack.parentId;
+      if (parentId == null) continue;
+
+      final parent = await getSyncedItem(parentId);
+      if (parent == null) continue;
+
+      switch (parent.itemModel?.type) {
+        case FladderItemType.musicAlbum:
+          candidateAlbumIds.add(parent.id);
+          if (parent.parentId != null) {
+            candidateArtistIds.add(parent.parentId!);
+          }
+          break;
+        case FladderItemType.musicArtist:
+          candidateArtistIds.add(parent.id);
+          break;
+        default:
+          break;
+      }
+    }
+
+    for (final albumId in candidateAlbumIds) {
+      final album = await getSyncedItem(albumId);
+      if (album == null || album.itemModel?.type != FladderItemType.musicAlbum) continue;
+
+      final hasTracks = await _hasSyncedAudioDescendants(album.id);
+      if (hasTracks) continue;
+
+      if (album.parentId != null) {
+        candidateArtistIds.add(album.parentId!);
+      }
+
+      await _deleteSyncedItemAndFiles(album);
+    }
+
+    for (final artistId in candidateArtistIds) {
+      final artist = await getSyncedItem(artistId);
+      if (artist == null || artist.itemModel?.type != FladderItemType.musicArtist) continue;
+
+      final hasTracks = await _hasSyncedAudioDescendants(artist.id);
+      if (hasTracks) continue;
+
+      await _deleteSyncedItemAndFiles(artist);
+    }
+  }
+
   Future<int> updateItem(SyncedItem item) async {
     SyncedItem syncedItem = item;
     try {
@@ -411,16 +554,38 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return syncedItem;
   }
 
-  Future<bool?> syncFile(SyncedItem syncItem, bool skipDownload, {TranscodeDownloadModel? transcodeModel}) async {
+  Future<bool?> syncFile(
+    SyncedItem syncItem,
+    bool skipDownload, {
+    TranscodeDownloadModel? transcodeModel,
+    TranscodeMusicDownloadModel? musicTranscodeModel,
+  }) async {
     cleanupTemporaryFiles();
 
-    final globalTranscodeModel = ref.read(clientSettingsProvider.select((value) => value.transcodeDownloadModel));
+    if (!skipDownload && syncItem.videoFile.existsSync()) {
+      return true;
+    }
 
-    transcodeModel ??= globalTranscodeModel;
+    final globalTranscodeModel = ref.read(clientSettingsProvider.select((value) => value.transcodeDownloadModel));
+    final globalMusicTranscodeModel =
+        ref.read(clientSettingsProvider.select((value) => value.transcodeMusicDownloadModel));
+
+    final effectiveTranscodeModel = transcodeModel ?? globalTranscodeModel;
+    final effectiveMusicTranscodeModel = musicTranscodeModel ?? globalMusicTranscodeModel;
 
     final userId = ref.read(userProvider)?.id;
     final item = syncItem.createItemModel(ref);
-    final streamModel = item?.streamModel;
+    if (item == null) return null;
+    final isAudioItem = item is AudioModel;
+    final streamModel = item.streamModel;
+    final transcodeEnabled = isAudioItem ? effectiveMusicTranscodeModel.enabled : effectiveTranscodeModel.enabled;
+    final maxBitrate =
+        isAudioItem ? effectiveMusicTranscodeModel.maxBitrate.bitRate : effectiveTranscodeModel.maxBitrate.bitRate;
+    final deviceProfile = isAudioItem
+        ? (effectiveMusicTranscodeModel.enabled
+            ? effectiveMusicTranscodeModel.deviceProfile
+            : ref.read(videoProfileProvider))
+        : (effectiveTranscodeModel.enabled ? effectiveTranscodeModel.deviceProfile : ref.read(videoProfileProvider));
 
     final playbackResponse = await FladderSnack.showResponse(
       api
@@ -428,12 +593,12 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
             itemId: syncItem.id,
             body: PlaybackInfoDto(
               userId: userId,
-              enableDirectPlay: !transcodeModel.enabled,
-              enableDirectStream: !transcodeModel.enabled,
+              enableDirectPlay: !transcodeEnabled,
+              enableDirectStream: !transcodeEnabled,
               enableTranscoding: true,
               autoOpenLiveStream: true,
-              maxStreamingBitrate: transcodeModel.enabled ? transcodeModel.maxBitrate.bitRate : null,
-              deviceProfile: transcodeModel.enabled ? transcodeModel.deviceProfile : ref.read(videoProfileProvider),
+              maxStreamingBitrate: transcodeEnabled ? maxBitrate : null,
+              deviceProfile: deviceProfile,
               mediaSourceId: streamModel?.currentVersionStream?.id,
               audioStreamIndex: streamModel?.defaultAudioStreamIndex,
               subtitleStreamIndex: streamModel?.defaultSubStreamIndex,
@@ -451,26 +616,34 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     final directory = await Directory(syncItem.directory.path).create(recursive: true);
 
     final newState = VideoStream.fromPlayBackInfo(playbackData, ref)?.copyWith();
-    final subtitles = await saveExternalSubtitles(newState?.mediaStreamsModel?.subStreams, syncItem);
+    final subtitles = isAudioItem
+        ? <SubStreamModel>[]
+        : await saveExternalSubtitles(newState?.mediaStreamsModel?.subStreams, syncItem);
 
-    final trickPlayFile = await saveTrickPlayData(item, directory);
-    final mediaSegments = (await api.mediaSegmentsGet(id: syncItem.id))?.body;
+    final trickPlayFile = isAudioItem ? null : await saveTrickPlayData(item, directory);
+    final mediaSegments = isAudioItem ? null : (await api.mediaSegmentsGet(id: syncItem.id))?.body;
 
     syncItem = syncItem.copyWith(
-      fChapters: await saveChapterImages(item?.overview.chapters, directory) ?? [],
+      fChapters: await saveChapterImages(item.overview.chapters, directory) ?? [],
       subtitles: subtitles,
-      videoFileName: transcodeModel.enabled
+      videoFileName: transcodeEnabled
           ? syncItem.videoFileName?.replaceAll(
               path.extension(syncItem.videoFileName ?? ""),
-              transcodeModel.container.extension,
+              isAudioItem
+                  ? effectiveMusicTranscodeModel.container.extension
+                  : effectiveTranscodeModel.container.extension,
             )
           : syncItem.videoFileName,
       fTrickPlayModel: trickPlayFile,
       mediaSegments: mediaSegments,
-      transcodeDownloadModel: transcodeModel,
+      transcodeDownloadModel: isAudioItem ? null : effectiveTranscodeModel,
     );
 
-    await writeOverlayFile(syncItem, transcodeModel, subtitles);
+    if (isAudioItem) {
+      await writeMusicOverlayFile(syncItem, effectiveMusicTranscodeModel);
+    } else {
+      await writeOverlayFile(syncItem, effectiveTranscodeModel, subtitles);
+    }
 
     await updateItem(syncItem);
 
@@ -490,12 +663,14 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       };
       downloadUrl = buildServerUrl(
         ref,
-        pathSegments: ['Videos', mediaSource.id!, 'stream'],
+        pathSegments: [isAudioItem ? 'Audio' : 'Videos', mediaSource.id!, 'stream'],
         queryParameters: directOptions,
       );
       log('Using direct stream URL: $downloadUrl');
-    } else if ((mediaSource?.supportsTranscoding ?? false) && mediaSource?.transcodingUrl != null) {
-      downloadUrl = buildServerUrl(ref, relativeUrl: mediaSource!.transcodingUrl);
+    } else if (mediaSource != null &&
+        (mediaSource.supportsTranscoding ?? false) &&
+        mediaSource.transcodingUrl != null) {
+      downloadUrl = buildServerUrl(ref, relativeUrl: mediaSource.transcodingUrl);
       log('Using transcode URL: $downloadUrl');
     } else {
       log('No supported playback method found');
@@ -509,8 +684,10 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       if (!skipDownload) {
         final curlHeaders = {
           ...user.credentials.header(ref),
-          if (transcodeModel.enabled)
-            ...transcodeModel.curlHeaders(item?.overview.runTime ?? Duration.zero, item: item),
+          if (transcodeEnabled)
+            ...(isAudioItem
+                ? effectiveMusicTranscodeModel.curlHeaders(item.overview.runTime ?? Duration.zero, item: item)
+                : effectiveTranscodeModel.curlHeaders(item.overview.runTime ?? Duration.zero, item: item)),
         };
 
         final downloadTask = DownloadTask(
@@ -651,7 +828,9 @@ extension SyncNotifierHelpers on SyncNotifier {
 
     File dataFile = File(path.joinAll([directory.path, 'data.json']));
     await dataFile.writeAsString(jsonEncode(response.toJson()));
-    final imageData = await saveImageData(item.images, directory);
+    final imageData = item is AudioModel
+        ? _audioImageDataFromParent(parent: parent, directory: directory)
+        : await saveImageData(item.images, directory);
 
     SyncedItem syncItem = SyncedItem(
       syncing: true,
@@ -664,6 +843,29 @@ extension SyncNotifierHelpers on SyncNotifier {
       userData: item.userData,
     );
     return syncItem;
+  }
+
+  ImagesData? _audioImageDataFromParent({required SyncedItem? parent, required Directory directory}) {
+    final parentImages = parent?.fImages;
+    final parentDirectory = parent?.directory;
+
+    if (parentImages == null || parentDirectory == null) return null;
+
+    ImageData? rebasePath(ImageData? image) {
+      final imagePath = image?.path;
+      if (imagePath == null || imagePath.isEmpty) return null;
+
+      final absoluteParentPath = path.join(parentDirectory.path, imagePath);
+      final relativePath = path.relative(absoluteParentPath, from: directory.path);
+
+      return image?.copyWith(path: relativePath);
+    }
+
+    return parentImages.copyWith(
+      primary: () => rebasePath(parentImages.primary),
+      logo: () => rebasePath(parentImages.logo),
+      backDrop: () => (parentImages.backDrop ?? []).map((image) => rebasePath(image)).whereType<ImageData>().toList(),
+    );
   }
 
   Future<SyncedItem?> syncMovie(
@@ -687,6 +889,253 @@ extension SyncNotifierHelpers on SyncNotifier {
     await syncFile(syncItem, skipDownload, transcodeModel: transcodeModel);
 
     return syncItem;
+  }
+
+  Future<SyncedItem?> syncAudio(
+    AudioModel item, {
+    bool skipDownload = false,
+    SyncedItem? parent,
+    TranscodeMusicDownloadModel? musicTranscodeModel,
+  }) async {
+    final existingSyncedItem = await getSyncedItem(item.id);
+    if (existingSyncedItem != null && existingSyncedItem.videoFile.existsSync()) {
+      return existingSyncedItem;
+    }
+
+    final response = await api.usersUserIdItemsItemIdGetBaseItem(
+      itemId: item.id,
+    );
+
+    final itemBaseModel = response.body;
+    if (itemBaseModel == null) return null;
+
+    SyncedItem? albumParent = parent;
+    if (albumParent == null && itemBaseModel.albumId != null) {
+      final albumResponse = await api.usersUserIdItemsItemIdGetBaseItem(
+        itemId: itemBaseModel.albumId!,
+      );
+      if (albumResponse.body != null) {
+        SyncedItem? artistItem;
+        if (albumResponse.body!.parentId != null) {
+          final artistResponse = await api.usersUserIdItemsItemIdGetBaseItem(
+            itemId: albumResponse.body!.parentId!,
+          );
+          if (artistResponse.body != null) {
+            artistItem = await createSyncItem(artistResponse.bodyOrThrow);
+            await _db.insertItem(artistItem);
+          }
+        }
+        final albumItem = await createSyncItem(albumResponse.bodyOrThrow, parent: artistItem);
+        await _db.insertItem(albumItem);
+        albumParent = albumItem;
+      }
+    }
+
+    SyncedItem syncItem = await createSyncItem(itemBaseModel, parent: albumParent);
+
+    if (!syncItem.directory.existsSync()) return null;
+
+    await _db.insertItem(syncItem);
+
+    await syncFile(syncItem, skipDownload, musicTranscodeModel: musicTranscodeModel);
+
+    return syncItem;
+  }
+
+  Future<SyncedItem?> syncAlbum(
+    AlbumModel item, {
+    bool skipDownload = false,
+    SyncedItem? parent,
+    TranscodeMusicDownloadModel? musicTranscodeModel,
+  }) async {
+    final response = await api.usersUserIdItemsItemIdGetBaseItem(
+      itemId: item.id,
+    );
+
+    final itemBaseModel = response.body;
+    if (itemBaseModel == null) return null;
+
+    SyncedItem? artistItem = parent;
+    if (artistItem == null && itemBaseModel.parentId != null) {
+      final artistResponse = await api.usersUserIdItemsItemIdGetBaseItem(
+        itemId: itemBaseModel.parentId!,
+      );
+      if (artistResponse.body != null) {
+        artistItem = await createSyncItem(artistResponse.bodyOrThrow);
+        await _db.insertItem(artistItem);
+      }
+    }
+
+    final albumItem = await createSyncItem(itemBaseModel, parent: artistItem);
+    if (!albumItem.directory.existsSync()) return null;
+
+    final tracksResponse = await api.itemsGet(
+      parentId: item.id,
+      includeItemTypes: [BaseItemKind.audio],
+      recursive: false,
+      enableUserData: true,
+      fields: [
+        ItemFields.mediastreams,
+        ItemFields.mediasources,
+        ItemFields.overview,
+        ItemFields.path,
+        ItemFields.parentid,
+        ItemFields.sortname,
+      ],
+    );
+
+    final tracks = tracksResponse.body?.items ?? [];
+
+    final Map<String, SyncedItem> newItems = {albumItem.id: albumItem};
+    final Map<String, SyncedItem> itemsToDownload = {};
+
+    for (var i = 0; i < tracks.length; i++) {
+      final track = tracks[i];
+      final trackDto = await api.usersUserIdItemsItemIdGetBaseItem(itemId: track.id);
+      if (trackDto.body == null) continue;
+      final syncedTrack = await createSyncItem(trackDto.bodyOrThrow, parent: albumItem);
+      newItems[syncedTrack.id] = syncedTrack;
+      if (!await syncedTrack.videoFile.exists()) {
+        itemsToDownload[syncedTrack.id] = syncedTrack;
+      }
+    }
+
+    await _db.insertMultipleEntries(newItems.values.toList());
+
+    if (!skipDownload) {
+      for (var i = 0; i < itemsToDownload.length; i++) {
+        final track = itemsToDownload.values.elementAt(i);
+        syncFile(track, false, musicTranscodeModel: musicTranscodeModel);
+      }
+    }
+
+    return albumItem;
+  }
+
+  Future<SyncedItem?> syncArtist(
+    ArtistModel item, {
+    bool skipDownload = false,
+    TranscodeMusicDownloadModel? musicTranscodeModel,
+  }) async {
+    final response = await api.usersUserIdItemsItemIdGetBaseItem(
+      itemId: item.id,
+    );
+
+    final itemBaseModel = response.body;
+    if (itemBaseModel == null) return null;
+
+    final artistItem = await createSyncItem(itemBaseModel);
+    if (!artistItem.directory.existsSync()) return null;
+
+    final albumsResponse = await api.itemsGet(
+      parentId: item.id,
+      includeItemTypes: [BaseItemKind.musicalbum],
+      recursive: false,
+      enableUserData: true,
+      fields: [
+        ItemFields.mediastreams,
+        ItemFields.mediasources,
+        ItemFields.overview,
+        ItemFields.path,
+        ItemFields.parentid,
+        ItemFields.sortname,
+      ],
+    );
+
+    final albums = albumsResponse.body?.items ?? [];
+
+    final Map<String, SyncedItem> newItems = {artistItem.id: artistItem};
+    final Map<String, SyncedItem> itemsToDownload = {};
+
+    for (var i = 0; i < albums.length; i++) {
+      final album = albums[i];
+      final albumDto = await api.usersUserIdItemsItemIdGetBaseItem(itemId: album.id);
+      if (albumDto.body == null) continue;
+      final syncedAlbum = await createSyncItem(albumDto.bodyOrThrow, parent: artistItem);
+      newItems[syncedAlbum.id] = syncedAlbum;
+
+      final tracksResponse = await api.itemsGet(
+        parentId: album.id,
+        includeItemTypes: [BaseItemKind.audio],
+        recursive: false,
+        enableUserData: true,
+        fields: [
+          ItemFields.mediastreams,
+          ItemFields.mediasources,
+          ItemFields.overview,
+          ItemFields.path,
+          ItemFields.parentid,
+          ItemFields.sortname,
+        ],
+      );
+
+      final tracks = tracksResponse.body?.items ?? [];
+
+      for (var j = 0; j < tracks.length; j++) {
+        final track = tracks[j];
+        final trackDto = await api.usersUserIdItemsItemIdGetBaseItem(itemId: track.id);
+        if (trackDto.body == null) continue;
+        final syncedTrack = await createSyncItem(trackDto.bodyOrThrow, parent: syncedAlbum);
+        newItems[syncedTrack.id] = syncedTrack;
+        if (!await syncedTrack.videoFile.exists()) {
+          itemsToDownload[syncedTrack.id] = syncedTrack;
+        }
+      }
+    }
+
+    await _db.insertMultipleEntries(newItems.values.toList());
+
+    if (!skipDownload) {
+      for (var i = 0; i < itemsToDownload.length; i++) {
+        final track = itemsToDownload.values.elementAt(i);
+        syncFile(track, false, musicTranscodeModel: musicTranscodeModel);
+      }
+    }
+
+    return artistItem;
+  }
+
+  Future<SyncedItem?> syncPlaylist(
+    PlaylistModel item, {
+    bool skipDownload = false,
+    TranscodeMusicDownloadModel? musicTranscodeModel,
+  }) async {
+    final response = await api.usersUserIdItemsItemIdGetBaseItem(
+      itemId: item.id,
+    );
+
+    final itemBaseModel = response.body;
+    if (itemBaseModel == null) return null;
+
+    final playlistItem = await createSyncItem(itemBaseModel);
+    if (!playlistItem.directory.existsSync()) return null;
+
+    await _db.insertItem(playlistItem);
+
+    final tracksResponse = await api.playlistsPlaylistIdItemsGet(
+      playlistId: item.id,
+      enableUserData: true,
+      fields: [
+        ItemFields.mediastreams,
+        ItemFields.mediasources,
+        ItemFields.overview,
+        ItemFields.path,
+        ItemFields.parentid,
+        ItemFields.sortname,
+      ],
+    );
+
+    final playlistTracks = tracksResponse.body?.items.whereType<AudioModel>().toList() ?? [];
+
+    final childIds = playlistTracks.map((e) => e.id).whereType<String>().toList();
+
+    for (final track in playlistTracks) {
+      await syncAudio(track, skipDownload: skipDownload, musicTranscodeModel: musicTranscodeModel);
+    }
+
+    await writePlaylistChildrenOverlay(playlistItem, childIds);
+
+    return playlistItem;
   }
 
   Future<SyncedItem?> syncSeries(
