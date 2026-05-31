@@ -48,6 +48,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
     final userSettings = ref.watch(userProvider.select((value) => value?.userSettings));
 
     final currentPlayer = videoSettings.wantedPlayer;
+    final crossfadeSupported = videoSettings.canUseCrossfade;
 
     return SettingsScaffold(
       label: context.localized.settingsPlayerTitle,
@@ -492,7 +493,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                       )
                       .toList(),
                 ),
-              if (currentPlayer == PlayerOptions.libMPV)
+              if (currentPlayer == PlayerOptions.libMPV && crossfadeSupported)
                 SettingsListTile(
                   label: Text(context.localized.settingsPlayerCrossfadeTitle),
                   subLabel: Text(context.localized.settingsPlayerCrossfadeDesc),
@@ -502,7 +503,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     onChanged: (value) => provider.setEnableCrossfade(value),
                   ),
                 ),
-              if (currentPlayer == PlayerOptions.libMPV && videoSettings.enableCrossfade)
+              if (currentPlayer == PlayerOptions.libMPV && crossfadeSupported && videoSettings.enableCrossfade)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Column(

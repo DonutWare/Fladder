@@ -15,6 +15,7 @@ import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/details_screens/empty_item.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 part 'audio_model.mapper.dart';
 
@@ -105,6 +106,24 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
 
   @override
   bool get syncAble => true;
+
+  String get artistsLabel => artists.isNotEmpty ? artists.map((e) => e.name).join(', ') : '';
+
+  String trackLabel(BuildContext context, int? trackNumber) {
+    if (trackNumber == null || trackNumber <= 0) {
+      return '';
+    }
+    return '${context.localized.track(1)}: $trackNumber';
+  }
+
+  String albumLabel() {
+    final directAlbum = album ?? '';
+    if (directAlbum.isNotEmpty) {
+      return directAlbum;
+    }
+    final parentAlbumName = parentBaseModel.name;
+    return parentAlbumName;
+  }
 
   @override
   String? get subText {

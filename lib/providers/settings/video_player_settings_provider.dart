@@ -22,7 +22,7 @@ final videoPlayerSettingsProvider =
 final playbackRateProvider = StateProvider<double>((ref) => 1.0);
 
 class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {
-  VideoPlayerSettingsProviderNotifier(this.ref) : super(VideoPlayerSettingsModel()) {
+  VideoPlayerSettingsProviderNotifier(this.ref) : super(_sanitizeCrossfade(VideoPlayerSettingsModel())) {
     _initVolumeSync();
   }
 
@@ -56,6 +56,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   @override
   set state(VideoPlayerSettingsModel value) {
+    value = _sanitizeCrossfade(value);
     final oldState = super.state;
     super.state = value;
     ref.read(sharedUtilityProvider).videoPlayerSettings = value;
@@ -186,7 +187,16 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   void setReplayGainVolumeLevel(ReplayGainVolumeLevel value) => state = state.copyWith(replayGainVolumeLevel: value);
 
-  void setEnableCrossfade(bool value) => state = state.copyWith(enableCrossfade: value);
+  void setEnableCrossfade(bool value) {
+    state = state.copyWith(enableCrossfade: value && state.canUseCrossfade);
+  }
 
   void setCrossfadeDurationMs(int value) => state = state.copyWith(crossfadeDurationMs: value);
+
+  static VideoPlayerSettingsModel _sanitizeCrossfade(VideoPlayerSettingsModel value) {
+    if (!value.canUseCrossfade && value.enableCrossfade) {
+      return value.copyWith(enableCrossfade: false);
+    }
+    return value;
+  }
 }

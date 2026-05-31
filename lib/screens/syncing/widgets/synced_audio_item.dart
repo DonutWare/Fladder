@@ -76,9 +76,9 @@ class _SyncedAudioItemState extends ConsumerState<SyncedAudioItem> {
   Widget build(BuildContext context) {
     final downloadTask = ref.watch(downloadTasksProvider(syncedItem.id));
     final hasFile = syncedItem.videoFile.existsSync();
-    final artistLabel = widget.audio.artists.join(', ');
-    final trackLabel = _trackLabel(context, widget.audio.trackNumber);
-    final albumLabel = _albumLabel();
+    final artistLabel = widget.audio.artistsLabel;
+    final trackLabel = widget.audio.trackLabel(context, widget.audio.trackNumber);
+    final albumLabel = widget.audio.albumLabel();
     final coverImage = widget.audio.getPosters?.primary ??
         widget.audio.getPosters?.backDrop?.firstOrNull ??
         parentAlbumItem?.itemModel?.getPosters?.primary ??
@@ -185,24 +185,5 @@ class _SyncedAudioItemState extends ConsumerState<SyncedAudioItem> {
         ].addInBetween(const SizedBox(width: 16)),
       ),
     );
-  }
-
-  String _trackLabel(BuildContext context, int? trackNumber) {
-    if (trackNumber == null || trackNumber <= 0) {
-      return '';
-    }
-    return '${context.localized.track(1)}: $trackNumber';
-  }
-
-  String _albumLabel() {
-    final directAlbum = widget.audio.album ?? '';
-    if (directAlbum.isNotEmpty) {
-      return directAlbum;
-    }
-    if (!widget.playlistMode) {
-      return '';
-    }
-    final parentAlbumName = parentAlbumItem?.itemModel?.name ?? '';
-    return parentAlbumName;
   }
 }

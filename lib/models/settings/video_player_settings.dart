@@ -70,6 +70,14 @@ enum VideoHotKeys {
 abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   const VideoPlayerSettingsModel._();
 
+  static bool get crossfadeSupportedOnCurrentPlatform {
+    if (kIsWeb) return true;
+    return switch (defaultTargetPlatform) {
+      TargetPlatform.android || TargetPlatform.iOS => false,
+      _ => true,
+    };
+  }
+
   factory VideoPlayerSettingsModel({
     double? screenBrightness,
     @Default(BoxFit.contain) BoxFit videoFit,
@@ -112,6 +120,8 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
       _defaultVideoHotKeys.map((key, value) => MapEntry(key, hotKeys[key] ?? value));
 
   Map<VideoHotKeys, KeyCombination> get defaultShortCuts => _defaultVideoHotKeys;
+
+  bool get canUseCrossfade => crossfadeSupportedOnCurrentPlatform;
 
   bool playerSame(VideoPlayerSettingsModel other) {
     return other.hardwareAccel == hardwareAccel &&

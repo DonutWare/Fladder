@@ -137,6 +137,12 @@ class LibMPV extends BasePlayer {
   }
 
   Future<void> crossfadeToUrl(String url, Duration startPosition, {double? replayGainDb}) async {
+    if (!_settings.enableCrossfade || !VideoPlayerSettingsModel.crossfadeSupportedOnCurrentPlatform) {
+      await _applyReplayGainSettings(trackGainDb: replayGainDb);
+      await loadVideo(url, true, startPosition: startPosition);
+      return;
+    }
+
     final oldPlayer = _player;
     if (oldPlayer == null) {
       await loadVideo(url, true, startPosition: startPosition);
