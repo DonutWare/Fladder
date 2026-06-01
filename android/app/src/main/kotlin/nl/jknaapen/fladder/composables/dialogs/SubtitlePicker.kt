@@ -22,7 +22,6 @@ import nl.jknaapen.fladder.objects.Localized
 import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearSubtitleTrack
-import nl.jknaapen.fladder.utility.setInternalSubtitleTrack
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -32,7 +31,6 @@ fun SubtitlePicker(
 ) {
     val selectedIndex by VideoPlayerObject.currentSubtitleTrackIndex.collectAsState()
     val subTitles by VideoPlayerObject.subtitleTracks.collectAsState(emptyList())
-    val internalSubTracks by VideoPlayerObject.exoSubTracks.collectAsState(emptyList())
 
     if (subTitles.isEmpty()) return
 
@@ -75,15 +73,7 @@ fun SubtitlePicker(
                                 VideoPlayerObject.setSubtitleTrackIndex(-1)
                                 player.clearSubtitleTrack()
                             } else {
-                                val internalTrackIndex = index - 1
-
-                                val internalSubTrack =
-                                    internalSubTracks.elementAtOrNull(internalTrackIndex)
-
-                                if (internalSubTrack != null) {
-                                    VideoPlayerObject.setSubtitleTrackIndex(serverSub.index.toInt())
-                                    player.setInternalSubtitleTrack(internalSubTrack)
-                                }
+                                VideoPlayerObject.setSubtitleTrackIndex(serverSub.index.toInt())
                             }
                         },
                         selected = selected,

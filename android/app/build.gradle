@@ -71,6 +71,19 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.22.1"
+        }
     }
 
     composeOptions {
@@ -139,6 +152,7 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer-hls:$media3_version")
     implementation("org.jellyfin.media3:media3-ffmpeg-decoder:$media3_version")
     implementation("io.github.peerless2012:ass-media:0.3.0")
+    implementation("io.github.peerless2012:ass-kt:0.3.0")
 
     //UI
     implementation("io.github.rabehx:iconsax-compose:0.0.5")

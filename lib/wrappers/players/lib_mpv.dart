@@ -67,9 +67,7 @@ class LibMPV extends BasePlayer {
     if (_player != null) {
       _controller = VideoController(
         _player!,
-        configuration: VideoControllerConfiguration(
-          enableHardwareAcceleration: settings.hardwareAccel,
-        ),
+        configuration: VideoControllerConfiguration(enableHardwareAcceleration: settings.hardwareAccel),
       );
       _setupPlayerStreams(_player!);
     }
@@ -211,15 +209,17 @@ class LibMPV extends BasePlayer {
     oldPlayer.dispose();
 
     _isFading = false;
-    setState(lastState.update(
-      playing: incomingPlayer.state.playing,
-      buffering: incomingPlayer.state.buffering,
-      position: incomingPlayer.state.position,
-      duration: incomingPlayer.state.duration,
-      volume: _preferredVolume,
-      buffer: incomingPlayer.state.buffer,
-      completed: false,
-    ));
+    setState(
+      lastState.update(
+        playing: incomingPlayer.state.playing,
+        buffering: incomingPlayer.state.buffering,
+        position: incomingPlayer.state.position,
+        duration: incomingPlayer.state.duration,
+        volume: _preferredVolume,
+        buffer: incomingPlayer.state.buffer,
+        completed: false,
+      ),
+    );
   }
 
   @override
@@ -234,22 +234,19 @@ class LibMPV extends BasePlayer {
     _retryTimer?.cancel();
     _retryTimer = null;
 
-    _retryTimer = RestartableTimer(
-      _currentRetryDuration,
-      () async {
-        await Future.delayed(const Duration(milliseconds: 150));
-        if (DateTime.now().isAfter(_firstLoadAttempt.add(_maxRetryDuration))) {
-          log("Max retry duration reached, stopping retries.");
-          _retryTimer?.cancel();
-          _retryTimer = null;
-        } else {
-          log("Retrying to load video $url");
-          await setStartPosition(startPosition);
-          await _player?.open(mpv.Media(url), play: play);
-          _retryTimer?.reset();
-        }
-      },
-    );
+    _retryTimer = RestartableTimer(_currentRetryDuration, () async {
+      await Future.delayed(const Duration(milliseconds: 150));
+      if (DateTime.now().isAfter(_firstLoadAttempt.add(_maxRetryDuration))) {
+        log("Max retry duration reached, stopping retries.");
+        _retryTimer?.cancel();
+        _retryTimer = null;
+      } else {
+        log("Retrying to load video $url");
+        await setStartPosition(startPosition);
+        await _player?.open(mpv.Media(url), play: play);
+        _retryTimer?.reset();
+      }
+    });
 
     // Wait for the player to be ready
     if (_loadCompleter?.isCompleted == false) {
@@ -273,14 +270,12 @@ class LibMPV extends BasePlayer {
       });
     }
 
-    _loadCompleter?.future.then(
-      (value) async {
-        // Backup seek in case property didn't work
-        if (startPosition != Duration.zero && (_player?.state.position.inSeconds ?? 0) < startPosition.inSeconds - 5) {
-          await _player?.seek(startPosition);
-        }
-      },
-    );
+    _loadCompleter?.future.then((value) async {
+      // Backup seek in case property didn't work
+      if (startPosition != Duration.zero && (_player?.state.position.inSeconds ?? 0) < startPosition.inSeconds - 5) {
+        await _player?.seek(startPosition);
+      }
+    });
     return setState(lastState.update(buffering: true));
   }
 
@@ -345,10 +340,7 @@ class LibMPV extends BasePlayer {
 
   Future<void> setStartPosition(Duration position) async {
     if (_player?.platform is mpv.NativePlayer) {
-      await (_player?.platform as dynamic).setProperty(
-        'start',
-        '${position.inMilliseconds / 1000}',
-      );
+      await (_player?.platform as dynamic).setProperty('start', '${position.inMilliseconds / 1000}');
     }
   }
 
@@ -359,11 +351,10 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> open(BuildContext context) async => Navigator.of(context, rootNavigator: true).push(
-        MaterialPageRoute(
-          builder: (context) => const video_screen.VideoPlayer(),
-        ),
-      );
+  Future<void> open(BuildContext context) async => Navigator.of(
+        context,
+        rootNavigator: true,
+      ).push(MaterialPageRoute(builder: (context) => const video_screen.VideoPlayer()));
 
   List<mpv.SubtitleTrack> get subTracks => _player?.state.tracks.subtitle ?? [];
   mpv.SubtitleTrack get subtitleTrack => _player?.state.track.subtitle ?? mpv.SubtitleTrack.no();
@@ -438,9 +429,10 @@ class LibMPV extends BasePlayer {
     if (wantedAudioStream.index == AudioStreamModel.no().index) {
       await _player?.setAudioTrack(mpv.AudioTrack.no());
     } else {
-      final internalTracks = audioTracks.getRange(2, audioTracks.length).toList();
-      final audioTrack =
-          internalTracks.elementAtOrNull((playbackModel.audioStreams?.indexOf(wantedAudioStream) ?? -1) - 1);
+      final internalTracks = audioTracks.length > 2 ? audioTracks.sublist(2) : <mpv.AudioTrack>[];
+      final audioTrack = internalTracks.elementAtOrNull(
+        (playbackModel.audioStreams?.indexOf(wantedAudioStream) ?? -1) - 1,
+      );
       if (audioTrack != null) {
         await _player?.setAudioTrack(audioTrack);
       }
@@ -460,9 +452,11 @@ class LibMPV extends BasePlayer {
       return -1;
     }
     _currentSubtitleCodec = wantedSubtitle.codec;
-    final internalTrack = subTracks.getRange(2, subTracks.length).toList();
-    final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id);
-    final subTrack = internalTrack.elementAtOrNull(index ?? -1);
+    final internalTrack = subTracks.length > 2 ? subTracks.sublist(2) : <mpv.SubtitleTrack>[];
+    final subStreams = playbackModel.subStreams ?? [];
+    final index =
+        subStreams.length > 1 ? subStreams.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id) : -1;
+    final subTrack = internalTrack.elementAtOrNull(index);
     if (wantedSubtitle.isExternal && wantedSubtitle.url != null && subTrack == null) {
       await _player?.setSubtitleTrack(mpv.SubtitleTrack.uri(wantedSubtitle.url!));
     } else if (subTrack != null) {
@@ -495,35 +489,27 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Widget? videoWidget(
-    Key key,
-    BoxFit fit,
-  ) =>
-      _controller == null
-          ? null
-          : Video(
-              key: key,
-              controller: _controller!,
-              wakelock: false,
-              fill: Colors.transparent,
-              fit: fit,
-              subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
-              controls: NoVideoControls,
-            );
+  Widget? videoWidget(Key key, BoxFit fit) => _controller == null
+      ? null
+      : Video(
+          key: key,
+          controller: _controller!,
+          wakelock: false,
+          fill: Colors.transparent,
+          fit: fit,
+          subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
+          controls: NoVideoControls,
+        );
 
   @override
-  Widget? subtitles(
-    bool showOverlay, {
-    GlobalKey? controlsKey,
-  }) =>
-      _controller != null
-          ? _VideoSubtitles(
-              controller: _controller!,
-              showOverlay: showOverlay,
-              controlsKey: controlsKey,
-              currentSubtitleCodec: _currentSubtitleCodec,
-            )
-          : null;
+  Widget? subtitles(bool showOverlay, {GlobalKey? controlsKey}) => _controller != null
+      ? _VideoSubtitles(
+          controller: _controller!,
+          showOverlay: showOverlay,
+          controlsKey: controlsKey,
+          currentSubtitleCodec: _currentSubtitleCodec,
+        )
+      : null;
 
   @override
   Future<void> setVolume(double volume) async {
@@ -633,12 +619,7 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
       menuHeight: _cachedMenuHeight,
     );
 
-    return SubtitleText(
-      subModel: settings,
-      padding: padding,
-      offset: offset,
-      text: text,
-    );
+    return SubtitleText(subModel: settings, padding: padding, offset: offset, text: text);
   }
 
   void _measureMenuHeight() {
