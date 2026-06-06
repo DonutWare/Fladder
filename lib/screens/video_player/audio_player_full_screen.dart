@@ -595,6 +595,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
               ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                 children: [
+                  const SizedBox(height: 16),
                   Row(
                     children: [
                       IconButton(
