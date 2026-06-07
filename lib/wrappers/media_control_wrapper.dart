@@ -380,9 +380,15 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
     final isMusic = playBackItem is AudioModel;
 
+    final album = playBackItem is AudioModel ? playBackItem.album : null;
+    final artist = playBackItem is AudioModel ? playBackItem.artistModel?.name : null;
+
     mediaItem.add(MediaItem(
       id: playBackItem.id,
+      album: album,
+      artist: artist,
       title: playBackItem.title,
+      genre: playBackItem.overview.genres.join(', '),
       rating: Rating.newHeartRating(playBackItem.userData.isFavourite),
       duration: playBackItem.overview.runTime ?? const Duration(seconds: 0),
       artUri: poster != null ? _imageDataToUri(poster.path) : null,
