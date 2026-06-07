@@ -10,6 +10,7 @@ import 'package:fladder/providers/seerr_search_provider.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/theme.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
@@ -524,6 +525,7 @@ class _StudioSearchDialogState extends State<_StudioSearchDialog> {
                                 ),
                                 child: CachedNetworkImage(
                                   imageUrl: studio.logoUrl!,
+                                  cacheManager: CustomCacheManager.instance,
                                   fit: BoxFit.contain,
                                   errorWidget: (context, url, error) {
                                     return const Icon(IconsaxPlusBold.building);

@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:square_progress_indicator/square_progress_indicator.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:window_manager/window_manager.dart';
@@ -373,15 +371,5 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
 
     widget.onPhotoChanged(widget.photo
         .copyWith(userData: widget.photo.userData.copyWith(isFavourite: !widget.photo.userData.isFavourite)));
-  }
-
-  Future<void> sharePhoto() async {
-    final file = await DefaultCacheManager().getSingleFile(widget.photo.downloadPath(ref));
-    await SharePlus.instance.share(ShareParams(files: [
-      XFile(
-        file.path,
-      ),
-    ]));
-    await file.delete();
   }
 }

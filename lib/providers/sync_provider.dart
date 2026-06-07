@@ -60,12 +60,14 @@ final activeDownloadTasksProvider = StateProvider<List<DownloadTask>>((ref) {
 const syncPathKey = "syncPathKey";
 
 class SyncNotifier extends StateNotifier<SyncSettingsModel> {
-  SyncNotifier(this.ref, this.mobileDirectory) : super(SyncSettingsModel()) {
+  SyncNotifier(this.ref, this.mobileDirectory)
+      : _db = AppDatabase(ref),
+        super(SyncSettingsModel()) {
     _init();
   }
 
   final Ref ref;
-  late AppDatabase _db = AppDatabase(ref);
+  final AppDatabase _db;
   final Directory mobileDirectory;
   final String subPath = "Synced";
 
@@ -267,7 +269,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   }
 
   Future<List<SyncedItem>> _getPlaylistChildrenFromOverlay(SyncedItem item) async {
-    final childIds = item.playlistChildIds;
+    final childIds = await item.getPlaylistChildIdsAsync();
     if (childIds.isEmpty) return [];
 
     final children = await Future.wait(childIds.map(getSyncedItem));
@@ -430,7 +432,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       await ref.read(backgroundDownloaderProvider).cancelTaskWithId(item.id);
 
       if (removeLinkedItems) {
-        final linkedIds = item.playlistChildIds;
+        final linkedIds = await item.getPlaylistChildIdsAsync();
         final removedTracks = <SyncedItem>[];
         for (final id in linkedIds) {
           final linkedItem = await getSyncedItem(id);
@@ -724,9 +726,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     if (await mainDirectory.exists()) {
       await mainDirectory.delete(recursive: true);
     }
-    await _db.close();
     await _db.clearDatabase();
-    _db = AppDatabase(ref);
     state = state.copyWith(items: []);
   }
 

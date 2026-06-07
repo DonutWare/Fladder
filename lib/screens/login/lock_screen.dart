@@ -11,6 +11,7 @@ import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/widgets/login_icon.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
+import 'package:fladder/screens/shared/route_wrapper.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/auth_service.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -98,7 +99,7 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
-    return NotificationManagerInitializer(
+    return RouteWrapper(
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: (didPop, result) {

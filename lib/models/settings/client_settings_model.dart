@@ -22,6 +22,7 @@ part 'client_settings_model.g.dart';
 
 enum GlobalHotKeys {
   search,
+  closeWindow,
   exit,
   toggleSideBar;
 
@@ -30,6 +31,7 @@ enum GlobalHotKeys {
   String label(BuildContext context) {
     return switch (this) {
       GlobalHotKeys.search => context.localized.search,
+      GlobalHotKeys.closeWindow => context.localized.closeWindow,
       GlobalHotKeys.exit => context.localized.exitFladderTitle,
       GlobalHotKeys.toggleSideBar => context.localized.toggleSidebar,
     };
@@ -241,6 +243,8 @@ Map<GlobalHotKeys, KeyCombination> get _defaultGlobalHotKeys => switch (defaultT
               GlobalHotKeys.toggleSideBar => KeyCombination(key: LogicalKeyboardKey.keyQ),
               GlobalHotKeys.search =>
                 KeyCombination(key: LogicalKeyboardKey.keyK, modifier: LogicalKeyboardKey.superKey),
+              GlobalHotKeys.closeWindow =>
+                KeyCombination(key: LogicalKeyboardKey.keyW, modifier: LogicalKeyboardKey.superKey),
               GlobalHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.keyQ, modifier: LogicalKeyboardKey.superKey),
             },
         },
@@ -250,6 +254,8 @@ Map<GlobalHotKeys, KeyCombination> get _defaultGlobalHotKeys => switch (defaultT
               GlobalHotKeys.toggleSideBar => KeyCombination(key: LogicalKeyboardKey.keyQ),
               GlobalHotKeys.search =>
                 KeyCombination(key: LogicalKeyboardKey.keyK, modifier: LogicalKeyboardKey.controlLeft),
+              GlobalHotKeys.closeWindow =>
+                KeyCombination(key: LogicalKeyboardKey.keyW, modifier: LogicalKeyboardKey.controlLeft),
               GlobalHotKeys.exit =>
                 KeyCombination(key: LogicalKeyboardKey.keyQ, modifier: LogicalKeyboardKey.controlLeft),
             },
