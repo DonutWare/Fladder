@@ -539,7 +539,73 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return _db.insertItem(syncedItem);
   }
 
+  Future<void> syncSyncedItem(
+    BuildContext context,
+    SyncedItem syncedItem, {
+    TranscodeDownloadModel? transcodeModel,
+    TranscodeMusicDownloadModel? musicTranscodeModel,
+  }) async {
+    final model = syncedItem.itemModel;
+
+    switch (model) {
+      case AudioModel audio:
+        await syncAudio(audio, musicTranscodeModel: musicTranscodeModel);
+        return;
+      case AlbumModel album:
+        await syncAlbum(album, musicTranscodeModel: musicTranscodeModel);
+        return;
+      case ArtistModel artist:
+        await syncArtist(artist, musicTranscodeModel: musicTranscodeModel);
+        return;
+      default:
+        await syncFile(
+          syncedItem,
+          false,
+          transcodeModel: transcodeModel,
+          musicTranscodeModel: musicTranscodeModel,
+        );
+        return;
+    }
+  }
+
   Future<SyncedItem> deleteFullSyncFiles(SyncedItem syncedItem, DownloadTask? task) async {
+    final itemType = syncedItem.itemModel?.type;
+
+    if (itemType == FladderItemType.audio) {
+      await _deleteSyncedItemAndFiles(syncedItem);
+      ref.read(downloadTasksProvider(syncedItem.id).notifier).update((state) => DownloadStream.empty());
+      await _cleanupOrphanedMusicParents([syncedItem]);
+      cleanupTemporaryFiles();
+      refresh();
+      return syncedItem;
+    }
+
+    if (itemType == FladderItemType.musicAlbum) {
+      final nestedChildren = await getNestedChildren(syncedItem);
+      final removedTracks = nestedChildren.where((element) => element.itemModel is AudioModel).toList();
+
+      for (var i = 0; i < nestedChildren.length; i++) {
+        final child = nestedChildren[i];
+        await ref.read(backgroundDownloaderProvider).cancelTaskWithId(child.id);
+        ref.read(downloadTasksProvider(child.id).notifier).update((state) => DownloadStream.empty());
+      }
+
+      await ref.read(backgroundDownloaderProvider).cancelTaskWithId(syncedItem.id);
+      ref.read(downloadTasksProvider(syncedItem.id).notifier).update((state) => DownloadStream.empty());
+
+      await _db.deleteAllItems([...nestedChildren, syncedItem]);
+
+      if (await syncedItem.directory.exists()) {
+        await syncedItem.directory.delete(recursive: true);
+      }
+
+      await _cleanupOrphanedMusicParents(removedTracks);
+
+      cleanupTemporaryFiles();
+      refresh();
+      return syncedItem;
+    }
+
     await syncedItem.deleteDatFiles(ref);
 
     syncedItem = syncedItem.copyWith(

@@ -120,12 +120,6 @@ class JellyRequest implements Interceptor {
           rethrow;
         }
 
-        connectivityNotifier.onStateChange([ConnectivityResult.none]);
-
-        if (attempt == _maxRetries) {
-          rethrow;
-        }
-
         final delay = Duration(milliseconds: 200 * (attempt + 1));
         log('Connection failed (attempt ${attempt + 1}/$_maxRetries), retrying in ${delay.inMilliseconds}ms: $e');
         await Future.delayed(delay);
