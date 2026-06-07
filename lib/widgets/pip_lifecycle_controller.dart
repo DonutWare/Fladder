@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +6,7 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/pip_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/wrappers/pip_manager.dart';
 
 class PipLifecycleController extends ConsumerStatefulWidget {
   const PipLifecycleController({super.key, required this.child});
@@ -20,12 +18,10 @@ class PipLifecycleController extends ConsumerStatefulWidget {
 }
 
 class _PipLifecycleControllerState extends ConsumerState<PipLifecycleController> {
-  bool get _platformSupported => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
-
   @override
   void initState() {
     super.initState();
-    if (_platformSupported) {
+    if (pipPlatformSupported) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _applyCurrent());
     }
   }
@@ -48,7 +44,7 @@ class _PipLifecycleControllerState extends ConsumerState<PipLifecycleController>
 
   @override
   Widget build(BuildContext context) {
-    if (!_platformSupported) {
+    if (!pipPlatformSupported) {
       return widget.child;
     }
     ref.listen<VideoPlayerState>(

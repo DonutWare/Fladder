@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:pip/pip.dart';
 
-bool _platformSupportsPip() {
+bool get pipPlatformSupported {
   if (kIsWeb) return false;
   return Platform.isAndroid || Platform.isIOS;
 }
@@ -34,7 +34,7 @@ class _RealPipClient implements PipClient {
 
   @override
   Future<bool> isSupported() async {
-    if (!_platformSupportsPip()) return false;
+    if (!pipPlatformSupported) return false;
     return _pip.isSupported();
   }
 

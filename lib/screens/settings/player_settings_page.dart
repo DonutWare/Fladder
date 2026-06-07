@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +28,7 @@ import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/wrappers/pip_manager.dart';
 
 @RoutePage()
 class PlayerSettingsPage extends ConsumerStatefulWidget {
@@ -81,7 +80,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   ),
                 ],
               ),
-            if (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
+            if (pipPlatformSupported)
               SettingsListTile(
                 label: Text(context.localized.pictureInPictureAutoTitle),
                 subLabel: Text(context.localized.pictureInPictureSubtitle),

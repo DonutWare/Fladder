@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -42,6 +41,7 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
+import 'package:fladder/wrappers/pip_manager.dart';
 
 class DesktopControls extends ConsumerStatefulWidget {
   const DesktopControls({super.key});
@@ -369,8 +369,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                         IconButton(
                             onPressed: () => showVideoPlayerOptions(context, () => minimizePlayer(context)),
                             icon: const Icon(IconsaxPlusLinear.more)),
-                        if (!kIsWeb &&
-                            (Platform.isAndroid || Platform.isIOS) &&
+                        if (pipPlatformSupported &&
                             MediaQuery.orientationOf(context) == Orientation.landscape)
                           IconButton(
                             tooltip: context.localized.pictureInPictureTitle,
