@@ -50,6 +50,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (AdaptiveLayout.isDesktop(context)) return;
     switch (state) {
       case AppLifecycleState.resumed:
         if (playing) player.play();

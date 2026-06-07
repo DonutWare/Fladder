@@ -9,6 +9,7 @@ import 'package:fladder/providers/edit_item_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/shared/file_picker.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -143,11 +144,13 @@ class _EditImageContentState extends ConsumerState<EditImageContent> {
                         ? CachedNetworkImage(
                             cacheKey: image.hashCode.toString(),
                             imageUrl: image.url ?? "",
+                            cacheManager: CustomCacheManager.instance,
                           )
                         : (image.imageData != null
                             ? Image(image: Image.memory(image.imageData!).image)
                             : CachedNetworkImage(
                                 imageUrl: image.url ?? "",
+                                cacheManager: CustomCacheManager.instance,
                               )),
                   ),
                 ),

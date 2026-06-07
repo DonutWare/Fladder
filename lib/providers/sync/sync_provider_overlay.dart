@@ -19,7 +19,8 @@ extension SyncOverlayHelpers on SyncNotifier {
 
     if (!transcodeModel.enabled) {
       if (subtitles.isNotEmpty) {
-        final originalDto = BaseItemDto.fromJson(jsonDecode(syncItem.dataFile.readAsStringSync()));
+        final dataContent = await syncItem.dataFile.readAsString();
+        final originalDto = BaseItemDto.fromJson(jsonDecode(dataContent));
         final originalSource = originalDto.mediaSources?.firstOrNull;
         if (originalSource != null) {
           final subStreams = subtitles
@@ -138,7 +139,8 @@ extension SyncOverlayHelpers on SyncNotifier {
       return;
     }
 
-    final originalDto = BaseItemDto.fromJson(jsonDecode(syncItem.dataFile.readAsStringSync()));
+    final dataContent = await syncItem.dataFile.readAsString();
+    final originalDto = BaseItemDto.fromJson(jsonDecode(dataContent));
     final originalSource = originalDto.mediaSources?.firstOrNull;
     if (originalSource == null) return;
 
@@ -176,7 +178,7 @@ extension SyncOverlayHelpers on SyncNotifier {
     List<String> childIds,
   ) async {
     final existing = syncItem.overlayFile.existsSync()
-        ? (jsonDecode(syncItem.overlayFile.readAsStringSync()) as Map<String, dynamic>)
+        ? (jsonDecode(await syncItem.overlayFile.readAsString()) as Map<String, dynamic>)
         : <String, dynamic>{};
 
     final overlay = {

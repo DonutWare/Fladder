@@ -1186,6 +1186,22 @@
   "@videoScalingFillScreenNotif": {},
   "videoScalingFillScreenTitle": "Fill screen",
   "@videoScalingFillScreenTitle": {},
+  "pictureInPictureTitle": "Picture-in-Picture",
+  "@pictureInPictureTitle": {
+    "description": "Tooltip on the in-player PiP button"
+  },
+  "pictureInPictureAutoTitle": "Auto Picture-in-Picture",
+  "@pictureInPictureAutoTitle": {
+    "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+  },
+  "pictureInPictureSubtitle": "Automatically enter Picture-in-Picture when you leave the player. The PiP button in the controls always works regardless of this setting.",
+  "@pictureInPictureSubtitle": {
+    "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+  },
+  "pictureInPictureNotSupported": "Picture-in-Picture is not available on this device",
+  "@pictureInPictureNotSupported": {
+    "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+  },
   "videoScalingFitHeight": "Fit Height",
   "@videoScalingFitHeight": {},
   "videoScalingFitWidth": "Fit Width",
@@ -1478,6 +1494,16 @@
   "loading": "Loading",
   "exitFladderTitle": "Exit Fladder",
   "exitFladderDesc": "Are you sure you want to close Fladder?",
+  "quitMultipleWindowsDesc": "You have {count} windows open. Quitting Fladder will close all of them. Do you want to continue?",
+  "@quitMultipleWindowsDesc": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "closeWindow": "Close window",
   "castAndCrew": "Cast & Crew",
   "guestActor": "{count, plural, other{Guest Actors} one{Guest Actor}}",
   "@guestActor": {
@@ -1652,6 +1678,8 @@
   "quickConnectPostFailed": "Failed to get quick connect code",
   "quickConnectLoginUsingCode": "Using quick connect",
   "quickConnectEnterCodeDescription": "Enter the code below to login",
+  "openJellyfinQuickConnect": "Open Jellyfin QuickConnect",
+  "@openJellyfinQuickConnect": {},
   "showMore": "Show more",
   "showLess": "Show less",
   "itemColorsTitle": "Item colors",
@@ -1680,6 +1708,7 @@
   },
   "takeScreenshot": "Take screenshot",
   "takeScreenshotClean": "Take screenshot (without subtitles)",
+  "toggleSubtitles": "Toggle subtitles",
   "screenshotTaken": "Screenshot saved!",
   "screenshotCleanTaken": "Screenshot without subtitles saved!",
   "errorTakingScreenshot": "There was an error taking the screenshot",
@@ -2734,5 +2763,6 @@
   "today": "Today",
   "musicDashboard": "Music Dashboard",
   "quiet": "Quiet",
-  "loud": "Loud"
+  "loud": "Loud",
+  "share": "Share"
 }

@@ -28,6 +28,7 @@ import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/wrappers/pip_manager.dart';
 
 @RoutePage()
 class PlayerSettingsPage extends ConsumerStatefulWidget {
@@ -78,6 +79,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                         : Container(),
                   ),
                 ],
+              ),
+            if (pipPlatformSupported)
+              SettingsListTile(
+                label: Text(context.localized.pictureInPictureAutoTitle),
+                subLabel: Text(context.localized.pictureInPictureSubtitle),
+                onTap: () => provider.setEnablePictureInPicture(!videoSettings.enablePictureInPicture),
+                trailing: Switch(
+                  value: videoSettings.enablePictureInPicture,
+                  onChanged: (value) => provider.setEnablePictureInPicture(value),
+                ),
               ),
             SettingsListTileEnum(
               label: Text(context.localized.videoScaling),

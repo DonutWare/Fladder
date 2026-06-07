@@ -181,6 +181,8 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   void setReverseEdgeGestures(bool value) => state = state.copyWith(reverseEdgeGestures: value);
 
+  void setEnablePictureInPicture(bool value) => state = state.copyWith(enablePictureInPicture: value);
+
   void setEnableReplayGain(bool value) => state = state.copyWith(enableReplayGain: value);
 
   void setEnablePlayPauseFade(bool value) => state = state.copyWith(enablePlayPauseFade: value);

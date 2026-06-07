@@ -11,8 +11,8 @@ import 'package:fladder/models/items/channel_program.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/live_tv_model.dart';
-import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/live_tv_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -122,7 +122,6 @@ class TvPlaybackModel extends PlaybackModel {
     try {
       final currentModel = ref.read(playBackModel);
       if (currentModel is! TvPlaybackModel) {
-        _stopTimers();
         return;
       }
 
@@ -173,18 +172,20 @@ class TvPlaybackModel extends PlaybackModel {
     LiveTvModel tempState,
     bool isNativePlayerBackend,
   ) async {
-    if (!isNativePlayerBackend || tempState.channels.isEmpty || _lastGuideProgId == prog?.id) {
+    if (!isNativePlayerBackend || tempState.channels.isEmpty) {
       return;
     }
 
-    _lastGuideProgId = prog?.id;
+    if (prog?.id != null && _lastGuideProgId == prog?.id) {
+      return;
+    }
 
     final context = ref.read(localizationContextProvider);
 
     var guideProgram = prog != null
         ? GuideProgram(
             id: prog.id,
-            channelId: prog.channelId,
+            channelId: channelWithPrograms.id,
             name: prog.name,
             startMs: prog.startDate.millisecondsSinceEpoch,
             endMs: prog.endDate.millisecondsSinceEpoch,
@@ -323,6 +324,7 @@ class TvPlaybackModel extends PlaybackModel {
   PlaybackModel copyWith({
     ChannelModel? channel,
     ChannelProgram? currentProgram,
+    bool? isNativePlayerBackend,
     PlaybackInfoResponse? playbackInfo,
     ItemBaseModel? item,
     Duration? position,
@@ -335,6 +337,7 @@ class TvPlaybackModel extends PlaybackModel {
       TvPlaybackModel(
         channel: channel ?? this.channel,
         currentProgram: currentProgram ?? this.currentProgram,
+        isNativePlayerBackend: isNativePlayerBackend ?? this.isNativePlayerBackend,
         playbackInfo: playbackInfo ?? this.playbackInfo,
         item: item ?? this.item,
         position: position ?? this.position,

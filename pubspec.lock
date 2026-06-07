@@ -1557,6 +1557,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "26.1.0"
+  pip:
+    dependency: "direct main"
+    description:
+      name: pip
+      sha256: f3c0890458a1e7ea3597fd2432841fb82565d66e4aa5b4931326a2ec052b3505
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   platform:
     dependency: transitive
     description:

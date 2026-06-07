@@ -13,6 +13,7 @@ import 'package:fladder/screens/login/login_user_grid.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_logo.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
+import 'package:fladder/screens/shared/route_wrapper.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/deep_link_helper.dart';
 import 'package:fladder/widgets/keyboard/slide_in_keyboard.dart';
@@ -66,7 +67,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final screen = ref.watch(authProvider.select((value) => value.screen));
     final accounts = ref.watch(authProvider.select((value) => value.accounts));
-    return NotificationManagerInitializer(
+    return RouteWrapper(
       child: CustomKeyboardWrapper(
         child: Scaffold(
           appBar: FladderAppBar(

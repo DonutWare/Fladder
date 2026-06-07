@@ -449,7 +449,6 @@ class PlaybackModelHelper {
           playbackInfo: playbackInfo,
           media: Media(url: mediaPath),
         );
-        tvModel.startTracking(ref);
         return tvModel;
       }
 
