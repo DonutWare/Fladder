@@ -63,6 +63,7 @@ object VideoPlayerObject {
     fun setSubtitleTrackIndex(value: Int, init: Boolean = false) {
         currentSubtitleTrackIndex.value = value
         if (!init) {
+            implementation.applySubtitleTrack(value)
             videoPlayerControls?.swapSubtitleTrack(value.toLong(), callback = {})
         }
     }
@@ -70,6 +71,7 @@ object VideoPlayerObject {
     fun setAudioTrackIndex(value: Int, init: Boolean = false) {
         currentAudioTrackIndex.value = value
         if (!init) {
+            implementation.applyAudioTrack(value)
             videoPlayerControls?.swapAudioTrack(value.toLong(), callback = {})
         }
     }
@@ -77,15 +79,9 @@ object VideoPlayerObject {
     val subtitleTracks = implementation.playbackData.map { it?.subtitleTracks ?: listOf() }
     val audioTracks = implementation.playbackData.map { it?.audioTracks ?: listOf() }
 
-    val hasSubtracks: Flow<Boolean> =
-        combine(subtitleTracks, exoSubTracks.asStateFlow()) { sub, exo ->
-            sub.isNotEmpty() && exo.isNotEmpty()
-        }
+    val hasSubtracks: Flow<Boolean> = subtitleTracks.map { it.size > 1 }
 
-    val hasAudioTracks: Flow<Boolean> =
-        combine(audioTracks, exoAudioTracks.asStateFlow()) { audio, exo ->
-            audio.isNotEmpty() && exo.isNotEmpty()
-        }
+    val hasAudioTracks: Flow<Boolean> = audioTracks.map { it.size > 1 }
 
     fun setPlaybackState(state: PlaybackState) {
         _currentState.value = state

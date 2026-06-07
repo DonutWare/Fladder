@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/video_properties.dart';
 
@@ -71,69 +72,47 @@ class MediaStreamsModel {
 
   String? get mediaInfoTag => '${displayProfile?.value} ${resolution?.value}';
 
-  Widget? audioIcon(
-    BuildContext context,
-    Function()? onTap,
-  ) {
+  Widget? audioIcon(BuildContext context, Function()? onTap) {
     final audioStream = audioStreams.firstWhereOrNull((element) => element.isDefault) ?? audioStreams.firstOrNull;
     if (audioStream == null) return null;
+    return DefaultVideoInformationBox(onTap: onTap, child: Text(audioStream.title));
+  }
+
+  Widget subtitleIcon(BuildContext context, Function()? onTap) {
     return DefaultVideoInformationBox(
       onTap: onTap,
-      child: Text(
-        audioStream.title,
-      ),
+      child: Icon(subStreams.isNotEmpty ? Icons.subtitles_rounded : Icons.subtitles_off_outlined),
     );
   }
 
-  Widget subtitleIcon(
-    BuildContext context,
-    Function()? onTap,
-  ) {
-    return DefaultVideoInformationBox(
-      onTap: onTap,
-      child: Icon(
-        subStreams.isNotEmpty ? Icons.subtitles_rounded : Icons.subtitles_off_outlined,
-      ),
-    );
-  }
-
-  static MediaStreamsModel fromMediaStreamsList(
-    List<dto.MediaSourceInfo>? mediaSource,
-    Ref ref,
-  ) {
+  static MediaStreamsModel fromMediaStreamsList(List<dto.MediaSourceInfo>? mediaSource, Ref ref, {String? itemId}) {
     return MediaStreamsModel(
-        defaultAudioStreamIndex: mediaSource?.firstOrNull?.defaultAudioStreamIndex,
-        defaultSubStreamIndex: mediaSource?.firstOrNull?.defaultSubtitleStreamIndex,
-        versionStreams: mediaSource?.mapIndexed(
-              (index, element) {
-                final streams = element.mediaStreams ?? [];
-                return VersionStreamModel(
-                    name: element.name ?? "",
-                    index: index,
-                    id: element.id,
-                    defaultAudioStreamIndex: element.defaultAudioStreamIndex,
-                    defaultSubStreamIndex: element.defaultSubtitleStreamIndex,
-                    videoStreams: streams
-                        .where((element) => element.type == dto.MediaStreamType.video)
-                        .map(
-                          (e) => VideoStreamModel.fromMediaStream(e),
-                        )
-                        .sortByExternal(),
-                    audioStreams: streams
-                        .where((element) => element.type == dto.MediaStreamType.audio)
-                        .map(
-                          (e) => AudioStreamModel.fromMediaStream(e),
-                        )
-                        .sortByExternal(),
-                    subStreams: streams
-                        .where((element) => element.type == dto.MediaStreamType.subtitle)
-                        .map(
-                          (sub) => SubStreamModel.fromMediaStream(sub, ref),
-                        )
-                        .sortByExternal());
-              },
-            ).toList() ??
-            []);
+      defaultAudioStreamIndex: mediaSource?.firstOrNull?.defaultAudioStreamIndex,
+      defaultSubStreamIndex: mediaSource?.firstOrNull?.defaultSubtitleStreamIndex,
+      versionStreams: mediaSource?.mapIndexed((index, element) {
+            final streams = element.mediaStreams ?? [];
+            return VersionStreamModel(
+              name: element.name ?? "",
+              index: index,
+              id: element.id,
+              defaultAudioStreamIndex: element.defaultAudioStreamIndex,
+              defaultSubStreamIndex: element.defaultSubtitleStreamIndex,
+              videoStreams: streams
+                  .where((element) => element.type == dto.MediaStreamType.video)
+                  .map((e) => VideoStreamModel.fromMediaStream(e))
+                  .sortByExternal(),
+              audioStreams: streams
+                  .where((element) => element.type == dto.MediaStreamType.audio)
+                  .map((e) => AudioStreamModel.fromMediaStream(e))
+                  .sortByExternal(),
+              subStreams: streams
+                  .where((element) => element.type == dto.MediaStreamType.subtitle)
+                  .map((sub) => SubStreamModel.fromMediaStream(sub, ref, itemId: itemId, mediaSourceId: element.id))
+                  .sortByExternal(),
+            );
+          }).toList() ??
+          [],
+    );
   }
 
   MediaStreamsModel copyWith({
@@ -407,12 +386,16 @@ class SubStreamModel extends AudioAndSubStreamModel {
     }
   }
 
-  factory SubStreamModel.fromMediaStream(dto.MediaStream stream, Ref ref) {
+  factory SubStreamModel.fromMediaStream(dto.MediaStream stream, Ref ref, {String? itemId, String? mediaSourceId}) {
     final deliveryUrl = stream.deliveryUrl;
     final deliveryUri = Uri.tryParse(deliveryUrl ?? '');
-    final relativeSrtUrl = deliveryUri?.replace(path: deliveryUri.path.replaceAll('.vtt', '.srt')).toString();
+    final subtitleExtension = _subtitleExtension(stream.codec);
+    final relativeSubtitleUrl =
+        deliveryUri?.replace(path: _subtitlePath(deliveryUri.path, subtitleExtension)).toString();
 
-    final subStreamUrl = relativeSrtUrl == null ? null : buildServerUrl(ref, relativeUrl: relativeSrtUrl);
+    final subStreamUrl = relativeSubtitleUrl == null
+        ? _embeddedSubtitleUrl(stream, ref, itemId: itemId, mediaSourceId: mediaSourceId, extension: subtitleExtension)
+        : buildServerUrl(ref, relativeUrl: relativeSubtitleUrl);
 
     return SubStreamModel(
       name: stream.title ?? "",
@@ -426,6 +409,52 @@ class SubStreamModel extends AudioAndSubStreamModel {
       url: subStreamUrl,
       isExternal: stream.isExternal ?? false,
       index: stream.index ?? -1,
+    );
+  }
+
+  static String _subtitleExtension(String? codec) {
+    return switch (codec?.toLowerCase()) {
+      'ass' => 'ass',
+      'ssa' => 'ssa',
+      'vtt' || 'webvtt' => 'vtt',
+      'subrip' || 'srt' => 'srt',
+      _ => 'srt',
+    };
+  }
+
+  static String _subtitlePath(String path, String extension) {
+    final subtitleExtension = RegExp(r'\.(ass|ssa|vtt|srt)$', caseSensitive: false);
+    final pathWithExtension =
+        subtitleExtension.hasMatch(path) ? path.replaceFirst(subtitleExtension, '.$extension') : '$path.$extension';
+    return pathWithExtension.replaceFirstMapped(
+      RegExp(r'(/Subtitles/[^/]+)/(Stream\.)', caseSensitive: false),
+      (match) => '${match.group(1)}/0/${match.group(2)}',
+    );
+  }
+
+  static String? _embeddedSubtitleUrl(
+    dto.MediaStream stream,
+    Ref ref, {
+    String? itemId,
+    String? mediaSourceId,
+    required String extension,
+  }) {
+    final streamIndex = stream.index;
+    if (streamIndex == null || streamIndex < 0) {
+      return null;
+    }
+    if (stream.supportsExternalStream != true) {
+      return null;
+    }
+    if (itemId == null || itemId.isEmpty || mediaSourceId == null || mediaSourceId.isEmpty) {
+      return null;
+    }
+
+    final token = ref.read(userProvider)?.credentials.token;
+    return buildServerUrl(
+      ref,
+      pathSegments: ['Videos', itemId, mediaSourceId, 'Subtitles', '$streamIndex', '0', 'Stream.$extension'],
+      queryParameters: {'api_key': token},
     );
   }
 

@@ -21,7 +21,6 @@ import nl.jknaapen.fladder.objects.Localized
 import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.clearAudioTrack
-import nl.jknaapen.fladder.utility.setInternalAudioTrack
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -33,11 +32,11 @@ fun AudioPicker(
     val audioTracks by VideoPlayerObject.audioTracks.collectAsState(emptyList())
     val internalAudioTracks by VideoPlayerObject.exoAudioTracks.collectAsState(emptyList())
 
-    if (internalAudioTracks.isEmpty()) return
+    if (audioTracks.isEmpty()) return
 
     val focusOffTrack = remember { FocusRequester() }
-    val focusRequesters = remember(internalAudioTracks) {
-        internalAudioTracks.associateWith { FocusRequester() }
+    val focusRequesters = remember(audioTracks) {
+        audioTracks.associateWith { FocusRequester() }
     }
 
     val listState = rememberLazyListState()
@@ -55,11 +54,8 @@ fun AudioPicker(
             return@LaunchedEffect
         }
 
-        val internalIndex = serverTrackIndex - 1
-        val lazyColumnIndex = internalIndex + 1
-
-        listState.scrollToItem(lazyColumnIndex)
-        focusRequesters[internalAudioTracks[internalIndex]]?.requestFocus()
+        listState.scrollToItem(serverTrackIndex)
+        focusRequesters[audioTracks[serverTrackIndex]]?.requestFocus()
     }
 
     CustomModalBottomSheet(
@@ -90,22 +86,20 @@ fun AudioPicker(
                 }
             }
 
-            internalAudioTracks.forEachIndexed { index, track ->
-                val serverTrack = audioTracks.elementAtOrNull(index + 1)
-                val selected = serverTrack?.index?.toInt() == selectedIndex
+            audioTracks.drop(1).forEachIndexed { index, serverTrack ->
+                val selected = serverTrack.index.toInt() == selectedIndex
 
                 item {
                     TrackButton(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .focusRequester(focusRequesters[track]!!),
+                            .focusRequester(focusRequesters[serverTrack]!!),
                         onClick = {
-                            serverTrack?.index?.let { VideoPlayerObject.setAudioTrackIndex(it.toInt()) }
-                            player.setInternalAudioTrack(track)
+                            VideoPlayerObject.setAudioTrackIndex(serverTrack.index.toInt())
                         },
                         selected = selected
                     ) {
-                        Text(serverTrack?.name ?: "")
+                        Text(serverTrack.name)
                     }
                 }
             }

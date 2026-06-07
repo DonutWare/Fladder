@@ -2,6 +2,7 @@ package nl.jknaapen.fladder.player
 
 import PlaybackState
 import android.app.ActivityManager
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.view.ViewGroup
@@ -42,7 +43,9 @@ import androidx.media3.extractor.ts.TsExtractor
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.CaptionStyleCompat
 import androidx.media3.ui.PlayerView
-import io.github.peerless2012.ass.media.kt.buildWithAssSupport
+import io.github.peerless2012.ass.media.AssHandler
+import io.github.peerless2012.ass.media.kt.withAssMkvSupport
+import io.github.peerless2012.ass.media.parser.AssSubtitleParserFactory
 import io.github.peerless2012.ass.media.type.AssRenderType
 import kotlinx.coroutines.delay
 
@@ -55,6 +58,7 @@ import nl.jknaapen.fladder.utility.AllowedOrientations
 import nl.jknaapen.fladder.utility.conditional
 import nl.jknaapen.fladder.utility.getAudioTracks
 import nl.jknaapen.fladder.utility.getSubtitleTracks
+import java.io.File
 import kotlin.time.Duration.Companion.seconds
 
 val LocalPlayer = compositionLocalOf<ExoPlayer?> { null }
@@ -106,20 +110,48 @@ internal fun ExoPlayer(
         })
     }
 
+    val playerView = remember {
+        PlayerView(context).apply {
+            useController = false
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+            )
+            keepScreenOn = false
+        }
+    }
+
     val exoPlayer = remember {
+        val assHandler = AssHandler(AssRenderType.OVERLAY)
+        val assSidecarController = FladderAssSidecarController(assHandler)
+        val assFontConfig = installAssFonts(context, assHandler)
+        val assSubtitleParserFactory = AssSubtitleParserFactory(assHandler)
+        val assMediaSourceFactory = DefaultMediaSourceFactory(
+            dataSourceFactory,
+            extractorsFactory.withAssMkvSupport(assSubtitleParserFactory, assHandler),
+        ).setSubtitleParserFactory(assSubtitleParserFactory)
+        val assRenderersFactory = FladderAssRenderersFactory(assHandler, renderersFactory)
+
         ExoPlayer.Builder(context, renderersFactory)
             .setTrackSelector(trackSelector)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory))
+            .setMediaSourceFactory(assMediaSourceFactory)
+            .setRenderersFactory(assRenderersFactory)
             .setAudioAttributes(audioAttributes, true)
             .setHandleAudioBecomingNoisy(true)
             .setPauseAtEndOfMediaItems(true)
             .setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT)
-            .buildWithAssSupport(
-                context,
-                renderersFactory = renderersFactory,
-                extractorsFactory = extractorsFactory,
-                renderType = AssRenderType.LEGACY
-            )
+            .build()
+            .also { player ->
+                playerView.subtitleView?.addView(
+                    FladderAssSubtitleView(context, assHandler, assFontConfig, assSidecarController),
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                    )
+                )
+                assHandler.init(player)
+                VideoPlayerObject.implementation.initAssSidecarController(assSidecarController)
+            }
     }
 
     fun updatePlaybackState() {
@@ -210,9 +242,11 @@ internal fun ExoPlayer(
         VideoPlayerObject.implementation.init(exoPlayer)
         onDispose {
             videoHost.videoPlayerControls?.onStop(callback = {})
+            playerView.player = null
             VideoPlayerObject.implementation.playbackData.value = null
             VideoPlayerObject.tvGuide.value = null
             VideoPlayerObject.implementation.init(null)
+            VideoPlayerObject.implementation.initAssSidecarController(null)
             exoPlayer.release()
         }
     }
@@ -234,7 +268,8 @@ internal fun ExoPlayer(
                     displayCutoutPadding()
                 },
             factory = {
-                PlayerView(it).apply {
+                (playerView.parent as? ViewGroup)?.removeView(playerView)
+                playerView.apply {
                     player = exoPlayer
                     useController = false
                     resizeMode = videoFit
@@ -310,4 +345,55 @@ internal fun ExoPlayer(
             )
         }
     }
+}
+
+data class AssFontConfig(
+    val defaultFontPath: String?,
+    val defaultFamily: String,
+)
+
+private fun installAssFonts(context: Context, assHandler: AssHandler): AssFontConfig {
+    val bundledFallback = installBundledAssFallbackFont(context, assHandler)
+    val fontPaths = listOf(
+        "/system/fonts/DroidSans.ttf",
+        "/system/fonts/DroidSans-Bold.ttf",
+        "/system/fonts/Roboto-Regular.ttf",
+        "/system/fonts/Roboto-Bold.ttf",
+        "/system/fonts/NotoSansCJK-Regular.ttc",
+        "/system/fonts/NotoSerifCJK-Regular.ttc",
+        "/system/fonts/NotoNaskhArabic-Regular.ttf",
+        "/system/fonts/NotoNaskhArabic-Bold.ttf",
+        "/system/fonts/NotoSansHebrew-Regular.ttf",
+        "/system/fonts/NotoSansThai-Regular.ttf",
+        "/system/fonts/NotoSansDevanagari-Regular.otf",
+    )
+
+    fontPaths.forEach { path ->
+        runCatching {
+            val file = File(path)
+            if (!file.canRead()) {
+                return@forEach
+            }
+            val bytes = file.readBytes()
+            assHandler.ass.addFont(file.name, bytes)
+        }
+    }
+
+    return AssFontConfig(
+        defaultFontPath = bundledFallback ?: "/system/fonts/NotoSansCJK-Regular.ttc",
+        defaultFamily = if (bundledFallback != null) "Droid Sans Fallback" else "Noto Sans CJK JP",
+    )
+}
+
+private fun installBundledAssFallbackFont(context: Context, assHandler: AssHandler): String? {
+    return runCatching {
+        val targetDir = File(context.cacheDir, "fladder-ass-fonts").apply { mkdirs() }
+        val target = File(targetDir, "mp-font.ttf")
+        context.assets.open("flutter_assets/assets/mp-font.ttf").use { input ->
+            target.outputStream().use { output -> input.copyTo(output) }
+        }
+        val bytes = target.readBytes()
+        assHandler.ass.addFont("Droid Sans Fallback", bytes)
+        target.absolutePath
+    }.getOrNull()
 }
