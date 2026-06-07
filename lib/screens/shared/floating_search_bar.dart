@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/search/search_screen.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/string_extensions.dart';
 
 class FloatingSearchBar extends ConsumerStatefulWidget {
@@ -84,6 +85,7 @@ class _FloatingSearchBarState extends ConsumerState<FloatingSearchBar> {
                       borderRadius: BorderRadius.circular(200),
                       child: CachedNetworkImage(
                         imageUrl: user?.avatar ?? "",
+                        cacheManager: CustomCacheManager.instance,
                         memCacheHeight: 125,
                         imageBuilder: (context, imageProvider) => Image(image: imageProvider),
                         errorWidget: (context, url, error) => CircleAvatar(

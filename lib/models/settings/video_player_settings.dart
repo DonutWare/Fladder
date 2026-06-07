@@ -35,6 +35,7 @@ enum VideoHotKeys {
   skipMediaSegment,
   takeScreenshot,
   takeScreenshotClean,
+  toggleSubtitles,
   exit;
 
   const VideoHotKeys();
@@ -61,6 +62,7 @@ enum VideoHotKeys {
       VideoHotKeys.skipMediaSegment => context.localized.skipMediaSegment,
       VideoHotKeys.takeScreenshot => context.localized.takeScreenshot,
       VideoHotKeys.takeScreenshotClean => context.localized.takeScreenshotClean,
+      VideoHotKeys.toggleSubtitles => context.localized.toggleSubtitles,
       VideoHotKeys.exit => context.localized.exit,
     };
   }
@@ -102,6 +104,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool enableAdvancedVideoOptions,
     @Default(true) bool enableEdgeGestures,
     @Default(false) bool reverseEdgeGestures,
+    @Default(true) bool enablePictureInPicture,
     @Default(true) bool enableReplayGain,
     @Default(ReplayGainVolumeLevel.quiet) ReplayGainVolumeLevel replayGainVolumeLevel,
     @Default(true) bool enablePlayPauseFade,
@@ -307,6 +310,7 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.takeScreenshot => KeyCombination(key: LogicalKeyboardKey.keyG),
           VideoHotKeys.takeScreenshotClean =>
             KeyCombination(key: LogicalKeyboardKey.keyG, modifier: LogicalKeyboardKey.controlLeft),
+          VideoHotKeys.toggleSubtitles => KeyCombination(key: LogicalKeyboardKey.keyT),
           VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
         },
     };

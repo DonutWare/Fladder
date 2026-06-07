@@ -71,10 +71,11 @@ abstract class SyncedItem with _$SyncedItem {
   File get dataFile => File(joinAll(["$path", "data.json"]));
   File get overlayFile => File(joinAll(["$path", "overlay.json"]));
 
-  List<String> get playlistChildIds {
+  Future<List<String>> getPlaylistChildIdsAsync() async {
     if (!overlayFile.existsSync()) return [];
     try {
-      final overlay = jsonDecode(overlayFile.readAsStringSync()) as Map<String, dynamic>;
+      final content = await overlayFile.readAsString();
+      final overlay = jsonDecode(content) as Map<String, dynamic>;
       final ids = overlay['playlistChildIds'];
       if (ids is List) return ids.whereType<String>().toList();
     } catch (_) {}

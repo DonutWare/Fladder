@@ -6,7 +6,9 @@ import 'package:overflow_view/overflow_view.dart';
 
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
@@ -44,6 +46,13 @@ class MusicFloatingPlayerBarContent extends ConsumerWidget {
           repeatMode: state.repeatMode,
         )));
     final viewSize = AdaptiveLayout.viewSizeOf(context);
+    final layoutMode = AdaptiveLayout.layoutModeOf(context);
+
+    final playerVolume = ref.watch(videoPlayerSettingsProvider.select((value) => value.volume));
+
+    final showVolumeSlider = viewSize >= ViewSize.tablet &&
+        layoutMode == LayoutMode.dual &&
+        AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer;
 
     return ThemeOverwrite(
         image: item.getPosters?.primary?.imageProvider,
@@ -177,6 +186,18 @@ class MusicFloatingPlayerBarContent extends ConsumerWidget {
                                       : Theme.of(context).colorScheme.primary,
                                 ),
                               ),
+                              if (showVolumeSlider)
+                                const VideoVolumeSlider()
+                              else
+                                IconButton(
+                                  onPressed: () {
+                                    final volume = playerVolume == 0 ? 100.0 : 0.0;
+                                    ref.read(videoPlayerProvider).setVolume(volume);
+                                  },
+                                  icon: Icon(
+                                    playerVolume == 0 ? IconsaxPlusBold.volume_cross : IconsaxPlusBold.volume_high,
+                                  ),
+                                ),
                               Flexible(
                                 child: OverflowView.flexible(
                                   builder: (context, remainingItemCount) => PopupMenuButton(

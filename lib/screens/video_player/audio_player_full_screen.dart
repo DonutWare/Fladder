@@ -21,12 +21,12 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/video_player/components/audio_player_queue_dialog.dart';
+import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
-import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/button_group.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
@@ -225,6 +225,55 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
             ),
           ),
         ],
+      );
+    }
+
+    Widget buildCollapsedMetadata(BuildContext context) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          spacing: 16,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                width: 56,
+                height: 56,
+                child: FladderImage(
+                  image: artwork,
+                  fit: BoxFit.cover,
+                  placeHolder: const Center(child: Icon(Icons.music_note_rounded, size: 20)),
+                  imageErrorBuilder: (context, error, stack) =>
+                      const Center(child: Icon(Icons.music_note_rounded, size: 20)),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    currentItem.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    currentItem.album ?? currentItem.subTextShort(context.localized) ?? '',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
     }
 
@@ -483,7 +532,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
       );
     }
 
-    Widget albumArt(BuildContext context) {
+    Widget albumArt(BuildContext context, {double size = 512}) {
       final audioType = FladderItemType.audio;
       return Row(
         mainAxisSize: MainAxisSize.max,
@@ -491,7 +540,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
         children: [
           Flexible(
             child: SizedBox(
-              width: 512,
+              width: size,
               child: AspectRatio(
                 aspectRatio: 1,
                 child: FocusButton(
@@ -562,71 +611,160 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
       );
     }
 
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (!didPop) {
-          closeFullScreen();
-        }
+    return BackButtonListener(
+      onBackButtonPressed: () async {
+        closeFullScreen();
+        return true;
       },
-      child: ThemeOverwrite(
-        color: dominantColor,
-        child: (context) => Scaffold(
-          body: Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                height: MediaQuery.sizeOf(context).height,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: const [
-                      0,
-                      1,
-                    ],
-                    colors: [
-                      Theme.of(context).colorScheme.primaryContainer,
-                      Theme.of(context).colorScheme.surface,
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (!didPop) {
+            closeFullScreen();
+          }
+        },
+        child: ThemeOverwrite(
+          color: dominantColor,
+          child: (context) => Scaffold(
+            body: Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: MediaQuery.sizeOf(context).height,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: const [
+                        0,
+                        1,
+                      ],
+                      colors: [
+                        Theme.of(context).colorScheme.primaryContainer,
+                        Theme.of(context).colorScheme.surface,
+                      ],
+                    ),
+                  ),
+                ),
+                SafeArea(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              onPressed: () => closeFullScreen(force: true),
+                              icon: const Icon(IconsaxPlusLinear.arrow_down),
+                            ),
+                            if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer)
+                              const VideoVolumeSlider()
+                            else
+                              const Spacer(),
+                            IconButton(
+                              onPressed: () => ref.read(videoPlayerProvider).stop(),
+                              icon: const Icon(IconsaxPlusBold.stop),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: CustomScrollView(
+                          slivers: [
+                            SliverPadding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                              sliver: SliverPersistentHeader(
+                                pinned: true,
+                                delegate: _AudioPlayerHeaderDelegate(
+                                  minHeight: 88,
+                                  maxHeight: 520,
+                                  builder: (context, transitionProgress) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface
+                                            .withAlpha(((transitionProgress * 255)).round()),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                                      child: Stack(
+                                        fit: StackFit.expand,
+                                        children: [
+                                          IgnorePointer(
+                                            ignoring: transitionProgress > 0.15,
+                                            child: Opacity(
+                                              opacity: 1 - transitionProgress,
+                                              child: SingleChildScrollView(
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    albumArt(context, size: 300),
+                                                    const SizedBox(height: 18),
+                                                    buildMetadata(context),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          IgnorePointer(
+                                            ignoring: transitionProgress < 0.85,
+                                            child: Opacity(
+                                              opacity: transitionProgress,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: buildCollapsedMetadata(context),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            SliverPadding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              sliver: SliverToBoxAdapter(
+                                child: playbackOptions(context),
+                              ),
+                            ),
+                            const SliverPadding(
+                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              sliver: SliverToBoxAdapter(
+                                child: Divider(),
+                              ),
+                            ),
+                            SliverPadding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              sliver: SliverToBoxAdapter(
+                                child: queuePreview(context),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface.withAlpha(220),
+                          border: Border(
+                            top: BorderSide(
+                              color: Theme.of(context).colorScheme.outlineVariant.withAlpha(110),
+                            ),
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: const _AudioPlayerControls(),
+                      ),
                     ],
                   ),
                 ),
-              ),
-              ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                children: [
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => closeFullScreen(force: true),
-                        icon: const Icon(IconsaxPlusLinear.arrow_down),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () => ref.read(videoPlayerProvider).stop(),
-                        icon: const Icon(IconsaxPlusBold.stop),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 16,
-                    children: [
-                      albumArt(context),
-                      const SizedBox(height: 24),
-                      buildMetadata(context),
-                      const _AudioPlayerControls(),
-                    ],
-                  ),
-                  const Divider(),
-                  playbackOptions(context),
-                  queuePreview(context),
-                ].addInBetween(const SizedBox(
-                  height: 24,
-                )),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -646,6 +784,36 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
       ...queue.sublist(currentIndex),
       if (wrapAround) ...queue.sublist(0, currentIndex),
     ];
+  }
+}
+
+class _AudioPlayerHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final double minHeight;
+  final double maxHeight;
+  final Widget Function(BuildContext context, double collapseT) builder;
+
+  _AudioPlayerHeaderDelegate({
+    required this.minHeight,
+    required this.maxHeight,
+    required this.builder,
+  });
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => maxHeight;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final totalCollapseRange = (maxExtent - minExtent).clamp(1, double.infinity);
+    final collapseT = (shrinkOffset / totalCollapseRange).clamp(0.0, 1.0);
+    return builder(context, collapseT);
+  }
+
+  @override
+  bool shouldRebuild(covariant _AudioPlayerHeaderDelegate oldDelegate) {
+    return oldDelegate.minHeight != minHeight || oldDelegate.maxHeight != maxHeight || oldDelegate.builder != builder;
   }
 }
 
@@ -714,18 +882,17 @@ class _AudioPlayerControlsState extends ConsumerState<_AudioPlayerControls> {
         const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 8,
           children: [
             IconButton(
               onPressed: () => ref.read(videoPlayerProvider).skipToPrevious(),
               icon: const Icon(IconsaxPlusBold.previous),
             ),
-            const SizedBox(width: 8),
             IconButton.filledTonal(
               onPressed: () => ref.read(videoPlayerProvider).playOrPause(),
               iconSize: 42,
               icon: playback.playing ? const Icon(IconsaxPlusBold.pause) : const Icon(IconsaxPlusBold.play),
             ),
-            const SizedBox(width: 8),
             IconButton(
               onPressed: () => ref.read(videoPlayerProvider).skipToNext(),
               icon: const Icon(IconsaxPlusBold.next),
@@ -865,7 +1032,7 @@ class _PlaybackTypeChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: backgroundColor.withAlpha(75),
+          color: backgroundColor.withAlpha(175),
           borderRadius: BorderRadius.circular(999),
         ),
         child: Row(
@@ -892,7 +1059,7 @@ class _AudioPropertyChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerHighest.withAlpha(150),
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
         value,

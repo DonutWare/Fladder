@@ -7,6 +7,7 @@ Platform-specific installation instructions can be found in this document.
 - [Windows](#windows)
 - [macOS](#macos)
 - [Linux](#linux)
+	- [Flatpak](#flatpak)
 	- [Ubuntu/Debian](#ubuntudebian)
 	- [Arch](#arch)
 	- [Fedora](#fedora)
@@ -44,8 +45,13 @@ Run `fladder.exe` to start the application.
 
 ## Linux
 
-> [!NOTE]
-> You can install Fladder using Flatpak if you prefer an easier installation method. Download the latest `.flatpak` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page to get started.
+### Flatpak
+
+Fladder is available on Flathub.
+
+<a href='https://flathub.org/apps/nl.jknaapen.fladder'><img alt='Get it on Flathub' src='https://flathub.org/api/badge?locale=en' width=192/></a>
+
+You can also download the latest `.flatpak` file from the [Releases](https://github.com/DonutWare/Fladder/releases) page and install it manually.
 
 ### Ubuntu/Debian
 
@@ -170,4 +176,3 @@ You can also manually copy the web .zip build to any static file server such as 
 
 - `baseUrl`: String. Presets Jellyfin URL on login.
 - `seerrBaseUrl`: String. Presets Seerr URL in personal settings.
-

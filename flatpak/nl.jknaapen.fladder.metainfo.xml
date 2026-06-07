@@ -5,6 +5,11 @@
   <project_license>GPL-3.0-only</project_license>
   <name>Fladder</name>
   <summary>A cross-platform Jellyfin client</summary>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#5B364D</color>
+    <color type="primary" scheme_preference="dark">#3A2101</color>
+  </branding>
   
   <description>
     <p>

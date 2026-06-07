@@ -7,6 +7,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
@@ -77,26 +78,21 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
     final isDesktop = AdaptiveLayout.of(context).isDesktop;
 
     final itemActions = [
-      ItemActionButton(
-          label: Text(context.localized.audio(1)),
-          icon: Consumer(
-            builder: (context, ref, child) {
-              final volume = (ref.watch(videoPlayerProvider).lastState?.volume ?? 0) <= 0;
-              return Icon(
-                volume ? IconsaxPlusBold.volume_cross : IconsaxPlusBold.volume_high,
-              );
-            },
-          ),
-          action: () {
-            final player = ref.read(videoPlayerProvider);
-            final volume = player.lastState?.volume == 0 ? 100.0 : 0.0;
-            player.setVolume(volume);
-          }),
-      ItemActionButton(
-        label: Text(context.localized.stop),
-        action: () async => ref.read(videoPlayerProvider).stop(),
-        icon: const Icon(IconsaxPlusBold.stop),
-      ),
+      if (item is! AudioModel)
+        ItemActionButton(
+            label: Text(context.localized.audio(1)),
+            icon: Consumer(
+              builder: (context, ref, child) {
+                final playerVolume = ref.watch(videoPlayerSettingsProvider.select((value) => value.volume));
+                return Icon(playerVolume == 0 ? IconsaxPlusBold.volume_cross : IconsaxPlusBold.volume_high);
+              },
+            ),
+            action: () {
+              final player = ref.read(videoPlayerProvider);
+              final playerVolume = ref.read(videoPlayerSettingsProvider.select((value) => value.volume));
+              final volume = playerVolume == 0 ? 100.0 : 0.0;
+              player.setVolume(volume);
+            }),
       ItemActionButton(
         label: Text(isFavourite ? context.localized.removeAsFavorite : context.localized.addAsFavorite),
         icon: Icon(
@@ -114,6 +110,11 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
             ref.read(playBackModel.notifier).update((state) => state?.updateUserData(result));
           }
         },
+      ),
+      ItemActionButton(
+        label: Text(context.localized.stop),
+        action: () async => ref.read(videoPlayerProvider).stop(),
+        icon: const Icon(IconsaxPlusBold.stop),
       ),
     ];
 
