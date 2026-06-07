@@ -382,7 +382,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                                 );
                               }
                             },
-                            icon: const Icon(Icons.picture_in_picture_alt_outlined),
+                            icon: const Icon(IconsaxPlusLinear.screenmirroring),
                           ),
                         if (AdaptiveLayout.layoutOf(context) == ViewSize.tablet) ...[
                           IconButton(
