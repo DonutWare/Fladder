@@ -60,6 +60,8 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
               _$ReplayGainVolumeLevelEnumMap, json['replayGainVolumeLevel']) ??
           ReplayGainVolumeLevel.quiet,
       enablePlayPauseFade: json['enablePlayPauseFade'] as bool? ?? true,
+      playPauseFadeDurationMs:
+          (json['playPauseFadeDurationMs'] as num?)?.toInt() ?? 175,
       enableCrossfade: json['enableCrossfade'] as bool? ?? true,
       crossfadeDurationMs:
           (json['crossfadeDurationMs'] as num?)?.toInt() ?? 400,
@@ -100,6 +102,7 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
       'replayGainVolumeLevel':
           _$ReplayGainVolumeLevelEnumMap[instance.replayGainVolumeLevel]!,
       'enablePlayPauseFade': instance.enablePlayPauseFade,
+      'playPauseFadeDurationMs': instance.playPauseFadeDurationMs,
       'enableCrossfade': instance.enableCrossfade,
       'crossfadeDurationMs': instance.crossfadeDurationMs,
     };

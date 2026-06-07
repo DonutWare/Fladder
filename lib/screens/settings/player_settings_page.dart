@@ -437,6 +437,44 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     onChanged: (value) => provider.setEnablePlayPauseFade(value),
                   ),
                 ),
+              if (currentPlayer == PlayerOptions.libMPV && videoSettings.enablePlayPauseFade)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.localized.settingsPlayerPlayPauseFadeDurationTitle,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          context.localized.settingsPlayerPlayPauseFadeDurationDesc,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: FladderSlider(
+                              min: 0,
+                              max: 1000,
+                              value: videoSettings.playPauseFadeDurationMs.toDouble(),
+                              divisions: 40,
+                              onChanged: (value) => provider.setPlayPauseFadeDurationMs(value.round()),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            '${videoSettings.playPauseFadeDurationMs} ms',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               if (currentPlayer == PlayerOptions.libMPV)
                 SettingsListTile(
                   label: Text(context.localized.settingsPlayerBufferSizeTitle),

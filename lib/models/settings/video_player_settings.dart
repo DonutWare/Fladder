@@ -108,6 +108,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(true) bool enableReplayGain,
     @Default(ReplayGainVolumeLevel.quiet) ReplayGainVolumeLevel replayGainVolumeLevel,
     @Default(true) bool enablePlayPauseFade,
+    @Default(175) int playPauseFadeDurationMs,
     @Default(true) bool enableCrossfade,
     @Default(400) int crossfadeDurationMs,
   }) = _VideoPlayerSettingsModel;
