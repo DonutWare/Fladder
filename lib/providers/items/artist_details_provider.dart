@@ -10,7 +10,9 @@ import 'package:fladder/models/items/album_model.dart';
 import 'package:fladder/models/items/artist_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
+import 'package:fladder/providers/sync_provider.dart';
 
 Future<List<AudioModel>> fetchArtistLatestTracks(
   JellyService api,
@@ -89,6 +91,16 @@ class ArtistDetailsNotifier extends StateNotifier<ArtistModel?> {
 
   Future<void> fetchAlbums() async {
     if (state == null) return;
+    if (ref.read(connectivityStatusProvider) == ConnectionState.offline) {
+      final albums = (await ref.read(syncProvider.notifier).getChildren(state!.id))
+          .map((item) => item.itemModel)
+          .whereType<AlbumModel>()
+          .toList();
+
+      state = state?.copyWith(albums: albums);
+      return;
+    }
+
     try {
       final response = await api.itemsGet(
         parentId: state!.id,
@@ -138,6 +150,20 @@ class ArtistDetailsNotifier extends StateNotifier<ArtistModel?> {
 
   Future<void> fetchTracks({int limit = 10}) async {
     if (state == null) return;
+    if (ref.read(connectivityStatusProvider) == ConnectionState.offline) {
+      final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(state!.id);
+      if (syncedItem == null) return;
+
+      final tracks = (await ref.read(syncProvider.notifier).getNestedChildren(syncedItem))
+          .map((item) => item.itemModel)
+          .whereType<AudioModel>()
+          .take(limit)
+          .toList();
+
+      state = state?.copyWith(tracks: tracks);
+      return;
+    }
+
     try {
       final tracks = await fetchArtistLatestTracks(api, state!.id, limit: limit);
       state = state?.copyWith(tracks: tracks);
@@ -149,6 +175,10 @@ class ArtistDetailsNotifier extends StateNotifier<ArtistModel?> {
 
   Future<void> fetchSimilarArtists() async {
     if (state == null) return;
+    if (ref.read(connectivityStatusProvider) == ConnectionState.offline) {
+      return;
+    }
+
     try {
       final response = await api.itemsItemIdSimilarGet(itemId: state!.id, limit: 12);
       final related =

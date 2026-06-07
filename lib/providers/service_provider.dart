@@ -22,6 +22,7 @@ import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -92,9 +93,22 @@ class JellyService {
   final Ref ref;
   AccountModel? get account => ref.read(userProvider);
 
+  Future<Response<ItemBaseModel>> _syncedItemResponse(String? itemId) async {
+    final item = (await ref.read(syncProvider.notifier).getSyncedItem(itemId))?.itemModel;
+    return Response<ItemBaseModel>(
+      http.Response("", 202),
+      item,
+    );
+  }
+
   Future<Response<ItemBaseModel>> usersUserIdItemsItemIdGet({
     String? itemId,
   }) async {
+    final isOffline = ref.read(connectivityStatusProvider) == ConnectionState.offline;
+    if (isOffline) {
+      return _syncedItemResponse(itemId);
+    }
+
     try {
       final response = await api.itemsItemIdGet(
         userId: account?.id,
@@ -102,34 +116,43 @@ class JellyService {
       );
       return response.copyWith(body: ItemBaseModel.fromBaseDto(response.bodyOrThrow, ref));
     } catch (e) {
-      final item = (await ref.read(syncProvider.notifier).getSyncedItem(itemId))?.itemModel;
-      return Response<ItemBaseModel>(
-        http.Response("", 202),
-        item,
-      );
+      return _syncedItemResponse(itemId);
     }
   }
 
   Future<Response<BaseItemDto>> usersUserIdItemsItemIdGetBaseItem({
     String? itemId,
   }) async {
+    final isOffline = ref.read(connectivityStatusProvider) == ConnectionState.offline;
+    if (isOffline) {
+      final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(itemId);
+      return syncedItem?.data != null
+          ? Response<BaseItemDto>(
+              http.Response("", 202),
+              syncedItem?.data,
+            )
+          : Response<BaseItemDto>(
+              http.Response("", 404),
+              null,
+            );
+    }
+
     try {
       return await api.itemsItemIdGet(
         userId: account?.id,
         itemId: itemId,
       );
     } catch (e) {
-      return ref.read(syncProvider.notifier).getSyncedItem(itemId).then(
-            (value) => value?.data != null
-                ? Response<BaseItemDto>(
-                    http.Response("", 202),
-                    value?.data,
-                  )
-                : Response<BaseItemDto>(
-                    http.Response("", 404),
-                    null,
-                  ),
-          );
+      final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(itemId);
+      return syncedItem?.data != null
+          ? Response<BaseItemDto>(
+              http.Response("", 202),
+              syncedItem?.data,
+            )
+          : Response<BaseItemDto>(
+              http.Response("", 404),
+              null,
+            );
     }
   }
 

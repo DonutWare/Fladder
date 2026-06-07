@@ -9,7 +9,9 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/album_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
+import 'package:fladder/providers/sync_provider.dart';
 
 final albumDetailsProvider =
     StateNotifierProvider.autoDispose.family<AlbumDetailsNotifier, AlbumModel?, String>((ref, id) {
@@ -45,6 +47,15 @@ class AlbumDetailsNotifier extends StateNotifier<AlbumModel?> {
 
   Future<void> fetchTracks() async {
     if (state == null) return;
+    if (ref.read(connectivityStatusProvider) == ConnectionState.offline) {
+      final tracks = (await ref.read(syncProvider.notifier).getChildren(state!.id))
+          .map((item) => item.itemModel)
+          .whereType<AudioModel>()
+          .toList();
+      state = state?.copyWith(tracks: tracks);
+      return;
+    }
+
     try {
       final response = await api.itemsGet(
         parentId: state!.id,
@@ -70,6 +81,20 @@ class AlbumDetailsNotifier extends StateNotifier<AlbumModel?> {
 
   Future<void> fetchArtistRelated() async {
     if (state == null) return;
+    if (ref.read(connectivityStatusProvider) == ConnectionState.offline) {
+      final parentId = state!.parentId;
+      if (parentId == null) return;
+
+      final albums = (await ref.read(syncProvider.notifier).getChildren(parentId))
+          .map((item) => item.itemModel)
+          .whereType<AlbumModel>()
+          .where((album) => album.id != state!.id)
+          .toList();
+
+      state = state?.copyWith(relatedAlbums: albums);
+      return;
+    }
+
     try {
       final artistIds = state!.artistIds.isNotEmpty ? state!.artistIds : state!.albumArtistIds;
       if (artistIds.isEmpty) return;
