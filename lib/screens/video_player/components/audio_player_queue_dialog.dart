@@ -53,11 +53,12 @@ class AudioQueueDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playbackInfo = ref.watch(mediaPlaybackProvider);
     final currentModel = ref.watch(playBackModel);
     final player = ref.watch(videoPlayerProvider);
 
-    final shouldWrap = playbackInfo.repeatMode == AudioRepeatMode.all;
+    // Only depend on repeatMode here; watching the whole model rebuilt the
+    // entire dialog (and re-mapped the queue) on every position tick.
+    final shouldWrap = ref.watch(mediaPlaybackProvider.select((value) => value.repeatMode == AudioRepeatMode.all));
     final items = player.audioQueueForDisplay(wrapAround: shouldWrap);
     final currentItem = currentModel?.item;
     final tempStart = player.temporaryQueueStartInDisplay(wrapAround: shouldWrap);
