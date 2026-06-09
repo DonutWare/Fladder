@@ -154,6 +154,9 @@ final playbackModelHelper = Provider<PlaybackModelHelper>((ref) {
   return PlaybackModelHelper(ref: ref);
 });
 
+@visibleForTesting
+bool useLocalSyncedCopy({required bool isSynced, required bool serverReachable}) => isSynced && !serverReachable;
+
 class PlaybackModelHelper {
   const PlaybackModelHelper({required this.ref});
 
@@ -267,17 +270,44 @@ class PlaybackModelHelper {
 
       if (firstItemToPlay == null) return null;
 
-      final fullItemResponse = await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id);
+      final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(firstItemToPlay.id);
+      final firstItemIsSynced = syncedItem != null && syncedItem.status == TaskStatus.complete;
+      final isOffline = ref.read(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
 
-      final fullItem = fullItemResponse.body;
-
-      if (fullItem == null) {
-        return null;
+      if (useLocalSyncedCopy(isSynced: firstItemIsSynced, serverReachable: !isOffline)) {
+        final offlineModel = await _createOfflinePlaybackModel(
+          firstItemToPlay,
+          item.streamModel,
+          syncedItem,
+          oldModel: oldModel,
+          queueSource: effectiveQueueSource,
+        );
+        if (offlineModel != null) return offlineModel;
       }
 
-      SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(fullItem.id);
+      Response<ItemBaseModel>? fullItemResponse;
+      try {
+        fullItemResponse =
+            await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id).timeout(const Duration(seconds: 5));
+      } catch (e) {
+        log("Error fetching item, falling back to offline: ${e.toString()}");
+      }
 
-      final firstItemIsSynced = syncedItem != null && syncedItem.status == TaskStatus.complete;
+      final fullItem = fullItemResponse?.body;
+
+      if (fullItem == null) {
+        if (firstItemIsSynced) {
+          final offlineModel = await _createOfflinePlaybackModel(
+            firstItemToPlay,
+            item.streamModel,
+            syncedItem,
+            oldModel: oldModel,
+            queueSource: effectiveQueueSource,
+          );
+          if (offlineModel != null) return offlineModel;
+        }
+        return null;
+      }
 
       final actualStartPosition = startPosition ?? fullItem.userData.playBackPosition;
 
@@ -286,8 +316,6 @@ class PlaybackModelHelper {
         PlaybackType.transcode,
         if (firstItemIsSynced) PlaybackType.offline,
       };
-
-      final isOffline = ref.read(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
 
       if (firstItemToPlay is AudioModel && firstItemIsSynced) {
         final offlinePlayback = await _createOfflinePlaybackModel(
