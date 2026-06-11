@@ -140,6 +140,8 @@ dependencies {
     implementation("org.jellyfin.media3:media3-ffmpeg-decoder:$media3_version")
     implementation("io.github.peerless2012:ass-media:0.3.0")
 
+    testImplementation("junit:junit:4.13.2")
+
     //UI
     implementation("io.github.rabehx:iconsax-compose:0.0.5")
     implementation("io.coil-kt.coil3:coil-compose:3.3.0")

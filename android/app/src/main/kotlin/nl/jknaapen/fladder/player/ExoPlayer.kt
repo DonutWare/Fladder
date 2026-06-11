@@ -90,7 +90,7 @@ internal fun ExoPlayer(
         .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
         .build()
 
-    val renderersFactory = DefaultRenderersFactory(context)
+    val renderersFactory = DvSanitizingRenderersFactory(context)
         .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
         .setEnableDecoderFallback(true)
 
