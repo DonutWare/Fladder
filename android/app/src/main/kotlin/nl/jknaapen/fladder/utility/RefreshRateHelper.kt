@@ -17,13 +17,18 @@ import kotlin.time.Duration.Companion.seconds
 
 private const val TAG = "RefreshRateHelper"
 
+/**
+ * Switches the display to a mode matching the video, waiting for the switch to settle.
+ * Returns the mode id that was active before the switch, or null if no switch was performed,
+ * so the caller can restore it later via [resetRefreshRateAndWait].
+ */
 suspend fun applyRefreshRate(
     window: Window,
     displayManager: DisplayManager,
     videoWidth: Int,
     videoHeight: Int,
     frameRate: Float,
-) = withContext(Dispatchers.IO) {
+): Int? = withContext(Dispatchers.IO) {
     val display = displayManager.getDisplay(Display.DEFAULT_DISPLAY)
     val displayModes = display.supportedModes
         .orEmpty()
@@ -43,14 +48,46 @@ suspend fun applyRefreshRate(
 
     Log.d(TAG, "Video: ${videoWidth}x${videoHeight} @ ${frameRate}fps — target mode: $targetMode, current: $currentMode")
 
-    if (targetMode == null || targetMode.modeId == currentMode.modeId) return@withContext
+    if (targetMode == null || targetMode.modeId == currentMode.modeId) return@withContext null
 
+    switchModeAndWait(window, displayManager, display, targetMode.modeId, targetMode.refreshRate, currentMode)
+    currentMode.modeId
+}
+
+/**
+ * Restores the display mode that was active before [applyRefreshRate], waiting for the switch
+ * to settle. Must run while the window is still alive — switching during activity teardown
+ * races the HDMI re-handshake and can black out pass-through audio chains.
+ */
+suspend fun resetRefreshRateAndWait(
+    window: Window,
+    displayManager: DisplayManager,
+    originalModeId: Int,
+) = withContext(Dispatchers.IO) {
+    val display = displayManager.getDisplay(Display.DEFAULT_DISPLAY)
+    val currentMode = display.mode
+    if (currentMode.modeId == originalModeId) return@withContext
+    val targetMode = display.supportedModes.orEmpty().firstOrNull { it.modeId == originalModeId }
+        ?: return@withContext
+
+    Log.d(TAG, "Restoring display mode $targetMode, current: $currentMode")
+    switchModeAndWait(window, displayManager, display, targetMode.modeId, targetMode.refreshRate, currentMode)
+}
+
+private suspend fun switchModeAndWait(
+    window: Window,
+    displayManager: DisplayManager,
+    display: Display,
+    targetModeId: Int,
+    targetRefreshRate: Float,
+    currentMode: Display.Mode,
+) {
     val listener = DisplayChangeListener(display.displayId)
     displayManager.registerDisplayListener(listener, Handler(Looper.getMainLooper()))
     try {
         withContext(Dispatchers.Main) {
             val attrs = window.attributes
-            attrs.preferredDisplayModeId = targetMode.modeId
+            attrs.preferredDisplayModeId = targetModeId
             window.attributes = attrs
         }
         withTimeoutOrNull(5.seconds) { listener.deferred.await() }
@@ -59,7 +96,7 @@ suspend fun applyRefreshRate(
     }
 
     // Wait for non-seamless switches (https://developer.android.com/media/optimize/performance/frame-rate)
-    val targetRateMillis = (targetMode.refreshRate * 1000).roundToInt()
+    val targetRateMillis = (targetRefreshRate * 1000).roundToInt()
     val currentRateMillis = (currentMode.refreshRate * 1000).roundToInt()
     val isSeamless = targetRateMillis == currentRateMillis ||
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
