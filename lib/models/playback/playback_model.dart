@@ -177,8 +177,16 @@ class PlaybackModelHelper {
           oldModel: currentModel,
         );
     if (newModel == null) return null;
-    ref.read(videoPlayerProvider.notifier).loadPlaybackItem(newModel, Duration.zero);
-    return newModel;
+    // The new model inherits oldModel.playbackQueue verbatim, so its
+    // mainQueueCurrentId still points at the episode we just left.
+    // nextVideo/previousVideo anchor on that id, so without this advance
+    // the auto-next overlay keeps offering the episode that is already
+    // playing and re-loads it from the start.
+    final advancedQueue =
+        currentModel?.playbackQueue.advanceFromCurrentTo(currentModel.item.id, newItem.id);
+    final modelToLoad = advancedQueue != null ? newModel.updatePlaybackQueue(advancedQueue) : newModel;
+    ref.read(videoPlayerProvider.notifier).loadPlaybackItem(modelToLoad, Duration.zero);
+    return modelToLoad;
   }
 
   Future<void> loadTVChannel(ChannelModel? channel) async {
