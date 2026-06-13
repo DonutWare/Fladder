@@ -856,11 +856,13 @@
   "@scanBiometricHint": {},
   "scanLibrary": "Scan library",
   "@scanLibrary": {},
-  "scanYourFingerprintToAuthenticate": "Scan your fingerprint to authenticate {user}",
-  "@scanYourFingerprintToAuthenticate": {
+  "authenticateWithBiometrics": "Use biometrics to authenticate {user}",
+  "@authenticateWithBiometrics": {
+    "description": "Prompt shown to the user when biometric authentication is requested",
     "placeholders": {
       "user": {
-        "type": "String"
+        "type": "String",
+        "example": "Jane"
       }
     }
   },

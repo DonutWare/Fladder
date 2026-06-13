@@ -34,7 +34,11 @@ Future<void> showAuthOptionsDialogue(
                       setMethod.call(currentUser.copyWith(authMethod: method));
                       break;
                     case Authentication.biometrics:
-                      final authenticated = await AuthService.authenticateUser(context, currentUser);
+                      final authenticated = await AuthService.authenticateUser(
+                        context,
+                        currentUser,
+                        sensitiveTransaction: true,
+                      );
                       if (authenticated) {
                         setMethod.call(currentUser.copyWith(authMethod: method));
                       } else if (context.mounted) {
