@@ -89,6 +89,7 @@ class JellyRequest implements Interceptor {
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
     final connectivityNotifier = ref.read(connectivityStatusProvider.notifier);
+    // final serverUrl = "https://example.com"; // ref.read(serverUrlProvider); --- IGNORE ---
     final serverUrl = ref.read(serverUrlProvider);
 
     if (serverUrl == null || serverUrl.isEmpty) {
@@ -112,7 +113,7 @@ class JellyRequest implements Interceptor {
           ),
         );
 
-        connectivityNotifier.checkConnectivity();
+        unawaited(connectivityNotifier.checkConnectivity());
         return response;
       } catch (e) {
         if (!_isConnectionError(e) || attempt == _maxRetries) {
