@@ -29,9 +29,9 @@ class SyncFileButton extends ConsumerWidget {
       message: transcodeEnabled ? context.localized.downloadTranscoded : context.localized.downloadOriginal,
       child: IconButtonAwait(
         onPressed: () async => await ref.read(syncProvider.notifier).syncSyncedItem(
-          context,
-          syncedItem,
-        ),
+              context,
+              syncedItem,
+            ),
         onLongPress: () async {
           TranscodeDownloadModel? transcodeModel;
           TranscodeMusicDownloadModel? musicTranscodeModel;
@@ -68,11 +68,11 @@ class SyncFileButton extends ConsumerWidget {
             return;
           }
           await ref.read(syncProvider.notifier).syncSyncedItem(
-            context,
-            syncedItem,
-            transcodeModel: transcodeModel,
-            musicTranscodeModel: musicTranscodeModel,
-          );
+                context,
+                syncedItem,
+                transcodeModel: transcodeModel,
+                musicTranscodeModel: musicTranscodeModel,
+              );
         },
         icon: Icon(
           transcodeEnabled ? IconsaxPlusLinear.cloud_change : IconsaxPlusLinear.import_3,

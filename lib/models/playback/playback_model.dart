@@ -177,8 +177,7 @@ class PlaybackModelHelper {
           oldModel: currentModel,
         );
     if (newModel == null) return null;
-    final advancedQueue =
-        currentModel?.playbackQueue.advanceFromCurrentTo(currentModel.item.id, newItem.id);
+    final advancedQueue = currentModel?.playbackQueue.advanceFromCurrentTo(currentModel.item.id, newItem.id);
     final modelToLoad = advancedQueue != null ? newModel.updatePlaybackQueue(advancedQueue) : newModel;
     ref.read(videoPlayerProvider.notifier).loadPlaybackItem(modelToLoad, Duration.zero);
     return modelToLoad;
@@ -385,7 +384,7 @@ class PlaybackModelHelper {
           newStreamModel?.subStreams,
           newStreamModel?.defaultSubStreamIndex);
 
-      //Native player does not allow for loading external subtitles with transcoding
+//Native player does not allow for loading external subtitles with transcoding
       final isNativePlayer =
           ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer == PlayerOptions.nativePlayer));
       final isExternalSub = newStreamModel?.currentSubStream?.isExternal == true;
