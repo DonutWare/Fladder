@@ -110,6 +110,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(true) bool enablePlayPauseFade,
     @Default(true) bool enableCrossfade,
     @Default(400) int crossfadeDurationMs,
+    @Default(false) bool refreshRateSwitching,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => internalVolume;

@@ -81,6 +81,7 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
                 },
               )
               .toList(),
+          refreshRateSwitching: value.refreshRateSwitching,
         ),
       );
     }

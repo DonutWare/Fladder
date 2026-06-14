@@ -207,6 +207,9 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
         videoInformation: model.item.streamModel?.mediaInfoTag ?? " ",
       ),
       url: model.media?.url ?? "",
+      videoWidth: model.mediaStreams?.videoStreams.firstOrNull?.width,
+      videoHeight: model.mediaStreams?.videoStreams.firstOrNull?.height,
+      videoFrameRate: model.mediaStreams?.videoStreams.firstOrNull?.frameRate,
     );
     await player.sendPlayableModel(playableData);
   }
