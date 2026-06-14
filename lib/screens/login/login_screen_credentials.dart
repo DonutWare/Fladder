@@ -11,6 +11,7 @@ import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
@@ -103,6 +104,38 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     final hasBaseUrl = ref.watch(authProvider.select((value) => value.hasBaseUrl));
     final urlError = ref.watch(authProvider.select((value) => value.errorMessage));
     final hasQuickConnect = ref.watch(authProvider.select((value) => value.serverLoginModel?.hasQuickConnect ?? false));
+    // Note: hidePasswordLogin is a UI preference, not a security control.
+    // It hides the password fields but does not disable password-based authentication on the server.
+    final hidePasswordLogin = ref.watch(authProvider.select((value) => value.hidePasswordLogin)) ||
+        ref.watch(clientSettingsProvider.select((value) => value.hidePasswordLogin));
+
+    final advancedOptionsButton = IconButton.filledTonal(
+      onPressed: () async {
+        final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+        final result = await showAdvancedLoginOptionsDialog(
+          context,
+          initialSeerrUrl: tempSeerrUrl,
+        );
+        if (result != null) {
+          ref.read(authProvider.notifier).setTempSeerrUrl(result);
+        }
+      },
+      icon: const Icon(IconsaxPlusLinear.setting_3),
+    );
+
+    final backButton = IconButton.filledTonal(
+      onPressed: () => provider.goUserSelect(),
+      icon: const Icon(IconsaxPlusLinear.arrow_left_2),
+    );
+
+    final refreshButton = Tooltip(
+      message: context.localized.retrievePublicListOfUsers,
+      waitDuration: const Duration(seconds: 1),
+      child: IconButton.filled(
+        onPressed: () => provider.setServer(serverTextController.text),
+        icon: const Icon(IconsaxPlusLinear.refresh),
+      ),
+    );
 
     ref.listen(
       authProvider.select((value) => value.serverLoginModel),
@@ -118,50 +151,31 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 16,
       children: [
-        IntrinsicHeight(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: 8,
-            children: [
-              AspectRatio(
-                aspectRatio: 1,
-                child: IconButton.filledTonal(
-                  onPressed: () => provider.goUserSelect(),
-                  icon: const Icon(
-                    IconsaxPlusLinear.arrow_left_2,
-                  ),
-                ),
-              ),
-              if (!hasBaseUrl)
-                Expanded(
-                  child: OutlinedTextField(
-                    controller: serverTextController,
-                    onSubmitted: (value) => provider.setServer(value),
-                    autoFillHints: const [AutofillHints.url],
-                    keyboardType: TextInputType.url,
-                    autocorrect: false,
-                    textInputAction: TextInputAction.go,
-                    label: context.localized.server,
-                    errorText: urlError,
-                  ),
-                ),
-              AspectRatio(
-                aspectRatio: 1,
-                child: Tooltip(
-                  message: context.localized.retrievePublicListOfUsers,
-                  waitDuration: const Duration(seconds: 1),
-                  child: IconButton.filled(
-                    onPressed: () => provider.setServer(serverTextController.text),
-                    icon: const Icon(
-                      IconsaxPlusLinear.refresh,
+        if (!(hasBaseUrl && hidePasswordLogin))
+          IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 8,
+              children: [
+                if (existingUsers.isNotEmpty) AspectRatio(aspectRatio: 1, child: backButton),
+                if (!hasBaseUrl)
+                  Expanded(
+                    child: OutlinedTextField(
+                      controller: serverTextController,
+                      onSubmitted: (value) => provider.setServer(value),
+                      autoFillHints: const [AutofillHints.url],
+                      keyboardType: TextInputType.url,
+                      autocorrect: false,
+                      textInputAction: TextInputAction.go,
+                      label: context.localized.server,
+                      errorText: urlError,
                     ),
                   ),
-                ),
-              ),
-            ],
+                AspectRatio(aspectRatio: 1, child: refreshButton),
+              ],
+            ),
           ),
-        ),
         if (serverCredentials == null)
           Column(
             mainAxisSize: MainAxisSize.max,
@@ -214,83 +228,89 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 spacing: 8,
                 children: [
-                  Flexible(
-                    child: AutofillGroup(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        spacing: 8,
-                        children: [
-                          Flexible(
-                            child: OutlinedTextField(
-                              controller: usernameController,
-                              autoFillHints: const [AutofillHints.username],
-                              textInputAction: TextInputAction.next,
-                              autocorrect: false,
-                              onChanged: (value) => setState(() {}),
-                              label: context.localized.userName,
+                  if (!hidePasswordLogin)
+                    Flexible(
+                      child: AutofillGroup(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          spacing: 8,
+                          children: [
+                            Flexible(
+                              child: OutlinedTextField(
+                                controller: usernameController,
+                                autoFillHints: const [AutofillHints.username],
+                                textInputAction: TextInputAction.next,
+                                autocorrect: false,
+                                onChanged: (value) => setState(() {}),
+                                label: context.localized.userName,
+                              ),
                             ),
-                          ),
-                          Flexible(
-                            child: OutlinedTextField(
-                              controller: passwordController,
-                              autoFillHints: const [AutofillHints.password],
-                              keyboardType: TextInputType.visiblePassword,
-                              focusNode: focusNode,
-                              autocorrect: false,
-                              textInputAction: TextInputAction.send,
-                              onSubmitted: (value) => enterCredentialsTryLogin?.call(),
-                              onChanged: (value) => setState(() {}),
-                              label: context.localized.password,
+                            Flexible(
+                              child: OutlinedTextField(
+                                controller: passwordController,
+                                autoFillHints: const [AutofillHints.password],
+                                keyboardType: TextInputType.visiblePassword,
+                                focusNode: focusNode,
+                                autocorrect: false,
+                                textInputAction: TextInputAction.send,
+                                onSubmitted: (value) => enterCredentialsTryLogin?.call(),
+                                onChanged: (value) => setState(() {}),
+                                label: context.localized.password,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const Divider(
-                    indent: 32,
-                    endIndent: 32,
-                  ),
-                  Row(
-                    spacing: 8,
-                    children: [
-                      Expanded(
-                        child: FilledButton(
-                          onPressed: enterCredentialsTryLogin,
-                          child: loggingIn
-                              ? SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: CircularProgressIndicator(
-                                      color: Theme.of(context).colorScheme.inversePrimary, strokeCap: StrokeCap.round),
-                                )
-                              : Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(context.localized.login),
-                                    const SizedBox(width: 8),
-                                    const Icon(IconsaxPlusBold.send_1),
-                                  ],
-                                ),
+                  if (!hidePasswordLogin) ...[
+                    const Divider(
+                      indent: 32,
+                      endIndent: 32,
+                    ),
+                    Row(
+                      spacing: 8,
+                      children: [
+                        Expanded(
+                          child: FilledButton(
+                            onPressed: enterCredentialsTryLogin,
+                            child: loggingIn
+                                ? SizedBox(
+                                    width: 18,
+                                    height: 18,
+                                    child: CircularProgressIndicator(
+                                        color: Theme.of(context).colorScheme.inversePrimary,
+                                        strokeCap: StrokeCap.round),
+                                  )
+                                : Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(context.localized.login),
+                                      const SizedBox(width: 8),
+                                      const Icon(IconsaxPlusBold.send_1),
+                                    ],
+                                  ),
+                          ),
                         ),
-                      ),
-                      if (FladderConfig.seerrBaseUrl?.isNotEmpty != true)
-                        IconButton.filledTonal(
-                          onPressed: () async {
-                            final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-                            final result = await showAdvancedLoginOptionsDialog(
-                              context,
-                              initialSeerrUrl: tempSeerrUrl,
-                            );
-                            if (result != null) {
-                              ref.read(authProvider.notifier).setTempSeerrUrl(result);
-                            }
-                          },
-                          icon: const Icon(IconsaxPlusLinear.setting_3),
-                        ),
-                    ],
-                  ),
+                        if (FladderConfig.seerrBaseUrl?.isNotEmpty != true) advancedOptionsButton,
+                      ],
+                    ),
+                  ],
+                  if (hasBaseUrl && hidePasswordLogin)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 8,
+                      children: [
+                        if (existingUsers.isNotEmpty) backButton,
+                        refreshButton,
+                        if (FladderConfig.seerrBaseUrl?.isNotEmpty != true) advancedOptionsButton,
+                      ],
+                    ),
+                  if (!hasBaseUrl && hidePasswordLogin && FladderConfig.seerrBaseUrl?.isNotEmpty != true)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [advancedOptionsButton],
+                    ),
                   if (hasQuickConnect)
                     FilledButton(
                       onPressed: () async {

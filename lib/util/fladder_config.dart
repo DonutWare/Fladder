@@ -10,6 +10,10 @@ class FladderConfig {
   static set seerrBaseUrl(String? value) => _instance._seerrBaseUrl = value;
   String? _seerrBaseUrl;
 
+  static bool? get hidePasswordLogin => _instance._hidePasswordLogin;
+  static set hidePasswordLogin(bool? value) => _instance._hidePasswordLogin = value;
+  bool? _hidePasswordLogin;
+
   static void fromJson(Map<String, dynamic> json) => _instance = FladderConfig._fromJson(json);
 
   factory FladderConfig._fromJson(Map<String, dynamic> json) {
@@ -19,6 +23,7 @@ class FladderConfig {
 
     config._baseUrl = newUrl?.isEmpty == true ? null : newUrl;
     config._seerrBaseUrl = newSeerrUrl?.isEmpty == true ? null : newSeerrUrl;
+    config._hidePasswordLogin = json['hidePasswordLogin'] as bool?;
 
     return config;
   }

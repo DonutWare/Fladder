@@ -9,3 +9,4 @@ services:
       - SEERR_BASE_URL=https://seerr-url #OPTIONAL: Presets Seerr base URL
       - SEERR_HEADER={"key":"value"} #OPTIONAL: JSON object string of Seerr headers
       - FLADDER_WEBPATH=/ #OPTIONAL: Configures a subpath to run Fladder at
+      - HIDE_PASSWORD_LOGIN= #OPTIONAL: Set to "true" to hide password fields and only show QuickConnect
