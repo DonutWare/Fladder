@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide ConnectionState;
 
@@ -93,7 +95,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
 
     final isOffline = ref.watch(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
 
-    final offlineMessageHeight = isOffline && !isDesktop ? 12 : 0;
+    final offlineMessageHeight = isOffline && !isDesktop ? 18 : 0;
 
     final calculatedBottomViewPadding =
         showPlayerBar ? floatingPlayerHeight(context) + bottomViewPadding : bottomViewPadding;
@@ -175,6 +177,8 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
           )
         : const SizedBox.shrink();
 
+    final offlineMessagePadding = max((kToolbarHeight), MediaQuery.of(context).padding.top) + offlineMessageHeight;
+
     return PopScope(
       canPop: !showAudioOverlay && currentIndex == 0,
       onPopInvokedWithResult: (didPop, result) {
@@ -193,7 +197,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
             child: MediaQuery(
               data: mediaQuery.copyWith(
                 padding: paddingOf.copyWith(
-                  top: mediaQuery.padding.top + offlineMessageHeight,
+                  top: offlineMessagePadding,
                   bottom: showPlayerBar ? floatingPlayerHeight(context) + 12 + bottomPadding : bottomPadding,
                 ),
                 viewPadding: viewPaddingOf.copyWith(
@@ -244,7 +248,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                 duration: const Duration(milliseconds: 250),
                 opacity: isOffline ? 1 : 0,
                 child: Container(
-                  height: kToolbarHeight + offlineMessageHeight,
+                  height: offlineMessagePadding,
                   alignment: Alignment.bottomCenter,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -256,9 +260,9 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                       end: Alignment.bottomCenter,
                     ),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: OfflineBanner(),
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: offlineMessageHeight / 2),
+                    child: const OfflineBanner(),
                   ),
                 ),
               ),

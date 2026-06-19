@@ -74,116 +74,125 @@ class _SyncedAudioItemState extends ConsumerState<SyncedAudioItem> {
 
   @override
   Widget build(BuildContext context) {
-    final downloadTask = ref.watch(downloadTasksProvider(syncedItem.id));
-    final hasFile = syncedItem.videoFile.existsSync();
-    final artistLabel = widget.audio.artistsLabel;
-    final trackLabel = widget.audio.trackLabel(context, widget.audio.trackNumber);
-    final albumLabel = widget.audio.albumLabel();
-    final coverImage = widget.audio.getPosters?.primary ??
-        widget.audio.getPosters?.backDrop?.firstOrNull ??
-        parentAlbumItem?.itemModel?.getPosters?.primary ??
-        parentAlbumItem?.itemModel?.getPosters?.backDrop?.firstOrNull;
+    final syncedItem = ref.watch(syncedItemProvider(widget.syncedItem.itemModel));
 
-    return IntrinsicHeight(
-      child: Row(
-        children: [
-          SyncItemPoster(
-            item: syncedItem,
-            child: FlatButton(
-              onTap: () {
-                widget.audio.navigateTo(context);
-                return context.maybePop();
-              },
-              child: SizedBox(
-                width: 64,
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Card(
-                    child: FladderImage(
-                      image: coverImage,
-                      fit: BoxFit.cover,
+    Widget buildWidget(SyncedItem syncedItem) {
+      final downloadTask = ref.watch(downloadTasksProvider(syncedItem.id));
+      final hasFile = syncedItem.videoFile.existsSync();
+      final artistLabel = widget.audio.artistsLabel;
+      final trackLabel = widget.audio.trackLabel(context, widget.audio.trackNumber);
+      final albumLabel = widget.audio.albumLabel();
+      final coverImage = widget.audio.getPosters?.primary ??
+          widget.audio.getPosters?.backDrop?.firstOrNull ??
+          parentAlbumItem?.itemModel?.getPosters?.primary ??
+          parentAlbumItem?.itemModel?.getPosters?.backDrop?.firstOrNull;
+
+      return IntrinsicHeight(
+        child: Row(
+          children: [
+            SyncItemPoster(
+              item: syncedItem,
+              child: FlatButton(
+                onTap: () {
+                  widget.audio.navigateTo(context);
+                  return context.maybePop();
+                },
+                child: SizedBox(
+                  width: 64,
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Card(
+                      child: FladderImage(
+                        image: coverImage,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          widget.audio.name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                      Flexible(
-                        child: Opacity(
-                          opacity: 0.75,
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
                           child: Text(
-                            [
-                              if (trackLabel.isNotEmpty) trackLabel,
-                              if (artistLabel.isNotEmpty) artistLabel,
-                              if (albumLabel.isNotEmpty) albumLabel,
-                            ].join(' • '),
+                            widget.audio.name,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                if (!hasFile && downloadTask.hasDownload)
-                  Flexible(
-                    child: SyncProgressBar(item: syncedItem, task: downloadTask),
-                  )
-                else
-                  Flexible(
-                    child: SyncLabel(
-                      label:
-                          context.localized.totalSize(ref.watch(syncSizeProvider(syncedItem, [])).byteFormat ?? '--'),
-                      status: ref.watch(syncDownloadStatusProvider(syncedItem, [])
-                          .select((value) => value?.status ?? TaskStatus.notFound)),
+                        Flexible(
+                          child: Opacity(
+                            opacity: 0.75,
+                            child: Text(
+                              [
+                                if (trackLabel.isNotEmpty) trackLabel,
+                                if (artistLabel.isNotEmpty) artistLabel,
+                                if (albumLabel.isNotEmpty) albumLabel,
+                              ].join(' • '),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-              ],
+                  if (!hasFile && downloadTask.hasDownload)
+                    Flexible(
+                      child: SyncProgressBar(item: syncedItem, task: downloadTask),
+                    )
+                  else
+                    Flexible(
+                      child: SyncLabel(
+                        label:
+                            context.localized.totalSize(ref.watch(syncSizeProvider(syncedItem, [])).byteFormat ?? '--'),
+                        status: ref.watch(syncDownloadStatusProvider(syncedItem, [])
+                            .select((value) => value?.status ?? TaskStatus.notFound)),
+                      ),
+                    ),
+                ],
+              ),
             ),
-          ),
-          if (!hasFile && !downloadTask.hasDownload)
-            SyncFileButton(syncedItem: syncedItem)
-          else if (hasFile)
-            IconButtonAwait(
-              color: Theme.of(context).colorScheme.error,
-              onPressed: () async {
-                await showDefaultAlertDialog(
-                  context,
-                  context.localized.syncRemoveDataTitle,
-                  context.localized.syncRemoveDataDesc,
-                  (context) async {
-                    await ref.read(syncProvider.notifier).deleteFullSyncFiles(syncedItem, downloadTask.task);
-                    Navigator.pop(context);
-                  },
-                  context.localized.delete,
-                  (context) => Navigator.pop(context),
-                  context.localized.cancel,
-                );
-              },
-              icon: const Icon(IconsaxPlusLinear.trash),
-            ),
-        ].addInBetween(const SizedBox(width: 16)),
-      ),
-    );
+            if (!hasFile && !downloadTask.hasDownload)
+              SyncFileButton(syncedItem: syncedItem)
+            else if (hasFile)
+              IconButtonAwait(
+                color: Theme.of(context).colorScheme.error,
+                onPressed: () async {
+                  await showDefaultAlertDialog(
+                    context,
+                    context.localized.syncRemoveDataTitle,
+                    context.localized.syncRemoveDataDesc,
+                    (context) async {
+                      await ref.read(syncProvider.notifier).deleteFullSyncFiles(syncedItem, downloadTask.task);
+                      Navigator.pop(context);
+                    },
+                    context.localized.delete,
+                    (context) => Navigator.pop(context),
+                    context.localized.cancel,
+                  );
+                },
+                icon: const Icon(IconsaxPlusLinear.trash),
+              ),
+          ].addInBetween(const SizedBox(width: 16)),
+        ),
+      );
+    }
+
+    return switch (syncedItem) {
+      AsyncData(:final asData) => buildWidget(asData?.value ?? widget.syncedItem),
+      _ => const SizedBox.shrink(),
+    };
   }
 }

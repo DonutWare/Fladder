@@ -9,7 +9,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:share_plus/share_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
@@ -484,11 +483,6 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                               ? IconsaxPlusLinear.filter_remove
                               : IconsaxPlusLinear.filter,
                         ),
-                        ElevatedIconButtonLabel(
-                          label: context.localized.share,
-                          onPressed: () => sharePhoto(currentPhoto),
-                          icon: IconsaxPlusLinear.share,
-                        ),
                       ].addInBetween(const SizedBox(width: 16)),
                     );
                   }),
@@ -511,16 +505,6 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
           );
         },
       );
-
-  Future<void> sharePhoto(PhotoModel photo) async {
-    final file = await CustomCacheManager.instance.getSingleFile(photo.downloadPath(ref));
-    await SharePlus.instance.share(ShareParams(files: [
-      XFile(
-        file.path,
-      ),
-    ]));
-    await file.delete();
-  }
 
   Future<void> markAsFavourite(PhotoModel photo, {bool? value}) async {
     await ref.read(userProvider.notifier).setAsFavorite(value ?? !photo.userData.isFavourite, photo.id);
