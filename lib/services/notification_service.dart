@@ -64,8 +64,12 @@ class NotificationService {
   }
 
   static Future<String?> getInitialNotificationPayload() async {
-    final details = await _plugin.getNotificationAppLaunchDetails();
-    return details?.notificationResponse?.payload;
+    try {
+      final details = await _plugin.getNotificationAppLaunchDetails();
+      return details?.notificationResponse?.payload;
+    } catch (e) {
+      return null;
+    }
   }
 
   static Future<bool> requestPermission() async {
