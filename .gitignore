@@ -52,6 +52,7 @@ app.*.map.json
 **/android/**/GeneratedPluginRegistrant.java
 **/android/key.properties
 *.jks
+*.jks.base64
 local.properties
 **/.cxx/
 
