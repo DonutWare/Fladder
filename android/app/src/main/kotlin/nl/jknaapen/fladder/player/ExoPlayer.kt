@@ -68,6 +68,10 @@ internal fun ExoPlayer(
 ) {
     val videoHost = VideoPlayerObject
     val context = LocalContext.current
+    val playerSettings by PlayerSettingsObject.settings.collectAsState()
+    val settings = playerSettings ?: return
+    val ignoreHdr10Plus = settings.ignoreHdr10Plus
+    val enableTunneling = settings.enableTunneling
 
     val extractorsFactory = DefaultExtractorsFactory().apply {
         val isLowRamDevice = context.getSystemService<ActivityManager>()?.isLowRamDevice == true
@@ -90,7 +94,7 @@ internal fun ExoPlayer(
         .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
         .build()
 
-    val renderersFactory = (if (PlayerSettingsObject.settings.value?.ignoreHdr10Plus == true) {
+    val renderersFactory = (if (ignoreHdr10Plus) {
         StripHDR10PlusRenderersFactory(context)
     } else {
         DefaultRenderersFactory(context)
@@ -105,12 +109,12 @@ internal fun ExoPlayer(
                     setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
                 }.build()
             )
-            setTunnelingEnabled(PlayerSettingsObject.settings.value?.enableTunneling ?: false)
+            setTunnelingEnabled(enableTunneling)
             setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
         })
     }
 
-    val exoPlayer = remember {
+    val exoPlayer = remember(ignoreHdr10Plus, enableTunneling) {
         ExoPlayer.Builder(context, renderersFactory)
             .setTrackSelector(trackSelector)
             .setMediaSourceFactory(DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory))

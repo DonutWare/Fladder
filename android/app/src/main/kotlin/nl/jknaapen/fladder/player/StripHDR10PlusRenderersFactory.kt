@@ -39,8 +39,11 @@ class StripHDR10PlusRenderersFactory(context: Context) : DefaultRenderersFactory
             out
         )
 
-        val rendererIndex = out.indexOfFirst { it.javaClass == MediaCodecVideoRenderer::class.java }
-        if (rendererIndex < 0) return
+        val rendererIndex = out.indexOfFirst { it is MediaCodecVideoRenderer }
+        if (rendererIndex < 0) {
+            Log.w(TAG, "HDR10+ stripping backend enabled, but no MediaCodec video renderer was found")
+            return
+        }
 
         out[rendererIndex] = StripHDR10PlusVideoRenderer(
             MediaCodecVideoRenderer.Builder(context)
