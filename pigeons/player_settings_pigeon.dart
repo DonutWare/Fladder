@@ -4,8 +4,7 @@ import 'package:pigeon/pigeon.dart';
   PigeonOptions(
     dartOut: 'lib/src/player_settings_helper.g.dart',
     dartOptions: DartOptions(),
-    kotlinOut:
-        'android/app/src/main/kotlin/nl/jknaapen/fladder/api/PlayerSettingsHelper.g.kt',
+    kotlinOut: 'android/app/src/main/kotlin/nl/jknaapen/fladder/api/PlayerSettingsHelper.g.kt',
     kotlinOptions: KotlinOptions(
       includeErrorClass: false,
     ),
