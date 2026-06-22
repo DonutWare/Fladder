@@ -401,6 +401,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                     onChanged: (value) => provider.setMediaTunneling(value),
                   ),
                 ),
+              if (currentPlayer == PlayerOptions.nativePlayer)
+                SettingsListTile(
+                  label: Text(context.localized.ignoreHdr10PlusTitle),
+                  subLabel: Text(context.localized.ignoreHdr10PlusDesc),
+                  onTap: () => provider.setIgnoreHdr10Plus(!videoSettings.ignoreHdr10Plus),
+                  trailing: Switch(
+                    value: videoSettings.ignoreHdr10Plus,
+                    onChanged: (value) => provider.setIgnoreHdr10Plus(value),
+                  ),
+                ),
               if (ref.read(argumentsStateProvider).leanBackMode)
                 SettingsListTileEnum(
                   label: Text(context.localized.playerSettingsScreensaverTitle),

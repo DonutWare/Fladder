@@ -150,6 +150,7 @@ enum class SegmentSkip(val raw: Int) {
 /** Generated class from Pigeon that represents data sent in messages. */
 data class PlayerSettings (
   val enableTunneling: Boolean,
+  val ignoreHdr10Plus: Boolean,
   val skipTypes: Map<SegmentType, SegmentSkip>,
   val themeColor: Long? = null,
   val skipForward: Long,
@@ -164,21 +165,23 @@ data class PlayerSettings (
   companion object {
     fun fromList(pigeonVar_list: List<Any?>): PlayerSettings {
       val enableTunneling = pigeonVar_list[0] as Boolean
-      val skipTypes = pigeonVar_list[1] as Map<SegmentType, SegmentSkip>
-      val themeColor = pigeonVar_list[2] as Long?
-      val skipForward = pigeonVar_list[3] as Long
-      val skipBackward = pigeonVar_list[4] as Long
-      val autoNextType = pigeonVar_list[5] as AutoNextType
-      val acceptedOrientations = pigeonVar_list[6] as List<PlayerOrientations>
-      val fillScreen = pigeonVar_list[7] as Boolean
-      val videoFit = pigeonVar_list[8] as VideoPlayerFit
-      val screensaver = pigeonVar_list[9] as Screensaver
-      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType, acceptedOrientations, fillScreen, videoFit, screensaver)
+      val ignoreHdr10Plus = pigeonVar_list[1] as Boolean
+      val skipTypes = pigeonVar_list[2] as Map<SegmentType, SegmentSkip>
+      val themeColor = pigeonVar_list[3] as Long?
+      val skipForward = pigeonVar_list[4] as Long
+      val skipBackward = pigeonVar_list[5] as Long
+      val autoNextType = pigeonVar_list[6] as AutoNextType
+      val acceptedOrientations = pigeonVar_list[7] as List<PlayerOrientations>
+      val fillScreen = pigeonVar_list[8] as Boolean
+      val videoFit = pigeonVar_list[9] as VideoPlayerFit
+      val screensaver = pigeonVar_list[10] as Screensaver
+      return PlayerSettings(enableTunneling, ignoreHdr10Plus, skipTypes, themeColor, skipForward, skipBackward, autoNextType, acceptedOrientations, fillScreen, videoFit, screensaver)
     }
   }
   fun toList(): List<Any?> {
     return listOf(
       enableTunneling,
+      ignoreHdr10Plus,
       skipTypes,
       themeColor,
       skipForward,

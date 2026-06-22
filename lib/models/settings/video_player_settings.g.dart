@@ -52,6 +52,7 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
       enableDoubleTapSeek: json['enableDoubleTapSeek'] as bool? ?? true,
       enableAdvancedVideoOptions:
           json['enableAdvancedVideoOptions'] as bool? ?? false,
+      ignoreHdr10Plus: json['ignoreHdr10Plus'] as bool? ?? false,
       enableEdgeGestures: json['enableEdgeGestures'] as bool? ?? true,
       reverseEdgeGestures: json['reverseEdgeGestures'] as bool? ?? false,
       enablePictureInPicture: json['enablePictureInPicture'] as bool? ?? true,
@@ -93,6 +94,7 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
       'speedBoostRate': instance.speedBoostRate,
       'enableDoubleTapSeek': instance.enableDoubleTapSeek,
       'enableAdvancedVideoOptions': instance.enableAdvancedVideoOptions,
+      'ignoreHdr10Plus': instance.ignoreHdr10Plus,
       'enableEdgeGestures': instance.enableEdgeGestures,
       'reverseEdgeGestures': instance.reverseEdgeGestures,
       'enablePictureInPicture': instance.enablePictureInPicture,
@@ -189,6 +191,7 @@ const _$VideoHotKeysEnumMap = {
   VideoHotKeys.skipMediaSegment: 'skipMediaSegment',
   VideoHotKeys.takeScreenshot: 'takeScreenshot',
   VideoHotKeys.takeScreenshotClean: 'takeScreenshotClean',
+  VideoHotKeys.toggleSubtitles: 'toggleSubtitles',
   VideoHotKeys.exit: 'exit',
 };
 

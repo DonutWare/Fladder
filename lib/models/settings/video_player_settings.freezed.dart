@@ -35,6 +35,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   double get speedBoostRate;
   bool get enableDoubleTapSeek;
   bool get enableAdvancedVideoOptions;
+  bool get ignoreHdr10Plus;
   bool get enableEdgeGestures;
   bool get reverseEdgeGestures;
   bool get enablePictureInPicture;
@@ -81,6 +82,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
       ..add(DiagnosticsProperty(
           'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty('ignoreHdr10Plus', ignoreHdr10Plus))
       ..add(DiagnosticsProperty('enableEdgeGestures', enableEdgeGestures))
       ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures))
       ..add(
@@ -94,7 +96,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, ignoreHdr10Plus: $ignoreHdr10Plus, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs)';
   }
 }
 
@@ -126,6 +128,7 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       double speedBoostRate,
       bool enableDoubleTapSeek,
       bool enableAdvancedVideoOptions,
+      bool ignoreHdr10Plus,
       bool enableEdgeGestures,
       bool reverseEdgeGestures,
       bool enablePictureInPicture,
@@ -170,6 +173,7 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? speedBoostRate = null,
     Object? enableDoubleTapSeek = null,
     Object? enableAdvancedVideoOptions = null,
+    Object? ignoreHdr10Plus = null,
     Object? enableEdgeGestures = null,
     Object? reverseEdgeGestures = null,
     Object? enablePictureInPicture = null,
@@ -263,6 +267,10 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
       enableAdvancedVideoOptions: null == enableAdvancedVideoOptions
           ? _self.enableAdvancedVideoOptions
           : enableAdvancedVideoOptions // ignore: cast_nullable_to_non_nullable
+              as bool,
+      ignoreHdr10Plus: null == ignoreHdr10Plus
+          ? _self.ignoreHdr10Plus
+          : ignoreHdr10Plus // ignore: cast_nullable_to_non_nullable
               as bool,
       enableEdgeGestures: null == enableEdgeGestures
           ? _self.enableEdgeGestures
@@ -415,6 +423,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             double speedBoostRate,
             bool enableDoubleTapSeek,
             bool enableAdvancedVideoOptions,
+            bool ignoreHdr10Plus,
             bool enableEdgeGestures,
             bool reverseEdgeGestures,
             bool enablePictureInPicture,
@@ -451,6 +460,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
             _that.enableAdvancedVideoOptions,
+            _that.ignoreHdr10Plus,
             _that.enableEdgeGestures,
             _that.reverseEdgeGestures,
             _that.enablePictureInPicture,
@@ -501,6 +511,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             double speedBoostRate,
             bool enableDoubleTapSeek,
             bool enableAdvancedVideoOptions,
+            bool ignoreHdr10Plus,
             bool enableEdgeGestures,
             bool reverseEdgeGestures,
             bool enablePictureInPicture,
@@ -536,6 +547,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
             _that.enableAdvancedVideoOptions,
+            _that.ignoreHdr10Plus,
             _that.enableEdgeGestures,
             _that.reverseEdgeGestures,
             _that.enablePictureInPicture,
@@ -585,6 +597,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             double speedBoostRate,
             bool enableDoubleTapSeek,
             bool enableAdvancedVideoOptions,
+            bool ignoreHdr10Plus,
             bool enableEdgeGestures,
             bool reverseEdgeGestures,
             bool enablePictureInPicture,
@@ -620,6 +633,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.speedBoostRate,
             _that.enableDoubleTapSeek,
             _that.enableAdvancedVideoOptions,
+            _that.ignoreHdr10Plus,
             _that.enableEdgeGestures,
             _that.reverseEdgeGestures,
             _that.enablePictureInPicture,
@@ -661,6 +675,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.speedBoostRate = 2.0,
       this.enableDoubleTapSeek = true,
       this.enableAdvancedVideoOptions = false,
+      this.ignoreHdr10Plus = false,
       this.enableEdgeGestures = true,
       this.reverseEdgeGestures = false,
       this.enablePictureInPicture = true,
@@ -759,6 +774,9 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
   final bool enableAdvancedVideoOptions;
   @override
   @JsonKey()
+  final bool ignoreHdr10Plus;
+  @override
+  @JsonKey()
   final bool enableEdgeGestures;
   @override
   @JsonKey()
@@ -824,6 +842,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
       ..add(DiagnosticsProperty(
           'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty('ignoreHdr10Plus', ignoreHdr10Plus))
       ..add(DiagnosticsProperty('enableEdgeGestures', enableEdgeGestures))
       ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures))
       ..add(
@@ -837,7 +856,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, ignoreHdr10Plus: $ignoreHdr10Plus, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs)';
   }
 }
 
@@ -871,6 +890,7 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
       double speedBoostRate,
       bool enableDoubleTapSeek,
       bool enableAdvancedVideoOptions,
+      bool ignoreHdr10Plus,
       bool enableEdgeGestures,
       bool reverseEdgeGestures,
       bool enablePictureInPicture,
@@ -915,6 +935,7 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? speedBoostRate = null,
     Object? enableDoubleTapSeek = null,
     Object? enableAdvancedVideoOptions = null,
+    Object? ignoreHdr10Plus = null,
     Object? enableEdgeGestures = null,
     Object? reverseEdgeGestures = null,
     Object? enablePictureInPicture = null,
@@ -1008,6 +1029,10 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
       enableAdvancedVideoOptions: null == enableAdvancedVideoOptions
           ? _self.enableAdvancedVideoOptions
           : enableAdvancedVideoOptions // ignore: cast_nullable_to_non_nullable
+              as bool,
+      ignoreHdr10Plus: null == ignoreHdr10Plus
+          ? _self.ignoreHdr10Plus
+          : ignoreHdr10Plus // ignore: cast_nullable_to_non_nullable
               as bool,
       enableEdgeGestures: null == enableEdgeGestures
           ? _self.enableEdgeGestures

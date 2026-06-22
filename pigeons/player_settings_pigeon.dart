@@ -13,6 +13,7 @@ import 'package:pigeon/pigeon.dart';
 )
 class PlayerSettings {
   final bool enableTunneling;
+  final bool ignoreHdr10Plus;
   final Map<SegmentType, SegmentSkip> skipTypes;
   //Color in ARGB32 format
   final int? themeColor;
@@ -26,6 +27,7 @@ class PlayerSettings {
 
   const PlayerSettings({
     required this.enableTunneling,
+    required this.ignoreHdr10Plus,
     required this.skipTypes,
     required this.themeColor,
     required this.skipForward,

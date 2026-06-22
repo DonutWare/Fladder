@@ -28,6 +28,7 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
       pigeon.PlayerSettingsPigeon().sendPlayerSettings(
         pigeon.PlayerSettings(
           enableTunneling: value.enableTunneling,
+          ignoreHdr10Plus: value.ignoreHdr10Plus,
           screensaver: switch (value.screensaver) {
             Screensaver.disabled => pigeon.Screensaver.disabled,
             Screensaver.dvd => pigeon.Screensaver.dvd,

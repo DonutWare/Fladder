@@ -102,6 +102,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(2.0) double speedBoostRate,
     @Default(true) bool enableDoubleTapSeek,
     @Default(false) bool enableAdvancedVideoOptions,
+    @Default(false) bool ignoreHdr10Plus,
     @Default(true) bool enableEdgeGestures,
     @Default(false) bool reverseEdgeGestures,
     @Default(true) bool enablePictureInPicture,
@@ -129,6 +130,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   bool playerSame(VideoPlayerSettingsModel other) {
     return other.hardwareAccel == hardwareAccel &&
         other.enableTunneling == enableTunneling &&
+        other.ignoreHdr10Plus == ignoreHdr10Plus &&
         other.useLibass == useLibass &&
         other.bufferSize == bufferSize &&
         other.wantedPlayer == wantedPlayer;
@@ -145,6 +147,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         other.hardwareAccel == hardwareAccel &&
         other.useLibass == useLibass &&
         other.enableTunneling == enableTunneling &&
+        other.ignoreHdr10Plus == ignoreHdr10Plus &&
         other.bufferSize == bufferSize &&
         other.internalVolume == internalVolume &&
         other.playerOptions == playerOptions &&
@@ -159,6 +162,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         hardwareAccel.hashCode ^
         useLibass.hashCode ^
         enableTunneling.hashCode ^
+        ignoreHdr10Plus.hashCode ^
         bufferSize.hashCode ^
         internalVolume.hashCode ^
         audioDevice.hashCode;
