@@ -14,15 +14,17 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 
-final videoPlayerSettingsProvider =
-    StateNotifierProvider<VideoPlayerSettingsProviderNotifier, VideoPlayerSettingsModel>((ref) {
+final videoPlayerSettingsProvider = StateNotifierProvider<
+    VideoPlayerSettingsProviderNotifier, VideoPlayerSettingsModel>((ref) {
   return VideoPlayerSettingsProviderNotifier(ref);
 });
 
 final playbackRateProvider = StateProvider<double>((ref) => 1.0);
 
-class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {
-  VideoPlayerSettingsProviderNotifier(this.ref) : super(_sanitizeCrossfade(VideoPlayerSettingsModel())) {
+class VideoPlayerSettingsProviderNotifier
+    extends StateNotifier<VideoPlayerSettingsModel> {
+  VideoPlayerSettingsProviderNotifier(this.ref)
+      : super(_sanitizeCrossfade(VideoPlayerSettingsModel())) {
     _initVolumeSync();
   }
 
@@ -70,7 +72,8 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
       screenBrightness: value,
     );
     if (state.screenBrightness != null) {
-      ScreenBrightness().setApplicationScreenBrightness(state.screenBrightness!);
+      ScreenBrightness()
+          .setApplicationScreenBrightness(state.screenBrightness!);
     } else {
       ScreenBrightness().resetApplicationScreenBrightness();
     }
@@ -78,7 +81,8 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   void setSavedBrightness() {
     if (state.screenBrightness != null) {
-      ScreenBrightness().setApplicationScreenBrightness(state.screenBrightness!);
+      ScreenBrightness()
+          .setApplicationScreenBrightness(state.screenBrightness!);
     }
   }
 
@@ -86,12 +90,20 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     state = state.copyWith(fillScreen: value ?? false);
   }
 
-  void setHardwareAccel(bool? value) => state = state.copyWith(hardwareAccel: value ?? true);
-  void setUseLibass(bool? value) => state = state.copyWith(useLibass: value ?? false);
-  void setMediaTunneling(bool? value) => state = state.copyWith(enableTunneling: value ?? false);
-  void setBufferSize(int? value) => state = state.copyWith(bufferSize: value ?? 32);
-  void setFitType(BoxFit? value) => state = state.copyWith(videoFit: value ?? BoxFit.contain);
-  void setScreensaver(Screensaver? value) => state = state.copyWith(screensaver: value ?? Screensaver.black);
+  void setHardwareAccel(bool? value) =>
+      state = state.copyWith(hardwareAccel: value ?? true);
+  void setUseLibass(bool? value) =>
+      state = state.copyWith(useLibass: value ?? false);
+  void setMediaTunneling(bool? value) =>
+      state = state.copyWith(enableTunneling: value ?? false);
+  void setIgnoreHdr10Plus(bool value) =>
+      state = state.copyWith(ignoreHdr10Plus: value);
+  void setBufferSize(int? value) =>
+      state = state.copyWith(bufferSize: value ?? 32);
+  void setFitType(BoxFit? value) =>
+      state = state.copyWith(videoFit: value ?? BoxFit.contain);
+  void setScreensaver(Screensaver? value) =>
+      state = state.copyWith(screensaver: value ?? Screensaver.black);
 
   void setVolume(double value) {
     state = state.copyWith(internalVolume: value);
@@ -127,20 +139,25 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
       state = state.copyWith(allowedOrientations: orientation);
 
   void setShortcuts(MapEntry<VideoHotKeys, KeyCombination> newEntry) {
-    state = state.copyWith(hotKeys: state.hotKeys.setOrRemove(newEntry, state.defaultShortCuts));
+    state = state.copyWith(
+        hotKeys: state.hotKeys.setOrRemove(newEntry, state.defaultShortCuts));
   }
 
   void nextChapter() {
     final chapters = ref.read(playBackModel)?.chapters ?? [];
-    final currentPosition = ref.read(videoPlayerProvider.select((value) => value.lastState?.position));
+    final currentPosition = ref
+        .read(videoPlayerProvider.select((value) => value.lastState?.position));
 
     if (chapters.isNotEmpty && currentPosition != null) {
-      final currentChapter = chapters.lastWhereOrNull((element) => element.startPosition <= currentPosition);
+      final currentChapter = chapters.lastWhereOrNull(
+          (element) => element.startPosition <= currentPosition);
 
       if (currentChapter != null) {
         final nextChapterIndex = chapters.indexOf(currentChapter) + 1;
         if (nextChapterIndex < chapters.length) {
-          ref.read(videoPlayerProvider).seek(chapters[nextChapterIndex].startPosition);
+          ref
+              .read(videoPlayerProvider)
+              .seek(chapters[nextChapterIndex].startPosition);
         } else {
           ref.read(videoPlayerProvider).seek(currentChapter.startPosition);
         }
@@ -150,15 +167,19 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   void prevChapter() {
     final chapters = ref.read(playBackModel)?.chapters ?? [];
-    final currentPosition = ref.read(videoPlayerProvider.select((value) => value.lastState?.position));
+    final currentPosition = ref
+        .read(videoPlayerProvider.select((value) => value.lastState?.position));
 
     if (chapters.isNotEmpty && currentPosition != null) {
-      final currentChapter = chapters.lastWhereOrNull((element) => element.startPosition <= currentPosition);
+      final currentChapter = chapters.lastWhereOrNull(
+          (element) => element.startPosition <= currentPosition);
 
       if (currentChapter != null) {
         final prevChapterIndex = chapters.indexOf(currentChapter) - 1;
         if (prevChapterIndex >= 0) {
-          ref.read(videoPlayerProvider).seek(chapters[prevChapterIndex].startPosition);
+          ref
+              .read(videoPlayerProvider)
+              .seek(chapters[prevChapterIndex].startPosition);
         } else {
           ref.read(videoPlayerProvider).seek(currentChapter.startPosition);
         }
@@ -166,36 +187,47 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     }
   }
 
-  void setEnableSpeedBoost(bool value) => state = state.copyWith(enableSpeedBoost: value);
+  void setEnableSpeedBoost(bool value) =>
+      state = state.copyWith(enableSpeedBoost: value);
 
   void setSpeedBoostRate(double value) {
     final clampedValue = value.clamp(0.25, 3.0);
     state = state.copyWith(speedBoostRate: clampedValue);
   }
 
-  void setEnableDoubleTapSeek(bool value) => state = state.copyWith(enableDoubleTapSeek: value);
+  void setEnableDoubleTapSeek(bool value) =>
+      state = state.copyWith(enableDoubleTapSeek: value);
 
-  void setEnableAdvancedVideoOptions(bool value) => state = state.copyWith(enableAdvancedVideoOptions: value);
+  void setEnableAdvancedVideoOptions(bool value) =>
+      state = state.copyWith(enableAdvancedVideoOptions: value);
 
-  void setEnableEdgeGestures(bool value) => state = state.copyWith(enableEdgeGestures: value);
+  void setEnableEdgeGestures(bool value) =>
+      state = state.copyWith(enableEdgeGestures: value);
 
-  void setReverseEdgeGestures(bool value) => state = state.copyWith(reverseEdgeGestures: value);
+  void setReverseEdgeGestures(bool value) =>
+      state = state.copyWith(reverseEdgeGestures: value);
 
-  void setEnablePictureInPicture(bool value) => state = state.copyWith(enablePictureInPicture: value);
+  void setEnablePictureInPicture(bool value) =>
+      state = state.copyWith(enablePictureInPicture: value);
 
-  void setEnableReplayGain(bool value) => state = state.copyWith(enableReplayGain: value);
+  void setEnableReplayGain(bool value) =>
+      state = state.copyWith(enableReplayGain: value);
 
-  void setEnablePlayPauseFade(bool value) => state = state.copyWith(enablePlayPauseFade: value);
+  void setEnablePlayPauseFade(bool value) =>
+      state = state.copyWith(enablePlayPauseFade: value);
 
-  void setReplayGainVolumeLevel(ReplayGainVolumeLevel value) => state = state.copyWith(replayGainVolumeLevel: value);
+  void setReplayGainVolumeLevel(ReplayGainVolumeLevel value) =>
+      state = state.copyWith(replayGainVolumeLevel: value);
 
   void setEnableCrossfade(bool value) {
     state = state.copyWith(enableCrossfade: value && state.canUseCrossfade);
   }
 
-  void setCrossfadeDurationMs(int value) => state = state.copyWith(crossfadeDurationMs: value);
+  void setCrossfadeDurationMs(int value) =>
+      state = state.copyWith(crossfadeDurationMs: value);
 
-  static VideoPlayerSettingsModel _sanitizeCrossfade(VideoPlayerSettingsModel value) {
+  static VideoPlayerSettingsModel _sanitizeCrossfade(
+      VideoPlayerSettingsModel value) {
     if (!value.canUseCrossfade && value.enableCrossfade) {
       return value.copyWith(enableCrossfade: false);
     }

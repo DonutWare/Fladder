@@ -90,7 +90,11 @@ internal fun ExoPlayer(
         .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
         .build()
 
-    val renderersFactory = DvSanitizingRenderersFactory(context)
+    val renderersFactory = (if (PlayerSettingsObject.settings.value?.ignoreHdr10Plus == true) {
+        StripHDR10PlusRenderersFactory(context)
+    } else {
+        DefaultRenderersFactory(context)
+    })
         .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
         .setEnableDecoderFallback(true)
 

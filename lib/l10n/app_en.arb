@@ -1487,6 +1487,8 @@
   "qualityOptionsAuto": "Auto",
   "advancedVideoOptionsTitle": "Advanced video options",
   "advancedVideoOptionsDesc": "Enable HDR, tone mapping, and advanced color handling (unstable for some devices)",
+  "ignoreHdr10PlusTitle": "Ignore HDR10+",
+  "ignoreHdr10PlusDesc": "Strips HDR10+ metadata from Dolby Vision streams to fix broken playback on some devices (Fire TVs)",
   "version": "Version",
   "mediaSegmentActions": "Media segment actions",
   "segmentActionNone": "None",

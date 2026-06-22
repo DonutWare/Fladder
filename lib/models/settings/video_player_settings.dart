@@ -95,18 +95,21 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(Bitrate.original) Bitrate maxHomeBitrate,
     @Default(Bitrate.original) Bitrate maxInternetBitrate,
     String? audioDevice,
-    @Default(defaultSegmentSkipValues) Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
+    @Default(defaultSegmentSkipValues)
+    Map<MediaSegmentType, SegmentSkip> segmentSkipSettings,
     @Default({}) Map<VideoHotKeys, KeyCombination> hotKeys,
     @Default(Screensaver.logo) Screensaver screensaver,
     @Default(false) bool enableSpeedBoost,
     @Default(2.0) double speedBoostRate,
     @Default(true) bool enableDoubleTapSeek,
     @Default(false) bool enableAdvancedVideoOptions,
+    @Default(false) bool ignoreHdr10Plus,
     @Default(true) bool enableEdgeGestures,
     @Default(false) bool reverseEdgeGestures,
     @Default(true) bool enablePictureInPicture,
     @Default(true) bool enableReplayGain,
-    @Default(ReplayGainVolumeLevel.quiet) ReplayGainVolumeLevel replayGainVolumeLevel,
+    @Default(ReplayGainVolumeLevel.quiet)
+    ReplayGainVolumeLevel replayGainVolumeLevel,
     @Default(true) bool enablePlayPauseFade,
     @Default(true) bool enableCrossfade,
     @Default(400) int crossfadeDurationMs,
@@ -114,21 +117,25 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
 
   double get volume => internalVolume;
 
-  factory VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) => _$VideoPlayerSettingsModelFromJson(json);
+  factory VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) =>
+      _$VideoPlayerSettingsModelFromJson(json);
 
-  PlayerOptions get wantedPlayer =>
-      leanBackMode ? PlayerOptions.nativePlayer : playerOptions ?? PlayerOptions.platformDefaults;
+  PlayerOptions get wantedPlayer => leanBackMode
+      ? PlayerOptions.nativePlayer
+      : playerOptions ?? PlayerOptions.platformDefaults;
 
-  Map<VideoHotKeys, KeyCombination> get currentShortcuts =>
-      _defaultVideoHotKeys.map((key, value) => MapEntry(key, hotKeys[key] ?? value));
+  Map<VideoHotKeys, KeyCombination> get currentShortcuts => _defaultVideoHotKeys
+      .map((key, value) => MapEntry(key, hotKeys[key] ?? value));
 
-  Map<VideoHotKeys, KeyCombination> get defaultShortCuts => _defaultVideoHotKeys;
+  Map<VideoHotKeys, KeyCombination> get defaultShortCuts =>
+      _defaultVideoHotKeys;
 
   bool get canUseCrossfade => crossfadeSupportedOnCurrentPlatform;
 
   bool playerSame(VideoPlayerSettingsModel other) {
     return other.hardwareAccel == hardwareAccel &&
         other.enableTunneling == enableTunneling &&
+        other.ignoreHdr10Plus == ignoreHdr10Plus &&
         other.useLibass == useLibass &&
         other.bufferSize == bufferSize &&
         other.wantedPlayer == wantedPlayer;
@@ -145,6 +152,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         other.hardwareAccel == hardwareAccel &&
         other.useLibass == useLibass &&
         other.enableTunneling == enableTunneling &&
+        other.ignoreHdr10Plus == ignoreHdr10Plus &&
         other.bufferSize == bufferSize &&
         other.internalVolume == internalVolume &&
         other.playerOptions == playerOptions &&
@@ -159,6 +167,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         hardwareAccel.hashCode ^
         useLibass.hashCode ^
         enableTunneling.hashCode ^
+        ignoreHdr10Plus.hashCode ^
         bufferSize.hashCode ^
         internalVolume.hashCode ^
         audioDevice.hashCode;
@@ -290,27 +299,42 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
               altKey: LogicalKeyboardKey.keyJ,
               altModifier: LogicalKeyboardKey.shiftLeft,
             ),
-          VideoHotKeys.stepForward => KeyCombination(key: LogicalKeyboardKey.period),
-          VideoHotKeys.stepBack => KeyCombination(key: LogicalKeyboardKey.comma),
+          VideoHotKeys.stepForward =>
+            KeyCombination(key: LogicalKeyboardKey.period),
+          VideoHotKeys.stepBack =>
+            KeyCombination(key: LogicalKeyboardKey.comma),
           VideoHotKeys.mute => KeyCombination(key: LogicalKeyboardKey.keyM),
-          VideoHotKeys.volumeUp => KeyCombination(key: LogicalKeyboardKey.arrowUp),
-          VideoHotKeys.volumeDown => KeyCombination(key: LogicalKeyboardKey.arrowDown),
-          VideoHotKeys.speedUp =>
-            KeyCombination(key: LogicalKeyboardKey.arrowUp, modifier: LogicalKeyboardKey.controlLeft),
-          VideoHotKeys.speedDown =>
-            KeyCombination(key: LogicalKeyboardKey.arrowDown, modifier: LogicalKeyboardKey.controlLeft),
-          VideoHotKeys.prevVideo =>
-            KeyCombination(key: LogicalKeyboardKey.keyP, modifier: LogicalKeyboardKey.shiftLeft),
-          VideoHotKeys.nextVideo =>
-            KeyCombination(key: LogicalKeyboardKey.keyN, modifier: LogicalKeyboardKey.shiftLeft),
-          VideoHotKeys.nextChapter => KeyCombination(key: LogicalKeyboardKey.pageUp),
-          VideoHotKeys.prevChapter => KeyCombination(key: LogicalKeyboardKey.pageDown),
-          VideoHotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
-          VideoHotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
-          VideoHotKeys.takeScreenshot => KeyCombination(key: LogicalKeyboardKey.keyG),
-          VideoHotKeys.takeScreenshotClean =>
-            KeyCombination(key: LogicalKeyboardKey.keyG, modifier: LogicalKeyboardKey.controlLeft),
-          VideoHotKeys.toggleSubtitles => KeyCombination(key: LogicalKeyboardKey.keyT),
+          VideoHotKeys.volumeUp =>
+            KeyCombination(key: LogicalKeyboardKey.arrowUp),
+          VideoHotKeys.volumeDown =>
+            KeyCombination(key: LogicalKeyboardKey.arrowDown),
+          VideoHotKeys.speedUp => KeyCombination(
+              key: LogicalKeyboardKey.arrowUp,
+              modifier: LogicalKeyboardKey.controlLeft),
+          VideoHotKeys.speedDown => KeyCombination(
+              key: LogicalKeyboardKey.arrowDown,
+              modifier: LogicalKeyboardKey.controlLeft),
+          VideoHotKeys.prevVideo => KeyCombination(
+              key: LogicalKeyboardKey.keyP,
+              modifier: LogicalKeyboardKey.shiftLeft),
+          VideoHotKeys.nextVideo => KeyCombination(
+              key: LogicalKeyboardKey.keyN,
+              modifier: LogicalKeyboardKey.shiftLeft),
+          VideoHotKeys.nextChapter =>
+            KeyCombination(key: LogicalKeyboardKey.pageUp),
+          VideoHotKeys.prevChapter =>
+            KeyCombination(key: LogicalKeyboardKey.pageDown),
+          VideoHotKeys.fullScreen =>
+            KeyCombination(key: LogicalKeyboardKey.keyF),
+          VideoHotKeys.skipMediaSegment =>
+            KeyCombination(key: LogicalKeyboardKey.keyS),
+          VideoHotKeys.takeScreenshot =>
+            KeyCombination(key: LogicalKeyboardKey.keyG),
+          VideoHotKeys.takeScreenshotClean => KeyCombination(
+              key: LogicalKeyboardKey.keyG,
+              modifier: LogicalKeyboardKey.controlLeft),
+          VideoHotKeys.toggleSubtitles =>
+            KeyCombination(key: LogicalKeyboardKey.keyT),
           VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
         },
     };

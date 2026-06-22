@@ -28,6 +28,7 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
       pigeon.PlayerSettingsPigeon().sendPlayerSettings(
         pigeon.PlayerSettings(
           enableTunneling: value.enableTunneling,
+          ignoreHdr10Plus: value.ignoreHdr10Plus,
           screensaver: switch (value.screensaver) {
             Screensaver.disabled => pigeon.Screensaver.disabled,
             Screensaver.dvd => pigeon.Screensaver.dvd,
@@ -59,8 +60,12 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
             AutoNextType.static => pigeon.AutoNextType.static,
             AutoNextType.smart => pigeon.AutoNextType.smart,
           },
-          skipBackward: (userData?.userSettings?.skipBackDuration ?? const Duration(seconds: 15)).inMilliseconds,
-          skipForward: (userData?.userSettings?.skipForwardDuration ?? const Duration(seconds: 30)).inMilliseconds,
+          skipBackward: (userData?.userSettings?.skipBackDuration ??
+                  const Duration(seconds: 15))
+              .inMilliseconds,
+          skipForward: (userData?.userSettings?.skipForwardDuration ??
+                  const Duration(seconds: 30))
+              .inMilliseconds,
           fillScreen: value.fillScreen,
           videoFit: switch (value.videoFit) {
             BoxFit.fill => pigeon.VideoPlayerFit.fill,
@@ -71,16 +76,21 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
             BoxFit.none => pigeon.VideoPlayerFit.none,
             BoxFit.scaleDown => pigeon.VideoPlayerFit.scaleDown,
           },
-          acceptedOrientations: (value.allowedOrientations?.toList() ?? DeviceOrientation.values)
-              .map(
-                (e) => switch (e) {
-                  DeviceOrientation.portraitUp => pigeon.PlayerOrientations.portraitUp,
-                  DeviceOrientation.portraitDown => pigeon.PlayerOrientations.portraitDown,
-                  DeviceOrientation.landscapeLeft => pigeon.PlayerOrientations.landScapeLeft,
-                  DeviceOrientation.landscapeRight => pigeon.PlayerOrientations.landScapeRight,
-                },
-              )
-              .toList(),
+          acceptedOrientations:
+              (value.allowedOrientations?.toList() ?? DeviceOrientation.values)
+                  .map(
+                    (e) => switch (e) {
+                      DeviceOrientation.portraitUp =>
+                        pigeon.PlayerOrientations.portraitUp,
+                      DeviceOrientation.portraitDown =>
+                        pigeon.PlayerOrientations.portraitDown,
+                      DeviceOrientation.landscapeLeft =>
+                        pigeon.PlayerOrientations.landScapeLeft,
+                      DeviceOrientation.landscapeRight =>
+                        pigeon.PlayerOrientations.landScapeRight,
+                    },
+                  )
+                  .toList(),
         ),
       );
     }

@@ -8,7 +8,7 @@ import java.nio.ByteBuffer
  * receives in-band HDR10+ SEI, so keep only the dynamic metadata for the selected
  * decode path.
  */
-object DvBitstreamSanitizer {
+object StripHDR10PlusBitstreamSanitizer {
     private const val NAL_TYPE_PREFIX_SEI = 39
     private const val NAL_TYPE_SUFFIX_SEI = 40
     private const val NAL_TYPE_UNSPEC62 = 62

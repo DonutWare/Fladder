@@ -4,7 +4,8 @@ import 'package:pigeon/pigeon.dart';
   PigeonOptions(
     dartOut: 'lib/src/player_settings_helper.g.dart',
     dartOptions: DartOptions(),
-    kotlinOut: 'android/app/src/main/kotlin/nl/jknaapen/fladder/api/PlayerSettingsHelper.g.kt',
+    kotlinOut:
+        'android/app/src/main/kotlin/nl/jknaapen/fladder/api/PlayerSettingsHelper.g.kt',
     kotlinOptions: KotlinOptions(
       includeErrorClass: false,
     ),
@@ -13,6 +14,7 @@ import 'package:pigeon/pigeon.dart';
 )
 class PlayerSettings {
   final bool enableTunneling;
+  final bool ignoreHdr10Plus;
   final Map<SegmentType, SegmentSkip> skipTypes;
   //Color in ARGB32 format
   final int? themeColor;
@@ -26,6 +28,7 @@ class PlayerSettings {
 
   const PlayerSettings({
     required this.enableTunneling,
+    required this.ignoreHdr10Plus,
     required this.skipTypes,
     required this.themeColor,
     required this.skipForward,

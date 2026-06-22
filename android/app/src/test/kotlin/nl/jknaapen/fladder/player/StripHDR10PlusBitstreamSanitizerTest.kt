@@ -6,7 +6,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class DvBitstreamSanitizerTest {
+class StripHDR10PlusBitstreamSanitizerTest {
     @Test
     fun stripsHdr10PlusPrefixSeiBetweenVclNals() {
         val vcl1 = annexBNal(1, byteArrayOf(0x01, 0x02))
@@ -14,7 +14,7 @@ class DvBitstreamSanitizerTest {
         val buffer = bufferOf(vcl1, hdr10PlusSei(), vcl2)
         val originalLimit = buffer.limit()
 
-        DvBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
+        StripHDR10PlusBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
 
         assertArrayEquals(concat(vcl1, vcl2), remainingBytes(buffer))
         assertTrue(buffer.limit() < originalLimit)
@@ -27,7 +27,7 @@ class DvBitstreamSanitizerTest {
         val suffixSei = annexBNal(40, hdr10PlusSeiPayload())
         val buffer = bufferOf(vcl, suffixSei)
 
-        DvBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
+        StripHDR10PlusBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
 
         assertArrayEquals(vcl, remainingBytes(buffer))
     }
@@ -39,7 +39,7 @@ class DvBitstreamSanitizerTest {
         val vcl2 = annexBNal(1, byteArrayOf(0x03), startCodeLen = 3)
         val buffer = bufferOf(vcl1, sei, vcl2)
 
-        DvBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
+        StripHDR10PlusBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
 
         assertArrayEquals(concat(vcl1, vcl2), remainingBytes(buffer))
     }
@@ -53,7 +53,7 @@ class DvBitstreamSanitizerTest {
         val buffer = bufferOf(annexBNal(1, byteArrayOf(0x01)), sei, annexBNal(1, byteArrayOf(0x02)))
         val original = remainingBytes(buffer)
 
-        DvBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
+        StripHDR10PlusBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
 
         assertArrayEquals(original, remainingBytes(buffer))
     }
@@ -66,7 +66,7 @@ class DvBitstreamSanitizerTest {
         val sei = hdr10PlusSei()
         val buffer = bufferOf(vcl, rpu, sei, el)
 
-        DvBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = false, stripDvRpu = true)
+        StripHDR10PlusBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = false, stripDvRpu = true)
 
         assertArrayEquals(concat(vcl, sei), remainingBytes(buffer))
     }
@@ -79,7 +79,7 @@ class DvBitstreamSanitizerTest {
         val buffer = ByteBuffer.wrap(content.copyOf())
         buffer.position(prefix.size)
 
-        DvBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
+        StripHDR10PlusBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
 
         assertEquals(prefix.size, buffer.position())
         assertArrayEquals(vcl, remainingBytes(buffer))
@@ -95,7 +95,7 @@ class DvBitstreamSanitizerTest {
         buffer.put(content)
         buffer.flip()
 
-        DvBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
+        StripHDR10PlusBitstreamSanitizer.sanitize(buffer, stripHdr10PlusSei = true, stripDvRpu = false)
 
         assertArrayEquals(vcl, remainingBytes(buffer))
     }

@@ -17,7 +17,7 @@ import androidx.media3.exoplayer.video.VideoRendererEventListener
 private const val TAG = "FladderPlayer"
 
 @OptIn(UnstableApi::class)
-class DvSanitizingRenderersFactory(context: Context) : DefaultRenderersFactory(context) {
+class StripHDR10PlusRenderersFactory(context: Context) : DefaultRenderersFactory(context) {
     override fun buildVideoRenderers(
         context: Context,
         extensionRendererMode: Int,
@@ -42,7 +42,7 @@ class DvSanitizingRenderersFactory(context: Context) : DefaultRenderersFactory(c
         val rendererIndex = out.indexOfFirst { it.javaClass == MediaCodecVideoRenderer::class.java }
         if (rendererIndex < 0) return
 
-        out[rendererIndex] = DvSanitizingVideoRenderer(
+        out[rendererIndex] = StripHDR10PlusVideoRenderer(
             MediaCodecVideoRenderer.Builder(context)
                 .setCodecAdapterFactory(codecAdapterFactory)
                 .setMediaCodecSelector(mediaCodecSelector)
@@ -56,7 +56,7 @@ class DvSanitizingRenderersFactory(context: Context) : DefaultRenderersFactory(c
 }
 
 @OptIn(UnstableApi::class)
-private class DvSanitizingVideoRenderer(builder: MediaCodecVideoRenderer.Builder) : MediaCodecVideoRenderer(builder) {
+private class StripHDR10PlusVideoRenderer(builder: MediaCodecVideoRenderer.Builder) : MediaCodecVideoRenderer(builder) {
     private var stripHdr10PlusSei = false
     private var stripDvRpu = false
 
@@ -93,7 +93,7 @@ private class DvSanitizingVideoRenderer(builder: MediaCodecVideoRenderer.Builder
         if (stripHdr10PlusSei || stripDvRpu) {
             val data = buffer.data
             if (data != null && data.hasRemaining() && !buffer.isEncrypted) {
-                DvBitstreamSanitizer.sanitize(data, stripHdr10PlusSei, stripDvRpu)
+                StripHDR10PlusBitstreamSanitizer.sanitize(data, stripHdr10PlusSei, stripDvRpu)
             }
         }
         super.onQueueInputBuffer(buffer)
