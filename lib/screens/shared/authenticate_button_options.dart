@@ -1,17 +1,20 @@
+import 'package:flutter/material.dart';
+
 import 'package:iconsax_plus/iconsax_plus.dart';
+
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
 import 'package:fladder/util/auth_service.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
 
-void showAuthOptionsDialogue(
+Future<void> showAuthOptionsDialogue(
   BuildContext context,
   AccountModel currentUser,
   Function(AccountModel) setMethod,
-) {
+) async {
+  final availableOptions = await Authentication.available();
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -19,8 +22,7 @@ void showAuthOptionsDialogue(
       icon: const Icon(IconsaxPlusBold.lock_1),
       title: Text(context.localized.appLockTitle(currentUser.name)),
       actionsOverflowDirection: VerticalDirection.down,
-      actions: Authentication.values
-          .where((element) => element.available(context))
+      actions: availableOptions
           .map(
             (method) => SizedBox(
               height: 50,
@@ -32,7 +34,11 @@ void showAuthOptionsDialogue(
                       setMethod.call(currentUser.copyWith(authMethod: method));
                       break;
                     case Authentication.biometrics:
-                      final authenticated = await AuthService.authenticateUser(context, currentUser);
+                      final authenticated = await AuthService.authenticateUser(
+                        context,
+                        currentUser,
+                        sensitiveTransaction: true,
+                      );
                       if (authenticated) {
                         setMethod.call(currentUser.copyWith(authMethod: method));
                       } else if (context.mounted) {

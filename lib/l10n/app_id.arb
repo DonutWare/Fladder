@@ -585,9 +585,9 @@
     "screensaverBlack": "Hitam",
     "playerSettingsScreensaverTitle": "Screensaver Pemutar",
     "playerSettingsScreensaverDesc": "Pilih screen saver yang akan ditampilkan setelah tidak ada aktivitas pemutar",
-    "settingsLocalUrlTitle": "URL Server Lokal",
-    "settingsLocalUrlSetTitle": "Atur URL Lokal",
-    "settingsLocalUrlSetDesc": "Tentukan alamat server lokal. Fladder akan secara otomatis menggunakan URL ini ketika perangkat Anda berada di jaringan yang sama.",
+    "settingsLocalUrlTitle": "URL Jellyfin Lokal",
+    "settingsLocalUrlSetTitle": "Konfigurasikan URL Jellyfin Lokal",
+    "settingsLocalUrlSetDesc": "Tentukan alamat Jellyfin lokal. Fladder akan otomatis menggunakan URL ini saat perangkat Anda berada di jaringan yang sama.",
     "regenerateTrickplayImages": "Buat ulang gambar trickplay",
     "controlPanel": "Panel Kontrol",
     "controlPanelDesc": "Server, Aktivitas, Pengguna, Perpustakaan",
@@ -2021,5 +2021,52 @@
                 "example": "days"
             }
         }
-    }
+    },
+    "gestures": "Gestur",
+    "anyLanguage": "Bahasa apa pun",
+    "enableEdgeGesturesTitle": "Aktifkan gestur tepi",
+    "enableEdgeGesturesDesc": "Atur kecerahan dan volume dengan menggeser ke atas dan ke bawah pada tepi layar",
+    "reverseEdgeGesturesTitle": "Tukar gestur tepi",
+    "reverseEdgeGesturesDesc": "Tukar sisi untuk kontrol kecerahan dan volume",
+    "seekForwardInstant": "Maju Cepat (Instan)",
+    "seekBackInstant": "Mundur (Instan)",
+    "stepForward": "Maju Selangkah",
+    "stepBack": "Mundur Selangkah",
+    "brightnessIndicator": "Kecerahan: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "personBirthday": "Tanggal lahir: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Usia: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Lahir di {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Temukan Film",
+    "seerrSeries": "Temukan Serial"
 }

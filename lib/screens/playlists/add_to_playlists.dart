@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/playlist_provider.dart';
@@ -100,6 +100,7 @@ class _AddToPlaylistState extends ConsumerState<AddToPlaylist> {
               children: [
                 ...collectonOptions.collections.entries.map(
                   (e) {
+                    final containsItem = e.value == true;
                     return Container(
                       margin: const EdgeInsets.symmetric(vertical: 8),
                       child: Card(
@@ -114,20 +115,31 @@ class _AddToPlaylistState extends ConsumerState<AddToPlaylist> {
                                 e.key.name,
                                 style: Theme.of(context).textTheme.bodyLarge,
                               )),
-                              IconButton.filledTonal(
-                                style: IconButton.styleFrom(
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                                onPressed: () async {
-                                  final response = await ref.read(provider.notifier).addToPlaylist(playlist: e.key);
-                                  if (context.mounted) {
-                                    FladderSnack.show(
-                                        response.isSuccessful
-                                            ? context.localized.addedToPlaylist(controller.text)
-                                            : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
-                                        context: context);
+                              Checkbox(
+                                value: containsItem,
+                                onChanged: (value) async {
+                                  if (value == null) return;
+                                  if (containsItem) {
+                                    final response =
+                                        await ref.read(provider.notifier).removeFromPlaylist(playlist: e.key);
+                                    if (context.mounted) {
+                                      FladderSnack.show(
+                                          response.isSuccessful
+                                              ? context.localized.removedFromPlaylist(e.key.name)
+                                              : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+                                          context: context);
+                                    }
+                                  } else {
+                                    final response = await ref.read(provider.notifier).addToPlaylist(playlist: e.key);
+                                    if (context.mounted) {
+                                      FladderSnack.show(
+                                          response.isSuccessful
+                                              ? context.localized.addedToPlaylist(controller.text)
+                                              : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+                                          context: context);
+                                    }
                                   }
                                 },
-                                icon: Icon(Icons.add_rounded, color: Theme.of(context).colorScheme.primary),
                               ),
                             ],
                           ),

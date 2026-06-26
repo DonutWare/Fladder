@@ -15,17 +15,19 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/folder_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
-import 'package:fladder/models/playlist_model.dart';
+import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
@@ -37,6 +39,9 @@ final librarySearchProvider =
     StateNotifierProvider.family.autoDispose<LibrarySearchNotifier, LibrarySearchModel, Key>((ref, id) {
   return LibrarySearchNotifier(ref);
 });
+
+const _libraryMusicInitialQueueLimit = 5;
+const _libraryMusicRefillLimit = 100;
 
 class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   LibrarySearchNotifier(this.ref) : super(const LibrarySearchModel());
@@ -599,6 +604,134 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     } else {
       FladderSnack.show(context.localized.libraryFetchNoItemsFound, context: context);
     }
+  }
+
+  Future<void> playMusicItems(BuildContext context, WidgetRef ref, {bool shuffle = false}) async {
+    if (state.selectedPosters.isEmpty) {
+      final queueSource = _createMusicQueueSource(shuffle: shuffle);
+      if (queueSource != null) {
+        final started = await _playMusicFromQueueSource(context, ref, queueSource);
+        if (started) {
+          return;
+        }
+      }
+    }
+
+    List<ItemBaseModel> itemsToPlay = [];
+
+    if (state.selectedPosters.isNotEmpty) {
+      itemsToPlay = shuffle ? state.selectedPosters.random() : state.selectedPosters;
+    } else {
+      itemsToPlay = await showLoadingOverlay(context, callBack: _loadAllItems(shuffle: shuffle));
+    }
+
+    itemsToPlay = itemsToPlay.where((element) => FladderItemType.musicPlayable.contains(element.type)).toList();
+
+    if (itemsToPlay.isNotEmpty) {
+      await itemsToPlay.playMusicItems(context, ref, shuffle: shuffle);
+    } else {
+      FladderSnack.show(context.localized.libraryFetchNoItemsFound, context: context);
+    }
+  }
+
+  PlaybackQueueSource? _createMusicQueueSource({required bool shuffle}) {
+    final recursive = state.searchQuery.isNotEmpty ? true : state.filters.recursive;
+
+    if (state.folderOverwrite.isNotEmpty) {
+      final currentItem = state.folderOverwrite.last;
+      if (currentItem is PlaylistModel) {
+        return PlaylistAudioQueueSource(
+          playlistId: currentItem.id,
+          limit: _libraryMusicRefillLimit,
+        );
+      }
+
+      return _buildLibraryMusicQueueSource(
+        parentId: currentItem.id,
+        recursive: recursive,
+        shuffle: shuffle,
+      );
+    }
+
+    if (state.views.hasEnabled) {
+      if (state.views.included.length != 1) return null;
+      return _buildLibraryMusicQueueSource(
+        parentId: state.views.included.first.id,
+        recursive: recursive,
+        shuffle: shuffle,
+      );
+    }
+
+    if (state.searchQuery.isEmpty && state.filters.favourites == false) {
+      return null;
+    }
+
+    return _buildLibraryMusicQueueSource(
+      parentId: null,
+      recursive: true,
+      shuffle: shuffle,
+    );
+  }
+
+  LibraryMusicQueueSource _buildLibraryMusicQueueSource({
+    required String? parentId,
+    required bool? recursive,
+    required bool shuffle,
+  }) {
+    return LibraryMusicQueueSource(
+      libraryState: state,
+      parentId: parentId,
+      recursive: recursive,
+      shuffle: shuffle,
+      limit: _libraryMusicRefillLimit,
+    );
+  }
+
+  Future<bool> _playMusicFromQueueSource(
+    BuildContext context,
+    WidgetRef ref,
+    PlaybackQueueSource queueSource,
+  ) async {
+    await ref.read(videoPlayerProvider.notifier).init();
+
+    final result = await showLoadingOverlay(
+      context,
+      callBack: Future(() async {
+        final initialQueue = await queueSource.fetchQueue(
+          ref.read,
+          limit: _libraryMusicInitialQueueLimit,
+          startIndex: 0,
+        );
+        if (initialQueue.isEmpty) return null;
+
+        final model = await ref.read(playbackModelHelper).createPlaybackModel(
+              context,
+              initialQueue.firstOrNull,
+              libraryQueue: initialQueue,
+              queueSource: queueSource,
+            );
+        if (model == null) return null;
+
+        return (model, initialQueue);
+      }),
+    );
+
+    if (result == null) {
+      return false;
+    }
+
+    final model = result.$1;
+    final queue = result.$2;
+    final currentIndex = queue.indexWhere((element) => element.id == model.item.id).clamp(0, queue.length - 1);
+    final actualStartPosition = await model.startDuration() ?? Duration.zero;
+
+    await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
+          model,
+          queue,
+          currentIndex,
+          actualStartPosition,
+        );
+    return true;
   }
 
   Future<List<PhotoModel>> fetchGallery({bool shuffle = false}) async {

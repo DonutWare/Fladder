@@ -22,6 +22,7 @@ import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -92,9 +93,22 @@ class JellyService {
   final Ref ref;
   AccountModel? get account => ref.read(userProvider);
 
+  Future<Response<ItemBaseModel>> _syncedItemResponse(String? itemId) async {
+    final item = (await ref.read(syncProvider.notifier).getSyncedItem(itemId))?.itemModel;
+    return Response<ItemBaseModel>(
+      http.Response("", 202),
+      item,
+    );
+  }
+
   Future<Response<ItemBaseModel>> usersUserIdItemsItemIdGet({
     String? itemId,
   }) async {
+    final isOffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+    if (isOffline) {
+      return _syncedItemResponse(itemId);
+    }
+
     try {
       final response = await api.itemsItemIdGet(
         userId: account?.id,
@@ -102,34 +116,43 @@ class JellyService {
       );
       return response.copyWith(body: ItemBaseModel.fromBaseDto(response.bodyOrThrow, ref));
     } catch (e) {
-      final item = (await ref.read(syncProvider.notifier).getSyncedItem(itemId))?.itemModel;
-      return Response<ItemBaseModel>(
-        http.Response("", 202),
-        item,
-      );
+      return _syncedItemResponse(itemId);
     }
   }
 
   Future<Response<BaseItemDto>> usersUserIdItemsItemIdGetBaseItem({
     String? itemId,
   }) async {
+    final isOffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+    if (isOffline) {
+      final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(itemId);
+      return syncedItem?.data != null
+          ? Response<BaseItemDto>(
+              http.Response("", 202),
+              syncedItem?.data,
+            )
+          : Response<BaseItemDto>(
+              http.Response("", 404),
+              null,
+            );
+    }
+
     try {
       return await api.itemsItemIdGet(
         userId: account?.id,
         itemId: itemId,
       );
     } catch (e) {
-      return ref.read(syncProvider.notifier).getSyncedItem(itemId).then(
-            (value) => value?.data != null
-                ? Response<BaseItemDto>(
-                    http.Response("", 202),
-                    value?.data,
-                  )
-                : Response<BaseItemDto>(
-                    http.Response("", 404),
-                    null,
-                  ),
-          );
+      final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(itemId);
+      return syncedItem?.data != null
+          ? Response<BaseItemDto>(
+              http.Response("", 202),
+              syncedItem?.data,
+            )
+          : Response<BaseItemDto>(
+              http.Response("", 404),
+              null,
+            );
     }
   }
 
@@ -342,6 +365,24 @@ class JellyService {
       enableTotalRecordCount: enableTotalRecordCount,
       enableImages: enableImages,
     );
+
+    final isOffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+
+    if (isOffline) {
+      final syncedItems = ref.read(syncProvider).items.where((e) => e.parentId == parentId).toList();
+
+      return Response(
+        http.Response("", 202),
+        ServerQueryResult.fromBaseQuery(
+          BaseItemDtoQueryResult(
+            items: syncedItems.map((e) => e.data).nonNulls.toList(),
+            totalRecordCount: syncedItems.length,
+            startIndex: 0,
+          ),
+          ref,
+        ),
+      );
+    }
 
     return response.copyWith(
       body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow, ref),
@@ -641,28 +682,7 @@ class JellyService {
     bool? enableUserData,
     ShowsSeriesIdEpisodesGetSortBy? sortBy,
   }) async {
-    try {
-      var response = await api.showsSeriesIdEpisodesGet(
-        seriesId: seriesId,
-        userId: account?.id,
-        fields: [
-          ...?fields,
-          ItemFields.parentid,
-        ],
-        isMissing: isMissing,
-        limit: limit,
-        sortBy: sortBy,
-        enableUserData: enableUserData,
-        startIndex: startIndex,
-        adjacentTo: adjacentTo,
-        startItemId: startItemId,
-        season: season,
-        seasonId: seasonId,
-        enableImages: enableImages,
-        enableImageTypes: enableImageTypes,
-      );
-      return response;
-    } catch (e) {
+    Future<Response<BaseItemDtoQueryResult>> fetchOfflineEpisodes() async {
       final seriesItem = await ref.read(syncProvider.notifier).getSyncedItem(seriesId);
       if (seriesItem != null) {
         final episodes = await ref.read(syncProvider.notifier).getNestedChildren(seriesItem)
@@ -686,6 +706,37 @@ class JellyService {
         );
       }
     }
+
+    final isoffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+
+    if (isoffline) {
+      return fetchOfflineEpisodes();
+    }
+
+    try {
+      var response = await api.showsSeriesIdEpisodesGet(
+        seriesId: seriesId,
+        userId: account?.id,
+        fields: [
+          ...?fields,
+          ItemFields.parentid,
+        ],
+        isMissing: isMissing,
+        limit: limit,
+        sortBy: sortBy,
+        enableUserData: enableUserData,
+        startIndex: startIndex,
+        adjacentTo: adjacentTo,
+        startItemId: startItemId,
+        season: season,
+        seasonId: seasonId,
+        enableImages: enableImages,
+        enableImageTypes: enableImageTypes,
+      );
+      return response;
+    } catch (e) {
+      return fetchOfflineEpisodes();
+    }
   }
 
   Future<List<ItemBaseModel>> fetchEpisodeFromShow({
@@ -704,13 +755,7 @@ class JellyService {
     String? itemId,
     int? limit,
   }) async {
-    try {
-      return await api.itemsItemIdSimilarGet(userId: account?.id, itemId: itemId, limit: limit, fields: [
-        ItemFields.parentid,
-        ItemFields.candelete,
-        ItemFields.candownload,
-      ]);
-    } catch (e) {
+    Future<Response<BaseItemDtoQueryResult>> fetchSimilarGet() async {
       return Response<BaseItemDtoQueryResult>(
         http.Response("", 400),
         const BaseItemDtoQueryResult(
@@ -719,6 +764,22 @@ class JellyService {
           startIndex: 0,
         ),
       );
+    }
+
+    final isOffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+
+    if (isOffline) {
+      return fetchSimilarGet();
+    }
+
+    try {
+      return await api.itemsItemIdSimilarGet(userId: account?.id, itemId: itemId, limit: limit, fields: [
+        ItemFields.parentid,
+        ItemFields.candelete,
+        ItemFields.candownload,
+      ]);
+    } catch (e) {
+      return fetchSimilarGet();
     }
   }
 
@@ -969,15 +1030,7 @@ class JellyService {
     bool? isMissing,
     List<ItemFields>? fields,
   }) async {
-    try {
-      final response = await api.showsSeriesIdSeasonsGet(
-        seriesId: seriesId,
-        isMissing: isMissing,
-        enableUserData: enableUserData,
-        fields: fields,
-      );
-      return response;
-    } catch (e) {
+    Future<Response<BaseItemDtoQueryResult>> fetchOfflineSeasons() async {
       final seriesItem = await ref.read(syncProvider.notifier).getSyncedItem(seriesId);
       if (seriesItem != null) {
         final seasons = await ref.read(syncProvider.notifier).getChildren(seriesItem.id);
@@ -999,6 +1052,23 @@ class JellyService {
           ),
         );
       }
+    }
+
+    final isOffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+    if (isOffline) {
+      return fetchOfflineSeasons();
+    }
+
+    try {
+      final response = await api.showsSeriesIdSeasonsGet(
+        seriesId: seriesId,
+        isMissing: isMissing,
+        enableUserData: enableUserData,
+        fields: fields,
+      );
+      return response;
+    } catch (e) {
+      return fetchOfflineSeasons();
     }
   }
 
@@ -1062,6 +1132,63 @@ class JellyService {
         enableImages: enableImages,
         enableTotalRecordCount: enableTotalRecordCount,
       );
+
+  Future<Response<ServerQueryResult>> albumInstantMixGet({
+    required String itemId,
+    int? limit,
+  }) async {
+    final response = await api.albumsItemIdInstantMixGet(
+      userId: account?.id,
+      itemId: itemId,
+      limit: limit,
+      fields: [ItemFields.primaryimageaspectratio, ItemFields.mediasources, ItemFields.mediastreams],
+      enableImages: true,
+      enableUserData: true,
+      imageTypeLimit: 1,
+      enableImageTypes: [ImageType.primary],
+    );
+    return response.copyWith(
+      body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow, ref),
+    );
+  }
+
+  Future<Response<ServerQueryResult>> artistInstantMixGet({
+    required String itemId,
+    int? limit,
+  }) async {
+    final response = await api.artistsItemIdInstantMixGet(
+      userId: account?.id,
+      itemId: itemId,
+      limit: limit,
+      fields: [ItemFields.primaryimageaspectratio, ItemFields.mediasources, ItemFields.mediastreams],
+      enableImages: true,
+      enableUserData: true,
+      imageTypeLimit: 1,
+      enableImageTypes: [ImageType.primary],
+    );
+    return response.copyWith(
+      body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow, ref),
+    );
+  }
+
+  Future<Response<ServerQueryResult>> audioInstantMixGet({
+    required String itemId,
+    int? limit,
+  }) async {
+    final response = await api.songsItemIdInstantMixGet(
+      userId: account?.id,
+      itemId: itemId,
+      limit: limit,
+      fields: [ItemFields.primaryimageaspectratio, ItemFields.mediasources, ItemFields.mediastreams],
+      enableImages: true,
+      enableUserData: true,
+      imageTypeLimit: 1,
+      enableImageTypes: [ImageType.primary],
+    );
+    return response.copyWith(
+      body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow, ref),
+    );
+  }
 
   Future<Response<ServerQueryResult>> playlistsPlaylistIdItemsGet({
     required String? playlistId,

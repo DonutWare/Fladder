@@ -176,7 +176,11 @@ class FladderSliderState extends State<FladderSlider> with SingleTickerProviderS
                       // Thumb
                       if (widget.showThumb)
                         Positioned(
-                          left: (width * relativeValue).clamp(thumbWidth / 2, width - thumbWidth / 2) - thumbWidth / 2,
+                          left: () {
+                            final minClamp = thumbWidth / 2;
+                            final maxClamp = (width - thumbWidth / 2).clamp(minClamp, double.infinity);
+                            return (width * relativeValue).clamp(minClamp, maxClamp) - thumbWidth / 2;
+                          }(),
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 125),
                             height: (hovering || dragging) ? height * 3 : height,

@@ -12,6 +12,7 @@ import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
+import 'package:fladder/providers/dashboard_mode_provider.dart';
 import 'package:fladder/providers/dashboard_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
@@ -19,6 +20,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/dashboard/home_banner_widget.dart';
+import 'package:fladder/screens/dashboard/music_dashboard_screen.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
@@ -75,6 +77,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (ref.watch(musicDashboardModeProvider)) {
+      return const MusicDashboardScreen();
+    }
+
     final padding = AdaptiveLayout.adaptivePadding(context);
     final bannerType = ref.watch(homeSettingsProvider.select((value) => value.homeBanner));
     final dashboardData = ref.watch(dashboardProvider);

@@ -6,37 +6,28 @@ import 'package:flutter/foundation.dart';
 import 'package:macos_window_utils/macos/ns_window_button_type.dart';
 import 'package:macos_window_utils/window_manipulator.dart';
 
-void toggleMacTrafficLights(bool enable) {
+Future<void> toggleMacTrafficLights(bool enable) async {
   if (kIsWeb || !Platform.isMacOS) return;
-  final height = enable ? 10.0 : 15.0;
-  final initOffset = 20.0;
-  List<NSWindowButtonType> buttons = [
+
+  final verticalOffset = enable ? 0.0 : 12.0;
+  final horizontalOffset = enable ? 0.0 : 16.0;
+  final buttons = [
     NSWindowButtonType.closeButton,
     NSWindowButtonType.miniaturizeButton,
     NSWindowButtonType.zoomButton,
   ];
-  for (var i = 0; i < buttons.length; i++) {
-    final button = buttons[i];
-    WindowManipulator.overrideStandardWindowButtonPosition(
+
+  for (var index = 0; index < buttons.length; index++) {
+    final button = buttons[index];
+    await WindowManipulator.overrideStandardWindowButtonPosition(
       buttonType: button,
-      offset: Offset((i * 23) + initOffset, height),
+      offset: Offset((index * 23) + horizontalOffset, verticalOffset),
     );
   }
+
   if (enable) {
-    WindowManipulator.disableMiniaturizeButton();
+    await WindowManipulator.disableMiniaturizeButton();
+  } else {
+    await WindowManipulator.enableMiniaturizeButton();
   }
 }
-
-// Disabled for now too buggy
-// void toggleMacControlsVisibility(bool enable) {
-//   if (kIsWeb || !Platform.isMacOS) return;
-//   if (enable) {
-//     WindowManipulator.showCloseButton();
-//     WindowManipulator.showMiniaturizeButton();
-//     WindowManipulator.showZoomButton();
-//   } else {
-//     WindowManipulator.hideCloseButton();
-//     WindowManipulator.hideMiniaturizeButton();
-//     WindowManipulator.hideZoomButton();
-//   }
-// }

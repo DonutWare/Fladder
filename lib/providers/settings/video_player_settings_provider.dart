@@ -1,9 +1,10 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:volume_controller/volume_controller.dart';
@@ -21,7 +22,7 @@ final videoPlayerSettingsProvider =
 final playbackRateProvider = StateProvider<double>((ref) => 1.0);
 
 class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {
-  VideoPlayerSettingsProviderNotifier(this.ref) : super(VideoPlayerSettingsModel()) {
+  VideoPlayerSettingsProviderNotifier(this.ref) : super(_sanitizeCrossfade(VideoPlayerSettingsModel())) {
     _initVolumeSync();
   }
 
@@ -55,6 +56,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   @override
   set state(VideoPlayerSettingsModel value) {
+    value = _sanitizeCrossfade(value);
     final oldState = super.state;
     super.state = value;
     ref.read(sharedUtilityProvider).videoPlayerSettings = value;
@@ -178,4 +180,25 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   void setEnableEdgeGestures(bool value) => state = state.copyWith(enableEdgeGestures: value);
 
   void setReverseEdgeGestures(bool value) => state = state.copyWith(reverseEdgeGestures: value);
+
+  void setEnablePictureInPicture(bool value) => state = state.copyWith(enablePictureInPicture: value);
+
+  void setEnableReplayGain(bool value) => state = state.copyWith(enableReplayGain: value);
+
+  void setEnablePlayPauseFade(bool value) => state = state.copyWith(enablePlayPauseFade: value);
+
+  void setReplayGainVolumeLevel(ReplayGainVolumeLevel value) => state = state.copyWith(replayGainVolumeLevel: value);
+
+  void setEnableCrossfade(bool value) {
+    state = state.copyWith(enableCrossfade: value && state.canUseCrossfade);
+  }
+
+  void setCrossfadeDurationMs(int value) => state = state.copyWith(crossfadeDurationMs: value);
+
+  static VideoPlayerSettingsModel _sanitizeCrossfade(VideoPlayerSettingsModel value) {
+    if (!value.canUseCrossfade && value.enableCrossfade) {
+      return value.copyWith(enableCrossfade: false);
+    }
+    return value;
+  }
 }

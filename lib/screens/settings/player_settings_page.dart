@@ -28,6 +28,7 @@ import 'package:fladder/util/box_fit_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/wrappers/pip_manager.dart';
 
 @RoutePage()
 class PlayerSettingsPage extends ConsumerStatefulWidget {
@@ -48,6 +49,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
     final userSettings = ref.watch(userProvider.select((value) => value?.userSettings));
 
     final currentPlayer = videoSettings.wantedPlayer;
+    final crossfadeSupported = videoSettings.canUseCrossfade;
 
     return SettingsScaffold(
       label: context.localized.settingsPlayerTitle,
@@ -77,6 +79,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                         : Container(),
                   ),
                 ],
+              ),
+            if (pipPlatformSupported)
+              SettingsListTile(
+                label: Text(context.localized.pictureInPictureAutoTitle),
+                subLabel: Text(context.localized.pictureInPictureSubtitle),
+                onTap: () => provider.setEnablePictureInPicture(!videoSettings.enablePictureInPicture),
+                trailing: Switch(
+                  value: videoSettings.enablePictureInPicture,
+                  onChanged: (value) => provider.setEnablePictureInPicture(value),
+                ),
               ),
             SettingsListTileEnum(
               label: Text(context.localized.videoScaling),
@@ -357,6 +369,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 ],
               ),
             ...[
+              if (currentPlayer == PlayerOptions.libMPV) SettingsLabelDivider(label: context.localized.video(1)),
               if (currentPlayer == PlayerOptions.libMPV) ...[
                 SettingsListTile(
                   label: Text(context.localized.settingsPlayerVideoHWAccelTitle),
@@ -416,6 +429,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               ),
               if (currentPlayer == PlayerOptions.libMPV)
                 SettingsListTile(
+                  label: Text(context.localized.settingsPlayerPlayPauseFadeTitle),
+                  subLabel: Text(context.localized.settingsPlayerPlayPauseFadeDesc),
+                  onTap: () => provider.setEnablePlayPauseFade(!videoSettings.enablePlayPauseFade),
+                  trailing: Switch(
+                    value: videoSettings.enablePlayPauseFade,
+                    onChanged: (value) => provider.setEnablePlayPauseFade(value),
+                  ),
+                ),
+              if (currentPlayer == PlayerOptions.libMPV)
+                SettingsListTile(
                   label: Text(context.localized.settingsPlayerBufferSizeTitle),
                   subLabel: Text(context.localized.settingsPlayerBufferSizeDesc),
                   trailing: IntInputField(
@@ -426,6 +449,107 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                         provider.setBufferSize(value);
                       }
                     },
+                  ),
+                ),
+              Column(
+                children: [
+                  SettingsListTileEnum(
+                    label: Text(context.localized.settingsAutoNextTitle),
+                    subLabel: Text(context.localized.settingsAutoNextDesc),
+                    current: ref.watch(
+                      videoPlayerSettingsProvider.select(
+                        (value) => value.nextVideoType.label(context),
+                      ),
+                    ),
+                    itemBuilder: (context) => AutoNextType.values
+                        .map(
+                          (entry) => ItemActionButton(
+                            label: Text(entry.label(context)),
+                            action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
+                                videoSettings.copyWith(nextVideoType: entry),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                  AnimatedFadeSize(
+                    child: switch (ref.watch(videoPlayerSettingsProvider.select((value) => value.nextVideoType))) {
+                      AutoNextType.smart => SettingsMessageBox(AutoNextType.smart.desc(context)),
+                      AutoNextType.static => SettingsMessageBox(AutoNextType.static.desc(context)),
+                      _ => const SizedBox.shrink(),
+                    },
+                  ),
+                ],
+              ),
+              if (currentPlayer == PlayerOptions.libMPV) SettingsLabelDivider(label: context.localized.audio(1)),
+              SettingsListTile(
+                label: Text(context.localized.playerSettingsReplayGainTitle),
+                subLabel: Text(context.localized.playerSettingsReplayGainDesc),
+                onTap: () => provider.setEnableReplayGain(!videoSettings.enableReplayGain),
+                trailing: Switch(
+                  value: videoSettings.enableReplayGain,
+                  onChanged: (value) => provider.setEnableReplayGain(value),
+                ),
+              ),
+              if (videoSettings.enableReplayGain)
+                SettingsListTileEnum(
+                  label: Text(context.localized.playerSettingsReplayGainLevelTitle),
+                  subLabel: Text(context.localized.playerSettingsReplayGainLevelDesc),
+                  current: videoSettings.replayGainVolumeLevel.label(context),
+                  itemBuilder: (context) => ReplayGainVolumeLevel.values
+                      .map(
+                        (entry) => ItemActionButton(
+                          label: Text(entry.label(context)),
+                          action: () => provider.setReplayGainVolumeLevel(entry),
+                        ),
+                      )
+                      .toList(),
+                ),
+              if (currentPlayer == PlayerOptions.libMPV && crossfadeSupported)
+                SettingsListTile(
+                  label: Text(context.localized.settingsPlayerCrossfadeTitle),
+                  subLabel: Text(context.localized.settingsPlayerCrossfadeDesc),
+                  onTap: () => provider.setEnableCrossfade(!videoSettings.enableCrossfade),
+                  trailing: Switch(
+                    value: videoSettings.enableCrossfade,
+                    onChanged: (value) => provider.setEnableCrossfade(value),
+                  ),
+                ),
+              if (currentPlayer == PlayerOptions.libMPV && crossfadeSupported && videoSettings.enableCrossfade)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.localized.settingsPlayerCrossfadeDurationTitle,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          context.localized.settingsPlayerCrossfadeDurationDesc,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: FladderSlider(
+                              min: 200,
+                              max: 3000,
+                              value: videoSettings.crossfadeDurationMs.toDouble(),
+                              divisions: 28,
+                              onChanged: (value) => provider.setCrossfadeDurationMs(value.round()),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            '${videoSettings.crossfadeDurationMs} ms',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               if (currentPlayer == PlayerOptions.libMDK)
@@ -445,35 +569,6 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   ),
                 ),
             ],
-            Column(
-              children: [
-                SettingsListTileEnum(
-                  label: Text(context.localized.settingsAutoNextTitle),
-                  subLabel: Text(context.localized.settingsAutoNextDesc),
-                  current: ref.watch(
-                    videoPlayerSettingsProvider.select(
-                      (value) => value.nextVideoType.label(context),
-                    ),
-                  ),
-                  itemBuilder: (context) => AutoNextType.values
-                      .map(
-                        (entry) => ItemActionButton(
-                          label: Text(entry.label(context)),
-                          action: () => ref.read(videoPlayerSettingsProvider.notifier).state =
-                              videoSettings.copyWith(nextVideoType: entry),
-                        ),
-                      )
-                      .toList(),
-                ),
-                AnimatedFadeSize(
-                  child: switch (ref.watch(videoPlayerSettingsProvider.select((value) => value.nextVideoType))) {
-                    AutoNextType.smart => SettingsMessageBox(AutoNextType.smart.desc(context)),
-                    AutoNextType.static => SettingsMessageBox(AutoNextType.static.desc(context)),
-                    _ => const SizedBox.shrink(),
-                  },
-                ),
-              ],
-            ),
             if (!AdaptiveLayout.of(context).isDesktop && !kIsWeb && !ref.read(argumentsStateProvider).htpcMode)
               SettingsListTile(
                 label: Text(context.localized.playerSettingsOrientationTitle),

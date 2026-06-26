@@ -10,6 +10,7 @@ import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/focused_outlined_text_field.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -250,6 +251,7 @@ class _IdentifyScreenState extends ConsumerState<IdentifyScreen> {
                             child: Card(
                               child: CachedNetworkImage(
                                 imageUrl: result.imageUrl ?? "",
+                                cacheManager: CustomCacheManager.instance,
                                 errorWidget: (context, url, error) => SizedBox(
                                   height: 75,
                                   child: Card(

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' show Random, min;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +11,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:square_progress_indicator/square_progress_indicator.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/album_model.dart';
+import 'package:fladder/models/items/artist_model.dart';
+import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
-import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/tv_playback_model.dart';
 import 'package:fladder/models/video_stream_model.dart';
@@ -24,6 +29,7 @@ import 'package:fladder/providers/items/book_details_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/book_viewer/book_viewer_screen.dart';
+import 'package:fladder/screens/library_search/widgets/library_play_options_.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -32,6 +38,8 @@ import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
+
+part 'play_playlist_helpers.dart';
 
 extension BookBaseModelExtension on BookModel? {
   Future<void> play(
@@ -89,12 +97,12 @@ extension PhotoAlbumExtension on PhotoAlbumModel? {
 
     final getChildItems = await op.valueOrCancellation(null);
     if (op.isCanceled || getChildItems == null) {
-      try {
-        Navigator.of(context, rootNavigator: true).pop();
-      } catch (e) {
-        log('Error closing loading dialog: $e');
-      }
       if (!op.isCanceled) {
+        try {
+          Navigator.of(context, rootNavigator: true).pop();
+        } catch (e) {
+          log('Error closing loading dialog: $e');
+        }
         FladderSnack.show(context.localized.unableToPlayMedia, context: context);
       }
       return;
@@ -148,12 +156,12 @@ extension ChannelModelExtension on ChannelModel? {
     final model = await op.valueOrCancellation(null);
 
     if (op.isCanceled || model == null) {
-      try {
-        Navigator.of(context, rootNavigator: true).pop();
-      } catch (e) {
-        log('Error closing loading dialog: $e');
-      }
       if (!op.isCanceled) {
+        try {
+          Navigator.of(context, rootNavigator: true).pop();
+        } catch (e) {
+          log('Error closing loading dialog: $e');
+        }
         FladderSnack.show(context.localized.unableToPlayMedia, context: context);
       }
       return;
@@ -175,6 +183,403 @@ extension ChannelModelExtension on ChannelModel? {
   }
 }
 
+extension AlbumModelAudioPlayback on AlbumModel? {
+  Future<void> play(
+    BuildContext context,
+    WidgetRef ref, {
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+  }) async {
+    final album = this;
+    if (album == null) return;
+
+    await ref.read(videoPlayerProvider.notifier).init();
+
+    final queue = await _fetchAlbumQueue(album, ref);
+    if (queue.isEmpty) {
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      return;
+    }
+
+    final op = CancelableOperation.fromFuture(ref.read(playbackModelHelper).createPlaybackModel(
+          context,
+          queue.first,
+          libraryQueue: queue,
+          showPlaybackOptions: showPlaybackOption,
+          startPosition: startPosition,
+        ));
+
+    final model = await op.valueOrCancellation(null);
+    if (op.isCanceled || model == null) {
+      if (!op.isCanceled && !showPlaybackOption) {
+        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      }
+      return;
+    }
+
+    final currentIndex = queue.indexWhere((element) => element.id == model.item.id).clamp(0, queue.length - 1);
+    final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
+
+    await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
+          model,
+          queue,
+          currentIndex,
+          actualStartPosition,
+        );
+  }
+}
+
+extension AudioModelAudioPlayback on AudioModel? {
+  Future<void> play(
+    BuildContext context,
+    WidgetRef ref, {
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+  }) async {
+    final audio = this;
+    if (audio == null) return;
+
+    await ref.read(videoPlayerProvider.notifier).init();
+
+    final queue = await _fetchAudioTrackQueue(audio, ref);
+    if (queue.isEmpty) {
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      return;
+    }
+
+    final currentIndex = queue.indexWhere((element) => element.id == audio.id).clamp(0, queue.length - 1);
+    final op = CancelableOperation.fromFuture(ref.read(playbackModelHelper).createPlaybackModel(
+          context,
+          audio,
+          libraryQueue: queue,
+          showPlaybackOptions: showPlaybackOption,
+          startPosition: startPosition,
+        ));
+
+    final model = await op.valueOrCancellation(null);
+    if (op.isCanceled || model == null) {
+      if (!op.isCanceled && !showPlaybackOption) {
+        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      }
+      return;
+    }
+
+    final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
+
+    await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
+          model,
+          queue,
+          currentIndex,
+          actualStartPosition,
+        );
+  }
+}
+
+extension ArtistModelLatestTracksPlayback on ArtistModel? {
+  Future<void> playLatestTracks(
+    BuildContext context,
+    WidgetRef ref, {
+    AudioModel? startTrack,
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+    bool? shuffleEnabled,
+  }) async {
+    final artist = this;
+    if (artist == null) return;
+
+    await ref.read(videoPlayerProvider.notifier).init();
+
+    if (shuffleEnabled != null) {
+      ref.read(mediaPlaybackProvider.notifier).update((s) => s.copyWith(shuffleEnabled: shuffleEnabled));
+    }
+
+    final queueSource = ArtistCatalogQueueSource(artistId: artist.id, limit: 300);
+    final queue = await queueSource.fetchQueue(ref.read);
+
+    if (queue.isEmpty) {
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      return;
+    }
+
+    final selectedItem = startTrack != null
+        ? queue.firstWhereOrNull((element) => element.id == startTrack.id) ?? queue.first
+        : (shuffleEnabled == true && queue.length > 1)
+            ? queue[Random().nextInt(queue.length)]
+            : queue.first;
+    final currentIndex = queue.indexWhere((element) => element.id == selectedItem.id).clamp(0, queue.length - 1);
+
+    final op = CancelableOperation.fromFuture(ref.read(playbackModelHelper).createPlaybackModel(
+          context,
+          selectedItem,
+          libraryQueue: queue,
+          queueSource: queueSource,
+          showPlaybackOptions: showPlaybackOption,
+          startPosition: startPosition,
+        ));
+
+    final model = await op.valueOrCancellation(null);
+    if (op.isCanceled || model == null) {
+      if (!op.isCanceled && !showPlaybackOption) {
+        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      }
+      return;
+    }
+
+    final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
+
+    await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
+          model,
+          queue,
+          currentIndex,
+          actualStartPosition,
+        );
+  }
+}
+
+extension AudioModelListPlayback on List<AudioModel> {
+  Future<void> play(
+    BuildContext context,
+    WidgetRef ref, {
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+  }) async {
+    if (isEmpty) return;
+
+    await ref.read(videoPlayerProvider.notifier).init();
+
+    final queue = cast<ItemBaseModel>().toList();
+
+    final op = CancelableOperation.fromFuture(ref.read(playbackModelHelper).createPlaybackModel(
+          context,
+          queue.first,
+          libraryQueue: queue,
+          showPlaybackOptions: showPlaybackOption,
+          startPosition: startPosition,
+        ));
+
+    final model = await op.valueOrCancellation(null);
+    if (op.isCanceled || model == null) {
+      if (!op.isCanceled && !showPlaybackOption) {
+        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      }
+      return;
+    }
+
+    final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
+
+    await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
+          model,
+          queue,
+          0,
+          actualStartPosition,
+        );
+  }
+}
+
+extension AlbumModelInstantMixPlayback on AlbumModel? {
+  Future<void> playInstantMix(
+    BuildContext context,
+    WidgetRef ref, {
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+  }) async {
+    final album = this;
+    if (album == null) return;
+
+    await _playInstantMix(
+      context,
+      ref,
+      queueSource: AlbumInstantMixQueueSource(albumId: album.id, limit: 50),
+      startPosition: startPosition,
+      showPlaybackOption: showPlaybackOption,
+    );
+  }
+}
+
+extension ArtistModelInstantMixPlayback on ArtistModel? {
+  Future<void> playInstantMix(
+    BuildContext context,
+    WidgetRef ref, {
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+  }) async {
+    final artist = this;
+    if (artist == null) return;
+
+    await _playInstantMix(
+      context,
+      ref,
+      queueSource: ArtistInstantMixQueueSource(artistId: artist.id, limit: 50),
+      startPosition: startPosition,
+      showPlaybackOption: showPlaybackOption,
+    );
+  }
+}
+
+extension AudioModelInstantMixPlayback on AudioModel? {
+  Future<void> playInstantMix(
+    BuildContext context,
+    WidgetRef ref, {
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+  }) async {
+    final audio = this;
+    if (audio == null) return;
+
+    await _playInstantMix(
+      context,
+      ref,
+      queueSource: AudioInstantMixQueueSource(audioId: audio.id, limit: 50),
+      startPosition: startPosition,
+      showPlaybackOption: showPlaybackOption,
+    );
+  }
+}
+
+extension AlbumModelAddToQueue on AlbumModel? {
+  Future<void> addToQueue(BuildContext context, WidgetRef ref) async {
+    final album = this;
+    if (album == null) return;
+
+    final queue = await _fetchAlbumQueue(album, ref);
+    if (queue.isEmpty) {
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      return;
+    }
+
+    await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue(queue);
+    if (context.mounted) {
+      FladderSnack.show(context.localized.addedToQueue(queue.length), context: context);
+    }
+  }
+}
+
+extension AudioModelAddToQueue on AudioModel? {
+  Future<void> addToQueue(BuildContext context, WidgetRef ref) async {
+    final audio = this;
+    if (audio == null) return;
+
+    await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue([audio]);
+    FladderSnack.show(context.localized.addedToQueue(1), context: context);
+  }
+}
+
+extension ArtistModelAddToQueue on ArtistModel? {
+  Future<void> addToQueue(BuildContext context, WidgetRef ref) async {
+    final artist = this;
+    if (artist == null) return;
+
+    final queueSource = ArtistCatalogQueueSource(artistId: artist.id, limit: 300);
+    final queue = await queueSource.fetchQueue(ref.read);
+
+    if (queue.isEmpty) {
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      return;
+    }
+
+    await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue(queue);
+    if (context.mounted) {
+      FladderSnack.show(context.localized.addedToQueue(queue.length), context: context);
+    }
+  }
+}
+
+Future<List<ItemBaseModel>> _fetchAlbumQueue(AlbumModel album, WidgetRef ref) async {
+  final response = await ref.read(jellyApiProvider).itemsGet(
+        parentId: album.id,
+        includeItemTypes: [BaseItemKind.audio],
+        enableUserData: true,
+        enableImages: true,
+        imageTypeLimit: 1,
+        fields: [ItemFields.primaryimageaspectratio, ItemFields.mediasources, ItemFields.mediastreams],
+        sortBy: [ItemSortBy.sortname],
+        sortOrder: [SortOrder.ascending],
+        limit: 200,
+      );
+
+  final tracks = response.body?.items.whereType<AudioModel>().toList() ?? [];
+  tracks.sort((a, b) {
+    final aIndex = a.trackNumber ?? 0;
+    final bIndex = b.trackNumber ?? 0;
+    return aIndex.compareTo(bIndex);
+  });
+  return tracks;
+}
+
+Future<List<ItemBaseModel>> _fetchAudioTrackQueue(AudioModel audio, WidgetRef ref) async {
+  final albumId = audio.albumId ?? audio.parentId;
+  if (albumId == null || albumId.isEmpty) {
+    return [audio];
+  }
+
+  final response = await ref.read(jellyApiProvider).itemsGet(
+        parentId: albumId,
+        includeItemTypes: [BaseItemKind.audio],
+        enableUserData: true,
+        enableImages: true,
+        imageTypeLimit: 1,
+        fields: [ItemFields.primaryimageaspectratio, ItemFields.mediasources, ItemFields.mediastreams],
+        sortBy: [ItemSortBy.sortname],
+        sortOrder: [SortOrder.ascending],
+        limit: 200,
+      );
+
+  final tracks = response.body?.items.whereType<AudioModel>().toList() ?? [];
+  tracks.sort((a, b) {
+    final aIndex = a.trackNumber ?? 0;
+    final bIndex = b.trackNumber ?? 0;
+    return aIndex.compareTo(bIndex);
+  });
+
+  if (tracks.isEmpty) {
+    return [audio];
+  }
+  return tracks;
+}
+
+Future<void> _playInstantMix(
+  BuildContext context,
+  WidgetRef ref, {
+  required PlaybackQueueSource queueSource,
+  Duration? startPosition,
+  bool showPlaybackOption = false,
+}) async {
+  await ref.read(videoPlayerProvider.notifier).init();
+
+  final queue = await queueSource.fetchQueue(ref.read);
+  if (queue.isEmpty) {
+    FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+    return;
+  }
+
+  final op = CancelableOperation.fromFuture(ref.read(playbackModelHelper).createPlaybackModel(
+        context,
+        queue.first,
+        libraryQueue: queue,
+        queueSource: queueSource,
+        showPlaybackOptions: showPlaybackOption,
+        startPosition: startPosition,
+      ));
+
+  final model = await op.valueOrCancellation(null);
+  if (op.isCanceled || model == null) {
+    if (!op.isCanceled && !showPlaybackOption) {
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+    }
+    return;
+  }
+
+  final currentIndex = queue.indexWhere((element) => element.id == model.item.id).clamp(0, queue.length - 1);
+  final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
+
+  await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
+        model,
+        queue,
+        currentIndex,
+        actualStartPosition,
+      );
+}
+
 extension ItemBaseModelExtensions on ItemBaseModel? {
   Future<void> play(
     BuildContext context,
@@ -184,6 +589,14 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
   }) async =>
       switch (this) {
         PhotoAlbumModel album => album.play(context, ref),
+        AlbumModel album => album.play(context, ref),
+        AudioModel audio => audio.play(context, ref),
+        PlaylistModel playlist => playlist.play(
+            context,
+            ref,
+            startPosition: startPosition,
+            showPlaybackOption: showPlaybackOption,
+          ),
         BookModel book => book.play(context, ref),
         ChannelModel channel => channel.play(context, ref),
         _ => _default(context, this, ref, startPosition: startPosition, showPlaybackOption: showPlaybackOption),
@@ -211,13 +624,15 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
 
     final model = await op.valueOrCancellation(null);
     if (op.isCanceled || model == null) {
-      try {
-        Navigator.of(context, rootNavigator: true).pop();
-      } catch (e) {
-        log('Error closing loading dialog: $e');
-      }
-      if (!op.isCanceled && !showPlaybackOption) {
-        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      if (!op.isCanceled) {
+        try {
+          Navigator.of(context, rootNavigator: true).pop();
+        } catch (e) {
+          log('Error closing loading dialog: $e');
+        }
+        if (!showPlaybackOption) {
+          FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+        }
       }
       return;
     }
@@ -266,12 +681,12 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
 
     final result = await op.valueOrCancellation(null);
     if (op.isCanceled || result == null) {
-      try {
-        Navigator.of(context, rootNavigator: true).pop();
-      } catch (e) {
-        log('Error closing loading dialog: $e');
-      }
       if (!op.isCanceled) {
+        try {
+          Navigator.of(context, rootNavigator: true).pop();
+        } catch (e) {
+          log('Error closing loading dialog: $e');
+        }
         FladderSnack.show(context.localized.unableToPlayMedia, context: context);
       }
       return;
@@ -285,6 +700,91 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
       if (context.mounted) {
         RefreshState.maybeOf(context)?.refresh();
       }
+    }
+  }
+
+  Future<void> playMusicItems(BuildContext context, WidgetRef ref, {bool shuffle = false}) async {
+    if (isEmpty) return;
+
+    await ref.read(videoPlayerProvider.notifier).init();
+
+    final op = CancelableOperation.fromFuture(Future(() async {
+      final newList = await Future.wait(map((element) async {
+        switch (element) {
+          case AudioModel audio:
+            return <ItemBaseModel>[audio];
+          case AlbumModel album:
+            return await _fetchAlbumQueue(album, ref);
+          case ArtistModel artist:
+            return await ArtistCatalogQueueSource(artistId: artist.id, limit: 300).fetchQueue(ref.read);
+          default:
+            return const <ItemBaseModel>[];
+        }
+      }));
+
+      final expandedList =
+          newList.expand((element) => element).whereType<AudioModel>().cast<ItemBaseModel>().toList().uniqueBy(
+                (value) => value.id,
+              );
+
+      if (shuffle) {
+        expandedList.shuffle();
+      }
+
+      final model = await ref.read(playbackModelHelper).createPlaybackModel(
+            context,
+            expandedList.firstOrNull,
+            libraryQueue: expandedList,
+          );
+
+      return (model, expandedList);
+    }));
+
+    _showLoadingIndicator(context, null, op);
+
+    final result = await op.valueOrCancellation(null);
+    if (op.isCanceled || result == null) {
+      if (!op.isCanceled) {
+        try {
+          Navigator.of(context, rootNavigator: true).pop();
+        } catch (e) {
+          log('Error closing loading dialog: $e');
+        }
+        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      }
+      return;
+    }
+
+    final PlaybackModel? model = result.$1;
+    final List<ItemBaseModel> expandedList = result.$2;
+
+    if (model == null || expandedList.isEmpty) {
+      try {
+        Navigator.of(context, rootNavigator: true).pop();
+      } catch (e) {
+        log('Error closing loading dialog: $e');
+      }
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      return;
+    }
+
+    final currentIndex =
+        expandedList.indexWhere((element) => element.id == model.item.id).clamp(0, expandedList.length - 1);
+    final actualStartPosition = await model.startDuration() ?? Duration.zero;
+
+    try {
+      Navigator.of(context, rootNavigator: true).pop();
+    } catch (_) {}
+
+    await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
+          model,
+          expandedList,
+          currentIndex,
+          actualStartPosition,
+        );
+
+    if (context.mounted) {
+      RefreshState.maybeOf(context)?.refresh();
     }
   }
 }
@@ -449,8 +949,6 @@ Future<void> _playVideo(
   try {
     Navigator.of(context, rootNavigator: true).pop();
   } catch (_) {}
-
-  ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
 
   if (cancelOperation?.isCanceled ?? false) return;
 

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,59 +19,86 @@ class VideoVolumeSlider extends ConsumerStatefulWidget {
 
 class _VideoVolumeSliderState extends ConsumerState<VideoVolumeSlider> {
   bool sliderActive = false;
+  bool mouseHovering = false;
 
   double? previousVolume;
+
+  void onPointerScroll(PointerScrollEvent event) {
+    if (sliderActive || !mouseHovering) return;
+    final volume = ref.read(videoPlayerSettingsProvider).volume;
+    final delta = event.scrollDelta.dy / 100.0 * 4.5;
+    final newVolume = (volume - delta).clamp(0.0, 100.0);
+    ref.read(videoPlayerSettingsProvider.notifier).setVolume(newVolume);
+    widget.onChanged?.call();
+  }
 
   @override
   Widget build(BuildContext context) {
     final volume = ref.watch(videoPlayerSettingsProvider.select((value) => value.volume));
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-          icon: Icon(volumeIcon(volume)),
-          onPressed: () {
-            if (volume != 0) {
-              previousVolume = volume;
-            }
-            ref.read(videoPlayerSettingsProvider.notifier).setVolume(volume == 0 ? (previousVolume ?? 100) : 0);
-          },
-        ),
-        AnimatedSize(
-          duration: const Duration(milliseconds: 250),
-          child: SizedBox(
-            height: 30,
-            width: 75,
-            child: FladderSlider(
-              min: 0,
-              max: 100,
-              value: volume,
-              onChangeStart: (value) {
-                setState(() {
-                  sliderActive = true;
-                });
-              },
-              onChangeEnd: (value) {
-                setState(() {
-                  sliderActive = false;
-                });
-              },
-              onChanged: (value) {
-                widget.onChanged?.call();
-                ref.read(videoPlayerSettingsProvider.notifier).setVolume(value);
+    return Listener(
+      onPointerSignal: (pointerSignal) {
+        if (pointerSignal is PointerScrollEvent) onPointerScroll(pointerSignal);
+      },
+      child: MouseRegion(
+        onEnter: (_) {
+          setState(() {
+            mouseHovering = true;
+          });
+        },
+        onExit: (_) {
+          setState(() {
+            mouseHovering = false;
+          });
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Icon(volumeIcon(volume)),
+              onPressed: () {
+                if (volume != 0) {
+                  previousVolume = volume;
+                }
+                ref.read(videoPlayerSettingsProvider.notifier).setVolume(volume == 0 ? (previousVolume ?? 100) : 0);
               },
             ),
-          ),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 250),
+              child: SizedBox(
+                height: 30,
+                width: 75,
+                child: FladderSlider(
+                  min: 0,
+                  max: 100,
+                  value: volume,
+                  onChangeStart: (value) {
+                    setState(() {
+                      sliderActive = true;
+                    });
+                  },
+                  onChangeEnd: (value) {
+                    setState(() {
+                      sliderActive = false;
+                    });
+                  },
+                  onChanged: (value) {
+                    widget.onChanged?.call();
+                    ref.read(videoPlayerSettingsProvider.notifier).setVolume(value);
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 40,
+              child: Text(
+                (volume).toStringAsFixed(0),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          ].addInBetween(const SizedBox(width: 6)),
         ),
-        SizedBox(
-          width: 40,
-          child: Text(
-            (volume).toStringAsFixed(0),
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ),
-      ].addInBetween(const SizedBox(width: 6)),
+      ),
     );
   }
 }

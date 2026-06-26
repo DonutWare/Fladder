@@ -12,6 +12,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
+import 'package:fladder/screens/settings/widgets/transcode_music_settings_popup.dart';
 import 'package:fladder/screens/settings/widgets/transcode_settings_popup.dart';
 import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
@@ -147,6 +148,19 @@ List<Widget> buildClientSettingsDownload(BuildContext context, WidgetRef ref, Fu
               onChanged: (value) {
                 ref.read(clientSettingsProvider.notifier).update(
                       (current) => current.copyWith(transcodeDownloadModel: value),
+                    );
+              },
+            ),
+          ),
+          SettingsListTile(
+            label: const Text("Music Quality"),
+            subLabel: Text(clientSettings.transcodeMusicDownloadModel.label(context)),
+            onTap: () => showTranscodeMusicSettingsPopup(
+              context: context,
+              current: clientSettings.transcodeMusicDownloadModel,
+              onChanged: (value) {
+                ref.read(clientSettingsProvider.notifier).update(
+                      (current) => current.copyWith(transcodeMusicDownloadModel: value),
                     );
               },
             ),

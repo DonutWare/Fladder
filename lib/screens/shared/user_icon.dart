@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/string_extensions.dart';
 
 class UserIcon extends ConsumerWidget {
@@ -58,6 +59,7 @@ class UserIcon extends ConsumerWidget {
               children: [
                 CachedNetworkImage(
                   imageUrl: user?.avatar ?? "",
+                  cacheManager: CustomCacheManager.instance,
                   progressIndicatorBuilder: (context, url, progress) => placeHolder(),
                   errorWidget: (context, url, error) => placeHolder(),
                   memCacheHeight: 128,

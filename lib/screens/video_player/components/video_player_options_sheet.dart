@@ -244,9 +244,14 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                   context,
                   items: playbackState?.queue ?? [],
                   currentItem: playbackState?.item,
-                  playSelected: (item) {
-                    throw UnimplementedError();
+                  onSectionReorder: (section, oldIndex, newIndex) {
+                    return ref.read(videoPlayerProvider.notifier).reorderAudioQueueSection(
+                          section,
+                          oldIndex,
+                          newIndex,
+                        );
                   },
+                  playSelected: ref.read(videoPlayerProvider.notifier).playAudioQueueItem,
                 );
               },
             )

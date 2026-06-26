@@ -22,7 +22,7 @@ class OfflineBanner extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              IconsaxPlusLinear.cloud_cross,
+              IconsaxPlusBold.cloud_cross,
               color: theme.colorScheme.onErrorContainer,
               size: 20,
             ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,12 +42,12 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
     final packageInfo = await PackageInfo.fromPlatform();
     final clientSettings = ref.read(clientSettingsProvider);
     final startupArguments = ref.read(argumentsStateProvider);
-    toggleMacTrafficLights(false);
     await windowManager.setupFladderWindowChrome(
       startupArguments,
       clientSettings,
       packageInfo,
     );
+    await toggleMacTrafficLights(await windowManager.isFullScreen());
   }
 
   @override
@@ -92,13 +94,13 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
   @override
   void onWindowEnterFullScreen() {
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: true));
-    toggleMacTrafficLights(true);
+    unawaited(toggleMacTrafficLights(true));
     super.onWindowEnterFullScreen();
   }
 
   @override
   void onWindowLeaveFullScreen() {
-    toggleMacTrafficLights(false);
+    unawaited(toggleMacTrafficLights(false));
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: false));
     super.onWindowLeaveFullScreen();
   }

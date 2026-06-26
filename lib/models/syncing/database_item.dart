@@ -102,6 +102,8 @@ class AppDatabase extends _$AppDatabase {
     final int maxDepth = switch (itemType) {
       FladderItemType.season => 1,
       FladderItemType.series => 2,
+      FladderItemType.musicArtist => 2,
+      FladderItemType.musicAlbum => 1,
       _ => 0,
     };
 

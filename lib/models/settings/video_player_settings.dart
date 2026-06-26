@@ -35,6 +35,7 @@ enum VideoHotKeys {
   skipMediaSegment,
   takeScreenshot,
   takeScreenshotClean,
+  toggleSubtitles,
   exit;
 
   const VideoHotKeys();
@@ -61,6 +62,7 @@ enum VideoHotKeys {
       VideoHotKeys.skipMediaSegment => context.localized.skipMediaSegment,
       VideoHotKeys.takeScreenshot => context.localized.takeScreenshot,
       VideoHotKeys.takeScreenshotClean => context.localized.takeScreenshotClean,
+      VideoHotKeys.toggleSubtitles => context.localized.toggleSubtitles,
       VideoHotKeys.exit => context.localized.exit,
     };
   }
@@ -69,6 +71,14 @@ enum VideoHotKeys {
 @Freezed(copyWith: true)
 abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   const VideoPlayerSettingsModel._();
+
+  static bool get crossfadeSupportedOnCurrentPlatform {
+    if (kIsWeb) return true;
+    return switch (defaultTargetPlatform) {
+      TargetPlatform.android || TargetPlatform.iOS => false,
+      _ => true,
+    };
+  }
 
   factory VideoPlayerSettingsModel({
     double? screenBrightness,
@@ -94,6 +104,12 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool enableAdvancedVideoOptions,
     @Default(true) bool enableEdgeGestures,
     @Default(false) bool reverseEdgeGestures,
+    @Default(true) bool enablePictureInPicture,
+    @Default(true) bool enableReplayGain,
+    @Default(ReplayGainVolumeLevel.quiet) ReplayGainVolumeLevel replayGainVolumeLevel,
+    @Default(true) bool enablePlayPauseFade,
+    @Default(true) bool enableCrossfade,
+    @Default(400) int crossfadeDurationMs,
   }) = _VideoPlayerSettingsModel;
 
   double get volume => internalVolume;
@@ -107,6 +123,8 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
       _defaultVideoHotKeys.map((key, value) => MapEntry(key, hotKeys[key] ?? value));
 
   Map<VideoHotKeys, KeyCombination> get defaultShortCuts => _defaultVideoHotKeys;
+
+  bool get canUseCrossfade => crossfadeSupportedOnCurrentPlatform;
 
   bool playerSame(VideoPlayerSettingsModel other) {
     return other.hardwareAccel == hardwareAccel &&
@@ -176,6 +194,35 @@ enum PlayerOptions {
         PlayerOptions.libMPV => "MPV",
         PlayerOptions.nativePlayer => "Native",
       };
+}
+
+double clampReplayGainDb(double gainDb) {
+  return gainDb.clamp(-60.0, 20.0).toDouble();
+}
+
+enum ReplayGainVolumeLevel {
+  // Keep enum ids stable for persisted settings; labels are user-facing.
+  quiet,
+  normal,
+  loud;
+
+  const ReplayGainVolumeLevel();
+
+  String label(BuildContext context) => switch (this) {
+        ReplayGainVolumeLevel.quiet => context.localized.quiet,
+        ReplayGainVolumeLevel.normal => context.localized.normal,
+        ReplayGainVolumeLevel.loud => context.localized.loud,
+      };
+
+  double get replayGainOffsetDb => switch (this) {
+        ReplayGainVolumeLevel.quiet => 0.0,
+        ReplayGainVolumeLevel.normal => 6.0,
+        ReplayGainVolumeLevel.loud => 8.0,
+      };
+
+  double adjustedReplayGainDb(double? trackGainDb) {
+    return clampReplayGainDb((trackGainDb ?? 0) + replayGainOffsetDb);
+  }
 }
 
 enum Screensaver {
@@ -263,6 +310,7 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.takeScreenshot => KeyCombination(key: LogicalKeyboardKey.keyG),
           VideoHotKeys.takeScreenshotClean =>
             KeyCombination(key: LogicalKeyboardKey.keyG, modifier: LogicalKeyboardKey.controlLeft),
+          VideoHotKeys.toggleSubtitles => KeyCombination(key: LogicalKeyboardKey.keyT),
           VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
         },
     };

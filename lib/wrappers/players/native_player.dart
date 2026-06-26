@@ -126,8 +126,20 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
     PlaybackModel model,
     Duration startPosition,
   ) async {
+    final nativeCurrentItem = switch (model) {
+      TvPlaybackModel tvModel => SimpleItemModel(
+          id: tvModel.channel.id,
+          title: tvModel.channel.name,
+          subTitle: tvModel.playingProgram?.name,
+          overview: tvModel.playingProgram?.overview ?? tvModel.channel.overview.summary,
+          logoUrl: tvModel.channel.getPosters?.logo?.path ?? tvModel.channel.images?.logo?.path,
+          primaryPoster: tvModel.playingProgram?.images?.primary?.path ?? tvModel.channel.images?.primary?.path ?? "",
+        ),
+      _ => model.item.toSimpleItem(context),
+    };
+
     final playableData = PlayableData(
-      currentItem: model.item.toSimpleItem(context),
+      currentItem: nativeCurrentItem,
       startPosition: startPosition.inMilliseconds,
       description: model.item.overview.summary,
       defaultAudioTrack: model.mediaStreams?.defaultAudioStreamIndex ?? 1,

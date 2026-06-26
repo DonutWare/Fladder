@@ -10,6 +10,7 @@ import 'package:fladder/util/focus_helper.dart';
 class InputHandler<T> extends ConsumerStatefulWidget {
   final bool autoFocus;
   final bool listenRawKeyboard;
+  final bool ignoreWhenTextFieldFocused;
   final KeyEventResult Function(FocusNode node, KeyEvent event)? onKeyEvent;
   final bool Function(T result)? keyMapResult;
   final Map<T, KeyCombination>? keyMap;
@@ -18,6 +19,7 @@ class InputHandler<T> extends ConsumerStatefulWidget {
     required this.child,
     this.autoFocus = true,
     this.listenRawKeyboard = false,
+    this.ignoreWhenTextFieldFocused = true,
     this.onKeyEvent,
     this.keyMapResult,
     this.keyMap,
@@ -33,11 +35,11 @@ class _InputHandlerState<T> extends ConsumerState<InputHandler<T>> {
   static bool _hardwareListening = false;
 
   static bool _handleHardwareKey(KeyEvent event) {
-    final inputFieldFocus = isEditableTextFocused();
-    if (inputFieldFocus) return false;
-
     for (final handler in _hardwareHandlers.toList().reversed) {
       if (!handler.mounted) continue;
+      if (handler.widget.ignoreWhenTextFieldFocused && isEditableTextFocused()) {
+        continue;
+      }
       final result = handler._onHardwareKey(event);
       if (result == KeyEventResult.handled || result == KeyEventResult.skipRemainingHandlers) {
         return true;

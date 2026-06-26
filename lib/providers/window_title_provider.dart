@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/media_playback_model.dart';
+import 'package:fladder/providers/dashboard_mode_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -15,6 +16,7 @@ class WindowTitleNotifier extends StateNotifier<String> {
   WindowTitleNotifier(this.ref) : super('Fladder') {
     // Listen to player state changes to handle minimized <-> maximized transitions
     ref.listen(mediaPlaybackProvider.select((v) => v.state), (_, __) => _update());
+    ref.listen(musicDashboardModeProvider, (_, __) => _update());
   }
 
   final Map<Object, String> _titles = {};
@@ -47,9 +49,14 @@ class WindowTitleNotifier extends StateNotifier<String> {
     _update();
   }
 
+  void refreshTitle() {
+    _update();
+  }
+
   void _update() {
     final nav = _stackKeys.isNotEmpty ? _titles[_stackKeys.last] : null;
     final playerState = ref.read(mediaPlaybackProvider).state;
+    final appName = ref.read(musicDashboardModeProvider) ? 'Tjilp' : 'Fladder';
 
     final isPlayerActive = playerState != VideoPlayerState.disposed;
     final isPlayerMinimized = playerState == VideoPlayerState.minimized;
@@ -58,7 +65,7 @@ class WindowTitleNotifier extends StateNotifier<String> {
     // If player is minimized or inactive, prefer navigation title.
     final title = (isPlayerActive && !isPlayerMinimized) ? (_playTitle ?? nav) : (nav ?? _playTitle);
 
-    final newState = kIsWeb ? (title != null ? 'Fladder • $title' : 'Fladder') : (title ?? 'Fladder');
+    final newState = title != null && title.isNotEmpty ? '$appName - $title' : appName;
 
     if (state == newState) return;
 
