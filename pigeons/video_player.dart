@@ -34,6 +34,14 @@ enum PlaybackType {
   tv,
 }
 
+enum SyncPlayCommandType {
+  none,
+  pause,
+  unpause,
+  seek,
+  stop,
+}
+
 class MediaInfo {
   final PlaybackType playbackType;
   final String videoInformation;
@@ -139,6 +147,7 @@ class SubtitleTrack {
 class Chapter {
   final String name;
   final String url;
+
   // Duration in milliseconds
   final int time;
 
@@ -155,6 +164,7 @@ class TrickPlayModel {
   final int tileWidth;
   final int tileHeight;
   final int thumbnailCount;
+
   //Duration in milliseconds
   final int interval;
   final List<String> images;
@@ -178,6 +188,7 @@ class StartResult {
 abstract class NativeVideoActivity {
   @async
   StartResult launchActivity();
+
   void disposeActivity();
 
   bool isLeanBackEnabled();
@@ -213,19 +224,41 @@ abstract class VideoPlayerApi {
   void stop();
 
   void setSubtitleSettings(SubtitleSettings settings);
+
+  /// Sets the SyncPlay command state for the native player overlay.
+  /// [processing] indicates if a SyncPlay command is being processed.
+  /// [commandType] is the type of command.
+  void setSyncPlayCommandState(bool processing, SyncPlayCommandType commandType);
+}
+
+/// Source of the last playback state change (for SyncPlay: infer user actions from stream).
+enum PlaybackChangeSource {
+  /// No specific source (e.g. periodic update, buffering).
+  none,
+
+  /// User tapped play/pause/seek on native; Flutter should send SyncPlay if active.
+  user,
+
+  /// Change was caused by applying a SyncPlay command; do not send again.
+  syncplay,
 }
 
 class PlaybackState {
   //Milliseconds
   final int position;
+
   //Milliseconds
   final int buffered;
+
   //Milliseconds
   final int duration;
   final bool playing;
   final bool buffering;
   final bool completed;
   final bool failed;
+
+  /// When set, indicates who caused this state update (for SyncPlay inference).
+  final PlaybackChangeSource? changeSource;
 
   const PlaybackState({
     required this.position,
@@ -235,6 +268,7 @@ class PlaybackState {
     required this.buffering,
     required this.completed,
     required this.failed,
+    this.changeSource,
   });
 }
 
@@ -320,11 +354,27 @@ abstract class VideoPlayerListenerCallback {
 @FlutterApi()
 abstract class VideoPlayerControlsCallback {
   void loadNextVideo();
+
   void loadPreviousVideo();
+
   void onStop();
+
   void swapSubtitleTrack(int value);
+
   void swapAudioTrack(int value);
+
   void loadProgram(GuideChannel selection);
+
   @async
   List<GuideProgram> fetchProgramsForChannel(String channelId);
+
+  /// User-initiated play action from native player (for SyncPlay integration)
+  void onUserPlay();
+
+  /// User-initiated pause action from native player (for SyncPlay integration)
+  void onUserPause();
+
+  /// User-initiated seek action from native player (for SyncPlay integration)
+  /// Position is in milliseconds
+  void onUserSeek(int positionMs);
 }

@@ -1,12 +1,9 @@
+import 'dart:async';
 import 'dart:developer';
-
-import 'package:flutter/material.dart' hide ConnectionState;
 
 import 'package:background_downloader/background_downloader.dart';
 import 'package:chopper/chopper.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
@@ -29,6 +26,7 @@ import 'package:fladder/models/playback/tv_playback_model.dart';
 export 'playback_queue_source.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
+import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
@@ -36,6 +34,7 @@ import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/bitrate_helper.dart';
@@ -44,6 +43,8 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/streams_selection.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
+import 'package:flutter/material.dart' hide ConnectionState;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Media {
   final String url;
@@ -94,14 +95,18 @@ class PlaybackModel {
 
   Future<PlaybackModel?> updatePlaybackPosition(Duration position, bool isPlaying, Ref ref) =>
       throw UnimplementedError();
+
   Future<PlaybackModel?> playbackStarted(Duration position, Ref ref) => throw UnimplementedError();
+
   Future<PlaybackModel?> playbackStopped(Duration position, Duration? totalDuration, Ref ref) =>
       throw UnimplementedError();
 
   void dispose() {}
 
   final MediaStreamsModel? mediaStreams;
+
   List<SubStreamModel>? get subStreams => throw UnimplementedError();
+
   List<AudioStreamModel>? get audioStreams => throw UnimplementedError();
 
   bool get isAudioPlayback => item is AudioModel || item.type == FladderItemType.audio;
@@ -121,7 +126,9 @@ class PlaybackModel {
   PlaybackModel? updateUserData(UserData userData) => throw UnimplementedError();
 
   Future<PlaybackModel>? setSubtitle(SubStreamModel? model, MediaControlsWrapper player) => throw UnimplementedError();
+
   Future<PlaybackModel>? setAudio(AudioStreamModel? model, MediaControlsWrapper player) => throw UnimplementedError();
+
   Future<PlaybackModel>? setQualityOption(Map<Bitrate, bool> map) => throw UnimplementedError();
 
   PlaybackModel updatePlaybackQueue(PlaybackQueueState newQueue) => throw UnimplementedError();
@@ -161,7 +168,50 @@ class PlaybackModelHelper {
 
   JellyService get api => ref.read(jellyApiProvider);
 
+  Future<void> _ensureLocalTrackSwitchAutoplay() async {
+    // Poll for up to ~3 seconds, calling play() on every iteration the
+    // player isn't already playing and isn't buffering. media-kit on web
+    // sometimes drops the first one or two play() calls after a track
+    // change or transcode reload (the underlying media isn't fully
+    // ready yet, or the player is mid-transition). One-shot retries
+    // weren't enough; this keeps re-issuing play until the state
+    // stream confirms playing=true or we time out.
+    for (var attempt = 0; attempt < 12; attempt++) {
+      final playbackState = ref.read(mediaPlaybackProvider);
+      if (playbackState.playing) {
+        return;
+      }
+      if (!playbackState.buffering) {
+        await ref.read(videoPlayerProvider).play();
+      }
+      await Future<void>.delayed(const Duration(milliseconds: 250));
+    }
+  }
+
   Future<PlaybackModel?> loadNewVideo(ItemBaseModel newItem) async {
+    // When SyncPlay is active, route the next/previous episode through
+    // the group queue using the lightweight NextItem/PreviousItem
+    // endpoints (matches jellyfin-web). Determine direction from the
+    // current playback model's queue and fall back to setNewQueue only
+    // for non-adjacent jumps (e.g. user picked an arbitrary library item).
+    if (ref.read(isSyncPlayActiveProvider)) {
+      // Use the same setNewQueue flow as initial play in _playSyncPlay.
+      // It reliably triggers the PlayQueue/NewPlaylist broadcast that
+      // drives _startPlayback through _handlePlayQueue, so the user
+      // sees the "Switching item…" overlay (SyncPlayCommandIndicator)
+      // and then the new media without having to navigate away.
+      //
+      // NextItem/PreviousItem would preserve the server-side queue
+      // context but in practice did not reliably trigger the
+      // PlayQueue broadcast we rely on; setNewQueue does.
+      await ref.read(syncPlayProvider.notifier).setNewQueue(
+        itemIds: [newItem.id],
+        playingItemPosition: 0,
+        startPositionTicks: 0,
+      );
+      return null;
+    }
+
     ref.read(videoPlayerProvider).pause();
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(buffering: true));
     final currentModel = ref.read(playBackModel);
@@ -543,7 +593,10 @@ class PlaybackModelHelper {
     return Response(response.base, (response.body?.items?.map((e) => EpisodeModel.fromBaseDto(e, ref)).toList() ?? []));
   }
 
-  Future<void> shouldReload(PlaybackModel playbackModel) async {
+  Future<void> shouldReload(
+    PlaybackModel playbackModel, {
+    bool isLocalTrackSwitch = false,
+  }) async {
     if (playbackModel is OfflinePlaybackModel) {
       return;
     }
@@ -553,7 +606,35 @@ class PlaybackModelHelper {
     final userId = ref.read(userProvider)?.id;
     if (userId?.isEmpty == true) return;
 
-    final currentPosition = ref.read(mediaPlaybackProvider.select((value) => value.position));
+    // Check if syncplay is active and get position from syncplay if so
+    final isSyncPlayActive = ref.read(isSyncPlayActiveProvider);
+    final Duration currentPosition;
+
+    final shouldReportGroupBuffering = (isSyncPlayActive && !isLocalTrackSwitch);
+
+    if (isSyncPlayActive) {
+      // Set reloading state in the player notifier to prevent premature ready reporting
+      ref.read(videoPlayerProvider.notifier).setReloading(
+            true,
+            reportToSyncPlay: shouldReportGroupBuffering,
+          );
+
+      // Estimate the live group position rather than using the stale
+      // SyncPlayState.positionTicks (which is frozen at the last server
+      // event). Without this the local player reloads at an old position
+      // and the drift correction immediately SkipToSyncs forward, producing
+      // a visible jump after every audio/subtitle switch.
+      final positionTicks = ref.read(syncPlayProvider.notifier).estimateCurrentGroupPositionTicks();
+      currentPosition = Duration(milliseconds: ticksToMilliseconds(positionTicks));
+
+      if (shouldReportGroupBuffering) {
+        // Report buffering BEFORE stop/reload only when this reload should
+        // affect group flow.
+        await ref.read(syncPlayProvider.notifier).reportBuffering();
+      }
+    } else {
+      currentPosition = ref.read(mediaPlaybackProvider.select((value) => value.position));
+    }
 
     final audioIndex = selectAudioStream(
         ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
@@ -645,9 +726,30 @@ class PlaybackModelHelper {
         bitRateOptions: playbackModel.bitRateOptions,
       );
     }
-    if (newModel == null) return;
+    if (newModel == null) {
+      if (isSyncPlayActive) {
+        ref.read(videoPlayerProvider.notifier).setReloading(false);
+      }
+      return;
+    }
     if (newModel.runtimeType != playbackModel.runtimeType || newModel is TranscodePlaybackModel) {
-      ref.read(videoPlayerProvider.notifier).loadPlaybackItem(newModel, currentPosition);
+      await ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
+            newModel,
+            currentPosition,
+            waitForSyncPlayCommand: shouldReportGroupBuffering,
+          );
+      if (isLocalTrackSwitch) {
+        await _ensureLocalTrackSwitchAutoplay();
+      }
+    } else if (isSyncPlayActive) {
+      // If we didn't call loadPlaybackItem, we must reset reloading state
+      ref.read(videoPlayerProvider.notifier).setReloading(
+            false,
+            reportToSyncPlay: false,
+          );
+      if (isLocalTrackSwitch) {
+        await _ensureLocalTrackSwitchAutoplay();
+      }
     }
   }
 }

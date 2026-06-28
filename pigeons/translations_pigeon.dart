@@ -34,4 +34,12 @@ abstract class TranslationsPigeon {
   String watch();
   String now();
   String decline();
+
+  // SyncPlay overlay strings
+  String syncPlaySyncingWithGroup();
+  String syncPlayCommandPausing();
+  String syncPlayCommandPlaying();
+  String syncPlayCommandSeeking();
+  String syncPlayCommandStopping();
+  String syncPlayCommandSyncing();
 }
