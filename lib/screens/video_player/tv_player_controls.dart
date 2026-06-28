@@ -1,15 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:async/async.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:screen_brightness/screen_brightness.dart';
-
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
@@ -22,6 +13,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/screens/shared/media/components/item_logo.dart';
+import 'package:fladder/screens/video_player/components/syncplay_command_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_playback_information.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
@@ -35,9 +27,18 @@ import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
+import 'package:fladder/widgets/syncplay/syncplay_badge.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 
 class TvPlayerControls extends ConsumerStatefulWidget {
   final Function(bool value) showGuide;
+
   const TvPlayerControls({
     required this.showGuide,
     super.key,
@@ -75,7 +76,6 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
 
   @override
   Widget build(BuildContext context) {
-    final player = ref.watch(videoPlayerProvider);
     return Listener(
       onPointerSignal: setVolume,
       child: InputHandler(
@@ -98,7 +98,9 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
               children: [
                 Positioned.fill(
                   child: GestureDetector(
-                    onTap: initInputDevice == InputDevice.pointer ? () => player.playOrPause() : () => toggleOverlay(),
+                    onTap: initInputDevice == InputDevice.pointer
+                        ? () => ref.read(videoPlayerProvider.notifier).userPlayOrPause()
+                        : () => toggleOverlay(),
                     onDoubleTap:
                         initInputDevice == InputDevice.pointer ? () => fullScreenHelper.toggleFullScreen(ref) : null,
                   ),
@@ -126,6 +128,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                 const VideoPlayerSeekIndicator(),
                 const VideoPlayerVolumeIndicator(),
                 const VideoPlayerScreenshotIndicator(),
+                const SyncPlayCommandIndicator(),
               ],
             ),
           ),
@@ -205,6 +208,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                           ],
                         ),
                       ),
+                    const SyncPlayBadge(),
                     if (initInputDevice == InputDevice.touch)
                       Align(
                         alignment: Alignment.centerRight,
@@ -277,7 +281,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                   IconButton.filledTonal(
                     iconSize: 38,
                     onPressed: () {
-                      ref.read(videoPlayerProvider).playOrPause();
+                      ref.read(videoPlayerProvider.notifier).userPlayOrPause();
                     },
                     icon: Icon(
                       mediaPlayback.playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play,
@@ -629,7 +633,10 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
 
   void minimizePlayer(BuildContext context) {
     clearOverlaySettings();
-    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.minimized));
+    ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
+    ref.read(mediaPlaybackProvider.notifier).update(
+          (state) => state.copyWith(state: VideoPlayerState.minimized),
+        );
     Navigator.of(context).pop();
   }
 
@@ -637,6 +644,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
 
   Future<void> closePlayer() async {
     clearOverlaySettings();
+    ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
     ref.read(videoPlayerProvider).stop();
     Navigator.of(context).pop();
   }
@@ -683,7 +691,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
 
     switch (value) {
       case VideoHotKeys.playPause:
-        ref.read(videoPlayerProvider).playOrPause();
+        ref.read(videoPlayerProvider.notifier).userPlayOrPause();
         return true;
       case VideoHotKeys.volumeUp:
         resetTimer();

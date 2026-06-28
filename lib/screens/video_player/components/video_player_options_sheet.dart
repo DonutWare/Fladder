@@ -14,6 +14,7 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/transcode_playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
@@ -429,10 +430,21 @@ Future<void> showSubSelection(BuildContext context) {
                       ? Opacity(opacity: 0.6, child: Text(subModel.language.capitalize()))
                       : null,
                   onTap: () async {
-                    final newModel = await playbackModel.setSubtitle(subModel, player);
-                    ref.read(playBackModel.notifier).update((state) => newModel);
-                    if (newModel != null) {
-                      await ref.read(playbackModelHelper).shouldReload(newModel);
+                    Future<void> doSwitch() async {
+                      final newModel = await playbackModel.setSubtitle(subModel, player);
+                      ref.read(playBackModel.notifier).update((state) => newModel);
+                      if (newModel != null) {
+                        await ref.read(playbackModelHelper).shouldReload(
+                              newModel,
+                              isLocalTrackSwitch: true,
+                            );
+                      }
+                    }
+
+                    if (ref.read(isSyncPlayActiveProvider)) {
+                      await ref.read(syncPlayProvider.notifier).runLocalOnly(doSwitch);
+                    } else {
+                      await doSwitch();
                     }
                   },
                 );
@@ -470,10 +482,21 @@ Future<void> showAudioSelection(BuildContext context) {
                         ? Opacity(opacity: 0.6, child: Text(audioStream.language.capitalize()))
                         : null,
                     onTap: () async {
-                      final newModel = await playbackModel.setAudio(audioStream, player);
-                      ref.read(playBackModel.notifier).update((state) => newModel);
-                      if (newModel != null) {
-                        await ref.read(playbackModelHelper).shouldReload(newModel);
+                      Future<void> doSwitch() async {
+                        final newModel = await playbackModel.setAudio(audioStream, player);
+                        ref.read(playBackModel.notifier).update((state) => newModel);
+                        if (newModel != null) {
+                          await ref.read(playbackModelHelper).shouldReload(
+                                newModel,
+                                isLocalTrackSwitch: true,
+                              );
+                        }
+                      }
+
+                      if (ref.read(isSyncPlayActiveProvider)) {
+                        await ref.read(syncPlayProvider.notifier).runLocalOnly(doSwitch);
+                      } else {
+                        await doSwitch();
                       }
                     });
               },
