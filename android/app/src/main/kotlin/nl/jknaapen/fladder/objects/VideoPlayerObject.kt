@@ -1,6 +1,8 @@
 package nl.jknaapen.fladder.objects
 
+import PlaybackChangeSource
 import PlaybackState
+import SyncPlayCommandType
 import TVGuideModel
 import VideoPlayerControlsCallback
 import VideoPlayerListenerCallback
@@ -15,6 +17,11 @@ import nl.jknaapen.fladder.messengers.VideoPlayerImplementation
 import nl.jknaapen.fladder.utility.InternalTrack
 
 object VideoPlayerObject {
+    data class SyncPlayCommandUiState(
+        val processing: Boolean,
+        val commandType: SyncPlayCommandType
+    )
+
     val implementation: VideoPlayerImplementation = VideoPlayerImplementation()
     private var _currentState = MutableStateFlow<PlaybackState?>(null)
 
@@ -102,6 +109,33 @@ object VideoPlayerObject {
 
     fun toggleGuideVisibility() {
         guideVisible.value = !guideVisible.value
+    }
+
+    // SyncPlay command state for overlay (Pigeon-generated type)
+    val syncPlayCommandState = MutableStateFlow(
+        SyncPlayCommandUiState(false, SyncPlayCommandType.NONE)
+    )
+
+    fun setSyncPlayCommandState(processing: Boolean, commandType: SyncPlayCommandType) {
+        syncPlayCommandState.value = SyncPlayCommandUiState(
+            processing = processing,
+            commandType = commandType
+        )
+    }
+
+    /** Set before updating player so the next PlaybackState sent to Flutter is tagged (for SyncPlay inference). */
+    @Volatile
+    private var pendingPlaybackChangeSource: PlaybackChangeSource? = null
+
+    fun setPendingPlaybackChangeSource(source: PlaybackChangeSource) {
+        pendingPlaybackChangeSource = source
+    }
+
+    /** Consumed when building PlaybackState in ExoPlayer; clears after read. */
+    fun getAndClearPendingPlaybackChangeSource(): PlaybackChangeSource? {
+        val r = pendingPlaybackChangeSource
+        pendingPlaybackChangeSource = null
+        return r
     }
 
     var currentActivity: VideoPlayerActivity? = null
