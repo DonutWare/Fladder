@@ -62,7 +62,12 @@ class _VideoPlayerVolumeIndicatorState extends ConsumerState<VideoPlayerVolumeIn
                   Icon(
                     volumeIcon(currentVolume),
                   ),
-                  Text(context.localized.volumeIndicator(currentVolume.round()))
+                  Text(
+                    context.localized.volumeIndicator(currentVolume.round()),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.white,
+                        ),
+                  )
                 ],
               ),
             ),
