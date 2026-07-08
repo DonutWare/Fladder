@@ -173,7 +173,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                             tvMode: useTVExpandedLayout,
                             contentPadding: padding,
                             posters: element.posters,
-                            primaryPosters: element.name is Continue,
+                            collectionAspectRatio: element.name is Continue ? 1.2 : null,
                             label: element.type != null
                                 ? "${element.type?.label(context.localized)} - ${element.name.label(context.localized)}"
                                 : element.name.label(context.localized),

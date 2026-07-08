@@ -1,3 +1,5 @@
+import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as jelly;
 import 'package:flutter/material.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
@@ -35,7 +37,7 @@ class PosterImage extends ConsumerWidget {
   final Function(ItemBaseModel newItem)? onItemUpdated;
   final Function(ItemBaseModel oldItem)? onItemRemoved;
   final Function(Function() action, ItemBaseModel item)? onPressed;
-  final bool primaryPosters;
+  final List<jelly.ImageType>? imagePriority;
   final Function(bool focus)? onFocusChanged;
   final bool showSyncStatus;
 
@@ -50,11 +52,32 @@ class PosterImage extends ConsumerWidget {
     this.otherActions = const [],
     this.onPressed,
     this.onUserDataChanged,
-    this.primaryPosters = false,
+    this.imagePriority,
     this.onFocusChanged,
     this.showSyncStatus = false,
     super.key,
   });
+
+  ImageData? _resolveImage() {
+    final source = poster.getPosters;
+    final fallback = poster.images;
+
+    final effectivePriority =
+        imagePriority ?? const [jelly.ImageType.primary, jelly.ImageType.thumb, jelly.ImageType.backdrop];
+
+    for (final type in effectivePriority) {
+      final image = switch (type) {
+        jelly.ImageType.primary => source?.primary ?? fallback?.primary,
+        jelly.ImageType.thumb => source?.thumb ?? fallback?.thumb,
+        jelly.ImageType.backdrop => source?.backDrop?.lastOrNull ?? fallback?.backDrop?.lastOrNull,
+        _ => null,
+      };
+
+      if (image != null) return image;
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -95,9 +118,7 @@ class PosterImage extends ConsumerWidget {
             border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
           ),
           child: FladderImage(
-            image: primaryPosters
-                ? poster.images?.primary
-                : poster.getPosters?.primary ?? poster.getPosters?.backDrop?.lastOrNull,
+            image: _resolveImage(),
             placeHolder: PosterPlaceholder(item: poster),
           ),
         ),

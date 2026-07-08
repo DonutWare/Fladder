@@ -35,7 +35,6 @@ class TVPosterRow extends ConsumerStatefulWidget {
   final EdgeInsets contentPadding;
   final Function()? onLabelClick;
   final Function(ItemBaseModel focused)? onFocused;
-  final bool primaryPosters;
   final bool autoFocus;
 
   const TVPosterRow({
@@ -45,7 +44,6 @@ class TVPosterRow extends ConsumerStatefulWidget {
     this.primaryRatio = 0.67,
     this.onLabelClick,
     this.onFocused,
-    this.primaryPosters = false,
     this.autoFocus = false,
     super.key,
   });
@@ -143,7 +141,6 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
                     widget.onFocused?.call(poster);
                   }
                 },
-                primaryPosters: isFocused || widget.primaryPosters,
                 onTap: () => poster.navigateTo(context, ref: ref),
               );
             },
@@ -172,7 +169,6 @@ class _TVPosterItem extends ConsumerWidget {
   final bool selected;
   final bool focused;
   final Function(bool focused)? onFocusChanged;
-  final bool primaryPosters;
   final VoidCallback onTap;
 
   const _TVPosterItem({
@@ -182,7 +178,6 @@ class _TVPosterItem extends ConsumerWidget {
     required this.selected,
     required this.focused,
     this.onFocusChanged,
-    required this.primaryPosters,
     required this.onTap,
   });
 
