@@ -483,6 +483,28 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
       }
     }
 
+    LibraryFilterModel? incomingFilter() {
+      if (widget.favourites != null ||
+          widget.sortOrder != null ||
+          widget.sortingOptions != null ||
+          widget.types != null ||
+          widget.genres != null ||
+          widget.recursive != null) {
+        final defaultFilter = const LibraryFilterModel();
+
+        return defaultFilter.copyWith(
+          favourites: widget.favourites,
+          sortOrder: widget.sortOrder ?? defaultFilter.sortOrder,
+          sortingOption: widget.sortingOptions ?? defaultFilter.sortingOption,
+          types: widget.types ?? {},
+          genres: widget.genres ?? {},
+          recursive: widget.recursive,
+        );
+      } else {
+        return null;
+      }
+    }
+
     return MediaQuery(
       data: mediaQuery.copyWith(
         padding: mediaQuery.padding.copyWith(top: mediaQuery.padding.top + adaptiveLayout.topBarHeight),
@@ -528,19 +550,12 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                   autoFocus: false,
                   contextRefresh: false,
                   onRefresh: () async {
-                    final defaultFilter = const LibraryFilterModel();
+                    final filter = incomingFilter();
                     if (libraryProvider.mounted) {
                       return libraryProvider.initRefresh(
                         widget.folderId,
                         widget.viewModelId,
-                        defaultFilter.copyWith(
-                          favourites: widget.favourites,
-                          sortOrder: widget.sortOrder ?? defaultFilter.sortOrder,
-                          sortingOption: widget.sortingOptions ?? defaultFilter.sortingOption,
-                          types: widget.types ?? {},
-                          genres: widget.genres ?? {},
-                          recursive: widget.recursive,
-                        ),
+                        filter?.hasActiveFilters == false ? null : filter,
                       );
                     }
                   },

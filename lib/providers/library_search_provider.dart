@@ -66,7 +66,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   Future<void> initRefresh(
     List<String>? folderId,
     String? viewModelId,
-    LibraryFilterModel filters,
+    LibraryFilterModel? filters,
   ) async {
     loading = true;
     state = state.resetLazyLoad();
@@ -77,20 +77,30 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       if (folderId != null) {
         await loadFolders(folderId: folderId);
       } else {
-        await loadViews(viewModelIds, filters);
+        await loadViews(viewModelIds);
       }
     }
 
-    await loadFilters(filters);
+    final findFavouriteFilter = ref.read(filterProvider).firstWhereOrNull((element) => element.isFavourite);
+    final activeFilter = filters ?? findFavouriteFilter?.filter ?? const LibraryFilterModel();
+
+    await loadFilters(activeFilter);
 
     if (!wasInitialized) {
       wasInitialized = true;
       state = state.copyWith(
         filters: state.filters.copyWith(
-          types: state.filters.types.replaceMap(filters.types, enabledOnly: true),
-          genres: state.filters.genres.replaceMap(filters.genres, enabledOnly: true),
-          recursive: filters.recursive ?? true,
-          favourites: filters.favourites ?? false,
+          types: state.filters.types.replaceMap(activeFilter.types, enabledOnly: true),
+          genres: state.filters.genres.replaceMap(activeFilter.genres, enabledOnly: true),
+          studios: state.filters.studios.replaceMap(activeFilter.studios, enabledOnly: true),
+          tags: state.filters.tags.replaceMap(activeFilter.tags, enabledOnly: true),
+          recursive: activeFilter.recursive,
+          favourites: activeFilter.favourites,
+          sortingOption: activeFilter.sortingOption,
+          sortOrder: activeFilter.sortOrder,
+          itemFilters: activeFilter.itemFilters,
+          officialRatings: activeFilter.officialRatings,
+          years: activeFilter.years,
         ),
       );
     }
@@ -184,7 +194,6 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
   Future<void> loadViews(
     List<String>? viewModelId,
-    LibraryFilterModel filters,
   ) async {
     final response = await api.usersUserIdViewsGet(includeHidden: false);
     final createdViews = response.body?.items?.map((e) => ViewModel.fromBodyDto(e, ref));
@@ -199,15 +208,6 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     state = state.copyWith(
       views: views,
     );
-
-    final findFavouriteFilter = ref
-        .read(libraryFiltersProvider(views.included.map((e) => e.id).toList()))
-        .firstWhereOrNull((element) => element.isFavourite);
-    if (findFavouriteFilter != null) {
-      loadModel(findFavouriteFilter.filter);
-    } else {
-      loadModel(filters);
-    }
   }
 
   Future<void> loadFolders({List<String>? folderId}) async {
@@ -242,15 +242,16 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     final tags = mappedList
         .expand((element) => element?.tags ?? <String>[])
         .sorted((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
+
     var tempFilters = tempState.filters;
     tempState = tempState.copyWith(
       filters: tempFilters.copyWith(
         types: filters.types.isEmpty
             ? tempFilters.types.setAll(false).setKeys(enabledCollections, true)
-            : tempFilters.types,
-        genres: {for (var element in genres) element.name: false}.replaceMap(tempFilters.genres),
-        studios: {for (var element in studios) element: false}.replaceMap(tempFilters.studios),
-        tags: {for (var element in tags) element: false}.replaceMap(tempFilters.tags),
+            : tempFilters.types.replaceMap(filters.types),
+        genres: {for (var element in genres) element.name: false}.replaceMap(filters.genres),
+        studios: {for (var element in studios) element: false}.replaceMap(filters.studios),
+        tags: {for (var element in tags) element: false}.replaceMap(filters.tags),
       ),
     );
     state = tempState;

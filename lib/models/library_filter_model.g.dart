@@ -51,7 +51,7 @@ _LibraryFilterModel _$LibraryFilterModelFromJson(Map<String, dynamic> json) => _
       sortOrder: $enumDecodeNullable(_$SortingOrderEnumMap, json['sortOrder']) ?? SortingOrder.ascending,
       favourites: json['favourites'] as bool? ?? false,
       hideEmptyShows: json['hideEmptyShows'] as bool? ?? true,
-      recursive: json['recursive'] as bool? ?? true,
+      recursive: json['recursive'] as bool? ?? false,
       groupBy: $enumDecodeNullable(_$GroupByEnumMap, json['groupBy']) ?? GroupBy.none,
     );
 

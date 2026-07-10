@@ -109,12 +109,7 @@ extension CollectionTypeExtension on CollectionType? {
     }
   }
 
-  LibraryFilterModel get defaultFilters => switch (this) {
-        CollectionType.homevideos || CollectionType.photos => const LibraryFilterModel(recursive: false),
-        _ => const LibraryFilterModel(
-            recursive: true,
-          )
-      };
+  LibraryFilterModel get defaultFilters => const LibraryFilterModel();
 
   double? get aspectRatio => switch (this) {
         CollectionType.music ||
