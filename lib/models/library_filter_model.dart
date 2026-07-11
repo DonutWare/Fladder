@@ -53,6 +53,7 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
     @Default(true) bool hideEmptyShows,
     @Default(false) bool? recursive,
     @Default(GroupBy.none) GroupBy groupBy,
+    @Default(false) bool isDefault,
   }) = _LibraryFilterModel;
 
   bool get hasActiveFilters => this != defaultFilter;
@@ -152,6 +153,7 @@ extension LibrarySearchRouteExtension on LibrarySearchRoute {
       types: model.types,
       genres: model.genres,
       recursive: model.recursive,
+      isDefault: model.isDefault,
     );
   }
 }

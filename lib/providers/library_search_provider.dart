@@ -84,10 +84,12 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     final firstView = state.views.included.firstWhereOrNull((element) => viewModelIds.contains(element.id));
 
     final findFavouriteFilter = ref.read(filterProvider).firstWhereOrNull((element) => element.isFavourite);
-    final activeFilter = filters ??
-        findFavouriteFilter?.filter ??
-        firstView?.collectionType.defaultFilters ??
-        const LibraryFilterModel();
+
+    log(filters?.isDefault.toString() ?? "false");
+
+    final defaultOrFavourite =
+        filters?.isDefault == true && findFavouriteFilter != null ? findFavouriteFilter.filter : filters;
+    final activeFilter = defaultOrFavourite ?? firstView?.collectionType.defaultFilters ?? const LibraryFilterModel();
 
     await loadFilters(activeFilter);
 

@@ -121,6 +121,7 @@ extension CollectionTypeExtension on CollectionType? {
         CollectionType.tvshows => const LibraryFilterModel(
             types: {FladderItemType.series: true},
             recursive: true,
+            isDefault: true,
           ),
         CollectionType.homevideos => const LibraryFilterModel(
             types: {
@@ -134,7 +135,10 @@ extension CollectionTypeExtension on CollectionType? {
             types: {FladderItemType.tvchannel: true},
           ),
         _ => const LibraryFilterModel(),
-      };
+      }
+          .copyWith(
+        isDefault: true,
+      );
 
   double? get aspectRatio => switch (this) {
         CollectionType.music ||

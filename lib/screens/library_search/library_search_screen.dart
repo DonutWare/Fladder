@@ -55,6 +55,7 @@ class LibrarySearchScreen extends ConsumerStatefulWidget {
   final Map<FladderItemType, bool>? types;
   final Map<String, bool>? genres;
   final bool? recursive;
+  final bool? isDefault;
   const LibrarySearchScreen({
     @QueryParam("parentId") this.viewModelId,
     @QueryParam("folderId") this.folderId,
@@ -64,6 +65,7 @@ class LibrarySearchScreen extends ConsumerStatefulWidget {
     @QueryParam("itemTypes") this.types,
     @QueryParam("genres") this.genres,
     @QueryParam("recursive") this.recursive,
+    @QueryParam("isDefault") this.isDefault,
     super.key,
   });
 
@@ -499,6 +501,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
           types: widget.types ?? {},
           genres: widget.genres ?? {},
           recursive: widget.recursive,
+          isDefault: widget.isDefault ?? false,
         );
       } else {
         return null;
@@ -555,7 +558,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                       return libraryProvider.initRefresh(
                         widget.folderId,
                         widget.viewModelId,
-                        filter?.hasActiveFilters == false ? null : filter,
+                        filter,
                       );
                     }
                   },

@@ -397,6 +397,7 @@ class LibrarySearchRoute extends _i31.PageRouteInfo<LibrarySearchRouteArgs> {
     Map<_i33.FladderItemType, bool>? types,
     Map<String, bool>? genres,
     bool? recursive,
+    bool? isDefault,
     _i34.Key? key,
     List<_i31.PageRouteInfo>? children,
   }) : super(
@@ -410,6 +411,7 @@ class LibrarySearchRoute extends _i31.PageRouteInfo<LibrarySearchRouteArgs> {
             types: types,
             genres: genres,
             recursive: recursive,
+            isDefault: isDefault,
             key: key,
           ),
           rawQueryParams: {
@@ -421,6 +423,7 @@ class LibrarySearchRoute extends _i31.PageRouteInfo<LibrarySearchRouteArgs> {
             'itemTypes': types,
             'genres': genres,
             'recursive': recursive,
+            'isDefault': isDefault,
           },
           initialChildren: children,
         );
@@ -441,6 +444,7 @@ class LibrarySearchRoute extends _i31.PageRouteInfo<LibrarySearchRouteArgs> {
           types: queryParams.get('itemTypes'),
           genres: queryParams.get('genres'),
           recursive: queryParams.optBool('recursive'),
+          isDefault: queryParams.optBool('isDefault'),
         ),
       );
       return _i17.LibrarySearchScreen(
@@ -452,6 +456,7 @@ class LibrarySearchRoute extends _i31.PageRouteInfo<LibrarySearchRouteArgs> {
         types: args.types,
         genres: args.genres,
         recursive: args.recursive,
+        isDefault: args.isDefault,
         key: args.key,
       );
     },
@@ -468,6 +473,7 @@ class LibrarySearchRouteArgs {
     this.types,
     this.genres,
     this.recursive,
+    this.isDefault,
     this.key,
   });
 
@@ -487,11 +493,13 @@ class LibrarySearchRouteArgs {
 
   final bool? recursive;
 
+  final bool? isDefault;
+
   final _i34.Key? key;
 
   @override
   String toString() {
-    return 'LibrarySearchRouteArgs{viewModelId: $viewModelId, folderId: $folderId, favourites: $favourites, sortOrder: $sortOrder, sortingOptions: $sortingOptions, types: $types, genres: $genres, recursive: $recursive, key: $key}';
+    return 'LibrarySearchRouteArgs{viewModelId: $viewModelId, folderId: $folderId, favourites: $favourites, sortOrder: $sortOrder, sortingOptions: $sortingOptions, types: $types, genres: $genres, recursive: $recursive, isDefault: $isDefault, key: $key}';
   }
 
   @override
@@ -506,6 +514,7 @@ class LibrarySearchRouteArgs {
         const _i36.MapEquality().equals(types, other.types) &&
         const _i36.MapEquality().equals(genres, other.genres) &&
         recursive == other.recursive &&
+        isDefault == other.isDefault &&
         key == other.key;
   }
 
@@ -519,6 +528,7 @@ class LibrarySearchRouteArgs {
       const _i36.MapEquality().hash(types) ^
       const _i36.MapEquality().hash(genres) ^
       recursive.hashCode ^
+      isDefault.hashCode ^
       key.hashCode;
 }
 

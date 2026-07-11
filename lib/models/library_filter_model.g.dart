@@ -53,6 +53,7 @@ _LibraryFilterModel _$LibraryFilterModelFromJson(Map<String, dynamic> json) => _
       hideEmptyShows: json['hideEmptyShows'] as bool? ?? true,
       recursive: json['recursive'] as bool? ?? false,
       groupBy: $enumDecodeNullable(_$GroupByEnumMap, json['groupBy']) ?? GroupBy.none,
+      isDefault: json['isDefault'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$LibraryFilterModelToJson(_LibraryFilterModel instance) => <String, dynamic>{
@@ -69,6 +70,7 @@ Map<String, dynamic> _$LibraryFilterModelToJson(_LibraryFilterModel instance) =>
       'hideEmptyShows': instance.hideEmptyShows,
       'recursive': instance.recursive,
       'groupBy': _$GroupByEnumMap[instance.groupBy]!,
+      'isDefault': instance.isDefault,
     };
 
 const _$ItemFilterEnumMap = {
