@@ -72,13 +72,16 @@ abstract class TranscodeDownloadModel with _$TranscodeDownloadModel {
           ),
         ],
         containerProfiles: const [],
-        subtitleProfiles: const [
-          SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
-          SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
-          SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
-          if (!ref.read(argumentsStateProvider).leanBackMode)
+        subtitleProfiles: ref.read(argumentsStateProvider).leanBackMode
+        ? const [
+            SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
+            SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
+        ]
+        : const [
+            SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
+            SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
             SubtitleProfile(format: 'pgssub', method: SubtitleDeliveryMethod.$external),
-        ],
+        ]
       );
 
   String label(BuildContext context) {
