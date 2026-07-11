@@ -54,7 +54,8 @@ abstract class TranscodeDownloadModel with _$TranscodeDownloadModel {
 
   /// Device profile for download transcoding.
   /// Uses HTTP protocol instead of HLS so the server returns a complete file URL.
-  DeviceProfile get deviceProfile => DeviceProfile(
+  DeviceProfile get deviceProfile => ref.read(argumentsStateProvider).leanBackMode
+    ? DeviceProfile(
         maxStreamingBitrate: maxBitrate.bitRate,
         maxStaticBitrate: maxBitrate.bitRate,
         directPlayProfiles: const [
@@ -72,17 +73,37 @@ abstract class TranscodeDownloadModel with _$TranscodeDownloadModel {
           ),
         ],
         containerProfiles: const [],
-        subtitleProfiles: ref.read(argumentsStateProvider).leanBackMode
-        ? const [
-            SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
-            SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
-        ]
-        : const [
-            SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
-            SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
-            SubtitleProfile(format: 'pgssub', method: SubtitleDeliveryMethod.$external),
-        ]
+        subtitleProfiles: const [
+          SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
+        ],
       );
+    : DeviceProfile(
+      maxStreamingBitrate: maxBitrate.bitRate,
+      maxStaticBitrate: maxBitrate.bitRate,
+      directPlayProfiles: const [
+        DirectPlayProfile(type: DlnaProfileType.video),
+        DirectPlayProfile(type: DlnaProfileType.audio),
+      ],
+      transcodingProfiles: [
+        TranscodingProfile(
+          audioCodec: audioCodec.name.toLowerCase(),
+          container: container.name.toLowerCase(),
+          maxAudioChannels: '2',
+          protocol: MediaStreamProtocol.http,
+          type: DlnaProfileType.video,
+          videoCodec: videoCodec.name.toLowerCase(),
+        ),
+      ],
+      containerProfiles: const [],
+      subtitleProfiles: const [
+        SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
+        SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
+        SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
+        SubtitleProfile(format: 'pgssub', method: SubtitleDeliveryMethod.$external),
+      ],
+    );
 
   String label(BuildContext context) {
     if (!enabled) {

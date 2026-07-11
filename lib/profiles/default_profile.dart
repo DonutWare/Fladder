@@ -13,62 +13,62 @@ final videoProfileProvider = StateProvider.autoDispose<DeviceProfile>((ref) =>
 DeviceProfile defaultProfile(PlayerOptions player) => kIsWeb
     ? webProfile
     : ref.read(argumentsStateProvider).leanBackMode
-        ? const DeviceProfile(
-            maxStreamingBitrate: 120000000,
-            maxStaticBitrate: 120000000,
-            musicStreamingTranscodingBitrate: 384000,
-            directPlayProfiles: [
-              DirectPlayProfile(
-                type: DlnaProfileType.video,
-              ),
-              DirectPlayProfile(
-                type: DlnaProfileType.audio,
-              )
-            ],
-            transcodingProfiles: [
-              TranscodingProfile(
-                audioCodec: 'aac,mp3,mp2',
-                container: 'ts',
-                maxAudioChannels: '2',
-                protocol: MediaStreamProtocol.hls,
-                type: DlnaProfileType.video,
-                videoCodec: 'h264',
-              ),
-            ],
-            containerProfiles: [],
-            subtitleProfiles: [
-              SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
-              SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
-              SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
-            ],
-        );
-        : const DeviceProfile(
-            maxStreamingBitrate: 120000000,
-            maxStaticBitrate: 120000000,
-            musicStreamingTranscodingBitrate: 384000,
-            directPlayProfiles: [
-              DirectPlayProfile(
-                type: DlnaProfileType.video,
-              ),
-              DirectPlayProfile(
-                type: DlnaProfileType.audio,
-              )
-            ],
-            transcodingProfiles: [
-              TranscodingProfile(
-                audioCodec: 'aac,mp3,mp2',
-                container: 'ts',
-                maxAudioChannels: '2',
-                protocol: MediaStreamProtocol.hls,
-                type: DlnaProfileType.video,
-                videoCodec: 'h264',
-              ),
-            ],
-            containerProfiles: [],
-            subtitleProfiles: [
-              SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
-              SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
-              SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
-              SubtitleProfile(format: 'pgssub', method: SubtitleDeliveryMethod.$external),
-            ],
-        );
+    ? const DeviceProfile(
+      maxStreamingBitrate: 120000000,
+      maxStaticBitrate: 120000000,
+      musicStreamingTranscodingBitrate: 384000,
+      directPlayProfiles: [
+        DirectPlayProfile(
+          type: DlnaProfileType.video,
+        ),
+        DirectPlayProfile(
+          type: DlnaProfileType.audio,
+        )
+      ],
+      transcodingProfiles: [
+        TranscodingProfile(
+          audioCodec: 'aac,mp3,mp2',
+          container: 'ts',
+          maxAudioChannels: '2',
+          protocol: MediaStreamProtocol.hls,
+          type: DlnaProfileType.video,
+          videoCodec: 'h264',
+        ),
+      ],
+      containerProfiles: [],
+      subtitleProfiles: [
+        SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
+        SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
+        SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
+      ],
+    )
+    : const DeviceProfile(
+        maxStreamingBitrate: 120000000,
+        maxStaticBitrate: 120000000,
+        musicStreamingTranscodingBitrate: 384000,
+        directPlayProfiles: [
+          DirectPlayProfile(
+            type: DlnaProfileType.video,
+          ),
+          DirectPlayProfile(
+            type: DlnaProfileType.audio,
+          )
+        ],
+        transcodingProfiles: [
+          TranscodingProfile(
+            audioCodec: 'aac,mp3,mp2',
+            container: 'ts',
+            maxAudioChannels: '2',
+            protocol: MediaStreamProtocol.hls,
+            type: DlnaProfileType.video,
+            videoCodec: 'h264',
+          ),
+        ],
+        containerProfiles: [],
+        subtitleProfiles: [
+          SubtitleProfile(format: 'vtt', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'pgssub', method: SubtitleDeliveryMethod.$external),
+        ],
+      );
