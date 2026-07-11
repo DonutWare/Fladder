@@ -16,6 +16,7 @@ abstract class LibraryFiltersModel with _$LibraryFiltersModel {
     required String id,
     required String name,
     required bool isFavourite,
+    @Default(false) bool showInSideBar,
     @Default([]) List<String> ids,
     @Default(LibraryFilterModel()) LibraryFilterModel filter,
   }) = _LibraryFiltersModel;
@@ -27,6 +28,7 @@ abstract class LibraryFiltersModel with _$LibraryFiltersModel {
     LibrarySearchModel searchModel, {
     bool? isFavourite,
     String? id,
+    bool showInSideBar = false,
   }) {
     return LibraryFiltersModel(
       id: id ?? Xid().toString(),
@@ -34,6 +36,7 @@ abstract class LibraryFiltersModel with _$LibraryFiltersModel {
       isFavourite: isFavourite ?? false,
       ids: searchModel.views.included.map((e) => e.id).toList(),
       filter: searchModel.filters,
+      showInSideBar: showInSideBar,
     );
   }
 

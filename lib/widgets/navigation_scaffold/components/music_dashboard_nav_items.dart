@@ -10,6 +10,7 @@ import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/library_filter_model.dart';
+import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
@@ -269,6 +270,122 @@ class CombinedViewNavigationItem extends ConsumerWidget {
   }
 }
 
+class FilterNavigationItem extends ConsumerWidget {
+  final List<ViewModel> views;
+  final LibraryFiltersModel filter;
+  final bool expandedSideBar;
+  final bool usePostersForLibrary;
+  final bool shouldExpand;
+  final TooltipPosition toolTipPosition;
+  const FilterNavigationItem({
+    required this.views,
+    required this.filter,
+    required this.expandedSideBar,
+    required this.usePostersForLibrary,
+    required this.shouldExpand,
+    this.toolTipPosition = TooltipPosition.right,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = context.router.currentUrl.contains("parentId=${views.map((e) => e.id).join(",")},filters");
+
+    Widget buildIcon(ViewModel view) {
+      return FladderImage(
+        image: view.imageData?.primary,
+        placeHolder: Card(
+          child: Icon(
+            selected ? view.collectionType.icon : view.collectionType.iconOutlined,
+          ),
+        ),
+      );
+    }
+
+    return CustomTooltip(
+      tooltipContent: expandedSideBar
+          ? null
+          : Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(
+                  filter.name,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+            ),
+      position: toolTipPosition,
+      child: views.last.toNavigationButton(
+        selected,
+        true,
+        shouldExpand,
+        label: filter.name,
+        () {
+          context.pushRoute(
+            LibrarySearchRoute(
+              viewModelId: "${views.map((e) => e.id).join(",")},filters",
+            ),
+          );
+        },
+        onSecondaryTapDown: (details) => showItemContextMenu(
+          context,
+          ref,
+          details.globalPosition,
+          [],
+        ),
+        onLongPress: () => showBottomSheetPill(
+          context: context,
+          content: (context, scrollController) => ListView(
+            shrinkWrap: true,
+            controller: scrollController,
+            children: [],
+          ),
+        ),
+        customIcon: usePostersForLibrary
+            ? Container(
+                decoration: BoxDecoration(
+                  borderRadius: FladderTheme.smallShape.borderRadius,
+                ),
+                clipBehavior: Clip.hardEdge,
+                child: SizedBox.square(
+                  dimension: 45,
+                  child: views.length == 1
+                      ? buildIcon(views.first)
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: views.take(2).map((view) => Expanded(child: buildIcon(view))).toList(),
+                              ),
+                            ),
+                            Expanded(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children:
+                                    views.skip(2).take(2).map((view) => Expanded(child: buildIcon(view))).toList(),
+                              ),
+                            )
+                          ],
+                        ),
+                ),
+              )
+            : Container(
+                padding: const EdgeInsets.only(left: 10),
+                child: Icon(
+                  selected ? IconsaxPlusBold.document_filter : IconsaxPlusLinear.document_filter,
+                ),
+              ),
+        trailing: [],
+      ),
+    );
+  }
+}
+
 class ViewNavigationItem extends ConsumerWidget {
   final ViewModel view;
   final bool expandedSideBar;
@@ -286,7 +403,8 @@ class ViewNavigationItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selected = context.router.currentUrl.contains(view.id);
+    final selected = context.router.currentUrl.contains("parentId=${view.id}&");
+
     final actions = [
       ItemActionButton(
         label: Text(context.localized.scanLibrary),

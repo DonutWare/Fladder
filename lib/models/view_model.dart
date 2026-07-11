@@ -158,13 +158,14 @@ class ViewModel {
     bool horizontal,
     bool expanded,
     FutureOr Function() action, {
+    String? label,
     FutureOr Function()? onLongPress,
     FutureOr Function(TapDownDetails details)? onSecondaryTapDown,
     List<ItemAction>? trailing,
     Widget? customIcon,
   }) {
     return NavigationButton(
-      label: name,
+      label: label ?? name,
       selected: selected,
       onPressed: action,
       onLongPress: onLongPress,

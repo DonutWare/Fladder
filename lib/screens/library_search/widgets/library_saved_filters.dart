@@ -4,9 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/library_search_provider.dart';
+import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/map_bool_helper.dart';
 
 Future<void> showSavedFilters(
   BuildContext context,
@@ -33,9 +35,20 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
     final controller = TextEditingController();
     final provider = ref.watch(librarySearchProvider(providerKey).notifier);
     final currentFilters = ref.watch(librarySearchProvider(providerKey).select((value) => value.filters));
+
+    final views = ref.watch(librarySearchProvider(providerKey).select((value) => value.views.included));
+
+    final activeLibraries = views.map((e) => e.name).join(", ");
+
     final filters = ref.watch(provider.filterProvider);
     final filterProvider = ref.watch(provider.filterProvider.notifier);
     final anyFilterSelected = filters.any((element) => element.filter == currentFilters);
+
+    final filterKeys = filters.map((e) => e.ids).expand((element) => element).toList();
+
+    final librarys = ref
+        .watch(viewsProvider.select((value) => value.views.where((element) => filterKeys.contains(element.id))))
+        .toList();
 
     return Dialog(
       child: Padding(
@@ -45,7 +58,7 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              context.localized.filter(2),
+              "${context.localized.filter(filters.length)} for ${(librarys.isEmpty ? activeLibraries : librarys.map((e) => e.name).join(", "))}",
               style: Theme.of(context).textTheme.titleLarge,
             ),
             if (filters.isNotEmpty) ...[
@@ -77,18 +90,35 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                                   onPressed: isCurrentFilter ? null : () => provider.loadModel(filter.filter),
                                   icon: const Icon(IconsaxPlusBold.filter_add),
                                 ),
+                                if (views.length == 1)
+                                  IconButton.filledTonal(
+                                    tooltip: context.localized.defaultFilterForLibrary,
+                                    style: ButtonStyle(
+                                      backgroundColor: WidgetStatePropertyAll(
+                                        filter.isFavourite ? Colors.yellowAccent.shade700.withValues(alpha: 0.5) : null,
+                                      ),
+                                    ),
+                                    onPressed: () =>
+                                        filterProvider.saveFilter(filter.copyWith(isFavourite: !filter.isFavourite)),
+                                    icon: Icon(
+                                      color: filter.isFavourite ? Colors.yellowAccent : null,
+                                      filter.isFavourite ? IconsaxPlusBold.star_1 : IconsaxPlusLinear.star_1,
+                                    ),
+                                  ),
                                 IconButton.filledTonal(
-                                  tooltip: context.localized.defaultFilterForLibrary,
+                                  tooltip: context.localized.showInSideBar,
                                   style: ButtonStyle(
                                     backgroundColor: WidgetStatePropertyAll(
-                                      filter.isFavourite ? Colors.yellowAccent.shade700.withValues(alpha: 0.5) : null,
+                                      filter.showInSideBar
+                                          ? Colors.lightBlueAccent.shade700.withValues(alpha: 0.5)
+                                          : null,
                                     ),
                                   ),
                                   onPressed: () =>
-                                      filterProvider.saveFilter(filter.copyWith(isFavourite: !filter.isFavourite)),
+                                      filterProvider.saveFilter(filter.copyWith(showInSideBar: !filter.showInSideBar)),
                                   icon: Icon(
-                                    color: filter.isFavourite ? Colors.yellowAccent : null,
-                                    filter.isFavourite ? IconsaxPlusBold.star_1 : IconsaxPlusLinear.star_1,
+                                    color: filter.showInSideBar ? Colors.lightBlueAccent : null,
+                                    filter.showInSideBar ? IconsaxPlusBold.menu : IconsaxPlusLinear.menu_1,
                                   ),
                                 ),
                                 IconButton.filledTonal(

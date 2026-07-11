@@ -8,6 +8,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/dashboard_mode_provider.dart';
+import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/playlist_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
@@ -97,6 +98,10 @@ class SideNavigationRail extends ConsumerWidget {
     final musicDashboard = ref.watch(musicDashboardModeProvider);
 
     final playLists = ref.watch(playlistProvider.select((value) => value.collections));
+
+    final filters = ref.watch(userLibraryFilters.select((value) => value
+        .where((element) => element.showInSideBar && views.any((view) => element.ids.contains(view.id)))
+        .toList()));
 
     return Stack(
       children: [
@@ -226,6 +231,24 @@ class SideNavigationRail extends ConsumerWidget {
                                   ),
                                 ),
                                 if (largeBar) ...[
+                                  const Divider(
+                                    indent: 32,
+                                    endIndent: 32,
+                                  ),
+                                  ...filters.map(
+                                    (filter) {
+                                      final viewsInFilter =
+                                          views.where((view) => filter.ids.contains(view.id)).toList();
+                                      return FilterNavigationItem(
+                                        views: viewsInFilter,
+                                        filter: filter,
+                                        expandedSideBar: expandedSideBar,
+                                        usePostersForLibrary: usePostersForLibrary,
+                                        shouldExpand: shouldExpand,
+                                        toolTipPosition: tooltipPosition,
+                                      );
+                                    },
+                                  ),
                                   const Divider(
                                     indent: 32,
                                     endIndent: 32,

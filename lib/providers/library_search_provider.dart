@@ -937,6 +937,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
             state,
             isFavourite: model.isFavourite,
             id: model.id,
+            showInSideBar: model.showInSideBar,
           ),
         );
   }

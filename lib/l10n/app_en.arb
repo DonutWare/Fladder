@@ -2802,5 +2802,7 @@
     }
   },
   "incognitoMode": "Incognito mode",
-  "incognitoModeDesc": "Incognito mode disables sending playback status to the server"
+  "incognitoModeDesc": "Incognito mode disables sending playback status to the server",
+  "showInSideBar": "Show in sidebar",
+  "showInSideBarDesc": "Show this filter in the sidebar for quick access"
 }
