@@ -81,8 +81,13 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
       }
     }
 
+    final firstView = state.views.included.firstWhereOrNull((element) => viewModelIds.contains(element.id));
+
     final findFavouriteFilter = ref.read(filterProvider).firstWhereOrNull((element) => element.isFavourite);
-    final activeFilter = filters ?? findFavouriteFilter?.filter ?? const LibraryFilterModel();
+    final activeFilter = filters ??
+        findFavouriteFilter?.filter ??
+        firstView?.collectionType.defaultFilters ??
+        const LibraryFilterModel();
 
     await loadFilters(activeFilter);
 
@@ -308,9 +313,9 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         ItemFields.primaryimageaspectratio,
         if (viewModel?.collectionType == CollectionType.tvshows) ItemFields.childcount,
       }.toList(),
+      isFavorite: state.filters.favourites,
       filters: [
         ...state.filters.itemFilters.included,
-        if (state.filters.favourites == true) ItemFilter.isfavorite,
       ],
       includeItemTypes: state.filters.types.included.map((e) => e.dtoKind).expand((e) => e).toList(),
     );
@@ -367,8 +372,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
     ref.read(userProvider.notifier).addSearchQuery(query);
   }
 
-  void toggleFavourite() =>
-      state = state.copyWith(filters: state.filters.copyWith(favourites: state.filters.favourites == false));
+  void setFavourites(bool? value) => state = state.copyWith(filters: state.filters.copyWith(favourites: value));
   void toggleRecursive() =>
       state = state.copyWith(filters: state.filters.copyWith(recursive: state.filters.recursive == false));
   void toggleType(FladderItemType type) =>

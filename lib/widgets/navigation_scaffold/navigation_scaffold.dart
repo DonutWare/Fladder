@@ -54,6 +54,9 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((value) {
       ref.read(viewsProvider.notifier).fetchViews();
+      context.router.addListener(() {
+        _key.currentState?.closeDrawer();
+      });
     });
   }
 
@@ -116,11 +119,11 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                 : null,
         drawer: !showAudioFullScreen && homeRoutes.any((element) => element.name.contains(currentLocation))
             ? NestedNavigationDrawer(
-                actionButton: null,
                 toggleExpanded: (value) => _key.currentState?.closeDrawer(),
                 views: views,
                 destinations: widget.destinations,
                 currentLocation: currentLocation,
+                currentIndex: currentIndex,
               )
             : null,
         bottomNavigationBar: AnimatedVisibility(

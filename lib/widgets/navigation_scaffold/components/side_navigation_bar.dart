@@ -1,34 +1,25 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/settings/client_settings_model.dart';
-import 'package:fladder/providers/dashboard_mode_provider.dart';
-import 'package:fladder/providers/library_filters_provider.dart';
-import 'package:fladder/providers/playlist_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
-import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
-import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/collapse_button.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/music_dashboard_nav_items.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_buttons.dart';
 import 'package:fladder/widgets/shared/custom_tooltip.dart';
-import 'package:fladder/widgets/shared/simple_overflow_widget.dart';
 
 final navBarNode = FocusNode();
 
@@ -51,8 +42,6 @@ class SideNavigationRail extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textDirection = Directionality.of(context);
     final isRtl = textDirection == TextDirection.rtl;
-    final views = ref.watch(viewsProvider.select((value) => value.views));
-    final usePostersForLibrary = ref.watch(clientSettingsProvider.select((value) => value.usePosterForLibrary));
     final expandedSideBar = ref.watch(clientSettingsProvider.select((value) => value.expandSideBar));
 
     final expandedWidth = 200.0;
@@ -94,14 +83,6 @@ class SideNavigationRail extends ConsumerWidget {
     final blurWidth = (shouldExpand ? expandedWidth : collapsedWidth) + 25;
 
     final surfaceColor = Theme.of(context).colorScheme.surface;
-
-    final musicDashboard = ref.watch(musicDashboardModeProvider);
-
-    final playLists = ref.watch(playlistProvider.select((value) => value.collections));
-
-    final filters = ref.watch(userLibraryFilters.select((value) => value
-        .where((element) => element.showInSideBar && views.any((view) => element.ids.contains(view.id)))
-        .toList()));
 
     return Stack(
       children: [
@@ -205,150 +186,12 @@ class SideNavigationRail extends ConsumerWidget {
                             ),
                           ],
                           Expanded(
-                            child: Column(
-                              mainAxisAlignment: !largeBar ? MainAxisAlignment.center : MainAxisAlignment.start,
-                              children: [
-                                ...destinations.mapIndexed(
-                                  (index, destination) => CustomTooltip(
-                                    tooltipContent: expandedSideBar
-                                        ? null
-                                        : Card(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(12),
-                                              child: Text(
-                                                destination.label,
-                                                style: Theme.of(context).textTheme.titleSmall,
-                                              ),
-                                            ),
-                                          ),
-                                    position: tooltipPosition,
-                                    child: destination.toNavigationButton(
-                                      currentIndex == index,
-                                      true,
-                                      navFocusNode: index == 0,
-                                      shouldExpand,
-                                    ),
-                                  ),
-                                ),
-                                if (largeBar) ...[
-                                  const Divider(
-                                    indent: 32,
-                                    endIndent: 32,
-                                  ),
-                                  ...filters.map(
-                                    (filter) {
-                                      final viewsInFilter =
-                                          views.where((view) => filter.ids.contains(view.id)).toList();
-                                      return FilterNavigationItem(
-                                        views: viewsInFilter,
-                                        filter: filter,
-                                        expandedSideBar: expandedSideBar,
-                                        usePostersForLibrary: usePostersForLibrary,
-                                        shouldExpand: shouldExpand,
-                                        toolTipPosition: tooltipPosition,
-                                      );
-                                    },
-                                  ),
-                                  const Divider(
-                                    indent: 32,
-                                    endIndent: 32,
-                                  ),
-                                  Flexible(
-                                    child: SimpleOverflowWidget(
-                                      axis: Axis.vertical,
-                                      children: musicDashboard
-                                          ? buildMusicDashboardNavItems(context, views, playLists, shouldExpand, ref)
-                                          : views
-                                              .map(
-                                                (view) => ViewNavigationItem(
-                                                  view: view,
-                                                  expandedSideBar: expandedSideBar,
-                                                  usePostersForLibrary: usePostersForLibrary,
-                                                  shouldExpand: shouldExpand,
-                                                  toolTipPosition: tooltipPosition,
-                                                ),
-                                              )
-                                              .toList(),
-                                      overflowBuilder: (remainingCount) => CustomTooltip(
-                                        tooltipContent: expandedSideBar
-                                            ? null
-                                            : Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius: FladderTheme.smallShape.borderRadius,
-                                                  color: Theme.of(context).colorScheme.surface,
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(12),
-                                                  child: Text(
-                                                    context.localized.moreOptions,
-                                                    style: Theme.of(context).textTheme.titleSmall,
-                                                  ),
-                                                ),
-                                              ),
-                                        position: tooltipPosition,
-                                        child: PopupMenuButton(
-                                          iconColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45),
-                                          padding: EdgeInsets.zero,
-                                          tooltip: "",
-                                          icon: ExcludeFocus(
-                                            child: NavigationButton(
-                                              label: context.localized.other,
-                                              selectedIcon: const Icon(IconsaxPlusLinear.arrow_square_down),
-                                              icon: const Icon(IconsaxPlusLinear.arrow_square_down),
-                                              expanded: shouldExpand,
-                                              customIcon: usePostersForLibrary
-                                                  ? ClipRRect(
-                                                      borderRadius: FladderTheme.smallShape.borderRadius,
-                                                      child: const SizedBox.square(
-                                                        dimension: 50,
-                                                        child: Card(
-                                                          child: Icon(IconsaxPlusLinear.arrow_square_down),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : null,
-                                              horizontal: true,
-                                            ),
-                                          ),
-                                          itemBuilder: (context) => views
-                                              .sublist(views.length - remainingCount)
-                                              .map(
-                                                (e) => PopupMenuItem(
-                                                  onTap: () => e.navigateToView(context),
-                                                  child: Row(
-                                                    spacing: 8,
-                                                    children: [
-                                                      usePostersForLibrary
-                                                          ? Padding(
-                                                              padding: const EdgeInsets.symmetric(vertical: 4),
-                                                              child: ClipRRect(
-                                                                borderRadius: FladderTheme.smallShape.borderRadius,
-                                                                child: SizedBox.square(
-                                                                  dimension: 45,
-                                                                  child: FladderImage(
-                                                                    image: e.imageData?.primary,
-                                                                    placeHolder: Card(
-                                                                      child: Icon(
-                                                                        e.collectionType.iconOutlined,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            )
-                                                          : Icon(e.collectionType.iconOutlined),
-                                                      Text(e.name),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                              .toList(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ]
-                              ],
+                            child: SideNavigationButtons(
+                              largeBar: largeBar,
+                              destinations: destinations,
+                              tooltipPosition: tooltipPosition,
+                              currentIndex: currentIndex,
+                              shouldExpand: shouldExpand,
                             ),
                           ),
                           NavigationButton(

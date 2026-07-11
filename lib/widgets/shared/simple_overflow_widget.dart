@@ -6,11 +6,14 @@ class SimpleOverflowWidget extends StatefulWidget {
     required this.children,
     required this.overflowBuilder,
     this.axis = Axis.horizontal,
+    this.isCountable,
   });
 
   final List<Widget> children;
   final Widget Function(int remaining) overflowBuilder;
   final Axis axis;
+
+  final bool Function(Widget child)? isCountable;
 
   @override
   State<SimpleOverflowWidget> createState() => _SimpleOverflowWidgetState();
@@ -22,6 +25,13 @@ class _SimpleOverflowWidgetState extends State<SimpleOverflowWidget> {
   @override
   Widget build(BuildContext context) {
     final overflowChild = _remaining != 0 ? widget.overflowBuilder(_remaining) : const SizedBox.shrink();
+
+    final List<bool> countableList = widget.children.map((child) {
+      if (widget.isCountable != null) {
+        return widget.isCountable!(child);
+      }
+      return child is! Divider;
+    }).toList();
 
     final List<Widget> layoutChildren = [];
     for (int i = 0; i < widget.children.length; i++) {
@@ -43,7 +53,7 @@ class _SimpleOverflowWidgetState extends State<SimpleOverflowWidget> {
     return CustomMultiChildLayout(
       delegate: _OverflowDelegate(
         axis: widget.axis,
-        childCount: widget.children.length,
+        countableList: countableList,
         onLayoutCalculated: (int newRemaining) {
           if (_remaining != newRemaining) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -64,20 +74,24 @@ class _SimpleOverflowWidgetState extends State<SimpleOverflowWidget> {
 class _OverflowDelegate extends MultiChildLayoutDelegate {
   _OverflowDelegate({
     required this.axis,
-    required this.childCount,
+    required this.countableList,
     required this.onLayoutCalculated,
   });
 
   final Axis axis;
-  final int childCount;
+  final List<bool> countableList;
   final void Function(int) onLayoutCalculated;
   static const Offset _offscreen = Offset(-9999, -9999);
+
+  int get childCount => countableList.length;
 
   @override
   void performLayout(Size size) {
     final double maxSpace = (axis == Axis.horizontal ? size.width : size.height);
     double usedSpace = 0.0;
-    int visibleCount = 0;
+
+    int visibleCountable = 0;
+    final int totalCountable = countableList.where((isCountable) => isCountable).length;
 
     final BoxConstraints overflowConstraints =
         (axis == Axis.horizontal) ? BoxConstraints(maxHeight: size.height) : BoxConstraints(maxWidth: size.width);
@@ -104,8 +118,15 @@ class _OverflowDelegate extends MultiChildLayoutDelegate {
 
       final double childSpace = (axis == Axis.horizontal ? childSize.width : childSize.height);
 
-      final int potentialRemaining = childCount - i;
-      final double spaceToReserve = (potentialRemaining > 1) ? overflowSpace : 0.0;
+      bool hasMoreCountable = false;
+      for (int j = i + 1; j < childCount; j++) {
+        if (countableList[j]) {
+          hasMoreCountable = true;
+          break;
+        }
+      }
+
+      final double spaceToReserve = hasMoreCountable ? overflowSpace : 0.0;
 
       if (usedSpace + childSpace + spaceToReserve > maxSpace) {
         isOverflowing = true;
@@ -122,10 +143,13 @@ class _OverflowDelegate extends MultiChildLayoutDelegate {
 
       positionChild(i, offset);
       usedSpace += childSpace;
-      visibleCount++;
+
+      if (countableList[i]) {
+        visibleCountable++;
+      }
     }
 
-    final int newRemaining = childCount - visibleCount;
+    final int newRemaining = totalCountable - visibleCountable;
 
     if (hasChild('overflow')) {
       if (newRemaining > 0 && overflowSize != null) {
@@ -143,6 +167,6 @@ class _OverflowDelegate extends MultiChildLayoutDelegate {
 
   @override
   bool shouldRelayout(_OverflowDelegate oldDelegate) {
-    return oldDelegate.axis != axis || oldDelegate.childCount != childCount;
+    return oldDelegate.axis != axis || oldDelegate.countableList.length != countableList.length;
   }
 }

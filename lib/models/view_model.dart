@@ -13,6 +13,8 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/theme.dart';
+import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
@@ -153,6 +155,30 @@ class ViewModel {
     );
   }
 
+  Widget createIcon(
+    BuildContext context, {
+    required bool selected,
+    bool rounded = true,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: rounded ? FladderTheme.smallShape.borderRadius : BorderRadius.zero,
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: SizedBox.square(
+        dimension: 45,
+        child: FladderImage(
+          image: imageData?.primary,
+          placeHolder: Card(
+            child: Icon(
+              selected ? collectionType.icon : collectionType.iconOutlined,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   NavigationButton toNavigationButton(
     bool selected,
     bool horizontal,
@@ -163,6 +189,8 @@ class ViewModel {
     FutureOr Function(TapDownDetails details)? onSecondaryTapDown,
     List<ItemAction>? trailing,
     Widget? customIcon,
+    IconData? selectedIcon,
+    IconData? icon,
   }) {
     return NavigationButton(
       label: label ?? name,
@@ -174,8 +202,8 @@ class ViewModel {
       expanded: expanded,
       customIcon: customIcon,
       trailing: trailing ?? [],
-      selectedIcon: Icon(collectionType.icon),
-      icon: Icon(collectionType.iconOutlined),
+      selectedIcon: Icon(selectedIcon ?? collectionType.icon),
+      icon: Icon(icon ?? collectionType.iconOutlined),
     );
   }
 

@@ -438,7 +438,7 @@ class _LibraryFilterModel extends LibraryFilterModel with DiagnosticableTreeMixi
       },
       this.sortingOption = SortingOptions.sortName,
       this.sortOrder = SortingOrder.ascending,
-      this.favourites = false,
+      this.favourites,
       this.hideEmptyShows = true,
       this.recursive = false,
       this.groupBy = GroupBy.none})
@@ -523,7 +523,6 @@ class _LibraryFilterModel extends LibraryFilterModel with DiagnosticableTreeMixi
   @JsonKey()
   final SortingOrder sortOrder;
   @override
-  @JsonKey()
   final bool? favourites;
   @override
   @JsonKey()

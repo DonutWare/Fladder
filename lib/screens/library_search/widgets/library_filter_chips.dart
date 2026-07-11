@@ -74,11 +74,24 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
         onClear: () => libraryProvider.setTypes(librarySearchResults.filters.types.setAll(false)),
       ),
       ExpressiveButton(
-        isSelected: favourites == true,
-        icon: favourites == true ? const Icon(IconsaxPlusBold.heart) : null,
+        isSelected: favourites != null,
+        icon: switch (favourites) {
+          true => const Icon(IconsaxPlusBold.heart),
+          false => const Icon(IconsaxPlusBold.heart_slash),
+          null => null,
+        },
         label: Text(context.localized.favorites),
+        onLongPress: () {
+          libraryProvider.setFavourites(null);
+          context.refreshData();
+        },
         onPressed: () {
-          libraryProvider.toggleFavourite();
+          final newValue = switch (favourites) {
+            true => false,
+            false => null,
+            null => true,
+          };
+          libraryProvider.setFavourites(newValue);
           context.refreshData();
         },
       ),

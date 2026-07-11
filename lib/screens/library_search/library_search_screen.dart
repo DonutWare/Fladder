@@ -507,8 +507,8 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
 
     return MediaQuery(
       data: mediaQuery.copyWith(
-        padding: mediaQuery.padding.copyWith(top: mediaQuery.padding.top + adaptiveLayout.topBarHeight),
-        viewPadding: mediaQuery.viewPadding.copyWith(top: mediaQuery.viewPadding.top + adaptiveLayout.topBarHeight),
+        padding: mediaQuery.padding.copyWith(top: mediaQuery.padding.top + adaptiveLayout.statusBarHeight),
+        viewPadding: mediaQuery.viewPadding.copyWith(top: mediaQuery.viewPadding.top + adaptiveLayout.statusBarHeight),
       ),
       child: PopScope(
         key: uniqueKey,
@@ -711,8 +711,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                             ),
                           ),
                           bottom: PreferredSize(
-                            preferredSize:
-                                Size(0, AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? 105 : 35),
+                            preferredSize: Size(0, AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? 85 : 35),
                             child: Padding(
                               padding: sideBarPadding,
                               child: IgnorePointer(

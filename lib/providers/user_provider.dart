@@ -317,6 +317,16 @@ class User extends _$User {
     }
   }
 
+  void hideFilterFromSideBar(LibraryFiltersModel model) {
+    final currentList = (state?.libraryFilters ?? []).toList(growable: true);
+    final index = currentList.indexWhere((value) => value.id == model.id);
+    if (index != -1) {
+      final updatedModel = model.copyWith(showInSideBar: false);
+      currentList[index] = updatedModel;
+      userState = state?.copyWith(libraryFilters: currentList);
+    }
+  }
+
   void deleteAllFilters() => userState = state?.copyWith(libraryFilters: []);
 
   String? createDownloadUrl(ItemBaseModel item) =>

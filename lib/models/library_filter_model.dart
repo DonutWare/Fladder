@@ -49,7 +49,7 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
     Map<FladderItemType, bool> types,
     @Default(SortingOptions.sortName) SortingOptions sortingOption,
     @Default(SortingOrder.ascending) SortingOrder sortOrder,
-    @Default(false) bool? favourites,
+    bool? favourites,
     @Default(true) bool hideEmptyShows,
     @Default(false) bool? recursive,
     @Default(GroupBy.none) GroupBy groupBy,

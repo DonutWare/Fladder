@@ -1,8 +1,15 @@
+import 'package:flutter/material.dart';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:xid/xid.dart';
 
 import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
+import 'package:fladder/models/view_model.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 
 part 'library_filters_model.freezed.dart';
@@ -41,4 +48,71 @@ abstract class LibraryFiltersModel with _$LibraryFiltersModel {
   }
 
   bool containsSameIds(List<String> otherIds) => ids.length == otherIds.length && Set.from(ids).containsAll(otherIds);
+
+  Key get navKey => Key("filter-$id");
+
+  Future<void> navigateTo(BuildContext context) async {
+    context.pushRoute(
+      LibrarySearchRoute(
+        viewModelId: "${ids.join(",")},$navKey",
+        key: navKey,
+      ).withFilter(filter),
+    );
+  }
+
+  IconData get icon => IconsaxPlusLinear.document_filter;
+  IconData get selectedIcon => IconsaxPlusBold.document_filter;
+
+  Widget? createIcon(
+    BuildContext context, {
+    required bool usePostersForLibrary,
+    required bool expandedSideBar,
+    required bool selected,
+    required List<ViewModel> views,
+  }) {
+    final filteredViews = views.where((view) => ids.contains(view.id)).toList();
+    return usePostersForLibrary
+        ? Container(
+            decoration: BoxDecoration(
+              borderRadius: FladderTheme.smallShape.borderRadius,
+            ),
+            clipBehavior: Clip.hardEdge,
+            child: SizedBox.square(
+              dimension: 45,
+              child: filteredViews.length == 1
+                  ? filteredViews.first.createIcon(
+                      context,
+                      selected: false,
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: filteredViews
+                                .take(2)
+                                .map((view) =>
+                                    Expanded(child: view.createIcon(context, selected: false, rounded: false)))
+                                .toList(),
+                          ),
+                        ),
+                        if (filteredViews.length > 2)
+                          Expanded(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: filteredViews
+                                  .skip(2)
+                                  .take(2)
+                                  .map((view) =>
+                                      Expanded(child: view.createIcon(context, selected: false, rounded: false)))
+                                  .toList(),
+                            ),
+                          )
+                      ],
+                    ),
+            ),
+          )
+        : null;
+  }
 }
