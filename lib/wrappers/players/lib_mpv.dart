@@ -46,7 +46,7 @@ class LibMPV extends BasePlayer {
   double _preferredVolume = 100;
   int _crossfadeGeneration = 0;
   Timer? _fadeTimer;
-  Duration get playPauseFadeDuration => const Duration(milliseconds: 175);
+  Duration get playPauseFadeDuration => Duration(milliseconds: _settings.playPauseFadeDurationMs);
 
   @override
   Future<void> init(VideoPlayerSettingsModel settings) async {
@@ -372,8 +372,15 @@ class LibMPV extends BasePlayer {
 
     _fadeTimer?.cancel();
 
-    if (!_settings.enablePlayPauseFade) {
+    const stepMs = 16;
+    final steps = playPauseFadeDuration.inMilliseconds ~/ stepMs;
+
+    // Skip the fade entirely when disabled or the configured duration is too
+    // short to produce at least one step. This makes play/pause hit mpv
+    // immediately for a snappy, mpc-like response.
+    if (!_settings.enablePlayPauseFade || steps <= 0) {
       if (fadingIn) {
+        player.setVolume(_preferredVolume);
         player.play();
       } else {
         player.pause();
@@ -381,8 +388,6 @@ class LibMPV extends BasePlayer {
       return;
     }
 
-    const stepMs = 16;
-    final steps = playPauseFadeDuration.inMilliseconds ~/ stepMs;
     final stepSize = _preferredVolume / steps;
 
     if (fadingIn) player.play();
