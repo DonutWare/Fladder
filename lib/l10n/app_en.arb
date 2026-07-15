@@ -569,6 +569,16 @@
       }
     }
   },
+  "mediaTypeCollection": "{count, plural, one{Collection} other{Collections}}",
+  "@mediaTypeCollection": {
+    "description": "Collection (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "metaDataSavedFor": "Metadata saved for {item}",
   "@metaDataSavedFor": {
     "description": "metaDataSavedFor",
@@ -1377,7 +1387,7 @@
   "unableToPlayMedia": "There was an error finding a compatible media type",
   "errorOpeningMedia": "Something went wrong trying to play this media",
   "unableToPlayBooksOnWeb": "Books are not supported on web for now",
-  "defaultFilterForLibrary": "Default filter for library",
+  "defaultFilterForLibrary": "Set default filter for library",
   "updateFilterForLibrary": "Update filter",
   "removeFilterForLibrary": "Remove {filter}?",
   "@removeFilterForLibrary": {
@@ -1686,6 +1696,8 @@
   "showLess": "Show less",
   "itemColorsTitle": "Item colors",
   "itemColorsDesc": "Use item's primary color to theme the details page",
+  "posterColorsTitle": "Generated poster colors",
+  "posterColorsDesc": "Use generated colors for posters in place of the default color",
   "mediaTunnelingTitle": "Media tunneling",
   "mediaTunnelingDesc": "Enable media tunneling for native player",
   "clientSettingsUseSystemIMETitle": "Use system keyboard",
@@ -2767,5 +2779,37 @@
   "quiet": "Quiet",
   "loud": "Loud",
   "share": "Share",
-  "setAs": "Set as"
+  "setAs": "Set as",
+  "selectRandom": "Select random",
+  "stopSelection": "Stop selecting {count}",
+  "@stopSelection": {
+    "description": "stopSelection",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "playItems": "Play items",
+  "shuffleItems": "Shuffle items",
+  "disc": "Disc {number}",
+  "@disc": {
+    "description": "disc",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "incognito": "Incognito",
+  "incognitoModeGlobal": "Incognito mode (App)",
+  "incognitoModeLocal": "Incognito mode (Profile)",
+  "incognitoModeDesc": "Incognito mode disables sending playback status to the server",
+  "showInSideBar": "Show in sidebar",
+  "hideInSideBar": "Hide from sidebar",
+  "showInSideBarDesc": "Show this filter in the sidebar for quick access",
+  "applyFilter": "Apply filter",
+  "playerSettingsAmbientBlurTitle": "Enable ambient blur",
+  "playerSettingsAmbientBlurDesc": "Enable ambient blur in the player. This will blur the background behind the player to reduce distractions.",
+  "playerSettingsAmbientBlurDescWarning": "Ambient blur can cause performance issues on lower-end devices."
 }

@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/artist_model.dart';
 import 'package:fladder/providers/items/artist_details_provider.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/track_list.dart';
+import 'package:fladder/util/color_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/shared/selectable_icon_button.dart';
 
 class ArtistDetailScreen extends ConsumerStatefulWidget {
   final ArtistModel item;
@@ -36,10 +41,18 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
       style: Theme.of(context).textTheme.displayLarge?.copyWith(fontWeight: FontWeight.bold),
     );
 
+    final derivePosterColor = ref.watch(clientSettingsProvider.select((value) => value.dynamicPosterColors));
+    final backgroundColor = derivePosterColor
+        ? current.name.toColor.harmonizeWith(Theme.of(context).colorScheme.surface)
+        : Theme.of(context).colorScheme.surface;
+
+    final isFavourite = artist?.userData.isFavourite == true;
+
     return DetailScaffold(
       label: current.name,
       item: current,
-      backDrops: artist?.images,
+      backgroundColor: backgroundColor.withAlpha(80),
+      backDrops: artist?.getPosters,
       onRefresh: () async {
         await provider.fetchDetails(widget.item);
       },
@@ -67,6 +80,7 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                   child: FladderImage(
                     image: artist?.getPosters?.logo,
                     placeHolder: placeHolder,
+                    disableBlur: true,
                     imageErrorBuilder: (context, error, stackTrace) => placeHolder,
                     alignment: Alignment.bottomCenter,
                     fit: BoxFit.contain,
@@ -94,26 +108,34 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
                             spacing: 8,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              IconButton.filled(
+                              SelectableIconButton(
                                 onPressed: () async {
                                   await current.playLatestTracks(detailsContext, ref, shuffleEnabled: false);
                                 },
-                                icon: const Icon(IconsaxPlusBold.play),
-                                tooltip: context.localized.play(current.name),
+                                selected: true,
+                                icon: IconsaxPlusBold.play,
                               ),
-                              FilledButton.tonalIcon(
+                              SelectableIconButton(
                                 onPressed: () async {
                                   await current.playLatestTracks(detailsContext, ref, shuffleEnabled: true);
                                 },
-                                icon: const Icon(IconsaxPlusLinear.shuffle),
-                                label: Text(context.localized.audioPlayerShuffle),
+                                icon: IconsaxPlusLinear.shuffle,
+                                label: context.localized.audioPlayerShuffle,
                               ),
-                              FilledButton.tonalIcon(
+                              SelectableIconButton(
                                 onPressed: () async {
                                   await current.playInstantMix(detailsContext, ref);
                                 },
-                                icon: const Icon(IconsaxPlusLinear.blend_2),
-                                label: Text(context.localized.instantMix),
+                                icon: IconsaxPlusLinear.blend_2,
+                                label: context.localized.instantMix,
+                              ),
+                              SelectableIconButton(
+                                onPressed: () async {
+                                  await ref.read(userProvider.notifier).setAsFavorite(!isFavourite, artist?.id ?? "");
+                                },
+                                selected: isFavourite,
+                                selectedIcon: IconsaxPlusBold.heart,
+                                icon: IconsaxPlusLinear.heart,
                               ),
                             ],
                           ),

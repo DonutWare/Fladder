@@ -1,12 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ConnectionState;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/arguments_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
+import 'package:fladder/providers/incognito_mode_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout_model.dart';
@@ -216,11 +218,29 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
           topBarHeight: 0,
           controller: scrollControllers,
           posterDefaults: posterDefaults,
+          statusBarHeight: MediaQuery.of(context).padding.top,
         );
 
     final mediaQuery = MediaQuery.of(context);
 
     final useAdditionalPadding = isDesktop || kIsWeb || isAndroidTV;
+
+    final isOffline = ref.watch(offlineStateProvider);
+    final isIncognitoMode = ref.watch(incognitoProvider);
+
+    final hasStatusBanner = isOffline || isIncognitoMode;
+
+    final statusBarHeight = mediaQuery.padding.top;
+
+    final bannerHeight = hasStatusBanner ? 32.0 : 0.0;
+
+    final topPadding = isAndroidTV
+        ? hasStatusBanner
+            ? 21.0
+            : 4.0
+        : kIsWeb
+            ? 12.0 + bannerHeight
+            : defaultTitleBarHeight;
 
     return ValueListenableBuilder(
       valueListenable: isKeyboardOpen,
@@ -232,13 +252,15 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
             data: mediaQuery.copyWith(
               navigationMode: input == InputDevice.dPad ? NavigationMode.directional : NavigationMode.traditional,
               padding: (useAdditionalPadding
-                  ? EdgeInsets.only(top: isAndroidTV ? 12 : defaultTitleBarHeight, bottom: 16)
+                  ? EdgeInsets.only(top: topPadding, bottom: 16)
                   : mediaQuery.padding.copyWith(
-                      top: defaultTargetPlatform == TargetPlatform.iOS ? math.max(24, mediaQuery.padding.top) : null,
+                      top: defaultTargetPlatform == TargetPlatform.iOS
+                          ? math.max(24, bannerHeight + statusBarHeight)
+                          : bannerHeight + statusBarHeight,
                     )),
               viewPadding: useAdditionalPadding
-                  ? EdgeInsets.only(top: isAndroidTV ? 12 : defaultTitleBarHeight, bottom: 16)
-                  : null,
+                  ? EdgeInsets.only(top: topPadding, bottom: 16)
+                  : mediaQuery.viewPadding.copyWith(top: mediaQuery.viewPadding.top + bannerHeight),
             ),
             child: AdaptiveLayout(
               data: currentLayout.copyWith(

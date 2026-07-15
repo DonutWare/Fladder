@@ -59,7 +59,7 @@ class AlbumModel extends ItemBaseModel with AlbumModelMappable {
       ),
       parentId: parentId,
       playlistId: playlistId,
-      images: images,
+      images: null,
       childCount: 0,
       primaryRatio: primaryRatio,
       userData: userData,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,6 +12,10 @@ class HideOnScroll extends ConsumerStatefulWidget {
   final Duration duration;
   final bool canHide;
   final bool forceHide;
+
+  // NEW: The distance in pixels the user must scroll before the state changes
+  final double scrollThreshold;
+
   const HideOnScroll({
     this.child,
     this.controller,
@@ -21,6 +24,7 @@ class HideOnScroll extends ConsumerStatefulWidget {
     this.duration = const Duration(milliseconds: 200),
     this.canHide = true,
     this.forceHide = false,
+    this.scrollThreshold = 50.0, // Defaults to 50 pixels of travel
     super.key,
   }) : assert(child != null || visibleBuilder != null);
 
@@ -31,6 +35,10 @@ class HideOnScroll extends ConsumerStatefulWidget {
 class _HideOnScrollState extends ConsumerState<HideOnScroll> {
   late ScrollController scrollController = widget.controller ?? ScrollController();
   bool isVisible = true;
+
+  double _lastOffset = 0.0;
+  double _accumulatedDelta = 0.0;
+  bool _isInitialized = false;
 
   @override
   void initState() {
@@ -58,21 +66,45 @@ class _HideOnScrollState extends ConsumerState<HideOnScroll> {
   }
 
   void _onScroll() {
+    if (!scrollController.hasClients) return;
+
+    if (!_isInitialized) {
+      _lastOffset = scrollController.position.pixels;
+      _isInitialized = true;
+    }
+
     if (!widget.canHide) {
       if (!isVisible) {
         setState(() => isVisible = true);
       }
       return;
     }
-    final position = scrollController.position;
-    final direction = position.userScrollDirection;
 
-    bool newVisible;
+    final position = scrollController.position;
+    final currentOffset = position.pixels;
+    final delta = currentOffset - _lastOffset;
+    _lastOffset = currentOffset;
+
+    if ((delta > 0 && _accumulatedDelta < 0) || (delta < 0 && _accumulatedDelta > 0)) {
+      _accumulatedDelta = 0;
+    }
+
+    _accumulatedDelta += delta;
+
+    bool newVisible = isVisible;
+
     if (position.atEdge && position.pixels >= position.maxScrollExtent) {
-      // Always show when scrolled to bottom
+      // Always show when scrolled to absolute bottom
+      newVisible = true;
+    } else if (position.atEdge && position.pixels <= position.minScrollExtent) {
+      // Always show when at absolute top
       newVisible = true;
     } else {
-      newVisible = direction == ScrollDirection.forward;
+      if (_accumulatedDelta > widget.scrollThreshold) {
+        newVisible = false;
+      } else if (_accumulatedDelta < -widget.scrollThreshold) {
+        newVisible = true;
+      }
     }
 
     if (newVisible != isVisible) {

@@ -116,9 +116,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
 
   @override
   void dispose() {
-    Future.microtask(() async {
-      await player.dispose();
-    });
+    unawaited(player.dispose());
     for (final s in subscriptions) {
       s.cancel();
     }

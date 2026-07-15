@@ -141,7 +141,10 @@ class ArtistDetailsNotifier extends StateNotifier<ArtistModel?> {
       enableUserData: true,
       enableImages: true,
       imageTypeLimit: 1,
-      fields: [ItemFields.primaryimageaspectratio],
+      fields: [
+        ItemFields.primaryimageaspectratio,
+        ItemFields.parentid,
+      ],
       sortBy: [
         ItemSortBy.airtime,
         ItemSortBy.productionyear,

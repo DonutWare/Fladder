@@ -163,6 +163,13 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               ],
             ),
           ),
+          SwitchListTile(
+            title: Text(context.localized.playerSettingsAmbientBlurTitle),
+            value: videoSettings.ambientBlur,
+            onChanged: (value) {
+              ref.read(videoPlayerSettingsProvider.notifier).setAmbientBlur(value == true);
+            },
+          ),
           if (!AdaptiveLayout.of(context).isDesktop)
             ListTile(
               onTap: () => ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(!videoSettings.fillScreen),

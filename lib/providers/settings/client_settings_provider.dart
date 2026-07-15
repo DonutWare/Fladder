@@ -62,6 +62,8 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
 
   void setDerivedColorsFromItem(bool? value) => state = state.copyWith(deriveColorsFromItem: value ?? false);
 
+  void setDynamicPosterColors(bool? value) => state = state.copyWith(dynamicPosterColors: value ?? false);
+
   void useSystemIME(bool? value) => state = state.copyWith(useSystemIME: value ?? false);
 
   void setBlurPlaceholders(bool value) => state = state.copyWith(blurPlaceHolders: value);

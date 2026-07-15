@@ -398,6 +398,18 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
                 );
               },
             ),
+            SettingsListTileCheckbox(
+              label: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: 8,
+                children: [
+                  Text(context.localized.incognitoModeLocal),
+                ],
+              ),
+              value: user?.incognitoMode ?? false,
+              subLabel: Text(context.localized.incognitoModeDesc),
+              onChanged: (value) => ref.read(userProvider.notifier).toggleIncognitoMode(),
+            ),
           ],
         ),
       ],

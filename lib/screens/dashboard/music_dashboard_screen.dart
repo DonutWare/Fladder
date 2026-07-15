@@ -21,6 +21,7 @@ import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/track_list.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
@@ -28,7 +29,9 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/navigation_items.dart';
 import 'package:fladder/widgets/shared/button_group.dart';
+import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/pinch_poster_zoom.dart';
 import 'package:fladder/widgets/shared/poster_size_slider.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
@@ -49,7 +52,6 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => ref.read(musicDashboardProvider.notifier).fetchMusicHome());
     _timer = Timer.periodic(const Duration(seconds: 120), (timer) {
       _refreshIndicatorKey.currentState?.show();
     });
@@ -75,6 +77,7 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
     final musicDashboard = ref.watch(musicDashboardProvider);
     final useTVExpandedLayout = ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout));
     final viewSize = AdaptiveLayout.viewSizeOf(context);
+    final layoutMode = AdaptiveLayout.of(context).layoutMode;
 
     final backgroundItems = [
       ...musicDashboard.playlists,
@@ -105,6 +108,10 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
     final activeRecentTrackSection =
         availableRecentTrackSections.firstWhereOrNull((section) => section.section == _selectedRecentTrackSection) ??
             availableRecentTrackSections.firstOrNull;
+
+    final allViews = ref.watch(viewsProvider).views;
+
+    final musicItems = MusicLibraryItem.fromViews(context, allViews, false, ref);
 
     return NestedScaffold(
       background: ValueListenableBuilder<ItemBaseModel?>(
@@ -138,6 +145,53 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
                     children: [
                       PosterSizeWidget(),
                     ],
+                  ),
+                ),
+              if (musicItems.isNotEmpty && layoutMode != LayoutMode.dual)
+                SliverToBoxAdapter(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => Padding(
+                      padding: padding.add(const EdgeInsets.only(bottom: 16)),
+                      child: SizedBox(
+                        height: 128,
+                        child: Row(
+                          spacing: 16,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: musicItems
+                              .map(
+                                (item) => Expanded(
+                                  child: FocusButton(
+                                    onTap: () => item.onTap(),
+                                    onFocusChanged: (focused) {
+                                      if (focused) {
+                                        context.ensureVisible();
+                                      }
+                                    },
+                                    child: AspectRatio(
+                                      aspectRatio: 1.0,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: FladderTheme.defaultPosterDecoration.borderRadius,
+                                          color: Theme.of(context).colorScheme.surface,
+                                        ),
+                                        child: Column(
+                                          spacing: 4,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            item.icon,
+                                            Text(item.label),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ...[

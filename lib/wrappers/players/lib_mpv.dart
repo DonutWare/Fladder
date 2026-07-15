@@ -409,10 +409,16 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> pause() async => _startPlaybackFade(false);
+  Future<void> pause() async {
+    setState(lastState.update(playing: false));
+    _startPlaybackFade(false);
+  }
 
   @override
-  Future<void> play() async => _startPlaybackFade(true);
+  Future<void> play() async {
+    setState(lastState.update(playing: true));
+    _startPlaybackFade(true);
+  }
 
   @override
   Future<void> playOrPause() async {

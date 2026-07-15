@@ -10,7 +10,7 @@ import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 
 class SelectableIconButton extends ConsumerStatefulWidget {
-  final FutureOr<void> Function() onPressed;
+  final FutureOr<void>? Function()? onPressed;
   final String? label;
   final IconData icon;
   final IconData? selectedIcon;
@@ -18,15 +18,17 @@ class SelectableIconButton extends ConsumerStatefulWidget {
   final Color? backgroundColor;
   final Color? iconColor;
   final bool refreshOnEnd;
+  final bool autofocus;
   const SelectableIconButton({
     required this.onPressed,
-    required this.selected,
+    this.selected = false,
     required this.icon,
     this.selectedIcon,
     this.label,
     this.backgroundColor,
     this.iconColor,
     this.refreshOnEnd = true,
+    this.autofocus = false,
     super.key,
   });
 
@@ -37,6 +39,7 @@ class SelectableIconButton extends ConsumerStatefulWidget {
 class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
   bool loading = false;
   bool focused = false;
+
   @override
   Widget build(BuildContext context) {
     const duration = Duration(milliseconds: 250);
@@ -53,6 +56,7 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
     return Tooltip(
       message: widget.label ?? "",
       child: ElevatedButton(
+        autofocus: widget.autofocus,
         style: ButtonStyle(
           side: buttonState,
           elevation: const WidgetStatePropertyAll(0),
@@ -73,12 +77,14 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
             );
           }
         },
-        onPressed: loading
+        onPressed: loading || widget.onPressed == null
             ? null
             : () async {
                 setState(() => loading = true);
                 try {
-                  await widget.onPressed();
+                  if (widget.onPressed != null) {
+                    await widget.onPressed!();
+                  }
                 } catch (e) {
                   log(e.toString());
                 } finally {
@@ -90,13 +96,8 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: widget.label != null ? 18 : 0),
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            spacing: 12,
             children: [
-              if (widget.label != null) ...{
-                Text(
-                  widget.label.toString(),
-                ),
-                const SizedBox(width: 10),
-              },
               AnimatedFadeSize(
                 duration: duration,
                 child: loading
@@ -113,9 +114,9 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
                           ),
                         ),
                       )
-                    : !widget.selected
+                    : !widget.selected || widget.selectedIcon == null
                         ? Opacity(
-                            opacity: 0.65,
+                            opacity: widget.selected || widget.selectedIcon == null ? 1.0 : 0.65,
                             child: Icon(
                               key: const Key("selected-off"),
                               widget.icon,
@@ -128,6 +129,11 @@ class _SelectableIconButtonState extends ConsumerState<SelectableIconButton> {
                             size: iconSize,
                           ),
               ),
+              if (widget.label != null) ...{
+                Text(
+                  widget.label.toString(),
+                ),
+              },
             ],
           ),
         ),

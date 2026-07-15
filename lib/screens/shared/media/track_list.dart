@@ -9,7 +9,6 @@ import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/theme.dart';
-import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
@@ -28,6 +27,7 @@ class TrackList extends ConsumerStatefulWidget {
   final String title;
   final bool enableSorting;
   final bool showHeader;
+  final bool showDiscSplit;
   final List<AudioModel> tracks;
   final int? maxTracks;
   final bool showAlbum;
@@ -44,6 +44,7 @@ class TrackList extends ConsumerStatefulWidget {
     required this.title,
     this.enableSorting = true,
     this.showHeader = true,
+    this.showDiscSplit = false,
     required this.tracks,
     this.maxTracks,
     this.showAlbum = true,
@@ -268,7 +269,6 @@ class _TrackListState extends ConsumerState<TrackList> {
   @override
   Widget build(BuildContext context) {
     final visibleTracks = _sortedTracks();
-    final showCompactLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
     if (visibleTracks.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -285,23 +285,32 @@ class _TrackListState extends ConsumerState<TrackList> {
             children: [
               if (widget.showHeader) _buildHeaderRow(context),
               ...visibleTracks.mapIndexed(
-                (index, track) => TableRow(
-                  children: [
-                    _TrackListItem(
-                      index: widget.showAlbum ? index + 1 : track.trackNumber ?? index + 1,
-                      track: track,
-                      actions: _buildTrackActions(context, track),
-                      onTap: _selectionEnabled ? (_) => _handleTrackTap(track, index) : widget.onTrackTap,
-                      onTrackPlayTap: widget.onTrackPlayTap,
-                      onArtistTap: widget.onTrackArtistTap,
-                      onSecondaryTap: widget.onTrackSecondaryTap,
-                      showAlbum: widget.showAlbum,
-                      showSyncStatus: widget.showSyncStatus,
-                      compactLayout: showCompactLayout,
-                      isSelected: _selectionEnabled && _selectedTrackIds.contains(track.id),
-                    ),
-                  ],
-                ),
+                (index, track) {
+                  final containsMultipleDiscs = visibleTracks.map((t) => t.discNumber).toSet().length > 1;
+                  final previousTrackDisk = index > 0 ? visibleTracks[index - 1].discNumber : null;
+                  return TableRow(
+                    children: [
+                      _TrackListItem(
+                        index: widget.showAlbum ? index + 1 : track.trackNumber ?? index + 1,
+                        track: track,
+                        actions: _buildTrackActions(context, track),
+                        onTap: _selectionEnabled ? (_) => _handleTrackTap(track, index) : widget.onTrackTap,
+                        onTrackPlayTap: widget.onTrackPlayTap,
+                        onArtistTap: widget.onTrackArtistTap,
+                        onSecondaryTap: widget.onTrackSecondaryTap,
+                        showAlbum: widget.showAlbum,
+                        showDiscSplit: widget.showDiscSplit &&
+                                containsMultipleDiscs &&
+                                track.discNumber != null &&
+                                track.discNumber != previousTrackDisk
+                            ? track.discNumber
+                            : null,
+                        showSyncStatus: widget.showSyncStatus,
+                        isSelected: _selectionEnabled && _selectedTrackIds.contains(track.id),
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),
@@ -311,52 +320,56 @@ class _TrackListState extends ConsumerState<TrackList> {
   }
 
   TableRow _buildHeaderRow(BuildContext context) {
-    final showCompactLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
-
     return TableRow(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
       ),
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12).add(const EdgeInsets.only(left: 4, right: 16)),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: _TrackColumn.position.width,
-                child: _buildHeaderLabel(context, _TrackColumn.position),
-              ),
-              const SizedBox(width: _trackCellSpacing),
-              Expanded(flex: _TrackColumn.title.flex!, child: _buildHeaderLabel(context, _TrackColumn.title)),
-              if (!showCompactLayout && widget.showAlbum) ...[
+        LayoutBuilder(builder: (context, constraints) {
+          final compactLayout = constraints.maxWidth < 550;
+          final phoneSize = constraints.maxWidth < 450;
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12).add(const EdgeInsets.only(left: 4, right: 16)),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: _TrackColumn.position.width,
+                  child: _buildHeaderLabel(context, _TrackColumn.position),
+                ),
                 const SizedBox(width: _trackCellSpacing),
-                Expanded(flex: _TrackColumn.album.flex!, child: _buildHeaderLabel(context, _TrackColumn.album)),
-              ],
-              if (!showCompactLayout) ...[
+                Expanded(flex: _TrackColumn.title.flex!, child: _buildHeaderLabel(context, _TrackColumn.title)),
+                if (!compactLayout && widget.showAlbum) ...[
+                  const SizedBox(width: _trackCellSpacing),
+                  Expanded(flex: _TrackColumn.album.flex!, child: _buildHeaderLabel(context, _TrackColumn.album)),
+                ],
+                if (!compactLayout) ...[
+                  const SizedBox(width: _trackCellSpacing),
+                  SizedBox(
+                    width: _TrackColumn.plays.width!,
+                    child: _buildHeaderLabel(context, _TrackColumn.plays),
+                  ),
+                ],
+                if (widget.showSyncStatus) ...[
+                  const SizedBox(width: _trackCellSpacing),
+                  SizedBox(
+                    width: _TrackColumn.sync.width!,
+                    child: _buildHeaderLabel(context, _TrackColumn.sync),
+                  ),
+                ],
                 const SizedBox(width: _trackCellSpacing),
                 SizedBox(
-                  width: _TrackColumn.plays.width!,
-                  child: _buildHeaderLabel(context, _TrackColumn.plays),
+                  width: _TrackColumn.duration.width!,
+                  child: _buildHeaderLabel(context, _TrackColumn.duration),
                 ),
+                if (!phoneSize) ...[
+                  const SizedBox(width: _trackCellSpacing),
+                  SizedBox(width: _TrackColumn.action.width!),
+                ],
               ],
-              const SizedBox(width: _trackCellSpacing),
-              SizedBox(
-                width: _TrackColumn.duration.width!,
-                child: _buildHeaderLabel(context, _TrackColumn.duration),
-              ),
-              if (widget.showSyncStatus) ...[
-                const SizedBox(width: _trackCellSpacing),
-                SizedBox(
-                  width: _TrackColumn.sync.width!,
-                  child: _buildHeaderLabel(context, _TrackColumn.sync),
-                ),
-              ],
-              const SizedBox(width: _trackCellSpacing),
-              SizedBox(width: _TrackColumn.action.width!),
-            ],
-          ),
-        ),
+            ),
+          );
+        }),
       ],
     );
   }
@@ -371,8 +384,8 @@ class _TrackListItem extends ConsumerStatefulWidget {
   final TrackSecondaryTapCallback? onSecondaryTap;
   final Function(AudioModel track)? onTrackPlayTap;
   final bool showAlbum;
+  final int? showDiscSplit;
   final bool showSyncStatus;
-  final bool compactLayout;
   final bool isSelected;
 
   const _TrackListItem({
@@ -384,8 +397,8 @@ class _TrackListItem extends ConsumerStatefulWidget {
     this.onArtistTap,
     this.onSecondaryTap,
     this.showAlbum = true,
+    this.showDiscSplit,
     this.showSyncStatus = false,
-    this.compactLayout = false,
     this.isSelected = false,
   });
 
@@ -423,164 +436,207 @@ class _TrackListItemState extends ConsumerState<_TrackListItem> {
 
     final radius = FladderTheme.smallShape.borderRadius;
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 150),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: widget.isSelected ? Theme.of(context).colorScheme.primaryContainer.withAlpha(80) : Colors.transparent,
-      ),
-      child: FocusButton(
-        onHover: _handleHover,
-        onTap: widget.onTap != null ? () => widget.onTap?.call(widget.track) : null,
-        onLongPress: () {
-          if (widget.onSecondaryTap != null) {
-            showBottomSheetPill(
-              context: context,
-              item: widget.track,
-              content: (scrollContext, scrollController) => ListView(
-                shrinkWrap: true,
-                controller: scrollController,
-                children: widget.track
-                    .generateActions(
-                      context,
-                      ref,
-                    )
-                    .listTileItems(scrollContext, useIcons: true),
-              ),
-            );
-          }
-        },
-        onSecondaryTapDown: (details) async {
-          if (widget.actions.isNotEmpty) {
-            await _showContextMenu(details.globalPosition);
-            return;
-          }
-          widget.onSecondaryTap?.call(widget.track, details);
-        },
-        borderRadius: BorderRadius.circular(12),
-        onFocusChanged: (focus) {
-          if (focus) {
-            context.ensureVisible();
-          }
-        },
-        overlays: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12).add(const EdgeInsets.only(left: 4, right: 16)),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: _TrackColumn.position.width!,
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 200),
-                      child: _hovering
-                          ? IconButton(
-                              onPressed: widget.onTrackPlayTap != null
-                                  ? () => widget.onTrackPlayTap?.call(widget.track)
-                                  : null,
-                              icon: const Icon(IconsaxPlusBold.play),
-                            )
-                          : widget.showAlbum
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: radius,
-                                    color: Theme.of(context).colorScheme.surfaceContainer,
-                                  ),
-                                  foregroundDecoration: BoxDecoration(
-                                    borderRadius: radius,
-                                    border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
-                                  ),
-                                  clipBehavior: Clip.hardEdge,
-                                  child: FladderImage(
-                                    image: widget.track.images?.primary,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              : Text('${widget.index}', style: Theme.of(context).textTheme.bodyLarge),
-                    ),
-                  ),
+    return LayoutBuilder(builder: (context, constraints) {
+      final compactLayout = constraints.maxWidth < 550;
+      final phoneSize = constraints.maxWidth < 450;
+      return Column(
+        children: [
+          if (widget.showDiscSplit != null) ...[
+            if (widget.showDiscSplit != 1) const Divider(),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Text(
+                  context.localized.disc(widget.showDiscSplit ?? 1),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const SizedBox(width: _trackCellSpacing),
-                Expanded(
-                  flex: _TrackColumn.title.flex!,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ),
+          ],
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color:
+                  widget.isSelected ? Theme.of(context).colorScheme.primaryContainer.withAlpha(80) : Colors.transparent,
+            ),
+            child: FocusButton(
+              onHover: _handleHover,
+              onTap: widget.onTap != null ? () => widget.onTap?.call(widget.track) : null,
+              onLongPress: () {
+                if (widget.onSecondaryTap != null) {
+                  showBottomSheetPill(
+                    context: context,
+                    item: widget.track,
+                    content: (scrollContext, scrollController) => ListView(
+                      shrinkWrap: true,
+                      controller: scrollController,
+                      children: widget.track
+                          .generateActions(
+                            context,
+                            ref,
+                          )
+                          .listTileItems(scrollContext, useIcons: true),
+                    ),
+                  );
+                }
+              },
+              onSecondaryTapDown: (details) async {
+                if (widget.actions.isNotEmpty) {
+                  await _showContextMenu(details.globalPosition);
+                  return;
+                }
+                widget.onSecondaryTap?.call(widget.track, details);
+              },
+              borderRadius: BorderRadius.circular(12),
+              onFocusChanged: (focus) {
+                if (focus) {
+                  context.ensureVisible();
+                }
+              },
+              overlays: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12).add(const EdgeInsets.only(left: 4, right: 16)),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(widget.track.name, style: Theme.of(context).textTheme.titleMedium),
-                      if (trackArtists != null) ...[
-                        const SizedBox(height: 4),
-                        ClickableText(
-                          text: trackArtists,
+                      SizedBox(
+                        width: _TrackColumn.position.width!,
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 200),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                if (widget.showAlbum)
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: radius,
+                                      color: Theme.of(context).colorScheme.surfaceContainer,
+                                    ),
+                                    foregroundDecoration: BoxDecoration(
+                                      borderRadius: radius,
+                                      border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
+                                    ),
+                                    clipBehavior: Clip.hardEdge,
+                                    child: FladderImage(
+                                      image: widget.track.images?.primary,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                else if (!_hovering)
+                                  Text('${widget.index}', style: Theme.of(context).textTheme.bodyLarge),
+                                if (widget.track.userData.isFavourite == true)
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: Transform.translate(
+                                      offset: const Offset(6, -6),
+                                      child: Icon(
+                                        IconsaxPlusBold.heart,
+                                        color: Theme.of(context).colorScheme.primary,
+                                      ),
+                                    ),
+                                  ),
+                                if (_hovering)
+                                  IconButton(
+                                    onPressed: widget.onTrackPlayTap != null
+                                        ? () => widget.onTrackPlayTap?.call(widget.track)
+                                        : null,
+                                    icon: const Icon(IconsaxPlusBold.play),
+                                  )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: _trackCellSpacing),
+                      Expanded(
+                        flex: _TrackColumn.title.flex!,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(widget.track.name, style: Theme.of(context).textTheme.titleMedium),
+                            if (trackArtists != null) ...[
+                              const SizedBox(height: 4),
+                              ClickableText(
+                                text: trackArtists,
+                                style: Theme.of(context).textTheme.bodySmall,
+                                onTap: widget.onArtistTap != null ? () => widget.onArtistTap?.call(widget.track) : null,
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      if (!compactLayout && widget.showAlbum && _TrackColumn.album.flex != null) ...[
+                        const SizedBox(width: _trackCellSpacing),
+                        Expanded(
+                          flex: _TrackColumn.album.flex!,
+                          child: ClickableText(
+                            text: widget.track.album ?? '',
+                            onTap: widget.track.album != null
+                                ? () => widget.track.parentBaseModel.navigateTo(context)
+                                : null,
+                          ),
+                        ),
+                      ],
+                      if (!compactLayout) ...[
+                        const SizedBox(width: _trackCellSpacing),
+                        SizedBox(
+                          width: _TrackColumn.plays.width,
+                          child: Text(
+                            playCountText,
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white54),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                      ],
+                      if (widget.showSyncStatus) ...[
+                        const SizedBox(width: _trackCellSpacing),
+                        SizedBox(
+                          width: _TrackColumn.sync.width,
+                          child: ref.watch(syncedItemProvider(widget.track)).when(
+                                error: (error, stackTrace) => const SizedBox.shrink(),
+                                data: (syncedItem) {
+                                  if (syncedItem == null) {
+                                    return const SizedBox.shrink();
+                                  }
+                                  return Align(
+                                    alignment: Alignment.centerRight,
+                                    child: SyncButton(item: widget.track, syncedItem: syncedItem),
+                                  );
+                                },
+                                loading: () => const SizedBox.shrink(),
+                              ),
+                        ),
+                      ],
+                      const SizedBox(width: _trackCellSpacing),
+                      SizedBox(
+                        width: _TrackColumn.duration.width,
+                        child: Text(
+                          durationText ?? '',
                           style: Theme.of(context).textTheme.bodySmall,
-                          onTap: widget.onArtistTap != null ? () => widget.onArtistTap?.call(widget.track) : null,
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                      if (!phoneSize) ...[
+                        const SizedBox(width: _trackCellSpacing),
+                        SizedBox(
+                          width: _TrackColumn.action.width,
+                          child: PopupMenuButton(
+                            itemBuilder: (context) => widget.actions.popupMenuItems(useIcons: true),
+                          ),
                         ),
                       ],
                     ],
                   ),
-                ),
-                if (!widget.compactLayout && widget.showAlbum && _TrackColumn.album.flex != null) ...[
-                  const SizedBox(width: _trackCellSpacing),
-                  Expanded(
-                    flex: _TrackColumn.album.flex!,
-                    child: ClickableText(
-                      text: widget.track.album ?? '',
-                      onTap: widget.track.album != null ? () => widget.track.parentBaseModel.navigateTo(context) : null,
-                    ),
-                  ),
-                ],
-                if (!widget.compactLayout) ...[
-                  const SizedBox(width: _trackCellSpacing),
-                  SizedBox(
-                    width: _TrackColumn.plays.width,
-                    child: Text(
-                      playCountText,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white54),
-                      textAlign: TextAlign.end,
-                    ),
-                  ),
-                ],
-                const SizedBox(width: _trackCellSpacing),
-                SizedBox(
-                  width: _TrackColumn.duration.width,
-                  child: Text(
-                    durationText ?? '',
-                    style: Theme.of(context).textTheme.bodySmall,
-                    textAlign: TextAlign.end,
-                  ),
-                ),
-                if (widget.showSyncStatus) ...[
-                  const SizedBox(width: _trackCellSpacing),
-                  SizedBox(
-                    width: _TrackColumn.sync.width,
-                    child: ref.watch(syncedItemProvider(widget.track)).when(
-                          error: (error, stackTrace) => const SizedBox.shrink(),
-                          data: (syncedItem) {
-                            if (syncedItem == null) {
-                              return const SizedBox.shrink();
-                            }
-                            return Align(
-                              alignment: Alignment.centerRight,
-                              child: SyncButton(item: widget.track, syncedItem: syncedItem),
-                            );
-                          },
-                          loading: () => const SizedBox.shrink(),
-                        ),
-                  ),
-                ],
-                const SizedBox(width: _trackCellSpacing),
-                SizedBox(
-                  width: _TrackColumn.action.width,
-                  child: PopupMenuButton(
-                    itemBuilder: (context) => widget.actions.popupMenuItems(useIcons: true),
-                  ),
-                ),
+                )
               ],
             ),
-          )
+          ),
         ],
-      ),
-    );
+      );
+    });
   }
 }

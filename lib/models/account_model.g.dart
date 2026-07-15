@@ -40,6 +40,7 @@ _AccountModel _$AccountModelFromJson(Map<String, dynamic> json) =>
           json['updateNotificationsEnabled'] as bool? ?? false,
       seerrRequestsEnabled: json['seerrRequestsEnabled'] as bool? ?? false,
       includeHiddenViews: json['includeHiddenViews'] as bool? ?? false,
+      incognitoMode: json['incognitoMode'] as bool?,
       userSettings: json['userSettings'] == null
           ? null
           : UserSettings.fromJson(json['userSettings'] as Map<String, dynamic>),
@@ -63,6 +64,7 @@ Map<String, dynamic> _$AccountModelToJson(_AccountModel instance) =>
       'updateNotificationsEnabled': instance.updateNotificationsEnabled,
       'seerrRequestsEnabled': instance.seerrRequestsEnabled,
       'includeHiddenViews': instance.includeHiddenViews,
+      'incognitoMode': instance.incognitoMode,
       'userSettings': instance.userSettings,
     };
 

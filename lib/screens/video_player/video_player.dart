@@ -17,6 +17,7 @@ import 'package:fladder/screens/video_player/components/video_player_next_wrappe
 import 'package:fladder/screens/video_player/video_player_controls.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/themes_data.dart';
+import 'package:fladder/widgets/shared/ambient_blur.dart';
 import 'package:fladder/widgets/shared/back_intent_dpad.dart';
 
 class VideoPlayer extends ConsumerStatefulWidget {
@@ -133,19 +134,29 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
                 }
                 lastScale = 0.0;
               },
-              child: switch (currentPlaybackModel) {
-                TvPlaybackModel _ => VideoPlayerGuideWrapper(
-                    key: const Key("VideoPlayerGuideWrapper"),
-                    child: player,
+              child: Stack(children: [
+                if (!kIsWeb && ref.watch(videoPlayerSettingsProvider.select((value) => value.ambientBlur)))
+                  AmbientBlur(
+                    child: playerController.videoWidget(
+                          const Key("VideoPlayerBlur"),
+                          BoxFit.cover,
+                        ) ??
+                        const SizedBox.shrink(),
                   ),
-                _ => VideoPlayerNextWrapper(
-                    video: player,
-                    controls: const DesktopControls(),
-                    overlays: [
-                      if (errorPlaying) const _VideoErrorWidget(),
-                    ],
-                  ),
-              },
+                switch (currentPlaybackModel) {
+                  TvPlaybackModel _ => VideoPlayerGuideWrapper(
+                      key: const Key("VideoPlayerGuideWrapper"),
+                      child: player,
+                    ),
+                  _ => VideoPlayerNextWrapper(
+                      video: player,
+                      controls: const DesktopControls(),
+                      overlays: [
+                        if (errorPlaying) const _VideoErrorWidget(),
+                      ],
+                    ),
+                }
+              ]),
             ),
           ),
         ),

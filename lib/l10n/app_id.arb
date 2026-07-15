@@ -443,7 +443,7 @@
     "resumeVideo": "Lanjutkan video",
     "closeVideo": "Tutup video",
     "playNextVideo": "Putar video berikutnya",
-    "playerSettingsBackendTitle": "Backend Pemutar Video",
+    "playerSettingsBackendTitle": "Backend pemutar media",
     "playerSettingsBackendDesc": "Pilih backend pemutar video",
     "defaultLabel": "Bawaan",
     "@defaultLabel": {
@@ -2068,5 +2068,92 @@
         }
     },
     "seerrMovies": "Temukan Film",
-    "seerrSeries": "Temukan Serial"
+    "seerrSeries": "Temukan Serial",
+    "addToQueue": "Tambahkan ke antrean",
+    "instantMix": "Campuran instan",
+    "addedToQueue": "{count, plural, one{Menambahkan {count} lagu ke antrean} other{Menambahkan {count} lagu ke antrean}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerPlaybackOptionsTitle": "Opsi pemutaran",
+    "audioPlayerRepeatAll": "Ulangi semua",
+    "audioPlayerRepeatOff": "Ulangi nonaktif",
+    "audioPlayerRepeatOne": "Ulangi satu",
+    "audioPlayerShuffle": "Acak",
+    "showArtist": "Tampilkan artis",
+    "track": "{count, plural, one{Lagu} other{Lagu}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "{name} yang baru ditambahkan",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{Artis} other{Artis}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playMusic": "Putar musik",
+    "settingsPlayerPlayPauseFadeTitle": "Fade volume saat putar/jeda",
+    "settingsPlayerPlayPauseFadeDesc": "Naikkan dan turunkan volume secara bertahap saat memutar atau menjeda",
+    "syncPlaylistDeleteTitle": "Hapus playlist tersinkronisasi",
+    "syncPlaylistDeleteContent": "Apakah Anda juga ingin menghapus lagu yang disinkronkan dari playlist ini?",
+    "syncPlaylistKeepTracks": "Simpan lagu",
+    "syncPlaylistRemoveTracks": "Hapus lagu",
+    "removedFromPlaylist": "Dihapus dari playlist {playlistName}",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerSettingsReplayGainTitle": "ReplayGain",
+    "playerSettingsReplayGainDesc": "Normalkan kenyaringan musik menggunakan tag ReplayGain.",
+    "playerSettingsReplayGainLevelTitle": "Level ReplayGain",
+    "playerSettingsReplayGainLevelDesc": "Atur tingkat kenyaringan target untuk normalisasi ReplayGain. Standar umum adalah -14 dB, tetapi Anda dapat menyesuaikannya sesuai preferensi.",
+    "settingsPlayerCrossfadeTitle": "Crossfade",
+    "settingsPlayerCrossfadeDesc": "Fade antar lagu yang tidak berurutan dalam album yang sama",
+    "settingsPlayerCrossfadeDurationTitle": "Durasi crossfade",
+    "settingsPlayerCrossfadeDurationDesc": "Durasi crossfade",
+    "recentlyPlayed": "Baru diputar",
+    "recentlyFavorited": "Baru difavoritkan",
+    "mostPlayed": "Paling sering diputar",
+    "nowPlaying": "Sedang diputar",
+    "upNext": "Berikutnya",
+    "queue": "Antrean",
+    "queueIsEmpty": "Antrean kosong",
+    "queueItemCount": "{count} item",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "Hapus dari antrean",
+    "musicDashboard": "Dasbor Musik",
+    "quiet": "Pelan",
+    "loud": "Keras"
 }

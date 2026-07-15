@@ -8,6 +8,7 @@ import 'package:fladder/providers/playlist_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/alert_content.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
@@ -101,53 +102,88 @@ class _AddToPlaylistState extends ConsumerState<AddToPlaylist> {
                 ...collectonOptions.collections.entries.map(
                   (e) {
                     final containsItem = e.value == true;
-                    return Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      child: Card(
-                        elevation: 0,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                e.key.name,
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              )),
-                              Checkbox(
-                                value: containsItem,
-                                onChanged: (value) async {
-                                  if (value == null) return;
-                                  if (containsItem) {
-                                    final response =
-                                        await ref.read(provider.notifier).removeFromPlaylist(playlist: e.key);
-                                    if (context.mounted) {
-                                      FladderSnack.show(
-                                          response.isSuccessful
-                                              ? context.localized.removedFromPlaylist(e.key.name)
-                                              : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
-                                          context: context);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: FocusButton(
+                        onTap: () async {
+                          if (containsItem) {
+                            final response = await ref.read(provider.notifier).removeFromPlaylist(playlist: e.key);
+                            if (context.mounted) {
+                              FladderSnack.show(
+                                  response.isSuccessful
+                                      ? context.localized.removedFromPlaylist(e.key.name)
+                                      : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+                                  context: context);
+                            }
+                          } else {
+                            final response = await ref.read(provider.notifier).addToPlaylist(playlist: e.key);
+                            if (context.mounted) {
+                              FladderSnack.show(
+                                  response.isSuccessful
+                                      ? context.localized.addedToPlaylist(controller.text)
+                                      : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+                                  context: context);
+                            }
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: containsItem
+                                ? Theme.of(context).colorScheme.primaryContainer
+                                : Theme.of(context).colorScheme.surfaceContainer,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                    child: Text(
+                                  e.key.name,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                )),
+                                Checkbox(
+                                  value: containsItem,
+                                  onChanged: (value) async {
+                                    if (value == null) return;
+                                    if (containsItem) {
+                                      final response =
+                                          await ref.read(provider.notifier).removeFromPlaylist(playlist: e.key);
+                                      if (context.mounted) {
+                                        FladderSnack.show(
+                                            response.isSuccessful
+                                                ? context.localized.removedFromPlaylist(e.key.name)
+                                                : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+                                            context: context);
+                                      }
+                                    } else {
+                                      final response = await ref.read(provider.notifier).addToPlaylist(playlist: e.key);
+                                      if (context.mounted) {
+                                        FladderSnack.show(
+                                            response.isSuccessful
+                                                ? context.localized.addedToPlaylist(controller.text)
+                                                : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+                                            context: context);
+                                      }
                                     }
-                                  } else {
-                                    final response = await ref.read(provider.notifier).addToPlaylist(playlist: e.key);
-                                    if (context.mounted) {
-                                      FladderSnack.show(
-                                          response.isSuccessful
-                                              ? context.localized.addedToPlaylist(controller.text)
-                                              : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
-                                          context: context);
-                                    }
-                                  }
-                                },
-                              ),
-                            ],
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     );
                   },
                 ),
+                if (collectonOptions.isLoading)
+                  const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
               ],
             ),
           ),

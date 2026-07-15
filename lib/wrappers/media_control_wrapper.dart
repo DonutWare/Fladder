@@ -70,6 +70,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   SMTCWindows? smtc;
 
   bool initializedWrapper = false;
+  bool _isStopped = false;
   bool _isNewPlayback = false;
   bool _isAudioQueueMode = false;
   bool _audioQueueTransitioning = false;
@@ -157,17 +158,21 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   Future<void> loadVideo(PlaybackModel model, Duration startPosition, bool play) async {
-    if (_player is NativePlayer) {
-      final context = ref.read(localizationContextProvider);
-      await (_player as NativePlayer).sendPlaybackDataToNative(context, model, startPosition);
-    }
-    _isNewPlayback = play;
-    await _player?.loadVideo(model.media?.url ?? "", play, startPosition: startPosition);
-    _player?.applySubtitleSettings(ref.read(subtitleSettingsProvider));
+    try {
+      if (_player is NativePlayer) {
+        final context = ref.read(localizationContextProvider);
+        await (_player as NativePlayer).sendPlaybackDataToNative(context, model, startPosition);
+      }
+      _isNewPlayback = play;
+      await _player?.loadVideo(model.media?.url ?? "", play, startPosition: startPosition);
+      _player?.applySubtitleSettings(ref.read(subtitleSettingsProvider));
 
-    final context = ref.read(localizationContextProvider);
-    if (context != null) {
-      ref.read(windowTitleProvider.notifier).setPlayTitle(model.item.windowTitle(context.localized));
+      final context = ref.read(localizationContextProvider);
+      if (context != null) {
+        ref.read(windowTitleProvider.notifier).setPlayTitle(model.item.windowTitle(context.localized));
+      }
+    } finally {
+      _isStopped = false;
     }
   }
 
@@ -317,7 +322,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       updatePosition: position,
       controls: [MediaControl.play],
     ));
-    await WakelockPlus.disable();
+    unawaited(WakelockPlus.disable());
     final playerState = _player;
     if (playerState != null) {
       final model = ref.read(playBackModel);
@@ -334,7 +339,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     // Only enable wakelock for video; audio can continue with screen off
     final playBackItem = ref.read(playBackModel.select((value) => value?.item));
     if (playBackItem is! AudioModel) {
-      await WakelockPlus.enable();
+      unawaited(WakelockPlus.enable());
+    } else {
+      _isStopped = false;
     }
 
     await _player?.play();
@@ -445,8 +452,11 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     final playbackModel = ref.read(playBackModel);
     if (playbackModel == null) return;
 
+    if (_isStopped) return;
+    _isStopped = true;
+
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.disposed));
-    WakelockPlus.disable();
+    unawaited(WakelockPlus.disable());
     _player?.stop();
     ref.read(windowTitleProvider.notifier).setPlayTitle(null);
 
@@ -457,7 +467,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     await Future.delayed(const Duration(seconds: 1));
 
     await playbackModel.playbackStopped(position ?? Duration.zero, totalDuration, ref);
+
     ref.read(playBackModel.notifier).update((_) => null);
+
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(position: Duration.zero));
 
     if (_isAudioQueueMode) {
@@ -490,6 +502,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   Future<void> playOrPause() async {
     await _player?.playOrPause();
     final playing = _player?.lastState.playing ?? false;
+
     final position = _player?.lastState.position ?? Duration.zero;
     playbackState.add(playbackState.value.copyWith(
       playing: playing,
@@ -501,10 +514,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       // Only enable wakelock for video; audio can continue with screen off
       final playBackItem = ref.read(playBackModel.select((value) => value?.item));
       if (playBackItem is! AudioModel) {
-        await WakelockPlus.enable();
+        unawaited(WakelockPlus.enable());
       }
     } else {
-      await WakelockPlus.disable();
+      unawaited(WakelockPlus.disable());
     }
 
     final playerState = _player;

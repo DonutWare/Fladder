@@ -1066,7 +1066,7 @@
             }
         }
     },
-    "settingsLocalUrlSetDesc": "Indiquez l'adresse du serveur local. Fladder utilisera automatiquement cette URL quand votre appareil est sur le même réseau.",
+    "settingsLocalUrlSetDesc": "Précisez l'adresse locale Jellyfin. Fladder utilisera automatiquement cette URL lorsque votre appareil est sur le même réseau.",
     "openImeKeyboard": "Ouvrir le clavier IME",
     "screensaverDvd": "DVD",
     "screensaverLogo": "Logo",
@@ -1927,5 +1927,97 @@
         }
     },
     "seerrMovies": "Découvrir des films",
-    "seerrSeries": "Découvrir des séries"
+    "seerrSeries": "Découvrir des séries",
+    "addToQueue": "Ajouter à la file d'attente",
+    "instantMix": "Mix instantané",
+    "addedToQueue": "{count, plural, one{{count} piste ajoutée à la file d'attente} other{{count} pistes ajoutées à la file d'attente}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerPlaybackOptionsTitle": "Options de lecture",
+    "audioPlayerRepeatAll": "Tout répéter",
+    "audioPlayerRepeatOff": "Répétition désactivée",
+    "audioPlayerRepeatOne": "Répéter (1)",
+    "audioPlayerShuffle": "Lecture aléatoire",
+    "showArtist": "Afficher l'artiste",
+    "track": "{count, plural, one{Piste} other{Pistes}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "{name} récemment ajoutés",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{Artiste} other{Artistes}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playMusic": "Jouer la musique",
+    "settingsPlayerPlayPauseFadeTitle": "Fondu du volume à la lecture/pause",
+    "settingsPlayerPlayPauseFadeDesc": "Appliquer un fondu progressif du volume lors de la lecture ou de la mise en pause",
+    "syncPlaylistDeleteTitle": "Supprimer la playlist synchronisée",
+    "syncPlaylistDeleteContent": "Voulez-vous également supprimer les pistes synchronisées de cette playlist ?",
+    "syncPlaylistKeepTracks": "Conserver les pistes",
+    "syncPlaylistRemoveTracks": "Supprimer les pistes",
+    "removedFromPlaylist": "Retiré de la playlist {playlistName}",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerSettingsReplayGainTitle": "ReplayGain",
+    "playerSettingsReplayGainDesc": "Normaliser le volume de la musique à l'aide des balises ReplayGain.",
+    "playerSettingsReplayGainLevelTitle": "Niveau ReplayGain",
+    "playerSettingsReplayGainLevelDesc": "Définir le niveau sonore cible pour la normalisation ReplayGain. Une norme courante est -14 dB, mais vous pouvez l'ajuster selon vos préférences.",
+    "settingsPlayerCrossfadeTitle": "Fondu enchaîné",
+    "settingsPlayerCrossfadeDesc": "Appliquer un fondu entre les pistes qui ne sont pas consécutives dans le même album",
+    "settingsPlayerCrossfadeDurationTitle": "Durée du fondu enchaîné",
+    "settingsPlayerCrossfadeDurationDesc": "Durée du fondu enchaîné",
+    "seekForwardInstant": "Avancer (Instantané)",
+    "seekBackInstant": "Reculer (Instantané)",
+    "stepForward": "Saut en avant",
+    "stepBack": "Saut en arrière",
+    "recentlyPlayed": "Récemment écoutés",
+    "recentlyFavorited": "Récemment ajoutés aux favoris",
+    "mostPlayed": "Les plus écoutés",
+    "nowPlaying": "En cours de lecture",
+    "upNext": "À suivre",
+    "queue": "File d'attente",
+    "queueIsEmpty": "La file d'attente est vide",
+    "queueItemCount": "{count} éléments",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "Retirer de la file d'attente",
+    "musicDashboard": "Tableau de bord musical",
+    "quiet": "Faible",
+    "loud": "Fort",
+    "toggleSubtitles": "Afficher/Masquer les sous-titres"
 }

@@ -8,6 +8,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/providers/items/series_details_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_poster_row.dart';
@@ -154,6 +155,13 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                     studios: details.overview.studios,
                     officialRating: details.overview.parentalRating,
                     genres: details.overview.genreItems,
+                    onGenreClicked: (genre) {
+                      final itemViewId = details.parentId ?? "";
+                      LibrarySearchRoute(
+                        folderId: [itemViewId],
+                        genres: {genre.name: true},
+                      ).push(context);
+                    },
                     mediaStreamHelper: currentEpisode?.mediaStreams != null
                         ? MediaStreamHelper(
                             mediaStream: currentEpisode!.mediaStreams,

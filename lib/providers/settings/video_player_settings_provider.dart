@@ -201,4 +201,6 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     }
     return value;
   }
+
+  void setAmbientBlur(bool value) => state = state.copyWith(ambientBlur: value);
 }

@@ -1,5 +1,4 @@
 import 'package:background_downloader/background_downloader.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -67,7 +66,11 @@ Future<List<SyncedItem>> _mergeAlbumChildren({
     enableImages: true,
     imageTypeLimit: 1,
     fields: [ItemFields.primaryimageaspectratio],
-    sortBy: [ItemSortBy.sortname],
+    sortBy: [
+      ItemSortBy.parentindexnumber,
+      ItemSortBy.indexnumber,
+      ItemSortBy.album,
+    ],
     sortOrder: [SortOrder.ascending],
   );
 
@@ -78,7 +81,6 @@ Future<List<SyncedItem>> _mergeAlbumChildren({
 
   final missingLocal = localTracks.where((child) => !merged.any((mergedChild) => mergedChild.id == child.id));
   merged.addAll(missingLocal);
-  merged.sort(_syncChildComparator);
   return merged;
 }
 
@@ -101,7 +103,12 @@ Future<List<SyncedItem>> _mergeArtistChildren({
     enableImages: true,
     imageTypeLimit: 1,
     fields: [ItemFields.primaryimageaspectratio],
-    sortBy: [ItemSortBy.sortname],
+    sortBy: [
+      ItemSortBy.album,
+      ItemSortBy.parentindexnumber,
+      ItemSortBy.indexnumber,
+      ItemSortBy.album,
+    ],
     sortOrder: [SortOrder.ascending],
   );
 
@@ -115,7 +122,6 @@ Future<List<SyncedItem>> _mergeArtistChildren({
   merged.addAll(missingLocal);
 
   final deduplicated = {for (final child in merged) child.id: child}.values.toList();
-  deduplicated.sort(_syncChildComparator);
   return deduplicated;
 }
 
@@ -132,18 +138,6 @@ SyncedItem _createUnsyncedRemoteItem({required SyncedItem parent, required ItemB
     videoFileName: isAudio ? '${model.id}.audio' : null,
     itemModel: model,
   );
-}
-
-int _syncChildComparator(SyncedItem a, SyncedItem b) {
-  final aIsAlbum = a.itemModel is AlbumModel;
-  final bIsAlbum = b.itemModel is AlbumModel;
-  if (aIsAlbum != bIsAlbum) {
-    return aIsAlbum ? -1 : 1;
-  }
-
-  final aName = a.sortName ?? a.itemModel?.name.toLowerCase() ?? '';
-  final bName = b.sortName ?? b.itemModel?.name.toLowerCase() ?? '';
-  return compareNatural(aName, bName);
 }
 
 @riverpod

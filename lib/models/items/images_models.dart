@@ -223,6 +223,19 @@ class ImagesData {
   String toJson() => json.encode(toMap());
 
   factory ImagesData.fromJson(String source) => ImagesData.fromMap(json.decode(source));
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ImagesData &&
+        other.primary?.hash == primary?.hash &&
+        other.backDrop?.length == backDrop?.length &&
+        other.logo?.hash == logo?.hash;
+  }
+
+  @override
+  int get hashCode => Object.hash(primary?.hash, Object.hashAll(backDrop?.map((e) => e.hash) ?? []), logo?.hash);
 }
 
 class ImageData {

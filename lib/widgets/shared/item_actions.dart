@@ -35,7 +35,7 @@ class ItemActionDivider extends ItemAction {
   Widget toListItem(BuildContext context, {bool useIcons = false, bool shouldPop = true}) => const Divider();
 
   @override
-  Widget toButton() => Container();
+  Widget toButton() => const VerticalDivider();
 
   @override
   Widget toGroupButton(BuildContext context, {required bool useIcons, required bool shouldPop}) => const Divider();
@@ -100,7 +100,20 @@ class ItemActionButton extends ItemAction {
       );
 
   @override
-  Widget toButton() => IconButton(onPressed: action, icon: icon ?? const SizedBox.shrink());
+  Widget toButton() => backgroundColor != null
+      ? IconButton.filled(
+          onPressed: action,
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(backgroundColor),
+            foregroundColor: WidgetStatePropertyAll(foregroundColor),
+          ),
+          icon: icon ?? const SizedBox.shrink(),
+        )
+      : IconButton(
+          tooltip: label != null ? (label is Text ? (label as Text).data : null) : null,
+          onPressed: action,
+          icon: icon ?? const SizedBox.shrink(),
+        );
 
   @override
   PopupMenuItem toPopupMenuItem({bool useIcons = false}) {

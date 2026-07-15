@@ -662,7 +662,7 @@
     },
     "mdkExperimental": "MDK لا يزال في مرحلة تجريبية",
     "noVideoPlayerOptions": "الواجهة الخلفية المختارة ليس لديها خيارات",
-    "playerSettingsBackendTitle": "الواجهة الخلفية لمُشغِّل الفيديو",
+    "playerSettingsBackendTitle": "الواجهة الخلفية لمُشغِّل الوسائط",
     "skipButtonLabel": "تخطي {segment}",
     "@skipButtonLabel": {
         "placeholders": {
@@ -1953,5 +1953,132 @@
     "stepForward": "التقدم خطوة",
     "stepBack": "الرجوع خطوة",
     "seekForwardInstant": "تقديم فوري",
-    "seekBackInstant": "رجوع فوري"
+    "seekBackInstant": "رجوع فوري",
+    "addToQueue": "أضف إلى قائمة الانتظار",
+    "instantMix": "مزج فوري",
+    "addedToQueue": "{count, plural, one{تمت إضافة {count} مقطع إلى قائمة الانتظار} other{تمت إضافة {count} مقاطع إلى قائمة الانتظار}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerPlaybackOptionsTitle": "خيارات التشغيل",
+    "audioPlayerRepeatAll": "تكرار الكل",
+    "audioPlayerRepeatOff": "إيقاف التكرار",
+    "audioPlayerRepeatOne": "تكرار واحد",
+    "audioPlayerShuffle": "تشغيل عشوائي",
+    "showArtist": "عرض الفنان",
+    "track": "{count, plural, one{مقطع} other{مقاطع}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "{name} المضافة حديثاً",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{فنان} other{فنانون}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playMusic": "تشغيل الموسيقى",
+    "settingsPlayerPlayPauseFadeTitle": "تدرج الصوت عند التشغيل/الإيقاف",
+    "settingsPlayerPlayPauseFadeDesc": "تدرج مستوى الصوت عند التشغيل أو الإيقاف",
+    "syncPlaylistDeleteTitle": "حذف قائمة التشغيل المتزامنة",
+    "syncPlaylistDeleteContent": "هل تريد أيضاً إزالة المقاطع المتزامنة من هذه القائمة؟",
+    "syncPlaylistKeepTracks": "الاحتفاظ بالمقاطع",
+    "syncPlaylistRemoveTracks": "إزالة المقاطع",
+    "removedFromPlaylist": "تمت الإزالة من قائمة التشغيل {playlistName}",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerSettingsReplayGainTitle": "إعادة ضبط مستوى الصوت (ReplayGain)",
+    "playerSettingsReplayGainDesc": "موازنة مستوى صوت الموسيقى باستخدام وسوم ReplayGain.",
+    "playerSettingsReplayGainLevelTitle": "مستوى ReplayGain",
+    "playerSettingsReplayGainLevelDesc": "تحديد مستوى الصوت المستهدف لتطبيع ReplayGain. المعيار الشائع هو ‎-14 dB، لكن يمكنك تعديله حسب تفضيلك.",
+    "settingsPlayerCrossfadeTitle": "تدرج بين المقاطع (Crossfade)",
+    "settingsPlayerCrossfadeDesc": "تدرج بين المقاطع غير المتتالية في نفس الألبوم",
+    "settingsPlayerCrossfadeDurationTitle": "مدة التدرج",
+    "settingsPlayerCrossfadeDurationDesc": "مدة التدرج بين المقاطع",
+    "recentlyPlayed": "شُغّل مؤخراً",
+    "recentlyFavorited": "أُضيف للمفضلة مؤخراً",
+    "mostPlayed": "الأكثر تشغيلاً",
+    "nowPlaying": "يُشغّل الآن",
+    "upNext": "يعرض تالياً",
+    "queue": "قائمة الانتظار",
+    "queueIsEmpty": "قائمة الانتظار فارغة",
+    "queueItemCount": "{count} عناصر",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "إزالة من قائمة الانتظار",
+    "musicDashboard": "لوحة الموسيقى",
+    "quiet": "منخفض",
+    "loud": "مرتفع",
+    "pictureInPictureTitle": "صورة داخل صورة",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "صورة داخل صورة تلقائياً",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureSubtitle": "الدخول تلقائياً في وضع \"صورة داخل صورة\" عند مغادرة المشغّل. زر PiP في عناصر التحكم يعمل دائماً بغض النظر عن هذا الإعداد.",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "وضع \"صورة داخل صورة\" غير متاح على هذا الجهاز",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "quitMultipleWindowsDesc": "لديك {count} نوافذ مفتوحة. إغلاق Fladder سيغلقها جميعاً. هل تريد المتابعة؟",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "إغلاق النافذة",
+    "openJellyfinQuickConnect": "فتح Jellyfin QuickConnect",
+    "toggleSubtitles": "تبديل الترجمة",
+    "share": "مشاركة",
+    "authenticateWithBiometrics": "استخدم البيانات الحيوية لمصادقة {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "setAs": "تعيين كـ"
 }

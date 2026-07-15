@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,9 +12,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/photo_queue_source.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/providers/window_title_provider.dart';
 import 'package:fladder/screens/photo_viewer/photo_viewer_controls.dart';
 import 'package:fladder/screens/photo_viewer/simple_video_player.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
@@ -34,11 +37,11 @@ import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 class PhotoViewerScreen extends ConsumerStatefulWidget {
   final List<PhotoModel>? items;
   final String? selected;
-  final Future<List<PhotoModel>>? loadingItems;
+  final PhotoQueueSource? photoQueueSource;
   const PhotoViewerScreen({
     this.items,
     @QueryParam("selectedId") this.selected,
-    this.loadingItems,
+    this.photoQueueSource,
     super.key,
   });
 
@@ -56,7 +59,15 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
 
   late final double topPadding = MediaQuery.of(context).viewPadding.top;
   late final double bottomPadding = MediaQuery.of(context).viewPadding.bottom;
-  bool loadingItems = false;
+  int _totalPhotoCount = 0;
+  int _nextFetchStartIndex = 0;
+  bool _isFetchingMore = false;
+  bool _isFetchDepleted = false;
+  final Set<String> _loadedPhotoIds = {};
+
+  static const int _fetchThreshold = 5;
+
+  WindowTitleNotifier? _windowTitleNotifier;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
@@ -78,35 +89,19 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) async {
-        cacheNeighbors(currentPage, 2);
-        if (widget.loadingItems != null) {
-          setState(() {
-            loadingItems = true;
-          });
-
-          final newItems = await Future.value(widget.loadingItems);
-
-          if (context.mounted) {
-            setState(() {
-              if (photos.length == 1 && newItems.contains(photos.first)) {
-                photos = newItems;
-                currentPage = photos.indexWhere((value) => value.id == widget.selected).clamp(0, photos.length - 1);
-                controller.jumpToPage(currentPage);
-              } else {
-                photos = {...photos, ...newItems}.toList();
-              }
-              loadingItems = false;
-            });
-          }
-        }
-      },
-    );
+    _totalPhotoCount = photos.length;
+    _nextFetchStartIndex = photos.length;
+    _loadedPhotoIds.addAll(photos.map((p) => p.id));
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      _windowTitleNotifier = ref.read(windowTitleProvider.notifier);
+      cacheNeighbors(currentPage, 2);
+      await _fetchMorePhotos();
+    });
   }
 
   @override
   void dispose() {
+    _windowTitleNotifier?.removeTitle(this);
     controller.dispose();
     super.dispose();
   }
@@ -224,12 +219,18 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
           child: ExtendedImageGesturePageView.builder(
             itemCount: photos.length,
             controller: controller,
-            onPageChanged: (index) => setState(() {
-              currentPage = index;
-              cacheNeighbors(index, 3);
-              SystemChrome.setEnabledSystemUIMode(!showInterface ? SystemUiMode.leanBack : SystemUiMode.edgeToEdge,
-                  overlays: []);
-            }),
+            onPageChanged: (index) {
+              setState(() {
+                currentPage = index;
+                cacheNeighbors(index, 3);
+                SystemChrome.setEnabledSystemUIMode(!showInterface ? SystemUiMode.leanBack : SystemUiMode.edgeToEdge,
+                    overlays: []);
+              });
+              if (photos.length - index <= _fetchThreshold) {
+                unawaited(_fetchMorePhotos());
+              }
+              _windowTitleNotifier?.updateTitle(this, "${context.localized.mediaTypePhoto(1)} - ${currentPhoto.title}");
+            },
             itemBuilder: (context, index) {
               final photo = photos[index];
               return ExtendedImage(
@@ -313,7 +314,8 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
               padding: EdgeInsets.only(top: topPadding, bottom: bottomPadding),
               currentIndex: currentPage,
               itemCount: photos.length,
-              loadingMoreItems: loadingItems,
+              loadingMoreItems: _isFetchingMore,
+              totalPhotoCount: _totalPhotoCount,
               pageController: controller,
               photo: currentPhoto,
               toggleOverlay: (value) => setState(() => showInterface = value ?? !showInterface),
@@ -515,6 +517,32 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
       photos.insert(
           index, photo.copyWith(userData: photo.userData.copyWith(isFavourite: value ?? !photo.userData.isFavourite)));
     });
+  }
+
+  Future<void> _fetchMorePhotos() async {
+    if (_isFetchingMore || _isFetchDepleted || widget.photoQueueSource == null) return;
+    setState(() => _isFetchingMore = true);
+    try {
+      final result = await widget.photoQueueSource!.fetchPhotos(
+        ref.read,
+        startIndex: _nextFetchStartIndex,
+      );
+      if (!mounted) return;
+      final newPhotos = result.items.where((p) => !_loadedPhotoIds.contains(p.id)).toList();
+      _loadedPhotoIds.addAll(result.items.map((p) => p.id));
+      _nextFetchStartIndex += result.items.length;
+      setState(() {
+        _totalPhotoCount = result.totalCount;
+        photos.addAll(newPhotos);
+        if (result.items.isEmpty || _nextFetchStartIndex >= result.totalCount) {
+          _isFetchDepleted = true;
+        }
+      });
+    } catch (e, stackTrace) {
+      log('Photo queue fetch error: $e\n$stackTrace');
+    } finally {
+      if (mounted) setState(() => _isFetchingMore = false);
+    }
   }
 
   void cacheNeighbors(int index, int range) {

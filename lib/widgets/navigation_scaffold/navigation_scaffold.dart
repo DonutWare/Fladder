@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide ConnectionState;
 
@@ -8,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
-import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/providers/window_title_provider.dart';
@@ -25,7 +22,8 @@ import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.d
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_drawer.dart';
 import 'package:fladder/widgets/shared/animated_visibility.dart';
 import 'package:fladder/widgets/shared/hide_on_scroll.dart';
-import 'package:fladder/widgets/shared/offline_banner.dart';
+import 'package:fladder/widgets/shared/status_banners.dart';
+import 'package:fladder/widgets/split_area/split_area.dart';
 
 class NavigationScaffold extends ConsumerStatefulWidget {
   final String? currentRouteName;
@@ -56,6 +54,9 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((value) {
       ref.read(viewsProvider.notifier).fetchViews();
+      context.router.addListener(() {
+        _key.currentState?.closeDrawer();
+      });
     });
   }
 
@@ -84,7 +85,6 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     final isDesktop = AdaptiveLayout.of(context).isDesktop || kIsWeb;
 
     final mediaQuery = MediaQuery.of(context);
-    final theme = Theme.of(context);
 
     final paddingOf = mediaQuery.padding;
     final viewPaddingOf = mediaQuery.viewPadding;
@@ -92,10 +92,6 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     final bottomPadding = isDesktop ? 12.0 : paddingOf.bottom;
     final bottomViewPadding = isDesktop ? 12.0 : viewPaddingOf.bottom;
     final isHomeScreen = currentIndex != -1;
-
-    final isOffline = ref.watch(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
-
-    final offlineMessageHeight = isOffline && !isDesktop ? 18 : 0;
 
     final calculatedBottomViewPadding =
         showPlayerBar ? floatingPlayerHeight(context) + bottomViewPadding : bottomViewPadding;
@@ -123,11 +119,11 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                 : null,
         drawer: !showAudioFullScreen && homeRoutes.any((element) => element.name.contains(currentLocation))
             ? NestedNavigationDrawer(
-                actionButton: null,
                 toggleExpanded: (value) => _key.currentState?.closeDrawer(),
                 views: views,
                 destinations: widget.destinations,
                 currentLocation: currentLocation,
+                currentIndex: currentIndex,
               )
             : null,
         bottomNavigationBar: AnimatedVisibility(
@@ -177,8 +173,6 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
           )
         : const SizedBox.shrink();
 
-    final offlineMessagePadding = max((kToolbarHeight), MediaQuery.of(context).padding.top) + offlineMessageHeight;
-
     return PopScope(
       canPop: !showAudioOverlay && currentIndex == 0,
       onPopInvokedWithResult: (didPop, result) {
@@ -197,7 +191,6 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
             child: MediaQuery(
               data: mediaQuery.copyWith(
                 padding: paddingOf.copyWith(
-                  top: offlineMessagePadding,
                   bottom: showPlayerBar ? floatingPlayerHeight(context) + 12 + bottomPadding : bottomPadding,
                 ),
                 viewPadding: viewPaddingOf.copyWith(
@@ -205,29 +198,27 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                   bottom: calculatedBottomViewPadding,
                 ),
               ),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final panelWidth = constraints.maxWidth / 3;
-                  return Row(
-                    children: [
-                      Expanded(
-                        child: buildMainScaffold(context),
-                      ),
-                      AnimatedSize(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        child: SizedBox(
-                          width: showAudioSidePanel ? panelWidth : 0,
-                          height: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 6.0),
-                            child: audioOverlay,
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
+              child: SplitArea(
+                axis: Axis.horizontal,
+                areas: [
+                  Area(
+                    initialArea: 0.7,
+                  ),
+                  Area(
+                    initialArea: 0.3,
+                    minArea: 0.2,
+                    maxArea: 0.5,
+                    constraints: const BoxConstraints(minWidth: 200, maxWidth: 500),
+                  ),
+                ],
+                children: [
+                  buildMainScaffold(context),
+                  if (showAudioSidePanel)
+                    SizedBox(
+                      width: double.infinity,
+                      child: audioOverlay,
+                    ),
+                ],
               ),
             ),
           ),
@@ -241,32 +232,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
             ),
           ),
           if (showAudioOverlay) audioOverlay,
-          if (!AdaptiveLayout.of(context).isDesktop)
-            Align(
-              alignment: Alignment.topCenter,
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 250),
-                opacity: isOffline ? 1 : 0,
-                child: Container(
-                  height: offlineMessagePadding,
-                  alignment: Alignment.bottomCenter,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        theme.colorScheme.errorContainer.withValues(alpha: 0.8),
-                        theme.colorScheme.errorContainer.withValues(alpha: 0.25),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: offlineMessageHeight / 2),
-                    child: const OfflineBanner(),
-                  ),
-                ),
-              ),
-            ),
+          if (!AdaptiveLayout.of(context).isDesktop) const Align(alignment: Alignment.topCenter, child: StatusBanners())
         ],
       ),
     );

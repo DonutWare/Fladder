@@ -722,7 +722,7 @@
     "shadow": "Cień",
     "theme": "Motyw",
     "settingsVisual": "Wizualne",
-    "showDetails": "Pokaż detale",
+    "showDetails": "Pokaż szczegóły",
     "themeColor": "Kolor motywu",
     "addToNewPlaylist": "Nowa playlista",
     "syncDeleteItemDesc": "Czy chcesz usunąć wszystkie pobrane dane dla {item}?",
@@ -1027,7 +1027,7 @@
     "segmentActionSkipOnce": "Pomiń raz",
     "exitFladderDesc": "Czy jesteś pewien, że chcesz zamknąć Fladdera?",
     "castAndCrew": "Obsada i Ekipa",
-    "guestActor": "{count, plural, one{Gość-Aktor} few{Goście-Aktorzy} many{Gości-Aktorów} other{Gości-Aktorów}}",
+    "guestActor": "{count, plural, one{Aktor gościnny} few{Aktorzy gościnni} many{Aktorzy gościnni} other{Aktorzy gościnni}}",
     "@guestActor": {
         "description": "Guest actors",
         "placeholders": {
@@ -1046,8 +1046,8 @@
     "rememberAudioSelectionsDesc": "Spróbuj ustawić ścieżkę audio na najbliższe trafienie do ostatniego wideo.",
     "similarToRecentlyPlayed": "Po obejrzeniu",
     "similarToLikedItem": "Bo polubiono",
-    "hasDirectorFromRecentlyPlayed": "Ma reżysera z niedawno odtwarzanych",
-    "hasActorFromRecentlyPlayed": "Ma aktora z niedawno odtwarzanych",
+    "hasDirectorFromRecentlyPlayed": "Ma reżysera z ostatnio odtwarzanych",
+    "hasActorFromRecentlyPlayed": "Ma aktora z ostatnio odtwarzanych",
     "hasLikedDirector": "Ma polubionych reżyserów",
     "hasLikedActor": "Ma polubionych aktorów",
     "playbackTypeOffline": "Offline",
@@ -1474,7 +1474,7 @@
             }
         }
     },
-    "recentlyAdded": "Niedawno dodane",
+    "recentlyAdded": "Ostatnio dodano",
     "recentRequests": "Ostatnie żądania",
     "trending": "Popularne",
     "popularMovies": "Popularne filmy",
@@ -1931,5 +1931,132 @@
     "seerrMovies": "Odkryj filmy",
     "seerrSeries": "Odkryj seriale",
     "seekForwardInstant": "Przewiń do przodu (natychmiast)",
-    "seekBackInstant": "Przewiń do tyłu (natychmiast)"
+    "seekBackInstant": "Przewiń do tyłu (natychmiast)",
+    "addToQueue": "Dodaj do kolejki",
+    "audioPlayerPlaybackOptionsTitle": "Ustawienia odtwarzania",
+    "audioPlayerRepeatAll": "Powtarzaj wszystkie",
+    "audioPlayerRepeatOff": "Powtarzanie wyłączone",
+    "audioPlayerRepeatOne": "Powtarzaj jeden",
+    "audioPlayerShuffle": "Miksuj",
+    "showArtist": "Pokaż artystę",
+    "queue": "Kolejka",
+    "queueIsEmpty": "Kolejka jest pusta",
+    "queueItemCount": "{count} elementów",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "Usuń z kolejki",
+    "quiet": "Cicho",
+    "loud": "Głośno",
+    "musicDashboard": "Panel muzyczny",
+    "nowPlaying": "Teraz gra",
+    "upNext": "Za chwilę",
+    "mostPlayed": "Najczęściej odtwarzane",
+    "recentlyFavorited": "Ostatnio polubione",
+    "recentlyPlayed": "Ostatnio odtwarzane",
+    "settingsPlayerCrossfadeDurationDesc": "Czas trwania przejścia między utworami",
+    "playMusic": "Odtwórz muzykę",
+    "share": "Udostępnij",
+    "toggleSubtitles": "Przełącz napisy",
+    "setAs": "Ustaw jako",
+    "openJellyfinQuickConnect": "Otwórz Jellyfin QuickConnect",
+    "closeWindow": "Zamknij okno",
+    "quitMultipleWindowsDesc": "Masz otwartych {count} okien. Zamknięcie Fladdera spowoduje zamknięcie ich wszystkich. Czy chcesz kontynuować?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "settingsPlayerCrossfadeDurationTitle": "Czas trwania zanikania",
+    "settingsPlayerCrossfadeDesc": "Zanikanie między utworami, które nie występują jeden po drugim na tym samym albumie",
+    "settingsPlayerCrossfadeTitle": "Zanikanie",
+    "playerSettingsReplayGainLevelDesc": "Ustaw docelowy poziom głośności dla normalizacji wyrównywania głośności. Typowym standardem jest -14 dB, ale możesz go dostosować do swoich preferencji.",
+    "playerSettingsReplayGainLevelTitle": "Poziom wyrównywania głośności",
+    "playerSettingsReplayGainDesc": "Normalizuj głośność muzyki korzystając z tagów zdefiniowanych w utworze.",
+    "playerSettingsReplayGainTitle": "Wyrównywanie głośności",
+    "removedFromPlaylist": "Usunięto z playlisty {playlistName}",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "pictureInPictureNotSupported": "Funkcja obrazu w obrazie nie jest dostępna na tym urządzeniu",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "pictureInPictureSubtitle": "Automatycznie włączaj tryb obrazu w obrazie po wyjściu z odtwarzacza. Przycisk jednakże w elementach sterujących zawsze działa, niezależnie od tego ustawienia.",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureAutoTitle": "Automatyczny obraz w obrazie",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureTitle": "Obraz w obrazie",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "syncPlaylistRemoveTracks": "Usuń utwory",
+    "syncPlaylistKeepTracks": "Zachowaj utwory",
+    "syncPlaylistDeleteContent": "Czy chcesz również usunąć utwory zsynchronizowane z tą playlistą?",
+    "syncPlaylistDeleteTitle": "Usuń zsynchronizowaną listę odtwarzania",
+    "settingsPlayerPlayPauseFadeDesc": "Zwiększanie i zmniejszanie głośności podczas odtwarzania lub pauzy",
+    "authenticateWithBiometrics": "Użyj biometrii do uwierzytelnienia {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "track": "{count, plural, one{Utwór} few {Utwory} other{Utworów}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "Ostatnio dodane {name}",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{Artysta} few {Artystów} other{Artystów}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "instantMix": "Mieszanka",
+    "addedToQueue": "{count, plural, one{Dodano {count} utwór do kolejki} few{Dodano {count} utwory do kolejki} other{Dodano {count} utworów do kolejki}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "settingsPlayerPlayPauseFadeTitle": "Zanikanie głośności przy pauzie"
 }

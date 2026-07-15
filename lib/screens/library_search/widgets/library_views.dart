@@ -339,7 +339,12 @@ class LibraryViews extends ConsumerWidget {
   }
 
   Future<void> onItemPressed(
-      Function() action, Key? key, ItemBaseModel item, WidgetRef ref, BuildContext context) async {
+    Function() action,
+    Key? key,
+    ItemBaseModel item,
+    WidgetRef ref,
+    BuildContext context,
+  ) async {
     final selectMode = ref.read(librarySearchProvider(key!).select((value) => value.selecteMode));
     if (selectMode) {
       ref.read(librarySearchProvider(key).notifier).toggleSelection(item);
@@ -351,7 +356,7 @@ class LibraryViews extends ConsumerWidget {
         if (context.mounted) {
           await context.router.push(PhotoViewerRoute(
             items: photoList,
-            loadingItems: ref.read(librarySearchProvider(key).notifier).fetchGallery(),
+            photoQueueSource: ref.read(librarySearchProvider(key).notifier).createPhotoQueueSource(shuffle: false),
             selected: item.id,
           ));
         }

@@ -838,7 +838,7 @@
     },
     "noVideoPlayerOptions": "所选的后端没有设置项",
     "mdkExperimental": "MDK 仍处于实验阶段",
-    "playerSettingsBackendTitle": "视频播放器后端",
+    "playerSettingsBackendTitle": "媒体播放器后端",
     "playerSettingsBackendDesc": "选择您喜好的媒体播放器以获得最佳播放体验",
     "skipButtonLabel": "跳过 {segment}",
     "@skipButtonLabel": {
@@ -906,7 +906,7 @@
     "settingsPlayerBufferSizeTitle": "视频缓冲区大小",
     "maxConcurrentDownloadsTitle": "最大并发下载",
     "maxConcurrentDownloadsDesc": "设置可同时运行的最大下载数量。设置为 0 则禁用限制。",
-    "playbackTrackSelection": "播放轨道选择",
+    "playbackTrackSelection": "播放曲目选择",
     "rememberAudioSelections": "根据上一项设置音轨",
     "rememberAudioSelectionsDesc": "尝试将音轨设置为与上一个视频最接近的匹配。",
     "rememberSubtitleSelections": "根据上一项设置字幕轨",
@@ -1950,5 +1950,146 @@
     "stepForward": "向前",
     "stepBack": "向后",
     "seekForwardInstant": "向前（即时）",
-    "seekBackInstant": "向后（即时）"
+    "seekBackInstant": "向后（即时）",
+    "addToQueue": "添加到队列",
+    "addedToQueue": "{count, plural, one{已将 {count} 首曲目添加到队列} other{已将 {count} 首曲目添加到队列}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerPlaybackOptionsTitle": "播放选项",
+    "audioPlayerRepeatOne": "重复一次",
+    "audioPlayerRepeatAll": "重复所有",
+    "audioPlayerRepeatOff": "关闭重复",
+    "instantMix": "即时混音",
+    "audioPlayerShuffle": "随机",
+    "showArtist": "表演艺术家",
+    "track": "{count, plural, one{曲目} other{曲目}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "syncPlaylistDeleteContent": "您是否也想删除此播放列表中同步的曲目？",
+    "syncPlaylistKeepTracks": "保持曲目",
+    "syncPlaylistRemoveTracks": "删除曲目",
+    "settingsPlayerCrossfadeDesc": "同一张专辑中不连续的曲目之间使用淡入淡出效果",
+    "dashboardRecentlyAddedItems": "最近添加 {name}",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{艺术家} other{艺术家}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playMusic": "播放音乐",
+    "settingsPlayerPlayPauseFadeTitle": "播放/暂停音量渐弱",
+    "settingsPlayerPlayPauseFadeDesc": "播放或暂停时音量逐渐增大或减小",
+    "syncPlaylistDeleteTitle": "删除同步播放列表",
+    "removedFromPlaylist": "已从 {playlistName} 播放列表中移除",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerSettingsReplayGainTitle": "回放增益",
+    "playerSettingsReplayGainDesc": "使用回放增益标签对音乐音量进行标准化。",
+    "playerSettingsReplayGainLevelTitle": "回放增益等级",
+    "playerSettingsReplayGainLevelDesc": "设置回放增益等级，标准化的目标响度级别。通常的标准是 - 14分贝，但您可以根据自己的喜好进行调整。",
+    "settingsPlayerCrossfadeTitle": "淡入淡出",
+    "settingsPlayerCrossfadeDurationTitle": "淡入淡出持续时间",
+    "settingsPlayerCrossfadeDurationDesc": "淡入淡出持续时间",
+    "recentlyPlayed": "最近播放",
+    "recentlyFavorited": "最近收藏",
+    "mostPlayed": "最多播放",
+    "nowPlaying": "正在播放",
+    "upNext": "接下来",
+    "queue": "队列",
+    "queueIsEmpty": "队列为空",
+    "queueItemCount": "{count} 项目",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "从队列中移除",
+    "musicDashboard": "音乐控制台",
+    "quiet": "静音",
+    "loud": "响亮",
+    "pictureInPictureTitle": "画中画",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "自动画中画",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureSubtitle": "离开播放器时自动进入画中画模式。无论此设置如何，控制面板中的画中画按钮始终有效。",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "此设备不支持画中画功能",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "quitMultipleWindowsDesc": "您目前打开了 {count} 个窗口。退出 Fladder 将关闭所有窗口。是否继续？",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "关闭窗口",
+    "openJellyfinQuickConnect": "打开 Jellyfin 快速连接器",
+    "toggleSubtitles": "切换字幕",
+    "share": "分享",
+    "authenticateWithBiometrics": "使用生物识别技术进行身份验证 {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "setAs": "设置为",
+    "posterColorsTitle": "生成的海报颜色",
+    "posterColorsDesc": "使用生成的颜色作为海报颜色，以替代默认颜色",
+    "selectRandom": "随机选择",
+    "stopSelection": "停止选择 {count} 个项目",
+    "@stopSelection": {
+        "description": "stopSelection",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "playItems": "播放项目",
+    "shuffleItems": "随机排列项目"
 }

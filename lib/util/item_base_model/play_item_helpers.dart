@@ -18,8 +18,8 @@ import 'package:fladder/models/items/album_model.dart';
 import 'package:fladder/models/items/artist_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
-import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/tv_playback_model.dart';
 import 'package:fladder/models/video_stream_model.dart';
@@ -90,7 +90,7 @@ extension PhotoAlbumExtension on PhotoAlbumModel? {
     final api = ref.read(jellyApiProvider);
     final op = CancelableOperation.fromFuture(api.itemsGet(
         parentId: albumModel.id,
-        includeItemTypes: FladderItemType.galleryItem.map((e) => e.dtoKind).toList(),
+        includeItemTypes: FladderItemType.galleryItem.map((e) => e.dtoKind).expand((e) => e).toList(),
         recursive: true));
 
     _showLoadingIndicator(context, albumModel, op);
@@ -180,52 +180,6 @@ extension ChannelModelExtension on ChannelModel? {
       ref: ref,
       cancelOperation: op,
     );
-  }
-}
-
-extension AlbumModelAudioPlayback on AlbumModel? {
-  Future<void> play(
-    BuildContext context,
-    WidgetRef ref, {
-    Duration? startPosition,
-    bool showPlaybackOption = false,
-  }) async {
-    final album = this;
-    if (album == null) return;
-
-    await ref.read(videoPlayerProvider.notifier).init();
-
-    final queue = await _fetchAlbumQueue(album, ref);
-    if (queue.isEmpty) {
-      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
-      return;
-    }
-
-    final op = CancelableOperation.fromFuture(ref.read(playbackModelHelper).createPlaybackModel(
-          context,
-          queue.first,
-          libraryQueue: queue,
-          showPlaybackOptions: showPlaybackOption,
-          startPosition: startPosition,
-        ));
-
-    final model = await op.valueOrCancellation(null);
-    if (op.isCanceled || model == null) {
-      if (!op.isCanceled && !showPlaybackOption) {
-        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
-      }
-      return;
-    }
-
-    final currentIndex = queue.indexWhere((element) => element.id == model.item.id).clamp(0, queue.length - 1);
-    final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
-
-    await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
-          model,
-          queue,
-          currentIndex,
-          actualStartPosition,
-        );
   }
 }
 
@@ -377,6 +331,50 @@ extension AudioModelListPlayback on List<AudioModel> {
 }
 
 extension AlbumModelInstantMixPlayback on AlbumModel? {
+  Future<void> play(
+    BuildContext context,
+    WidgetRef ref, {
+    Duration? startPosition,
+    bool showPlaybackOption = false,
+  }) async {
+    final album = this;
+    if (album == null) return;
+
+    await ref.read(videoPlayerProvider.notifier).init();
+
+    final queue = await _fetchAlbumQueue(album, ref);
+    if (queue.isEmpty) {
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      return;
+    }
+
+    final op = CancelableOperation.fromFuture(ref.read(playbackModelHelper).createPlaybackModel(
+          context,
+          queue.first,
+          libraryQueue: queue,
+          showPlaybackOptions: showPlaybackOption,
+          startPosition: startPosition,
+        ));
+
+    final model = await op.valueOrCancellation(null);
+    if (op.isCanceled || model == null) {
+      if (!op.isCanceled && !showPlaybackOption) {
+        FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      }
+      return;
+    }
+
+    final currentIndex = queue.indexWhere((element) => element.id == model.item.id).clamp(0, queue.length - 1);
+    final actualStartPosition = startPosition ?? await model.startDuration() ?? Duration.zero;
+
+    await ref.read(videoPlayerProvider.notifier).loadAudioPlaybackItem(
+          model,
+          queue,
+          currentIndex,
+          actualStartPosition,
+        );
+  }
+
   Future<void> playInstantMix(
     BuildContext context,
     WidgetRef ref, {
@@ -393,6 +391,22 @@ extension AlbumModelInstantMixPlayback on AlbumModel? {
       startPosition: startPosition,
       showPlaybackOption: showPlaybackOption,
     );
+  }
+
+  Future<void> addToQueue(BuildContext context, WidgetRef ref) async {
+    final album = this;
+    if (album == null) return;
+
+    final queue = await _fetchAlbumQueue(album, ref);
+    if (queue.isEmpty) {
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
+      return;
+    }
+
+    await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue(queue);
+    if (context.mounted) {
+      FladderSnack.show(context.localized.addedToQueue(queue.length), context: context);
+    }
   }
 }
 
@@ -436,24 +450,6 @@ extension AudioModelInstantMixPlayback on AudioModel? {
   }
 }
 
-extension AlbumModelAddToQueue on AlbumModel? {
-  Future<void> addToQueue(BuildContext context, WidgetRef ref) async {
-    final album = this;
-    if (album == null) return;
-
-    final queue = await _fetchAlbumQueue(album, ref);
-    if (queue.isEmpty) {
-      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
-      return;
-    }
-
-    await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue(queue);
-    if (context.mounted) {
-      FladderSnack.show(context.localized.addedToQueue(queue.length), context: context);
-    }
-  }
-}
-
 extension AudioModelAddToQueue on AudioModel? {
   Future<void> addToQueue(BuildContext context, WidgetRef ref) async {
     final audio = this;
@@ -492,17 +488,12 @@ Future<List<ItemBaseModel>> _fetchAlbumQueue(AlbumModel album, WidgetRef ref) as
         enableImages: true,
         imageTypeLimit: 1,
         fields: [ItemFields.primaryimageaspectratio, ItemFields.mediasources, ItemFields.mediastreams],
-        sortBy: [ItemSortBy.sortname],
+        sortBy: [ItemSortBy.sortname, ItemSortBy.parentindexnumber],
         sortOrder: [SortOrder.ascending],
         limit: 200,
       );
 
   final tracks = response.body?.items.whereType<AudioModel>().toList() ?? [];
-  tracks.sort((a, b) {
-    final aIndex = a.trackNumber ?? 0;
-    final bIndex = b.trackNumber ?? 0;
-    return aIndex.compareTo(bIndex);
-  });
   return tracks;
 }
 
@@ -519,17 +510,12 @@ Future<List<ItemBaseModel>> _fetchAudioTrackQueue(AudioModel audio, WidgetRef re
         enableImages: true,
         imageTypeLimit: 1,
         fields: [ItemFields.primaryimageaspectratio, ItemFields.mediasources, ItemFields.mediastreams],
-        sortBy: [ItemSortBy.sortname],
+        sortBy: [ItemSortBy.sortname, ItemSortBy.parentindexnumber],
         sortOrder: [SortOrder.ascending],
         limit: 200,
       );
 
   final tracks = response.body?.items.whereType<AudioModel>().toList() ?? [];
-  tracks.sort((a, b) {
-    final aIndex = a.trackNumber ?? 0;
-    final bIndex = b.trackNumber ?? 0;
-    return aIndex.compareTo(bIndex);
-  });
 
   if (tracks.isEmpty) {
     return [audio];
@@ -591,6 +577,7 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
         PhotoAlbumModel album => album.play(context, ref),
         AlbumModel album => album.play(context, ref),
         AudioModel audio => audio.play(context, ref),
+        ArtistModel artist => artist.playLatestTracks(context, ref),
         PlaylistModel playlist => playlist.play(
             context,
             ref,

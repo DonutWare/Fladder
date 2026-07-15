@@ -22,16 +22,17 @@ import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
 import 'package:fladder/screens/video_player/components/audio_player_queue_dialog.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/widgets/shared/button_group.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 import 'package:fladder/widgets/shared/theme_overwrite.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 
@@ -133,8 +134,9 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
 
     final isFavourite = currentItem.userData.isFavourite;
 
+    final isSingleLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
+
     void closeFullScreen({bool force = false}) {
-      final isSingleLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
       if (isSingleLayout || force) {
         ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.minimized));
       } else {
@@ -277,50 +279,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
       );
     }
 
-    Widget playbackOptions(BuildContext context) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.localized.audioPlayerPlaybackOptionsTitle,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 4,
-            runSpacing: 4,
-            alignment: WrapAlignment.center,
-            runAlignment: WrapAlignment.center,
-            children: [
-              ExpressiveButton(
-                icon: const Icon(IconsaxPlusBold.shuffle),
-                label: Text(context.localized.audioPlayerShuffle),
-                isSelected: playbackInfo.shuffleEnabled,
-                onPressed: () => ref.read(videoPlayerProvider).setShuffleEnabled(!playbackInfo.shuffleEnabled),
-              ),
-              ExpressiveButton(
-                icon: Icon(playbackInfo.repeatMode == AudioRepeatMode.one
-                    ? IconsaxPlusBold.repeate_one
-                    : IconsaxPlusBold.repeate_music),
-                label: Text(playbackInfo.repeatMode == AudioRepeatMode.off
-                    ? context.localized.audioPlayerRepeatOff
-                    : playbackInfo.repeatMode == AudioRepeatMode.one
-                        ? context.localized.audioPlayerRepeatOne
-                        : context.localized.audioPlayerRepeatAll),
-                isSelected: playbackInfo.repeatMode != AudioRepeatMode.off,
-                onPressed: () {
-                  ref.read(videoPlayerProvider).setAudioRepeatMode(
-                        playbackInfo.repeatMode.next,
-                      );
-                },
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-
-    Widget queuePreview(BuildContext context) {
+    List<Widget> queuePreview(BuildContext context) {
       Widget sectionHeader({
         required IconData icon,
         required String title,
@@ -410,17 +369,20 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
           child: ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
             minLeadingWidth: 0,
-            leading: ClipOval(
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: FladderImage(
-                  image: item.images?.primary,
-                  fit: BoxFit.cover,
-                  placeHolder: const Center(child: Icon(Icons.music_note_rounded, size: 20)),
-                  imageErrorBuilder: (context, error, stack) =>
-                      const Center(child: Icon(Icons.music_note_rounded, size: 20)),
-                ),
+            leading: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: FladderTheme.smallShape.borderRadius,
+                color: Theme.of(context).colorScheme.surfaceContainer,
+              ),
+              clipBehavior: Clip.hardEdge,
+              child: FladderImage(
+                image: item.images?.primary,
+                fit: BoxFit.cover,
+                placeHolder: const Center(child: Icon(Icons.music_note_rounded, size: 20)),
+                imageErrorBuilder: (context, error, stack) =>
+                    const Center(child: Icon(Icons.music_note_rounded, size: 20)),
               ),
             ),
             title: Text(
@@ -441,99 +403,140 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
         );
       }
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                context.localized.queue,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              if (showQueueRefillIndicator) ...[
-                const SizedBox(width: 8),
-                const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-              ],
-              const Spacer(),
-              if (queueCount > 0)
-                IconButton(
-                  onPressed: () {
-                    showAudioQueueDialog(
-                      context,
-                      onSectionReorder: (section, oldIndex, newIndex) {
-                        return ref.read(videoPlayerProvider.notifier).reorderAudioQueueSection(
-                              section,
-                              oldIndex,
-                              newIndex,
-                            );
-                      },
-                      playSelected: ref.read(videoPlayerProvider.notifier).playAudioQueueItem,
-                    );
-                  },
-                  icon: const Icon(IconsaxPlusLinear.row_vertical),
-                ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          if (nowPlaying == null)
-            Text(
-              context.localized.queueIsEmpty,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
-            )
-          else ...[
-            if (nextUpItems.isNotEmpty) ...[
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest.withAlpha(175),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
+      return [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    sectionHeader(
-                      icon: IconsaxPlusBold.music_playlist,
-                      title: context.localized.upNext,
-                      trailing: IconButton(
-                        tooltip: context.localized.clear,
-                        onPressed: () async {
-                          await ref.read(videoPlayerProvider.notifier).clearTemporaryQueue();
-                        },
-                        icon: const Icon(Icons.clear_all_rounded),
-                      ),
+                    Text(
+                      context.localized.queue,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                     ),
-                    ...nextUpItems.map((item) => queueItem(item)),
-                    const SizedBox(height: 8),
+                    if (showQueueRefillIndicator) ...[
+                      const SizedBox(width: 8),
+                      const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    ],
+                    const Spacer(),
+                    if (queueCount > 0)
+                      IconButton(
+                        onPressed: () {
+                          showAudioQueueDialog(
+                            context,
+                            onSectionReorder: (section, oldIndex, newIndex) {
+                              return ref.read(videoPlayerProvider.notifier).reorderAudioQueueSection(
+                                    section,
+                                    oldIndex,
+                                    newIndex,
+                                  );
+                            },
+                            playSelected: ref.read(videoPlayerProvider.notifier).playAudioQueueItem,
+                          );
+                        },
+                        icon: const Icon(IconsaxPlusLinear.row_vertical),
+                      ),
                   ],
                 ),
-              )
-            ],
-            if (existingItems.isEmpty)
-              Opacity(
-                opacity: 0.6,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Text(
+                const SizedBox(height: 8),
+                if (nowPlaying == null)
+                  Text(
                     context.localized.queueIsEmpty,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  )
+              ],
+            ),
+          ),
+        ),
+        if (nextUpItems.isNotEmpty) ...[
+          SliverToBoxAdapter(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface.withAlpha(175),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  sectionHeader(
+                    icon: IconsaxPlusBold.music_playlist,
+                    title: context.localized.upNext,
+                    trailing: IconButton(
+                      tooltip: context.localized.clear,
+                      onPressed: () async {
+                        await ref.read(videoPlayerProvider.notifier).clearTemporaryQueue();
+                      },
+                      icon: const Icon(Icons.clear_all_rounded),
+                    ),
                   ),
-                ),
-              )
-            else
-              ...existingItems.map((item) => queueItem(item)),
-          ],
+                  ...nextUpItems.map(
+                    (e) {
+                      return queueItem(e, canRemove: true);
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
         ],
-      );
+        if (existingItems.isEmpty)
+          SliverToBoxAdapter(
+            child: Opacity(
+              opacity: 0.6,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                child: Text(
+                  context.localized.queueIsEmpty,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+            ),
+          )
+        else
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final item = existingItems[index];
+                  return queueItem(item);
+                },
+                childCount: existingItems.length,
+              ),
+            ),
+          ),
+      ];
     }
 
     Widget albumArt(BuildContext context, {double size = 512}) {
       final audioType = FladderItemType.audio;
+      final itemActions = currentItem.generateActions(
+        context,
+        ref,
+        exclude: {
+          ItemActions.play,
+          ItemActions.showAlbum,
+          ItemActions.details,
+          ItemActions.openParent,
+          ItemActions.openShow,
+          ItemActions.refreshMetaData,
+        },
+        onUserDataChanged: (newData) {
+          if (newData == null) return;
+          ref.read(playBackModel.notifier).update(
+                (state) => state?.updateUserData(newData),
+              );
+        },
+      );
       return Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -548,36 +551,25 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                     closeFullScreen();
                     currentItem.navigateTo(context, ref: ref, tag: 'album');
                   },
-                  onSecondaryTapDown: (details) {
-                    final itemActions = currentItem.generateActions(
-                      context,
-                      ref,
-                      exclude: {
-                        ItemActions.play,
-                        ItemActions.showAlbum,
-                        ItemActions.details,
-                        ItemActions.openParent,
-                        ItemActions.openShow,
-                        ItemActions.refreshMetaData,
-                      },
-                      onUserDataChanged: (newData) {
-                        if (newData == null) return;
-                        ref.read(playBackModel.notifier).update(
-                              (state) => state?.updateUserData(newData),
-                            );
-                      },
-                    );
-                    showMenu(
-                      context: context,
-                      position: RelativeRect.fromLTRB(
-                        details.globalPosition.dx,
-                        details.globalPosition.dy,
-                        details.globalPosition.dx,
-                        details.globalPosition.dy,
-                      ),
-                      items: itemActions.popupMenuItems(useIcons: true),
-                    );
-                  },
+                  onLongPress: () => showBottomSheetPill(
+                    context: context,
+                    item: currentItem,
+                    content: (scrollContext, scrollController) => ListView(
+                      shrinkWrap: true,
+                      controller: scrollController,
+                      children: itemActions.listTileItems(scrollContext, useIcons: true),
+                    ),
+                  ),
+                  onSecondaryTapDown: (details) => showMenu(
+                    context: context,
+                    position: RelativeRect.fromLTRB(
+                      details.globalPosition.dx,
+                      details.globalPosition.dy,
+                      details.globalPosition.dx,
+                      details.globalPosition.dy,
+                    ),
+                    items: itemActions.popupMenuItems(useIcons: true),
+                  ),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
@@ -625,8 +617,8 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
         },
         child: ThemeOverwrite(
           color: dominantColor,
-          child: (context) => Scaffold(
-            body: Stack(
+          child: (context) => Material(
+            child: Stack(
               children: [
                 Container(
                   width: double.infinity,
@@ -646,7 +638,8 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                     ),
                   ),
                 ),
-                SafeArea(
+                Padding(
+                  padding: isSingleLayout ? MediaQuery.paddingOf(context) : const EdgeInsets.symmetric(vertical: 16),
                   child: Column(
                     children: [
                       Padding(
@@ -673,7 +666,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                         child: CustomScrollView(
                           slivers: [
                             SliverPadding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                              padding: const EdgeInsets.all(8.0),
                               sliver: SliverPersistentHeader(
                                 pinned: true,
                                 delegate: _AudioPlayerHeaderDelegate(
@@ -692,19 +685,22 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                                       child: Stack(
                                         fit: StackFit.expand,
                                         children: [
-                                          IgnorePointer(
-                                            ignoring: transitionProgress > 0.15,
-                                            child: Opacity(
-                                              opacity: 1 - transitionProgress,
-                                              child: SingleChildScrollView(
-                                                physics: const NeverScrollableScrollPhysics(),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    albumArt(context, size: 300),
-                                                    const SizedBox(height: 18),
-                                                    buildMetadata(context),
-                                                  ],
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                                            child: IgnorePointer(
+                                              ignoring: transitionProgress > 0.15,
+                                              child: Opacity(
+                                                opacity: 1 - transitionProgress,
+                                                child: SingleChildScrollView(
+                                                  physics: const NeverScrollableScrollPhysics(),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      albumArt(context, size: 300),
+                                                      const SizedBox(height: 18),
+                                                      buildMetadata(context),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -726,24 +722,14 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                                 ),
                               ),
                             ),
-                            SliverPadding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              sliver: SliverToBoxAdapter(
-                                child: playbackOptions(context),
-                              ),
-                            ),
                             const SliverPadding(
                               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               sliver: SliverToBoxAdapter(
                                 child: Divider(),
                               ),
                             ),
-                            SliverPadding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              sliver: SliverToBoxAdapter(
-                                child: queuePreview(context),
-                              ),
-                            ),
+                            ...queuePreview(context),
+                            const SliverPadding(padding: EdgeInsets.only(bottom: 350 * 1.5))
                           ],
                         ),
                       ),
@@ -834,6 +820,8 @@ class _AudioPlayerControlsState extends ConsumerState<_AudioPlayerControls> {
           position: s.position,
           duration: s.duration,
           playing: s.playing,
+          shuffleEnabled: s.shuffleEnabled,
+          repeatMode: s.repeatMode,
         )));
 
     if (!_changingSliderValue) {
@@ -882,21 +870,60 @@ class _AudioPlayerControlsState extends ConsumerState<_AudioPlayerControls> {
         const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 8,
+          spacing: 16,
           children: [
-            IconButton(
-              onPressed: () => ref.read(videoPlayerProvider).skipToPrevious(),
-              icon: const Icon(IconsaxPlusBold.previous),
+            Tooltip(
+              message: context.localized.audioPlayerShuffle,
+              child: IconButton(
+                icon: const Icon(IconsaxPlusBold.shuffle),
+                isSelected: playback.shuffleEnabled,
+                iconSize: 26,
+                onPressed: () => ref.read(videoPlayerProvider).setShuffleEnabled(!playback.shuffleEnabled),
+              ),
             ),
-            IconButton.filledTonal(
-              onPressed: () => ref.read(videoPlayerProvider).playOrPause(),
-              iconSize: 42,
-              icon: playback.playing ? const Icon(IconsaxPlusBold.pause) : const Icon(IconsaxPlusBold.play),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary.withAlpha(8),
+                borderRadius: BorderRadius.circular(64),
+              ),
+              child: Row(
+                spacing: 16,
+                children: [
+                  IconButton(
+                    onPressed: () => ref.read(videoPlayerProvider).skipToPrevious(),
+                    icon: const Icon(IconsaxPlusBold.previous),
+                  ),
+                  IconButton.filledTonal(
+                    onPressed: () => ref.read(videoPlayerProvider).playOrPause(),
+                    iconSize: 42,
+                    icon: playback.playing ? const Icon(IconsaxPlusBold.pause) : const Icon(IconsaxPlusBold.play),
+                  ),
+                  IconButton(
+                    onPressed: () => ref.read(videoPlayerProvider).skipToNext(),
+                    icon: const Icon(IconsaxPlusBold.next),
+                  ),
+                ],
+              ),
             ),
-            IconButton(
-              onPressed: () => ref.read(videoPlayerProvider).skipToNext(),
-              icon: const Icon(IconsaxPlusBold.next),
-            ),
+            Tooltip(
+                message: playback.repeatMode == AudioRepeatMode.off
+                    ? context.localized.audioPlayerRepeatOff
+                    : playback.repeatMode == AudioRepeatMode.one
+                        ? context.localized.audioPlayerRepeatOne
+                        : context.localized.audioPlayerRepeatAll,
+                child: IconButton(
+                  icon: Icon(playback.repeatMode == AudioRepeatMode.one
+                      ? IconsaxPlusBold.repeate_one
+                      : IconsaxPlusBold.repeate_music),
+                  isSelected: playback.repeatMode != AudioRepeatMode.off,
+                  iconSize: 26,
+                  onPressed: () {
+                    ref.read(videoPlayerProvider).setAudioRepeatMode(
+                          playback.repeatMode.next,
+                        );
+                  },
+                )),
           ],
         ),
       ],
@@ -1022,9 +1049,9 @@ class _PlaybackTypeChip extends StatelessWidget {
       _ => null,
     };
 
-    final backgroundColor = switch (type) {
+    final foreGroundColor = switch (type) {
       PlaybackType.offline => TaskStatus.complete.color(context),
-      _ => Theme.of(context).colorScheme.surfaceContainerHighest,
+      _ => Theme.of(context).colorScheme.onSurface,
     };
     if (type == null) return const SizedBox.shrink();
     return Padding(
@@ -1032,13 +1059,13 @@ class _PlaybackTypeChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: backgroundColor.withAlpha(175),
+          color: Theme.of(context).colorScheme.surfaceContainerHigh,
           borderRadius: BorderRadius.circular(999),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(type.icon, size: 14, color: Theme.of(context).textTheme.labelMedium?.color),
+            Icon(type.icon, size: 14, color: foreGroundColor),
             const SizedBox(width: 5),
             Text(type.name(context), style: Theme.of(context).textTheme.labelMedium),
           ],

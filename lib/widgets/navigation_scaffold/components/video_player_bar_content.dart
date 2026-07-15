@@ -51,6 +51,7 @@ class VideoFloatingPlayerBarContent extends ConsumerWidget {
               children: [
                 if (playbackState.state == VideoPlayerState.minimized)
                   FloatingPlayerBarPreview(
+                    ratio: 16 / 9,
                     showExpandButton: showExpandButton,
                     onShowExpandButton: onShowExpandButton,
                     openFullScreenPlayer: openFullScreenPlayer,

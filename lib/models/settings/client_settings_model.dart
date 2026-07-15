@@ -76,6 +76,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(ThemeMode.system) ThemeMode themeMode,
     ColorThemes? themeColor,
     @Default(true) bool deriveColorsFromItem,
+    @Default(true) bool dynamicPosterColors,
     @Default(false) bool amoledBlack,
     @Default(true) bool blurPlaceHolders,
     @Default(false) bool blurUpcomingEpisodes,
@@ -108,6 +109,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
       themeMode: leanBackMode ? ThemeMode.dark : ThemeMode.system,
       enableBlurEffects: leanBackMode ? false : true,
       useTVExpandedLayout: false,
+      dynamicPosterColors: leanBackMode ? false : true,
     );
   }
 

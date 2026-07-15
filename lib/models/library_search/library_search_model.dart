@@ -19,7 +19,6 @@ abstract class LibrarySearchModel with _$LibrarySearchModel {
     @Default(false) bool loading,
     @Default(false) bool selecteMode,
     @Default(<ItemBaseModel>[]) List<ItemBaseModel> folderOverwrite,
-    @Default("") String searchQuery,
     @Default(<ViewModel, bool>{}) Map<ViewModel, bool> views,
     @Default(<ItemBaseModel>[]) List<ItemBaseModel> posters,
     @Default(<ItemBaseModel>[]) List<ItemBaseModel> selectedPosters,
@@ -31,7 +30,7 @@ abstract class LibrarySearchModel with _$LibrarySearchModel {
 }
 
 extension LibrarySearchModelX on LibrarySearchModel {
-  bool get hasActiveFilters => filters.hasActiveFilters || searchQuery.isNotEmpty;
+  bool get hasActiveFilters => filters.hasActiveFilters;
 
   int get totalItemCount {
     if (libraryItemCounts.isEmpty) return posters.length;
@@ -128,8 +127,28 @@ extension LibrarySearchModelX on LibrarySearchModel {
 
   LibrarySearchModel setFiltersToDefault() {
     return copyWith(
-      searchQuery: '',
       filters: const LibraryFilterModel(),
     );
   }
+
+  (int? min, int? max) get yearRange {
+    final years = filters.years.included;
+    if (years.isEmpty) return (null, null);
+    return (
+      years.reduce((value, element) => value < element ? value : element),
+      years.reduce((value, element) => value > element ? value : element)
+    );
+  }
+
+  (int min, int max) get availableYearRange {
+    final years = filters.years.keys;
+    if (years.isEmpty) return (DateTime.now().year - 100, DateTime.now().year + 10);
+    return (
+      years.reduce((value, element) => value < element ? value : element),
+      years.reduce((value, element) => value > element ? value : element)
+    );
+  }
+
+  List<String> get currentIds =>
+      folderOverwrite.isNotEmpty ? folderOverwrite.map((e) => e.id).toList() : views.included.map((e) => e.id).toList();
 }

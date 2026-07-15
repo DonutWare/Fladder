@@ -17,7 +17,9 @@ mixin _$LibraryFiltersModel {
   String get id;
   String get name;
   bool get isFavourite;
+  bool get showInSideBar;
   List<String> get ids;
+  List<String> get viewNames;
   LibraryFilterModel get filter;
 
   /// Create a copy of LibraryFiltersModel
@@ -25,37 +27,36 @@ mixin _$LibraryFiltersModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $LibraryFiltersModelCopyWith<LibraryFiltersModel> get copyWith =>
-      _$LibraryFiltersModelCopyWithImpl<LibraryFiltersModel>(
-          this as LibraryFiltersModel, _$identity);
+      _$LibraryFiltersModelCopyWithImpl<LibraryFiltersModel>(this as LibraryFiltersModel, _$identity);
 
   /// Serializes this LibraryFiltersModel to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   String toString() {
-    return 'LibraryFiltersModel(id: $id, name: $name, isFavourite: $isFavourite, ids: $ids, filter: $filter)';
+    return 'LibraryFiltersModel(id: $id, name: $name, isFavourite: $isFavourite, showInSideBar: $showInSideBar, ids: $ids, viewNames: $viewNames, filter: $filter)';
   }
 }
 
 /// @nodoc
 abstract mixin class $LibraryFiltersModelCopyWith<$Res> {
-  factory $LibraryFiltersModelCopyWith(
-          LibraryFiltersModel value, $Res Function(LibraryFiltersModel) _then) =
+  factory $LibraryFiltersModelCopyWith(LibraryFiltersModel value, $Res Function(LibraryFiltersModel) _then) =
       _$LibraryFiltersModelCopyWithImpl;
   @useResult
   $Res call(
       {String id,
       String name,
       bool isFavourite,
+      bool showInSideBar,
       List<String> ids,
+      List<String> viewNames,
       LibraryFilterModel filter});
 
   $LibraryFilterModelCopyWith<$Res> get filter;
 }
 
 /// @nodoc
-class _$LibraryFiltersModelCopyWithImpl<$Res>
-    implements $LibraryFiltersModelCopyWith<$Res> {
+class _$LibraryFiltersModelCopyWithImpl<$Res> implements $LibraryFiltersModelCopyWith<$Res> {
   _$LibraryFiltersModelCopyWithImpl(this._self, this._then);
 
   final LibraryFiltersModel _self;
@@ -69,7 +70,9 @@ class _$LibraryFiltersModelCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? isFavourite = null,
+    Object? showInSideBar = null,
     Object? ids = null,
+    Object? viewNames = null,
     Object? filter = null,
   }) {
     return _then(_self.copyWith(
@@ -85,9 +88,17 @@ class _$LibraryFiltersModelCopyWithImpl<$Res>
           ? _self.isFavourite
           : isFavourite // ignore: cast_nullable_to_non_nullable
               as bool,
+      showInSideBar: null == showInSideBar
+          ? _self.showInSideBar
+          : showInSideBar // ignore: cast_nullable_to_non_nullable
+              as bool,
       ids: null == ids
           ? _self.ids
           : ids // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      viewNames: null == viewNames
+          ? _self.viewNames
+          : viewNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
       filter: null == filter
           ? _self.filter
@@ -200,8 +211,8 @@ extension LibraryFiltersModelPatterns on LibraryFiltersModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String id, String name, bool isFavourite, List<String> ids,
-            LibraryFilterModel filter)?
+    TResult Function(String id, String name, bool isFavourite, bool showInSideBar, List<String> ids,
+            List<String> viewNames, LibraryFilterModel filter)?
         $default, {
     required TResult orElse(),
   }) {
@@ -209,7 +220,7 @@ extension LibraryFiltersModelPatterns on LibraryFiltersModel {
     switch (_that) {
       case _LibraryFiltersModel() when $default != null:
         return $default(
-            _that.id, _that.name, _that.isFavourite, _that.ids, _that.filter);
+            _that.id, _that.name, _that.isFavourite, _that.showInSideBar, _that.ids, _that.viewNames, _that.filter);
       case _:
         return orElse();
     }
@@ -230,15 +241,15 @@ extension LibraryFiltersModelPatterns on LibraryFiltersModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String id, String name, bool isFavourite, List<String> ids,
-            LibraryFilterModel filter)
+    TResult Function(String id, String name, bool isFavourite, bool showInSideBar, List<String> ids,
+            List<String> viewNames, LibraryFilterModel filter)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LibraryFiltersModel():
         return $default(
-            _that.id, _that.name, _that.isFavourite, _that.ids, _that.filter);
+            _that.id, _that.name, _that.isFavourite, _that.showInSideBar, _that.ids, _that.viewNames, _that.filter);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -258,15 +269,15 @@ extension LibraryFiltersModelPatterns on LibraryFiltersModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String id, String name, bool isFavourite,
-            List<String> ids, LibraryFilterModel filter)?
+    TResult? Function(String id, String name, bool isFavourite, bool showInSideBar, List<String> ids,
+            List<String> viewNames, LibraryFilterModel filter)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LibraryFiltersModel() when $default != null:
         return $default(
-            _that.id, _that.name, _that.isFavourite, _that.ids, _that.filter);
+            _that.id, _that.name, _that.isFavourite, _that.showInSideBar, _that.ids, _that.viewNames, _that.filter);
       case _:
         return null;
     }
@@ -280,12 +291,14 @@ class _LibraryFiltersModel extends LibraryFiltersModel {
       {required this.id,
       required this.name,
       required this.isFavourite,
+      this.showInSideBar = false,
       final List<String> ids = const [],
+      final List<String> viewNames = const [],
       this.filter = const LibraryFilterModel()})
       : _ids = ids,
+        _viewNames = viewNames,
         super._();
-  factory _LibraryFiltersModel.fromJson(Map<String, dynamic> json) =>
-      _$LibraryFiltersModelFromJson(json);
+  factory _LibraryFiltersModel.fromJson(Map<String, dynamic> json) => _$LibraryFiltersModelFromJson(json);
 
   @override
   final String id;
@@ -293,6 +306,9 @@ class _LibraryFiltersModel extends LibraryFiltersModel {
   final String name;
   @override
   final bool isFavourite;
+  @override
+  @JsonKey()
+  final bool showInSideBar;
   final List<String> _ids;
   @override
   @JsonKey()
@@ -300,6 +316,15 @@ class _LibraryFiltersModel extends LibraryFiltersModel {
     if (_ids is EqualUnmodifiableListView) return _ids;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_ids);
+  }
+
+  final List<String> _viewNames;
+  @override
+  @JsonKey()
+  List<String> get viewNames {
+    if (_viewNames is EqualUnmodifiableListView) return _viewNames;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_viewNames);
   }
 
   @override
@@ -312,8 +337,7 @@ class _LibraryFiltersModel extends LibraryFiltersModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   _$LibraryFiltersModelCopyWith<_LibraryFiltersModel> get copyWith =>
-      __$LibraryFiltersModelCopyWithImpl<_LibraryFiltersModel>(
-          this, _$identity);
+      __$LibraryFiltersModelCopyWithImpl<_LibraryFiltersModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -324,15 +348,13 @@ class _LibraryFiltersModel extends LibraryFiltersModel {
 
   @override
   String toString() {
-    return 'LibraryFiltersModel(id: $id, name: $name, isFavourite: $isFavourite, ids: $ids, filter: $filter)';
+    return 'LibraryFiltersModel(id: $id, name: $name, isFavourite: $isFavourite, showInSideBar: $showInSideBar, ids: $ids, viewNames: $viewNames, filter: $filter)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$LibraryFiltersModelCopyWith<$Res>
-    implements $LibraryFiltersModelCopyWith<$Res> {
-  factory _$LibraryFiltersModelCopyWith(_LibraryFiltersModel value,
-          $Res Function(_LibraryFiltersModel) _then) =
+abstract mixin class _$LibraryFiltersModelCopyWith<$Res> implements $LibraryFiltersModelCopyWith<$Res> {
+  factory _$LibraryFiltersModelCopyWith(_LibraryFiltersModel value, $Res Function(_LibraryFiltersModel) _then) =
       __$LibraryFiltersModelCopyWithImpl;
   @override
   @useResult
@@ -340,7 +362,9 @@ abstract mixin class _$LibraryFiltersModelCopyWith<$Res>
       {String id,
       String name,
       bool isFavourite,
+      bool showInSideBar,
       List<String> ids,
+      List<String> viewNames,
       LibraryFilterModel filter});
 
   @override
@@ -348,8 +372,7 @@ abstract mixin class _$LibraryFiltersModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$LibraryFiltersModelCopyWithImpl<$Res>
-    implements _$LibraryFiltersModelCopyWith<$Res> {
+class __$LibraryFiltersModelCopyWithImpl<$Res> implements _$LibraryFiltersModelCopyWith<$Res> {
   __$LibraryFiltersModelCopyWithImpl(this._self, this._then);
 
   final _LibraryFiltersModel _self;
@@ -363,7 +386,9 @@ class __$LibraryFiltersModelCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? isFavourite = null,
+    Object? showInSideBar = null,
     Object? ids = null,
+    Object? viewNames = null,
     Object? filter = null,
   }) {
     return _then(_LibraryFiltersModel(
@@ -379,9 +404,17 @@ class __$LibraryFiltersModelCopyWithImpl<$Res>
           ? _self.isFavourite
           : isFavourite // ignore: cast_nullable_to_non_nullable
               as bool,
+      showInSideBar: null == showInSideBar
+          ? _self.showInSideBar
+          : showInSideBar // ignore: cast_nullable_to_non_nullable
+              as bool,
       ids: null == ids
           ? _self._ids
           : ids // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      viewNames: null == viewNames
+          ? _self._viewNames
+          : viewNames // ignore: cast_nullable_to_non_nullable
               as List<String>,
       filter: null == filter
           ? _self.filter

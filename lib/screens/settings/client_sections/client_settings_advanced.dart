@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/providers/incognito_mode_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
@@ -115,6 +116,15 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
             onChanged: (value) => ref.read(clientSettingsProvider.notifier).useSystemIME(value),
           ),
         ),
+      SettingsListTile(
+        label: Text(context.localized.incognitoModeGlobal),
+        subLabel: Text(context.localized.incognitoModeDesc),
+        onTap: () => ref.read(incognitoModeProvider.notifier).state = !ref.read(incognitoModeProvider),
+        trailing: Switch(
+          value: ref.watch(incognitoModeProvider),
+          onChanged: (value) => ref.read(incognitoModeProvider.notifier).state = value,
+        ),
+      ),
     ],
   );
 }

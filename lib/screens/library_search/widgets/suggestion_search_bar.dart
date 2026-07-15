@@ -16,7 +16,6 @@ import 'package:fladder/util/localization_helper.dart';
 class SuggestionSearchBar extends ConsumerStatefulWidget {
   final String? title;
   final bool autoFocus;
-  final TextEditingController? textEditingController;
   final Duration debounceDuration;
   final SuggestionsController<ItemBaseModel>? suggestionsBoxController;
   final Function(String value)? onSubmited;
@@ -25,7 +24,6 @@ class SuggestionSearchBar extends ConsumerStatefulWidget {
   const SuggestionSearchBar({
     this.title,
     this.autoFocus = false,
-    this.textEditingController,
     this.debounceDuration = const Duration(milliseconds: 250),
     this.suggestionsBoxController,
     this.onSubmited,
@@ -42,26 +40,35 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
   late final Debouncer debouncer = Debouncer(widget.debounceDuration);
   late final SuggestionsController<ItemBaseModel> suggestionsBoxController =
       widget.suggestionsBoxController ?? SuggestionsController<ItemBaseModel>();
-  late final TextEditingController textEditingController = widget.textEditingController ?? TextEditingController();
+  final TextEditingController textEditingController = TextEditingController();
   bool isEmpty = true;
   final FocusNode focusNode = FocusNode();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      textEditingController.text =
+          ref.read(librarySearchProvider(widget.key!).select((value) => value.filters.searchQuery));
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ref.listen(librarySearchProvider(widget.key!).select((value) => value.searchQuery), (previous, next) {
+    ref.listen(librarySearchProvider(widget.key!).select((value) => value.filters.searchQuery), (previous, next) {
       if (textEditingController.text != next) {
         setState(() {
           textEditingController.text = next;
         });
       }
     });
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainerLow,
         borderRadius: FladderTheme.smallShape.borderRadius,
       ),
-      shadowColor: Colors.transparent,
       child: TypeAheadField<ItemBaseModel>(
+        controller: textEditingController,
         focusNode: focusNode,
         hideOnEmpty: isEmpty,
         emptyBuilder: (context) => Padding(

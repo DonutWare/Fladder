@@ -13,6 +13,7 @@ import 'package:fladder/providers/dashboard_provider.dart';
 import 'package:fladder/providers/favourites_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/library_screen_provider.dart';
+import 'package:fladder/providers/music_dashboard_provider.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
@@ -176,9 +177,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     return null;
   }
 
-  Future<void> switchUser() async {
-    clearAllProviders();
-  }
+  Future<void> switchUser() async => clearAllProviders();
 
   void clearAllProviders() {
     ref.read(dashboardProvider.notifier).clear();
@@ -187,6 +186,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     ref.read(userProvider.notifier).clear();
     ref.read(libraryScreenProvider.notifier).clear();
     ref.read(seerrDashboardProvider.notifier).clear();
+    ref.read(musicDashboardProvider.notifier).clear();
   }
 
   Future<void> setServer(String server) async {

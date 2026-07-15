@@ -88,7 +88,11 @@ final List<AutoRoute> homeRoutes = [
 final List<AutoRoute> detailsRoutes = [
   AutoRoute(page: DetailsRoute.page, path: 'details'),
   AutoRoute(page: PhotoViewerRoute.page, path: "album"),
-  AutoRoute(page: LibrarySearchRoute.page, path: 'library'),
+  AutoRoute(
+    page: LibrarySearchRoute.page,
+    path: 'library',
+    usesPathAsKey: true,
+  ),
   AutoRoute(page: LiveTvRoute.page, path: 'live-tv'),
   AutoRoute(page: SeerrSearchRoute.page, path: 'seerr-search'),
   AutoRoute(page: SeerrDetailsRoute.page, path: 'seerr/:mediaType/:tmdbId'),

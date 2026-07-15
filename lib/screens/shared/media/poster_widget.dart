@@ -5,6 +5,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/album_model.dart';
+import 'package:fladder/models/items/artist_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/screens/shared/media/components/poster_image.dart';
 import 'package:fladder/theme.dart';
@@ -94,7 +95,11 @@ class PosterWidget extends ConsumerWidget {
                   Flexible(
                     child: ClickableText(
                       onTap: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
-                          ? () => poster.parentBaseModel.navigateTo(context)
+                          ? () => switch (poster) {
+                                ArtistModel artist => artist.navigateTo(context),
+                                AlbumModel album => album.navigateTo(context),
+                                _ => poster.parentBaseModel.navigateTo(context),
+                              }
                           : null,
                       text: poster.title,
                       maxLines: 1,

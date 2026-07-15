@@ -1,26 +1,32 @@
 import 'package:chopper/chopper.dart';
-import 'package:fladder/providers/service_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 
+final collectionStateProvider = StateProvider<List<BoxSetModel>>((ref) => []);
+
 class _CollectionSetModel {
+  final bool isLoading;
   final List<ItemBaseModel> items;
   final Map<BoxSetModel, bool?> collections;
   _CollectionSetModel({
+    this.isLoading = false,
     required this.items,
     required this.collections,
   });
 
   _CollectionSetModel copyWith({
+    bool? isLoading,
     List<ItemBaseModel>? items,
     Map<BoxSetModel, bool?>? collections,
   }) {
     return _CollectionSetModel(
+      isLoading: isLoading ?? this.isLoading,
       items: items ?? this.items,
       collections: collections ?? this.collections,
     );
@@ -28,7 +34,8 @@ class _CollectionSetModel {
 }
 
 final collectionsProvider = StateNotifierProvider.autoDispose<BoxSetNotifier, _CollectionSetModel>((ref) {
-  return BoxSetNotifier(ref);
+  final notifier = BoxSetNotifier(ref)..setItems([]);
+  return notifier;
 });
 
 class BoxSetNotifier extends StateNotifier<_CollectionSetModel> {
@@ -38,7 +45,12 @@ class BoxSetNotifier extends StateNotifier<_CollectionSetModel> {
   late final JellyService api = ref.read(jellyApiProvider);
 
   Future<void> setItems(List<ItemBaseModel> items) async {
-    state = state.copyWith(items: items);
+    final collections = ref.read(collectionStateProvider);
+    state = state.copyWith(
+      collections: Map.fromIterables(collections, List.generate(collections.length, (index) => false)),
+      items: items,
+      isLoading: true,
+    );
     return _init();
   }
 
@@ -52,26 +64,22 @@ class BoxSetNotifier extends StateNotifier<_CollectionSetModel> {
 
     final boxsets = collections.body?.items?.map((e) => BoxSetModel.fromBaseDto(e, ref)).toList();
 
-    if (state.items.length == 1 && (boxsets?.length ?? 0) < 25) {
-      final List<Future<bool>> itemChecks = boxsets?.map((element) async {
-            final itemList = await api.usersUserIdItemsGet(
-              parentId: element.id,
-            );
-            final List<String?> items = (itemList.body?.items ?? []).map((e) => e.id).toList();
-            return items.contains(state.items.firstOrNull?.id);
-          }).toList() ??
-          [];
+    ref.read(collectionStateProvider.notifier).state = boxsets ?? [];
 
-      final List<bool> results = await Future.wait(itemChecks);
+    final List<Future<bool>> itemChecks = boxsets?.map((element) async {
+          final itemList = await api.usersUserIdItemsGet(
+            parentId: element.id,
+          );
+          final List<String?> items = (itemList.body?.items ?? []).map((e) => e.id).toList();
+          return items.contains(state.items.firstOrNull?.id);
+        }).toList() ??
+        [];
 
-      final Map<BoxSetModel, bool?> boxSetContainsItemMap = Map.fromIterables(boxsets ?? [], results);
+    final List<bool> results = await Future.wait(itemChecks);
 
-      state = state.copyWith(collections: boxSetContainsItemMap);
-    } else {
-      final Map<BoxSetModel, bool?> boxSetContainsItemMap =
-          Map.fromIterables(boxsets ?? [], List.generate(boxsets?.length ?? 0, (index) => null));
-      state = state.copyWith(collections: boxSetContainsItemMap);
-    }
+    final Map<BoxSetModel, bool?> boxSetContainsItemMap = Map.fromIterables(boxsets ?? [], results);
+
+    state = state.copyWith(collections: boxSetContainsItemMap, isLoading: false);
   }
 
   Future<Response> toggleCollection(
@@ -86,10 +94,18 @@ class BoxSetNotifier extends StateNotifier<_CollectionSetModel> {
     return response;
   }
 
-  Future<Response> addToCollection({required BoxSetModel boxSet, required bool add}) async => add
-      ? await api.collectionsCollectionIdItemsPost(collectionId: boxSet.id, ids: state.items.map((e) => e.id).toList())
-      : await api.collectionsCollectionIdItemsDelete(
-          collectionId: boxSet.id, ids: state.items.map((e) => e.id).toList());
+  Future<Response> addToCollection({required BoxSetModel boxSet, required bool add}) async {
+    final response = add
+        ? await api.collectionsCollectionIdItemsPost(
+            collectionId: boxSet.id, ids: state.items.map((e) => e.id).toList())
+        : await api.collectionsCollectionIdItemsDelete(
+            collectionId: boxSet.id, ids: state.items.map((e) => e.id).toList());
+
+    if (response.isSuccessful) {
+      state = state.copyWith(collections: state.collections.setKey(boxSet, response.isSuccessful ? add : !add));
+    }
+    return response;
+  }
 
   Future<void> addToNewCollection({required String name}) async {
     final result = await api.collectionsPost(name: name, ids: state.items.map((e) => e.id).toList());

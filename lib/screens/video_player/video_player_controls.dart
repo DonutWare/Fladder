@@ -274,7 +274,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           child: Column(
             children: [
               const Align(
-                alignment: Alignment.topRight,
+                alignment: Alignment.topCenter,
                 child: DefaultTitleBar(),
               ),
               Padding(

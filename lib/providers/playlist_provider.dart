@@ -7,37 +7,49 @@ import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 
+final playlistStateProvider = StateProvider<List<PlaylistModel>>((ref) => []);
+
 class _PlaylistProviderModel {
+  final bool isLoading;
   final List<ItemBaseModel> items;
   final Map<PlaylistModel, bool?> collections;
   _PlaylistProviderModel({
+    this.isLoading = false,
     required this.items,
     required this.collections,
   });
 
   _PlaylistProviderModel copyWith({
+    bool? isLoading,
     List<ItemBaseModel>? items,
     Map<PlaylistModel, bool?>? collections,
   }) {
     return _PlaylistProviderModel(
+      isLoading: isLoading ?? this.isLoading,
       items: items ?? this.items,
       collections: collections ?? this.collections,
     );
   }
 }
 
-final playlistProvider = StateNotifierProvider.autoDispose<BoxSetNotifier, _PlaylistProviderModel>((ref) {
-  return BoxSetNotifier(ref);
+final playlistProvider = StateNotifierProvider.autoDispose<PlaylistNotifier, _PlaylistProviderModel>((ref) {
+  final notifier = PlaylistNotifier(ref)..setItems([]);
+  return notifier;
 });
 
-class BoxSetNotifier extends StateNotifier<_PlaylistProviderModel> {
-  BoxSetNotifier(this.ref) : super(_PlaylistProviderModel(items: [], collections: {}));
+class PlaylistNotifier extends StateNotifier<_PlaylistProviderModel> {
+  PlaylistNotifier(this.ref) : super(_PlaylistProviderModel(items: [], collections: {}));
   final Ref ref;
 
   late final JellyService api = ref.read(jellyApiProvider);
 
   Future<void> setItems(List<ItemBaseModel> items) async {
-    state = state.copyWith(items: items);
+    final playlists = ref.read(playlistStateProvider);
+    state = state.copyWith(
+      collections: Map.fromIterables(playlists, List.generate(playlists.length, (index) => null)),
+      items: items,
+      isLoading: true,
+    );
     return _init();
   }
 
@@ -51,29 +63,25 @@ class BoxSetNotifier extends StateNotifier<_PlaylistProviderModel> {
 
     final playlists = serverPlaylists.body?.items?.map((e) => PlaylistModel.fromBaseDto(e, ref)).toList();
 
-    if (state.items.length == 1 && (playlists?.length ?? 0) < 25) {
-      final List<Future<bool>> itemChecks = playlists?.map((element) async {
-            final itemList = await api.playlistsPlaylistIdItemsGet(
-              playlistId: element.id,
-              enableImages: false,
-              enableUserData: false,
-              fields: [],
-            );
-            final List<String?> items = (itemList.body?.items ?? []).map((e) => e.id).toList();
-            return items.contains(state.items.firstOrNull?.id);
-          }).toList() ??
-          [];
+    ref.read(playlistStateProvider.notifier).state = playlists ?? [];
 
-      final List<bool> results = await Future.wait(itemChecks);
+    final List<Future<bool>> itemChecks = playlists?.map((element) async {
+          final itemList = await api.playlistsPlaylistIdItemsGet(
+            playlistId: element.id,
+            enableImages: false,
+            enableUserData: false,
+            fields: [],
+          );
+          final List<String?> items = (itemList.body?.items ?? []).map((e) => e.id).toList();
+          return items.contains(state.items.firstOrNull?.id);
+        }).toList() ??
+        [];
 
-      final Map<PlaylistModel, bool?> boxSetContainsItemMap = Map.fromIterables(playlists ?? [], results);
+    final List<bool> results = await Future.wait(itemChecks);
 
-      state = state.copyWith(collections: boxSetContainsItemMap);
-    } else {
-      final Map<PlaylistModel, bool?> playlistContainsMap =
-          Map.fromIterables(playlists ?? [], List.generate(playlists?.length ?? 0, (index) => null));
-      state = state.copyWith(collections: playlistContainsMap);
-    }
+    final Map<PlaylistModel, bool?> boxSetContainsItemMap = Map.fromIterables(playlists ?? [], results);
+
+    state = state.copyWith(collections: boxSetContainsItemMap, isLoading: false);
   }
 
   Future<Response> addToPlaylist({required PlaylistModel playlist}) async {

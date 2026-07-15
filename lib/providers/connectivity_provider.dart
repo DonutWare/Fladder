@@ -28,6 +28,11 @@ enum ConnectionState {
       };
 }
 
+final offlineStateProvider = Provider<bool>((ref) {
+  final isLoggedIn = ref.watch(userProvider.select((value) => value != null));
+  return ref.watch(connectivityStatusProvider.select((value) => value == ConnectionState.offline)) && isLoggedIn;
+});
+
 @Riverpod(keepAlive: true)
 class ConnectivityStatus extends _$ConnectivityStatus {
   String? localUrl;

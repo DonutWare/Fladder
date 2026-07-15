@@ -32,10 +32,10 @@ Future<Color?> getDominantColor(ImageProvider imageProvider) async {
   final paletteGenerator = await PaletteGeneratorMaster.fromImageProvider(
     imageProvider,
     size: const Size(16, 16),
-    maximumColorCount: 2,
+    maximumColorCount: 3,
   );
 
-  return paletteGenerator.vibrantColor?.color ?? paletteGenerator.dominantColor?.color;
+  return paletteGenerator.dominantColor?.color ?? paletteGenerator.vibrantColor?.color;
 }
 
 class DetailScaffold extends ConsumerStatefulWidget {
@@ -48,6 +48,7 @@ class DetailScaffold extends ConsumerStatefulWidget {
   final Function(BuildContext context, EdgeInsets padding) content;
   final Future<void> Function()? onRefresh;
   final bool posterFillsContent;
+  final Color? dominantColor;
   const DetailScaffold({
     required this.label,
     this.windowTitle,
@@ -58,6 +59,7 @@ class DetailScaffold extends ConsumerStatefulWidget {
     this.backDrops,
     this.onRefresh,
     this.posterFillsContent = false,
+    this.dominantColor,
     super.key,
   });
 
@@ -110,6 +112,10 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     _pushTitle();
     updateImage();
     _updateDominantColor();
+    if (widget.backDrops != oldWidget.backDrops) {
+      lastImages = widget.backDrops?.backDrop;
+      backgroundImage = widget.backDrops?.randomBackDrop;
+    }
     if (widget.item != null && widget.item?.id != item?.id) {
       item = widget.item;
     }
@@ -123,6 +129,12 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
   }
 
   Future<void> _updateDominantColor() async {
+    if (widget.dominantColor != null) {
+      setState(() {
+        dominantColor = widget.dominantColor;
+      });
+      return;
+    }
     if (!ref.read(clientSettingsProvider.select((value) => value.deriveColorsFromItem))) return;
     final newImage = widget.item?.getPosters?.logo;
     if (newImage == null || identical(newImage, _lastColorImage)) return;

@@ -9,11 +9,12 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/wrappers/media_control_wrapper.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/wrappers/media_control_wrapper.dart';
 
 typedef QueueSectionReorderCallback = Future<void> Function(
   AudioQueueSection section,
@@ -27,7 +28,7 @@ void showAudioQueueDialog(
   required Function(ItemBaseModel item) playSelected,
 }) {
   showDialog(
-    useSafeArea: false,
+    useSafeArea: true,
     useRootNavigator: true,
     context: context,
     builder: (context) {
@@ -152,69 +153,69 @@ class _AudioQueueDialogBodyState extends ConsumerState<_AudioQueueDialogBody> {
       }
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        context.localized.queue,
-                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Opacity(
-                        opacity: 0.5,
-                        child: Text(
-                          context.localized.queueItemCount(items.length),
-                          style: Theme.of(context).textTheme.titleMedium,
+    return SizedBox(
+      height: MediaQuery.sizeOf(context).height * 0.85,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.localized.queue,
+                          style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    ],
+                        Opacity(
+                          opacity: 0.5,
+                          child: Text(
+                            context.localized.queueItemCount(items.length),
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+                IconButton(
+                  onPressed: () => context.maybePop(),
+                  icon: const Icon(Icons.close_rounded),
+                ),
+              ],
+            ),
+            const Divider(),
+            if (nowPlaying != null) ...[
+              _QueueSectionHeader(
+                icon: IconsaxPlusBold.play,
+                title: context.localized.nowPlaying,
               ),
-              IconButton(
-                onPressed: () => context.maybePop(),
-                icon: const Icon(Icons.close_rounded),
+              _QueueTile(
+                item: nowPlaying,
+                onTap: () {
+                  widget.playSelected(nowPlaying);
+                  context.maybePop();
+                },
+                onShowActions: (globalPosition) => _showItemActionsMenu(
+                  nowPlaying,
+                  globalPosition,
+                  removeAction: () => ref.read(videoPlayerProvider.notifier).removeAudioQueueItem(nowPlaying),
+                ),
+                isCurrent: true,
+                dragIndex: null,
               ),
             ],
-          ),
-          const Divider(),
-          Flexible(
-            child: SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.85,
+            const Divider(),
+            Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 24),
+                padding: const EdgeInsets.only(bottom: 24),
                 children: [
-                  if (nowPlaying != null) ...[
-                    _QueueSectionHeader(
-                      icon: IconsaxPlusBold.play,
-                      title: context.localized.nowPlaying,
-                    ),
-                    _QueueTile(
-                      item: nowPlaying,
-                      onTap: () {
-                        widget.playSelected(nowPlaying);
-                        context.maybePop();
-                      },
-                      onShowActions: (globalPosition) => _showItemActionsMenu(
-                        nowPlaying,
-                        globalPosition,
-                        removeAction: () => ref.read(videoPlayerProvider.notifier).removeAudioQueueItem(nowPlaying),
-                      ),
-                      isCurrent: true,
-                      dragIndex: null,
-                    ),
-                    const SizedBox(height: 8),
-                  ],
                   if (nextUpItems.isNotEmpty) ...[
                     Container(
                       decoration: BoxDecoration(
@@ -261,7 +262,6 @@ class _AudioQueueDialogBodyState extends ConsumerState<_AudioQueueDialogBody> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 8),
                   ],
                   _QueueSectionHeader(
                     icon: IconsaxPlusBold.row_vertical,
@@ -279,33 +279,29 @@ class _AudioQueueDialogBodyState extends ConsumerState<_AudioQueueDialogBody> {
                       ),
                     )
                   else
-                    Column(
-                      children: existingItems
-                          .mapIndexed(
-                            (index, item) => _QueueTile(
-                              item: item,
-                              onTap: () {
-                                widget.playSelected(item);
-                                context.maybePop();
-                              },
-                              onShowActions: (globalPosition) => _showItemActionsMenu(
-                                item,
-                                globalPosition,
-                                removeAction: () => ref.read(videoPlayerProvider.notifier).removeAudioQueueSectionItem(
-                                      AudioQueueSection.existing,
-                                      index,
-                                    ),
+                    ...existingItems.mapIndexed(
+                      (index, item) => _QueueTile(
+                        item: item,
+                        onTap: () {
+                          widget.playSelected(item);
+                          context.maybePop();
+                        },
+                        onShowActions: (globalPosition) => _showItemActionsMenu(
+                          item,
+                          globalPosition,
+                          removeAction: () => ref.read(videoPlayerProvider.notifier).removeAudioQueueSectionItem(
+                                AudioQueueSection.existing,
+                                index,
                               ),
-                              dragIndex: null,
-                            ),
-                          )
-                          .toList(),
-                    ),
+                        ),
+                        dragIndex: null,
+                      ),
+                    )
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -404,17 +400,19 @@ class _QueueTile extends StatelessWidget {
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         minLeadingWidth: 0,
-        leading: ClipOval(
-          child: SizedBox(
-            width: 40,
-            height: 40,
-            child: FladderImage(
-              image: item.images?.primary,
-              fit: BoxFit.cover,
-              placeHolder: const Center(child: Icon(Icons.music_note_rounded, size: 20)),
-              imageErrorBuilder: (context, error, stack) =>
-                  const Center(child: Icon(Icons.music_note_rounded, size: 20)),
-            ),
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            borderRadius: FladderTheme.smallShape.borderRadius,
+            color: Theme.of(context).colorScheme.surfaceContainer,
+          ),
+          clipBehavior: Clip.hardEdge,
+          child: FladderImage(
+            image: item.images?.primary,
+            fit: BoxFit.cover,
+            placeHolder: const Center(child: Icon(Icons.music_note_rounded, size: 20)),
+            imageErrorBuilder: (context, error, stack) => const Center(child: Icon(Icons.music_note_rounded, size: 20)),
           ),
         ),
         title: Text(

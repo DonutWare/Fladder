@@ -1,0 +1,422 @@
+import 'package:flutter/material.dart';
+
+import 'package:auto_route/auto_route.dart';
+import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
+import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
+import 'package:fladder/models/library_filter_model.dart';
+import 'package:fladder/models/library_filters_model.dart';
+import 'package:fladder/models/view_model.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/library_search/widgets/library_views.dart';
+import 'package:fladder/screens/metadata/refresh_metadata.dart';
+import 'package:fladder/theme.dart';
+import 'package:fladder/util/color_extensions.dart';
+import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_buttons.dart';
+import 'package:fladder/widgets/shared/custom_tooltip.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
+
+class MusicLibraryItem {
+  final String label;
+  final String pathKey;
+  final Icon selectedIcon;
+  final Icon icon;
+  final VoidCallback onTap;
+  MusicLibraryItem({
+    required this.label,
+    required this.pathKey,
+    required this.selectedIcon,
+    required this.icon,
+    required this.onTap,
+  });
+
+  static List<MusicLibraryItem> fromViews(
+    BuildContext context,
+    List<ViewModel> views,
+    bool expanded,
+    WidgetRef ref,
+  ) {
+    final musicViews = views.where((view) => view.collectionType == CollectionType.music).map((e) => e.id).toList();
+
+    final collectionView =
+        views.where((view) => view.collectionType == CollectionType.boxsets).map((e) => e.id).toList();
+
+    if (musicViews.isEmpty && collectionView.isEmpty) {
+      return [];
+    }
+
+    return [
+      MusicLibraryItem(
+        label: context.localized.musicAlbum(2),
+        pathKey: "albums",
+        selectedIcon: Icon(FladderItemType.musicAlbum.selectedicon),
+        icon: Icon(FladderItemType.musicAlbum.icon),
+        onTap: () {
+          ref.read(libraryViewTypeProvider.notifier).state = LibraryViewTypes.grid;
+          context.pushRoute(
+            LibrarySearchRoute(
+              viewModelId: "${musicViews.join(",")},albums",
+              key: const Key("albums-nav-item"),
+            ).withFilter(
+              const LibraryFilterModel(
+                types: {
+                  FladderItemType.musicAlbum: true,
+                },
+                recursive: true,
+              ),
+            ),
+          );
+        },
+      ),
+      MusicLibraryItem(
+        label: context.localized.track(2),
+        pathKey: "tracks",
+        selectedIcon: Icon(FladderItemType.audio.selectedicon),
+        icon: Icon(FladderItemType.audio.icon),
+        onTap: () {
+          ref.read(libraryViewTypeProvider.notifier).state = LibraryViewTypes.list;
+          context.pushRoute(
+            LibrarySearchRoute(
+              viewModelId: "${musicViews.join(",")},tracks",
+              key: const Key("tracks-nav-item"),
+            ).withFilter(
+              const LibraryFilterModel(
+                types: {
+                  FladderItemType.audio: true,
+                },
+                recursive: true,
+              ),
+            ),
+          );
+        },
+      ),
+      MusicLibraryItem(
+        label: context.localized.mediaTypeArtists(2),
+        pathKey: "artists",
+        selectedIcon: Icon(FladderItemType.person.selectedicon),
+        icon: Icon(FladderItemType.person.icon),
+        onTap: () {
+          ref.read(libraryViewTypeProvider.notifier).state = LibraryViewTypes.grid;
+          context.pushRoute(
+            LibrarySearchRoute(
+              viewModelId: "${musicViews.join(",")},artists",
+              key: const Key("artists-nav-item"),
+            ).withFilter(
+              const LibraryFilterModel(
+                types: {
+                  FladderItemType.person: true,
+                },
+              ),
+            ),
+          );
+        },
+      ),
+      if (collectionView.isNotEmpty)
+        MusicLibraryItem(
+          label: context.localized.mediaTypeCollection(2),
+          pathKey: "collections",
+          selectedIcon: Icon(FladderItemType.boxset.selectedicon),
+          icon: Icon(FladderItemType.boxset.icon),
+          onTap: () {
+            ref.read(libraryViewTypeProvider.notifier).state = LibraryViewTypes.grid;
+            context.pushRoute(
+              LibrarySearchRoute(
+                viewModelId: "${collectionView.join(",")},collections",
+                key: const Key("collections-nav-item"),
+              ),
+            );
+          },
+        ),
+    ];
+  }
+}
+
+List<Widget> buildMusicDashboardNavItems(
+  BuildContext context,
+  List<ViewModel> views,
+  Map<PlaylistModel, bool?> playLists,
+  bool expanded,
+  WidgetRef ref,
+) {
+  final musicItems = MusicLibraryItem.fromViews(context, views, expanded, ref);
+  final usePostersForLibrary = ref.watch(clientSettingsProvider.select((value) => value.usePosterForLibrary));
+  return [
+    ...musicItems.map(
+      (item) => CombinedViewNavigationItem(
+        label: item.label,
+        expandedSideBar: expanded,
+        usePostersForLibrary: usePostersForLibrary,
+        shouldExpand: expanded,
+        pathKey: item.pathKey,
+        selectedIcon: item.selectedIcon,
+        icon: item.icon,
+        onTap: item.onTap,
+      ),
+    ),
+    if (playLists.isNotEmpty)
+      LabelDivider(
+        label: context.localized.mediaTypePlaylist(2),
+        shouldExpand: expanded,
+      ),
+    ...playLists.entries.map(
+      (entry) {
+        final derivePosterColor = ref.watch(clientSettingsProvider.select((value) => value.dynamicPosterColors));
+        final backgroundColor = derivePosterColor
+            ? entry.key.name.toColor.harmonizeWith(Theme.of(context).colorScheme.surface)
+            : Theme.of(context).colorScheme.surface;
+
+        return CombinedViewNavigationItem(
+          label: entry.key.name,
+          expandedSideBar: expanded,
+          usePostersForLibrary: usePostersForLibrary,
+          shouldExpand: expanded,
+          pathKey: entry.key.id,
+          selectedIcon: Icon(FladderItemType.playlist.selectedicon),
+          icon: Icon(FladderItemType.playlist.icon),
+          customIcon: usePostersForLibrary
+              ? entry.key.iconWidget(
+                  context,
+                  usePoster: usePostersForLibrary,
+                  backgroundColor: backgroundColor,
+                )
+              : null,
+          onTap: () {
+            ref.read(libraryViewTypeProvider.notifier).state = LibraryViewTypes.list;
+            entry.key.navigateTo(context);
+          },
+        );
+      },
+    )
+  ];
+}
+
+class CombinedViewNavigationItem extends ConsumerWidget {
+  final String label;
+  final String pathKey;
+  final bool expandedSideBar;
+  final bool usePostersForLibrary;
+  final bool shouldExpand;
+  final Icon selectedIcon;
+  final Icon icon;
+  final Widget? customIcon;
+  final VoidCallback? onTap;
+  const CombinedViewNavigationItem({
+    super.key,
+    required this.label,
+    required this.pathKey,
+    required this.expandedSideBar,
+    required this.usePostersForLibrary,
+    required this.shouldExpand,
+    required this.selectedIcon,
+    required this.icon,
+    this.customIcon,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = context.router.currentUrl.contains(pathKey);
+    return CustomTooltip(
+      tooltipContent: expandedSideBar
+          ? null
+          : Container(
+              decoration: BoxDecoration(
+                borderRadius: FladderTheme.smallShape.borderRadius,
+                color: Theme.of(context).colorScheme.surface,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(
+                  label,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+            ),
+      position: TooltipPosition.right,
+      child: NavigationButton(
+        label: label,
+        selected: selected,
+        onPressed: onTap,
+        horizontal: true,
+        expanded: shouldExpand,
+        selectedIcon: selectedIcon,
+        icon: icon,
+        customIcon: customIcon,
+      ),
+    );
+  }
+}
+
+class FilterNavigationItem extends ConsumerWidget {
+  final List<ViewModel> views;
+  final LibraryFiltersModel filter;
+  final bool expandedSideBar;
+  final bool usePostersForLibrary;
+  final bool shouldExpand;
+  final TooltipPosition toolTipPosition;
+  const FilterNavigationItem({
+    required this.views,
+    required this.filter,
+    required this.expandedSideBar,
+    required this.usePostersForLibrary,
+    required this.shouldExpand,
+    this.toolTipPosition = TooltipPosition.right,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final createdViews =
+        views.isNotEmpty ? views : filter.ids.map((e) => ViewModel.createEmpty(e, CollectionType.folders));
+
+    final selected = context.router.currentUrl
+        .contains("parentId=${createdViews.map((e) => e.id).join(",")},${filter.navKey.toString()}");
+
+    final isFolder = views.isEmpty;
+
+    final actions = [
+      ItemActionButton(
+        label: Text(context.localized.hideInSideBar),
+        icon: const Icon(IconsaxPlusLinear.eye_slash),
+        action: () => ref.read(userProvider.notifier).hideFilterFromSideBar(filter),
+      )
+    ];
+
+    final viewNames = views.map((e) => e.name).join(", ");
+
+    return CustomTooltip(
+      tooltipContent: Container(
+        decoration: BoxDecoration(
+          borderRadius: FladderTheme.smallShape.borderRadius,
+          color: Theme.of(context).colorScheme.surface,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            children: [
+              Text(
+                filter.name,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              if (viewNames.isNotEmpty)
+                Text(
+                  viewNames,
+                  style: Theme.of(context).textTheme.bodySmall,
+                )
+            ],
+          ),
+        ),
+      ),
+      position: toolTipPosition,
+      child: createdViews.last.toNavigationButton(
+        selected,
+        true,
+        shouldExpand,
+        label: filter.name,
+        () => filter.navigateTo(context, isFolder: isFolder),
+        onSecondaryTapDown: (details) => showItemContextMenu(
+          context,
+          ref,
+          details.globalPosition,
+          actions,
+        ),
+        onLongPress: () => showBottomSheetPill(
+          context: context,
+          content: (context, scrollController) => ListView(
+            shrinkWrap: true,
+            controller: scrollController,
+            children: actions.listTileItems(context, useIcons: true),
+          ),
+        ),
+        selectedIcon: filter.selectedIcon,
+        icon: filter.icon,
+        customIcon: filter.createIcon(
+          context,
+          usePostersForLibrary: usePostersForLibrary,
+          expandedSideBar: expandedSideBar,
+          selected: selected,
+          views: views,
+        ),
+        trailing: actions,
+      ),
+    );
+  }
+}
+
+class ViewNavigationItem extends ConsumerWidget {
+  final ViewModel view;
+  final bool expandedSideBar;
+  final bool usePostersForLibrary;
+  final bool shouldExpand;
+  final TooltipPosition toolTipPosition;
+  const ViewNavigationItem({
+    required this.view,
+    required this.expandedSideBar,
+    required this.usePostersForLibrary,
+    required this.shouldExpand,
+    this.toolTipPosition = TooltipPosition.right,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = context.router.currentUrl.contains("parentId=${view.id}&");
+
+    final actions = [
+      ItemActionButton(
+        label: Text(context.localized.scanLibrary),
+        icon: const Icon(IconsaxPlusLinear.refresh),
+        action: () => showRefreshPopup(context, view.id, view.name),
+      )
+    ];
+    return CustomTooltip(
+      tooltipContent: expandedSideBar
+          ? null
+          : Container(
+              decoration: BoxDecoration(
+                borderRadius: FladderTheme.smallShape.borderRadius,
+                color: Theme.of(context).colorScheme.surface,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(
+                  view.name,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+            ),
+      position: toolTipPosition,
+      child: view.toNavigationButton(
+        selected,
+        true,
+        shouldExpand,
+        () => view.navigateToView(context),
+        onSecondaryTapDown: (details) => showItemContextMenu(
+          context,
+          ref,
+          details.globalPosition,
+          actions,
+        ),
+        onLongPress: () => showBottomSheetPill(
+          context: context,
+          content: (context, scrollController) => ListView(
+            shrinkWrap: true,
+            controller: scrollController,
+            children: actions.listTileItems(context, useIcons: true),
+          ),
+        ),
+        customIcon: usePostersForLibrary ? view.createIcon(context, selected: selected) : null,
+        trailing: actions,
+      ),
+    );
+  }
+}

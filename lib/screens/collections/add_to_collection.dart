@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/collections_provider.dart';
 import 'package:fladder/screens/shared/adaptive_dialog.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
+import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/alert_content.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
@@ -98,30 +100,17 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
               children: [
                 ...collectonOptions.collections.entries.map(
                   (e) {
-                    if (e.value != null) {
-                      return CheckboxListTile(
-                        title: Text(e.key.name),
-                        value: e.value,
-                        onChanged: (value) async {
-                          final response = await ref
-                              .read(provider.notifier)
-                              .toggleCollection(boxSet: e.key, value: value == true, item: widget.items.first);
-                          if (context.mounted) {
-                            FladderSnack.show(
-                                response.isSuccessful
-                                    ? value == true
-                                        ? context.localized.addedToCollection(e.key.name)
-                                        : context.localized.removedFromCollection(e.key.name)
-                                    : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
-                                context: context);
-                          }
-                        },
-                      );
-                    } else {
-                      return Container(
-                        margin: const EdgeInsets.all(8),
-                        child: Card(
-                          elevation: 0,
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: FocusButton(
+                        onTap: () => toggleCollection(e.key, e.value == true),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: e.value == true
+                                ? Theme.of(context).colorScheme.primaryContainer
+                                : Theme.of(context).colorScheme.surfaceContainer,
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: Row(
@@ -133,28 +122,26 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
                                     style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ),
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    final response =
-                                        await ref.read(provider.notifier).addToCollection(boxSet: e.key, add: true);
-                                    if (context.mounted) {
-                                      FladderSnack.show(
-                                          response.isSuccessful
-                                              ? context.localized.addedToCollection(e.key.name)
-                                              : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
-                                          context: context);
-                                    }
-                                  },
-                                  child: Icon(Icons.add_rounded, color: Theme.of(context).colorScheme.primary),
+                                Checkbox(
+                                  value: e.value,
+                                  tristate: true,
+                                  onChanged: (value) async => toggleCollection(e.key, value ?? false),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                      );
-                    }
+                      ),
+                    );
                   },
                 ),
+                if (collectonOptions.isLoading)
+                  const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -167,5 +154,27 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
         )
       ],
     );
+  }
+
+  Future<void> toggleCollection(BoxSetModel boxSet, bool value) async {
+    if (value == true) {
+      final response = await ref.read(provider.notifier).addToCollection(boxSet: boxSet, add: false);
+      if (context.mounted) {
+        FladderSnack.show(
+            response.isSuccessful
+                ? context.localized.removedFromCollection(boxSet.name)
+                : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+            context: context);
+      }
+    } else {
+      final response = await ref.read(provider.notifier).addToCollection(boxSet: boxSet, add: true);
+      if (context.mounted) {
+        FladderSnack.show(
+            response.isSuccessful
+                ? context.localized.addedToCollection(boxSet.name)
+                : '${context.localized.somethingWentWrong} - (${response.statusCode}) - ${response.base.reasonPhrase}',
+            context: context);
+      }
+    }
   }
 }

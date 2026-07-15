@@ -17,7 +17,6 @@ mixin _$LibrarySearchModel implements DiagnosticableTreeMixin {
   bool get loading;
   bool get selecteMode;
   List<ItemBaseModel> get folderOverwrite;
-  String get searchQuery;
   Map<ViewModel, bool> get views;
   List<ItemBaseModel> get posters;
   List<ItemBaseModel> get selectedPosters;
@@ -31,8 +30,7 @@ mixin _$LibrarySearchModel implements DiagnosticableTreeMixin {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $LibrarySearchModelCopyWith<LibrarySearchModel> get copyWith =>
-      _$LibrarySearchModelCopyWithImpl<LibrarySearchModel>(
-          this as LibrarySearchModel, _$identity);
+      _$LibrarySearchModelCopyWithImpl<LibrarySearchModel>(this as LibrarySearchModel, _$identity);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -41,7 +39,6 @@ mixin _$LibrarySearchModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('loading', loading))
       ..add(DiagnosticsProperty('selecteMode', selecteMode))
       ..add(DiagnosticsProperty('folderOverwrite', folderOverwrite))
-      ..add(DiagnosticsProperty('searchQuery', searchQuery))
       ..add(DiagnosticsProperty('views', views))
       ..add(DiagnosticsProperty('posters', posters))
       ..add(DiagnosticsProperty('selectedPosters', selectedPosters))
@@ -53,21 +50,19 @@ mixin _$LibrarySearchModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LibrarySearchModel(loading: $loading, selecteMode: $selecteMode, folderOverwrite: $folderOverwrite, searchQuery: $searchQuery, views: $views, posters: $posters, selectedPosters: $selectedPosters, filters: $filters, lastIndices: $lastIndices, libraryItemCounts: $libraryItemCounts, fetchingItems: $fetchingItems)';
+    return 'LibrarySearchModel(loading: $loading, selecteMode: $selecteMode, folderOverwrite: $folderOverwrite, views: $views, posters: $posters, selectedPosters: $selectedPosters, filters: $filters, lastIndices: $lastIndices, libraryItemCounts: $libraryItemCounts, fetchingItems: $fetchingItems)';
   }
 }
 
 /// @nodoc
 abstract mixin class $LibrarySearchModelCopyWith<$Res> {
-  factory $LibrarySearchModelCopyWith(
-          LibrarySearchModel value, $Res Function(LibrarySearchModel) _then) =
+  factory $LibrarySearchModelCopyWith(LibrarySearchModel value, $Res Function(LibrarySearchModel) _then) =
       _$LibrarySearchModelCopyWithImpl;
   @useResult
   $Res call(
       {bool loading,
       bool selecteMode,
       List<ItemBaseModel> folderOverwrite,
-      String searchQuery,
       Map<ViewModel, bool> views,
       List<ItemBaseModel> posters,
       List<ItemBaseModel> selectedPosters,
@@ -80,8 +75,7 @@ abstract mixin class $LibrarySearchModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$LibrarySearchModelCopyWithImpl<$Res>
-    implements $LibrarySearchModelCopyWith<$Res> {
+class _$LibrarySearchModelCopyWithImpl<$Res> implements $LibrarySearchModelCopyWith<$Res> {
   _$LibrarySearchModelCopyWithImpl(this._self, this._then);
 
   final LibrarySearchModel _self;
@@ -95,7 +89,6 @@ class _$LibrarySearchModelCopyWithImpl<$Res>
     Object? loading = null,
     Object? selecteMode = null,
     Object? folderOverwrite = null,
-    Object? searchQuery = null,
     Object? views = null,
     Object? posters = null,
     Object? selectedPosters = null,
@@ -117,10 +110,6 @@ class _$LibrarySearchModelCopyWithImpl<$Res>
           ? _self.folderOverwrite
           : folderOverwrite // ignore: cast_nullable_to_non_nullable
               as List<ItemBaseModel>,
-      searchQuery: null == searchQuery
-          ? _self.searchQuery
-          : searchQuery // ignore: cast_nullable_to_non_nullable
-              as String,
       views: null == views
           ? _self.views
           : views // ignore: cast_nullable_to_non_nullable
@@ -260,7 +249,6 @@ extension LibrarySearchModelPatterns on LibrarySearchModel {
             bool loading,
             bool selecteMode,
             List<ItemBaseModel> folderOverwrite,
-            String searchQuery,
             Map<ViewModel, bool> views,
             List<ItemBaseModel> posters,
             List<ItemBaseModel> selectedPosters,
@@ -274,18 +262,8 @@ extension LibrarySearchModelPatterns on LibrarySearchModel {
     final _that = this;
     switch (_that) {
       case _LibrarySearchModel() when $default != null:
-        return $default(
-            _that.loading,
-            _that.selecteMode,
-            _that.folderOverwrite,
-            _that.searchQuery,
-            _that.views,
-            _that.posters,
-            _that.selectedPosters,
-            _that.filters,
-            _that.lastIndices,
-            _that.libraryItemCounts,
-            _that.fetchingItems);
+        return $default(_that.loading, _that.selecteMode, _that.folderOverwrite, _that.views, _that.posters,
+            _that.selectedPosters, _that.filters, _that.lastIndices, _that.libraryItemCounts, _that.fetchingItems);
       case _:
         return orElse();
     }
@@ -310,7 +288,6 @@ extension LibrarySearchModelPatterns on LibrarySearchModel {
             bool loading,
             bool selecteMode,
             List<ItemBaseModel> folderOverwrite,
-            String searchQuery,
             Map<ViewModel, bool> views,
             List<ItemBaseModel> posters,
             List<ItemBaseModel> selectedPosters,
@@ -323,18 +300,8 @@ extension LibrarySearchModelPatterns on LibrarySearchModel {
     final _that = this;
     switch (_that) {
       case _LibrarySearchModel():
-        return $default(
-            _that.loading,
-            _that.selecteMode,
-            _that.folderOverwrite,
-            _that.searchQuery,
-            _that.views,
-            _that.posters,
-            _that.selectedPosters,
-            _that.filters,
-            _that.lastIndices,
-            _that.libraryItemCounts,
-            _that.fetchingItems);
+        return $default(_that.loading, _that.selecteMode, _that.folderOverwrite, _that.views, _that.posters,
+            _that.selectedPosters, _that.filters, _that.lastIndices, _that.libraryItemCounts, _that.fetchingItems);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -358,7 +325,6 @@ extension LibrarySearchModelPatterns on LibrarySearchModel {
             bool loading,
             bool selecteMode,
             List<ItemBaseModel> folderOverwrite,
-            String searchQuery,
             Map<ViewModel, bool> views,
             List<ItemBaseModel> posters,
             List<ItemBaseModel> selectedPosters,
@@ -371,18 +337,8 @@ extension LibrarySearchModelPatterns on LibrarySearchModel {
     final _that = this;
     switch (_that) {
       case _LibrarySearchModel() when $default != null:
-        return $default(
-            _that.loading,
-            _that.selecteMode,
-            _that.folderOverwrite,
-            _that.searchQuery,
-            _that.views,
-            _that.posters,
-            _that.selectedPosters,
-            _that.filters,
-            _that.lastIndices,
-            _that.libraryItemCounts,
-            _that.fetchingItems);
+        return $default(_that.loading, _that.selecteMode, _that.folderOverwrite, _that.views, _that.posters,
+            _that.selectedPosters, _that.filters, _that.lastIndices, _that.libraryItemCounts, _that.fetchingItems);
       case _:
         return null;
     }
@@ -391,14 +347,11 @@ extension LibrarySearchModelPatterns on LibrarySearchModel {
 
 /// @nodoc
 
-class _LibrarySearchModel
-    with DiagnosticableTreeMixin
-    implements LibrarySearchModel {
+class _LibrarySearchModel with DiagnosticableTreeMixin implements LibrarySearchModel {
   const _LibrarySearchModel(
       {this.loading = false,
       this.selecteMode = false,
       final List<ItemBaseModel> folderOverwrite = const <ItemBaseModel>[],
-      this.searchQuery = "",
       final Map<ViewModel, bool> views = const <ViewModel, bool>{},
       final List<ItemBaseModel> posters = const <ItemBaseModel>[],
       final List<ItemBaseModel> selectedPosters = const <ItemBaseModel>[],
@@ -428,9 +381,6 @@ class _LibrarySearchModel
     return EqualUnmodifiableListView(_folderOverwrite);
   }
 
-  @override
-  @JsonKey()
-  final String searchQuery;
   final Map<ViewModel, bool> _views;
   @override
   @JsonKey()
@@ -474,8 +424,7 @@ class _LibrarySearchModel
   @override
   @JsonKey()
   Map<String, int> get libraryItemCounts {
-    if (_libraryItemCounts is EqualUnmodifiableMapView)
-      return _libraryItemCounts;
+    if (_libraryItemCounts is EqualUnmodifiableMapView) return _libraryItemCounts;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_libraryItemCounts);
   }
@@ -499,7 +448,6 @@ class _LibrarySearchModel
       ..add(DiagnosticsProperty('loading', loading))
       ..add(DiagnosticsProperty('selecteMode', selecteMode))
       ..add(DiagnosticsProperty('folderOverwrite', folderOverwrite))
-      ..add(DiagnosticsProperty('searchQuery', searchQuery))
       ..add(DiagnosticsProperty('views', views))
       ..add(DiagnosticsProperty('posters', posters))
       ..add(DiagnosticsProperty('selectedPosters', selectedPosters))
@@ -511,15 +459,13 @@ class _LibrarySearchModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LibrarySearchModel(loading: $loading, selecteMode: $selecteMode, folderOverwrite: $folderOverwrite, searchQuery: $searchQuery, views: $views, posters: $posters, selectedPosters: $selectedPosters, filters: $filters, lastIndices: $lastIndices, libraryItemCounts: $libraryItemCounts, fetchingItems: $fetchingItems)';
+    return 'LibrarySearchModel(loading: $loading, selecteMode: $selecteMode, folderOverwrite: $folderOverwrite, views: $views, posters: $posters, selectedPosters: $selectedPosters, filters: $filters, lastIndices: $lastIndices, libraryItemCounts: $libraryItemCounts, fetchingItems: $fetchingItems)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$LibrarySearchModelCopyWith<$Res>
-    implements $LibrarySearchModelCopyWith<$Res> {
-  factory _$LibrarySearchModelCopyWith(
-          _LibrarySearchModel value, $Res Function(_LibrarySearchModel) _then) =
+abstract mixin class _$LibrarySearchModelCopyWith<$Res> implements $LibrarySearchModelCopyWith<$Res> {
+  factory _$LibrarySearchModelCopyWith(_LibrarySearchModel value, $Res Function(_LibrarySearchModel) _then) =
       __$LibrarySearchModelCopyWithImpl;
   @override
   @useResult
@@ -527,7 +473,6 @@ abstract mixin class _$LibrarySearchModelCopyWith<$Res>
       {bool loading,
       bool selecteMode,
       List<ItemBaseModel> folderOverwrite,
-      String searchQuery,
       Map<ViewModel, bool> views,
       List<ItemBaseModel> posters,
       List<ItemBaseModel> selectedPosters,
@@ -541,8 +486,7 @@ abstract mixin class _$LibrarySearchModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$LibrarySearchModelCopyWithImpl<$Res>
-    implements _$LibrarySearchModelCopyWith<$Res> {
+class __$LibrarySearchModelCopyWithImpl<$Res> implements _$LibrarySearchModelCopyWith<$Res> {
   __$LibrarySearchModelCopyWithImpl(this._self, this._then);
 
   final _LibrarySearchModel _self;
@@ -556,7 +500,6 @@ class __$LibrarySearchModelCopyWithImpl<$Res>
     Object? loading = null,
     Object? selecteMode = null,
     Object? folderOverwrite = null,
-    Object? searchQuery = null,
     Object? views = null,
     Object? posters = null,
     Object? selectedPosters = null,
@@ -578,10 +521,6 @@ class __$LibrarySearchModelCopyWithImpl<$Res>
           ? _self._folderOverwrite
           : folderOverwrite // ignore: cast_nullable_to_non_nullable
               as List<ItemBaseModel>,
-      searchQuery: null == searchQuery
-          ? _self.searchQuery
-          : searchQuery // ignore: cast_nullable_to_non_nullable
-              as String,
       views: null == views
           ? _self._views
           : views // ignore: cast_nullable_to_non_nullable

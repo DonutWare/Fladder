@@ -159,7 +159,7 @@ class LibraryScreen extends _$LibraryScreen {
       sortBy: [ItemSortBy.datelastcontentadded, ItemSortBy.datecreated, ItemSortBy.sortname],
       sortOrder: [SortOrder.descending],
       limit: 9,
-      includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
+      includeItemTypes: viewModel.collectionType.itemKinds.expand((e) => e.dtoKind).toList(),
     );
     latestRecommendations = RecommendedModel(
       name: const Latest(),
@@ -189,7 +189,7 @@ class LibraryScreen extends _$LibraryScreen {
       isFavorite: true,
       recursive: true,
       limit: 9,
-      includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
+      includeItemTypes: viewModel.collectionType.itemKinds.expand((e) => e.dtoKind).toList(),
       enableImageTypes: [ImageType.primary],
       fields: [
         ItemFields.mediasourcecount,
@@ -227,7 +227,7 @@ class LibraryScreen extends _$LibraryScreen {
         genreIds: [genre.id],
         limit: 9,
         recursive: true,
-        includeItemTypes: viewModel.collectionType.itemKinds.map((e) => e.dtoKind).toList(),
+        includeItemTypes: viewModel.collectionType.itemKinds.expand((e) => e.dtoKind).toList(),
         enableImageTypes: [ImageType.primary],
         fields: [
           ItemFields.mediasourcecount,

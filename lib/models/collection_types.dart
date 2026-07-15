@@ -110,11 +110,35 @@ extension CollectionTypeExtension on CollectionType? {
   }
 
   LibraryFilterModel get defaultFilters => switch (this) {
-        CollectionType.homevideos || CollectionType.photos => const LibraryFilterModel(recursive: false),
-        _ => const LibraryFilterModel(
+        CollectionType.music => const LibraryFilterModel(
+            types: {FladderItemType.musicAlbum: true},
             recursive: true,
-          )
-      };
+          ),
+        CollectionType.movies => const LibraryFilterModel(
+            types: {FladderItemType.movie: true},
+            recursive: true,
+          ),
+        CollectionType.tvshows => const LibraryFilterModel(
+            types: {FladderItemType.series: true},
+            recursive: true,
+          ),
+        CollectionType.homevideos => const LibraryFilterModel(
+            types: {
+              FladderItemType.photoAlbum: true,
+              FladderItemType.folder: true,
+              FladderItemType.photo: true,
+              FladderItemType.video: true
+            },
+          ),
+        CollectionType.folders => const LibraryFilterModel(),
+        CollectionType.livetv => const LibraryFilterModel(
+            types: {FladderItemType.tvchannel: true},
+          ),
+        _ => const LibraryFilterModel(),
+      }
+          .copyWith(
+        isDefault: true,
+      );
 
   double? get aspectRatio => switch (this) {
         CollectionType.music ||

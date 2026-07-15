@@ -44,7 +44,7 @@ class ArtistModel extends ItemBaseModel with ArtistModelMappable {
   Widget get detailScreenWidget => ArtistDetailScreen(item: this);
 
   @override
-  bool get playAble => false;
+  bool get playAble => true;
 
   @override
   bool get syncAble => true;
