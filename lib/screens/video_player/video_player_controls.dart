@@ -686,7 +686,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         ],
       ),
     );
-  } 
+  }
 
   Widget nextChapterButton(WidgetRef ref) {
     return Consumer(builder: (context, ref2, child) {
