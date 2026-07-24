@@ -1003,7 +1003,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     final position = ref.read(mediaPlaybackProvider).position;
     final playing = ref.read(mediaPlaybackProvider.select((value) => value.playing));
     final subtitlesEnabled = ref.read(playBackModel)?.mediaStreams?.defaultSubStreamIndex != null &&
-      ref.read(playBackModel)!.mediaStreams!.defaultSubStreamIndex != -1;
+        ref.read(playBackModel)!.mediaStreams!.defaultSubStreamIndex != -1;
 
     MediaSegment? segment = mediaSegments?.atPosition(position);
 
