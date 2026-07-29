@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,31 +19,70 @@ final mediaPlaybackProvider = StateProvider<MediaPlaybackModel>((ref) => MediaPl
 
 final playBackModel = StateProvider<PlaybackModel?>((ref) => null);
 
-final videoPlayerProvider = StateNotifierProvider<VideoPlayerNotifier, MediaControlsWrapper>((ref) {
+final videoPlayerProvider =
+    StateNotifierProvider<VideoPlayerNotifier, MediaControlsWrapper>((ref) {
   final videoPlayer = VideoPlayerNotifier(ref);
-  videoPlayer.init();
+  if (defaultTargetPlatform != TargetPlatform.windows) {
+    unawaited(videoPlayer.init());
+  }
   return videoPlayer;
 });
 
+typedef VideoPlayerInitializer = Future<void> Function();
+
 class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
-  VideoPlayerNotifier(this.ref) : super(MediaControlsWrapper(ref: ref));
+  VideoPlayerNotifier(
+    this.ref, {
+    VideoPlayerInitializer? initializeOverride,
+  })  : _initializeOverride = initializeOverride,
+        super(MediaControlsWrapper(ref: ref));
 
   final Ref ref;
+  final VideoPlayerInitializer? _initializeOverride;
 
   List<StreamSubscription> subscriptions = [];
+  Future<void>? _initialization;
+  bool _hasCompletedInitialization = false;
 
   late final mediaState = ref.read(mediaPlaybackProvider.notifier);
 
   MediaPlaybackModel get playbackState => ref.read(mediaPlaybackProvider);
+  bool get initializationInProgress => _initialization != null;
+  bool get hasCompletedInitialization => _hasCompletedInitialization;
 
-  Future<void> init() async {
+  Future<void> init() {
+    final activeInitialization = _initialization;
+    if (activeInitialization != null) return activeInitialization;
+
+    late final Future<void> operation;
+    operation = _runInitialization().whenComplete(() {
+      if (identical(_initialization, operation)) {
+        _initialization = null;
+      }
+    });
+    _initialization = operation;
+    return operation;
+  }
+
+  Future<void> _runInitialization() async {
+    final initializeOverride = _initializeOverride;
+    if (initializeOverride != null) {
+      await initializeOverride();
+    } else {
+      await _initializePlayer();
+    }
+    _hasCompletedInitialization = true;
+  }
+
+  Future<void> _initializePlayer() async {
     await state.stop();
     await state.dispose();
     await state.init();
 
     for (final s in subscriptions) {
-      s.cancel();
+      await s.cancel();
     }
+    subscriptions.clear();
 
     final subscription = state.stateStream.listen((value) {
       updateBuffering(value.buffering);

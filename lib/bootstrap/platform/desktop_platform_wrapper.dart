@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:macos_window_utils/window_manipulator.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/bootstrap/platform/base_app_wrapper.dart';
@@ -24,12 +23,14 @@ class DesktopAppWrapper extends BaseAppWrapper {
   ConsumerState<DesktopAppWrapper> createState() => _DesktopAppWrapperState();
 }
 
-class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> with WindowListener {
+class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper>
+    with WindowListener {
+  bool _windowPlacementInitialized = false;
+  bool _windowIsMaximized = false;
+  bool _windowIsFullScreen = false;
+
   @override
   Future<void> platformInit() async {
-    if (defaultTargetPlatform == TargetPlatform.windows) {
-      await SMTCWindows.initialize();
-    }
     if (defaultTargetPlatform == TargetPlatform.macOS) {
       await WindowManipulator.initialize(enableWindowDelegate: true);
     }
@@ -38,6 +39,8 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
 
     await WindowManager.instance.ensureInitialized();
     windowManager.addListener(this);
+    _windowIsMaximized = await windowManager.isMaximized();
+    _windowIsFullScreen = await windowManager.isFullScreen();
 
     final packageInfo = await PackageInfo.fromPlatform();
     final clientSettings = ref.read(clientSettingsProvider);
@@ -47,7 +50,22 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
       clientSettings,
       packageInfo,
     );
+    if (defaultTargetPlatform == TargetPlatform.windows) {
+      unawaited(_enableWindowPlacementPersistenceAfterStartup());
+    } else {
+      _windowPlacementInitialized = true;
+    }
     await toggleMacTrafficLights(await windowManager.isFullScreen());
+  }
+
+  Future<void> _enableWindowPlacementPersistenceAfterStartup() async {
+    await Future<void>.delayed(windowsWindowPlacementPersistenceDelay);
+    if (!mounted) return;
+
+    _windowIsMaximized = await windowManager.isMaximized();
+    _windowIsFullScreen = await windowManager.isFullScreen();
+    if (!mounted) return;
+    _windowPlacementInitialized = true;
   }
 
   @override
@@ -63,45 +81,79 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
     super.onWindowClose();
   }
 
-  @override
-  void onWindowResize() async {
+  bool get _canPersistWindowBounds => shouldPersistWindowBounds(
+        startupSettled: _windowPlacementInitialized,
+        isFullScreen: _windowIsFullScreen,
+        isMaximized: _windowIsMaximized,
+      );
+
+  Future<void> _persistWindowSize() async {
+    if (!_canPersistWindowBounds) return;
     final size = await windowManager.getSize();
+    if (!_canPersistWindowBounds) return;
     ref.read(clientSettingsProvider.notifier).setWindowSize(size);
+  }
+
+  Future<void> _persistWindowPosition() async {
+    if (!_canPersistWindowBounds) return;
+    final position = await windowManager.getPosition();
+    if (!_canPersistWindowBounds) return;
+    ref.read(clientSettingsProvider.notifier).setWindowPosition(position);
+  }
+
+  @override
+  void onWindowResize() {
+    unawaited(_persistWindowSize());
     super.onWindowResize();
   }
 
   @override
-  void onWindowResized() async {
-    final size = await windowManager.getSize();
-    ref.read(clientSettingsProvider.notifier).setWindowSize(size);
+  void onWindowResized() {
+    unawaited(_persistWindowSize());
     super.onWindowResized();
   }
 
   @override
-  void onWindowMove() async {
-    final position = await windowManager.getPosition();
-    ref.read(clientSettingsProvider.notifier).setWindowPosition(position);
+  void onWindowMove() {
+    unawaited(_persistWindowPosition());
     super.onWindowMove();
   }
 
   @override
-  void onWindowMoved() async {
-    final position = await windowManager.getPosition();
-    ref.read(clientSettingsProvider.notifier).setWindowPosition(position);
+  void onWindowMoved() {
+    unawaited(_persistWindowPosition());
     super.onWindowMoved();
   }
 
   @override
+  void onWindowMaximize() {
+    _windowIsMaximized = true;
+    super.onWindowMaximize();
+  }
+
+  @override
+  void onWindowUnmaximize() {
+    _windowIsMaximized = false;
+    super.onWindowUnmaximize();
+  }
+
+  @override
   void onWindowEnterFullScreen() {
-    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: true));
+    _windowIsFullScreen = true;
+    ref
+        .read(mediaPlaybackProvider.notifier)
+        .update((state) => state.copyWith(fullScreen: true));
     unawaited(toggleMacTrafficLights(true));
     super.onWindowEnterFullScreen();
   }
 
   @override
   void onWindowLeaveFullScreen() {
+    _windowIsFullScreen = false;
     unawaited(toggleMacTrafficLights(false));
-    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: false));
+    ref
+        .read(mediaPlaybackProvider.notifier)
+        .update((state) => state.copyWith(fullScreen: false));
     super.onWindowLeaveFullScreen();
   }
 }

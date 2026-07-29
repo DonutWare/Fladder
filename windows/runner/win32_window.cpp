@@ -149,8 +149,17 @@ bool Win32Window::Create(const std::wstring& title,
   return OnCreate();
 }
 
-bool Win32Window::Show() {
-  return ShowWindow(window_handle_, SW_SHOWNORMAL);
+bool Win32Window::Show(int requested_show_command) {
+  WINDOWPLACEMENT placement = {};
+  placement.length = sizeof(WINDOWPLACEMENT);
+  const bool externally_maximized =
+      GetWindowPlacement(window_handle_, &placement) &&
+      placement.showCmd == SW_SHOWMAXIMIZED;
+  const int effective_show_command =
+      requested_show_command == SW_SHOWMAXIMIZED || externally_maximized
+          ? SW_SHOWMAXIMIZED
+          : SW_SHOWNORMAL;
+  return ShowWindow(window_handle_, effective_show_command);
 }
 
 // static
@@ -246,6 +255,10 @@ void Win32Window::SetChildContent(HWND content) {
   MoveWindow(content, frame.left, frame.top, frame.right - frame.left,
              frame.bottom - frame.top, true);
 
+  // An external window manager can show the parent while Flutter is still
+  // creating its child view. Keep the child explicitly visible so the
+  // responsive top-level window cannot become visually blank.
+  ShowWindow(content, SW_SHOW);
   SetFocus(child_content_);
 }
 
