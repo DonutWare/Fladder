@@ -23,8 +23,7 @@ class DesktopAppWrapper extends BaseAppWrapper {
   ConsumerState<DesktopAppWrapper> createState() => _DesktopAppWrapperState();
 }
 
-class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper>
-    with WindowListener {
+class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> with WindowListener {
   bool _windowPlacementInitialized = false;
   bool _windowIsMaximized = false;
   bool _windowIsFullScreen = false;
@@ -140,9 +139,7 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper>
   @override
   void onWindowEnterFullScreen() {
     _windowIsFullScreen = true;
-    ref
-        .read(mediaPlaybackProvider.notifier)
-        .update((state) => state.copyWith(fullScreen: true));
+    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: true));
     unawaited(toggleMacTrafficLights(true));
     super.onWindowEnterFullScreen();
   }
@@ -151,9 +148,7 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper>
   void onWindowLeaveFullScreen() {
     _windowIsFullScreen = false;
     unawaited(toggleMacTrafficLights(false));
-    ref
-        .read(mediaPlaybackProvider.notifier)
-        .update((state) => state.copyWith(fullScreen: false));
+    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: false));
     super.onWindowLeaveFullScreen();
   }
 }

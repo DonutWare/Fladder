@@ -19,8 +19,7 @@ final mediaPlaybackProvider = StateProvider<MediaPlaybackModel>((ref) => MediaPl
 
 final playBackModel = StateProvider<PlaybackModel?>((ref) => null);
 
-final videoPlayerProvider =
-    StateNotifierProvider<VideoPlayerNotifier, MediaControlsWrapper>((ref) {
+final videoPlayerProvider = StateNotifierProvider<VideoPlayerNotifier, MediaControlsWrapper>((ref) {
   final videoPlayer = VideoPlayerNotifier(ref);
   if (defaultTargetPlatform != TargetPlatform.windows) {
     unawaited(videoPlayer.init());

@@ -18,9 +18,7 @@ const windowsWindowPlacementPersistenceDelay = Duration(milliseconds: 2500);
 
 @visibleForTesting
 Color fladderStartupBackgroundColor(TargetPlatform platform) =>
-    platform == TargetPlatform.windows
-        ? windowsStartupBackgroundColor
-        : Colors.transparent;
+    platform == TargetPlatform.windows ? windowsStartupBackgroundColor : Colors.transparent;
 
 @visibleForTesting
 bool shouldUseWaitUntilReadyToShow(
@@ -33,8 +31,7 @@ bool shouldUseWaitUntilReadyToShow(
 }
 
 @visibleForTesting
-bool shouldSetTaskbarVisibilityDuringStartup(TargetPlatform platform) =>
-    platform != TargetPlatform.windows;
+bool shouldSetTaskbarVisibilityDuringStartup(TargetPlatform platform) => platform != TargetPlatform.windows;
 
 @visibleForTesting
 bool shouldApplyStoredWindowBounds({
@@ -102,8 +99,7 @@ extension WindowHelperSetup on WindowManager {
     PackageInfo packageInfo,
   ) async {
     final isFullScreen = await windowManager.isFullScreen();
-    final isMacDebug =
-        defaultTargetPlatform == TargetPlatform.macOS && kDebugMode;
+    final isMacDebug = defaultTargetPlatform == TargetPlatform.macOS && kDebugMode;
     final shouldResizeAndShow = !isMacDebug || !isFullScreen;
 
     final options = WindowOptions(

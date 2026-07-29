@@ -69,8 +69,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   List<StreamSubscription> subscriptions = [];
   ProviderSubscription? _subtitleSettingsSubscription;
   SMTCWindows? smtc;
-  final SingleFlightInitializer<SMTCWindows> _smtcInitializer =
-      SingleFlightInitializer<SMTCWindows>();
+  final SingleFlightInitializer<SMTCWindows> _smtcInitializer = SingleFlightInitializer<SMTCWindows>();
 
   bool initializedWrapper = false;
   bool _isStopped = false;
@@ -144,8 +143,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     }
     subscriptions.clear();
     await _subscribePlayer();
-    _subtitleSettingsSubscription =
-        ref.listen(subtitleSettingsProvider, (_, next) {
+    _subtitleSettingsSubscription = ref.listen(subtitleSettingsProvider, (_, next) {
       _player?.applySubtitleSettings(next);
     });
   }
@@ -262,15 +260,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     subscriptions.add(_player!.stateStream.listen((value) {
       playbackState.add(playbackState.value.copyWith(
         bufferedPosition: value.buffer,
-        processingState: value.buffering
-            ? AudioProcessingState.buffering
-            : AudioProcessingState.ready,
+        processingState: value.buffering ? AudioProcessingState.buffering : AudioProcessingState.ready,
         updatePosition: value.position,
         playing: value.playing,
       ));
       smtc?.setPosition(value.position);
-      smtc?.setPlaybackStatus(
-          value.playing ? PlaybackStatus.playing : PlaybackStatus.paused);
+      smtc?.setPlaybackStatus(value.playing ? PlaybackStatus.playing : PlaybackStatus.paused);
       if (value.completed && !_audioQueueTransitioning) {
         _onAudioTrackCompleted();
       }
@@ -569,8 +564,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     final playbackModel = ref.read(playBackModel);
     if (playbackModel == null) return false;
     if (_mpvPlaylistItems.isEmpty) return false;
-    if (_mpvPlaylistCurrentIndex < 0 ||
-        _mpvPlaylistCurrentIndex >= _mpvPlaylistItems.length) {
+    if (_mpvPlaylistCurrentIndex < 0 || _mpvPlaylistCurrentIndex >= _mpvPlaylistItems.length) {
       return false;
     }
     return _mpvPlaylistItems[_mpvPlaylistCurrentIndex].id == playbackModel.item.id;
