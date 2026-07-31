@@ -120,6 +120,11 @@ internal fun ExoPlayer(
                 extractorsFactory = extractorsFactory,
                 renderType = AssRenderType.LEGACY
             )
+            .also {
+                it.setPlaybackSpeed(
+                    (PlayerSettingsObject.settings.value?.playbackRate ?: 1.0).toFloat()
+                )
+            }
     }
 
     fun updatePlaybackState() {

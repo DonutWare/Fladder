@@ -23,6 +23,7 @@ class PlayerSettings {
   final bool fillScreen;
   final VideoPlayerFit videoFit;
   final Screensaver screensaver;
+  final double playbackRate;
 
   const PlayerSettings({
     required this.enableTunneling,
@@ -35,6 +36,7 @@ class PlayerSettings {
     required this.fillScreen,
     required this.videoFit,
     required this.screensaver,
+    required this.playbackRate,
   });
 }
 

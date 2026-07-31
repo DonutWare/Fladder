@@ -17,6 +17,9 @@ import 'package:fladder/wrappers/players/player_states.dart';
 bool nativeActivityStarted = false;
 
 class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
+  NativePlayer({required this.onPlaybackRateSelected});
+
+  final void Function(double speed) onPlaybackRateSelected;
   final player = VideoPlayerApi();
   final activity = NativeVideoActivity();
 
@@ -78,7 +81,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   }
 
   @override
-  Future<void> setSpeed(double speed) async {}
+  Future<void> setSpeed(double speed) => player.setPlaybackSpeed(speed);
 
   @override
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
@@ -116,6 +119,10 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
       buffering: state.buffering,
     );
     _stateController.add(lastState);
+  }
+
+  void onPlaybackRateChanged(double speed) {
+    onPlaybackRateSelected(speed);
   }
 
   final StreamController<PlayerState> _stateController = StreamController.broadcast();

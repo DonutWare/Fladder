@@ -62,6 +62,7 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
           skipBackward: (userData?.userSettings?.skipBackDuration ?? const Duration(seconds: 15)).inMilliseconds,
           skipForward: (userData?.userSettings?.skipForwardDuration ?? const Duration(seconds: 30)).inMilliseconds,
           fillScreen: value.fillScreen,
+          playbackRate: value.effectivePlaybackRate,
           videoFit: switch (value.videoFit) {
             BoxFit.fill => pigeon.VideoPlayerFit.fill,
             BoxFit.contain => pigeon.VideoPlayerFit.contain,

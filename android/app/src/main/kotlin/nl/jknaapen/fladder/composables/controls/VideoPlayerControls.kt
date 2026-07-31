@@ -395,6 +395,12 @@ fun CustomVideoControls(
     if (showSpeedDialog) {
         PlaybackSpeedPicker(
             player = exoPlayer,
+            onSpeedSelected = { speed ->
+                VideoPlayerObject.videoPlayerListener?.onPlaybackRateChanged(
+                    speed.toDouble(),
+                    callback = {}
+                )
+            },
             onDismissRequest = {
                 showSpeedDialog = false
             }

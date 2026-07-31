@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -119,8 +120,32 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
       value = 1.0;
     }
 
-    ref.read(playbackRateProvider.notifier).state = value;
-    ref.read(videoPlayerProvider).setSpeed(value);
+    unawaited(setPlaybackRate(value));
+  }
+
+  Future<void> setPlaybackRate(
+    double value, {
+    bool persistLastUsed = true,
+    bool applyToPlayer = true,
+  }) async {
+    final clampedValue = clampPlaybackRate(value);
+    ref.read(playbackRateProvider.notifier).state = clampedValue;
+
+    if (persistLastUsed && state.rememberPlaybackRate) {
+      state = state.withLastPlaybackRate(clampedValue);
+    }
+
+    if (applyToPlayer) {
+      await ref.read(videoPlayerProvider).applyPlaybackRate(clampedValue);
+    }
+  }
+
+  void setRememberPlaybackRate(bool value) {
+    state = state.withPlaybackRatePersistence(value);
+  }
+
+  void setDefaultPlaybackRate(double value) {
+    state = state.withDefaultPlaybackRate(value);
   }
 
   void toggleOrientation(Set<DeviceOrientation>? orientation) =>

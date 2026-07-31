@@ -100,6 +100,9 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(Screensaver.logo) Screensaver screensaver,
     @Default(false) bool enableSpeedBoost,
     @Default(2.0) double speedBoostRate,
+    @Default(false) bool rememberPlaybackRate,
+    @Default(1.0) double defaultPlaybackRate,
+    double? lastPlaybackRate,
     @Default(true) bool enableDoubleTapSeek,
     @Default(false) bool enableAdvancedVideoOptions,
     @Default(true) bool enableEdgeGestures,
@@ -114,6 +117,30 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
   }) = _VideoPlayerSettingsModel;
 
   double get volume => internalVolume;
+
+  double get effectivePlaybackRate {
+    if (!rememberPlaybackRate) return 1.0;
+    return clampPlaybackRate(lastPlaybackRate ?? defaultPlaybackRate);
+  }
+
+  VideoPlayerSettingsModel withPlaybackRatePersistence(bool remember) {
+    return copyWith(
+      rememberPlaybackRate: remember,
+      lastPlaybackRate: null,
+    );
+  }
+
+  VideoPlayerSettingsModel withDefaultPlaybackRate(double rate) {
+    return copyWith(
+      defaultPlaybackRate: clampPlaybackRate(rate),
+      lastPlaybackRate: null,
+    );
+  }
+
+  VideoPlayerSettingsModel withLastPlaybackRate(double rate) {
+    if (!rememberPlaybackRate) return this;
+    return copyWith(lastPlaybackRate: clampPlaybackRate(rate));
+  }
 
   factory VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) => _$VideoPlayerSettingsModelFromJson(json);
 
@@ -165,6 +192,8 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
         audioDevice.hashCode;
   }
 }
+
+double clampPlaybackRate(double rate) => rate.clamp(0.25, 3.0).toDouble();
 
 enum PlayerOptions {
   libMDK,

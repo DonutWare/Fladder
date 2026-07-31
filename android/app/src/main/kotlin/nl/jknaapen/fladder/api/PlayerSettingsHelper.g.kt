@@ -158,7 +158,8 @@ data class PlayerSettings (
   val acceptedOrientations: List<PlayerOrientations>,
   val fillScreen: Boolean,
   val videoFit: VideoPlayerFit,
-  val screensaver: Screensaver
+  val screensaver: Screensaver,
+  val playbackRate: Double
 )
  {
   companion object {
@@ -173,7 +174,8 @@ data class PlayerSettings (
       val fillScreen = pigeonVar_list[7] as Boolean
       val videoFit = pigeonVar_list[8] as VideoPlayerFit
       val screensaver = pigeonVar_list[9] as Screensaver
-      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType, acceptedOrientations, fillScreen, videoFit, screensaver)
+      val playbackRate = pigeonVar_list[10] as Double
+      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType, acceptedOrientations, fillScreen, videoFit, screensaver, playbackRate)
     }
   }
   fun toList(): List<Any?> {
@@ -188,6 +190,7 @@ data class PlayerSettings (
       fillScreen,
       videoFit,
       screensaver,
+      playbackRate,
     )
   }
   override fun equals(other: Any?): Boolean {

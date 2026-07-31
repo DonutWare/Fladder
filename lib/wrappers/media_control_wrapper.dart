@@ -110,7 +110,13 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     final player = switch (ref.read(videoPlayerSettingsProvider).wantedPlayer) {
       PlayerOptions.libMDK => LibMDK(),
       PlayerOptions.libMPV => LibMPV(),
-      PlayerOptions.nativePlayer => NativePlayer(),
+      PlayerOptions.nativePlayer => NativePlayer(
+          onPlaybackRateSelected: (speed) {
+            unawaited(
+              ref.read(videoPlayerSettingsProvider.notifier).setPlaybackRate(speed, applyToPlayer: false),
+            );
+          },
+        ),
     };
 
     setup(player);
@@ -564,9 +570,13 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     return super.seek(position);
   }
 
+  Future<void> applyPlaybackRate(double speed) async {
+    await _player?.setSpeed(speed);
+  }
+
   @override
-  Future<void> setSpeed(double speed) {
-    _player?.setSpeed(speed);
+  Future<void> setSpeed(double speed) async {
+    await ref.read(videoPlayerSettingsProvider.notifier).setPlaybackRate(speed);
     return super.setSpeed(speed);
   }
 

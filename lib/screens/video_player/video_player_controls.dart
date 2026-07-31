@@ -820,8 +820,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
     _originalSpeed = ref.read(playbackRateProvider);
     _speedBoostActive = true;
-    ref.read(videoPlayerProvider).setSpeed(settings.speedBoostRate);
-    ref.read(playbackRateProvider.notifier).state = settings.speedBoostRate;
+    unawaited(
+      ref.read(videoPlayerSettingsProvider.notifier).setPlaybackRate(settings.speedBoostRate, persistLastUsed: false),
+    );
   }
 
   void _deactivateSpeedBoost() {
@@ -829,8 +830,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
     _speedBoostActive = false;
     if (_originalSpeed != null) {
-      ref.read(videoPlayerProvider).setSpeed(_originalSpeed!);
-      ref.read(playbackRateProvider.notifier).state = _originalSpeed!;
+      unawaited(
+        ref.read(videoPlayerSettingsProvider.notifier).setPlaybackRate(_originalSpeed!, persistLastUsed: false),
+      );
       _originalSpeed = null;
     }
   }

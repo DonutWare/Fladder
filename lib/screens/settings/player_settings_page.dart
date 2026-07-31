@@ -47,7 +47,7 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
     final connectionState = ref.watch(connectivityStatusProvider);
 
     final userSettings = ref.watch(userProvider.select((value) => value?.userSettings));
-
+    final playbackRateValue = videoSettings.lastPlaybackRate ?? videoSettings.defaultPlaybackRate;
     final currentPlayer = videoSettings.wantedPlayer;
     final crossfadeSupported = videoSettings.canUseCrossfade;
 
@@ -140,6 +140,60 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   )
                   .toList(),
             ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        ...settingsListGroup(
+          context,
+          SettingsLabelDivider(label: context.localized.playbackRate),
+          [
+            SettingsListTile(
+              label: Text(context.localized.rememberPlaybackRateTitle),
+              subLabel: Text(context.localized.rememberPlaybackRateDesc),
+              onTap: () => provider.setRememberPlaybackRate(!videoSettings.rememberPlaybackRate),
+              trailing: Switch(
+                value: videoSettings.rememberPlaybackRate,
+                onChanged: provider.setRememberPlaybackRate,
+              ),
+            ),
+            if (videoSettings.rememberPlaybackRate)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.localized.defaultPlaybackRateTitle,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text(
+                        context.localized.defaultPlaybackRateDesc,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FladderSlider(
+                            min: 0.25,
+                            max: 3.0,
+                            value: playbackRateValue,
+                            divisions: 55,
+                            onChanged: provider.setDefaultPlaybackRate,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          '${playbackRateValue.toStringAsFixed(2)}x',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
         const SizedBox(height: 12),

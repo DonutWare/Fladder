@@ -118,7 +118,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   Future<bool> loadPlaybackItem(PlaybackModel model, Duration startPosition) async {
     ref.read(playBackModel)?.dispose();
     await state.stop();
-    ref.read(playbackRateProvider.notifier).state = 1.0;
+    final playbackSettings = ref.read(videoPlayerSettingsProvider);
+    final initialPlaybackRate = playbackSettings.effectivePlaybackRate;
+    ref.read(playbackRateProvider.notifier).state = initialPlaybackRate;
 
     final useMinimizedPlayer =
         model.item.type == FladderItemType.audio || model.mediaStreams?.videoStreams.isEmpty == true;
@@ -139,6 +141,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
       await state.loadVideo(model, effectiveStartPosition, true);
       await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
+      if (playbackSettings.rememberPlaybackRate) {
+        await state.applyPlaybackRate(initialPlaybackRate);
+      }
 
       await state.setAudioTrack(null, model);
       await state.setSubtitleTrack(null, model);
@@ -178,7 +183,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     final effectiveStartPosition = await queuedModel.resolvedStartPosition(startPosition);
 
     ref.read(playBackModel.notifier).update((state) => queuedModel);
-    ref.read(playbackRateProvider.notifier).state = 1.0;
+    final videoSettings = ref.read(videoPlayerSettingsProvider);
+    final initialPlaybackRate = videoSettings.effectivePlaybackRate;
+    ref.read(playbackRateProvider.notifier).state = initialPlaybackRate;
 
     mediaState.update((state) => state.copyWith(
           state: keepFullScreenLayout ? VideoPlayerState.fullScreen : VideoPlayerState.minimized,
@@ -191,6 +198,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
     await state.loadAudioQueue(queue, currentIndex, effectiveStartPosition, true);
     await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
+    if (videoSettings.rememberPlaybackRate) {
+      await state.applyPlaybackRate(initialPlaybackRate);
+    }
 
     mediaState.update((state) => state.copyWith(
           buffering: false,

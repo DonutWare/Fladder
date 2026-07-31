@@ -315,6 +315,7 @@ class GuideProgram {
 @FlutterApi()
 abstract class VideoPlayerListenerCallback {
   void onPlaybackStateChanged(PlaybackState state);
+  void onPlaybackRateChanged(double speed);
 }
 
 @FlutterApi()
