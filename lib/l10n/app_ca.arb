@@ -1094,5 +1094,9 @@
     "copyLoginLink": "Copiar enllaç",
     "includePassword": "Incloure contrasenya",
     "invalidAuthLink": "Enllaç d'inici de sessió no valid",
-    "homeBannerDetailed": "Detallat"
+    "homeBannerDetailed": "Detallat",
+    "rememberPlaybackRateTitle": "Recordar la velocitat de reproducció",
+    "rememberPlaybackRateDesc": "Reutilitza la darrera velocitat de reproducció seleccionada en tancar el reproductor",
+    "defaultPlaybackRateTitle": "Velocitat de reproducció per defecte",
+    "defaultPlaybackRateDesc": "S’utilitza fins que seleccioneu una velocitat diferent"
 }

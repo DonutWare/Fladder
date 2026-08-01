@@ -1965,5 +1965,9 @@
     "audioPlayerRepeatAll": "Ripeti tutto",
     "audioPlayerRepeatOff": "Ripetizione off",
     "audioPlayerRepeatOne": "Ripeti una volta",
-    "audioPlayerShuffle": "Shuffle"
+    "audioPlayerShuffle": "Shuffle",
+    "rememberPlaybackRateTitle": "Ricorda velocità di riproduzione",
+    "rememberPlaybackRateDesc": "Riutilizza l’ultima velocità di riproduzione selezionata dopo aver chiuso il lettore",
+    "defaultPlaybackRateTitle": "Velocità di riproduzione predefinita",
+    "defaultPlaybackRateDesc": "Viene usata finché non selezioni una velocità diversa"
 }

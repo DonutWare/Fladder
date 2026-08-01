@@ -1,1 +1,7 @@
-{}
+{
+    "playbackRate": "อัตราการเล่น",
+    "rememberPlaybackRateTitle": "จำอัตราการเล่น",
+    "rememberPlaybackRateDesc": "ใช้อัตราการเล่นที่เลือกล่าสุดอีกครั้งหลังจากปิดตัวเล่น",
+    "defaultPlaybackRateTitle": "อัตราการเล่นเริ่มต้น",
+    "defaultPlaybackRateDesc": "ใช้จนกว่าคุณจะเลือกอัตราการเล่นอื่น"
+}

@@ -2019,5 +2019,9 @@
     "musicDashboard": "Tableau de bord musical",
     "quiet": "Faible",
     "loud": "Fort",
-    "toggleSubtitles": "Afficher/Masquer les sous-titres"
+    "toggleSubtitles": "Afficher/Masquer les sous-titres",
+    "rememberPlaybackRateTitle": "Mémoriser la vitesse de lecture",
+    "rememberPlaybackRateDesc": "Réutiliser la dernière vitesse de lecture sélectionnée après la fermeture du lecteur",
+    "defaultPlaybackRateTitle": "Vitesse de lecture par défaut",
+    "defaultPlaybackRateDesc": "Utilisée jusqu’à ce que vous choisissiez une autre vitesse de lecture"
 }

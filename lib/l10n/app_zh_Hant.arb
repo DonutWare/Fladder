@@ -1856,5 +1856,9 @@
     "hidePlayedInLatestTitle": "隱藏已觀看內容",
     "hidePlayedInLatestDescription": "隱藏「最近新增的影片」中已觀看的內容",
     "groupedFoldersTitle": "分組媒體庫",
-    "groupedFoldersDescription": "自動將以下媒體庫的內容分組為「電影」、「音樂」和「電視節目」等檢視項目。"
+    "groupedFoldersDescription": "自動將以下媒體庫的內容分組為「電影」、「音樂」和「電視節目」等檢視項目。",
+    "rememberPlaybackRateTitle": "記住播放速度",
+    "rememberPlaybackRateDesc": "關閉播放器後重新使用上次選擇的播放速度",
+    "defaultPlaybackRateTitle": "預設播放速度",
+    "defaultPlaybackRateDesc": "在您選擇其他播放速度之前會一直使用"
 }

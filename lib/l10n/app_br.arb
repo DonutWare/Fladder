@@ -328,5 +328,10 @@
     "seerrDetails": "Munudoù Seerr",
     "musicDashboard": "Taolenn-vourzh sonerezh",
     "quiet": "Sioul",
-    "loud": "Kreñv"
+    "loud": "Kreñv",
+    "playbackRate": "Tizhoù playback",
+    "rememberPlaybackRateTitle": "Derc’hel soñj eus ar c’hadenn playback",
+    "rememberPlaybackRateDesc": "Adimplijout ho kadenn playback diwezhañ diuzet goude bezañ serrad ar c’hwereer",
+    "defaultPlaybackRateTitle": "Kadenn playback dre ziouer",
+    "defaultPlaybackRateDesc": "Implijet ken ar choazit ur c’hadenn playback all"
 }

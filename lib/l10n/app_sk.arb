@@ -698,5 +698,10 @@
     "copyLoginLink": "Kopírovať link",
     "includePassword": "Zahrnúť heslo",
     "invalidAuthLink": "Nesprávna adresa prihlásenia",
-    "gestures": "Gestá"
+    "gestures": "Gestá",
+    "playbackRate": "Rýchlosť prehrávania",
+    "rememberPlaybackRateTitle": "Zapamätať rýchlosť prehrávania",
+    "rememberPlaybackRateDesc": "Po zatvorení prehrávača znovu použiť poslednú vybranú rýchlosť prehrávania",
+    "defaultPlaybackRateTitle": "Predvolená rýchlosť prehrávania",
+    "defaultPlaybackRateDesc": "Použije sa, kým nevyberiete inú rýchlosť prehrávania"
 }

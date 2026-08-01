@@ -783,5 +783,10 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "playbackRate": "Brzina reprodukcije",
+    "rememberPlaybackRateTitle": "Zapamti brzinu reprodukcije",
+    "rememberPlaybackRateDesc": "Ponovno koristi zadnju odabranu brzinu reprodukcije nakon zatvaranja playera",
+    "defaultPlaybackRateTitle": "Zadana brzina reprodukcije",
+    "defaultPlaybackRateDesc": "Koristi se dok ne odaberete drugu brzinu reprodukcije"
 }

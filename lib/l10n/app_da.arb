@@ -2048,5 +2048,9 @@
     "fallbackMaxBitrate": "Maksimal Fallback Bitrate (Mbps)",
     "concurrentStreams": "Maks Samtidige Streams",
     "concurrentStreamsHint": "0 = Ubegrænset",
-    "allowFmp4Container": "Tillad fMP4 transcoding container"
+    "allowFmp4Container": "Tillad fMP4 transcoding container",
+    "rememberPlaybackRateTitle": "Husk afspilningshastighed",
+    "rememberPlaybackRateDesc": "Genbrug den sidste valgte afspilningshastighed efter lukning af afspiller",
+    "defaultPlaybackRateTitle": "Standard afspilningshastighed",
+    "defaultPlaybackRateDesc": "Bruges indtil du vælger en anden afspilningshastighed"
 }

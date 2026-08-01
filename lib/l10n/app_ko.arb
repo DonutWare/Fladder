@@ -784,5 +784,10 @@
                 "example": "2"
             }
         }
-    }
+    },
+    "playbackRate": "재생 속도",
+    "rememberPlaybackRateTitle": "재생 속도 기억",
+    "rememberPlaybackRateDesc": "플레이어를 닫은 뒤 마지막으로 선택한 재생 속도를 다시 사용합니다",
+    "defaultPlaybackRateTitle": "기본 재생 속도",
+    "defaultPlaybackRateDesc": "다른 재생 속도를 선택할 때까지 사용됩니다"
 }

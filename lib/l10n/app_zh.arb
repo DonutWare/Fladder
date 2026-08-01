@@ -2091,5 +2091,9 @@
         }
     },
     "playItems": "播放项目",
-    "shuffleItems": "随机排列项目"
+    "shuffleItems": "随机排列项目",
+    "rememberPlaybackRateTitle": "记住播放速度",
+    "rememberPlaybackRateDesc": "关闭播放器后重新使用上次选择的播放速度",
+    "defaultPlaybackRateTitle": "默认播放速度",
+    "defaultPlaybackRateDesc": "在你选择其他播放速度之前会一直使用"
 }

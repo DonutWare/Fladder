@@ -1293,5 +1293,9 @@
     "videoScalingFitHeight": "Għoli it-Tul",
     "@videoScalingFitHeight": {},
     "videoScalingFitWidth": "Għoli il-wisa'",
-    "@videoScalingFitWidth": {}
+    "@videoScalingFitWidth": {},
+    "rememberPlaybackRateTitle": "Ftakar ir-rata tal-playback",
+    "rememberPlaybackRateDesc": "Erġa’ uża l-aħħar rata tal-playback magħżula wara li tagħlaq il-plejer",
+    "defaultPlaybackRateTitle": "Rata tal-playback default",
+    "defaultPlaybackRateDesc": "Tintuża sakemm tagħżel rata oħra tal-playback"
 }

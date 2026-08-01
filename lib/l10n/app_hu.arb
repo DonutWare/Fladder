@@ -798,5 +798,10 @@
             }
         }
     },
-    "syncOverlaySyncing": "Adatok szinkronizálása"
+    "syncOverlaySyncing": "Adatok szinkronizálása",
+    "playbackRate": "Lejátszási sebesség",
+    "rememberPlaybackRateTitle": "Lejátszási sebesség megjegyzése",
+    "rememberPlaybackRateDesc": "A lejátszó bezárása után újra használja az utoljára kiválasztott lejátszási sebességet",
+    "defaultPlaybackRateTitle": "Alapértelmezett lejátszási sebesség",
+    "defaultPlaybackRateDesc": "Addig használatos, amíg másik lejátszási sebességet nem választasz"
 }

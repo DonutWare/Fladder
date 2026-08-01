@@ -1739,5 +1739,9 @@
     "removeFromRadarr": "Radarr'dan kaldır",
     "markAllSeasonsAsAvailable": "Tüm sezonları mevcut olarak işaretle",
     "markAsAvailable": "Mevcut olarak işaretle",
-    "deleteData": "Verileri sil"
+    "deleteData": "Verileri sil",
+    "rememberPlaybackRateTitle": "Oynatma hızını hatırla",
+    "rememberPlaybackRateDesc": "Oynatıcı kapatıldıktan sonra son seçilen oynatma hızını tekrar kullan",
+    "defaultPlaybackRateTitle": "Varsayılan oynatma hızı",
+    "defaultPlaybackRateDesc": "Başka bir oynatma hızı seçene kadar kullanılır"
 }

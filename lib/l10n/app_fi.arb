@@ -2187,5 +2187,9 @@
     "quiet": "Hiljainen",
     "loud": "Voimakas",
     "share": "Jaa",
-    "setAs": "Aseta"
+    "setAs": "Aseta",
+    "rememberPlaybackRateTitle": "Muista toistonopeus",
+    "rememberPlaybackRateDesc": "Käytä viimeksi valittua toistonopeutta toiston sulkemisen jälkeen",
+    "defaultPlaybackRateTitle": "Oletustoistonopeus",
+    "defaultPlaybackRateDesc": "Käytetään kunnes valitset toisen toistonopeuden"
 }

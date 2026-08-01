@@ -1272,5 +1272,9 @@
             }
         }
     },
-    "today": "आज"
+    "today": "आज",
+    "rememberPlaybackRateTitle": "प्लेबॅक दर लक्षात ठेवा",
+    "rememberPlaybackRateDesc": "प्लेअर बंद केल्यानंतर शेवटची निवडलेली प्लेबॅक दर पुन्हा वापरा",
+    "defaultPlaybackRateTitle": "डीफॉल्ट प्लेबॅक दर",
+    "defaultPlaybackRateDesc": "आपण वेगवेगळा प्लेबॅक दर निवडत नाही तोपर्यंत वापरला जातो"
 }

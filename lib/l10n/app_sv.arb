@@ -572,5 +572,10 @@
     "contentRating": "Innehållsbetyg",
     "settingsBlurredPlaceholderDesc": "Visa suddig bakgrund när du laddar affischer",
     "settingsContinue": "Fortsätt",
-    "settingsHomeBannerDescription": "Visa som en bildspel, karusell eller dölja bannern"
+    "settingsHomeBannerDescription": "Visa som en bildspel, karusell eller dölja bannern",
+    "playbackRate": "Uppspelningshastighet",
+    "rememberPlaybackRateTitle": "Kom ihåg uppspelningshastighet",
+    "rememberPlaybackRateDesc": "Återanvänd den senast valda uppspelningshastigheten efter att spelaren stängs",
+    "defaultPlaybackRateTitle": "Standarduppspelningshastighet",
+    "defaultPlaybackRateDesc": "Används tills du väljer en annan uppspelningshastighet"
 }

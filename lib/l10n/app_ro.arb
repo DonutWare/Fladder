@@ -1231,5 +1231,9 @@
     "television": "Televizor",
     "@television": {},
     "layoutModeDual": "Dual",
-    "@layoutModeDual": {}
+    "@layoutModeDual": {},
+    "rememberPlaybackRateTitle": "Ține minte rata de redare",
+    "rememberPlaybackRateDesc": "Reutilizează ultima rată de redare selectată după închiderea playerului",
+    "defaultPlaybackRateTitle": "Rată de redare implicită",
+    "defaultPlaybackRateDesc": "Se folosește până când selectezi o altă rată de redare"
 }

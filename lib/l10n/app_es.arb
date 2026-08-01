@@ -2054,5 +2054,9 @@
     "pictureInPictureNotSupported": "Imagen dentro de imagen no está disponible en este dispositivo",
     "@pictureInPictureNotSupported": {
         "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
-    }
+    },
+    "rememberPlaybackRateTitle": "Recordar velocidad de reproducción",
+    "rememberPlaybackRateDesc": "Reutiliza la última velocidad de reproducción seleccionada al cerrar el reproductor",
+    "defaultPlaybackRateTitle": "Velocidad de reproducción predeterminada",
+    "defaultPlaybackRateDesc": "Se usa hasta que selecciones una velocidad diferente"
 }

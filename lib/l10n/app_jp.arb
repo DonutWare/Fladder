@@ -683,5 +683,10 @@
     "shareQRCode": "QRコードをスキャン",
     "copyLoginLink": "リンクをコピー",
     "invalidAuthLink": "ログインリンクが無効です",
-    "homeBannerSlideshow": "スライドショー"
+    "homeBannerSlideshow": "スライドショー",
+    "playbackRate": "再生速度",
+    "rememberPlaybackRateTitle": "再生速度を記憶",
+    "rememberPlaybackRateDesc": "プレーヤーを閉じた後に最後に選択した再生速度を再利用します",
+    "defaultPlaybackRateTitle": "デフォルトの再生速度",
+    "defaultPlaybackRateDesc": "別の再生速度を選択するまで使用されます"
 }

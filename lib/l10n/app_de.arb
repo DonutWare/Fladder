@@ -2084,5 +2084,9 @@
             }
         }
     },
-    "settingsPlayerCrossfadeDesc": "Blende zwischen Titel über, die im selben Album nicht aufeinander folgen"
+    "settingsPlayerCrossfadeDesc": "Blende zwischen Titel über, die im selben Album nicht aufeinander folgen",
+    "rememberPlaybackRateTitle": "Wiedergaberate merken",
+    "rememberPlaybackRateDesc": "Verwendet die zuletzt ausgewählte Wiedergaberate nach dem Schließen des Players",
+    "defaultPlaybackRateTitle": "Standard-Wiedergaberate",
+    "defaultPlaybackRateDesc": "Wird verwendet, bis du eine andere Wiedergaberate auswählst"
 }

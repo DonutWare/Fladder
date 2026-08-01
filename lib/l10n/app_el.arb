@@ -829,5 +829,10 @@
         }
     },
     "settingSecurityApplockTitle": "Κλείδωμα Εφαρμογής",
-    "@settingSecurityApplockTitle": {}
+    "@settingSecurityApplockTitle": {},
+    "playbackRate": "Ρυθμός αναπαραγωγής",
+    "rememberPlaybackRateTitle": "Απομνημόνευση ρυθμού αναπαραγωγής",
+    "rememberPlaybackRateDesc": "Επαναχρησιμοποίηση του τελευταίου επιλεγμένου ρυθμού αναπαραγωγής μετά το κλείσιμο του player",
+    "defaultPlaybackRateTitle": "Προεπιλεγμένος ρυθμός αναπαραγωγής",
+    "defaultPlaybackRateDesc": "Χρησιμοποιείται μέχρι να επιλέξετε διαφορετικό ρυθμό αναπαραγωγής"
 }

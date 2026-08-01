@@ -1941,5 +1941,9 @@
             }
         }
     },
-    "anyLanguage": "Een taal"
+    "anyLanguage": "Een taal",
+    "rememberPlaybackRateTitle": "Onthoud afspeelsnelheid",
+    "rememberPlaybackRateDesc": "Hergebruik de laatst gekozen afspeelsnelheid na het sluiten van de speler",
+    "defaultPlaybackRateTitle": "Standaard afspeelsnelheid",
+    "defaultPlaybackRateDesc": "Wordt gebruikt tot je een andere afspeelsnelheid kiest"
 }

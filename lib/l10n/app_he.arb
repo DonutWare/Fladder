@@ -613,5 +613,10 @@
     "subtitles": "כתוביות",
     "switchUser": "החלף משתמש",
     "sync": "סנכרן",
-    "hideEmpty": "הסתר ריק"
+    "hideEmpty": "הסתר ריק",
+    "playbackRate": "קצב השמעה",
+    "rememberPlaybackRateTitle": "זכור קצב השמעה",
+    "rememberPlaybackRateDesc": "השתמש שוב בקצב ההשמעה האחרון שנבחר לאחר סגירת הנגן",
+    "defaultPlaybackRateTitle": "קצב השמעה ברירת מחדל",
+    "defaultPlaybackRateDesc": "בשימוש עד שתבחר קצב השמעה אחר"
 }

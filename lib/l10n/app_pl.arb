@@ -2058,5 +2058,9 @@
             }
         }
     },
-    "settingsPlayerPlayPauseFadeTitle": "Zanikanie głośności przy pauzie"
+    "settingsPlayerPlayPauseFadeTitle": "Zanikanie głośności przy pauzie",
+    "rememberPlaybackRateTitle": "Zapamiętaj szybkość odtwarzania",
+    "rememberPlaybackRateDesc": "Ponownie użyj ostatnio wybranej szybkości odtwarzania po zamknięciu odtwarzacza",
+    "defaultPlaybackRateTitle": "Domyślna szybkość odtwarzania",
+    "defaultPlaybackRateDesc": "Używane do momentu wybrania innej szybkości odtwarzania"
 }

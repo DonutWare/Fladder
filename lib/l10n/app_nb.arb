@@ -940,5 +940,10 @@
     "settingsPlayerMobileWarning": "Å skru på maskinvareaskelerasjon og systemspesifikke libass-undertekster på Android kan føre til at noen undertekster ikke vises.",
     "@settingsPlayerMobileWarning": {},
     "nativeName": "Norsk bokmål",
-    "@nativeName": {}
+    "@nativeName": {},
+    "playbackRate": "Avspillingshastighet",
+    "rememberPlaybackRateTitle": "Husk avspillingshastighet",
+    "rememberPlaybackRateDesc": "Bruk igjen den sist valgte avspillingshastigheten etter at spilleren lukkes",
+    "defaultPlaybackRateTitle": "Standard avspillingshastighet",
+    "defaultPlaybackRateDesc": "Brukes til du velger en annen avspillingshastighet"
 }

@@ -1551,5 +1551,9 @@
     "settingsLocalUrlSetTitle": "Cấu hình URL cục bộ",
     "@settingsLocalUrlSetTitle": {},
     "settingsLocalUrlSetDesc": "Chỉ định địa chỉ máy chủ cục bộ. Fladder sẽ tự dùng URL này khi thiết bị của ông ở trong cùng mạng.",
-    "@settingsLocalUrlSetDesc": {}
+    "@settingsLocalUrlSetDesc": {},
+    "rememberPlaybackRateTitle": "Nhớ tốc độ phát",
+    "rememberPlaybackRateDesc": "Tái sử dụng tốc độ phát cuối cùng đã chọn sau khi đóng trình phát",
+    "defaultPlaybackRateTitle": "Tốc độ phát mặc định",
+    "defaultPlaybackRateDesc": "Được sử dụng cho đến khi bạn chọn một tốc độ phát khác"
 }

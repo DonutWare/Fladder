@@ -2080,5 +2080,9 @@
             }
         }
     },
-    "setAs": "تعيين كـ"
+    "setAs": "تعيين كـ",
+    "rememberPlaybackRateTitle": "تذكر معدل التشغيل",
+    "rememberPlaybackRateDesc": "إعادة استخدام آخر معدل تشغيل محدد بعد إغلاق المشغل",
+    "defaultPlaybackRateTitle": "معدل التشغيل الافتراضي",
+    "defaultPlaybackRateDesc": "يُستخدم حتى تختار معدل تشغيل مختلف"
 }

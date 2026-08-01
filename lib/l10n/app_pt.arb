@@ -1919,5 +1919,9 @@
     "seerrSeries": "Descobrir Séries",
     "today": "Hoje",
     "anyLanguage": "Qualquer idioma",
-    "enableEdgeGesturesTitle": "Ativar gestos de borda"
+    "enableEdgeGesturesTitle": "Ativar gestos de borda",
+    "rememberPlaybackRateTitle": "Lembrar velocidade de reprodução",
+    "rememberPlaybackRateDesc": "Reutilizar a última velocidade de reprodução selecionada após fechar o reprodutor",
+    "defaultPlaybackRateTitle": "Velocidade de reprodução predefinida",
+    "defaultPlaybackRateDesc": "Usada até selecionar uma velocidade diferente"
 }

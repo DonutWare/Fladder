@@ -2,5 +2,10 @@
     "nativeName": "ইংরাজী",
     "accept": "মেনে নিচ্ছি",
     "active": "স্বক্রিয়",
-    "addAsFavorite": "পছন্দের তালিকাতে যোগ করুন"
+    "addAsFavorite": "পছন্দের তালিকাতে যোগ করুন",
+    "playbackRate": "প্লেব্যাক হার",
+    "rememberPlaybackRateTitle": "প্লেব্যাক হার মনে রাখুন",
+    "rememberPlaybackRateDesc": "প্লেয়ার বন্ধ করার পর আপনার শেষ নির্বাচিত প্লেব্যাক হার পুনরায় ব্যবহার করুন",
+    "defaultPlaybackRateTitle": "ডিফল্ট প্লেব্যাক হার",
+    "defaultPlaybackRateDesc": "আপনি ভিন্ন প্লেব্যাক হার বেছে না নেওয়া পর্যন্ত ব্যবহার করা হবে"
 }

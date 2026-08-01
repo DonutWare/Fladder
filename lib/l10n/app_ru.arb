@@ -2019,5 +2019,9 @@
     "audioPlayerRepeatAll": "Повторить все",
     "syncPlaylistDeleteTitle": "Удалить синхронизированный плейлист",
     "playerSettingsReplayGainLevelTitle": "Уровень ReplayGain",
-    "removeFromQueue": "Удалить из очереди"
+    "removeFromQueue": "Удалить из очереди",
+    "rememberPlaybackRateTitle": "Запомнить скорость воспроизведения",
+    "rememberPlaybackRateDesc": "Повторно использовать последнюю выбранную скорость воспроизведения после закрытия плеера",
+    "defaultPlaybackRateTitle": "Скорость воспроизведения по умолчанию",
+    "defaultPlaybackRateDesc": "Используется до тех пор, пока вы не выберете другую скорость воспроизведения"
 }

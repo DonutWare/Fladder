@@ -2155,5 +2155,9 @@
     "removeFromQueue": "Hapus dari antrean",
     "musicDashboard": "Dasbor Musik",
     "quiet": "Pelan",
-    "loud": "Keras"
+    "loud": "Keras",
+    "rememberPlaybackRateTitle": "Ingat kecepatan pemutaran",
+    "rememberPlaybackRateDesc": "Gunakan kembali kecepatan pemutaran terakhir yang dipilih setelah menutup pemutar",
+    "defaultPlaybackRateTitle": "Kecepatan pemutaran default",
+    "defaultPlaybackRateDesc": "Digunakan sampai Anda memilih kecepatan yang berbeda"
 }

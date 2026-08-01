@@ -1921,5 +1921,9 @@
                 "example": "1"
             }
         }
-    }
+    },
+    "rememberPlaybackRateTitle": "Lembrar velocidade de reprodução",
+    "rememberPlaybackRateDesc": "Reutilize a última velocidade de reprodução selecionada após fechar o player",
+    "defaultPlaybackRateTitle": "Velocidade de reprodução padrão",
+    "defaultPlaybackRateDesc": "Usada até você selecionar uma velocidade diferente"
 }
