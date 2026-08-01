@@ -68,7 +68,7 @@
     "biometricsFailedCheckAgain": "Biyometrik doğrulama başarısız. Ayarları kontrol edip tekrar deneyin.",
     "advanced": "Gelişmiş",
     "all": "Tümü",
-    "amoledBlack": "Amoled siyah",
+    "amoledBlack": "AMOLED siyahı",
     "appLockAutoLogin": "Otomatik giriş",
     "appLockBiometrics": "Biyometrik",
     "backgroundBlur": "Arka plan bulanıklığı",
@@ -96,7 +96,7 @@
     "combined": "Birleşik",
     "dashboardContinueWatching": "İzlemeye Devam Et",
     "nextUp": "Sırada",
-    "dashboardRecentlyAdded": "{name} arşivine son eklenenler",
+    "dashboardRecentlyAdded": "{name} kütüphanesine son eklenenler",
     "@dashboardRecentlyAdded": {
         "description": "Recently added on home screen",
         "placeholders": {
@@ -108,8 +108,8 @@
     "dateAdded": "Eklenme tarihi",
     "dateLastContentAdded": "Son içerik eklenme tarihi",
     "datePlayed": "Oynatılma tarihi",
-    "days": "{count, plural, one{Gün} other{Günler}}",
-    "deleteFileFromSystem": "Bu öğeyi ({item}) silmek, onu hem dosya sisteminden hem de medya arşivinizden silecektir. Devam etmek istediğinizden emin misiniz?",
+    "days": "{count, plural, one{Gün} other{Gün}}",
+    "deleteFileFromSystem": "Bu öğeyi ({item}) silmek, onu hem dosya sisteminden hem de medya kütüphanenizden silecektir. Devam etmek istediğinizden emin misiniz?",
     "@deleteFileFromSystem": {
         "description": "Delete file from system",
         "placeholders": {
@@ -158,7 +158,7 @@
     "downloadsSyncedData": "Eşitlenmiş veri",
     "downloadsTitle": "İndirilenler",
     "dynamicText": "Dinamik",
-    "editMetadata": "Üst veriyi düzenle",
+    "editMetadata": "Meta veriyi düzenle",
     "empty": "Boş",
     "enabled": "Açık",
     "endsAt": "{date} tarihinde bitiyor",
@@ -184,7 +184,7 @@
     "failedToLoadImage": "Görsel yüklenemedi",
     "favorite": "Favori",
     "favorites": "Favoriler",
-    "fetchingLibrary": "Arşiv öğeleri alınıyor…",
+    "fetchingLibrary": "Kütüphane öğeleri alınıyor…",
     "fontColor": "Yazı tipi rengi",
     "fontSize": "Yazı tipi boyutu",
     "forceRefresh": "Yenilemeye zorla",
@@ -218,7 +218,7 @@
             }
         }
     },
-    "library": "{count, plural, one{Arşiv} other{Arşivler}}",
+    "library": "{count, plural, one{Kütüphane} other{Kütüphaneler}}",
     "@library": {
         "description": "Plural",
         "placeholders": {
@@ -228,7 +228,7 @@
             }
         }
     },
-    "libraryPageSizeTitle": "Arşiv sayfa boyutu",
+    "libraryPageSizeTitle": "Kütüphane sayfa boyutu",
     "list": "Liste",
     "lockscreen": "Kilit ekranı",
     "loggedIn": "Giriş yapıldı",
@@ -242,7 +242,7 @@
     "mediaTypeBase": "Temel Tür",
     "mediaTypeBook": "{count, plural, one{Kitap} other{Kitaplar}}",
     "mediaTypeBoxset": "{count, plural, one{Koleksiyon} other{Koleksiyonlar}}",
-    "mediaTypeEpisode": "{count, plural, one{Bölüm} other{Bölüm}}",
+    "mediaTypeEpisode": "{count, plural, one{Bölüm} other{Bölümler}}",
     "mediaTypeMovie": "{count, plural, one{Film} other{Filmler}}",
     "mediaTypePerson": "{count, plural, one{Kişi} other{Kişiler}}",
     "moreOptions": "Daha fazla seçenek",
@@ -279,7 +279,7 @@
     },
     "saved": "Kaydedildi",
     "scanBiometricHint": "Kimliği doğrula",
-    "scanLibrary": "Arşivi tara",
+    "scanLibrary": "Kütüphaneyi tara",
     "scanYourFingerprintToAuthenticate": "{user} kimliğini doğrulamak için parmak izinizi tarayın",
     "@scanYourFingerprintToAuthenticate": {
         "placeholders": {
@@ -356,9 +356,9 @@
     "settingsPlayerVideoHWAccelTitle": "Donanım hızlandırma",
     "settingsPosterPinch": "Afişleri ölçeklendirmek için kıstırıp-yakınlaştırın",
     "settingsPosterSize": "Afiş boyutu",
-    "settingsProfileDesc": "Kilit ekranı, Lokal URL, Seerr",
+    "settingsProfileDesc": "Kilit ekranı, Yerel URL, Seerr",
     "settingsProfileTitle": "Profil",
-    "settingsQuickConnectTitle": "Hızlı bağlantı",
+    "settingsQuickConnectTitle": "Hızlı Bağlantı",
     "settingsSecurity": "Güvenlik",
     "settingsShowScaleSlider": "Afiş boyutu kaydırıcısını göster",
     "settingsVisual": "Görsel",
@@ -565,7 +565,7 @@
             }
         }
     },
-    "aboutCreatedBy": "DonutWare tarafından oluşturuldu",
+    "aboutCreatedBy": "DonutWare tarafından geliştirildi",
     "aboutSocials": "Sosyal Medya",
     "settingsAutoNextDesc": "Sırada başka bir öğe varsa, bitime yakın bir sıradaki önizlemesi görüntüler",
     "aboutLicenses": "Lisanslar",
@@ -580,16 +580,16 @@
     "autoNextOffStaticTitle": "Statik",
     "autoNextOffStaticDesc": "30 saniye oynatma süresi kaldığında sıradaki ekranını göster",
     "playbackRate": "Oynatma hızı",
-    "unableToPlayBooksOnWeb": "Kitaplar şimdilik web üzerinde desteklenmemektedir",
+    "unableToPlayBooksOnWeb": "Kitaplar şimdilik web üzerinden desteklenmemektedir",
     "speed": "Hız",
-    "unableToPlayMedia": "Uyumlu bir medya türü bulunurken bir hata oluştu",
+    "unableToPlayMedia": "Uyumlu bir medya türü aranırken bir hata oluştu",
     "errorOpeningMedia": "Bu medyayı oynatmaya çalışırken bir şeyler ters gitti",
-    "defaultFilterForLibrary": "Arşiv için varsayılan filtre",
+    "defaultFilterForLibrary": "Kütüphane için varsayılan filtre",
     "updateFilterForLibrary": "Filtreyi güncelle",
     "deleteFilterConfirmation": "Bu filtreyi silmek istediğinizden emin misiniz?",
-    "libraryFiltersLimitReached": "Filtre sınırına ulaşıldı (10), bazı filtreleri kaldırın",
+    "libraryFiltersLimitReached": "Filtre sınırına ulaşıldı (10), lütfen bazı filtreleri kaldırın",
     "libraryFiltersRemoveAll": "Tüm filtreleri kaldır",
-    "libraryFiltersRemoveAllConfirm": "Bu, her arşiv için kaydedilmiş tüm filtreleri silecektir",
+    "libraryFiltersRemoveAllConfirm": "Bu işlem, her kütüphane için kaydedilmiş tüm filtreleri silecektir",
     "playerSettingsOrientationTitle": "Oynatıcı yönü",
     "playerSettingsOrientationDesc": "Video oynatıcıyı belirli yönlere zorla",
     "deviceOrientationPortraitUp": "Dikey Yukarı",
@@ -606,18 +606,18 @@
     "clientSettingsRequireWifiTitle": "Wi-Fi gerektir",
     "clientSettingsRequireWifiDesc": "Yalnızca bir Wi-Fi ağına bağlıyken indir",
     "clientSettingsShowAllCollectionsTitle": "Tüm koleksiyon türlerini göster",
-    "clientSettingsShowAllCollectionsDesc": "Etkinleştirildiğinde, Fladder tarafından desteklenmeyenler de dahil olmak üzere tüm koleksiyon türlerini göster",
+    "clientSettingsShowAllCollectionsDesc": "Etkinleştirildiğinde, Fladder tarafından desteklenmeyenler de dahil olmak üzere tüm koleksiyon türlerini gösterir",
     "resumeVideo": "Videoya devam et",
     "closeVideo": "Videoyu kapat",
     "playNextVideo": "Sıradaki videoyu oynat",
-    "playerSettingsBackendTitle": "Video oynatıcı Motoru",
+    "playerSettingsBackendTitle": "Video Oynatıcı Motoru",
     "playerSettingsBackendDesc": "Optimum oynatma deneyimi için tercih ettiğiniz medya oynatıcıyı seçin",
     "defaultLabel": "Varsayılan",
     "@defaultLabel": {
         "description": "To indicate a default value, default video player backend"
     },
     "noVideoPlayerOptions": "Seçilen motorun seçeneği yok",
-    "mdkExperimental": "MDK hala deneysel bir aşamadadır",
+    "mdkExperimental": "MDK henüz deneysel aşamadadır",
     "skipButtonLabel": "{segment} Atla",
     "@skipButtonLabel": {
         "placeholders": {
@@ -656,7 +656,7 @@
     "episodeUnaired": "Yayınlanmadı",
     "episodeMissing": "Eksik",
     "internetStreamingQualityTitle": "İnternet kalitesi",
-    "internetStreamingQualityDesc": "İnternet üzerinden (mobil) maksimum akış kalitesi",
+    "internetStreamingQualityDesc": "İnternet üzerinden (hücresel) maksimum akış kalitesi",
     "homeStreamingQualityTitle": "Ev ağı kalitesi",
     "homeStreamingQualityDesc": "Ev ağına bağlıyken maksimum akış kalitesi",
     "qualityOptionsTitle": "Kalite seçenekleri",
@@ -679,7 +679,7 @@
         }
     },
     "maxConcurrentDownloadsTitle": "Maksimum eşzamanlı indirme",
-    "maxConcurrentDownloadsDesc": "Aynı anda çalışabilecek maksimum indirme sayısını ayarlar. Limiti devre dışı bırakmak için 0 olarak ayarlayın.",
+    "maxConcurrentDownloadsDesc": "Aynı anda çalışabilecek maksimum indirme sayısını ayarlar. Limiti devre dışı bırakmak için 0 yapın.",
     "playbackTrackSelection": "Oynatma kanalı seçimi",
     "rememberSubtitleSelections": "Altyazı kanalını önceki öğeye göre ayarla",
     "rememberAudioSelections": "Ses kanalını önceki öğeye göre ayarla",
@@ -688,10 +688,10 @@
     "hasDirectorFromRecentlyPlayed": "Son oynatılanlardan yönetmen içerir",
     "hasActorFromRecentlyPlayed": "Son oynatılanlardan aktör içerir",
     "playbackTypeTranscode": "Dönüştürerek",
-    "newUpdateFoundOnGithub": "Github'da yeni bir güncelleme bulundu",
+    "newUpdateFoundOnGithub": "GitHub'da yeni bir güncelleme bulundu",
     "enableBackgroundPostersTitle": "Arka plan afişlerini etkinleştir",
     "enableBackgroundPostersDesc": "Uygun ekranlarda rastgele afişler göster",
-    "logoutUserPopupContent": "Bu işlem, {userName} kullanıcısının çıkış yapmasını ve kullanıcının uygulamadan silinmesini sağlayacaktır. \n{serverName} sunucusunda tekrar giriş yapmanız gerekecektir.",
+    "logoutUserPopupContent": "Bu işlem, {userName} kullanıcısının çıkış yapmasını ve cihazdan silinmesini sağlayacaktır.\n{serverName} sunucusunda tekrar giriş yapmanız gerekecektir.",
     "@logoutUserPopupContent": {
         "description": "Pop-up for logging out the user description",
         "placeholders": {
@@ -728,14 +728,14 @@
         }
     },
     "ascending": "Artan",
-    "audio": "{count, plural, one{Ses} other{Ses}}",
+    "audio": "{count, plural, one{Ses} other{Sesler}}",
     "autoPlay": "Otomatik oynat",
     "clear": "Temizle",
     "clearAllSettings": "Tüm ayarları temizle",
     "clearAllSettingsQuestion": "Tüm ayarlar temizlensin mi?",
     "clearChanges": "Değişiklikleri temizle",
     "communityRating": "Topluluk Puanı",
-    "continuePage": "Devam - sayfa {page}",
+    "continuePage": "Devam - Sayfa {page}",
     "@continuePage": {
         "description": "Continue - page 1",
         "placeholders": {
@@ -765,7 +765,7 @@
             }
         }
     },
-    "libraryFetchNoItemsFound": "Öğe bulunamadı. Farklı ayarlar deneyin.",
+    "libraryFetchNoItemsFound": "Kütüphanede öğe bulunamadı. Farklı filtreler deneyin.",
     "libraryPageSizeDesc": "Tek seferde yüklenecek miktarı ayarlayın. 0, sayfalama özelliğini kapatır.",
     "light": "Açık",
     "logoutUserPopupTitle": "{userName} çıkış yapsın mı?",
@@ -781,8 +781,8 @@
     "mediaTypePhotoAlbum": "{count, plural, one{Fotoğraf Albümü} other{Fotoğraf Albümleri}}",
     "mediaTypePlaylist": "{count, plural, one{Oynatma Listesi} other{Oynatma Listeleri}}",
     "mediaTypeSeason": "{count, plural, one{Sezon} other{Sezonlar}}",
-    "mediaTypeSeries": "{count, plural, one{Diziler} other{Diziler}}",
-    "metaDataSavedFor": "{item} için üst veri kaydedildi",
+    "mediaTypeSeries": "{count, plural, one{Dizi} other{Diziler}}",
+    "metaDataSavedFor": "{item} için meta veri kaydedildi",
     "@metaDataSavedFor": {
         "description": "metaDataSavedFor",
         "placeholders": {
@@ -792,8 +792,8 @@
         }
     },
     "metadataRefreshDefault": "Yeni ve güncellenmiş dosyaları tara",
-    "metadataRefreshFull": "Tüm üst verileri değiştir",
-    "metadataRefreshValidation": "Eksik üst verileri ara",
+    "metadataRefreshFull": "Tüm meta verileri değiştir",
+    "metadataRefreshValidation": "Eksik meta verileri ara",
     "minutes": "{count, plural, one{Dakika} other{Dakika}}",
     "@minutes": {
         "description": "minute",
@@ -900,7 +900,7 @@
             }
         }
     },
-    "refreshMetadata": "Üst veriyi yenile",
+    "refreshMetadata": "Meta veriyi yenile",
     "refreshPopup": "Yenile - {name}",
     "@refreshPopup": {
         "placeholders": {
@@ -909,7 +909,7 @@
             }
         }
     },
-    "refreshPopupContentMetadata": "Üst veri, ayarlara ve anasayfada açık olan internet hizmetlerine göre yenilenir.",
+    "refreshPopupContentMetadata": "Meta veri, ayarlara ve anasayfada açık olan internet hizmetlerine göre yenilenir.",
     "related": "İlgili",
     "releaseDate": "Yayın tarihi",
     "removeAsFavorite": "Favorilerden kaldır",
@@ -956,7 +956,7 @@
             }
         }
     },
-    "syncAllItemsDesc": "Bu işlem, '{itemName}' konumundaki ({itemCount}) öğeyi cihazınızla eşitleyecektir..\nÖğe sayısına bağlı olarak bu işlem biraz zaman alabilir.",
+    "syncAllItemsDesc": "Bu işlem, '{itemName}' konumundaki ({itemCount}) öğeyi cihazınızla eşitleyecektir.\nÖğe sayısına bağlı olarak bu işlem biraz zaman alabilir.",
     "@syncAllItemsDesc": {
         "description": "syncAllitemsFromDesc",
         "placeholders": {
@@ -995,8 +995,8 @@
     "syncDeleteAll": "Tüm dosyaları sil",
     "syncAllFiles": "Tüm dosyaları eşitle",
     "offline": "Çevrimdışı",
-    "usePostersForLibraryIconsTitle": "Arşiv simgeleri için afişleri göster",
-    "usePostersForLibraryIconsDesc": "Arşivler için simge yerine afiş göster",
+    "usePostersForLibraryIconsTitle": "Kütüphane simgeleri için afişleri göster",
+    "usePostersForLibraryIconsDesc": "Kütüphaneler için simge yerine afiş göster",
     "shortCuts": "Kısayollar",
     "skipForwardLength": "İleri sarma uzunluğu",
     "skipBackLength": "Geri sarma uzunluğu",
@@ -1031,7 +1031,7 @@
         }
     },
     "keyboardShortCuts": "Kısayol tuşları",
-    "exitFladderDesc": "Fladder'ı kapatmak istediğinizden emin misiniz?",
+    "exitFladderDesc": "Fladder'dan çıkmak istediğinizden emin misiniz?",
     "television": "Televizyon",
     "quickConnectEnterCodeDescription": "Giriş yapmak için aşağıdaki kodu giriniz",
     "showMore": "Daha fazla göster",
@@ -1047,7 +1047,7 @@
     },
     "addToQueue": "Sıraya Ekle",
     "instantMix": "Anında miks",
-    "addedToQueue": "{count, plural, one{ {count} parça sıraya eklendi} other{{count} parçalar sıraya eklendi}}",
+    "addedToQueue": "{count, plural, one{{count} parça sıraya eklendi} other{{count} parça sıraya eklendi}}",
     "@addedToQueue": {
         "placeholders": {
             "count": {
@@ -1080,13 +1080,13 @@
             }
         }
     },
-    "shareLoginLink": "Giriş linkini paylaş",
-    "shareQRCode": "QR kod paylaş",
-    "copyLoginLink": "Linki kopyala",
+    "shareLoginLink": "Giriş bağlantısını paylaş",
+    "shareQRCode": "QR kodu paylaş",
+    "copyLoginLink": "Bağlantıyı kopyala",
     "includePassword": "Şifreyi dahil et",
-    "invalidAuthLink": "Geçersiz giriş linki",
+    "invalidAuthLink": "Geçersiz giriş bağlantısı",
     "gestures": "Hareketler",
-    "dashboardRecentlyAddedItems": "{name} yakın zamanda eklendi",
+    "dashboardRecentlyAddedItems": "{name} - Yakın zamanda eklendi",
     "@dashboardRecentlyAddedItems": {
         "description": "Recently added items on home screen",
         "placeholders": {
@@ -1120,8 +1120,8 @@
     "playMusic": "Müzik çal",
     "popularity": "Popülerlik",
     "contentRating": "İçerik derecelendirmesi",
-    "runtimeMinutesTitle": "Oynatma süresi (dakikalar)",
-    "runtimeRangeMinutes": "{min} - {max} dakikalar",
+    "runtimeMinutesTitle": "Oynatma süresi (dakika)",
+    "runtimeRangeMinutes": "{min} - {max} dakika",
     "@runtimeRangeMinutes": {
         "placeholders": {
             "min": {
@@ -1151,7 +1151,7 @@
             }
         }
     },
-    "authenticateWithBiometrics": "{user} kimliğini doğrulamak için biyometri kullanın",
+    "authenticateWithBiometrics": "{user} kimliğini doğrulamak için biyometriyi kullanın",
     "@authenticateWithBiometrics": {
         "description": "Prompt shown to the user when biometric authentication is requested",
         "placeholders": {
@@ -1171,20 +1171,20 @@
     "subtitlePlaybackModeOnlyForced": "Sadece zorunlu",
     "subtitlePlaybackModeNone": "Yok",
     "subtitlePlaybackModeSmart": "Akıllı",
-    "backgroundColor": "Arkaplan rengi",
-    "syncPlaylistDeleteTitle": "Senkronize oynatma listesini sil",
-    "syncPlaylistDeleteContent": "Bu çalma listesinden senkronize edilen şarkıları da kaldırmak istiyor musunuz?",
+    "backgroundColor": "Arka plan rengi",
+    "syncPlaylistDeleteTitle": "Eşitlenmiş oynatma listesini sil",
+    "syncPlaylistDeleteContent": "Bu oynatma listesinden eşitlenen şarkıları da kaldırmak istiyor musunuz?",
     "syncPlaylistKeepTracks": "Parçaları sakla",
     "syncPlaylistRemoveTracks": "Parçaları sil",
     "pictureInPictureTitle": "Picture-in-Picture",
     "@pictureInPictureTitle": {
         "description": "Tooltip on the in-player PiP button"
     },
-    "pictureInPictureAutoTitle": "Automatik Picture-in-Picture",
+    "pictureInPictureAutoTitle": "Otomatik Picture-in-Picture",
     "@pictureInPictureAutoTitle": {
         "description": "Title of the auto-enter Picture-in-Picture setting toggle"
     },
-    "removedFromPlaylist": "{playlistName} adlı oynatma listesinden kaldırıldı",
+    "removedFromPlaylist": "{playlistName} oynatma listesinden kaldırıldı",
     "@removedFromPlaylist": {
         "placeholders": {
             "playlistName": {
@@ -1192,31 +1192,31 @@
             }
         }
     },
-    "pictureInPictureNotSupported": "Picture-in-Picture bu cihazda kullanılabilir değil",
+    "pictureInPictureNotSupported": "Picture-in-Picture bu cihazda desteklenmiyor",
     "@pictureInPictureNotSupported": {
         "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
     },
-    "pictureInPictureSubtitle": "Oynatıcıdan çıkınca otomatik olarak Picture-in-Picture moduna girin. PiP butonu bu ayar dışında da kontrollerde çalışır.",
+    "pictureInPictureSubtitle": "Oynatıcıdan çıkınca otomatik olarak Picture-in-Picture moduna geçin. PiP butonu bu ayar dışında da kontrollerde çalışır.",
     "@pictureInPictureSubtitle": {
         "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
     },
-    "deleteRequestConfirmation": "Bu isteği silmek istediğinize emin misiniz?",
-    "enableEdgeGesturesTitle": "Kenar hareketlerini aktive et",
-    "enableEdgeGesturesDesc": "Parlaklık ve sesi ekranın kenarlarını yukarı ve aşağı kaydırarak kontrol et",
-    "reverseEdgeGesturesTitle": "Kenar hareketlerini çevir",
-    "reverseEdgeGesturesDesc": "Parlaklık ve ses kontrolü için kenarları değiştir",
+    "deleteRequestConfirmation": "Bu isteği silmek istediğinizden emin misiniz?",
+    "enableEdgeGesturesTitle": "Kenar hareketlerini etkinleştir",
+    "enableEdgeGesturesDesc": "Parlaklık ve sesi ekranın kenarlarını yukarı ve aşağı kaydırarak kontrol edin",
+    "reverseEdgeGesturesTitle": "Kenar hareketlerini tersine çevir",
+    "reverseEdgeGesturesDesc": "Parlaklık ve ses kontrolü için kullanılan kenarları değiştirin",
     "playerSettingsReplayGainTitle": "ReplayGain",
     "playerSettingsReplayGainDesc": "Müzik ses seviyesini ReplayGain etiketlerini kullanarak normalleştirin.",
     "playerSettingsReplayGainLevelTitle": "ReplayGain seviyesi",
     "playerSettingsReplayGainLevelDesc": "ReplayGain normalleştirmesi için hedef ses seviyesini belirleyin. Genel standart -14 dB'dir, ancak bunu tercihinize göre ayarlayabilirsiniz.",
-    "settingsPlayerCrossfadeTitle": "Şarkı Geçişi",
-    "settingsPlayerCrossfadeDesc": "Aynı albümde ardışık olmayan şarkılar arasında geçiş yap",
+    "settingsPlayerCrossfadeTitle": "Şarkı Geçişi (Crossfade)",
+    "settingsPlayerCrossfadeDesc": "Aynı albümde ardışık olmayan şarkılar arasında yumuşak geçiş yap",
     "settingsPlayerCrossfadeDurationTitle": "Şarkı Geçişi süresi",
     "settingsPlayerCrossfadeDurationDesc": "Şarkı geçişinin ne kadar süreceği",
     "advancedVideoOptionsTitle": "Gelişmiş video seçenekleri",
     "advancedVideoOptionsDesc": "HDR'ı etkinleştir, ton eşleme ve gelişmiş renk yönetimi (bazı cihazlar için kararsız olabilir)",
     "segmentActionSkipOnce": "Bir kere atla",
-    "quitMultipleWindowsDesc": "{count} tane pencereniz açık. Fladder'dan çıkmak hepsini kapatacak. Devam etmek istiyor musunuz?",
+    "quitMultipleWindowsDesc": "{count} adet pencereniz açık. Fladder'dan çıkmak hepsini kapatacak. Devam etmek istiyor musunuz?",
     "@quitMultipleWindowsDesc": {
         "placeholders": {
             "count": {
@@ -1247,15 +1247,15 @@
             }
         }
     },
-    "enableSpeedBoostTitle": "Hızlanmayı aktive et",
+    "enableSpeedBoostTitle": "Hızlandırmayı etkinleştir",
     "enableSpeedBoostDesc": "Oynatma hızını geçici olarak artırmak için ekrana basılı tutun (mobil) veya boşluk tuşuna basın (masaüstü)",
     "speedBoostRateTitle": "Hız artırımı oranı",
-    "speedBoostRateDesc": "Hızlandırma açıkken çalma hızı",
-    "enableDoubleTapSeekTitle": "Sarmak/oynatmak/duraklatmak için çift dokunun",
-    "enableDoubleTapSeekDesc": "Geri/ileri sarmak için ekranın sol/sağ tarafına çift dokunun. Oynatmak/duraklatmak için ortaya çift dokunun",
-    "quickConnectPostFailed": "Hızlı bağlanma kodunu almakta başarısız olundu",
-    "quickConnectLoginUsingCode": "Hızlı bağlanma kullanılıyor",
-    "openJellyfinQuickConnect": "Jellyfin Hızlı Bağlanma'yı aç",
+    "speedBoostRateDesc": "Hızlandırma açıkken uygulanacak oynatma hızı",
+    "enableDoubleTapSeekTitle": "Sarmak/Oynatmak/Duraklatmak için çift dokunun",
+    "enableDoubleTapSeekDesc": "Geri/ileri sarmak için ekranın sol/sağ tarafına çift dokunun. Oynatmak/duraklatmak için ortasına çift dokunun",
+    "quickConnectPostFailed": "Hızlı bağlantı kodu alınamadı",
+    "quickConnectLoginUsingCode": "Hızlı bağlantı kullanılıyor",
+    "openJellyfinQuickConnect": "Jellyfin Hızlı Bağlantı'yı aç",
     "showLess": "Daha az göster",
     "itemColorsTitle": "Öğe renkleri",
     "itemColorsDesc": "Detaylar sayfasının temasını öğenin ana rengine göre belirleyin",
@@ -1274,8 +1274,8 @@
         }
     },
     "takeScreenshot": "Ekran görüntüsü al",
-    "takeScreenshotClean": "Ekran görüntüsü al (altyazılar olmadan)",
-    "toggleSubtitles": "Altyazıları aç/kapa",
+    "takeScreenshotClean": "Ekran görüntüsü al (altyazısız)",
+    "toggleSubtitles": "Altyazıları aç/kapat",
     "screenshotTaken": "Ekran görüntüsü kaydedildi!",
     "screenshotCleanTaken": "Altyazısız ekran görüntüsü kaydedildi!",
     "errorTakingScreenshot": "Ekran görüntüsü alınırken bir hata oluştu",
@@ -1286,9 +1286,9 @@
     "screensaverBlack": "Siyah",
     "playerSettingsScreensaverTitle": "Ekran Koruyucu",
     "playerSettingsScreensaverDesc": "Oynatıcıda etkinlik olmadığında gösterilecek ekran koruyucuyu seçin",
-    "settingsLocalUrlTitle": "Lokal Jellyfin URLsi",
-    "settingsLocalUrlSetTitle": "Lokal Jellyfin URLsi'ni değiştir",
-    "settingsLocalUrlSetDesc": "Yerel Jellyfin adresini belirtin. Cihazınız aynı ağa bağlı olduğunda Fladder bu bağlantıyı otomatik olarak kullanır.",
+    "settingsLocalUrlTitle": "Yerel Jellyfin URL'si",
+    "settingsLocalUrlSetTitle": "Yerel Jellyfin URL'sini değiştir",
+    "settingsLocalUrlSetDesc": "Yerel Jellyfin adresinizi belirtin. Cihazınız aynı ağa bağlı olduğunda Fladder bu bağlantıyı otomatik olarak kullanır.",
     "regenerateTrickplayImages": "Trickplay fotoğraflarını yeniden oluşturun",
     "controlPanel": "Kontrol Paneli",
     "controlPanelDesc": "Sunucu, Aktivite, Kullanıcılar, Kütüphane",
@@ -1305,13 +1305,13 @@
     "logs": "Kayıtlar",
     "transcodingTemp": "Geçici Kod Dönüştürme",
     "count": "Sayı",
-    "scanAllLibraries": "Bütün kütüphaneleri tara",
+    "scanAllLibraries": "Tüm kütüphaneleri tara",
     "restartServer": "Sunucuyu yeniden başlat",
     "shutDownServer": "Sunucuyu kapat",
     "dashboardDesc": "Sunucu, Sayı, Cihazlar, Depolama",
     "lastActivity": "Son aktivite",
     "activeTasks": "Aktif görevler",
-    "hours": "{count, plural, one{Saat} other{Saatler}}",
+    "hours": "{count, plural, one{Saat} other{Saat}}",
     "@hours": {
         "description": "Pluralization for hours",
         "placeholders": {
@@ -1321,7 +1321,7 @@
             }
         }
     },
-    "weeks": "{count, plural, one{Hafta} other{Haftalar}}",
+    "weeks": "{count, plural, one{Hafta} other{Hafta}}",
     "@weeks": {
         "description": "Pluralization for weeks",
         "placeholders": {
@@ -1331,7 +1331,7 @@
             }
         }
     },
-    "months": "{count, plural, one{Ay} other{Aylar}}",
+    "months": "{count, plural, one{Ay} other{Ay}}",
     "@months": {
         "description": "Pluralization for months",
         "placeholders": {
@@ -1341,7 +1341,7 @@
             }
         }
     },
-    "years": "{count, plural, one{Yıllar} other{Yıllar}}",
+    "years": "{count, plural, one{Yıl} other{Yıl}}",
     "@years": {
         "description": "Pluralization for years",
         "placeholders": {
@@ -1360,7 +1360,7 @@
             }
         }
     },
-    "airsIn": "{count} {duration} içinde yayınlanıyor",
+    "airsIn": "{count} {duration} içinde yayınlanacak",
     "@airsIn": {
         "description": "airsIn",
         "placeholders": {
@@ -1397,8 +1397,8 @@
     "dayOfTheWeek": "Haftanın günü",
     "time": "Zaman",
     "interval": "Aralık",
-    "taskTimeLimitInHours": "Zaman sınırı (saatler)",
-    "taskTriggerIntervalDesc": "Her {time}",
+    "taskTimeLimitInHours": "Zaman sınırı (saat)",
+    "taskTriggerIntervalDesc": "Her {time} sürede bir",
     "@taskTriggerIntervalDesc": {
         "description": "Task trigger interval desc",
         "placeholders": {
@@ -1407,7 +1407,7 @@
             }
         }
     },
-    "taskTriggerDailyDesc": "Her gün {time}'de",
+    "taskTriggerDailyDesc": "Her gün {time} zamanında",
     "@taskTriggerDailyDesc": {
         "description": "taskTriggerDailyDesc",
         "placeholders": {
@@ -1416,7 +1416,7 @@
             }
         }
     },
-    "taskTriggerWeeklyDesc": "Her hafta {day} günü {time}'de",
+    "taskTriggerWeeklyDesc": "Her hafta {day} günü saat {time}'de",
     "@taskTriggerWeeklyDesc": {
         "description": "taskTriggerWeeklyDesc",
         "placeholders": {
@@ -1440,13 +1440,13 @@
     "performance": "Performans",
     "serverNameLabel": "Sunucu ismi",
     "cachePath": "Önbellek yolu",
-    "metadataPath": "Metadata yolu",
+    "metadataPath": "Meta veri yolu",
     "maxConcurrentLibraryScanLabel": "Aynı anda yapılabilecek en fazla kütüphane taraması",
     "maxConcurrentLibraryScanDesc": "Kütüphane taramaları sırasında yürütülecek maksimum paralel görev sayısı. Bu alanı boş bırakırsanız, sisteminizin çekirdek sayısına göre bir sınır belirlenir. UYARI: Bu sayıyı çok yüksek ayarlamak ağ dosya sistemlerinde sorunlara yol açabilir; sorunla karşılaşırsanız bu sayıyı düşürün.",
     "maxImageDecodingThreadsLabel": "Maksimum resim çözme iş parçacığı",
     "maxImageDecodingThreadsDesc": "Paralel olarak çalışmasına izin verilen maksimum görüntü kodlama işlemi sayısı. Bu alanı boş bırakırsanız, sisteminizin çekirdek sayısına göre bir sınır belirlenir.",
-    "controlPanelServerDesc": "Sunucu ismi, Hızlı Bağlanma, Performans",
-    "deleteUserTitle": "Kullanıcı {user}'yı silmek istediğinize emin misiniz?",
+    "controlPanelServerDesc": "Sunucu ismi, Hızlı Bağlantı, Performans",
+    "deleteUserTitle": "{user} kullanıcısını silmek istediğinizden emin misiniz?",
     "@deleteUserTitle": {
         "description": "deleteUserTitle",
         "placeholders": {
@@ -1465,7 +1465,7 @@
         }
     },
     "userInformation": "Kullanıcı Bilgileri",
-    "allowManageServer": "Bu kullanıcıyı sunucuyu yönetmesi için izin ver",
+    "allowManageServer": "Bu kullanıcının sunucuyu yönetmesine izin ver",
     "allowCollections": "Bu kullanıcının koleksiyonları değiştirmesine izin ver",
     "allowEditSubtitles": "Bu kullanıcının altyazıları düzenlemesine izin ver",
     "featureAccess": "Özellik erişimi",
@@ -1477,18 +1477,18 @@
     "allowAudioTranscoding": "Kod dönüştürme gereken ses oynatımına izin ver",
     "allowMediaConversion": "Medya dönüştürme gerektiren video oynatımına izin ver",
     "forceRemoteTranscoding": "Uzak kaynaklı kod dönüştürmeyi zorla",
-    "syncplay": "Eşzamanlı Oynatma",
+    "syncplay": "Syncplay (Eşzamanlı Oynatma)",
     "syncplayAccess": "Syncplay erişimi",
     "syncplayAccessCreateAndJoinGroups": "Grup Oluştur ve Katıl",
     "syncplayAccessJoinGroups": "Gruplara Katıl",
-    "syncplayAccessNone": "Hiç",
+    "syncplayAccessNone": "Hiçbiri",
     "allowMediaDeletion": "Medya silmeye izin ver",
-    "allLibraries": "Bütün kütüphaneler",
+    "allLibraries": "Tüm kütüphaneler",
     "libraryAccess": "Kütüphane Erişimi",
-    "enableAllLibraries": "Bütün kütüphanelere erişim ver",
-    "enableAllDevices": "Bütün cihazlara erişim ver",
+    "enableAllLibraries": "Tüm kütüphanelere erişim ver",
+    "enableAllDevices": "Tüm cihazlara erişim ver",
     "parentalControl": "Ebeveyn Denetimi",
-    "blockedItemsNoRating": "Engellenmiş derecelendirilmemiş veya bilinmeyen ögeler",
+    "blockedItemsNoRating": "Engellenmiş derecelendirilmemiş veya bilinmeyen öğeler",
     "newTrigger": "Yeni tetikleyici",
     "newTaskTrigger": "Yeni görev tetikleyicisi",
     "maxParentalRating": "Maksimum ebeveyn derecelendirmesi",
@@ -1508,7 +1508,7 @@
     "access": "Erişim",
     "endTimeMustBeAfter": "Bitiş zamanı başlangıç zamanından sonra olmalıdır",
     "assignLibraries": "Kütüphaneleri Ata",
-    "enableAccessAllLibraries": "Bütün kütüphanelere erişim izni ver",
+    "enableAccessAllLibraries": "Tüm kütüphanelere erişim izni ver",
     "currentPassword": "Mevcut şifre",
     "newPassword": "Yeni şifre",
     "confirmPassword": "Şifreyi onayla",
@@ -1516,9 +1516,9 @@
     "passwordResetSuccess": "Şifre başarıyla sıfırlandı",
     "passwordResetFailed": "Şifre sıfırlanmasında bir hata oluştu",
     "passwordMismatch": "Yeni şifre ve şifreyi onayla alanları uyuşmuyor",
-    "passwordChangeSuccess": "Başarıyla şifre değiştirildi",
+    "passwordChangeSuccess": "Şifre başarıyla değiştirildi",
     "savePassword": "Şifreyi kaydet",
-    "deleteLibraryConfirmTitle": "Kütüphaneyi sil?",
+    "deleteLibraryConfirmTitle": "Kütüphane silinsin mi?",
     "deleteLibraryConfirmMessage": "{libraryName} kütüphanesini silmek istediğinizden emin misiniz?\nBu işlem geri alınamaz.",
     "@deleteLibraryConfirmMessage": {
         "placeholders": {
@@ -1538,8 +1538,8 @@
     "autoRefreshIntervalNote": "Bunu etkinleştirmek daha uzun kütüphane yenileme sürelerine yol açabilir.",
     "preferredDownloadLanguage": "Tercih edilen indirme dili",
     "countryRegion": "Ülke/Bölge",
-    "saveMetadata": "Metaveri'yi kaydet",
-    "metadataFetchers": "Metaveri sağlayıcıları {type}",
+    "saveMetadata": "Meta veriyi kaydet",
+    "metadataFetchers": "Meta veri sağlayıcıları ({type})",
     "@metadataFetchers": {
         "placeholders": {
             "type": {
@@ -1547,9 +1547,9 @@
             }
         }
     },
-    "enableAndRankMetadataFetchers": "Tercih ettiğiniz metaveri sağlayıcılarını etkinleştirin ve öncelik sırasına göre sıralayın.",
+    "enableAndRankMetadataFetchers": "Tercih ettiğiniz meta veri sağlayıcılarını etkinleştirin ve öncelik sırasına göre sıralayın.",
     "enableAndRankImagesFetchers": "Tercih ettiğiniz fotoğraf sağlayıcılarını etkinleştirin ve öncelik sırasına göre sıralayın.",
-    "imageFetchers": "Fotoğraf sağlayıcıları {type}",
+    "imageFetchers": "Fotoğraf sağlayıcıları ({type})",
     "@imageFetchers": {
         "placeholders": {
             "type": {
@@ -1582,7 +1582,7 @@
     "metadataImageLongPressTouch": "Resmi silmek için uzun basın",
     "metadataImageLongPressClick": "Resmi silmek için sağ tıklayın",
     "primary": "Birincil",
-    "logo": "{count, plural, other{Logolar} one{Logo}}",
+    "logo": "{count, plural, one{Logo} other{Logolar}}",
     "@logo": {
         "description": "logo",
         "placeholders": {
@@ -1592,7 +1592,7 @@
             }
         }
     },
-    "backdrop": "{count, plural, other{Arka Planlar} one{Arka Plan}}",
+    "backdrop": "{count, plural, one{Arka Plan} other{Arka Planlar}}",
     "@backdrop": {
         "description": "backdrop",
         "placeholders": {
@@ -1709,7 +1709,7 @@
     "seerrAuthLocal": "Yerel",
     "seerrAuthJellyfin": "Jellyfin",
     "seerrUserFetchFailed": "Seerr'den kullanıcı alınamadı",
-    "seerrEnterServerUrlFirst": "Önce bir Seerr sunucu URL'si girin",
+    "seerrEnterServerUrlFirst": "Önce bir Seerr sunucu adresi girin",
     "seerrUrlSchemeWarning": "URL şeması otomatik olarak algılanamadı. Varsayılan olarak https:// kullanılıyor. Sunucunuz HTTPS kullanmıyorsa http:// önekini ekleyin.",
     "seerrApiKeySaved": "API anahtarı kaydedildi",
     "seerrLoggedIn": "Seerr'e giriş yapıldı",
@@ -1726,10 +1726,10 @@
     "seerrHeaderValue": "Değer",
     "emailUsername": "E-posta/Kullanıcı Adı",
     "discover": "Keşfet",
-    "sponsor": "Sponsor",
-    "sponsorMessage": "Fladder'ı kullanmaktan keyif alıyorsanız, devam eden geliştirmeleri ve iyileştirmeleri desteklemek için projeye sponsor olmayı düşünebilirsiniz. Desteğiniz için teşekkürler!",
+    "sponsor": "Sponsor Ol",
+    "sponsorMessage": "Fladder'ı kullanmaktan keyif alıyorsanız, geliştirilmesini ve iyileştirilmesini desteklemek için projeye sponsor olmayı düşünebilirsiniz. Desteğiniz için teşekkürler!",
     "min": "min",
-    "max": "max",
+    "max": "maks",
     "manageRequest": "İsteği yönet",
     "requestAll": "Tümünü iste",
     "openInSeerr": "Seerr'de aç",
