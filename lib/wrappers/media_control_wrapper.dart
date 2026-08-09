@@ -74,8 +74,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   bool _isNewPlayback = false;
   bool _isAudioQueueMode = false;
   bool _audioQueueTransitioning = false;
-
-  /// Last requested wakelock state; used to skip redundant calls during steady playback.
   bool _wakelockEnabled = false;
 
   AudioPrefetchBuffer? _prefetchBuffer;
@@ -317,15 +315,13 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     return loadPreviousVideo();
   }
 
-  /// Video needs the screen awake; audio can keep playing with the screen off.
   bool _shouldKeepScreenOn(bool playing) {
     final item = ref.read(playBackModel.select((value) => value?.item));
     return playing && item is! AudioModel;
   }
 
-  /// Single source of truth for the wakelock. Idempotent during steady
-  /// playback; pass [force] to re-apply even when [_wakelockEnabled] already
-  /// matches (needed after Android silently clears the window flag on resume).
+  /// [force] re-applies even when the cached state already matches, since
+  /// Android silently clears the keep-screen-on flag while we still think it's set.
   Future<void> _applyWakelock(bool shouldEnable, {bool force = false}) async {
     if (!force && shouldEnable == _wakelockEnabled) return;
     _wakelockEnabled = shouldEnable;
@@ -336,10 +332,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     }
   }
 
-  /// Re-applies the wakelock based on the current playback state. Called when
-  /// the app returns to the foreground, because Android drops the
-  /// keep-screen-on window flag across a background→foreground cycle and
-  /// nothing else restores it while playback continues.
   Future<void> reassertWakelock() async =>
       _applyWakelock(_shouldKeepScreenOn(_player?.lastState.playing ?? false), force: true);
 
