@@ -429,10 +429,11 @@ class LibMPV extends BasePlayer {
   // mpv parses tracks asynchronously after open(); at playback start the list is still empty, so a
   // positional lookup would miss and leave mpv on its own default pick. Wait (capped) for [index].
   Future<void> _awaitTrack(int index, int Function(mpv.Tracks) count) async {
-    if (_player == null || index < 0 || count(_player!.state.tracks) > index + 2) return;
-    await _player!.stream.tracks
+    final player = _player;
+    if (player == null || index < 0 || count(player.state.tracks) > index + 2) return;
+    await player.stream.tracks
         .firstWhere((tracks) => count(tracks) > index + 2)
-        .timeout(const Duration(seconds: 5), onTimeout: () => _player!.state.tracks);
+        .timeout(const Duration(seconds: 5), onTimeout: () => player.state.tracks);
   }
 
   @override
