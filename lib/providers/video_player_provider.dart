@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,14 +21,22 @@ final playBackModel = StateProvider<PlaybackModel?>((ref) => null);
 
 final videoPlayerProvider = StateNotifierProvider<VideoPlayerNotifier, MediaControlsWrapper>((ref) {
   final videoPlayer = VideoPlayerNotifier(ref);
-  videoPlayer.init();
+  if (defaultTargetPlatform != TargetPlatform.windows) {
+    unawaited(videoPlayer.init());
+  }
   return videoPlayer;
 });
 
+typedef VideoPlayerInitializer = Future<void> Function();
+
 class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
-  VideoPlayerNotifier(this.ref) : super(MediaControlsWrapper(ref: ref));
+  VideoPlayerNotifier(this.ref, {VideoPlayerInitializer? initializer})
+      : _initializerOverride = initializer,
+        super(MediaControlsWrapper(ref: ref));
 
   final Ref ref;
+  final VideoPlayerInitializer? _initializerOverride;
+  Future<void>? _activeInitialization;
 
   List<StreamSubscription> subscriptions = [];
 
@@ -35,14 +44,29 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
   MediaPlaybackModel get playbackState => ref.read(mediaPlaybackProvider);
 
-  Future<void> init() async {
+  Future<void> init() {
+    final activeInitialization = _activeInitialization;
+    if (activeInitialization != null) return activeInitialization;
+
+    late final Future<void> operation;
+    operation = Future<void>.sync(_initializerOverride ?? _initializePlayer).whenComplete(() {
+      if (identical(_activeInitialization, operation)) {
+        _activeInitialization = null;
+      }
+    });
+    _activeInitialization = operation;
+    return operation;
+  }
+
+  Future<void> _initializePlayer() async {
     await state.stop();
     await state.dispose();
     await state.init();
 
     for (final s in subscriptions) {
-      s.cancel();
+      await s.cancel();
     }
+    subscriptions.clear();
 
     final subscription = state.stateStream.listen((value) {
       updateBuffering(value.buffering);

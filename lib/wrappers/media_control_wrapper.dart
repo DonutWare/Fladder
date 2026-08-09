@@ -31,6 +31,7 @@ import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/providers/window_title_provider.dart';
 import 'package:fladder/src/video_player_helper.g.dart' hide PlaybackState;
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/single_flight_initializer.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
     if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
@@ -68,6 +69,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   List<StreamSubscription> subscriptions = [];
   ProviderSubscription? _subtitleSettingsSubscription;
   SMTCWindows? smtc;
+  final SingleFlightInitializer<SMTCWindows> _smtcInitializer = SingleFlightInitializer();
 
   bool initializedWrapper = false;
   bool _isStopped = false;
@@ -88,7 +90,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   Future<void> init() async {
     if (!initializedWrapper) {
-      initializedWrapper = true;
       if (!kIsWeb && Platform.isAndroid) {
         VideoPlayerControlsCallback.setUp(this);
       }
@@ -106,6 +107,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
           androidShowNotificationBadge: true,
         ),
       );
+      initializedWrapper = true;
     }
 
     final player = switch (ref.read(videoPlayerSettingsProvider).wantedPlayer) {
@@ -114,7 +116,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       PlayerOptions.nativePlayer => NativePlayer(),
     };
 
-    setup(player);
+    await setup(player);
   }
 
   Future<void> dispose() async {
@@ -131,16 +133,17 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
     _player = newPlayer;
     await newPlayer.init(ref.read(videoPlayerSettingsProvider));
-    _initPlayer();
+    await _initPlayer();
     _subscribePlayerState();
   }
 
-  void _initPlayer() {
+  Future<void> _initPlayer() async {
     _subtitleSettingsSubscription?.close();
     for (var element in subscriptions) {
-      element.cancel();
+      await element.cancel();
     }
-    _subscribePlayer();
+    subscriptions.clear();
+    await _subscribePlayer();
     _subtitleSettingsSubscription = ref.listen(subtitleSettingsProvider, (_, next) {
       _player?.applySubtitleSettings(next);
     });
@@ -205,19 +208,17 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     }
   }
 
-  void _subscribePlayer() {
+  Future<void> _subscribePlayer() async {
     if (!kIsWeb && Platform.isWindows) {
-      smtc = SMTCWindows(
-        config: const SMTCConfig(
-          fastForwardEnabled: true,
-          nextEnabled: false,
-          pauseEnabled: true,
-          playEnabled: true,
-          rewindEnabled: true,
-          prevEnabled: false,
-          stopEnabled: true,
-        ),
-      );
+      if (ref.read(clientSettingsProvider).enableMediaKeys) {
+        try {
+          smtc = await _ensureSmtcInitialized();
+        } catch (error, stackTrace) {
+          log('Failed to initialize Windows media controls: $error\n$stackTrace');
+        }
+      } else {
+        await smtc?.disableSmtc();
+      }
 
       if (smtc != null) {
         subscriptions.add(
@@ -270,6 +271,23 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
         _onAudioTrackCompleted();
       }
     }));
+  }
+
+  Future<SMTCWindows> _ensureSmtcInitialized() {
+    return _smtcInitializer.run(() async {
+      await SMTCWindows.initialize();
+      return SMTCWindows(
+        config: const SMTCConfig(
+          fastForwardEnabled: true,
+          nextEnabled: false,
+          pauseEnabled: true,
+          playEnabled: true,
+          rewindEnabled: true,
+          prevEnabled: false,
+          stopEnabled: true,
+        ),
+      );
+    });
   }
 
   @override
