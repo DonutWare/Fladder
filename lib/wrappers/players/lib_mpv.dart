@@ -432,6 +432,16 @@ class LibMPV extends BasePlayer {
   @override
   Future<void> seek(Duration position) async => _player?.seek(position);
 
+  // mpv parses tracks asynchronously after open(); at playback start the list is still empty, so a
+  // positional lookup would miss and leave mpv on its own default pick. Wait (capped) for [index].
+  Future<void> _awaitTrack(int index, int Function(mpv.Tracks) count) async {
+    final player = _player;
+    if (player == null || index < 0 || count(player.state.tracks) > index + 2) return;
+    await player.stream.tracks
+        .firstWhere((tracks) => count(tracks) > index + 2)
+        .timeout(const Duration(seconds: 5), onTimeout: () => player.state.tracks);
+  }
+
   @override
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async {
     final wantedAudioStream = model ?? playbackModel.defaultAudioStream;
@@ -439,9 +449,10 @@ class LibMPV extends BasePlayer {
     if (wantedAudioStream.index == AudioStreamModel.no().index) {
       await _player?.setAudioTrack(mpv.AudioTrack.no());
     } else {
+      final index = (playbackModel.audioStreams?.indexOf(wantedAudioStream) ?? -1) - 1;
+      await _awaitTrack(index, (tracks) => tracks.audio.length);
       final internalTracks = audioTracks.getRange(2, audioTracks.length).toList();
-      final audioTrack =
-          internalTracks.elementAtOrNull((playbackModel.audioStreams?.indexOf(wantedAudioStream) ?? -1) - 1);
+      final audioTrack = internalTracks.elementAtOrNull(index);
       if (audioTrack != null) {
         await _player?.setAudioTrack(audioTrack);
       }
@@ -461,9 +472,10 @@ class LibMPV extends BasePlayer {
       return -1;
     }
     _currentSubtitleCodec = wantedSubtitle.codec;
+    final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id) ?? -1;
+    if (!wantedSubtitle.isExternal) await _awaitTrack(index, (tracks) => tracks.subtitle.length);
     final internalTrack = subTracks.getRange(2, subTracks.length).toList();
-    final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id);
-    final subTrack = internalTrack.elementAtOrNull(index ?? -1);
+    final subTrack = internalTrack.elementAtOrNull(index);
     if (wantedSubtitle.isExternal && wantedSubtitle.url != null && subTrack == null) {
       await _player?.setSubtitleTrack(mpv.SubtitleTrack.uri(wantedSubtitle.url!));
     } else if (subTrack != null) {
