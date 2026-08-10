@@ -1746,6 +1746,7 @@
   "settingsLocalUrlTitle": "Local Jellyfin URL",
   "settingsLocalUrlSetTitle": "Configure Local Jellyfin URL",
   "settingsLocalUrlSetDesc": "Specify the local Jellyfin address. Fladder will automatically use this URL when your device is on the same network.",
+  "localNetworkPermissionDesc": "Fladder is not allowed to reach devices on your local network, so the local Jellyfin URL cannot be used.\nTap to open system settings and allow local network access for Fladder.",
   "regenerateTrickplayImages": "Regenerate trickplay images",
   "controlPanel": "Control Panel",
   "@controlPanel": {},

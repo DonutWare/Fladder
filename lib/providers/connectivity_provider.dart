@@ -11,6 +11,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/services/local_network_access.dart';
 
 part 'connectivity_provider.g.dart';
 
@@ -66,9 +67,20 @@ class ConnectivityStatus extends _$ConnectivityStatus {
     }
     final newUrl = ref.read(userProvider.select((value) => value?.credentials.localUrl));
     if (localUrl == newUrl) return;
-    localUrl = newUrl;
-    final localConnection =
-        localUrl != null && localUrl?.isNotEmpty == true ? await fetchSystemInfoDynamic(normalizeUrl(localUrl!)) : null;
+    await refreshLocalConnection();
+  }
+
+  /// Unlike [onStateChange] this re-tests the same URL, so callers can recheck
+  /// after something external changed such as local network access being
+  /// granted. Otherwise the first failed probe latches until the URL is edited.
+  Future<void> refreshLocalConnection() async {
+    final url = ref.read(userProvider.select((value) => value?.credentials.localUrl));
+    localUrl = url;
+    final hasLocalUrl = url != null && url.isNotEmpty;
+    if (hasLocalUrl) {
+      await LocalNetworkAccess.ensureAccess();
+    }
+    final localConnection = hasLocalUrl ? await fetchSystemInfoDynamic(normalizeUrl(url)) : null;
     final correctServerResponse =
         localConnection?.id == ref.read(userProvider.select((value) => value?.credentials.serverId));
     ref.read(localConnectionAvailableProvider.notifier).update((state) => correctServerResponse);
@@ -104,7 +116,9 @@ Future<PublicSystemInfo?> fetchSystemInfoDynamic(String baseUrl) async {
   try {
     final uri = buildServerUriFromBase(baseUrl, pathSegments: const ['System', 'Info', 'Public']);
     if (uri == null) return null;
-    final response = await http.get(uri).timeout(const Duration(seconds: 1));
+    // A cold Wi-Fi handshake, or the first request after local network access
+    // is granted, can take several seconds.
+    final response = await http.get(uri).timeout(const Duration(seconds: 3));
     if (response.statusCode == 200) {
       return PublicSystemInfo.fromJson(jsonDecode(response.body));
     }

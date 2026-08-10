@@ -29,6 +29,7 @@ import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/services/battery_optimization.dart';
+import 'package:fladder/services/local_network_access.dart';
 import 'package:fladder/services/notification_service.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -46,6 +47,7 @@ class ProfileSettingsPage extends ConsumerStatefulWidget {
 
 class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with WidgetsBindingObserver {
   bool? enabledBatteryOptimization;
+  bool blockedLocalNetwork = false;
 
   String _seerrStatusLabel(
     BuildContext context,
@@ -72,8 +74,25 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkBatteryOptimization();
+      checkLocalNetworkAccess();
       ref.read(homePreferencesProvider.notifier).load();
     });
+  }
+
+  /// Only a problem when a local URL is configured; without one the warning
+  /// would be noise.
+  Future<void> checkLocalNetworkAccess() async {
+    final localUrlSet = ref.read(userProvider)?.credentials.localUrl?.isNotEmpty == true;
+    final hasAccess = await LocalNetworkAccess.hasAccess();
+    if (!mounted) return;
+    setState(() {
+      blockedLocalNetwork = localUrlSet && !hasAccess;
+    });
+    // Access may have just been granted, so discard the result of any probe
+    // that ran while blocked.
+    if (localUrlSet && hasAccess) {
+      await ref.read(connectivityStatusProvider.notifier).refreshLocalConnection();
+    }
   }
 
   Future<bool> checkBatteryOptimization() async {
@@ -92,6 +111,7 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       checkBatteryOptimization();
+      checkLocalNetworkAccess();
     }
   }
 
@@ -392,12 +412,28 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
                 openSimpleTextInput(
                   context,
                   user?.credentials.localUrl,
-                  (value) => ref.read(userProvider.notifier).setLocalURL(value),
+                  (value) async {
+                    ref.read(userProvider.notifier).setLocalURL(value);
+                    if (value.isNotEmpty) {
+                      await LocalNetworkAccess.ensureAccess();
+                    }
+                    await checkLocalNetworkAccess();
+                  },
                   context.localized.settingsLocalUrlSetTitle,
                   context.localized.settingsLocalUrlSetDesc,
                 );
               },
             ),
+            if (blockedLocalNetwork)
+              SettingsMessageBox(
+                context.localized.localNetworkPermissionDesc,
+                messageType: MessageType.warning,
+                onTap: () async {
+                  await LocalNetworkAccess.openAppSettings();
+                  if (!mounted) return;
+                  await checkLocalNetworkAccess();
+                },
+              ),
             SettingsListTileCheckbox(
               label: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
