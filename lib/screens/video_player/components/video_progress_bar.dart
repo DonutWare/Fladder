@@ -209,7 +209,10 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
               ),
             ),
             if (!widget.buffering) ...[
-              chapterCard(context, position, isVisible),
+              // Only build the scrub-preview card while it is actually visible
+              // (hovering/dragging the bar). Otherwise it would build + lay out
+              // its image/trickplay subtree on every frame behind opacity 0.
+              if (isVisible) chapterCard(context, position, isVisible),
               Positioned(
                 left: (constraints.maxWidth / (widget.duration.inMilliseconds / position.inMilliseconds))
                     .clamp(1, constraints.maxWidth),

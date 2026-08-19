@@ -98,10 +98,11 @@ class VideoPlayerQueue extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playbackInfo = ref.watch(mediaPlaybackProvider);
     final player = ref.watch(videoPlayerProvider);
 
-    final shouldWrap = playbackInfo.repeatMode == AudioRepeatMode.all;
+    // Only depend on repeatMode here; watching the whole model rebuilt the
+    // entire queue (and re-mapped it) on every position tick.
+    final shouldWrap = ref.watch(mediaPlaybackProvider.select((value) => value.repeatMode == AudioRepeatMode.all));
     final providerItems = player.audioQueueForDisplay(wrapAround: shouldWrap);
     final items = providerItems.isNotEmpty ? providerItems : this.items;
     final tempStart = player.temporaryQueueStartInDisplay(wrapAround: shouldWrap);

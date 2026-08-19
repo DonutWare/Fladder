@@ -64,6 +64,11 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   final fadeDuration = const Duration(milliseconds: 350);
   bool showOverlay = true;
+
+  /// Whether the overlay controls are kept in the widget tree. They are
+  /// unmounted once the hide animation finishes so their position-driven
+  /// Consumers stop rebuilding while the user is just watching.
+  bool _overlayMounted = true;
   bool wasPlaying = false;
   SystemUiMode? _currentSystemUiMode;
 
@@ -171,13 +176,23 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                   child: AnimatedOpacity(
                     duration: fadeDuration,
                     opacity: showOverlay ? 1 : 0,
-                    child: Column(
-                      children: [
-                        topButtons(context),
-                        const Spacer(),
-                        bottomButtons(context),
-                      ],
-                    ),
+                    onEnd: () {
+                      // Once fully faded out, drop the controls from the tree so
+                      // their position-driven Consumers stop rebuilding while
+                      // the overlay is hidden.
+                      if (!showOverlay && _overlayMounted) {
+                        setState(() => _overlayMounted = false);
+                      }
+                    },
+                    child: _overlayMounted
+                        ? Column(
+                            children: [
+                              topButtons(context),
+                              const Spacer(),
+                              bottomButtons(context),
+                            ],
+                          )
+                        : const SizedBox.shrink(),
                   ),
                 ),
                 VideoPlayerSeekIndicator(controller: _seekController),
@@ -747,8 +762,13 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   void toggleOverlay({bool? value}) {
-    if (showOverlay == (value ?? !showOverlay)) return;
-    setState(() => showOverlay = (value ?? !showOverlay));
+    final newValue = value ?? !showOverlay;
+    if (showOverlay == newValue) return;
+    setState(() {
+      showOverlay = newValue;
+      // Remount the controls before fading them back in.
+      if (newValue) _overlayMounted = true;
+    });
     resetTimer();
 
     final desiredMode = showOverlay ? SystemUiMode.edgeToEdge : SystemUiMode.immersiveSticky;
