@@ -68,7 +68,7 @@ class PosterImage extends ConsumerWidget {
     for (final type in effectivePriority) {
       final image = switch (type) {
         jelly.ImageType.primary => source?.primary ?? fallback?.primary,
-        jelly.ImageType.thumb => source?.thumb ?? fallback?.thumb,
+        jelly.ImageType.thumb => source?.thumb ?? fallback?.thumb ?? fallback?.primary,
         jelly.ImageType.backdrop => source?.backDrop?.lastOrNull ?? fallback?.backDrop?.lastOrNull,
         _ => null,
       };
