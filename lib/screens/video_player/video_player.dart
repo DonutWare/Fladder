@@ -16,6 +16,7 @@ import 'package:fladder/screens/video_player/components/video_player_next_wrappe
 import 'package:fladder/screens/video_player/video_player_controls.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/themes_data.dart';
+import 'package:fladder/widgets/shared/ambient_blur.dart';
 import 'package:fladder/widgets/shared/back_intent_dpad.dart';
 
 class VideoPlayer extends ConsumerStatefulWidget {
@@ -29,25 +30,16 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
   double lastScale = 0.0;
 
   bool errorPlaying = false;
-  bool playing = false;
 
   late PlaybackModel? currentPlaybackModel = ref.read(playBackModel);
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    //Don't pause on desktop focus loss
+    //Don't manage the wakelock on desktop focus loss
     if (!(AdaptiveLayout.of(context).isDesktop || kIsWeb)) {
-      switch (state) {
-        case AppLifecycleState.resumed:
-          if (playing) ref.read(videoPlayerProvider).play();
-          break;
-        case AppLifecycleState.hidden:
-        case AppLifecycleState.paused:
-        case AppLifecycleState.detached:
-          if (playing) ref.read(videoPlayerProvider).pause();
-          break;
-        default:
-          break;
+      if (state == AppLifecycleState.resumed) {
+        // Android drops the keep-screen-on flag on resume; re-apply it.
+        ref.read(videoPlayerProvider).reassertWakelock();
       }
     }
   }
@@ -130,19 +122,29 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
                 }
                 lastScale = 0.0;
               },
-              child: switch (currentPlaybackModel) {
-                TvPlaybackModel _ => VideoPlayerGuideWrapper(
-                    key: const Key("VideoPlayerGuideWrapper"),
-                    child: player,
+              child: Stack(children: [
+                if (!kIsWeb && ref.watch(videoPlayerSettingsProvider.select((value) => value.ambientBlur)))
+                  AmbientBlur(
+                    child: playerController.videoWidget(
+                          const Key("VideoPlayerBlur"),
+                          BoxFit.cover,
+                        ) ??
+                        const SizedBox.shrink(),
                   ),
-                _ => VideoPlayerNextWrapper(
-                    video: player,
-                    controls: const DesktopControls(),
-                    overlays: [
-                      if (errorPlaying) const _VideoErrorWidget(),
-                    ],
-                  ),
-              },
+                switch (currentPlaybackModel) {
+                  TvPlaybackModel _ => VideoPlayerGuideWrapper(
+                      key: const Key("VideoPlayerGuideWrapper"),
+                      child: player,
+                    ),
+                  _ => VideoPlayerNextWrapper(
+                      video: player,
+                      controls: const DesktopControls(),
+                      overlays: [
+                        if (errorPlaying) const _VideoErrorWidget(),
+                      ],
+                    ),
+                }
+              ]),
             ),
           ),
         ),

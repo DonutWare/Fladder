@@ -747,7 +747,7 @@
     "clientSettingsShowAllCollectionsDesc": "Если включить эту функцию, будут показаны все типы коллекций, включая те, которые не поддерживаются Fladder",
     "stop": "Остановить",
     "playNextVideo": "Воспроизвести следующее видео",
-    "playerSettingsBackendTitle": "Бэкенд видеоплеера",
+    "playerSettingsBackendTitle": "Бэкенд медиаплеера",
     "playerSettingsBackendDesc": "Выберите предпочтительный медиаплеер для оптимального воспроизведения",
     "defaultLabel": "По умолчанию",
     "@defaultLabel": {
@@ -1078,8 +1078,8 @@
     "screensaverBlack": "Черный",
     "playerSettingsScreensaverTitle": "Заставка",
     "playerSettingsScreensaverDesc": "Выберите заставку, которая будет отображаться при отсутствии активности плеера",
-    "settingsLocalUrlTitle": "URL локального сервера",
-    "settingsLocalUrlSetTitle": "Настройки локального URL",
+    "settingsLocalUrlTitle": "URL локального сервера Jellyfin",
+    "settingsLocalUrlSetTitle": "Настройте URL локального сервера Jellyfin",
     "settingsLocalUrlSetDesc": "Укажите адрес локального сервера. Fladder будет автоматически использовать этот URL, когда ваше устройство находится в той же сети.",
     "takeScreenshot": "Сделать скриншот",
     "takeScreenshotClean": "Сделать скриншот (без субтитров)",
@@ -1928,5 +1928,124 @@
     },
     "seerrMovies": "Найти новые фильмы",
     "seerrSeries": "Найти новые сериалы",
-    "anyLanguage": "Любой язык"
+    "anyLanguage": "Любой язык",
+    "stepForward": "Кадр вперёд",
+    "stepBack": "Кадр назад",
+    "seekForwardInstant": "Премотка вперёд (Мгновенно)",
+    "seekBackInstant": "Премотка назад (Мгновенно)",
+    "addToQueue": "Добавить в очередь",
+    "instantMix": "Быстрый микс",
+    "addedToQueue": "{count, plural, one{Добавлен {count} трек в очередь} few{Добавлено {count} трека в очередь} many{Добавлено {count} треков в очередь} other{Добавлено {count} трека в очередь}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerRepeatOff": "Повтор выкл",
+    "audioPlayerRepeatOne": "Повтор одного",
+    "audioPlayerShuffle": "Перемешать",
+    "showArtist": "Показать персону",
+    "track": "{count, plural, one{Трек} few{Трека} many{Треков} other{Трека}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "Недавно добавлено в {name}",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{Исполнитель} few{Исполнителя} many{Исполнителей} other{Исполнителя}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playMusic": "Воспроизвести музыку",
+    "settingsPlayerPlayPauseFadeTitle": "Плавное изменение громкости",
+    "settingsPlayerPlayPauseFadeDesc": "Плавное увеличение и уменьшение громкости при воспроизведении и постановке на паузу",
+    "syncPlaylistDeleteContent": "Также удалить треки, синхронизированные из этого плейлиста?",
+    "syncPlaylistKeepTracks": "Оставить треки",
+    "syncPlaylistRemoveTracks": "Удалить треки",
+    "removedFromPlaylist": "Удалено из плейлиста {playlistName}",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerSettingsReplayGainTitle": "ReplayGain",
+    "playerSettingsReplayGainDesc": "Выравнивать громкость музыки с помощью тегов ReplayGain.",
+    "playerSettingsReplayGainLevelDesc": "Задайте целевой уровень громкости для ReplayGain. Обычно используется значение −14 дБ, но его можно настроить.",
+    "settingsPlayerCrossfadeTitle": "Crossfade",
+    "settingsPlayerCrossfadeDesc": "Плавно переходить между треками, которые не являются последовательными в одном альбоме",
+    "settingsPlayerCrossfadeDurationTitle": "Длительность Crossfade",
+    "settingsPlayerCrossfadeDurationDesc": "Длительность плавного перехода",
+    "recentlyPlayed": "Недавно воспроизведённое",
+    "recentlyFavorited": "Недавно добавлено в избранное",
+    "mostPlayed": "Наиболее воспроизводимое",
+    "nowPlaying": "Воспроизводится сейчас",
+    "upNext": "Далее",
+    "queue": "Очередь",
+    "queueIsEmpty": "Очередь пуста",
+    "queueItemCount": "{count, plural, one{{count} элемент} few{{count} элемента} many{{count} элементов} other{{count} элемента}}",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "musicDashboard": "Обзор музыки",
+    "quiet": "Тихо",
+    "loud": "Громко",
+    "audioPlayerPlaybackOptionsTitle": "Параметры воспроизведения",
+    "audioPlayerRepeatAll": "Повторить все",
+    "syncPlaylistDeleteTitle": "Удалить синхронизированный плейлист",
+    "playerSettingsReplayGainLevelTitle": "Уровень ReplayGain",
+    "removeFromQueue": "Удалить из очереди",
+    "mediaTypeCollection": "{count, plural, one{Коллекция} two{Коллекции} other{Коллекций}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "authenticateWithBiometrics": "Использовать биометрию для аутентификации {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "pictureInPictureTitle": "Картинка в картинке",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "Включать \"картинку в картинке\" автоматически",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    }
 }

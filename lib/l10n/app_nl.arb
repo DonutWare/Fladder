@@ -1080,9 +1080,9 @@
     "screensaverBlack": "Zwart",
     "playerSettingsScreensaverTitle": "Screensaver",
     "playerSettingsScreensaverDesc": "Selecteer screensaver die wordt weergegeven als er geen speler-activiteit is",
-    "settingsLocalUrlTitle": "Lokale server-URL",
-    "settingsLocalUrlSetTitle": "Lokale URL configureren",
-    "settingsLocalUrlSetDesc": "Geef het lokale serveradres op. Fladder zal automatisch deze URL gebruiken wanneer je apparaat op hetzelfde netwerk staat.",
+    "settingsLocalUrlTitle": "Lokale Jellyfin URL",
+    "settingsLocalUrlSetTitle": "Lokale Jellyfin URL configureren",
+    "settingsLocalUrlSetDesc": "Geef het lokale Jellyfin-adres op. Fladder zal automatisch deze URL gebruiken wanneer je apparaat op hetzelfde netwerk staat.",
     "regenerateTrickplayImages": "Trickplay-afbeeldingen opnieuw genereren",
     "controlPanel": "Controlecentrum",
     "controlPanelDesc": "Server, Activiteit, Gebruikers, Bibliotheek",
@@ -1616,13 +1616,13 @@
     "backgroundColor": "Achtergrond kleur",
     "playbackTypeTV": "TV",
     "enableSpeedBoostTitle": "Speed boost inschakelen",
-    "enableSpeedBoostDesc": "Houd het scherm (mobiel) of de spatiebalk (desktop) ingedrukt om de afspeelsnelheid tijdelijk te verhogen.",
+    "enableSpeedBoostDesc": "Houd het scherm (mobiel) of de spatiebalk (desktop) ingedrukt om de afspeelsnelheid tijdelijk te verhogen",
     "speedBoostRateTitle": "Snelheidsverhoging",
     "speedBoostRateDesc": "Afspeelsnelheid wanneer de snelheidsboost is geactiveerd",
     "enableDoubleTapSeekTitle": "Dubbeltik om vooruit/achteruit te spoelen/af te spelen/pauzeren",
-    "enableDoubleTapSeekDesc": "Tik twee keer op de linker- of rechterkant van het scherm om terug/vooruit te spoelen. Tik twee keer op het midden om af te spelen/pauzeren.",
+    "enableDoubleTapSeekDesc": "Tik twee keer op de linker- of rechterkant van het scherm om terug/vooruit te spoelen. Tik twee keer op het midden om af te spelen/pauzeren",
     "showLess": "Minder laten zien",
-    "seerrCustomHeaders": "Custom headers",
+    "seerrCustomHeaders": "Aangepaste headers",
     "seerrHeader": "Header",
     "seerrHeaderValue": "Waarde",
     "watch": "Bekijken",
@@ -1828,11 +1828,11 @@
             }
         }
     },
-    "shareQRCode": "Deel QR code",
+    "shareQRCode": "Deel de QR code",
     "copyLoginLink": "Link kopiëren",
     "includePassword": "Wachtwoord includeren",
     "invalidAuthLink": "Ongeldige login link",
-    "shareLoginLink": "Deel login code",
+    "shareLoginLink": "Deel de login link",
     "gestures": "Gebaren",
     "enableEdgeGesturesTitle": "Schakel randgebaren in",
     "enableEdgeGesturesDesc": "Regel helderheid en volume door op en neer te schuiven aan de randen van het scherm",
@@ -1907,5 +1907,253 @@
     "groupedFoldersDescription": "Automatisch content uit de volgende bibliotheken groeperen in weergaven zoals 'Films', 'Muziek' en 'Tv'.",
     "downloadTranscoded": "Getranscodeerd downloaden",
     "downloadOriginal": "Origineel downloaden",
-    "today": "Vandaag"
+    "today": "Vandaag",
+    "personAge": "Leeftijd: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Geboren in {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Ontdek films",
+    "seerrSeries": "Ontdek Series",
+    "seekBackInstant": "Zoek terug (Direct)",
+    "seekForwardInstant": "Zoek vooruit (Direct)",
+    "stepForward": "Stap Vooruit",
+    "stepBack": "Stap Terug",
+    "personBirthday": "Geboortedatum: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "anyLanguage": "Een taal",
+    "addToQueue": "Aan wachtrij toevoegen",
+    "instantMix": "Instant mix",
+    "addedToQueue": "{count, plural, one{{count} track toegevoegd aan wachtrij} other{{count} track toegevoegd aan wachtrij}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerPlaybackOptionsTitle": "Afspeel opties",
+    "audioPlayerRepeatAll": "Herhaal alles",
+    "audioPlayerRepeatOff": "Herhalen uit",
+    "audioPlayerRepeatOne": "Herhaal een",
+    "audioPlayerShuffle": "Shuffle",
+    "showArtist": "Artiest tonen",
+    "track": "{count, plural, one{Nummer} other{Nummers}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "Recent toegevoegd {name}",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{Artiest} other{Artiesten}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeMusicVideo": "{count, plural, one{Muziek Video} other{Muziek Videos}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeCollection": "{count, plural, one{Collectie} other{Collecties}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playMusic": "Muziek afspelen",
+    "authenticateWithBiometrics": "Gebruik biometrie om {user} te authenticeren",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "settingsPlayerPlayPauseFadeTitle": "Afspeel/pauze volumefade",
+    "settingsPlayerPlayPauseFadeDesc": "Vervaag het volume in en uit tijdens het spelen of pauzeren",
+    "syncPlaylistDeleteTitle": "Verwijder gesynchroniseerde afspeellijst",
+    "syncPlaylistDeleteContent": "Wil je ook de gesynchroniseerde nummers uit deze afspeellijst verwijderen?",
+    "syncPlaylistKeepTracks": "Nummers bewaren",
+    "syncPlaylistRemoveTracks": "Nummers verwijderen",
+    "pictureInPictureTitle": "Picture-in-picture",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "Auto Picture-in-Picture",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureSubtitle": "Automatisch Picture-in-Picture openen wanneer je de speler verlaat. De PiP-knop in de bediening werkt altijd, ongeacht deze instelling.",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "Picture-in-Picture is niet beschikbaar op dit apparaat",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "removedFromPlaylist": "Verwijderd van {playlistName} afspeellijst",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerSettingsReplayGainTitle": "AfpseelGain",
+    "playerSettingsReplayGainDesc": "Normaliseer muziek volume met behulp van ReplayGain-tags.",
+    "playerSettingsReplayGainLevelTitle": "ReplayGain-niveau",
+    "playerSettingsReplayGainLevelDesc": "Stel het streefvolume in voor ReplayGain-normalisatie. Een veelgebruikte standaard is -14 dB, maar je kunt het naar eigen voorkeur aanpassen.",
+    "settingsPlayerCrossfadeTitle": "Crossfade",
+    "settingsPlayerCrossfadeDesc": "Fade tussen nummers die niet opeenvolgend in hetzelfde album staan",
+    "settingsPlayerCrossfadeDurationTitle": "Crossfade-duur",
+    "settingsPlayerCrossfadeDurationDesc": "Duur van de crossfade",
+    "quitMultipleWindowsDesc": "Je hebt {count} vensters open. Als je Fladder stopt, sluiten je ze allemaal af. Wil je doorgaan?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "Venster sluiten",
+    "openJellyfinQuickConnect": "Jellyfin QuickConnect openen",
+    "posterColorsTitle": "Gegenereerde poster kleuren",
+    "posterColorsDesc": "Gebruik gegenereerde poster kleuren in plaats van de standaard kleur",
+    "toggleSubtitles": "Ondertitels aan of uit zetten",
+    "recentlyPlayed": "Recent afgespeeld",
+    "recentlyFavorited": "Recente favoriet",
+    "mostPlayed": "Vaakst afgespeeld",
+    "nowPlaying": "Nu aan het spelen",
+    "upNext": "Volgende",
+    "queue": "Wachtrij",
+    "queueIsEmpty": "Wachtrij is leeg",
+    "queueItemCount": "{count} items",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "Verwijderen uit wachtrij",
+    "musicDashboard": "Muziek Dashboard",
+    "quiet": "Still",
+    "loud": "Luid",
+    "share": "Delen",
+    "setAs": "Instellen als",
+    "selectRandom": "Willekeurig selecteren",
+    "stopSelection": "Stop selecteren {count}",
+    "@stopSelection": {
+        "description": "stopSelection",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "playItems": "Items afspelen",
+    "shuffleItems": "Items shuffelen",
+    "disc": "Disc {number}",
+    "@disc": {
+        "description": "disc",
+        "placeholders": {
+            "number": {
+                "type": "int"
+            }
+        }
+    },
+    "incognito": "Incognito",
+    "incognitoModeGlobal": "Incognito modus (App)",
+    "incognitoModeLocal": "Incognito modus (Profile)",
+    "incognitoModeDesc": "Incognitomodus schakelt het verzenden van afspeelstatus naar de server uit",
+    "showInSideBar": "In zijbalk tonen",
+    "hideInSideBar": "Verbergen uit zijbalk",
+    "showInSideBarDesc": "Toon deze filter in de zijbalk voor snelle toegang",
+    "applyFilter": "Filter toepassen",
+    "playerSettingsAmbientBlurTitle": "Ambient blur inschakelen",
+    "playerSettingsAmbientBlurDesc": "Zet ambient blur in de speler aan. Hierdoor vervaagt de achtergrond achter de speler om afleidingen te verminderen.",
+    "playerSettingsAmbientBlurDescWarning": "Ambient blur kan prestatieproblemen veroorzaken bij oudere apparaten.",
+    "openSelected": "Geselecteerde items openen",
+    "discography": "Discografie",
+    "youLiked": "Je vond leuk",
+    "instantMixBy": "Instant Mix van {artist}",
+    "@instantMixBy": {
+        "description": "Instant Mix of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "latestTracksBy": "Laatste tracks van {artist}",
+    "@latestTracksBy": {
+        "description": "Latest tracks by artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "favoritesOf": "Favorieten van {artist}",
+    "@favoritesOf": {
+        "description": "Favorites of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "leanBackModeTitle": "Lean-back modus",
+    "leanBackModeDesc": "Schakel lean-back modus in op Android-apparaten, zelfs als het apparaat als onjuist wordt weergegeven.",
+    "leanBackModeInfo": "Lean-back modus wordt standaard weer ingeschakeld op AndroidTV-apparaten. Het aanzetten van deze optie op niet-AndroidTV-apparaten kan onverwacht gedrag veroorzaken."
 }

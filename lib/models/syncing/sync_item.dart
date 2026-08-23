@@ -70,11 +70,32 @@ abstract class SyncedItem with _$SyncedItem {
 
   File get dataFile => File(joinAll(["$path", "data.json"]));
   File get overlayFile => File(joinAll(["$path", "overlay.json"]));
+  File get lyricsFile => File(joinAll(["$path", "lyrics.json"]));
+
+  Future<List<String>> getPlaylistChildIdsAsync() async {
+    if (!overlayFile.existsSync()) return [];
+    try {
+      final content = await overlayFile.readAsString();
+      final overlay = jsonDecode(content) as Map<String, dynamic>;
+      final ids = overlay['playlistChildIds'];
+      if (ids is List) return ids.whereType<String>().toList();
+    } catch (_) {}
+    return [];
+  }
 
   bool get isTranscoded {
     if (!overlayFile.existsSync()) return false;
     final overlay = jsonDecode(overlayFile.readAsStringSync()) as Map<String, dynamic>;
     return overlay['isTranscoded'] == true;
+  }
+
+  LyricDto? get lyrics {
+    if (!lyricsFile.existsSync()) return null;
+    try {
+      return LyricDto.fromJson(jsonDecode(lyricsFile.readAsStringSync()) as Map<String, dynamic>);
+    } catch (_) {
+      return null;
+    }
   }
 
   BaseItemDto? get data {
@@ -121,6 +142,7 @@ abstract class SyncedItem with _$SyncedItem {
     for (final entity in [
       videoFile,
       overlayFile,
+      lyricsFile,
       Directory(joinAll([directory.path, trickPlayPath])),
       Directory(joinAll([directory.path, chaptersPath])),
     ]) {

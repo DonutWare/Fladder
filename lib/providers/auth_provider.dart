@@ -13,6 +13,7 @@ import 'package:fladder/providers/dashboard_provider.dart';
 import 'package:fladder/providers/favourites_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/library_screen_provider.dart';
+import 'package:fladder/providers/music_dashboard_provider.dart';
 import 'package:fladder/providers/seerr_api_provider.dart';
 import 'package:fladder/providers/seerr_dashboard_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
@@ -22,6 +23,7 @@ import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/fladder_config.dart';
+import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, LoginScreenModel>((ref) {
@@ -175,9 +177,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     return null;
   }
 
-  Future<void> switchUser() async {
-    clearAllProviders();
-  }
+  Future<void> switchUser() async => clearAllProviders();
 
   void clearAllProviders() {
     ref.read(dashboardProvider.notifier).clear();
@@ -186,6 +186,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     ref.read(userProvider.notifier).clear();
     ref.read(libraryScreenProvider.notifier).clear();
     ref.read(seerrDashboardProvider.notifier).clear();
+    ref.read(musicDashboardProvider.notifier).clear();
   }
 
   Future<void> setServer(String server) async {
@@ -206,9 +207,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
 
   void reOrderUsers(int oldIndex, int newIndex) {
     final accounts = state.accounts.toList();
-    final original = accounts.elementAt(oldIndex);
-    accounts.removeAt(oldIndex);
-    accounts.insert(newIndex, original);
+    accounts.reorderInPlace(oldIndex, newIndex);
     state = state.copyWith(accounts: accounts);
     ref.read(sharedUtilityProvider).saveAccounts(accounts);
   }

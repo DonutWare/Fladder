@@ -33,7 +33,37 @@ extension PositionProviderExtension on List<Widget> {
           position: index == firstIndex
               ? PositionContext.first
               : (index == lastIndex ? PositionContext.last : PositionContext.middle),
-          child: e),
+          child: Builder(
+            builder: (context) => e,
+          )),
     ).toList();
+  }
+}
+
+class PositionRoundedClip extends StatelessWidget {
+  final Widget child;
+  final BorderRadius borderRadius;
+  final BorderRadius defaultRadius;
+
+  const PositionRoundedClip({
+    super.key,
+    required this.child,
+    this.borderRadius = const BorderRadius.all(Radius.circular(16)),
+    this.defaultRadius = const BorderRadius.all(Radius.circular(8)),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final position = PositionProvider.of(context);
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topLeft: position == PositionContext.first ? borderRadius.topLeft : defaultRadius.topLeft,
+        bottomLeft: position == PositionContext.first ? borderRadius.bottomLeft : defaultRadius.bottomLeft,
+        topRight: position == PositionContext.last ? borderRadius.topRight : defaultRadius.topRight,
+        bottomRight: position == PositionContext.last ? borderRadius.bottomRight : defaultRadius.bottomRight,
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: child,
+    );
   }
 }

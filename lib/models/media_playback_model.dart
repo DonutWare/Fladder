@@ -4,6 +4,20 @@ enum VideoPlayerState {
   disposed,
 }
 
+enum AudioRepeatMode {
+  off,
+  all,
+  one;
+
+  const AudioRepeatMode();
+
+  AudioRepeatMode get next => switch (this) {
+        AudioRepeatMode.off => AudioRepeatMode.all,
+        AudioRepeatMode.all => AudioRepeatMode.one,
+        AudioRepeatMode.one => AudioRepeatMode.off,
+      };
+}
+
 class MediaPlaybackModel {
   final VideoPlayerState state;
   final bool playing;
@@ -15,6 +29,9 @@ class MediaPlaybackModel {
   final bool errorPlaying;
   final bool buffering;
   final bool fullScreen;
+  final bool queueRefilling;
+  final bool shuffleEnabled;
+  final AudioRepeatMode repeatMode;
   final Set<String> skippedSegments;
   MediaPlaybackModel({
     this.state = VideoPlayerState.disposed,
@@ -27,6 +44,9 @@ class MediaPlaybackModel {
     this.errorPlaying = false,
     this.buffering = false,
     this.fullScreen = false,
+    this.queueRefilling = false,
+    this.shuffleEnabled = false,
+    this.repeatMode = AudioRepeatMode.off,
     this.skippedSegments = const {},
   });
 
@@ -41,6 +61,9 @@ class MediaPlaybackModel {
     bool? errorPlaying,
     bool? buffering,
     bool? fullScreen,
+    bool? queueRefilling,
+    bool? shuffleEnabled,
+    AudioRepeatMode? repeatMode,
     Set<String>? skippedSegments,
   }) {
     return MediaPlaybackModel(
@@ -54,6 +77,9 @@ class MediaPlaybackModel {
       errorPlaying: errorPlaying ?? this.errorPlaying,
       buffering: buffering ?? this.buffering,
       fullScreen: fullScreen ?? this.fullScreen,
+      queueRefilling: queueRefilling ?? this.queueRefilling,
+      shuffleEnabled: shuffleEnabled ?? this.shuffleEnabled,
+      repeatMode: repeatMode ?? this.repeatMode,
       skippedSegments: skippedSegments ?? this.skippedSegments,
     );
   }

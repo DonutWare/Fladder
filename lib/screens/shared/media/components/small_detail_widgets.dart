@@ -69,13 +69,15 @@ class Tags extends StatelessWidget {
 
 class Genres extends StatelessWidget {
   final List<GenreItems> genres;
+  final Function(GenreItems value)? onGenreClicked;
+  final MovieModel? details;
+
   const Genres({
     super.key,
     required this.genres,
+    this.onGenreClicked,
     this.details,
   });
-
-  final MovieModel? details;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +89,7 @@ class Genres extends StatelessWidget {
       children: genres
           .map(
             (genre) => ChipButton(
-              onPressed: null,
+              onPressed: onGenreClicked != null ? () => onGenreClicked!(genre) : null,
               label: genre.name.capitalize(),
             ),
           )

@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/bootstrap/app_bootstrap.dart';
+import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/update_notifications_provider.dart';
@@ -62,6 +65,8 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
 
   void setDerivedColorsFromItem(bool? value) => state = state.copyWith(deriveColorsFromItem: value ?? false);
 
+  void setDynamicPosterColors(bool? value) => state = state.copyWith(dynamicPosterColors: value ?? false);
+
   void useSystemIME(bool? value) => state = state.copyWith(useSystemIME: value ?? false);
 
   void setBlurPlaceholders(bool value) => state = state.copyWith(blurPlaceHolders: value);
@@ -113,4 +118,12 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
   void setBlurEffects(bool value) => state = state.copyWith(enableBlurEffects: value);
 
   void toggleSideBar() => state = state.copyWith(expandSideBar: !state.expandSideBar);
+
+  Future<void> setForceLeanBackMode(bool value) async {
+    final leanBackIsAvailable = await resolveLeanBackEnabled();
+    final newLeanBackMode = leanBackIsAvailable ? true : value;
+    state = state.copyWith(forceLeanBackMode: newLeanBackMode);
+    leanBackMode = newLeanBackMode;
+    ref.read(argumentsStateProvider.notifier).update((state) => state.copyWith(leanBackMode: newLeanBackMode));
+  }
 }

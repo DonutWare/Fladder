@@ -1,13 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/providers/incognito_mode_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
+import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/option_dialogue.dart';
@@ -47,11 +50,18 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: ViewSize.values.map((e) {
                 final isCurrent = AdaptiveLayout.viewSizeOf(context) == e;
+                final isEnabled = ref.watch(homeSettingsProvider.select((value) => value.layoutStates.contains(e)));
+
                 return Row(
                   spacing: 4,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(e.label(context)),
+                    Text(
+                      e.label(context),
+                      style: TextStyle(
+                        color: isEnabled ? null : Theme.of(context).disabledColor,
+                      ),
+                    ),
                     if (isCurrent) const Icon(IconsaxPlusLinear.tick_circle, size: 16),
                   ],
                 );
@@ -90,11 +100,17 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: LayoutMode.values.map((e) {
                 final isCurrent = AdaptiveLayout.layoutModeOf(context) == e;
+                final isEnabled = ref.watch(homeSettingsProvider.select((value) => value.screenLayouts.contains(e)));
                 return Row(
                   spacing: 4,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(e.label(context)),
+                    Text(
+                      e.label(context),
+                      style: TextStyle(
+                        color: isEnabled ? null : Theme.of(context).disabledColor,
+                      ),
+                    ),
                     if (isCurrent) const Icon(IconsaxPlusLinear.tick_circle, size: 16),
                   ],
                 );
@@ -114,6 +130,29 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
             value: ref.watch(clientSettingsProvider.select((value) => value.useSystemIME)),
             onChanged: (value) => ref.read(clientSettingsProvider.notifier).useSystemIME(value),
           ),
+        ),
+      SettingsListTile(
+        label: Text(context.localized.incognitoModeGlobal),
+        subLabel: Text(context.localized.incognitoModeDesc),
+        onTap: () => ref.read(incognitoModeProvider.notifier).state = !ref.read(incognitoModeProvider),
+        trailing: Switch(
+          value: ref.watch(incognitoModeProvider),
+          onChanged: (value) => ref.read(incognitoModeProvider.notifier).state = value,
+        ),
+      ),
+      if (defaultTargetPlatform == TargetPlatform.android)
+        Column(
+          children: [
+            SettingsListTileCheckbox(
+              label: Text(context.localized.leanBackModeTitle),
+              subLabel: Text(context.localized.leanBackModeDesc),
+              value: ref.watch(clientSettingsProvider.select((value) => value.forceLeanBackMode)),
+              onChanged: (value) => ref.read(clientSettingsProvider.notifier).setForceLeanBackMode(value ?? false),
+            ),
+            SettingsMessageBox(
+              context.localized.leanBackModeInfo,
+            ),
+          ],
         ),
     ],
   );

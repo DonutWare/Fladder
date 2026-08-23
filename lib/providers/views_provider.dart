@@ -20,6 +20,8 @@ const enableCollectionTypes = {
   CollectionType.photos,
   CollectionType.livetv,
   CollectionType.folders,
+  CollectionType.music,
+  CollectionType.musicvideos,
 };
 
 final viewsProvider = StateNotifierProvider<ViewsNotifier, ViewsModel>((ref) {

@@ -5,6 +5,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/watched_state.dart';
+import 'package:fladder/theme.dart';
 import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/status_card.dart';
@@ -180,8 +181,11 @@ class VideoDurationOverlay extends StatelessWidget {
       alignment: Alignment.topRight,
       child: Padding(
         padding: padding,
-        child: Card(
-          elevation: 5,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: FladderTheme.smallShape.borderRadius,
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
             child: Row(

@@ -1,16 +1,16 @@
 package nl.jknaapen.fladder.utility
 
+import android.app.UiModeManager
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
+import android.content.res.Configuration
 
 fun leanBackEnabled(context: Context): Boolean {
     val pm = context.packageManager
-    val leanBackEnabled = pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK)
-    val leanBackOnly = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK_ONLY)
-    } else {
-        false
+    if (pm.hasSystemFeature(PackageManager.FEATURE_LEANBACK)) {
+        return true
     }
-    return leanBackEnabled || leanBackOnly
+
+    val uiModeManager = context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+    return uiModeManager.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION
 }

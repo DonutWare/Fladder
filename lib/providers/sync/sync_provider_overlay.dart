@@ -6,6 +6,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/syncing/transcode_download_model.dart';
+import 'package:fladder/models/syncing/transcode_music_download_model.dart';
 import 'package:fladder/providers/sync_provider.dart';
 
 extension SyncOverlayHelpers on SyncNotifier {
@@ -18,7 +19,8 @@ extension SyncOverlayHelpers on SyncNotifier {
 
     if (!transcodeModel.enabled) {
       if (subtitles.isNotEmpty) {
-        final originalDto = BaseItemDto.fromJson(jsonDecode(syncItem.dataFile.readAsStringSync()));
+        final dataContent = await syncItem.dataFile.readAsString();
+        final originalDto = BaseItemDto.fromJson(jsonDecode(dataContent));
         final originalSource = originalDto.mediaSources?.firstOrNull;
         if (originalSource != null) {
           final subStreams = subtitles
@@ -124,8 +126,73 @@ extension SyncOverlayHelpers on SyncNotifier {
     await syncItem.overlayFile.writeAsString(jsonEncode(overlay));
   }
 
+  Future<void> writeMusicOverlayFile(
+    SyncedItem syncItem,
+    TranscodeMusicDownloadModel transcodeModel,
+  ) async {
+    if (!syncItem.dataFile.existsSync()) return;
+
+    if (!transcodeModel.enabled) {
+      if (syncItem.overlayFile.existsSync()) {
+        await syncItem.overlayFile.delete();
+      }
+      return;
+    }
+
+    final dataContent = await syncItem.dataFile.readAsString();
+    final originalDto = BaseItemDto.fromJson(jsonDecode(dataContent));
+    final originalSource = originalDto.mediaSources?.firstOrNull;
+    if (originalSource == null) return;
+
+    final audioStreams = originalSource.mediaStreams?.where((s) => s.type == MediaStreamType.audio).map((stream) {
+          final codecName = transcodeModel.audioCodec.name;
+          return stream.copyWith(
+            codec: codecName.toLowerCase(),
+            bitRate: transcodeModel.maxBitrate.bitRate,
+            displayTitle: stream.displayTitle?.replaceAll(
+                  RegExp(stream.codec ?? '', caseSensitive: false),
+                  codecName.toUpperCase(),
+                ) ??
+                codecName.toUpperCase(),
+          );
+        }).toList() ??
+        [];
+
+    final overlaySource = originalSource.copyWith(
+      container: transcodeModel.container.name,
+      bitrate: transcodeModel.maxBitrate.bitRate,
+      mediaStreams: [...audioStreams],
+    );
+
+    final overlay = {
+      'isTranscoded': true,
+      'container': transcodeModel.container.name,
+      'mediaSources': [overlaySource.toJson()],
+    };
+
+    await syncItem.overlayFile.writeAsString(jsonEncode(overlay));
+  }
+
+  Future<void> writePlaylistChildrenOverlay(
+    SyncedItem syncItem,
+    List<String> childIds,
+  ) async {
+    final existing = syncItem.overlayFile.existsSync()
+        ? (jsonDecode(await syncItem.overlayFile.readAsString()) as Map<String, dynamic>)
+        : <String, dynamic>{};
+
+    final overlay = {
+      ...existing,
+      'playlistChildIds': childIds,
+    };
+
+    await syncItem.overlayFile.writeAsString(jsonEncode(overlay));
+  }
+
   static int? _calculateWidth(int? originalWidth, int? originalHeight, int targetHeight) {
-    if (originalWidth == null || originalHeight == null || originalHeight == 0) return null;
+    if (originalWidth == null || originalHeight == null || originalHeight == 0) {
+      return null;
+    }
     return ((originalWidth / originalHeight) * targetHeight).round();
   }
 

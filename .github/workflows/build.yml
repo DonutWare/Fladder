@@ -363,7 +363,7 @@ jobs:
             [[ -f "$lib" && -n "$(patchelf --print-rpath "$lib")" ]] && \
             patchelf --set-rpath '$ORIGIN' "$lib"
           done
-          patchelf --set-rpath '$ORIGIN/lib' "build/linux/x64/release/bundle/Fladder"
+          patchelf --set-rpath '$ORIGIN/lib' "build/linux/x64/release/bundle/fladder"
 
       - name: Archive Linux artifact
         uses: actions/upload-artifact@v4

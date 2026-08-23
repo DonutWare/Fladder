@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -27,6 +28,11 @@ enum ConnectionState {
       };
 }
 
+final offlineStateProvider = Provider<bool>((ref) {
+  final isLoggedIn = ref.watch(userProvider.select((value) => value != null));
+  return ref.watch(connectivityStatusProvider.select((value) => value == ConnectionState.offline)) && isLoggedIn;
+});
+
 @Riverpod(keepAlive: true)
 class ConnectivityStatus extends _$ConnectivityStatus {
   String? localUrl;
@@ -48,7 +54,7 @@ class ConnectivityStatus extends _$ConnectivityStatus {
     }
   }
 
-  void onStateChange(List<ConnectivityResult> connectivityResult) async {
+  Future<void> onStateChange(List<ConnectivityResult> connectivityResult) async {
     if (connectivityResult.contains(ConnectivityResult.ethernet)) {
       state = ConnectionState.ethernet;
     } else if (connectivityResult.contains(ConnectivityResult.wifi)) {
@@ -68,9 +74,28 @@ class ConnectivityStatus extends _$ConnectivityStatus {
     ref.read(localConnectionAvailableProvider.notifier).update((state) => correctServerResponse);
   }
 
-  void checkConnectivity() async {
+  Future<void> checkConnectivity() async {
     final connectivityResult = await Connectivity().checkConnectivity();
-    onStateChange(connectivityResult);
+    final serverUrl = ref.read(serverUrlProvider);
+    final checkServer = await probeJellyfinUrl(
+      serverUrl ?? "",
+    );
+    if (checkServer != null) {
+      onStateChange(connectivityResult);
+    } else {
+      onStateChange([ConnectivityResult.none]);
+    }
+  }
+
+  ConnectionState getConnectivityStates() {
+    unawaited(ref.read(jellyApiProvider).systemInfoPublicGet().then(
+      (value) async {
+        if (!value.isSuccessful) {
+          onStateChange([ConnectivityResult.none]);
+        }
+      },
+    ));
+    return state;
   }
 }
 

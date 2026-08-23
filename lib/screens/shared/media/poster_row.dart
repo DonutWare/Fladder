@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as jelly;
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/screens/shared/media/poster_widget.dart';
@@ -18,8 +19,9 @@ class PosterRow extends ConsumerWidget {
   final Function()? onLabelClick;
   final EdgeInsets contentPadding;
   final Function(ItemBaseModel focused)? onFocused;
-  final bool primaryPosters;
+  final List<jelly.ImageType>? imagePriority;
   final bool tvMode;
+  final bool showSyncStatus;
   const PosterRow({
     required this.posters,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 16),
@@ -27,14 +29,15 @@ class PosterRow extends ConsumerWidget {
     this.collectionAspectRatio,
     this.onLabelClick,
     this.onFocused,
-    this.primaryPosters = false,
+    this.imagePriority,
     this.tvMode = false,
+    this.showSyncStatus = false,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dominantRatio = primaryPosters ? 1.2 : collectionAspectRatio ?? posters.getMostCommonType.aspectRatio;
+    final dominantRatio = collectionAspectRatio ?? posters.getMostCommonType.aspectRatio;
     if (tvMode) {
       return TVPosterRow(
         posters: posters,
@@ -43,7 +46,6 @@ class PosterRow extends ConsumerWidget {
         contentPadding: contentPadding,
         onLabelClick: onLabelClick,
         onFocused: onFocused,
-        primaryPosters: primaryPosters,
         autoFocus: ref.read(argumentsStateProvider).htpcMode ? FocusProvider.autoFocusOf(context) : false,
       );
     }
@@ -67,7 +69,8 @@ class PosterRow extends ConsumerWidget {
           key: Key(poster.id),
           poster: poster,
           aspectRatio: dominantRatio,
-          primaryPosters: primaryPosters,
+          showSyncStatus: showSyncStatus,
+          imagePriority: imagePriority,
         );
       },
     );

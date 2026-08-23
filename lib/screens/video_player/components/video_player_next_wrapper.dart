@@ -21,7 +21,7 @@ import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
-import 'package:fladder/widgets/navigation_scaffold/components/floating_player_bar.dart';
+import 'package:fladder/widgets/navigation_scaffold/components/shared/player_bar_shared.dart';
 import 'package:fladder/widgets/shared/progress_floating_button.dart';
 
 class VideoPlayerNextWrapper extends ConsumerStatefulWidget {
@@ -159,9 +159,6 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
       tag: videoPlayerHeroTag,
       child: Stack(
         children: [
-          Container(
-            color: Theme.of(context).colorScheme.surfaceContainerLowest.withValues(alpha: 0.2),
-          ),
           if (nextUp != null)
             AnimatedAlign(
               duration: animSpeed,
@@ -295,7 +292,6 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
                           AnimatedContainer(
                             duration: animSpeed,
                             decoration: BoxDecoration(
-                              color: Colors.black,
                               borderRadius: BorderRadius.circular(show ? 16 : 0),
                             ),
                             child: widget.video,

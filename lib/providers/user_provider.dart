@@ -1,5 +1,4 @@
 import 'package:chopper/chopper.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -292,28 +291,29 @@ class User extends _$User {
   }
 
   void removeFilter(LibraryFiltersModel model) {
-    final currentList = ((state?.libraryFilters ?? [])).toList(growable: true);
+    final currentList = (state?.libraryFilters ?? []).toList(growable: true);
     currentList.remove(model);
     userState = state?.copyWith(libraryFilters: currentList);
   }
 
   void saveFilter(LibraryFiltersModel model) {
     final currentList = (state?.libraryFilters ?? []).toList(growable: true);
-    if (currentList.firstWhereOrNull((value) => value.id == model.id) != null) {
-      userState = state?.copyWith(
-          libraryFilters: currentList.map(
-        (e) {
-          if (e.id == model.id) {
-            return model;
-          } else {
-            return e.copyWith(
-              isFavourite: model.isFavourite && model.containsSameIds(e.ids) ? false : e.isFavourite,
-            );
-          }
-        },
-      ).toList());
+    final index = currentList.indexWhere((value) => value.id == model.id);
+    if (index != -1) {
+      currentList[index] = model;
     } else {
-      userState = state?.copyWith(libraryFilters: [model, ...currentList]);
+      currentList.add(model);
+    }
+    userState = state?.copyWith(libraryFilters: currentList);
+  }
+
+  void hideFilterFromSideBar(LibraryFiltersModel model) {
+    final currentList = (state?.libraryFilters ?? []).toList(growable: true);
+    final index = currentList.indexWhere((value) => value.id == model.id);
+    if (index != -1) {
+      final updatedModel = model.copyWith(showInSideBar: false);
+      currentList[index] = updatedModel;
+      userState = state?.copyWith(libraryFilters: currentList);
     }
   }
 
@@ -340,5 +340,10 @@ class User extends _$User {
         enabledFolders: enabledFolders,
       ),
     );
+  }
+
+  void toggleIncognitoMode() {
+    final currentMode = state?.incognitoMode;
+    userState = state?.copyWith(incognitoMode: currentMode == true ? null : true);
   }
 }

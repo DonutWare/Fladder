@@ -4,7 +4,11 @@ import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/items/album_model.dart';
+import 'package:fladder/models/items/artist_model.dart';
+import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/syncing/download_stream.dart';
@@ -182,6 +186,44 @@ class SyncSubtitle extends ConsumerWidget {
                       "${context.localized.season(2)}: $seasons",
                       "${context.localized.episode(2)}: $episodes | ${context.localized.syncStatusSynced}: ${children.where((element) => element.videoFile.existsSync()).length}"
                     ].join('\n'),
+                  );
+                },
+              ),
+            ArtistModel _ => Builder(
+                builder: (context) {
+                  final itemBaseModels = children.map((e) => e.itemModel);
+                  final albums = itemBaseModels.whereType<AlbumModel>().length;
+                  final tracks = itemBaseModels.whereType<AudioModel>().length;
+                  final syncedTracks = children
+                      .where((element) => element.itemModel is AudioModel && element.videoFile.existsSync())
+                      .length;
+                  return Text(
+                    [
+                      '${context.localized.musicAlbum(2)}: $albums',
+                      '${context.localized.audio(2)}: $tracks | ${context.localized.syncStatusSynced}: $syncedTracks',
+                    ].join('\n'),
+                  );
+                },
+              ),
+            AlbumModel _ => Builder(
+                builder: (context) {
+                  final tracks = children.where((element) => element.itemModel is AudioModel).length;
+                  final syncedTracks = children
+                      .where((element) => element.itemModel is AudioModel && element.videoFile.existsSync())
+                      .length;
+                  return Text(
+                    '${context.localized.audio(2)}: $tracks | ${context.localized.syncStatusSynced}: $syncedTracks',
+                  );
+                },
+              ),
+            PlaylistModel _ => Builder(
+                builder: (context) {
+                  final totalTracks = children.where((element) => element.itemModel is AudioModel).length;
+                  final syncedTracks = children
+                      .where((element) => element.itemModel is AudioModel && element.videoFile.existsSync())
+                      .length;
+                  return Text(
+                    '${context.localized.audio(2)}: $totalTracks | ${context.localized.syncStatusSynced}: $syncedTracks',
                   );
                 },
               ),

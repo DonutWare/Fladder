@@ -1,6 +1,7 @@
 package nl.jknaapen.fladder
 
 import BatteryOptimizationPigeon
+import FlutterError
 import NativeVideoActivity
 import PlayerSettingsPigeon
 import StartResult
@@ -17,6 +18,7 @@ import android.provider.Settings
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.FileProvider
 import com.ryanheise.audioservice.AudioServiceFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
@@ -24,6 +26,12 @@ import nl.jknaapen.fladder.objects.TranslationsMessenger
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.leanBackEnabled
 import androidx.core.net.toUri
+import nl.jknaapen.fladder.wallpaper.WallpaperApi
+import nl.jknaapen.fladder.wallpaper.WallpaperApiUtility
+import java.io.File
+import java.util.Objects
+
+class WallpaperFileProvider : FileProvider()
 
 class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
     private lateinit var videoPlayerLauncher: ActivityResultLauncher<Intent>
@@ -36,6 +44,10 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
         NativeVideoActivity.setUp(
             flutterEngine.dartExecutor.binaryMessenger,
             this
+        )
+        WallpaperApi.setUp(
+            flutterEngine.dartExecutor.binaryMessenger,
+            WallpaperApiUtility(this, wallpaperLauncher)
         )
         VideoPlayerApi.setUp(
             flutterEngine.dartExecutor.binaryMessenger,
@@ -91,6 +103,12 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
         super.onNewIntent(intent)
         // Ensure the Activity's intent is updated so Flutter (and plugins / AutoRoute) receive runtime deep-links.
         setIntent(intent)
+    }
+
+    private val wallpaperLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        // Handle the result of the wallpaper intent if needed
     }
 
     override fun launchActivity(callback: (Result<StartResult>) -> Unit) {

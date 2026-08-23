@@ -22,6 +22,7 @@ class DefaultSliverTopBadding extends StatelessWidget {
         ? const SliverToBoxAdapter()
         : SliverPadding(
             padding:
-                EdgeInsets.only(top: MediaQuery.of(context).padding.top + AdaptiveLayout.of(context).topBarHeight));
+                EdgeInsets.only(top: MediaQuery.of(context).padding.top + AdaptiveLayout.of(context).statusBarHeight),
+          );
   }
 }

@@ -410,7 +410,7 @@
     "unableToPlayMedia": "Tidak dapat memutar media",
     "errorOpeningMedia": "Kesalahan saat membuka media",
     "unableToPlayBooksOnWeb": "Buku saat ini belum didukung di web",
-    "defaultFilterForLibrary": "Filter default untuk perpustakaan",
+    "defaultFilterForLibrary": "Atur filter default untuk pustaka",
     "updateFilterForLibrary": "Perbarui filter",
     "deleteFilterConfirmation": "Apakah Anda yakin ingin menghapus filter ini?",
     "deleteRequestConfirmation": "Apakah Anda yakin ingin menghapus permintaan ini?",
@@ -443,7 +443,7 @@
     "resumeVideo": "Lanjutkan video",
     "closeVideo": "Tutup video",
     "playNextVideo": "Putar video berikutnya",
-    "playerSettingsBackendTitle": "Backend Pemutar Video",
+    "playerSettingsBackendTitle": "Backend pemutar media",
     "playerSettingsBackendDesc": "Pilih backend pemutar video",
     "defaultLabel": "Bawaan",
     "@defaultLabel": {
@@ -585,9 +585,9 @@
     "screensaverBlack": "Hitam",
     "playerSettingsScreensaverTitle": "Screensaver Pemutar",
     "playerSettingsScreensaverDesc": "Pilih screen saver yang akan ditampilkan setelah tidak ada aktivitas pemutar",
-    "settingsLocalUrlTitle": "URL Server Lokal",
-    "settingsLocalUrlSetTitle": "Atur URL Lokal",
-    "settingsLocalUrlSetDesc": "Tentukan alamat server lokal. Fladder akan secara otomatis menggunakan URL ini ketika perangkat Anda berada di jaringan yang sama.",
+    "settingsLocalUrlTitle": "URL Jellyfin Lokal",
+    "settingsLocalUrlSetTitle": "Konfigurasikan URL Jellyfin Lokal",
+    "settingsLocalUrlSetDesc": "Tentukan alamat Jellyfin lokal. Fladder akan otomatis menggunakan URL ini saat perangkat Anda berada di jaringan yang sama.",
     "regenerateTrickplayImages": "Buat ulang gambar trickplay",
     "controlPanel": "Panel Kontrol",
     "controlPanelDesc": "Server, Aktivitas, Pengguna, Perpustakaan",
@@ -2021,5 +2021,266 @@
                 "example": "days"
             }
         }
-    }
+    },
+    "gestures": "Gestur",
+    "anyLanguage": "Bahasa apa pun",
+    "enableEdgeGesturesTitle": "Aktifkan gestur tepi",
+    "enableEdgeGesturesDesc": "Atur kecerahan dan volume dengan menggeser ke atas dan ke bawah pada tepi layar",
+    "reverseEdgeGesturesTitle": "Tukar gestur tepi",
+    "reverseEdgeGesturesDesc": "Tukar sisi untuk kontrol kecerahan dan volume",
+    "seekForwardInstant": "Maju Cepat (Instan)",
+    "seekBackInstant": "Mundur (Instan)",
+    "stepForward": "Maju Selangkah",
+    "stepBack": "Mundur Selangkah",
+    "brightnessIndicator": "Kecerahan: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "personBirthday": "Tanggal lahir: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Usia: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Lahir di {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Temukan Film",
+    "seerrSeries": "Temukan Serial",
+    "addToQueue": "Tambahkan ke antrean",
+    "instantMix": "Campuran instan",
+    "addedToQueue": "{count, plural, one{Menambahkan {count} lagu ke antrean} other{Menambahkan {count} lagu ke antrean}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerPlaybackOptionsTitle": "Opsi pemutaran",
+    "audioPlayerRepeatAll": "Ulangi semua",
+    "audioPlayerRepeatOff": "Ulangi nonaktif",
+    "audioPlayerRepeatOne": "Ulangi satu",
+    "audioPlayerShuffle": "Acak",
+    "showArtist": "Tampilkan artis",
+    "track": "{count, plural, one{Lagu} other{Lagu}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "{name} yang baru ditambahkan",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{Artis} other{Artis}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playMusic": "Putar musik",
+    "settingsPlayerPlayPauseFadeTitle": "Fade volume saat putar/jeda",
+    "settingsPlayerPlayPauseFadeDesc": "Naikkan dan turunkan volume secara bertahap saat memutar atau menjeda",
+    "syncPlaylistDeleteTitle": "Hapus playlist tersinkronisasi",
+    "syncPlaylistDeleteContent": "Apakah Anda juga ingin menghapus lagu yang disinkronkan dari playlist ini?",
+    "syncPlaylistKeepTracks": "Simpan lagu",
+    "syncPlaylistRemoveTracks": "Hapus lagu",
+    "removedFromPlaylist": "Dihapus dari playlist {playlistName}",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerSettingsReplayGainTitle": "ReplayGain",
+    "playerSettingsReplayGainDesc": "Normalkan kenyaringan musik menggunakan tag ReplayGain.",
+    "playerSettingsReplayGainLevelTitle": "Level ReplayGain",
+    "playerSettingsReplayGainLevelDesc": "Atur tingkat kenyaringan target untuk normalisasi ReplayGain. Standar umum adalah -14 dB, tetapi Anda dapat menyesuaikannya sesuai preferensi.",
+    "settingsPlayerCrossfadeTitle": "Crossfade",
+    "settingsPlayerCrossfadeDesc": "Fade antar lagu yang tidak berurutan dalam album yang sama",
+    "settingsPlayerCrossfadeDurationTitle": "Durasi crossfade",
+    "settingsPlayerCrossfadeDurationDesc": "Durasi crossfade",
+    "recentlyPlayed": "Baru diputar",
+    "recentlyFavorited": "Baru difavoritkan",
+    "mostPlayed": "Paling sering diputar",
+    "nowPlaying": "Sedang diputar",
+    "upNext": "Berikutnya",
+    "queue": "Antrean",
+    "queueIsEmpty": "Antrean kosong",
+    "queueItemCount": "{count} item",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "Hapus dari antrean",
+    "musicDashboard": "Dasbor Musik",
+    "quiet": "Pelan",
+    "loud": "Keras",
+    "authenticateWithBiometrics": "Gunakan biometrik untuk mengautentikasi {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "pictureInPictureTitle": "Picture-in-Picture",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "Picture-in-Picture Otomatis",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureSubtitle": "Secara otomatis masuk ke mode Picture-in-Picture saat Anda meninggalkan pemutar. Tombol PiP pada kontrol akan selalu berfungsi terlepas dari pengaturan ini.",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "Picture-in-Picture tidak tersedia di perangkat ini",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "quitMultipleWindowsDesc": "Anda memiliki {count} jendela yang terbuka. Keluar dari Fladder akan menutup semuanya. Apakah Anda ingin melanjutkan?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "Tutup jendela",
+    "openJellyfinQuickConnect": "Buka QuickConnect Jellyfin",
+    "posterColorsTitle": "Warna poster yang dihasilkan",
+    "posterColorsDesc": "Gunakan warna yang dihasilkan untuk poster sebagai pengganti warna default",
+    "toggleSubtitles": "Tampilkan/sembunyikan subtitle",
+    "share": "Bagikan",
+    "setAs": "Setel sebagai",
+    "selectRandom": "Pilih secara acak",
+    "stopSelection": "Berhenti memilih {count}",
+    "@stopSelection": {
+        "description": "stopSelection",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "playItems": "Putar item",
+    "shuffleItems": "Acak item",
+    "disc": "Disk {number}",
+    "@disc": {
+        "description": "disc",
+        "placeholders": {
+            "number": {
+                "type": "int"
+            }
+        }
+    },
+    "mediaTypeMusicVideo": "{count, plural, one{Video Musik} other{Video Musik}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeCollection": "{count, plural, one{Koleksi} other{Koleksi}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "incognito": "Mode Samaran",
+    "incognitoModeGlobal": "Mode Samaran (Aplikasi)",
+    "incognitoModeLocal": "Mode Samaran (Profil)",
+    "incognitoModeDesc": "Mode Samaran menonaktifkan pengiriman status pemutaran ke server",
+    "showInSideBar": "Tampilkan di bilah sisi",
+    "hideInSideBar": "Sembunyikan dari bilah sisi",
+    "showInSideBarDesc": "Tampilkan filter ini di bilah sisi untuk akses cepat",
+    "applyFilter": "Terapkan filter",
+    "playerSettingsAmbientBlurTitle": "Aktifkan blur ambient",
+    "playerSettingsAmbientBlurDesc": "Aktifkan blur ambient di pemutar. Ini akan memburamkan latar belakang di belakang pemutar untuk mengurangi gangguan.",
+    "playerSettingsAmbientBlurDescWarning": "Blur ambient dapat menyebabkan masalah kinerja pada perangkat berkelas rendah.",
+    "openSelected": "Buka yang dipilih",
+    "discography": "Diskografi",
+    "youLiked": "Anda menyukai",
+    "instantMixBy": "Mix Instan dari {artist}",
+    "@instantMixBy": {
+        "description": "Instant Mix of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "latestTracksBy": "Trek terbaru oleh {artist}",
+    "@latestTracksBy": {
+        "description": "Latest tracks by artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "favoritesOf": "Favorit dari {artist}",
+    "@favoritesOf": {
+        "description": "Favorites of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "leanBackModeTitle": "Mode Santai",
+    "leanBackModeDesc": "Aktifkan mode santai pada perangkat Android, bahkan jika perangkat melaporkan sebagai false.",
+    "leanBackModeInfo": "Mode santai diaktifkan ulang secara default pada perangkat AndroidTV. Mengaktifkan opsi ini pada perangkat non-AndroidTV dapat menyebabkan perilaku yang tidak diharapkan."
 }

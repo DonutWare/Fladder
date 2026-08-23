@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/models/library_filters_model.dart';
@@ -19,3 +20,7 @@ class LibraryFilters extends _$LibraryFilters {
 
   void deleteAllFilters() => ref.read(userProvider.notifier).deleteAllFilters();
 }
+
+final userLibraryFilters = StateProvider.autoDispose<List<LibraryFiltersModel>>((ref) {
+  return ref.watch(userProvider.select((value) => value?.libraryFilters ?? []));
+});

@@ -24,11 +24,14 @@ extension StringExtensions on String {
 
   String getInitials({int limitTo = 2}) {
     if (isEmpty) return "";
+
+    var split = trim().split(RegExp(r'\s+(?=[A-Z])|\s+|(?=[A-Z])'));
+
+    var words = split.where((w) => w.isNotEmpty).toList();
+
     var buffer = StringBuffer();
-    var split = this.split(' ');
-    for (var i = 0; i < (limitTo.clamp(0, split.length)); i++) {
-      if (split[i].isEmpty) continue;
-      buffer.write(split[i][0]);
+    for (var i = 0; i < (limitTo.clamp(0, words.length)); i++) {
+      buffer.write(words[i][0]);
     }
 
     return buffer.toString();

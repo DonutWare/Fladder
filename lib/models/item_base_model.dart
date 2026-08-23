@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -10,6 +11,10 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/boxset_model.dart';
+import 'package:fladder/models/collection_types.dart';
+import 'package:fladder/models/items/album_model.dart';
+import 'package:fladder/models/items/artist_model.dart';
+import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/folder_model.dart';
@@ -20,13 +25,15 @@ import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/person_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/watched_state.dart';
+import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
-import 'package:fladder/models/playlist_model.dart';
-import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
+import 'package:fladder/screens/details_screens/album_detail_screen.dart';
+import 'package:fladder/screens/details_screens/artist_detail_screen.dart';
 import 'package:fladder/screens/details_screens/book_detail_screen.dart';
 import 'package:fladder/screens/details_screens/channel_detail_screen.dart';
 import 'package:fladder/screens/details_screens/details_screens.dart';
@@ -163,7 +170,7 @@ class ItemBaseModel with ItemBaseModelMappable {
       case BoxSetModel _:
       case PlaylistModel _:
       case PhotoAlbumModel _:
-        return LibrarySearchScreen(folderId: [id]);
+        return LibrarySearchScreen(parentId: [id]);
       case PhotoModel _:
         final photo = this as PhotoModel;
         return PhotoViewerScreen(
@@ -175,6 +182,10 @@ class ItemBaseModel with ItemBaseModelMappable {
         return MovieDetailScreen(item: this);
       case EpisodeModel _:
         return EpisodeDetailScreen(item: this);
+      case AlbumModel album:
+        return AlbumDetailScreen(item: album);
+      case ArtistModel artist:
+        return ArtistDetailScreen(item: artist);
       case SeriesModel series:
         return SeriesDetailScreen(item: series);
       case ChannelModel channel:
@@ -187,19 +198,32 @@ class ItemBaseModel with ItemBaseModelMappable {
   Future<void> navigateTo(BuildContext context, {WidgetRef? ref, Object? tag}) async {
     switch (this) {
       case FolderModel _:
+        LibrarySearchRoute(parentId: [id])
+            .withFilter(
+              CollectionType.folders.defaultFilters,
+            )
+            .push(context);
+        break;
       case BoxSetModel _:
       case PlaylistModel _:
-        context.router.push(LibrarySearchRoute(folderId: [id], recursive: true));
+        LibrarySearchRoute(parentId: [id, "folder"])
+            .withFilter(
+              CollectionType.folders.defaultFilters,
+            )
+            .push(context);
         break;
       case PhotoAlbumModel _:
-        context.router.push(LibrarySearchRoute(folderId: [id], recursive: false));
+        LibrarySearchRoute(parentId: [id, "photo-album"])
+            .withFilter(
+              CollectionType.photos.defaultFilters,
+            )
+            .push(context);
         break;
       case PhotoModel _:
         final photo = this as PhotoModel;
         context.router.push(
           PhotoViewerRoute(
             items: [photo],
-            loadingItems: ref?.read(jellyApiProvider).itemsGetAlbumPhotos(albumId: photo.albumId),
             selected: photo.id,
           ),
         );
@@ -234,6 +258,9 @@ class ItemBaseModel with ItemBaseModelMappable {
       BaseItemKind.boxset => BoxSetModel.fromBaseDto(item, ref),
       BaseItemKind.book => BookModel.fromBaseDto(item, ref),
       BaseItemKind.playlist => PlaylistModel.fromBaseDto(item, ref),
+      BaseItemKind.musicalbum => AlbumModel.fromBaseDto(item, ref),
+      BaseItemKind.musicartist => ArtistModel.fromBaseDto(item, ref),
+      BaseItemKind.audio => AudioModel.fromBaseDto(item, ref),
       BaseItemKind.tvchannel => ChannelModel.fromBaseDto(item, ref),
       _ => ItemBaseModel._fromBaseDto(item, ref)
     };
@@ -277,6 +304,9 @@ class ItemBaseModel with ItemBaseModelMappable {
         BookModel _ => FladderItemType.book,
         PlaylistModel _ => FladderItemType.playlist,
         FolderModel _ => FladderItemType.folder,
+        AlbumModel _ => FladderItemType.musicAlbum,
+        ArtistModel _ => FladderItemType.musicArtist,
+        AudioModel _ => FladderItemType.audio,
         ItemBaseModel _ => FladderItemType.baseType,
       };
 
@@ -303,6 +333,10 @@ enum FladderItemType {
     selectedicon: IconsaxPlusBold.music,
   ),
   musicAlbum(
+    icon: IconsaxPlusLinear.music_dashboard,
+    selectedicon: IconsaxPlusBold.music_dashboard,
+  ),
+  musicArtist(
     icon: IconsaxPlusLinear.music,
     selectedicon: IconsaxPlusBold.music,
   ),
@@ -375,6 +409,8 @@ enum FladderItemType {
         FladderItemType.photoAlbum => 0.8,
         FladderItemType.folder => 0.8,
         FladderItemType.musicAlbum => 0.8,
+        FladderItemType.musicArtist => 0.8,
+        FladderItemType.audio => 0.8,
         FladderItemType.baseType => 0.8,
         FladderItemType.tvchannel => 0.8,
         _ => 0.55,
@@ -389,6 +425,12 @@ enum FladderItemType {
         FladderItemType.tvchannel,
       };
 
+  static Set<FladderItemType> get musicPlayable => {
+        FladderItemType.audio,
+        FladderItemType.musicAlbum,
+        FladderItemType.musicArtist,
+      };
+
   static Set<FladderItemType> get galleryItem => {
         FladderItemType.photo,
         FladderItemType.video,
@@ -399,7 +441,8 @@ enum FladderItemType {
         FladderItemType.audio => l10n.audio(count),
         FladderItemType.collectionFolder => l10n.collectionFolder(count),
         FladderItemType.musicAlbum => l10n.musicAlbum(count),
-        FladderItemType.musicVideo => l10n.video(count),
+        FladderItemType.musicArtist => l10n.mediaTypeArtists(count),
+        FladderItemType.musicVideo => l10n.mediaTypeMusicVideo(count),
         FladderItemType.video => l10n.video(count),
         FladderItemType.movie => l10n.mediaTypeMovie(count),
         FladderItemType.series => l10n.mediaTypeSeries(count),
@@ -415,25 +458,29 @@ enum FladderItemType {
         FladderItemType.tvchannel => l10n.mediaTypeTV(count),
       };
 
-  BaseItemKind get dtoKind => switch (this) {
-        FladderItemType.baseType => BaseItemKind.userrootfolder,
-        FladderItemType.audio => BaseItemKind.audio,
-        FladderItemType.collectionFolder => BaseItemKind.collectionfolder,
-        FladderItemType.musicAlbum => BaseItemKind.musicalbum,
-        FladderItemType.musicVideo => BaseItemKind.video,
-        FladderItemType.video => BaseItemKind.video,
-        FladderItemType.movie => BaseItemKind.movie,
-        FladderItemType.series => BaseItemKind.series,
-        FladderItemType.season => BaseItemKind.season,
-        FladderItemType.episode => BaseItemKind.episode,
-        FladderItemType.photo => BaseItemKind.photo,
-        FladderItemType.person => BaseItemKind.person,
-        FladderItemType.photoAlbum => BaseItemKind.photoalbum,
-        FladderItemType.folder => BaseItemKind.folder,
-        FladderItemType.boxset => BaseItemKind.boxset,
-        FladderItemType.playlist => BaseItemKind.playlist,
-        FladderItemType.book => BaseItemKind.book,
-        FladderItemType.tvchannel => BaseItemKind.tvchannel,
+  Set<BaseItemKind> get dtoKind => switch (this) {
+        FladderItemType.baseType => {BaseItemKind.userrootfolder},
+        FladderItemType.audio => {BaseItemKind.audio},
+        FladderItemType.collectionFolder => {BaseItemKind.collectionfolder},
+        FladderItemType.musicAlbum => {BaseItemKind.musicalbum},
+        FladderItemType.musicArtist => {BaseItemKind.musicartist},
+        FladderItemType.musicVideo => {BaseItemKind.musicvideo},
+        FladderItemType.video => {BaseItemKind.video},
+        FladderItemType.movie => {BaseItemKind.movie},
+        FladderItemType.series => {BaseItemKind.series},
+        FladderItemType.season => {BaseItemKind.season},
+        FladderItemType.episode => {BaseItemKind.episode},
+        FladderItemType.photo => {BaseItemKind.photo},
+        FladderItemType.person => {
+            BaseItemKind.person,
+            BaseItemKind.musicartist,
+          },
+        FladderItemType.photoAlbum => {BaseItemKind.photoalbum},
+        FladderItemType.folder => {BaseItemKind.folder},
+        FladderItemType.boxset => {BaseItemKind.boxset},
+        FladderItemType.playlist => {BaseItemKind.playlist},
+        FladderItemType.book => {BaseItemKind.book},
+        FladderItemType.tvchannel => {BaseItemKind.tvchannel},
       };
 
   final IconData icon;

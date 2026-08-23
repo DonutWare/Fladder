@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 class SeerrUserLabel extends StatelessWidget {
@@ -30,6 +31,7 @@ class SeerrUserLabel extends StatelessWidget {
         : ClipOval(
             child: CachedNetworkImage(
               imageUrl: avatarUrl,
+              cacheManager: CustomCacheManager.instance,
               cacheKey: 'seerr-avatar-${user?.id}-${user?.displayName}-$avatarUrl',
               width: 28,
               height: 28,

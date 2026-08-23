@@ -44,7 +44,7 @@
     },
     "amoledBlack": "Amoled černá",
     "appLockAutoLogin": "Automatické přihlášení",
-    "audio": "Zvuk",
+    "audio": "{count, plural, one{Zvuk} few{Zvuky} many{Zvuku} other{Zvuků}}",
     "autoPlay": "Automatické přehrávání",
     "backgroundOpacity": "Průhlednost pozadí",
     "biometricsFailedCheckAgain": "Biometrické údaje selhaly. Zkontrolujte nastavení a zkuste to znovu.",
@@ -55,7 +55,7 @@
     "clear": "Vymazat",
     "clearAllSettingsQuestion": "Vymazat všechna nastavení?",
     "code": "Kód",
-    "collectionFolder": "Složka kolekcí",
+    "collectionFolder": "{count, plural, one{Složka kolekcí} few{Složky kolekcí} many{Složek kolekcí} other{Složek kolekcí}}",
     "color": "Barva",
     "combined": "Kombinovaný",
     "dashboardContinue": "Pokračovat",
@@ -69,7 +69,7 @@
             }
         }
     },
-    "days": "Dny",
+    "days": "{count, plural, one{Den} few{Dny} many{Dne} other{Dní}}",
     "delete": "Smazat",
     "deleteItem": "Smazat {item}?",
     "@deleteItem": {
@@ -145,11 +145,11 @@
     "list": "List",
     "markAsWatched": "Označit jako zhlédnuté",
     "mediaTypeBase": "Typ základny",
-    "mediaTypeBoxset": "Média",
-    "mediaTypePerson": "Osoba",
-    "mediaTypePhoto": "Fotka",
-    "mediaTypePlaylist": "Seznam skladeb",
-    "mediaTypeSeason": "Sezóna",
+    "mediaTypeBoxset": "{count, plural, one{Kolekce} few{Kolekce} many{Kolekcí} other{Kolekcí}}",
+    "mediaTypePerson": "{count, plural, one{Osoba} few{Osoby} many{Osoby} other{Osob}}",
+    "mediaTypePhoto": "{count, plural, one{Fotka} few{Fotky} many{Fotky} other{Fotek}}",
+    "mediaTypePlaylist": "{count, plural, one{Playlist} few{Playlisty} many{Playlistů} other{Playlistů}}",
+    "mediaTypeSeason": "{count, plural, one{Sezóna} few{Sezóny} many{Sezón} other{Sezón}}",
     "metadataRefreshDefault": "Vyhledat nové a aktualizované soubory",
     "metadataRefreshFull": "Nahradit všechna metadata",
     "metadataRefreshValidation": "Vyhledat chybějící metadata",
@@ -164,7 +164,7 @@
     "noServersFound": "Nenalezeny žádné nové servery",
     "noSuggestionsFound": "Nenalezeny žádné návrhy",
     "favorite": "Oblíbené",
-    "mediaTypeSeries": "Série",
+    "mediaTypeSeries": "{count, plural, one{Série} few{Série} many{Sérií} other{Sérií}}",
     "all": "Všechny",
     "dateLastContentAdded": "Datum posledního přidání obsahu",
     "disableFilters": "Vypnout filtry",
@@ -194,7 +194,7 @@
     "dashboard": "Řídící panel",
     "clearSelection": "Vymazat výběr",
     "datePlayed": "Datum přehrání",
-    "mediaTypePhotoAlbum": "Foto album",
+    "mediaTypePhotoAlbum": "{count, plural, one{Foto Album} few{Foto Alba} many{Foto Alb} other{Foto Alb}}",
     "metaDataSavedFor": "Metadata uložena pro {item}",
     "@metaDataSavedFor": {
         "description": "metaDataSavedFor",
@@ -218,14 +218,14 @@
         }
     },
     "hide": "Skrýt",
-    "mediaTypeEpisode": "Epizoda",
+    "mediaTypeEpisode": "{count, plural, one{Epizoda} few{Epizody} many{Epizody} other{Epizod}}",
     "lockscreen": "Zamykací obrazovka",
     "login": "Přihlásit se",
     "mouseDragSupport": "Táhněte pomocí myši",
-    "musicAlbum": "Album",
+    "musicAlbum": "{count, plural, one{Hudební album} few{Hudební alba} many{Hudebních alb} other{Hudebních alb}}Album",
     "fontColor": "Barva písma",
     "logout": "Odhlásit se",
-    "mediaTypeBook": "Kniha",
+    "mediaTypeBook": "{count, plural, one{Kniha} few{Knihy} many{Knihy} other{Knih}}",
     "moreFrom": "Více od {info}",
     "@moreFrom": {
         "description": "More from",
@@ -236,7 +236,7 @@
         }
     },
     "hideEmpty": "Skrýt prázdné",
-    "mediaTypeMovie": "Film",
+    "mediaTypeMovie": "{count, plural, one{Film} few{Filmy} many{Filmů} other{Filmů}}",
     "libraryFetchNoItemsFound": "Nenalezeny žádné položky. Zkuste jiná nastavení.",
     "libraryPageSizeDesc": "Nastavte množství, které se má načíst najednou. Hodnota 0 vypne stránkování.",
     "loggedIn": "Přihlášen/a",
@@ -303,7 +303,7 @@
     "fontSize": "Velikost písma",
     "grid": "Mřížka",
     "invalidUrl": "Neplatná adresa URL",
-    "mediaTypeFolder": "Složka",
+    "mediaTypeFolder": "{count, plural, one{Složka} few{Složky} many{Složky} other{Složek}}",
     "failedToLoadImage": "Nepodařilo se načíst obrázek",
     "favorites": "Oblíbené",
     "homeBannerCarousel": "Kolotoč",
@@ -346,7 +346,7 @@
     "pathEditSelect": "Vyberte cíl pro stahování",
     "videoScaling": "Škálování videa",
     "unableToReverseAction": "Tuto akci nelze vrátit zpět. Odstraní všechna nastavení.",
-    "video": "Video",
+    "video": "{count, plural, one{Video} few{Videa} many{Videí} other{Videí}}",
     "removedFromCollection": "Odstraněno z kolekce {collectionName}",
     "@removedFromCollection": {
         "placeholders": {
@@ -556,7 +556,7 @@
     "settingsPlayerVideoHWAccelTitle": "Hardwarová akcelerace",
     "settingsPosterSize": "Velikost plakátu",
     "settingsPosterSlider": "Zobrazit posuvník měřítka",
-    "settingsProfileDesc": "Zamykací obrazovka",
+    "settingsProfileDesc": "Zamykací obrazovka, Místní URL, Seerr",
     "settingsProfileTitle": "Profil",
     "settingsQuickConnectTitle": "Rychlé připojení",
     "settingsSecurity": "Zabezpečení",
@@ -848,7 +848,7 @@
     "videoScalingFillScreenTitle": "Celá obrazovka",
     "videoScalingFitHeight": "Přizpůsobit výšce",
     "videoScalingFitWidth": "Přizpůsobit šířce",
-    "videoScalingScaleDown": "Zmenšit aby se vešlo",
+    "videoScalingScaleDown": "Zmenšit",
     "aboutSocials": "Sociální sítě",
     "aboutLicenses": "Licence",
     "subtitleConfiguration": "Konfigurace titulků",
@@ -861,7 +861,7 @@
     "speed": "Rychlost",
     "errorOpeningMedia": "Při přehrávání tohoto média se něco pokazilo",
     "unableToPlayBooksOnWeb": "Knihy momentálně nejsou na webu podporovány",
-    "defaultFilterForLibrary": "Výchozí filtr pro knihovnu",
+    "defaultFilterForLibrary": "Nastavit výchozí filtr pro knihovnu",
     "updateFilterForLibrary": "Aktualizovat filtr",
     "libraryFiltersLimitReached": "Dosažen limit filtrů (10), odstraňte některé filtry",
     "libraryFiltersRemoveAll": "Odebrat všechny filtry",
@@ -1017,7 +1017,7 @@
     },
     "quickConnectPostFailed": "Chyba při získání kódu pro rychlé připojení",
     "itemColorsDesc": "Použijte základní barvu položky na stránku s detaily",
-    "mediaTunnelingTitle": "",
+    "mediaTunnelingTitle": "Tunelování médií",
     "clientSettingsUseSystemIMEDesc": "Použijte vestavěné klávesnice poskytnuté systémem",
     "nextUpInCount": "Další za {seconds}",
     "@nextUpInCount": {
@@ -1077,5 +1077,152 @@
     "showMore": "Zobrazit více",
     "itemColorsTitle": "Barva položky",
     "clientSettingsUseSystemIMETitle": "Použití systémové klávesnice",
-    "homeBannerTV": "TV"
+    "homeBannerTV": "TV",
+    "instantMix": "Okamžitý mix",
+    "addedToQueue": "{count, plural, one{Přidána {count} skladba do fronty} few{Přidány {count} skladby do fronty} many{Přidáno {count} skladby do fronty} other{Přidáno {count} skladeb do fronty}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerRepeatAll": "Opakovat všechny",
+    "audioPlayerRepeatOff": "Neopakovat",
+    "audioPlayerShuffle": "Zamíchat",
+    "showArtist": "Ukázat umělce",
+    "track": "{count, plural, one{Skladba} many{Skladby} many{Skladby} other{Skladeb}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "shareLoginLink": "Sdílet odkaz pro přihlášení",
+    "shareQRCode": "Sdílet QR kód",
+    "gestures": "Gesta",
+    "mediaTypeArtists": "{count, plural, one{Umělec} few{Umělci} many{Umělce} other{Umělců}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeMusicVideo": "{count, plural, one{Hudební video} few{Hudební videa} many{Hudebního videa} other{Hudebních videí}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeTV": "{count, plural, one{Televizní kanál} few{Televizní kanály} many{Televizních kanálů} other{Televizních kanálů}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeCollection": "{count, plural, one{Kolekce} few{Kolekce} many{Kolekce} other{Kolekcí}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playMusic": "Přehrát hudbu",
+    "popularity": "Popularita",
+    "runtimeMinutesTitle": "Délka (minuty)",
+    "runtimeRangeMinutes": "{min} - {max} minut",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} min",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Služby ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "authenticateWithBiometrics": "Ověřte se pomocí biometrických údajů jako {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "addToQueue": "Přidat do fronty",
+    "audioPlayerPlaybackOptionsTitle": "Možnosti přehrávání",
+    "generateLoginLink": "Kód pro {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "copyLoginLink": "Kopírovat odkaz",
+    "includePassword": "Zahrnout heslo",
+    "invalidAuthLink": "Neplatný přihlašovací odkaz",
+    "dashboardRecentlyAddedItems": "Nedávno přidané {name}",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "contentRating": "Hodnocení obsahu",
+    "audioPlayerRepeatOne": "Opakovat jeden",
+    "enableSpeedBoostTitle": "Povolit zvýšení rychlosti",
+    "brightnessIndicator": "Jas: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "enableSpeedBoostDesc": "Držte obrazovku (mobil) nebo mezerník (počítač) pro dočasně zvýšení rychlosti přehrávání",
+    "speedBoostRateTitle": "Míra zrychlení",
+    "speedBoostRateDesc": "Rychlost přehrávání po aktivaci zrychlení",
+    "homeBannerDetailed": "Detailní"
 }

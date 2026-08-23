@@ -12,9 +12,11 @@ import 'package:screen_brightness/screen_brightness.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/pip_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -39,6 +41,7 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
+import 'package:fladder/wrappers/pip_manager.dart';
 
 class DesktopControls extends ConsumerStatefulWidget {
   const DesktopControls({super.key});
@@ -78,10 +81,13 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   double? _vDragStartValue;
   double? _vDragLastValue;
 
+  int? _lastSelectedSubtitleIndex;
+
   @override
   void initState() {
     super.initState();
     timer.reset();
+    _lastSelectedSubtitleIndex = null;
   }
 
   @override
@@ -92,8 +98,18 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
+    final isInPip = ref.watch(pipStateProvider).asData?.value ?? false;
     final player = ref.watch(videoPlayerProvider);
+    if (isInPip) {
+      // Keep only the subtitle widget so it's captured in the PiP frame.
+      final pipSubtitleWidget = player.subtitleWidget(false, controlsKey: _bottomControlsKey);
+      return Stack(
+        children: [
+          if (pipSubtitleWidget != null) Positioned.fill(child: pipSubtitleWidget),
+        ],
+      );
+    }
+    final mediaSegments = ref.watch(playBackModel.select((value) => value?.mediaSegments));
     final subtitleWidget = player.subtitleWidget(showOverlay, controlsKey: _bottomControlsKey);
     final isDesktop = AdaptiveLayout.of(context).isDesktop || kIsWeb;
     final speedBoostEnabled = ref.watch(videoPlayerSettingsProvider.select((value) => value.enableSpeedBoost));
@@ -128,7 +144,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
               children: [
                 Positioned.fill(
                   child: GestureDetector(
-                    onTap: initInputDevice == InputDevice.pointer ? () => player.playOrPause() : () => toggleOverlay(),
+                    onTap: initInputDevice == InputDevice.pointer ? null : () => toggleOverlay(),
                     onDoubleTapDown: initInputDevice == InputDevice.touch ? _handleDoubleTapDown : null,
                     onDoubleTap: initInputDevice == InputDevice.pointer
                         ? () => fullScreenHelper.toggleFullScreen(ref)
@@ -138,6 +154,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     onVerticalDragStart: initInputDevice == InputDevice.touch ? _handleVerticalDragStart : null,
                     onVerticalDragUpdate: initInputDevice == InputDevice.touch ? _handleVerticalDragUpdate : null,
                     onVerticalDragEnd: initInputDevice == InputDevice.touch ? _handleVerticalDragEnd : null,
+                    //better play/pause handling on Desktop (works with dragging on click)
+                    onHorizontalDragDown:
+                        initInputDevice == InputDevice.pointer ? (details) => player.playOrPause() : null,
                   ),
                 ),
                 if (subtitleWidget != null) subtitleWidget,
@@ -255,7 +274,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
           child: Column(
             children: [
               const Align(
-                alignment: Alignment.topRight,
+                alignment: Alignment.topCenter,
                 child: DefaultTitleBar(),
               ),
               Padding(
@@ -311,10 +330,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Widget bottomButtons(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final mediaPlayback = ref.watch(mediaPlaybackProvider);
+      final playing = ref.watch(mediaPlaybackProvider.select((state) => state.playing));
       final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
       return Container(
-        key: _bottomControlsKey, // Add key to measure height
+        key: _bottomControlsKey,
         decoration: BoxDecoration(
             gradient: LinearGradient(
           begin: Alignment.bottomCenter,
@@ -332,7 +351,12 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: progressBar(mediaPlayback),
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    final mediaPlayback = ref.watch(mediaPlaybackProvider);
+                    return progressBar(mediaPlayback);
+                  },
+                ),
               ),
               const SizedBox(height: 8),
               Row(
@@ -345,6 +369,19 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                         IconButton(
                             onPressed: () => showVideoPlayerOptions(context, () => minimizePlayer(context)),
                             icon: const Icon(IconsaxPlusLinear.more)),
+                        if (pipPlatformSupported && MediaQuery.orientationOf(context) == Orientation.landscape)
+                          IconButton(
+                            tooltip: context.localized.pictureInPictureTitle,
+                            onPressed: () async {
+                              final ok = await ref.read(pipManagerProvider).enter();
+                              if (!ok && context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(context.localized.pictureInPictureNotSupported)),
+                                );
+                              }
+                            },
+                            icon: const Icon(IconsaxPlusLinear.screenmirroring),
+                          ),
                         if (AdaptiveLayout.layoutOf(context) == ViewSize.tablet) ...[
                           IconButton(
                             onPressed: () => showSubSelection(context),
@@ -398,7 +435,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                       ref.read(videoPlayerProvider).playOrPause();
                     },
                     icon: Icon(
-                      mediaPlayback.playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play,
+                      playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play,
                     ),
                   ),
                   seekForwardButton(ref),
@@ -668,17 +705,37 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   void seekBack(WidgetRef ref, {int seconds = 15}) {
-    final mediaPlayback = ref.read(mediaPlaybackProvider);
-    resetTimer();
-    final newPosition = (mediaPlayback.position.inSeconds - seconds).clamp(0, mediaPlayback.duration.inSeconds);
-    ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
+    _seek(ref, -seconds);
   }
 
   void seekForward(WidgetRef ref, {int seconds = 15}) {
+    _seek(ref, seconds);
+  }
+
+  void _seek(WidgetRef ref, int seconds) {
     final mediaPlayback = ref.read(mediaPlaybackProvider);
     resetTimer();
     final newPosition = (mediaPlayback.position.inSeconds + seconds).clamp(0, mediaPlayback.duration.inSeconds);
     ref.read(videoPlayerProvider).seek(Duration(seconds: newPosition));
+  }
+
+  void stepBack(WidgetRef ref) {
+    _step(ref, -1);
+  }
+
+  void stepForward(WidgetRef ref) {
+    _step(ref, 1);
+  }
+
+  void _step(WidgetRef ref, int frames) {
+    final mediaPlayback = ref.read(mediaPlaybackProvider);
+    final framerate = ref.read(playBackModel.select((value) => value?.mediaStreams?.videoStreams.first.frameRate));
+    if (framerate == null || framerate == 0) return;
+
+    final step = ((1000000.0 / framerate) * frames).round();
+    resetTimer();
+    final newPosition = (mediaPlayback.position.inMicroseconds + step).clamp(0, mediaPlayback.duration.inMicroseconds);
+    ref.read(videoPlayerProvider).seek(Duration(microseconds: newPosition));
   }
 
   void seekBackWithIndicator() {
@@ -889,9 +946,60 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     _vDragLastValue = null;
   }
 
+  void _toggleSubtitles() {
+    final playbackModel = ref.read(playBackModel);
+    final player = ref.read(videoPlayerProvider);
+    final subStreams = playbackModel?.subStreams;
+
+    if (subStreams == null || subStreams.isEmpty) return;
+
+    // Filter out the "off" track (index == -1)
+    final availableSubtitles = subStreams.where((s) => s.index != -1).toList();
+    if (availableSubtitles.isEmpty) return;
+
+    final currentIndex = playbackModel?.mediaStreams?.defaultSubStreamIndex ?? -1;
+    if (currentIndex != -1) {
+      // Subtitles are ON -> Turn OFF and remember this index
+      _lastSelectedSubtitleIndex = currentIndex;
+      _setSubtitleTrack(SubStreamModel.no(), playbackModel, player);
+    } else {
+      // Subtitles are OFF -> Turn ON
+      if (_lastSelectedSubtitleIndex != null) {
+        // Use the last selected index
+        final lastSub = subStreams.firstWhere(
+          (s) => s.index == _lastSelectedSubtitleIndex,
+          orElse: () => availableSubtitles.first,
+        );
+        _setSubtitleTrack(lastSub, playbackModel, player);
+      } else if (availableSubtitles.length == 1) {
+        // If only one subtitle is available, just use it
+        _setSubtitleTrack(availableSubtitles.first, playbackModel, player);
+      } else {
+        // Multiple subtitles and no last selection -> Show selection dialog
+        showSubSelection(context).then((_) {
+          final newModel = ref.read(playBackModel);
+          final selectedIndex = newModel?.mediaStreams?.defaultSubStreamIndex;
+          if (selectedIndex != null && selectedIndex != -1) {
+            _lastSelectedSubtitleIndex = selectedIndex;
+          }
+        });
+      }
+    }
+  }
+
+  void _setSubtitleTrack(SubStreamModel subModel, PlaybackModel? playbackModel, dynamic player) async {
+    if (playbackModel == null) return;
+    final newModel = await playbackModel.setSubtitle(subModel, player);
+    ref.read(playBackModel.notifier).update((state) => newModel);
+    if (newModel != null) {
+      await ref.read(playbackModelHelper).shouldReload(newModel);
+    }
+  }
+
   bool _onKey(VideoHotKeys value) {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
+    final playing = ref.read(mediaPlaybackProvider.select((value) => value.playing));
 
     MediaSegment? segment = mediaSegments?.atPosition(position);
 
@@ -952,6 +1060,25 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       case VideoHotKeys.prevChapter:
         ref.read(videoPlayerSettingsProvider.notifier).prevChapter();
+        return true;
+      case VideoHotKeys.toggleSubtitles:
+        _toggleSubtitles();
+        return true;
+      case VideoHotKeys.seekForwardInstant:
+        final seekForwardSeconds =
+            ref.read(userProvider.select((value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30));
+        seekForward(ref, seconds: seekForwardSeconds);
+        return true;
+      case VideoHotKeys.seekBackInstant:
+        final seekBackSeconds =
+            ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
+        seekBack(ref, seconds: seekBackSeconds);
+        return true;
+      case VideoHotKeys.stepForward:
+        playing ? ref.read(videoPlayerProvider).playOrPause() : stepForward(ref);
+        return true;
+      case VideoHotKeys.stepBack:
+        playing ? ref.read(videoPlayerProvider).playOrPause() : stepBack(ref);
         return true;
       default:
         return false;

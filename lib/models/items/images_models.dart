@@ -15,21 +15,23 @@ import 'package:fladder/util/custom_cache_manager.dart';
 
 class ImagesData {
   final ImageData? primary;
+  final ImageData? thumb;
   final List<ImageData>? backDrop;
   final ImageData? logo;
   ImagesData({
     this.primary,
+    this.thumb,
     this.backDrop,
     this.logo,
   });
 
   bool get isEmpty {
-    if (primary == null && backDrop == null) return true;
+    if (primary == null && thumb == null && backDrop == null) return true;
     return false;
   }
 
   ImageData? get firstOrNull {
-    return primary ?? backDrop?[0];
+    return primary ?? thumb ?? backDrop?.firstOrNull;
   }
 
   ImageData? get randomBackDrop => (backDrop?..shuffle())?.firstOrNull ?? primary;
@@ -38,6 +40,7 @@ class ImagesData {
     dto.BaseItemDto item,
     Ref ref, {
     Size backDrop = const Size(2000, 2000),
+    Size thumb = const Size(1200, 1200),
     Size logo = const Size(500, 500),
     Size primary = const Size(600, 600),
     bool getOriginalSize = false,
@@ -62,6 +65,23 @@ class ImagesData {
                     ),
               key: "${itemid}_primary_${item.imageTags?['Primary']}",
               hash: item.imageBlurHashes?.primary?[item.imageTags?['Primary']] ?? "",
+            )
+          : null,
+      thumb: item.imageTags?['Thumb'] != null
+          ? ImageData(
+              path: getOriginalSize
+                  ? imageProvider.getItemsOrigImageUrl(
+                      itemid,
+                      type: enums.ImageType.thumb,
+                    )
+                  : imageProvider.getItemsImageUrl(
+                      itemid,
+                      type: enums.ImageType.thumb,
+                      maxHeight: thumb.height.toInt(),
+                      maxWidth: thumb.width.toInt(),
+                    ),
+              key: "${itemid}_thumb_${item.imageTags?['Thumb']}",
+              hash: item.imageBlurHashes?.thumb?[item.imageTags?['Thumb']] ?? "",
             )
           : null,
       logo: ImageData(
@@ -111,6 +131,7 @@ class ImagesData {
     dto.BaseItemDto item,
     Ref ref, {
     Size backDrop = const Size(2000, 2000),
+    Size thumb = const Size(1200, 1200),
     Size logo = const Size(500, 500),
     Size primary = const Size(600, 600),
   }) {
@@ -129,6 +150,19 @@ class ImagesData {
               ),
               key: "${item.seriesId}_primary_${item.seriesPrimaryImageTag ?? ""}",
               hash: item.imageBlurHashes?.primary?[item.seriesPrimaryImageTag] ?? "")
+          : null,
+      thumb: ((item.seriesThumbImageTag ?? item.parentThumbImageTag) != null)
+          ? ImageData(
+              path: imageProvider.getItemsImageUrl(
+                item.parentThumbItemId ?? item.seriesId ?? item.parentId,
+                type: enums.ImageType.thumb,
+                maxHeight: thumb.height.toInt(),
+                maxWidth: thumb.width.toInt(),
+              ),
+              key:
+                  "${item.parentThumbItemId ?? item.seriesId ?? item.parentId}_thumb_${item.seriesThumbImageTag ?? item.parentThumbImageTag ?? ""}",
+              hash: item.imageBlurHashes?.thumb?[item.seriesThumbImageTag ?? item.parentThumbImageTag] ?? "",
+            )
           : null,
       logo: ImageData(
           path: imageProvider.getItemsImageUrl(
@@ -183,21 +217,24 @@ class ImagesData {
               key: "${item.id ?? ""}_primary_${item.primaryImageTag ?? ''}",
               hash: item.imageBlurHashes?.primary?[item.primaryImageTag] ?? '')
           : null,
+      thumb: null,
       logo: null,
       backDrop: null,
     );
   }
 
   @override
-  String toString() => 'ImagesData(primary: $primary, backDrop: $backDrop, logo: $logo)';
+  String toString() => 'ImagesData(primary: $primary, thumb: $thumb, backDrop: $backDrop, logo: $logo)';
 
   ImagesData copyWith({
     ValueGetter<ImageData?>? primary,
+    ValueGetter<ImageData?>? thumb,
     ValueGetter<List<ImageData>?>? backDrop,
     ValueGetter<ImageData?>? logo,
   }) {
     return ImagesData(
       primary: primary != null ? primary() : this.primary,
+      thumb: thumb != null ? thumb() : this.thumb,
       backDrop: backDrop != null ? backDrop() : this.backDrop,
       logo: logo != null ? logo() : this.logo,
     );
@@ -206,6 +243,7 @@ class ImagesData {
   Map<String, dynamic> toMap() {
     return {
       'primary': primary?.toMap(),
+      'thumb': thumb?.toMap(),
       'backDrop': backDrop?.map((x) => x.toMap()).toList(),
       'logo': logo?.toMap(),
     };
@@ -214,6 +252,7 @@ class ImagesData {
   factory ImagesData.fromMap(Map<String, dynamic> map) {
     return ImagesData(
       primary: map['primary'] != null ? ImageData.fromMap(map['primary']) : null,
+      thumb: map['thumb'] != null ? ImageData.fromMap(map['thumb']) : null,
       backDrop:
           map['backDrop'] != null ? List<ImageData>.from(map['backDrop']?.map((x) => ImageData.fromMap(x))) : null,
       logo: map['logo'] != null ? ImageData.fromMap(map['logo']) : null,
@@ -223,6 +262,19 @@ class ImagesData {
   String toJson() => json.encode(toMap());
 
   factory ImagesData.fromJson(String source) => ImagesData.fromMap(json.decode(source));
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ImagesData &&
+        other.primary?.hash == primary?.hash &&
+        other.backDrop?.length == backDrop?.length &&
+        other.logo?.hash == logo?.hash;
+  }
+
+  @override
+  int get hashCode => Object.hash(primary?.hash, Object.hashAll(backDrop?.map((e) => e.hash) ?? []), logo?.hash);
 }
 
 class ImageData {

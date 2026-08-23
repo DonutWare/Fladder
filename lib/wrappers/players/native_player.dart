@@ -45,12 +45,18 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   }
 
   @override
-  Future<void> pause() {
-    return player.pause();
+  Future<void> pause() async {
+    await player.pause();
+    lastState = lastState.update(playing: false);
+    _stateController.add(lastState);
   }
 
   @override
-  Future<void> play() => player.play();
+  Future<void> play() async {
+    await player.play();
+    lastState = lastState.update(playing: true);
+    _stateController.add(lastState);
+  }
 
   @override
   Future<void> playOrPause() async {
@@ -126,8 +132,20 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
     PlaybackModel model,
     Duration startPosition,
   ) async {
+    final nativeCurrentItem = switch (model) {
+      TvPlaybackModel tvModel => SimpleItemModel(
+          id: tvModel.channel.id,
+          title: tvModel.channel.name,
+          subTitle: tvModel.playingProgram?.name,
+          overview: tvModel.playingProgram?.overview ?? tvModel.channel.overview.summary,
+          logoUrl: tvModel.channel.getPosters?.logo?.path ?? tvModel.channel.images?.logo?.path,
+          primaryPoster: tvModel.playingProgram?.images?.primary?.path ?? tvModel.channel.images?.primary?.path ?? "",
+        ),
+      _ => model.item.toSimpleItem(context),
+    };
+
     final playableData = PlayableData(
-      currentItem: model.item.toSimpleItem(context),
+      currentItem: nativeCurrentItem,
       startPosition: startPosition.inMilliseconds,
       description: model.item.overview.summary,
       defaultAudioTrack: model.mediaStreams?.defaultAudioStreamIndex ?? 1,

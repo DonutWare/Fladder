@@ -19,9 +19,62 @@ mixin _$ArgumentsModel {
   bool get newWindow;
   bool get skipNotifications;
 
+  /// Create a copy of ArgumentsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ArgumentsModelCopyWith<ArgumentsModel> get copyWith =>
+      _$ArgumentsModelCopyWithImpl<ArgumentsModel>(this as ArgumentsModel, _$identity);
+
   @override
   String toString() {
     return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow, skipNotifications: $skipNotifications)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ArgumentsModelCopyWith<$Res> {
+  factory $ArgumentsModelCopyWith(ArgumentsModel value, $Res Function(ArgumentsModel) _then) =
+      _$ArgumentsModelCopyWithImpl;
+  @useResult
+  $Res call({bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications});
+}
+
+/// @nodoc
+class _$ArgumentsModelCopyWithImpl<$Res> implements $ArgumentsModelCopyWith<$Res> {
+  _$ArgumentsModelCopyWithImpl(this._self, this._then);
+
+  final ArgumentsModel _self;
+  final $Res Function(ArgumentsModel) _then;
+
+  /// Create a copy of ArgumentsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? htpcMode = null,
+    Object? leanBackMode = null,
+    Object? newWindow = null,
+    Object? skipNotifications = null,
+  }) {
+    return _then(_self.copyWith(
+      htpcMode: null == htpcMode
+          ? _self.htpcMode
+          : htpcMode // ignore: cast_nullable_to_non_nullable
+              as bool,
+      leanBackMode: null == leanBackMode
+          ? _self.leanBackMode
+          : leanBackMode // ignore: cast_nullable_to_non_nullable
+              as bool,
+      newWindow: null == newWindow
+          ? _self.newWindow
+          : newWindow // ignore: cast_nullable_to_non_nullable
+              as bool,
+      skipNotifications: null == skipNotifications
+          ? _self.skipNotifications
+          : skipNotifications // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
   }
 }
 
@@ -202,9 +255,64 @@ class _ArgumentsModel extends ArgumentsModel {
   @JsonKey()
   final bool skipNotifications;
 
+  /// Create a copy of ArgumentsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ArgumentsModelCopyWith<_ArgumentsModel> get copyWith =>
+      __$ArgumentsModelCopyWithImpl<_ArgumentsModel>(this, _$identity);
+
   @override
   String toString() {
     return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow, skipNotifications: $skipNotifications)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ArgumentsModelCopyWith<$Res> implements $ArgumentsModelCopyWith<$Res> {
+  factory _$ArgumentsModelCopyWith(_ArgumentsModel value, $Res Function(_ArgumentsModel) _then) =
+      __$ArgumentsModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call({bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications});
+}
+
+/// @nodoc
+class __$ArgumentsModelCopyWithImpl<$Res> implements _$ArgumentsModelCopyWith<$Res> {
+  __$ArgumentsModelCopyWithImpl(this._self, this._then);
+
+  final _ArgumentsModel _self;
+  final $Res Function(_ArgumentsModel) _then;
+
+  /// Create a copy of ArgumentsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? htpcMode = null,
+    Object? leanBackMode = null,
+    Object? newWindow = null,
+    Object? skipNotifications = null,
+  }) {
+    return _then(_ArgumentsModel(
+      htpcMode: null == htpcMode
+          ? _self.htpcMode
+          : htpcMode // ignore: cast_nullable_to_non_nullable
+              as bool,
+      leanBackMode: null == leanBackMode
+          ? _self.leanBackMode
+          : leanBackMode // ignore: cast_nullable_to_non_nullable
+              as bool,
+      newWindow: null == newWindow
+          ? _self.newWindow
+          : newWindow // ignore: cast_nullable_to_non_nullable
+              as bool,
+      skipNotifications: null == skipNotifications
+          ? _self.skipNotifications
+          : skipNotifications // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
   }
 }
 

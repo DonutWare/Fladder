@@ -2,6 +2,21 @@ import 'package:flutter/material.dart';
 
 import 'package:fladder/util/localization_helper.dart';
 
+extension ColorHelper on String {
+  Color get toColor {
+    int hash = 0;
+    for (int i = 0; i < length; i++) {
+      hash = codeUnitAt(i) + ((hash << 5) - hash);
+    }
+
+    double hue = (hash % 360).abs().toDouble();
+    double saturation = 0.2;
+    double lightness = 0.5;
+
+    return HSLColor.fromAHSL(1.0, hue, saturation, lightness).toColor();
+  }
+}
+
 Color? colorFromJson(dynamic color) {
   if (color == null) return null;
 

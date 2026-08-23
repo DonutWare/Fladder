@@ -114,5 +114,15 @@ List<Widget> buildClientSettingsTheme(BuildContext context, WidgetRef ref) {
         onChanged: (value) => ref.read(clientSettingsProvider.notifier).setDerivedColorsFromItem(value),
       ),
     ),
+    SettingsListTile(
+      label: Text(context.localized.posterColorsTitle),
+      subLabel: Text(context.localized.posterColorsDesc),
+      onTap: () =>
+          ref.read(clientSettingsProvider.notifier).setDynamicPosterColors(!clientSettings.dynamicPosterColors),
+      trailing: Switch(
+        value: clientSettings.dynamicPosterColors,
+        onChanged: (value) => ref.read(clientSettingsProvider.notifier).setDynamicPosterColors(value),
+      ),
+    ),
   ]);
 }

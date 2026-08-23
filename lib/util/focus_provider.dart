@@ -172,7 +172,12 @@ class FocusButtonState extends State<FocusButton> {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (event) => onHover.value = true,
-      onExit: (event) => onHover.value = false,
+      onExit: (event) {
+        onHover.value = false;
+        if (widget.onHover != null) {
+          widget.onHover?.call(false);
+        }
+      },
       onHover: widget.onHover != null ? (event) => widget.onHover?.call(true) : null,
       child: Focus(
         focusNode: focusNode,

@@ -987,7 +987,7 @@
     "screensaverBlack": "Nero",
     "playerSettingsScreensaverTitle": "Salva schermo",
     "playerSettingsScreensaverDesc": "Seleziona un salvaschermo che verrà mostrato dopo un tempo di inattività",
-    "settingsLocalUrlTitle": "URL del server locale",
+    "settingsLocalUrlTitle": "URL del server jellyfin locale",
     "settingsLocalUrlSetTitle": "Configura URL locale",
     "settingsLocalUrlSetDesc": "Specifica l'indirizzo del server locale. Fladder userà automaticamente questo URL quando il tuo dispositivo è nella stessa rete.",
     "regenerateTrickplayImages": "Rigenera anteprime",
@@ -1885,5 +1885,86 @@
                 "example": "days"
             }
         }
-    }
+    },
+    "gestures": "Gesti",
+    "anyLanguage": "Qualsiasi lingua",
+    "enableEdgeGesturesTitle": "Abilita gesti sui bordi",
+    "enableEdgeGesturesDesc": "Controlla luminosità e volume scorrendo verso l'alto o il basso sui bordi dello schermo",
+    "reverseEdgeGesturesTitle": "Inverti gesti sui bordi",
+    "reverseEdgeGesturesDesc": "Inverti lato per controllo luminosità e volume",
+    "brightnessIndicator": "Luminosità: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "viewTrailer": "Guarda trailer",
+    "personBirthday": "Data di nascita: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Età: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Nato a {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Scopri film",
+    "seerrSeries": "Scopri serie",
+    "addToQueue": "Aggiungi alla coda",
+    "audioPlayerPlaybackOptionsTitle": "Opzioni di riproduzione",
+    "showArtist": "Mostra artista",
+    "playMusic": "Riproduci Musica",
+    "syncPlaylistKeepTracks": "Mantieni tracce",
+    "syncPlaylistRemoveTracks": "Rimuovi tracce",
+    "removedFromPlaylist": "Rimosso dalla playlist {playlistName}",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "quitMultipleWindowsDesc": "Hai {count} finestre aperte. Uscire da Fladder le chiuderà tutte. Sei sicuro di voler continuare?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "Chiudi finestra",
+    "toggleSubtitles": "Abilità sottotitoli",
+    "recentlyFavorited": "Messo nei preferiti di recente",
+    "mostPlayed": "Riprodotto più volte",
+    "nowPlaying": "Adesso in riproduzione",
+    "upNext": "A seguire",
+    "queue": "Coda",
+    "queueIsEmpty": "La coda è vuota",
+    "removeFromQueue": "Rimuovi dalla coda",
+    "audioPlayerRepeatAll": "Ripeti tutto",
+    "audioPlayerRepeatOff": "Ripetizione off",
+    "audioPlayerRepeatOne": "Ripeti una volta",
+    "audioPlayerShuffle": "Shuffle",
+    "instantMix": "Mix istantaneo"
 }

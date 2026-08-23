@@ -14,9 +14,8 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
-import 'package:fladder/models/library_search/library_search_model.dart';
+import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
-import 'package:fladder/models/playlist_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
@@ -26,6 +25,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/theme_extensions.dart';
@@ -84,7 +84,8 @@ class LibraryViews extends ConsumerWidget {
 
     List<ItemAction> otherActions(ItemBaseModel item) {
       return [
-        if (ref.watch(librarySearchProvider(key!).select((value) => value.nestedCurrentItem is BoxSetModel))) ...{
+        if (ref.watch(librarySearchProvider(key!)
+            .select((value) => value.folderOverwrite.included.firstOrNull?.type is BoxSetModel))) ...{
           ItemActionButton(
             label: Text(context.localized.removeFromCollection),
             icon: const Icon(IconsaxPlusLinear.archive_slash),
@@ -96,7 +97,8 @@ class LibraryViews extends ConsumerWidget {
             },
           )
         },
-        if (ref.watch(librarySearchProvider(key!).select((value) => value.nestedCurrentItem is PlaylistModel))) ...{
+        if (ref.watch(librarySearchProvider(key!)
+            .select((value) => value.folderOverwrite.included.firstOrNull?.type is PlaylistModel))) ...{
           ItemActionButton(
             label: Text(context.localized.removeFromPlaylist),
             icon: const Icon(IconsaxPlusLinear.archive_minus),
@@ -339,7 +341,12 @@ class LibraryViews extends ConsumerWidget {
   }
 
   Future<void> onItemPressed(
-      Function() action, Key? key, ItemBaseModel item, WidgetRef ref, BuildContext context) async {
+    Function() action,
+    Key? key,
+    ItemBaseModel item,
+    WidgetRef ref,
+    BuildContext context,
+  ) async {
     final selectMode = ref.read(librarySearchProvider(key!).select((value) => value.selecteMode));
     if (selectMode) {
       ref.read(librarySearchProvider(key).notifier).toggleSelection(item);
@@ -351,7 +358,7 @@ class LibraryViews extends ConsumerWidget {
         if (context.mounted) {
           await context.router.push(PhotoViewerRoute(
             items: photoList,
-            loadingItems: ref.read(librarySearchProvider(key).notifier).fetchGallery(),
+            photoQueueSource: ref.read(librarySearchProvider(key).notifier).createPhotoQueueSource(shuffle: false),
             selected: item.id,
           ));
         }

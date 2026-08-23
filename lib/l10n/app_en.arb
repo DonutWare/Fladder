@@ -24,6 +24,18 @@
   "@addToCollection": {},
   "addToPlaylist": "Add to playlist",
   "@addToPlaylist": {},
+  "addToQueue": "Add to queue",
+  "@addToQueue": {},
+  "instantMix": "Instant mix",
+  "@instantMix": {},
+  "addedToQueue": "{count, plural, one{Added {count} track to queue} other{Added {count} tracks to queue}}",
+  "@addedToQueue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "advanced": "Advanced",
   "@advanced": {},
   "all": "All",
@@ -50,6 +62,27 @@
   "audio": "{count, plural, one{Audio} other{Audio}}",
   "@audio": {
     "description": "Audio (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "audioPlayerPlaybackOptionsTitle": "Playback options",
+  "@audioPlayerPlaybackOptionsTitle": {},
+  "audioPlayerRepeatAll": "Repeat all",
+  "@audioPlayerRepeatAll": {},
+  "audioPlayerRepeatOff": "Repeat off",
+  "@audioPlayerRepeatOff": {},
+  "audioPlayerRepeatOne": "Repeat one",
+  "@audioPlayerRepeatOne": {},
+  "audioPlayerShuffle": "Shuffle",
+  "@audioPlayerShuffle": {},
+  "showArtist": "Show artist",
+  "track": "{count, plural, one{Track} other{Tracks}}",
+  "@track": {
+    "description": "track",
     "placeholders": {
       "count": {
         "type": "int",
@@ -158,6 +191,15 @@
   "dashboardRecentlyAdded": "Recently added in {name}",
   "@dashboardRecentlyAdded": {
     "description": "Recently added on home screen",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardRecentlyAddedItems": "Recently added {name}",
+  "@dashboardRecentlyAddedItems": {
+    "description": "Recently added items on home screen",
     "placeholders": {
       "name": {
         "type": "String"
@@ -457,6 +499,26 @@
       }
     }
   },
+  "mediaTypeArtists": "{count, plural, one{Artist} other{Artists}}",
+  "@mediaTypeArtists": {
+    "description": "Artist (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeMusicVideo": "{count, plural, one{Music Video} other{Music Videos}}",
+  "@mediaTypeMusicVideo": {
+    "description": "Music Video (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "mediaTypePhoto": "{count, plural, one{Photo} other{Photos}}",
   "@mediaTypePhoto": {
     "description": "Photo (plural)",
@@ -510,6 +572,16 @@
   "mediaTypeTV": "{count, plural, one{TV Channel} other{TV Channels}}",
   "@mediaTypeTV": {
     "description": "TV Channel (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeCollection": "{count, plural, one{Collection} other{Collections}}",
+  "@mediaTypeCollection": {
+    "description": "Collection (plural)",
     "placeholders": {
       "count": {
         "type": "int",
@@ -665,6 +737,8 @@
   "@playLabel": {},
   "playVideos": "Play videos",
   "@playVideos": {},
+  "playMusic": "Play music",
+  "@playMusic": {},
   "played": "Played",
   "@played": {},
   "quickConnectAction": "Enter quick connect code for",
@@ -802,11 +876,13 @@
   "@scanBiometricHint": {},
   "scanLibrary": "Scan library",
   "@scanLibrary": {},
-  "scanYourFingerprintToAuthenticate": "Scan your fingerprint to authenticate {user}",
-  "@scanYourFingerprintToAuthenticate": {
+  "authenticateWithBiometrics": "Use biometrics to authenticate {user}",
+  "@authenticateWithBiometrics": {
+    "description": "Prompt shown to the user when biometric authentication is requested",
     "placeholders": {
       "user": {
-        "type": "String"
+        "type": "String",
+        "example": "Jane"
       }
     }
   },
@@ -926,6 +1002,10 @@
   "@settingsPlayerNativeLibassAccelTitle": {},
   "settingsPlayerBufferSizeTitle": "Video buffer size",
   "@settingsPlayerBufferSizeTitle": {},
+  "settingsPlayerPlayPauseFadeTitle": "Play/pause volume fade",
+  "@settingsPlayerPlayPauseFadeTitle": {},
+  "settingsPlayerPlayPauseFadeDesc": "Fade volume in and out when playing or pausing",
+  "@settingsPlayerPlayPauseFadeDesc": {},
   "settingsPlayerBufferSizeDesc": "Configure the buffer size for video playback, determining how much data is loaded into the cache.",
   "@settingsPlayerBufferSizeDesc": {},
   "settingsPlayerTitle": "Player",
@@ -1022,6 +1102,14 @@
   "@syncDeleteItemTitle": {},
   "syncDeletePopupPermanent": "This action is permanent and will remove all locally synced files",
   "@syncDeletePopupPermanent": {},
+  "syncPlaylistDeleteTitle": "Delete synced playlist",
+  "@syncPlaylistDeleteTitle": {},
+  "syncPlaylistDeleteContent": "Do you also want to remove the tracks synced from this playlist?",
+  "@syncPlaylistDeleteContent": {},
+  "syncPlaylistKeepTracks": "Keep tracks",
+  "@syncPlaylistKeepTracks": {},
+  "syncPlaylistRemoveTracks": "Remove tracks",
+  "@syncPlaylistRemoveTracks": {},
   "syncDetails": "Sync details",
   "@syncDetails": {},
   "syncOpenParent": "Open parent",
@@ -1120,6 +1208,22 @@
   "@videoScalingFillScreenNotif": {},
   "videoScalingFillScreenTitle": "Fill screen",
   "@videoScalingFillScreenTitle": {},
+  "pictureInPictureTitle": "Picture-in-Picture",
+  "@pictureInPictureTitle": {
+    "description": "Tooltip on the in-player PiP button"
+  },
+  "pictureInPictureAutoTitle": "Auto Picture-in-Picture",
+  "@pictureInPictureAutoTitle": {
+    "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+  },
+  "pictureInPictureSubtitle": "Automatically enter Picture-in-Picture when you leave the player. The PiP button in the controls always works regardless of this setting.",
+  "@pictureInPictureSubtitle": {
+    "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+  },
+  "pictureInPictureNotSupported": "Picture-in-Picture is not available on this device",
+  "@pictureInPictureNotSupported": {
+    "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+  },
   "videoScalingFitHeight": "Fit Height",
   "@videoScalingFitHeight": {},
   "videoScalingFitWidth": "Fit Width",
@@ -1186,6 +1290,14 @@
   },
   "addedToPlaylist": "Added to {playlistName} playlist",
   "@addedToPlaylist": {
+    "placeholders": {
+      "playlistName": {
+        "type": "String"
+      }
+    }
+  },
+  "removedFromPlaylist": "Removed from {playlistName} playlist",
+  "@removedFromPlaylist": {
     "placeholders": {
       "playlistName": {
         "type": "String"
@@ -1285,7 +1397,7 @@
   "unableToPlayMedia": "There was an error finding a compatible media type",
   "errorOpeningMedia": "Something went wrong trying to play this media",
   "unableToPlayBooksOnWeb": "Books are not supported on web for now",
-  "defaultFilterForLibrary": "Default filter for library",
+  "defaultFilterForLibrary": "Set default filter for library",
   "updateFilterForLibrary": "Update filter",
   "removeFilterForLibrary": "Remove {filter}?",
   "@removeFilterForLibrary": {
@@ -1327,11 +1439,23 @@
   "resumeVideo": "Resume video",
   "closeVideo": "Close video",
   "playNextVideo": "Play next video",
-  "playerSettingsBackendTitle": "Video player Backend",
+  "playerSettingsBackendTitle": "Media player Backend",
   "playerSettingsBackendDesc": "Choose your preferred media player for optimal playback experience",
+  "playerSettingsReplayGainTitle": "ReplayGain",
+  "playerSettingsReplayGainDesc": "Normalize music loudness using ReplayGain tags.",
+  "playerSettingsReplayGainLevelTitle": "ReplayGain level",
+  "playerSettingsReplayGainLevelDesc": "Set the target loudness level for ReplayGain normalization. A common standard is -14 dB, but you can adjust it to your preference.",
+  "settingsPlayerCrossfadeTitle": "Crossfade",
+  "@settingsPlayerCrossfadeTitle": {},
+  "settingsPlayerCrossfadeDesc": "Fade between tracks that are not consecutive in the same album",
+  "@settingsPlayerCrossfadeDesc": {},
+  "settingsPlayerCrossfadeDurationTitle": "Crossfade duration",
+  "@settingsPlayerCrossfadeDurationTitle": {},
+  "settingsPlayerCrossfadeDurationDesc": "Duration of the crossfade",
+  "@settingsPlayerCrossfadeDurationDesc": {},
   "defaultLabel": "Default",
   "@defaultLabel": {
-    "description": "To indicate a default value, default video player backend"
+    "description": "To indicate a default value, default media player backend"
   },
   "noVideoPlayerOptions": "The selected backend has no options",
   "mdkExperimental": "MDK is still in a experimental stage",
@@ -1392,6 +1516,16 @@
   "loading": "Loading",
   "exitFladderTitle": "Exit Fladder",
   "exitFladderDesc": "Are you sure you want to close Fladder?",
+  "quitMultipleWindowsDesc": "You have {count} windows open. Quitting Fladder will close all of them. Do you want to continue?",
+  "@quitMultipleWindowsDesc": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "closeWindow": "Close window",
   "castAndCrew": "Cast & Crew",
   "guestActor": "{count, plural, other{Guest Actors} one{Guest Actor}}",
   "@guestActor": {
@@ -1502,6 +1636,10 @@
   "playPause": "Play/Pause",
   "seekForward": "Seek Forward",
   "seekBack": "Seek Back",
+  "seekForwardInstant": "Seek Forward (Instant)",
+  "seekBackInstant": "Seek Back (Instant)",
+  "stepForward": "Step Forward",
+  "stepBack": "Step Back",
   "mute": "Mute",
   "volumeUp": "Volume Up",
   "volumeDown": "Volume Down",
@@ -1562,10 +1700,14 @@
   "quickConnectPostFailed": "Failed to get quick connect code",
   "quickConnectLoginUsingCode": "Using quick connect",
   "quickConnectEnterCodeDescription": "Enter the code below to login",
+  "openJellyfinQuickConnect": "Open Jellyfin QuickConnect",
+  "@openJellyfinQuickConnect": {},
   "showMore": "Show more",
   "showLess": "Show less",
   "itemColorsTitle": "Item colors",
   "itemColorsDesc": "Use item's primary color to theme the details page",
+  "posterColorsTitle": "Generated poster colors",
+  "posterColorsDesc": "Use generated colors for posters in place of the default color",
   "mediaTunnelingTitle": "Media tunneling",
   "mediaTunnelingDesc": "Enable media tunneling for native player",
   "clientSettingsUseSystemIMETitle": "Use system keyboard",
@@ -1590,6 +1732,7 @@
   },
   "takeScreenshot": "Take screenshot",
   "takeScreenshotClean": "Take screenshot (without subtitles)",
+  "toggleSubtitles": "Toggle subtitles",
   "screenshotTaken": "Screenshot saved!",
   "screenshotCleanTaken": "Screenshot without subtitles saved!",
   "errorTakingScreenshot": "There was an error taking the screenshot",
@@ -1600,9 +1743,9 @@
   "screensaverBlack": "Black",
   "playerSettingsScreensaverTitle": "Screensaver",
   "playerSettingsScreensaverDesc": "Select screen saver that will be shown after no player activity",
-  "settingsLocalUrlTitle": "Local Server URL",
-  "settingsLocalUrlSetTitle": "Configure Local URL",
-  "settingsLocalUrlSetDesc": "Specify the local server address. Fladder will automatically use this URL when your device is on the same network.",
+  "settingsLocalUrlTitle": "Local Jellyfin URL",
+  "settingsLocalUrlSetTitle": "Configure Local Jellyfin URL",
+  "settingsLocalUrlSetDesc": "Specify the local Jellyfin address. Fladder will automatically use this URL when your device is on the same network.",
   "regenerateTrickplayImages": "Regenerate trickplay images",
   "controlPanel": "Control Panel",
   "@controlPanel": {},
@@ -2053,6 +2196,12 @@
   },
   "recentlyAdded": "Recently added",
   "@recentlyAdded": {},
+  "recentlyPlayed": "Recently played",
+  "@recentlyPlayed": {},
+  "recentlyFavorited": "Recently favorited",
+  "@recentlyFavorited": {},
+  "mostPlayed": "Most played",
+  "@mostPlayed": {},
   "recentRequests": "Recent requests",
   "@recentRequests": {},
   "trending": "Trending",
@@ -2298,6 +2447,31 @@
     }
   },
   "now": "Now",
+  "@now": {},
+  "nowPlaying": "Now playing",
+  "@nowPlaying": {},
+  "upNext": "Up next",
+  "@upNext": {},
+  "queue": "Queue",
+  "@queue": {},
+  "queueIsEmpty": "Queue is empty",
+  "@queueIsEmpty": {},
+  "queueItemCount": "{count} items",
+  "@queueItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "removeFromQueue": "Remove from queue",
+  "@removeFromQueue": {},
+  "lyrics": "Lyrics",
+  "@lyrics": {},
+  "returnToSyncedLyrics": "Return to synced lyrics",
+  "@returnToSyncedLyrics": {},
+  "noSyncedLyrics": "No synced lyrics available",
+  "@noSyncedLyrics": {},
   "noPrograms": "No programs available",
   "switchChannel": "Switch channel",
   "switchChannelDesc": "Do you want to watch \"{programName}\" on {channelName}?",
@@ -2616,5 +2790,75 @@
   },
   "seerrMovies": "Discover Movies",
   "seerrSeries": "Discover Series",
-  "today": "Today"
+  "today": "Today",
+  "musicDashboard": "Music Dashboard",
+  "quiet": "Quiet",
+  "loud": "Loud",
+  "share": "Share",
+  "setAs": "Set as",
+  "selectRandom": "Select random",
+  "stopSelection": "Stop selecting {count}",
+  "@stopSelection": {
+    "description": "stopSelection",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "playItems": "Play items",
+  "shuffleItems": "Shuffle items",
+  "disc": "Disc {number}",
+  "@disc": {
+    "description": "disc",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "incognito": "Incognito",
+  "incognitoModeGlobal": "Incognito mode (App)",
+  "incognitoModeLocal": "Incognito mode (Profile)",
+  "incognitoModeDesc": "Incognito mode disables sending playback status to the server",
+  "showInSideBar": "Show in sidebar",
+  "hideInSideBar": "Hide from sidebar",
+  "showInSideBarDesc": "Show this filter in the sidebar for quick access",
+  "applyFilter": "Apply filter",
+  "playerSettingsAmbientBlurTitle": "Enable ambient blur",
+  "playerSettingsAmbientBlurDesc": "Enable ambient blur in the player. This will blur the background behind the player to reduce distractions.",
+  "playerSettingsAmbientBlurDescWarning": "Ambient blur can cause performance issues on lower-end devices.",
+  "openSelected": "Open selected",
+  "discography": "Discography",
+  "youLiked": "You liked",
+  "instantMixBy": "Instant Mix of {artist}",
+  "@instantMixBy": {
+    "description": "Instant Mix of artist",
+    "placeholders": {
+      "artist": {
+        "type": "String"
+      }
+    }
+  },
+  "latestTracksBy": "Latest tracks by {artist}",
+  "@latestTracksBy": {
+    "description": "Latest tracks by artist",
+    "placeholders": {
+      "artist": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesOf": "Favorites of {artist}",
+  "@favoritesOf": {
+    "description": "Favorites of artist",
+    "placeholders": {
+      "artist": {
+        "type": "String"
+      }
+    }
+  },
+  "leanBackModeTitle": "Lean-back Mode",
+  "leanBackModeDesc": "Enable lean-back mode on Android devices, even if the device reports back as false.",
+  "leanBackModeInfo": "Lean-back mode is re-enabled by default on AndroidTV devices. Toggling this option on non-AndroidTV devices may cause unexpected behavior."
 }

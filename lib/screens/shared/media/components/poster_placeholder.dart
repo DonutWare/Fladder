@@ -9,7 +9,7 @@ class PosterPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.75);
+    final color = Theme.of(context).colorScheme.onSurface;
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -24,33 +24,32 @@ class PosterPlaceholder extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                item.title,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontSize: 18,
+                    ),
+                softWrap: true,
+              ),
+              if (item.label(context.localized) != null) ...[
                 Text(
-                  item.title,
+                  item.label(context.localized)!,
                   maxLines: 2,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: color.withValues(alpha: 0.75),
+                      ),
                   softWrap: true,
                 ),
-                if (item.label(context.localized) != null) ...[
-                  Text(
-                    item.label(context.localized)!,
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: color.withValues(alpha: 0.75),
-                        ),
-                    softWrap: true,
-                  ),
-                ],
               ],
-            ),
+            ],
           ),
         )
       ],

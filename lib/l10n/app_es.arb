@@ -252,11 +252,11 @@
     "markAsWatched": "Marcar como visto",
     "masonry": "Mampostería",
     "mediaTypeBase": "Tipo base",
-    "mediaTypeBook": "Libro{count, plural, one{Libro} other{Libros}}",
+    "mediaTypeBook": "{count, plural, one{Libro} other{Libros}}",
     "mediaTypeBoxset": "{count, plural, one{Colección} other{Colecciones}}",
     "mediaTypeEpisode": "{count, plural, one{Episodio} other{Episodios}}",
     "mediaTypeFolder": "{count, plural, one{Carpeta} other{Carpetas}}",
-    "mediaTypeMovie": "{count, plural, one{Película} other{Película}}",
+    "mediaTypeMovie": "{count, plural, one{Película} other{Películas}}",
     "mediaTypePerson": "{count, plural, one{Persona} other{Personas}}",
     "mediaTypePhoto": "{count, plural, one{Foto} other{Fotos}}",
     "mediaTypePhotoAlbum": "{count, plural, one{Álbum de fotos} other{Álbumes de fotos}}",
@@ -833,7 +833,7 @@
     "closeVideo": "Cerrar vídeo",
     "playNextVideo": "Reproducir el siguiente vídeo",
     "stop": "Detener",
-    "playerSettingsBackendTitle": "Backend del reproductor de vídeo",
+    "playerSettingsBackendTitle": "Reproductor de medios en segundo plano",
     "playerSettingsBackendDesc": "Elija su reproductor multimedia preferido para una experiencia de reproducción óptima",
     "mdkExperimental": "MDK todavía está en una etapa experimental",
     "defaultLabel": "Por defecto",
@@ -866,7 +866,7 @@
     "copyStreamUrl": "Copiar url de la transmisión",
     "settingsLayoutSizesTitle": "Tamaños de interfaz",
     "settingsLayoutSizesDesc": "Selecciona los diseños que la app puede utilizar según el tamaño de la ventana",
-    "errorLogs": "Registro de errores",
+    "errorLogs": "Bitácoras de error",
     "mediaSegmentActions": "Acciones para los segmentos de vídeo",
     "external": "Externo",
     "qualityOptionsOriginal": "Original",
@@ -874,14 +874,14 @@
     "qualityOptionsTitle": "Opciones de calidad",
     "qualityOptionsAuto": "Auto",
     "episodeAvailable": "Disponible",
-    "internetStreamingQualityDesc": "Calidad máxima por Internet (móvil)",
+    "internetStreamingQualityDesc": "Calidad máxima de transmisión por Internet (móvil)",
     "settingsLayoutModesTitle": "Modos de disposición",
     "settingsLayoutModesDesc": "Controlar que la aplicación use disposición de panel único o doble",
     "phone": "Móvil",
-    "tablet": "Tablet",
+    "tablet": "Tableta",
     "desktop": "Escritorio",
     "layoutModeSingle": "Único",
-    "layoutModeDual": "Doble",
+    "layoutModeDual": "Dual",
     "copiedToClipboard": "Copiado al portapapeles",
     "internetStreamingQualityTitle": "Calidad por Internet",
     "homeStreamingQualityTitle": "Calidad en casa",
@@ -893,12 +893,12 @@
     "settingsEnableOsMediaControlsDesc": "Permitir el control de la reproducción mediante teclas multimedia y mostrar el contenido multimedia que se está reproduciendo actualmente en el sistema operativo",
     "settingsPlayerBufferSizeTitle": "Tamaño del búfer de vídeo",
     "settingsPlayerBufferSizeDesc": "Configurar el tamaño del búfer para la reproducción de vídeo, determinando la cantidad de datos que se cargan en la caché.",
-    "segmentActionAskToSkip": "Botón de omitir",
+    "segmentActionAskToSkip": "Pregunta para omitir",
     "segmentActionSkip": "Omitir",
     "loading": "Cargando",
-    "exitFladderTitle": "Cerrar Fladder",
+    "exitFladderTitle": "Salir de Fladder",
     "maxConcurrentDownloadsTitle": "Max. descargas simultáneas",
-    "maxConcurrentDownloadsDesc": "Establece el número máximo de descargas que pueden ejecutarse al mismo tiempo. Establecer en 0 para desactivar el límite.",
+    "maxConcurrentDownloadsDesc": "Establece el número máximo de descargas que pueden ejecutarse al mismo tiempo. Se establece a 0 para desactivar el límite.",
     "playbackTrackSelection": "Selección de pista de reproducción",
     "rememberSubtitleSelections": "Establecer pista de subtítulo basado en el item anterior",
     "rememberAudioSelections": "Establecer pista de audio basado en el item anterior",
@@ -1023,7 +1023,7 @@
     "seekForward": "Avanzar",
     "seekBack": "Retroceder",
     "television": "Televisión",
-    "exitFladderDesc": "¿Estás seguro de que quieres cerrar Fladder?",
+    "exitFladderDesc": "¿Seguro que quieres cerrar Fladder?",
     "similarToLikedItem": "Similar al artículo que te gustó",
     "hasLikedDirector": "Ha gustado al director",
     "popularity": "Popularidad",
@@ -1067,7 +1067,7 @@
     "subtitlePlaybackModeNone": "Ninguno",
     "subtitlePlaybackModeSmart": "Inteligente",
     "deleteRequestConfirmation": "¿Estás seguro de que deseas eliminar esta solicitud?",
-    "segmentActionSkipOnce": "Saltar una vez",
+    "segmentActionSkipOnce": "Omitir una vez",
     "guestActor": "{count, plural, other{Actores invitados} one{Actor invitado}}",
     "@guestActor": {
         "description": "Guest actors",
@@ -1121,9 +1121,9 @@
     "screensaverBlack": "Negro",
     "playerSettingsScreensaverTitle": "Salvapantallas",
     "playerSettingsScreensaverDesc": "Selecciona el salvapantallas que se mostrará cuando no haya actividad del reproductor",
-    "settingsLocalUrlTitle": "URL del servidor local",
-    "settingsLocalUrlSetTitle": "Configurar URL local",
-    "settingsLocalUrlSetDesc": "Especifica la dirección del servidor local. Fladder utilizará automáticamente esta URL cuando tu dispositivo esté en la misma red.",
+    "settingsLocalUrlTitle": "URL Jellyfin local",
+    "settingsLocalUrlSetTitle": "Configurar URL local Jellyfin",
+    "settingsLocalUrlSetDesc": "Especifica la dirección Jellyfin local. Fladder utilizará automáticamente esta URL cuando tu dispositivo esté en la misma red.",
     "regenerateTrickplayImages": "Regenerar imágenes trickplay",
     "controlPanel": "Panel de control",
     "controlPanelDesc": "Servidor, Actividad, Usuarios, Biblioteca",
@@ -1646,7 +1646,7 @@
     },
     "shareLoginLink": "Compartir enlace de inicio de sesión",
     "shareQRCode": "Compartir código QR",
-    "copyLoginLink": "Compartir enlace",
+    "copyLoginLink": "Copiar enlace",
     "includePassword": "Incluir contraseña",
     "invalidAuthLink": "Enlace de inicio de sesión inválido",
     "gestures": "Gestos",
@@ -1805,5 +1805,254 @@
     "detectDevices": "Detectar dispositivos",
     "discoveredDevices": "Dispositivos descubiertos",
     "noDevicesFound": "No se encontraron dispositivos",
-    "noCategories": "Sin categorías"
+    "noCategories": "Sin categorías",
+    "stepForward": "Adelantar",
+    "stepBack": "Atrasar",
+    "moviePrefixSubLabel": "Si los títulos de películas tienen un prefijo, escríbelo aquí para que el servidor pueda procesarlo correctamente.",
+    "movieCategoriesSubLabel": "Categorías para los canales que coincidan con el prefijo de películas",
+    "newsCategoriesSubLabel": "Categorías para los canales que coincidan con el prefijo de noticias",
+    "sportsCategoriesSubLabel": "Categorías para los canales que coincidan con el prefijo de deportes",
+    "kidsCategoriesSubLabel": "Categorías para los canales que coincidan con el prefijo de niños",
+    "enableNewTVLayoutDesc": "Mostrar banners más grandes estilo TV en el panel principal. Este será el diseño predeterminado en una versión futura.",
+    "maxConcurrentStreamsLabel": "Transmisiones simultáneas máximas",
+    "notifications": "Notificaciones",
+    "showNewItemNotificationTitle": "Notificaciones para elementos de la biblioteca",
+    "notificationChannelDescription": "Notificaciones para elementos recién agregados",
+    "seerrRequestNotifications": "Notificaciones para solicitudes de Seerr",
+    "notificationNewEpisodes": "Nuevos episodios agregados",
+    "notificationNewItems": "{count, plural, one{{count} elemento nuevo} other{{count} elementos nuevos}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationNewRequests": "{count, plural, one{{count} nueva solicitud} other{{count} nuevas solicitudes}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " iOS decide cuándo y si las actualizaciones se ejecutan, por lo que las notificaciones pueden retrasarse o no aparecer.",
+    "batteryOptimizationDesc": "Las optimizaciones de batería pueden retrasar las notificaciones en segundo plano de Fladder. \nToca para abrir la configuración del sistema y desactivar las optimizaciones de Fladder para mejorar la fiabilidad de las notificaciones.",
+    "updateCheckInterval": "Intervalo de verificación de actualizaciones",
+    "updateCheckIntervalDesc": "Con qué frecuencia se ejecuta la tarea en segundo plano",
+    "notificationsIntervalClientReminder": "El intervalo de notificaciones está configurado para todos los usuarios.",
+    "lastUpdateAt": "Última actualización el {date} a las {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "Incluir bibliotecas ocultas",
+    "includeHiddenItemsDesc": "Incluir bibliotecas ocultas del panel principal",
+    "settingsBlurEffectsTitle": "Activar efectos de desenfoque",
+    "settingsBlurEffectsDesc": "Activar efectos de desenfoque en la interfaz. Desactivar esto puede mejorar el rendimiento en dispositivos de gama baja.",
+    "profileSettingsOpenAuthAtLaunch": "Mostrar método de autenticación en el bloqueo de la app",
+    "toggleSidebar": "Alternar barra lateral",
+    "requestedSuccessForItem": "Solicitud de {itemName} realizada con éxito",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "passwordNotRequired": "No requerido, déjalo vacío para no incluir contraseña en el enlace",
+    "authLinkButtonToolTip": "Abrir ventana de enlace de autenticación",
+    "connectWithAuthLink": "Conectar con enlace de autenticación",
+    "pasteFladderAuthLink": "Pega el enlace de autenticación de Fladder: fladder:///login?authLink=...",
+    "connect": "Conectar",
+    "authLinkDesc": "Pide al administrador del servidor que te proporcione el enlace de autenticación. El enlace contiene información de autenticación, así que asegúrate de mantenerlo seguro.",
+    "deletedItem": "Se eliminó {itemName}",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "Orden de la pantalla principal",
+    "libraryOrderDescription": "Arrastra para reordenar las bibliotecas en la pantalla principal. Las bibliotecas sin marcar no mostrarán elementos recién agregados.",
+    "hidePlayedInLatestTitle": "Ocultar contenido visto",
+    "hidePlayedInLatestDescription": "Ocultar contenido visto de 'Medios Agregados Recientemente'",
+    "groupedFoldersTitle": "Bibliotecas agrupadas",
+    "groupedFoldersDescription": "Agrupa automáticamente el contenido de las siguientes bibliotecas en vistas como 'Películas', 'Música' y 'TV'.",
+    "downloadTranscoded": "Descargar transcodificado",
+    "downloadOriginal": "Descargar original",
+    "personBirthday": "Cumpleaños: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Edad: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Nacido en {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Descubrir Películas",
+    "seerrSeries": "Descubrir Series",
+    "today": "Hoy",
+    "linkData": "Ligar datos",
+    "addToQueue": "Añadir a la cola",
+    "instantMix": "Mezcla instantánea",
+    "audioPlayerRepeatOne": "Repita uno",
+    "authenticateWithBiometrics": "Utilizar biometría para autenticar {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "seekForwardInstant": "Busca adelante (Instante)",
+    "seekBackInstant": "Busca atrás (Instante)",
+    "share": "Compartir",
+    "setAs": "Poner como",
+    "audioPlayerPlaybackOptionsTitle": "Opciones de reproducción",
+    "audioPlayerRepeatAll": "Repetir todo",
+    "showArtist": "Mostrar artista",
+    "playerSettingsReplayGainLevelDesc": "Establecer el nivel de ruido destino para la normalización ReplayGain. Un estándar común es -14 dB, pero puede ajustarlo a su preferencia.",
+    "pictureInPictureSubtitle": "Introduzca automáticamente Imagen dentro de Imagen cuando abandone el reproductor. El botón PiP en los controles siempre funciona independientemente de este ajuste.",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "removedFromPlaylist": "Retirado del listado de reproducción {playlistName}",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "track": "{count, plural, one{Pista} other{Pistas}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "{name} recientemente añadido",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{Artista} other{Artistas}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playMusic": "Reproducir música",
+    "settingsPlayerPlayPauseFadeTitle": "Reproducir/pausar atenuación del volumen",
+    "settingsPlayerPlayPauseFadeDesc": "Entrada y salida de volumen atenuado cuando reproduzca o pause",
+    "syncPlaylistDeleteTitle": "Elimina listado de reproducción sincronizado",
+    "syncPlaylistDeleteContent": "¿Le gustaría retirar las pistas sincronizadas desde este listado de reproducción?",
+    "syncPlaylistKeepTracks": "Conservar las pistar",
+    "syncPlaylistRemoveTracks": "Retirar las pistas",
+    "settingsPlayerCrossfadeTitle": "Fundido cruzado",
+    "settingsPlayerCrossfadeDesc": "Fundido entre pistas que no son consecutivas en el mismo álbum",
+    "settingsPlayerCrossfadeDurationTitle": "Duración de fundido",
+    "settingsPlayerCrossfadeDurationDesc": "Duración del fundido cruzado",
+    "quitMultipleWindowsDesc": "Tienes {count} ventanas abiertas. Salir de Fladder cerrará todas ellas. ¿Quieres continuar?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "Cerrar ventana",
+    "openJellyfinQuickConnect": "Abrir Conexión Rápida de Jellyfin",
+    "toggleSubtitles": "Conmutar subtítulos",
+    "recentlyPlayed": "Reproducido recientemente",
+    "recentlyFavorited": "Favoritos recientemente",
+    "mostPlayed": "Más reproducidos",
+    "nowPlaying": "Reproduciendo ahora",
+    "upNext": "Hasta siguiente",
+    "queue": "Cola",
+    "queueIsEmpty": "La cola está vacía",
+    "queueItemCount": "{count} elementos",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "Retirar de la cola",
+    "musicDashboard": "Pizarra de música",
+    "quiet": "Silencio",
+    "loud": "Estridencia",
+    "addedToQueue": "{count, plural, one{Añadida {count} pista a la cola} other{Añadidas {count} pistas en la cola}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerRepeatOff": "Repetición apagada",
+    "audioPlayerShuffle": "Barajar",
+    "playerSettingsReplayGainTitle": "ReplayGain",
+    "playerSettingsReplayGainDesc": "Normaliza el volumen de la música usando etiquetas ReplayGain.",
+    "playerSettingsReplayGainLevelTitle": "Nivel ReplayGain",
+    "pictureInPictureTitle": "Imagen dentro de imagen",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "Imagen dentro de imagen automática",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "Imagen dentro de imagen no está disponible en este dispositivo",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    }
 }

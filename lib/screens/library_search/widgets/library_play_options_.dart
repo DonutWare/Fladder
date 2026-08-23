@@ -9,13 +9,21 @@ Future<void> showLibraryPlayOptions(
   BuildContext context,
   String label, {
   Function()? playVideos,
+  Function()? playMusic,
   Function()? viewGallery,
 }) {
+  final availableActions = [playVideos, playMusic, viewGallery].whereType<Function()>().toList();
+  if (availableActions.length == 1) {
+    availableActions.first.call();
+    return Future.value();
+  }
+
   return showDialog(
       context: context,
       builder: (context) => LibraryPlayOptions(
             label: label,
             playVideos: playVideos,
+            playMusic: playMusic,
             viewGallery: viewGallery,
           ));
 }
@@ -23,8 +31,15 @@ Future<void> showLibraryPlayOptions(
 class LibraryPlayOptions extends ConsumerWidget {
   final String label;
   final Function()? playVideos;
+  final Function()? playMusic;
   final Function()? viewGallery;
-  const LibraryPlayOptions({required this.label, required this.playVideos, required this.viewGallery, super.key});
+  const LibraryPlayOptions({
+    required this.label,
+    required this.playVideos,
+    required this.playMusic,
+    required this.viewGallery,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,6 +67,14 @@ class LibraryPlayOptions extends ConsumerWidget {
                         playVideos?.call();
                       },
                       child: Text(context.localized.playVideos),
+                    ),
+                  if (playMusic != null)
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        playMusic?.call();
+                      },
+                      child: Text(context.localized.playMusic),
                     ),
                   if (viewGallery != null)
                     TextButton(

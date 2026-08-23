@@ -38,6 +38,7 @@
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
+            android:supportsPictureInPicture="true"
             android:windowSoftInputMode="adjustResize">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
@@ -107,5 +108,9 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+
+        <provider android:name=".WallpaperFileProvider" android:authorities="${applicationId}.wallpaper_provider" android:exported="false" android:grantUriPermissions="true" tools:replace="android:authorities,android:name">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/wallpaper_file_paths" />
+        </provider>
     </application>
 </manifest>

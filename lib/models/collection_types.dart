@@ -76,9 +76,18 @@ extension CollectionTypeExtension on CollectionType? {
       case CollectionType.tvshows:
         return {FladderItemType.series};
       case CollectionType.homevideos:
-        return {FladderItemType.photoAlbum, FladderItemType.folder, FladderItemType.photo, FladderItemType.video};
+        return {
+          FladderItemType.photoAlbum,
+          FladderItemType.folder,
+          FladderItemType.photo,
+          FladderItemType.video,
+        };
       case CollectionType.livetv:
         return {FladderItemType.tvchannel};
+      case CollectionType.folders:
+        return FladderItemType.values.toSet().difference({FladderItemType.baseType});
+      case CollectionType.books:
+        return {FladderItemType.book};
       default:
         return {};
     }
@@ -110,11 +119,23 @@ extension CollectionTypeExtension on CollectionType? {
   }
 
   LibraryFilterModel get defaultFilters => switch (this) {
-        CollectionType.homevideos || CollectionType.photos => const LibraryFilterModel(recursive: false),
-        _ => const LibraryFilterModel(
+        CollectionType.music => const LibraryFilterModel(
             recursive: true,
-          )
-      };
+          ),
+        CollectionType.movies => const LibraryFilterModel(
+            recursive: true,
+          ),
+        CollectionType.tvshows => const LibraryFilterModel(
+            recursive: true,
+          ),
+        CollectionType.books => const LibraryFilterModel(),
+        CollectionType.livetv => const LibraryFilterModel(),
+        _ => const LibraryFilterModel(),
+      }
+          .copyWith(
+        types: {for (var item in itemKinds) item: true},
+        isDefault: true,
+      );
 
   double? get aspectRatio => switch (this) {
         CollectionType.music ||

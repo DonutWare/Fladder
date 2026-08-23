@@ -18,7 +18,7 @@ class ActionContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: 16),
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: 16,

@@ -276,6 +276,12 @@ extension SortByExternalExtension<T extends StreamModel> on Iterable<T> {
 
 class AudioStreamModel extends AudioAndSubStreamModel {
   final String channelLayout;
+  final int? sampleRate;
+  final int? channels;
+  final int? bitRate;
+  final int? bitDepth;
+  final String? profile;
+  final dto.AudioSpatialFormat? spatialFormat;
 
   AudioStreamModel({
     required super.displayTitle,
@@ -286,6 +292,12 @@ class AudioStreamModel extends AudioAndSubStreamModel {
     required super.index,
     required super.language,
     required this.channelLayout,
+    required this.sampleRate,
+    required this.channels,
+    required this.bitRate,
+    required this.bitDepth,
+    required this.profile,
+    required this.spatialFormat,
   });
 
   factory AudioStreamModel.fromMediaStream(dto.MediaStream stream) {
@@ -296,6 +308,12 @@ class AudioStreamModel extends AudioAndSubStreamModel {
       codec: stream.codec ?? "",
       language: stream.language ?? "Unknown",
       channelLayout: stream.channelLayout ?? "",
+      sampleRate: stream.sampleRate,
+      channels: stream.channels,
+      bitRate: stream.bitRate,
+      bitDepth: stream.bitDepth,
+      profile: stream.profile,
+      spatialFormat: stream.audioSpatialFormat,
       isExternal: stream.isExternal ?? false,
       index: stream.index ?? -1,
     );
@@ -327,6 +345,12 @@ class AudioStreamModel extends AudioAndSubStreamModel {
     super.language = '',
     super.codec = '',
     this.channelLayout = '',
+    this.sampleRate,
+    this.channels,
+    this.bitRate,
+    this.bitDepth,
+    this.profile,
+    this.spatialFormat,
     super.isDefault = false,
     super.isExternal = false,
     super.index = -1,

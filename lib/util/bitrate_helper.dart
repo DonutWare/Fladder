@@ -38,6 +38,14 @@ enum Bitrate {
       };
 }
 
+Bitrate selectPlaybackBitrate({
+  required bool homeInternet,
+  required Bitrate maxHomeBitrate,
+  required Bitrate maxInternetBitrate,
+}) {
+  return homeInternet ? maxHomeBitrate : maxInternetBitrate;
+}
+
 class VideoQualitySettings {
   final Bitrate? maxBitRate;
   final int videoBitRate;

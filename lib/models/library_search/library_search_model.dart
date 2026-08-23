@@ -18,8 +18,7 @@ abstract class LibrarySearchModel with _$LibrarySearchModel {
   const factory LibrarySearchModel({
     @Default(false) bool loading,
     @Default(false) bool selecteMode,
-    @Default(<ItemBaseModel>[]) List<ItemBaseModel> folderOverwrite,
-    @Default("") String searchQuery,
+    @Default(<ItemBaseModel, bool>{}) Map<ItemBaseModel, bool> folderOverwrite,
     @Default(<ViewModel, bool>{}) Map<ViewModel, bool> views,
     @Default(<ItemBaseModel>[]) List<ItemBaseModel> posters,
     @Default(<ItemBaseModel>[]) List<ItemBaseModel> selectedPosters,
@@ -31,7 +30,7 @@ abstract class LibrarySearchModel with _$LibrarySearchModel {
 }
 
 extension LibrarySearchModelX on LibrarySearchModel {
-  bool get hasActiveFilters => filters.hasActiveFilters || searchQuery.isNotEmpty;
+  bool get hasActiveFilters => filters.hasActiveFilters;
 
   int get totalItemCount {
     if (libraryItemCounts.isEmpty) return posters.length;
@@ -58,19 +57,39 @@ extension LibrarySearchModelX on LibrarySearchModel {
 
   String searchBarTitle(BuildContext context) {
     if (folderOverwrite.isNotEmpty) {
-      return "${context.localized.search} ${folderOverwrite.last.name}...";
+      return "${context.localized.search} ${folderOverwrite.included.map((e) => e.name).join(",")}...";
     }
     return views.included.length == 1
         ? "${context.localized.search} ${views.included.first.name}..."
         : "${context.localized.search} ${context.localized.library(2)}...";
   }
 
-  ItemBaseModel? get nestedCurrentItem => folderOverwrite.lastOrNull;
-
   List<ItemBaseModel> get activePosters => selectedPosters.isNotEmpty ? selectedPosters : posters;
+
+  bool get showOpenMultiple {
+    if (totalItemCount == 0) return false;
+    if (selectedPosters.isNotEmpty) {
+      return selectedPosters.none(
+        (element) => !{
+          FladderItemType.folder,
+          FladderItemType.photoAlbum,
+          FladderItemType.musicAlbum,
+          FladderItemType.musicArtist,
+          FladderItemType.series,
+          FladderItemType.season,
+        }.contains(element.type),
+      );
+    }
+    return false;
+  }
 
   bool get showPlayButtons {
     if (totalItemCount == 0) return false;
+    if (activePosters.isNotEmpty) {
+      return activePosters.any(
+        (element) => {...FladderItemType.playable, FladderItemType.folder}.contains(element.type),
+      );
+    }
     return filters.types.included.isEmpty ||
         filters.types.included.containsAny(
           {...FladderItemType.playable, FladderItemType.folder},
@@ -79,9 +98,28 @@ extension LibrarySearchModelX on LibrarySearchModel {
 
   bool get showGalleryButtons {
     if (totalItemCount == 0) return false;
+    if (activePosters.isNotEmpty) {
+      return activePosters.any(
+        (element) =>
+            {...FladderItemType.galleryItem, FladderItemType.photoAlbum, FladderItemType.folder}.contains(element.type),
+      );
+    }
     return filters.types.included.isEmpty ||
         filters.types.included.containsAny(
           {...FladderItemType.galleryItem, FladderItemType.photoAlbum, FladderItemType.folder},
+        );
+  }
+
+  bool get showMusicButtons {
+    if (totalItemCount == 0) return false;
+    if (activePosters.isNotEmpty) {
+      return activePosters.any(
+        (element) => {...FladderItemType.musicPlayable, FladderItemType.folder}.contains(element.type),
+      );
+    }
+    return filters.types.included.isEmpty ||
+        filters.types.included.containsAny(
+          {...FladderItemType.musicPlayable, FladderItemType.folder},
         );
   }
 
@@ -104,8 +142,35 @@ extension LibrarySearchModelX on LibrarySearchModel {
 
   LibrarySearchModel setFiltersToDefault() {
     return copyWith(
-      searchQuery: '',
       filters: const LibraryFilterModel(),
     );
+  }
+
+  (int? min, int? max) get yearRange {
+    final years = filters.years.included;
+    if (years.isEmpty) return (null, null);
+    return (
+      years.reduce((value, element) => value < element ? value : element),
+      years.reduce((value, element) => value > element ? value : element)
+    );
+  }
+
+  (int min, int max) get availableYearRange {
+    final years = filters.years.keys;
+    if (years.isEmpty) return (DateTime.now().year - 100, DateTime.now().year + 10);
+    return (
+      years.reduce((value, element) => value < element ? value : element),
+      years.reduce((value, element) => value > element ? value : element)
+    );
+  }
+
+  List<String> get currentIds => folderOverwrite.isNotEmpty
+      ? folderOverwrite.included.map((e) => e.id).toList()
+      : views.included.map((e) => e.id).toList();
+
+  bool shouldRefresh(LibrarySearchModel other) {
+    return !const DeepCollectionEquality().equals(folderOverwrite, other.folderOverwrite) ||
+        !const DeepCollectionEquality().equals(views, other.views) ||
+        filters != other.filters;
   }
 }

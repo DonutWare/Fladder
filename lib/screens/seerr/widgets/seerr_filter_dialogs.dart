@@ -10,15 +10,16 @@ import 'package:fladder/providers/seerr_search_provider.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/theme.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/shared/adaptive_range_input.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 
-String yearLabel(BuildContext context, SeerrFilterModel filters) {
-  final minYear = filters.yearGte;
-  final maxYear = filters.yearLte;
+String yearLabel(BuildContext context, (int? minYear, int? maxYear) yearRange) {
+  final minYear = yearRange.$1;
+  final maxYear = yearRange.$2;
 
   if (minYear == null && maxYear == null) return context.localized.year(1);
   if (minYear != null && maxYear != null) return '${context.localized.year(1)}: $minYear-$maxYear';
@@ -90,20 +91,21 @@ Future<void> openSearchModeDialog(
 
 Future<void> openYearDialog(
   BuildContext context,
-  SeerrSearch notifier,
-  SeerrFilterModel filters,
-) async {
+  Function(int? first, int? last) onYearRangeSelected,
+  (int? minYear, int? maxYear) yearRange, {
+  (int? minYear, int? maxYear)? fullYearRange,
+}) async {
   final currentYear = DateTime.now().year;
-  final sliderMin = currentYear - 100;
-  final sliderMax = currentYear + 10;
+  final sliderMin = fullYearRange?.$1 ?? currentYear - 100;
+  final sliderMax = fullYearRange?.$2 ?? currentYear + 10;
 
   return _showRangeDialog(
     context: context,
     title: context.localized.year(1),
     min: sliderMin.toDouble(),
     max: sliderMax.toDouble(),
-    initialStart: filters.yearGte?.toDouble(),
-    initialEnd: filters.yearLte?.toDouble(),
+    initialStart: yearRange.$1?.toDouble(),
+    initialEnd: yearRange.$2?.toDouble(),
     divisions: 110,
     wholeNumbers: true,
     allowEmpty: true,
@@ -116,13 +118,13 @@ Future<void> openYearDialog(
       end?.toStringAsFixed(0) ?? context.localized.none,
     ].join(' - '),
     onClear: () async {
-      notifier.setYearRangeWithoutSubmit(minYear: null, maxYear: null);
+      onYearRangeSelected(null, null);
       await context.refreshData();
     },
     onSave: (start, end) async {
-      notifier.setYearRangeWithoutSubmit(
-        minYear: start?.round(),
-        maxYear: end?.round(),
+      onYearRangeSelected(
+        start?.round(),
+        end?.round(),
       );
       await context.refreshData();
     },
@@ -524,6 +526,7 @@ class _StudioSearchDialogState extends State<_StudioSearchDialog> {
                                 ),
                                 child: CachedNetworkImage(
                                   imageUrl: studio.logoUrl!,
+                                  cacheManager: CustomCacheManager.instance,
                                   fit: BoxFit.contain,
                                   errorWidget: (context, url, error) {
                                     return const Icon(IconsaxPlusBold.building);

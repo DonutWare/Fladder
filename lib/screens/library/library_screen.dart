@@ -6,6 +6,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as jelly;
 import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/recommended_model.dart';
@@ -123,7 +124,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                           scrollDirection: Axis.horizontal,
                           children: [
                             FilledButton.tonalIcon(
-                              onPressed: () => context.pushRoute(LibrarySearchRoute(viewModelId: selectedView.id)),
+                              onPressed: () => context.pushRoute(LibrarySearchRoute(parentId: [selectedView.id])),
                               label: Text("${context.localized.search} ${selectedView.name}..."),
                               icon: const Icon(IconsaxPlusLinear.search_normal),
                             ),
@@ -173,7 +174,10 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                             tvMode: useTVExpandedLayout,
                             contentPadding: padding,
                             posters: element.posters,
-                            primaryPosters: element.name is Continue,
+                            collectionAspectRatio: element.name is Continue ? 1.2 : null,
+                            imagePriority: element.name is Continue
+                                ? const [jelly.ImageType.thumb, jelly.ImageType.backdrop, jelly.ImageType.primary]
+                                : null,
                             label: element.type != null
                                 ? "${element.type?.label(context.localized)} - ${element.name.label(context.localized)}"
                                 : element.name.label(context.localized),
@@ -192,7 +196,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                         contentPadding: padding,
                         onLabelClick: () => context.pushRoute(
                           LibrarySearchRoute(
-                            viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
+                            parentId: [libraryScreenState.selectedViewModel?.id ?? ""],
                           ).withFilter(
                             const LibraryFilterModel(
                               favourites: true,
@@ -216,7 +220,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
                               posters: element.posters,
                               onLabelClick: () => context.pushRoute(
                                 LibrarySearchRoute(
-                                  viewModelId: libraryScreenState.selectedViewModel?.id ?? "",
+                                  parentId: [libraryScreenState.selectedViewModel?.id ?? ""],
                                 ).withFilter(
                                   LibraryFilterModel(
                                     recursive: true,
@@ -278,7 +282,7 @@ class LibraryRow extends ConsumerWidget {
           ItemActionButton(
             label: Text(context.localized.search),
             icon: const Icon(IconsaxPlusLinear.search_normal),
-            action: () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
+            action: () => context.pushRoute(LibrarySearchRoute(parentId: [view.id])),
           ),
           ItemActionButton(
             label: Text(context.localized.scanLibrary),
@@ -297,7 +301,7 @@ class LibraryRow extends ConsumerWidget {
               onTap: isSelected ? null : () => onSelected?.call(view),
               onLongPress: onLongPress != null
                   ? () => onLongPress?.call(view)
-                  : () => context.pushRoute(LibrarySearchRoute(viewModelId: view.id)),
+                  : () => context.pushRoute(LibrarySearchRoute(parentId: [view.id])),
               onSecondaryTapDown: (details) async {
                 Offset localPosition = details.globalPosition;
                 RelativeRect position =

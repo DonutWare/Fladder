@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:square_progress_indicator/square_progress_indicator.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:window_manager/window_manager.dart';
@@ -15,12 +13,9 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
-import 'package:fladder/screens/shared/flat_button.dart';
-import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/list_padding.dart';
-import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/throttler.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 import 'package:fladder/widgets/shared/elevated_icon.dart';
@@ -36,6 +31,7 @@ class PhotoViewerControls extends ConsumerStatefulWidget {
   final ValueChanged<PhotoModel> onPhotoChanged;
   final Function() openOptions;
   final ExtendedPageController pageController;
+  final int? totalPhotoCount;
   final Function(bool? value)? toggleOverlay;
   const PhotoViewerControls({
     required this.padding,
@@ -46,6 +42,7 @@ class PhotoViewerControls extends ConsumerStatefulWidget {
     required this.onPhotoChanged,
     required this.itemCount,
     required this.currentIndex,
+    this.totalPhotoCount,
     this.toggleOverlay,
     super.key,
   });
@@ -113,6 +110,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
     ];
 
     final padding = MediaQuery.of(context).padding;
+    final totalItemCount = widget.totalPhotoCount ?? widget.itemCount;
     return FocusScope(
       autofocus: true,
       child: PopScope(
@@ -171,7 +169,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                                           borderRadius: BorderRadius.circular(8),
                                           color: Theme.of(context).colorScheme.onPrimary),
                                       child: SquareProgressIndicator(
-                                        value: widget.currentIndex / (widget.itemCount - 1),
+                                        value: widget.currentIndex / (totalItemCount - 1),
                                         borderRadius: 7,
                                         clockwise: false,
                                         color: Theme.of(context).colorScheme.primary,
@@ -183,7 +181,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                                     child: Row(
                                       children: [
                                         Text(
-                                          "${widget.currentIndex + 1} / ${widget.loadingMoreItems ? "-" : "${widget.itemCount}"} ",
+                                          "${widget.currentIndex + 1} / ",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
@@ -196,51 +194,16 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
                                               strokeCap: StrokeCap.round,
                                             ),
                                           ),
+                                        Text(
+                                          "$totalItemCount",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(fontWeight: FontWeight.bold),
+                                        ),
                                       ].addInBetween(const SizedBox(width: 6)),
                                     ),
                                   ),
-                                  Positioned.fill(
-                                    child: FlatButton(
-                                      borderRadiusGeometry: BorderRadius.circular(8),
-                                      onTap: () async {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => Dialog(
-                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                            child: SizedBox(
-                                              width: 125,
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    Text(
-                                                      context.localized.goTo,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyLarge
-                                                          ?.copyWith(fontWeight: FontWeight.bold),
-                                                    ),
-                                                    const SizedBox(height: 5),
-                                                    IntInputField(
-                                                      controller: TextEditingController(
-                                                          text: (widget.currentIndex + 1).toString()),
-                                                      onSubmitted: (value) {
-                                                        final position =
-                                                            ((value ?? 0) - 1).clamp(0, widget.itemCount - 1);
-                                                        widget.pageController.jumpToPage(position);
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  )
                                 ],
                               ),
                               if (AdaptiveLayout.of(context).isDesktop) ...[
@@ -373,15 +336,5 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
 
     widget.onPhotoChanged(widget.photo
         .copyWith(userData: widget.photo.userData.copyWith(isFavourite: !widget.photo.userData.isFavourite)));
-  }
-
-  Future<void> sharePhoto() async {
-    final file = await DefaultCacheManager().getSingleFile(widget.photo.downloadPath(ref));
-    await SharePlus.instance.share(ShareParams(files: [
-      XFile(
-        file.path,
-      ),
-    ]));
-    await file.delete();
   }
 }

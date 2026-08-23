@@ -11,6 +11,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
 import 'package:fladder/models/syncing/transcode_download_model.dart';
+import 'package:fladder/models/syncing/transcode_music_download_model.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/src/directory_bookmark.g.dart';
 import 'package:fladder/util/custom_color_themes.dart';
@@ -21,6 +22,7 @@ part 'client_settings_model.g.dart';
 
 enum GlobalHotKeys {
   search,
+  closeWindow,
   exit,
   toggleSideBar;
 
@@ -29,6 +31,7 @@ enum GlobalHotKeys {
   String label(BuildContext context) {
     return switch (this) {
       GlobalHotKeys.search => context.localized.search,
+      GlobalHotKeys.closeWindow => context.localized.closeWindow,
       GlobalHotKeys.exit => context.localized.exitFladderTitle,
       GlobalHotKeys.toggleSideBar => context.localized.toggleSidebar,
     };
@@ -64,6 +67,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
   factory ClientSettingsModel.internal({
     String? syncPath,
     required TranscodeDownloadModel transcodeDownloadModel,
+    @Default(TranscodeMusicDownloadModel()) TranscodeMusicDownloadModel transcodeMusicDownloadModel,
     @Default(Vector2(x: 0, y: 0)) Vector2 position,
     @Default(Vector2(x: 1280, y: 720)) Vector2 size,
     @Default(Duration(seconds: 30)) Duration? timeOut,
@@ -72,6 +76,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(ThemeMode.system) ThemeMode themeMode,
     ColorThemes? themeColor,
     @Default(true) bool deriveColorsFromItem,
+    @Default(true) bool dynamicPosterColors,
     @Default(false) bool amoledBlack,
     @Default(true) bool blurPlaceHolders,
     @Default(false) bool blurUpcomingEpisodes,
@@ -91,6 +96,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool usePosterForLibrary,
     @Default(false) bool useSystemIME,
     @Default(false) bool useTVExpandedLayout,
+    @Default(false) bool forceLeanBackMode,
     String? lastViewedUpdate,
     int? libraryPageSize,
     @Default({}) Map<GlobalHotKeys, KeyCombination> shortcuts,
@@ -104,6 +110,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
       themeMode: leanBackMode ? ThemeMode.dark : ThemeMode.system,
       enableBlurEffects: leanBackMode ? false : true,
       useTVExpandedLayout: false,
+      dynamicPosterColors: leanBackMode ? false : true,
     );
   }
 
@@ -239,6 +246,8 @@ Map<GlobalHotKeys, KeyCombination> get _defaultGlobalHotKeys => switch (defaultT
               GlobalHotKeys.toggleSideBar => KeyCombination(key: LogicalKeyboardKey.keyQ),
               GlobalHotKeys.search =>
                 KeyCombination(key: LogicalKeyboardKey.keyK, modifier: LogicalKeyboardKey.superKey),
+              GlobalHotKeys.closeWindow =>
+                KeyCombination(key: LogicalKeyboardKey.keyW, modifier: LogicalKeyboardKey.superKey),
               GlobalHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.keyQ, modifier: LogicalKeyboardKey.superKey),
             },
         },
@@ -248,6 +257,8 @@ Map<GlobalHotKeys, KeyCombination> get _defaultGlobalHotKeys => switch (defaultT
               GlobalHotKeys.toggleSideBar => KeyCombination(key: LogicalKeyboardKey.keyQ),
               GlobalHotKeys.search =>
                 KeyCombination(key: LogicalKeyboardKey.keyK, modifier: LogicalKeyboardKey.controlLeft),
+              GlobalHotKeys.closeWindow =>
+                KeyCombination(key: LogicalKeyboardKey.keyW, modifier: LogicalKeyboardKey.controlLeft),
               GlobalHotKeys.exit =>
                 KeyCombination(key: LogicalKeyboardKey.keyQ, modifier: LogicalKeyboardKey.controlLeft),
             },

@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+
 extension MapExtensions<T> on Map<T, bool> {
   Map<T, bool> toggleKey(T wantedKey) {
     return map((key, value) => MapEntry(key, wantedKey == key ? !value : value));
@@ -37,10 +39,30 @@ extension MapExtensions<T> on Map<T, bool> {
   bool get hasEnabled => values.any((element) => element == true);
 
   //Replaces only keys that exist with the new values
-  Map<T, bool> replaceMap(Map<T, bool> oldMap, {bool enabledOnly = false}) {
+  Map<T, bool> replaceMap(Map<T, bool> oldMap, {bool enabledOnly = false, bool Function(T key1, T key2)? comparison}) {
     if (oldMap.isEmpty) return this;
 
     Map<T, bool> result = {};
+
+    if (comparison != null) {
+      forEach((key, value) {
+        final matchingKey = oldMap.keys.firstWhereOrNull((oldKey) => comparison(key, oldKey));
+        if (matchingKey != null) {
+          if (enabledOnly) {
+            if (oldMap[matchingKey] == true) {
+              result[key] = true;
+            } else {
+              result[key] = value;
+            }
+          } else {
+            result[key] = oldMap[matchingKey] ?? false;
+          }
+        } else {
+          result[key] = value;
+        }
+      });
+      return result;
+    }
 
     forEach((key, value) {
       if (enabledOnly) {

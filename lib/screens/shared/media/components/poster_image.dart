@@ -1,14 +1,21 @@
+import 'package:fladder/models/items/images_models.dart';
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as jelly;
 import 'package:flutter/material.dart';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
+import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/screens/shared/media/components/poster_overlays.dart';
 import 'package:fladder/screens/shared/media/components/poster_placeholder.dart';
+import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/color_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
@@ -17,6 +24,7 @@ import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
+import 'package:fladder/widgets/shared/status_card.dart';
 
 class PosterImage extends ConsumerWidget {
   final ItemBaseModel poster;
@@ -29,8 +37,9 @@ class PosterImage extends ConsumerWidget {
   final Function(ItemBaseModel newItem)? onItemUpdated;
   final Function(ItemBaseModel oldItem)? onItemRemoved;
   final Function(Function() action, ItemBaseModel item)? onPressed;
-  final bool primaryPosters;
+  final List<jelly.ImageType>? imagePriority;
   final Function(bool focus)? onFocusChanged;
+  final bool showSyncStatus;
 
   const PosterImage({
     required this.poster,
@@ -43,16 +52,43 @@ class PosterImage extends ConsumerWidget {
     this.otherActions = const [],
     this.onPressed,
     this.onUserDataChanged,
-    this.primaryPosters = false,
+    this.imagePriority,
     this.onFocusChanged,
+    this.showSyncStatus = false,
     super.key,
   });
+
+  ImageData? _resolveImage() {
+    final source = poster.getPosters;
+    final fallback = poster.images;
+
+    final effectivePriority =
+        imagePriority ?? const [jelly.ImageType.primary, jelly.ImageType.thumb, jelly.ImageType.backdrop];
+
+    for (final type in effectivePriority) {
+      final image = switch (type) {
+        jelly.ImageType.primary => source?.primary ?? fallback?.primary,
+        jelly.ImageType.thumb => source?.thumb ?? fallback?.thumb ?? fallback?.primary,
+        jelly.ImageType.backdrop => source?.backDrop?.lastOrNull ?? fallback?.backDrop?.lastOrNull,
+        _ => null,
+      };
+
+      if (image != null) return image;
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final radius = FladderTheme.smallShape.borderRadius;
     final padding = const EdgeInsets.all(5);
     final myKey = key ?? UniqueKey();
+
+    final derivePosterColor = ref.watch(clientSettingsProvider.select((value) => value.dynamicPosterColors));
+    final backgroundColor = derivePosterColor
+        ? poster.title.toColor.harmonizeWith(Theme.of(context).colorScheme.surface)
+        : Theme.of(context).colorScheme.surface;
 
     return Hero(
       tag: myKey,
@@ -75,24 +111,40 @@ class PosterImage extends ConsumerWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: radius,
-            color: Theme.of(context).colorScheme.surfaceContainer,
+            color: backgroundColor,
           ),
           foregroundDecoration: BoxDecoration(
             borderRadius: radius,
             border: Border.all(width: 1, color: Colors.white.withAlpha(45)),
           ),
           child: FladderImage(
-            image: primaryPosters
-                ? poster.images?.primary
-                : poster.getPosters?.primary ?? poster.getPosters?.backDrop?.lastOrNull,
+            image: _resolveImage(),
             placeHolder: PosterPlaceholder(item: poster),
           ),
         ),
         overlays: [
+          if (showSyncStatus)
+            Align(
+              alignment: Alignment.topRight,
+              child: ref.watch(syncedItemProvider(poster)).when(
+                    error: (error, stackTrace) => const SizedBox.shrink(),
+                    data: (syncedItem) {
+                      if (syncedItem == null) {
+                        return const SizedBox.shrink();
+                      }
+                      return StatusCard(
+                        child: SyncButton(item: poster, syncedItem: syncedItem),
+                      );
+                    },
+                    loading: () => const SizedBox.shrink(),
+                  ),
+            ),
           if (selected == true)
-            SelectedPosterOverlay(
-              poster: poster,
-              radius: radius as BorderRadius,
+            IgnorePointer(
+              child: SelectedPosterOverlay(
+                poster: poster,
+                radius: radius as BorderRadius,
+              ),
             ),
           BottomOverlaysContainer(
             showFavourite: poster.userData.isFavourite,

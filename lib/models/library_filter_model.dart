@@ -19,12 +19,14 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
   const LibraryFilterModel._();
 
   const factory LibraryFilterModel({
+    @Default("") String searchQuery,
     @Default({}) Map<String, bool> genres,
     @Default({
       ItemFilter.isplayed: false,
       ItemFilter.isunplayed: false,
       ItemFilter.isresumable: false,
     })
+    @Default({})
     Map<ItemFilter, bool> itemFilters,
     @StudioEncoder() @Default({}) Map<Studio, bool> studios,
     @Default({}) Map<String, bool> tags,
@@ -49,31 +51,23 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
     Map<FladderItemType, bool> types,
     @Default(SortingOptions.sortName) SortingOptions sortingOption,
     @Default(SortingOrder.ascending) SortingOrder sortOrder,
-    @Default(false) bool? favourites,
+    bool? favourites,
     @Default(true) bool hideEmptyShows,
-    @Default(true) bool? recursive,
+    @Default(false) bool? recursive,
     @Default(GroupBy.none) GroupBy groupBy,
+    @Default(false) bool isDefault,
   }) = _LibraryFilterModel;
 
-  bool get hasActiveFilters {
-    return genres.hasEnabled ||
-        studios.hasEnabled ||
-        tags.hasEnabled ||
-        years.hasEnabled ||
-        officialRatings.hasEnabled ||
-        hideEmptyShows ||
-        itemFilters.hasEnabled ||
-        recursive == false ||
-        favourites == true;
-  }
+  bool get hasActiveFilters => this != defaultFilter;
 
   LibraryFilterModel loadModel(LibraryFilterModel model) {
     return copyWith(
+      searchQuery: model.searchQuery,
       genres: genres.replaceMap(model.genres),
       itemFilters: itemFilters.replaceMap(model.itemFilters),
       studios: studios.replaceMap(model.studios),
       tags: tags.replaceMap(model.tags),
-      years: years.replaceMap(model.years),
+      years: years.setAll(false).replaceMap(model.years),
       officialRatings: officialRatings.replaceMap(model.officialRatings),
       types: types.replaceMap(model.types),
       sortingOption: model.sortingOption,
@@ -90,17 +84,20 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
   @override
   bool operator ==(covariant LibraryFilterModel other) {
     if (identical(this, other)) return true;
-    return mapEquals(other.genres, genres) &&
-        mapEquals(other.studios, studios) &&
-        mapEquals(other.tags, tags) &&
-        mapEquals(other.years, years) &&
-        mapEquals(other.officialRatings, officialRatings) &&
-        mapEquals(other.types, types) &&
-        mapEquals(other.itemFilters, itemFilters) &&
+    return listEquals(other.genres.included, genres.included) &&
+        listEquals(other.studios.included, studios.included) &&
+        listEquals(other.tags.included, tags.included) &&
+        listEquals(other.years.included, years.included) &&
+        listEquals(other.officialRatings.included, officialRatings.included) &&
+        listEquals(other.types.included, types.included) &&
+        listEquals(other.itemFilters.included, itemFilters.included) &&
         other.sortingOption == sortingOption &&
         other.sortOrder == sortOrder &&
         other.favourites == favourites &&
-        other.recursive == recursive;
+        other.recursive == recursive &&
+        other.groupBy == groupBy &&
+        other.hideEmptyShows == hideEmptyShows &&
+        other.searchQuery == searchQuery;
   }
 
   @override
@@ -113,24 +110,25 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
         officialRatings.hashCode ^
         types.hashCode ^
         sortingOption.hashCode ^
-        itemFilters.hashCode ^
         sortOrder.hashCode ^
         favourites.hashCode ^
-        recursive.hashCode;
+        recursive.hashCode ^
+        groupBy.hashCode ^
+        hideEmptyShows.hashCode;
   }
 
+  LibraryFilterModel get defaultFilter => LibraryFilterModel(
+        genres: genres.setAll(false),
+        tags: tags.setAll(false),
+        officialRatings: officialRatings.setAll(false),
+        years: years.setAll(false),
+        studios: studios.setAll(false),
+        itemFilters: itemFilters.setAll(false),
+        types: types.setAll(false),
+      );
+
   LibraryFilterModel clear() {
-    return copyWith(
-      genres: genres.setAll(false),
-      tags: tags.setAll(false),
-      officialRatings: officialRatings.setAll(false),
-      years: years.setAll(false),
-      favourites: false,
-      recursive: true,
-      studios: studios.setAll(false),
-      itemFilters: itemFilters.setAll(false),
-      hideEmptyShows: false,
-    );
+    return defaultFilter;
   }
 }
 
@@ -151,14 +149,19 @@ class StudioEncoder implements JsonConverter<Map<Studio, bool>, String> {
 extension LibrarySearchRouteExtension on LibrarySearchRoute {
   LibrarySearchRoute withFilter(LibraryFilterModel model) {
     return LibrarySearchRoute(
-      viewModelId: args?.viewModelId,
-      folderId: args?.folderId,
+      parentId: args?.parentId,
       favourites: model.favourites,
       sortOrder: model.sortOrder,
       sortingOptions: model.sortingOption,
       types: model.types,
       genres: model.genres,
+      studios: model.studios,
+      itemFilters: model.itemFilters,
+      tags: model.tags,
+      years: model.years,
       recursive: model.recursive,
+      isDefault: model.isDefault,
+      query: model.searchQuery,
     );
   }
 }
