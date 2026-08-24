@@ -36,6 +36,8 @@ enum VideoHotKeys {
   takeScreenshot,
   takeScreenshotClean,
   toggleSubtitles,
+  subtitleOffsetBackward,
+  subtitleOffsetForward,
   exit;
 
   const VideoHotKeys();
@@ -63,6 +65,8 @@ enum VideoHotKeys {
       VideoHotKeys.takeScreenshot => context.localized.takeScreenshot,
       VideoHotKeys.takeScreenshotClean => context.localized.takeScreenshotClean,
       VideoHotKeys.toggleSubtitles => context.localized.toggleSubtitles,
+      VideoHotKeys.subtitleOffsetBackward => 'Subtitle backward',
+      VideoHotKeys.subtitleOffsetForward => 'Subtitle forward',
       VideoHotKeys.exit => context.localized.exit,
     };
   }
@@ -312,6 +316,10 @@ Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
           VideoHotKeys.takeScreenshotClean =>
             KeyCombination(key: LogicalKeyboardKey.keyG, modifier: LogicalKeyboardKey.controlLeft),
           VideoHotKeys.toggleSubtitles => KeyCombination(key: LogicalKeyboardKey.keyT),
+          VideoHotKeys.subtitleOffsetBackward =>
+            KeyCombination(key: LogicalKeyboardKey.arrowLeft, modifier: LogicalKeyboardKey.controlLeft),
+          VideoHotKeys.subtitleOffsetForward =>
+            KeyCombination(key: LogicalKeyboardKey.arrowRight, modifier: LogicalKeyboardKey.controlLeft),
           VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
         },
     };

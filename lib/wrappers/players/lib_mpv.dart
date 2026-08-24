@@ -28,6 +28,7 @@ class LibMPV extends BasePlayer {
   mpv.Player? _player;
   VideoController? _controller;
   String _currentSubtitleCodec = '';
+  Duration _subtitleOffset = Duration.zero;
 
   final StreamController<PlayerState> _stateController = StreamController.broadcast();
   @override
@@ -562,6 +563,15 @@ class LibMPV extends BasePlayer {
               currentSubtitleCodec: _currentSubtitleCodec,
             )
           : null;
+
+  @override
+  Future<void> shiftSubtitleOffset(Duration offset) async {
+    if (_player?.platform is! mpv.NativePlayer) return;
+
+    _subtitleOffset += offset;
+    final nativePlayer = _player!.platform as dynamic;
+    await nativePlayer.setProperty('sub-delay', (_subtitleOffset.inMilliseconds / 1000).toStringAsFixed(3));
+  }
 
   @override
   Future<void> setVolume(double volume) async {
