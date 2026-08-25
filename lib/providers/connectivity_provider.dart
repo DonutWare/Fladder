@@ -36,13 +36,19 @@ final offlineStateProvider = Provider<bool>((ref) {
 @Riverpod(keepAlive: true)
 class ConnectivityStatus extends _$ConnectivityStatus {
   String? localUrl;
+  DateTime? _lastCheck;
+  static const Duration _minCheckInterval = Duration(seconds: 5);
 
   @override
   ConnectionState build() {
     ref.listen(userProvider, (previous, next) {
       checkLocalUrl(previous, next);
     });
-    Connectivity().onConnectivityChanged.listen(onStateChange);
+    final sub = Connectivity().onConnectivityChanged.listen(
+          onStateChange,
+          onError: (error) => log('Connectivity stream error: $error'),
+        );
+    ref.onDispose(sub.cancel);
     checkConnectivity();
     return ConnectionState.mobile;
   }
@@ -55,35 +61,49 @@ class ConnectivityStatus extends _$ConnectivityStatus {
   }
 
   Future<void> onStateChange(List<ConnectivityResult> connectivityResult) async {
-    if (connectivityResult.contains(ConnectivityResult.ethernet)) {
-      state = ConnectionState.ethernet;
-    } else if (connectivityResult.contains(ConnectivityResult.wifi)) {
-      state = ConnectionState.wifi;
-    } else if (connectivityResult.contains(ConnectivityResult.mobile)) {
-      state = ConnectionState.mobile;
-    } else if (connectivityResult.contains(ConnectivityResult.none)) {
-      state = ConnectionState.offline;
+    try {
+      if (connectivityResult.contains(ConnectivityResult.ethernet)) {
+        state = ConnectionState.ethernet;
+      } else if (connectivityResult.contains(ConnectivityResult.wifi)) {
+        state = ConnectionState.wifi;
+      } else if (connectivityResult.contains(ConnectivityResult.mobile)) {
+        state = ConnectionState.mobile;
+      } else if (connectivityResult.contains(ConnectivityResult.none)) {
+        state = ConnectionState.offline;
+      }
+      final newUrl = ref.read(userProvider.select((value) => value?.credentials.localUrl));
+      if (localUrl == newUrl) return;
+      localUrl = newUrl;
+      final localConnection = localUrl != null && localUrl?.isNotEmpty == true
+          ? await fetchSystemInfoDynamic(normalizeUrl(localUrl!))
+          : null;
+      final correctServerResponse =
+          localConnection?.id == ref.read(userProvider.select((value) => value?.credentials.serverId));
+      ref.read(localConnectionAvailableProvider.notifier).update((state) => correctServerResponse);
+    } catch (e) {
+      log('Error handling connectivity state change: $e');
     }
-    final newUrl = ref.read(userProvider.select((value) => value?.credentials.localUrl));
-    if (localUrl == newUrl) return;
-    localUrl = newUrl;
-    final localConnection =
-        localUrl != null && localUrl?.isNotEmpty == true ? await fetchSystemInfoDynamic(normalizeUrl(localUrl!)) : null;
-    final correctServerResponse =
-        localConnection?.id == ref.read(userProvider.select((value) => value?.credentials.serverId));
-    ref.read(localConnectionAvailableProvider.notifier).update((state) => correctServerResponse);
   }
 
   Future<void> checkConnectivity() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
-    final serverUrl = ref.read(serverUrlProvider);
-    final checkServer = await probeJellyfinUrl(
-      serverUrl ?? "",
-    );
-    if (checkServer != null) {
-      onStateChange(connectivityResult);
-    } else {
-      onStateChange([ConnectivityResult.none]);
+    final now = DateTime.now();
+    if (_lastCheck != null && now.difference(_lastCheck!) < _minCheckInterval) {
+      return;
+    }
+    _lastCheck = now;
+    try {
+      final connectivityResult = await Connectivity().checkConnectivity();
+      final serverUrl = ref.read(serverUrlProvider);
+      final checkServer = await probeJellyfinUrl(
+        serverUrl ?? "",
+      );
+      if (checkServer != null) {
+        onStateChange(connectivityResult);
+      } else {
+        onStateChange([ConnectivityResult.none]);
+      }
+    } catch (e) {
+      log('Failed to check connectivity: $e');
     }
   }
 
