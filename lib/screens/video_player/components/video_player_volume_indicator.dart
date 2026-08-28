@@ -15,7 +15,7 @@ class VideoPlayerVolumeIndicator extends ConsumerStatefulWidget {
 }
 
 class _VideoPlayerVolumeIndicatorState extends ConsumerState<VideoPlayerVolumeIndicator> {
-  late double currentVolume = ref.read(videoPlayerSettingsProvider.select((value) => value.volume));
+  late double currentVolume = ref.read(videoPlayerSettingsProvider.select((value) => value.internalVolume));
 
   bool showIndicator = false;
   late final timer = RestartableTimer(const Duration(seconds: 1), () {
@@ -34,7 +34,7 @@ class _VideoPlayerVolumeIndicatorState extends ConsumerState<VideoPlayerVolumeIn
   @override
   Widget build(BuildContext context) {
     ref.listen(
-      videoPlayerSettingsProvider.select((value) => value.volume),
+      videoPlayerSettingsProvider.select((value) => value.internalVolume),
       (previous, next) {
         setState(() {
           showIndicator = true;

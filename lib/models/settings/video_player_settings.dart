@@ -113,7 +113,12 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(false) bool ambientBlur,
   }) = _VideoPlayerSettingsModel;
 
-  double get volume => internalVolume;
+  double get volume {
+    if ({TargetPlatform.android, TargetPlatform.iOS}.contains(defaultTargetPlatform)) {
+      return 100;
+    }
+    return internalVolume;
+  }
 
   factory VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) => _$VideoPlayerSettingsModelFromJson(json);
 
