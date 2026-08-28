@@ -25,7 +25,6 @@ import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
 import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/screens/shared/authenticate_button_options.dart';
-import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/input_fields.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/services/battery_optimization.dart';
@@ -33,7 +32,6 @@ import 'package:fladder/services/notification_service.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/simple_duration_picker.dart';
-import 'package:fladder/widgets/shared/filled_button_await.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 
 @RoutePage()
@@ -118,17 +116,6 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
     };
     return SettingsScaffold(
       label: context.localized.settingsProfileTitle,
-      bottomActions: [
-        FilledButtonAwait(
-          onPressed: () async {
-            await FladderSnack.showResponse(
-              ref.read(homePreferencesProvider.notifier).save(),
-              successTitle: context.localized.saved,
-            );
-          },
-          child: Text(context.localized.save),
-        ),
-      ],
       items: [
         ...settingsListGroup(
           context,

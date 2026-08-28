@@ -104,7 +104,8 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     Widget buildMainScaffold(BuildContext scaffoldContext) {
       return Scaffold(
         key: _key,
-        appBar: fullScreenChildRoute || showAudioFullScreen
+        appBar: fullScreenChildRoute ||
+                (showAudioFullScreen && AdaptiveLayout.layoutModeOf(scaffoldContext) == LayoutMode.single)
             ? null
             : FladderAppBar(
                 isDesktop: isDesktop,
