@@ -129,7 +129,6 @@ abstract class BaseAppWrapperState<T extends BaseAppWrapper> extends ConsumerSta
 
     if (difference > timeOut && shouldLock) {
       _lastPaused = DateTime.now();
-      await ref.read(videoPlayerProvider).pause();
       autoRouter.push(const LockRoute());
     }
   }

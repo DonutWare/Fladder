@@ -119,9 +119,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   Future<void> dispose() async {
-    _subtitleSettingsSubscription?.close();
-    await _playerStateSubscription?.cancel();
-    _player?.dispose();
+    try {
+      _subtitleSettingsSubscription?.close();
+      _playerStateSubscription?.cancel();
+    } finally {
+      _player?.dispose();
+    }
   }
 
   Future<void> setup(BasePlayer newPlayer) async {
@@ -260,6 +263,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     subscriptions.add(_player!.stateStream.listen((value) {
       final keepForegroundAlive = value.playing || value.buffering || _audioQueueTransitioning;
 
+      if (_isStopped) return;
+
       playbackState.add(playbackState.value.copyWith(
         bufferedPosition: value.buffer,
         processingState: value.buffering ? AudioProcessingState.buffering : AudioProcessingState.ready,
@@ -350,6 +355,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   @override
   Future<void> pause() async {
+    if (_isStopped) return;
+    final model = ref.read(playBackModel);
+    if (model == null || !(_player?.lastState.playing == true)) return;
     await _player?.pause();
     final position = _player?.lastState.position ?? Duration.zero;
     playbackState.add(playbackState.value.copyWith(
@@ -360,11 +368,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     unawaited(_applyWakelock(false));
     final playerState = _player;
     if (playerState != null) {
-      final model = ref.read(playBackModel);
-      if (model != null) {
-        await _updatePositionWithRetry(model, position, false);
-        await _refreshMediaControls(model: model, playing: false);
-      }
+      await _updatePositionWithRetry(model, position, false);
+      await _refreshMediaControls(model: model, playing: false);
     }
     return super.pause();
   }
@@ -482,14 +487,15 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   @override
   Future<void> stop() async {
-    final playbackModel = ref.read(playBackModel);
-    if (playbackModel == null) return;
-
     if (_isStopped) return;
     _isStopped = true;
 
+    final playbackModel = ref.read(playBackModel);
+    if (playbackModel == null) return;
+
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.disposed));
     unawaited(_applyWakelock(false));
+
     _player?.stop();
     ref.read(windowTitleProvider.notifier).setPlayTitle(null);
 
@@ -521,6 +527,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     smtc?.setPlaybackStatus(PlaybackStatus.stopped);
     smtc?.clearMetadata();
     smtc?.disableSmtc();
+
+    mediaItem.value = null;
 
     playbackState.add(
       playbackState.value.copyWith(
