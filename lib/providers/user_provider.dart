@@ -194,6 +194,7 @@ class User extends _$User {
     state = user.copyWith(
       credentials: user.credentials.copyWith(localUrl: value?.isEmpty == true ? null : value),
     );
+    userState = state;
   }
 
   void setSeerrServerUrl(String? value) {
