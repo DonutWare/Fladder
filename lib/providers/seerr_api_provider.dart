@@ -5,7 +5,6 @@ import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/seerr_service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_chopper_service.dart';
@@ -46,7 +45,6 @@ class SeerrRequest implements Interceptor {
 
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
-    final connectivityNotifier = ref.read(connectivityStatusProvider.notifier);
     final creds = ref.read(userProvider)?.seerrCredentials;
     final serverUrl = (FladderConfig.seerrBaseUrl ?? creds?.serverUrl)?.trim();
 
@@ -78,10 +76,8 @@ class SeerrRequest implements Interceptor {
 
     try {
       final response = await chain.proceed(requestWithHeaders);
-      connectivityNotifier.checkConnectivity();
       return response;
     } catch (e, st) {
-      connectivityNotifier.onStateChange([]);
       throw HttpException(
         'Seerr API request failed: ${chain.request.method} $resolvedRequestUri\nError: $e\n$st',
       );

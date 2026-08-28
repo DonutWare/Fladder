@@ -114,7 +114,7 @@ class JellyService {
   Future<Response<ItemBaseModel>> usersUserIdItemsItemIdGet({
     String? itemId,
   }) async {
-    final isOffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+    final isOffline = ref.read(offlineStateProvider);
     if (isOffline) {
       return _syncedItemResponse(itemId);
     }
@@ -133,7 +133,7 @@ class JellyService {
   Future<Response<BaseItemDto>> usersUserIdItemsItemIdGetBaseItem({
     String? itemId,
   }) async {
-    final isOffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+    final isOffline = ref.read(offlineStateProvider);
     if (isOffline) {
       final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(itemId);
       return syncedItem?.data != null
@@ -376,7 +376,7 @@ class JellyService {
       enableImages: enableImages,
     );
 
-    final isOffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+    final isOffline = ref.read(offlineStateProvider);
 
     if (isOffline) {
       final syncedItems = ref.read(syncProvider).items.where((e) => e.parentId == parentId).toList();
@@ -715,7 +715,7 @@ class JellyService {
       );
     }
 
-    final isOffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+    final isOffline = ref.read(offlineStateProvider);
     if (isOffline) {
       return _syncedLyricsResponse(itemId);
     }
@@ -769,9 +769,9 @@ class JellyService {
       }
     }
 
-    final isoffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+    final isOffline = ref.read(offlineStateProvider);
 
-    if (isoffline) {
+    if (isOffline) {
       return fetchOfflineEpisodes();
     }
 
@@ -828,7 +828,7 @@ class JellyService {
       );
     }
 
-    final isOffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+    final isOffline = ref.read(offlineStateProvider);
 
     if (isOffline) {
       return fetchSimilarGet();
@@ -1116,7 +1116,7 @@ class JellyService {
       }
     }
 
-    final isOffline = ref.read(connectivityStatusProvider.notifier).getConnectivityStates() == ConnectionState.offline;
+    final isOffline = ref.read(offlineStateProvider);
     if (isOffline) {
       return fetchOfflineSeasons();
     }

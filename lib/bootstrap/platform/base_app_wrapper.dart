@@ -11,6 +11,7 @@ import 'package:workmanager/workmanager.dart';
 import 'package:fladder/background/update_notifications_worker.dart' as update_worker;
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/arguments_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/update_notifications_provider.dart';
@@ -105,6 +106,7 @@ abstract class BaseAppWrapperState<T extends BaseAppWrapper> extends ConsumerSta
 
     switch (state) {
       case AppLifecycleState.resumed:
+        ref.read(connectivityStatusProvider.notifier).checkConnectivity();
         if (_hidden) {
           _enableTimeOut();
           _hidden = false;
