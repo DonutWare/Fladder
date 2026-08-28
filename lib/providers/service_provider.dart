@@ -20,6 +20,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
@@ -28,18 +29,15 @@ import 'package:fladder/providers/incognito_mode_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
-import 'package:fladder/util/list_extensions.dart';
 
 const _userSettings = "usersettings";
 const _client = "fladder";
 
 class ServerQueryResult {
-  final List<BaseItemDto> original;
   final List<ItemBaseModel> items;
   final int? totalRecordCount;
   final int? startIndex;
   ServerQueryResult({
-    required this.original,
     required this.items,
     this.totalRecordCount,
     this.startIndex,
@@ -50,7 +48,6 @@ class ServerQueryResult {
     Ref ref,
   ) {
     return ServerQueryResult(
-      original: baseQuery.items ?? [],
       items: baseQuery.items
               ?.map(
                 (e) => ItemBaseModel.fromBaseDto(e, ref),
@@ -69,7 +66,6 @@ class ServerQueryResult {
     int? startIndex,
   }) {
     return ServerQueryResult(
-      original: original ?? this.original,
       items: items ?? this.items,
       totalRecordCount: totalRecordCount ?? this.totalRecordCount,
       startIndex: startIndex ?? this.startIndex,
@@ -288,6 +284,102 @@ class JellyService {
     bool? enableTotalRecordCount,
     bool? enableImages,
   }) async {
+    final isOffline = ref.read(offlineStateProvider);
+
+    if (isOffline) {
+      List<SyncedItem> syncedItems = [];
+
+      if (ids != null && ids.isNotEmpty) {
+        final itemsWithId = await Future.wait(
+          ids.map((id) => ref.read(syncProvider.notifier).getSyncedItem(id)),
+        );
+
+        syncedItems = itemsWithId.nonNulls.toList().toList();
+      } else if (parentId != null) {
+        final parentItems = await ref.read(syncProvider.notifier).getSyncedItem(parentId);
+
+        if (parentItems == null) {
+          return Response(
+            http.Response("", 202),
+            ServerQueryResult(
+              items: [],
+              totalRecordCount: 0,
+              startIndex: 0,
+            ),
+          );
+        }
+
+        final children = await ref.read(syncProvider.notifier).getNestedChildren(parentItems);
+
+        syncedItems = [parentItems, ...children];
+      } else {
+        final allItems = ref.read(syncProvider).items;
+
+        for (var item in allItems) {
+          final nestedChildren = await ref.read(syncProvider.notifier).getNestedChildren(item);
+          syncedItems.addAll(nestedChildren);
+        }
+
+        syncedItems.addAll(allItems);
+      }
+
+      if (syncedItems.isEmpty) {
+        return Response(
+          http.Response("", 202),
+          ServerQueryResult(
+            items: [],
+            totalRecordCount: 0,
+            startIndex: 0,
+          ),
+        );
+      }
+
+      final actualItems = syncedItems.nonNulls.toList();
+
+      final filteredItems = actualItems.where((element) {
+        final type = element.data?.type;
+
+        if (parentId != null && (element.id == parentId || element.itemModel?.id == parentId)) {
+          return false;
+        }
+
+        if (excludeItemIds != null && excludeItemIds.contains(element.id)) return false;
+
+        if (includeItemTypes != null && includeItemTypes.isNotEmpty) {
+          if (type == null || !includeItemTypes.contains(type)) return false;
+        }
+
+        if (isFavorite != null) {
+          final isFav = element.itemModel?.userData.isFavourite ?? element.userData?.isFavourite ?? false;
+          if (isFav != isFavorite) return false;
+        }
+
+        if (isPlayed != null) {
+          final played = element.itemModel?.userData.played ?? element.userData?.played ?? false;
+          if (played != isPlayed) return false;
+        }
+
+        return true;
+      }).toList();
+
+      if (sortBy?.contains(ItemSortBy.random) == true) {
+        filteredItems.shuffle();
+      } else {
+        filteredItems.sort((a, b) => _sortSyncedItems(a.data, b.data, sortBy, sortOrder));
+      }
+
+      final baseItems = filteredItems.map((e) => e.itemModel).nonNulls.toList();
+
+      return Response(
+        http.Response("", 202),
+        ServerQueryResult(
+          items: baseItems,
+          totalRecordCount: baseItems.length,
+          startIndex: 0,
+        ),
+      );
+    }
+
     final response = await api.usersUserIdItemsGet(
       userId: account?.id,
       maxOfficialRating: maxOfficialRating,
@@ -376,31 +468,8 @@ class JellyService {
       enableImages: enableImages,
     );
 
-    final isOffline = ref.read(offlineStateProvider);
-
-    if (isOffline) {
-      final syncedItems = ref.read(syncProvider).items.where((e) => e.parentId == parentId).toList();
-
-      return Response(
-        http.Response("", 202),
-        ServerQueryResult.fromBaseQuery(
-          BaseItemDtoQueryResult(
-            items: syncedItems.map((e) => e.data).nonNulls.toList(),
-            totalRecordCount: syncedItems.length,
-            startIndex: 0,
-          ),
-          ref,
-        ),
-      );
-    }
-
-    final forceShuffle = searchTerm?.isNotEmpty == true && sortBy?.contains(ItemSortBy.random) == true;
-
     return response.copyWith(
-      body: ServerQueryResult.fromBaseQuery(
-          response.bodyOrThrow
-              .copyWith(items: forceShuffle ? response.bodyOrThrow.items?.random() : response.bodyOrThrow.items),
-          ref),
+      body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow.copyWith(items: response.bodyOrThrow.items), ref),
     );
   }
 
@@ -1262,6 +1331,19 @@ class JellyService {
     int? imageTypeLimit,
     List<ImageType>? enableImageTypes,
   }) async {
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) {
+      final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(playlistId);
+      final nestedItems = await ref.read(syncProvider.notifier).getNestedChildren(syncedItem);
+      return Response(
+          http.Response("", 202),
+          ServerQueryResult(
+            items: nestedItems.map((e) => e.itemModel).nonNulls.toList(),
+            totalRecordCount: nestedItems.length,
+            startIndex: 0,
+          ));
+    }
+
     final response = await api.playlistsPlaylistIdItemsGet(
       playlistId: playlistId,
       userId: account?.id,
@@ -1815,6 +1897,68 @@ class JellyService {
 
     return queryString.isEmpty ? '$baseUrl$path' : '$baseUrl$path?$queryString';
   }
+}
+
+int _sortSyncedItems(BaseItemDto? aItem, BaseItemDto? bItem, List<ItemSortBy>? sortBy, List<SortOrder>? sortOrder) {
+  final a = aItem;
+  final b = bItem;
+  if (a == null && b == null) return 0;
+  if (a == null) return 1;
+  if (b == null) return -1;
+
+  if (sortBy != null && sortBy.isNotEmpty) {
+    for (int i = 0; i < sortBy.length; i++) {
+      final sortField = sortBy[i];
+
+      final order =
+          (sortOrder != null && sortOrder.length > i) ? sortOrder[i] : (sortOrder?.firstOrNull ?? SortOrder.ascending);
+
+      final isAscending = order != SortOrder.descending;
+      int comp = 0;
+
+      switch (sortField) {
+        case ItemSortBy.name:
+          comp = (a.name ?? '').compareTo(b.name ?? '');
+          break;
+        case ItemSortBy.sortname:
+          comp = (a.sortName ?? '').compareTo(b.sortName ?? '');
+          break;
+        case ItemSortBy.premieredate:
+          comp = (a.premiereDate ?? DateTime(0)).compareTo(b.premiereDate ?? DateTime(0));
+          break;
+        case ItemSortBy.datecreated:
+          comp = (a.dateCreated ?? DateTime(0)).compareTo(b.dateCreated ?? DateTime(0));
+          break;
+        case ItemSortBy.communityrating:
+          comp = (a.communityRating ?? 0.0).compareTo(b.communityRating ?? 0.0);
+          break;
+        case ItemSortBy.criticrating:
+          comp = (a.criticRating ?? 0.0).compareTo(b.criticRating ?? 0.0);
+          break;
+        case ItemSortBy.runtime:
+          comp = (a.runTimeTicks ?? 0).compareTo(b.runTimeTicks ?? 0);
+          break;
+        case ItemSortBy.productionyear:
+          comp = (a.productionYear ?? 0).compareTo(b.productionYear ?? 0);
+          break;
+        case ItemSortBy.playcount:
+          comp = (a.userData?.playCount ?? 0).compareTo(b.userData?.playCount ?? 0);
+          break;
+        case ItemSortBy.isfavoriteorliked:
+          comp = ((a.userData?.isFavorite ?? false) ? 1 : 0).compareTo((b.userData?.isFavorite ?? false) ? 1 : 0);
+          break;
+        default:
+          comp = 0;
+          break;
+      }
+
+      if (comp != 0) {
+        return isAscending ? comp : -comp;
+      }
+    }
+    return 0;
+  }
+  return 0;
 }
 
 extension ParsedMap on Map<String, dynamic> {

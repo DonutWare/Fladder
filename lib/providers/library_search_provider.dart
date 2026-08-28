@@ -209,17 +209,22 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
   Future<Map<ViewModel, bool>> loadViews(
     List<String>? viewModelId,
   ) async {
-    final response = await api.usersUserIdViewsGet(includeHidden: false);
-    final createdViews = response.body?.items?.map((e) => ViewModel.fromBodyDto(e, ref));
+    try {
+      final response = await api.usersUserIdViewsGet(includeHidden: false);
+      final createdViews = response.body?.items?.map((e) => ViewModel.fromBodyDto(e, ref));
 
-    Map<ViewModel, bool> mappedModels =
-        createdViews?.isNotEmpty ?? false ? {for (var element in createdViews!) element: false} : {};
+      Map<ViewModel, bool> mappedModels =
+          createdViews?.isNotEmpty ?? false ? {for (var element in createdViews!) element: false} : {};
 
-    final selectedModels = mappedModels.keys.where((element) => viewModelId?.contains(element.id) ?? false).toList();
+      final selectedModels = mappedModels.keys.where((element) => viewModelId?.contains(element.id) ?? false).toList();
 
-    final views = mappedModels.setKeys(selectedModels, true);
+      final views = mappedModels.setKeys(selectedModels, true);
 
-    return views;
+      return views;
+    } catch (e) {
+      log("Error loading views: $e");
+      return {};
+    }
   }
 
   Future<void> loadFolders({List<String>? folderId}) async {
@@ -702,6 +707,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
         return PlaylistAudioQueueSource(
           playlistId: currentItem.id,
           limit: _libraryMusicRefillLimit,
+          shuffle: shuffle,
         );
       }
 
@@ -800,6 +806,7 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
           limit: _libraryMusicInitialQueueLimit,
           startIndex: 0,
         );
+
         if (initialQueue.isEmpty) return null;
 
         final model = await ref.read(playbackModelHelper).createPlaybackModel(

@@ -37,49 +37,53 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
 
   Future<ViewsModel?> fetchViews() async {
     if (state.loading) return null;
-    final showAllCollections = ref.read(clientSettingsProvider.select((value) => value.showAllCollectionTypes));
-    final response = await api.usersUserIdViewsGet();
-    final createdViews = response.body?.items?.map((e) => ViewModel.fromBodyDto(e, ref)).where((element) {
-      return showAllCollections ? true : enableCollectionTypes.contains(element.collectionType);
-    });
+    try {
+      final showAllCollections = ref.read(clientSettingsProvider.select((value) => value.showAllCollectionTypes));
+      final response = await api.usersUserIdViewsGet();
+      final createdViews = response.body?.items?.map((e) => ViewModel.fromBodyDto(e, ref)).where((element) {
+        return showAllCollections ? true : enableCollectionTypes.contains(element.collectionType);
+      });
 
-    List<ViewModel> newList = [];
+      List<ViewModel> newList = [];
 
-    if (createdViews != null) {
-      newList = await Future.wait(createdViews.map((e) async {
-        if (ref.read(userProvider)?.latestItemsExcludes.contains(e.id) == true) return e;
-        final recents = await api.usersUserIdItemsLatestGet(
-          parentId: e.id,
-          imageTypeLimit: 1,
-          limit: 16,
-          includeItemTypes:
-              (e.collectionType == CollectionType.books && !showAllCollections) ? [BaseItemKind.book] : null,
-          enableImageTypes: [
-            ImageType.primary,
-            ImageType.backdrop,
-            ImageType.thumb,
-          ],
-          fields: [
-            ItemFields.parentid,
-            ItemFields.mediastreams,
-            ItemFields.mediasources,
-            ItemFields.candelete,
-            ItemFields.candownload,
-            ItemFields.primaryimageaspectratio,
-            ItemFields.overview,
-          ],
-        );
-        return e.copyWith(recentlyAdded: recents.body?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList());
-      }));
+      if (createdViews != null) {
+        newList = await Future.wait(createdViews.map((e) async {
+          if (ref.read(userProvider)?.latestItemsExcludes.contains(e.id) == true) return e;
+          final recents = await api.usersUserIdItemsLatestGet(
+            parentId: e.id,
+            imageTypeLimit: 1,
+            limit: 16,
+            includeItemTypes:
+                (e.collectionType == CollectionType.books && !showAllCollections) ? [BaseItemKind.book] : null,
+            enableImageTypes: [
+              ImageType.primary,
+              ImageType.backdrop,
+              ImageType.thumb,
+            ],
+            fields: [
+              ItemFields.parentid,
+              ItemFields.mediastreams,
+              ItemFields.mediasources,
+              ItemFields.candelete,
+              ItemFields.candownload,
+              ItemFields.primaryimageaspectratio,
+              ItemFields.overview,
+            ],
+          );
+          return e.copyWith(recentlyAdded: recents.body?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList());
+        }));
+      }
+
+      state = state.copyWith(
+          views: _applyLibraryOrdering(newList),
+          dashboardViews: _applyLibraryOrdering(newList
+              .where((element) => !(ref.read(userProvider)?.latestItemsExcludes.contains(element.id) ?? true))
+              .toList()),
+          loading: false);
+      return state;
+    } catch (e) {
+      return state.copyWith(loading: false);
     }
-
-    state = state.copyWith(
-        views: _applyLibraryOrdering(newList),
-        dashboardViews: _applyLibraryOrdering(newList
-            .where((element) => !(ref.read(userProvider)?.latestItemsExcludes.contains(element.id) ?? true))
-            .toList()),
-        loading: false);
-    return state;
   }
 
   List<ViewModel> _applyLibraryOrdering(List<ViewModel> views) {

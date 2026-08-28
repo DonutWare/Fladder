@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/music_dashboard_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -113,6 +114,8 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
 
     final musicItems = MusicLibraryItem.fromViews(context, allViews, false, ref);
 
+    final isOffline = ref.watch(offlineStateProvider);
+
     return NestedScaffold(
       background: ValueListenableBuilder<ItemBaseModel?>(
         valueListenable: selectedPoster,
@@ -161,27 +164,30 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
                               .map(
                                 (item) => Expanded(
                                   child: FocusButton(
-                                    onTap: () => item.onTap(),
+                                    onTap: isOffline ? null : () => item.onTap(),
                                     onFocusChanged: (focused) {
                                       if (focused) {
                                         context.ensureVisible();
                                       }
                                     },
-                                    child: AspectRatio(
-                                      aspectRatio: 1.0,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: FladderTheme.defaultPosterDecoration.borderRadius,
-                                          color: Theme.of(context).colorScheme.surface,
-                                        ),
-                                        child: Column(
-                                          spacing: 4,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            item.icon,
-                                            Text(item.label),
-                                          ],
+                                    child: Opacity(
+                                      opacity: isOffline ? 0.5 : 1.0,
+                                      child: AspectRatio(
+                                        aspectRatio: 1.0,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: FladderTheme.defaultPosterDecoration.borderRadius,
+                                            color: Theme.of(context).colorScheme.surface,
+                                          ),
+                                          child: Column(
+                                            spacing: 4,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              item.icon,
+                                              Text(item.label),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),

@@ -42,31 +42,35 @@ class User extends _$User {
 
   Future<Response<AccountModel>?> updateInformation() async {
     if (state == null) return null;
-    var response = await api.usersMeGet();
-    var quickConnectStatus = await api.quickConnectEnabled();
-    var systemConfiguration = await api.systemConfigurationGet();
+    try {
+      var response = await api.usersMeGet();
+      var quickConnectStatus = await api.quickConnectEnabled();
+      var systemConfiguration = await api.systemConfigurationGet();
 
-    final customConfig = await api.getCustomConfig();
+      final customConfig = await api.getCustomConfig();
 
-    var imageUrl = ref.read(imageUtilityProvider).getUserImageUrl(response.body?.id ?? "");
+      var imageUrl = ref.read(imageUtilityProvider).getUserImageUrl(response.body?.id ?? "");
 
-    final user = response.body;
-    if (user == null) return null;
+      final user = response.body;
+      if (user == null) return null;
 
-    if (response.isSuccessful && response.body != null) {
-      userState = state?.copyWith(
-        name: user.name ?? state?.name ?? "",
-        policy: user.policy,
-        avatar: imageUrl,
-        serverConfiguration: systemConfiguration.body,
-        userConfiguration: user.configuration,
-        quickConnectState: quickConnectStatus.body ?? false,
-        latestItemsExcludes: user.configuration?.latestItemsExcludes ?? [],
-        userSettings: customConfig.body,
-        hasConfiguredPassword: user.hasConfiguredPassword ?? false,
-        hasPassword: user.hasPassword ?? false,
-      );
-      return response.copyWith(body: state);
+      if (response.isSuccessful && response.body != null) {
+        userState = state?.copyWith(
+          name: user.name ?? state?.name ?? "",
+          policy: user.policy,
+          avatar: imageUrl,
+          serverConfiguration: systemConfiguration.body,
+          userConfiguration: user.configuration,
+          quickConnectState: quickConnectStatus.body ?? false,
+          latestItemsExcludes: user.configuration?.latestItemsExcludes ?? [],
+          userSettings: customConfig.body,
+          hasConfiguredPassword: user.hasConfiguredPassword ?? false,
+          hasPassword: user.hasPassword ?? false,
+        );
+        return response.copyWith(body: state);
+      }
+    } catch (e) {
+      return null;
     }
     return null;
   }

@@ -258,7 +258,8 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
   Future<void> refresh() async => state = state.copyWith(items: _rootSyncItems(await _db.getAllItems.get()));
 
-  Future<List<SyncedItem>> getNestedChildren(SyncedItem item) async {
+  Future<List<SyncedItem>> getNestedChildren(SyncedItem? item) async {
+    if (item == null) return [];
     if (item.itemModel?.type == FladderItemType.playlist) {
       return _getPlaylistChildrenFromOverlay(item);
     }

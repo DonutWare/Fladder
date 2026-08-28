@@ -41,6 +41,7 @@ extension PlaylistModelPlayback on PlaylistModel? {
         final queueSource = PlaylistAudioQueueSource(
           playlistId: playlist.id,
           limit: _playlistAudioRefillLimit,
+          shuffle: false,
         );
         final initialQueue = await queueSource.fetchQueue(
           ref.read,
@@ -147,6 +148,7 @@ Future<void> _playPlaylistMusic(BuildContext context, WidgetRef ref, String play
     final queueSource = PlaylistAudioQueueSource(
       playlistId: playlistId,
       limit: _playlistAudioRefillLimit,
+      shuffle: false,
     );
     final initialQueue = await queueSource.fetchQueue(
       ref.read,
