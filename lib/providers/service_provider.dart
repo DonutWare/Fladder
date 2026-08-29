@@ -879,6 +879,10 @@ class JellyService {
   }
 
   Future<Response<List<BaseItemDto>>> itemsItemIdSpecialFeaturesGet({required String itemId}) async {
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) {
+      return Response<List<BaseItemDto>>(http.Response("", 400), []);
+    }
     return api.itemsItemIdSpecialFeaturesGet(itemId: itemId, userId: account?.id);
   }
 

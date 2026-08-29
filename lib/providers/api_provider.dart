@@ -87,7 +87,6 @@ class JellyRequest implements Interceptor {
 
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) async {
-    // final serverUrl = "https://example.com"; // ref.read(serverUrlProvider); --- IGNORE ---
     final serverUrl = ref.read(serverUrlProvider);
 
     if (serverUrl == null || serverUrl.isEmpty) {
