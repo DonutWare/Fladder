@@ -57,6 +57,10 @@ class LibMPV extends BasePlayer {
     await _audioSession?.configure(const AudioSessionConfiguration.music());
   }
 
+  Future<void> updateSettings(VideoPlayerSettingsModel settings) async {
+    _settings = settings;
+  }
+
   @override
   Future<void> init(VideoPlayerSettingsModel settings) async {
     _settings = settings;
@@ -308,7 +312,7 @@ class LibMPV extends BasePlayer {
     if (item is AudioModel) {
       final gain = item.normalizationGain;
       if (gain != null && !gain.isNaN && !gain.isInfinite) {
-        gainDb = gain.clamp(-60.0, 20.0).toDouble();
+        gainDb = gain.clamp(-60.0, 0).toDouble();
       }
     }
     await _applyReplayGainSettings(trackGainDb: gainDb);
@@ -337,6 +341,8 @@ class LibMPV extends BasePlayer {
 
     final replayGainOffsetDb = clampReplayGainDb(_replayGainVolumeOffsetDb);
     final replayGainFallbackDb = _settings.replayGainVolumeLevel.adjustedReplayGainDb(trackGainDb);
+
+    log("Setting replayGain to track, preamp: $replayGainOffsetDb dB, fallback: $replayGainFallbackDb dB");
 
     try {
       await nativePlayer.setProperty('replaygain', 'track');
