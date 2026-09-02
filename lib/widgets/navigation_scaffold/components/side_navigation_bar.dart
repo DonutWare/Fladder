@@ -238,8 +238,8 @@ class SideNavigationRail extends ConsumerWidget {
   }
 
   Widget actionButtonWidget(BuildContext context, bool expanded) {
-    final destination = (widget.currentIndex >= 0 && widget.currentIndex < widget.destinations.length)
-        ? widget.destinations[widget.currentIndex]
+    final destination = (currentIndex >= 0 && currentIndex < destinations.length)
+        ? destinations[currentIndex]
         : null;
 
     // If there's a custom FAB widget, use it (DashboardFabs already
