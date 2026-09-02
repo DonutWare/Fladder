@@ -84,6 +84,8 @@ abstract class TranslationsPigeon {
 
   String syncPlayCommandSyncing();
 
+  String syncPlayStateWaiting();
+
   static void setUp(
     TranslationsPigeon? api, {
     BinaryMessenger? binaryMessenger,
@@ -540,6 +542,26 @@ abstract class TranslationsPigeon {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           try {
             final String output = api.syncPlayCommandSyncing();
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          } catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.nl_jknaapen_fladder.settings.TranslationsPigeon.syncPlayStateWaiting$messageChannelSuffix',
+          pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          try {
+            final String output = api.syncPlayStateWaiting();
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);

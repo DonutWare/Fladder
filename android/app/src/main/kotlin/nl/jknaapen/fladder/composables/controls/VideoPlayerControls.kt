@@ -82,7 +82,6 @@ import nl.jknaapen.fladder.utility.leanBackEnabled
 import nl.jknaapen.fladder.utility.visible
 import kotlin.time.Duration.Companion.seconds
 
-
 @OptIn(UnstableApi::class)
 @Composable
 fun CustomVideoControls(
@@ -149,8 +148,8 @@ fun CustomVideoControls(
     LaunchedEffect(lastSeekInteraction.longValue) {
         delay(1.seconds)
         if (currentSkipTime == 0L) return@LaunchedEffect
-        // SyncPlay: user action is applied locally; Flutter infers from playback state stream and sends to server.
-        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+        // Tagged as a user action; Flutter infers the SyncPlay request from the state stream.
+        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_SEEK)
         player?.seekTo(position + currentSkipTime)
         currentSkipTime = 0L
     }
@@ -176,14 +175,15 @@ fun CustomVideoControls(
                     }
 
                     Key.MediaPlay -> {
-                        // Route through Flutter for SyncPlay support
-                        VideoPlayerObject.videoPlayerControls?.onUserPlay {}
+                        // Tagged as a user action; Flutter infers the SyncPlay request from the state stream.
+                        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_PLAY_PAUSE)
+                        player?.play()
                         return@keyEvent true
                     }
 
                     Key.MediaPlayPause -> {
                         player?.let {
-                            VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                            VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_PLAY_PAUSE)
                             if (it.isPlaying) {
                                 it.pause()
                                 updateLastInteraction()
@@ -195,7 +195,7 @@ fun CustomVideoControls(
                     }
 
                     Key.MediaPause, Key.P -> {
-                        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_PLAY_PAUSE)
                         player?.pause()
                         updateLastInteraction()
                         return@keyEvent true
@@ -390,7 +390,7 @@ fun CustomVideoControls(
     if (showChapterDialog) {
         ChapterSelectionSheet(
             onSelected = {
-                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_SEEK)
                 exoPlayer.seekTo(it.time.toLong())
                 showChapterDialog = false
             },
@@ -452,7 +452,7 @@ fun PlaybackButtons(
             }
             CustomButton(
                 onClick = {
-                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_SEEK)
                     player.seekTo((player.currentPosition - backwardSpeed.inWholeMilliseconds).coerceAtLeast(0L))
                 },
             ) {
@@ -479,7 +479,7 @@ fun PlaybackButtons(
                 .defaultSelected(true),
             enableScaledFocus = true,
             onClick = {
-                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_PLAY_PAUSE)
                 if (player.isPlaying) {
                     player.pause()
                     onPause()
@@ -497,7 +497,7 @@ fun PlaybackButtons(
         if (!isTVMode) {
             CustomButton(
                 onClick = {
-                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_SEEK)
                     player.seekTo(player.currentPosition + forwardSpeed.inWholeMilliseconds)
                 },
             ) {
@@ -540,7 +540,6 @@ internal fun RowScope.LeftButtons(
 ) {
     val chapters by VideoPlayerObject.chapters.collectAsState(emptyList())
     val isTVMode by VideoPlayerObject.implementation.isTVMode.collectAsState(false)
-
 
     Row(
         modifier = Modifier.weight(1f),

@@ -42,4 +42,5 @@ abstract class TranslationsPigeon {
   String syncPlayCommandSeeking();
   String syncPlayCommandStopping();
   String syncPlayCommandSyncing();
+  String syncPlayStateWaiting();
 }

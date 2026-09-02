@@ -40,6 +40,9 @@ enum SyncPlayCommandType {
   unpause,
   seek,
   stop,
+
+  /// The group is waiting for a participant to buffer; shown so every device reports the same state.
+  waiting,
 }
 
 class MediaInfo {
@@ -225,19 +228,21 @@ abstract class VideoPlayerApi {
 
   void setSubtitleSettings(SubtitleSettings settings);
 
-  /// Sets the SyncPlay command state for the native player overlay.
-  /// [processing] indicates if a SyncPlay command is being processed.
-  /// [commandType] is the type of command.
+  /// Drives the native player's SyncPlay overlay.
   void setSyncPlayCommandState(bool processing, SyncPlayCommandType commandType);
 }
 
-/// Source of the last playback state change (for SyncPlay: infer user actions from stream).
+/// Who caused the last playback state change; Flutter infers SyncPlay requests from it.
 enum PlaybackChangeSource {
   /// No specific source (e.g. periodic update, buffering).
   none,
 
-  /// User tapped play/pause/seek on native; Flutter should send SyncPlay if active.
-  user,
+  /// User pressed play or pause on native; Flutter turns it into the SyncPlay request.
+  userPlayPause,
+
+  /// User seeked on native; the frame carries the new position even when the seek drops the player into
+  /// buffering. Kept apart from [userPlayPause] so a paused-while-buffering frame is never ambiguous.
+  userSeek,
 
   /// Change was caused by applying a SyncPlay command; do not send again.
   syncplay,
@@ -367,14 +372,4 @@ abstract class VideoPlayerControlsCallback {
 
   @async
   List<GuideProgram> fetchProgramsForChannel(String channelId);
-
-  /// User-initiated play action from native player (for SyncPlay integration)
-  void onUserPlay();
-
-  /// User-initiated pause action from native player (for SyncPlay integration)
-  void onUserPause();
-
-  /// User-initiated seek action from native player (for SyncPlay integration)
-  /// Position is in milliseconds
-  void onUserSeek(int positionMs);
 }

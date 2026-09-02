@@ -98,7 +98,9 @@ enum class SyncPlayCommandType(val raw: Int) {
   PAUSE(1),
   UNPAUSE(2),
   SEEK(3),
-  STOP(4);
+  STOP(4),
+  /** The group is waiting for a participant to buffer; shown so every device reports the same state. */
+  WAITING(5);
 
   companion object {
     fun ofRaw(raw: Int): SyncPlayCommandType? {
@@ -121,14 +123,19 @@ enum class MediaSegmentType(val raw: Int) {
   }
 }
 
-/** Source of the last playback state change (for SyncPlay: infer user actions from stream). */
+/** Who caused the last playback state change; Flutter infers SyncPlay requests from it. */
 enum class PlaybackChangeSource(val raw: Int) {
   /** No specific source (e.g. periodic update, buffering). */
   NONE(0),
-  /** User tapped play/pause/seek on native; Flutter should send SyncPlay if active. */
-  USER(1),
+  /** User pressed play or pause on native; Flutter turns it into the SyncPlay request. */
+  USER_PLAY_PAUSE(1),
+  /**
+   * User seeked on native; the frame carries the new position even when the seek drops the player into
+   * buffering. Kept apart from [userPlayPause] so a paused-while-buffering frame is never ambiguous.
+   */
+  USER_SEEK(2),
   /** Change was caused by applying a SyncPlay command; do not send again. */
-  SYNCPLAY(2);
+  SYNCPLAY(3);
 
   companion object {
     fun ofRaw(raw: Int): PlaybackChangeSource? {
@@ -993,11 +1000,7 @@ interface VideoPlayerApi {
   fun seekTo(position: Long)
   fun stop()
   fun setSubtitleSettings(settings: SubtitleSettings)
-  /**
-   * Sets the SyncPlay command state for the native player overlay.
-   * [processing] indicates if a SyncPlay command is being processed.
-   * [commandType] is the type of command.
-   */
+  /** Drives the native player's SyncPlay overlay. */
   fun setSyncPlayCommandState(processing: Boolean, commandType: SyncPlayCommandType)
 
   companion object {
@@ -1380,63 +1383,6 @@ class VideoPlayerControlsCallback(private val binaryMessenger: BinaryMessenger, 
         } else {
           val output = it[0] as List<GuideProgram>
           callback(Result.success(output))
-        }
-      } else {
-        callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
-      } 
-    }
-  }
-  /** User-initiated play action from native player (for SyncPlay integration) */
-  fun onUserPlay(callback: (Result<Unit>) -> Unit)
-{
-    val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
-    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPlay$separatedMessageChannelSuffix"
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
-    channel.send(null) {
-      if (it is List<*>) {
-        if (it.size > 1) {
-          callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))
-        } else {
-          callback(Result.success(Unit))
-        }
-      } else {
-        callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
-      } 
-    }
-  }
-  /** User-initiated pause action from native player (for SyncPlay integration) */
-  fun onUserPause(callback: (Result<Unit>) -> Unit)
-{
-    val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
-    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPause$separatedMessageChannelSuffix"
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
-    channel.send(null) {
-      if (it is List<*>) {
-        if (it.size > 1) {
-          callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))
-        } else {
-          callback(Result.success(Unit))
-        }
-      } else {
-        callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
-      } 
-    }
-  }
-  /**
-   * User-initiated seek action from native player (for SyncPlay integration)
-   * Position is in milliseconds
-   */
-  fun onUserSeek(positionMsArg: Long, callback: (Result<Unit>) -> Unit)
-{
-    val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
-    val channelName = "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek$separatedMessageChannelSuffix"
-    val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
-    channel.send(listOf(positionMsArg)) {
-      if (it is List<*>) {
-        if (it.size > 1) {
-          callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))
-        } else {
-          callback(Result.success(Unit))
         }
       } else {
         callback(Result.failure(VideoPlayerHelperPigeonUtils.createConnectionError(channelName)))
