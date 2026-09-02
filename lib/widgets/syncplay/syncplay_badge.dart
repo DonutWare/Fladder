@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-/// Badge widget showing SyncPlay status in the video player
 class SyncPlayBadge extends ConsumerWidget {
   const SyncPlayBadge({super.key});
 
@@ -84,7 +83,6 @@ class SyncPlayBadge extends ConsumerWidget {
   }
 }
 
-/// Compact SyncPlay indicator for tight spaces
 class SyncPlayIndicator extends ConsumerWidget {
   const SyncPlayIndicator({super.key});
 

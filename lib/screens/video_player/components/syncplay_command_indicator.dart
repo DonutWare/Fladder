@@ -6,22 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
-/// Centered overlay showing SyncPlay command being processed, sync drift
-/// correction in progress, or a next-episode-style queue switch.
+/// Centre overlay driven by [resolveSyncPlayOverlay], shared with the native Android overlay. Drift
+/// corrections are deliberately not shown here: they can fire every couple of seconds ([SyncPlayBadge] only).
 class SyncPlayCommandIndicator extends ConsumerWidget {
   const SyncPlayCommandIndicator({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isActive = ref.watch(isSyncPlayActiveProvider);
-    final isProcessing = ref.watch(syncPlayProvider.select((s) => s.isProcessingCommand));
+    final overlay = ref.watch(syncPlayProvider.select(resolveSyncPlayOverlay));
     final commandType = ref.watch(syncPlayProvider.select((s) => s.processingCommandType));
-    final strategy = ref.watch(syncCorrectionStrategyProvider);
-    final isSwitching = ref.watch(syncPlayStartPlaybackInProgressProvider);
 
-    final hasCorrection = strategy != SyncCorrectionStrategy.none;
-    final showCommand = isProcessing && commandType != null;
-    final visible = isActive && (showCommand || hasCorrection || isSwitching);
+    final visible = isActive && overlay != SyncPlayOverlay.none;
 
     return IgnorePointer(
       child: AnimatedOpacity(
@@ -51,14 +47,10 @@ class SyncPlayCommandIndicator extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _CommandIcon(
-                    commandType: commandType,
-                    strategy: strategy,
-                    isSwitching: isSwitching,
-                  ),
+                  _OverlayIcon(overlay: overlay, commandType: commandType),
                   const SizedBox(height: 12),
                   Text(
-                    _label(context, isSwitching, showCommand, commandType, strategy),
+                    _label(context, overlay, commandType),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
@@ -94,40 +86,34 @@ class SyncPlayCommandIndicator extends ConsumerWidget {
     );
   }
 
-  String _label(
-    BuildContext context,
-    bool isSwitching,
-    bool showCommand,
-    SyncPlayCommand? commandType,
-    SyncCorrectionStrategy strategy,
-  ) {
-    if (isSwitching) {
-      return context.localized.syncPlaySwitchingItem;
-    }
-    if (showCommand) {
-      return commandType.syncPlayCommandOverlayLabel(context);
-    }
-    return strategy.label(context);
+  String _label(BuildContext context, SyncPlayOverlay overlay, SyncPlayCommand? commandType) {
+    return switch (overlay) {
+      SyncPlayOverlay.switching => context.localized.syncPlaySwitchingItem,
+      SyncPlayOverlay.command => commandType.syncPlayCommandOverlayLabel(context),
+      SyncPlayOverlay.waiting => context.localized.syncPlayStateWaiting,
+      SyncPlayOverlay.none => context.localized.syncPlayCommandSyncing,
+    };
   }
 }
 
-class _CommandIcon extends StatelessWidget {
+class _OverlayIcon extends StatelessWidget {
+  final SyncPlayOverlay overlay;
   final SyncPlayCommand? commandType;
-  final SyncCorrectionStrategy strategy;
-  final bool isSwitching;
 
-  const _CommandIcon({
+  const _OverlayIcon({
+    required this.overlay,
     required this.commandType,
-    required this.strategy,
-    required this.isSwitching,
   });
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final (IconData icon, Color color) = isSwitching
-        ? (IconsaxPlusBold.refresh, scheme.primary)
-        : (commandType != null ? commandType.syncPlayCommandIconAndColor(context) : strategy.iconAndColor(context));
+    final (IconData icon, Color color) = switch (overlay) {
+      SyncPlayOverlay.switching => (IconsaxPlusBold.refresh, scheme.primary),
+      SyncPlayOverlay.command => commandType.syncPlayCommandIconAndColor(context),
+      SyncPlayOverlay.waiting => SyncPlayGroupState.waiting.iconAndColor(context),
+      SyncPlayOverlay.none => (IconsaxPlusBold.refresh, scheme.primary),
+    };
 
     return Container(
       padding: const EdgeInsets.all(16),

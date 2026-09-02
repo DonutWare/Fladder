@@ -4,9 +4,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/util/localization_helper.dart';
 
-/// Extension on [SyncPlayGroupState] for badge/indicator icon and color.
 extension SyncPlayGroupStateExtension on SyncPlayGroupState {
-  /// Returns (icon, color) for the current group state.
   (IconData, Color) iconAndColor(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return switch (this) {
@@ -29,7 +27,6 @@ extension SyncPlayGroupStateExtension on SyncPlayGroupState {
     };
   }
 
-  /// Returns the color only (for compact indicator).
   Color color(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return switch (this) {
@@ -41,11 +38,7 @@ extension SyncPlayGroupStateExtension on SyncPlayGroupState {
   }
 }
 
-/// Extension for localized SyncPlay command processing label (typed
-/// against [SyncPlayCommand] instead of raw strings - see AGENTS.md
-/// SyncPlay rule 6 about centralizing repeated display logic).
 extension SyncPlayCommandLabelExtension on SyncPlayCommand? {
-  /// Returns the localized "Syncing..." text for this command type.
   String syncPlayProcessingLabel(BuildContext context) {
     return switch (this) {
       SyncPlayCommand.pause => context.localized.syncPlaySyncingPause,
@@ -56,7 +49,6 @@ extension SyncPlayCommandLabelExtension on SyncPlayCommand? {
     };
   }
 
-  /// Returns the short command label for overlay (e.g. "Pausing").
   String syncPlayCommandOverlayLabel(BuildContext context) {
     return switch (this) {
       SyncPlayCommand.pause => context.localized.syncPlayCommandPausing,
@@ -67,7 +59,6 @@ extension SyncPlayCommandLabelExtension on SyncPlayCommand? {
     };
   }
 
-  /// Returns (icon, color) for the command overlay.
   (IconData, Color) syncPlayCommandIconAndColor(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return switch (this) {
@@ -80,9 +71,7 @@ extension SyncPlayCommandLabelExtension on SyncPlayCommand? {
   }
 }
 
-/// Extension for correction strategy UI mapping.
 extension SyncCorrectionStrategyExtension on SyncCorrectionStrategy {
-  /// Returns short label for active correction strategy.
   String label(BuildContext context) {
     return switch (this) {
       SyncCorrectionStrategy.none => context.localized.syncPlaySyncing,
@@ -91,7 +80,6 @@ extension SyncCorrectionStrategyExtension on SyncCorrectionStrategy {
     };
   }
 
-  /// Returns icon and color for active correction strategy.
   (IconData, Color) iconAndColor(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return switch (this) {

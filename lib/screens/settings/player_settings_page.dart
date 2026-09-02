@@ -263,6 +263,15 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               ),
             ],
             SettingsListTile(
+              label: Text(context.localized.syncPlayEnableCorrection),
+              subLabel: Text(context.localized.syncPlayEnableCorrectionDesc),
+              onTap: () => provider.setEnableSyncPlayCorrection(!videoSettings.enableSyncPlayCorrection),
+              trailing: Switch(
+                value: videoSettings.enableSyncPlayCorrection,
+                onChanged: (value) => provider.setEnableSyncPlayCorrection(value),
+              ),
+            ),
+            SettingsListTile(
               label: Text(context.localized.enableSpeedBoostTitle),
               subLabel: Text(context.localized.enableSpeedBoostDesc),
               onTap: () => provider.setEnableSpeedBoost(!videoSettings.enableSpeedBoost),
