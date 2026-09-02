@@ -319,6 +319,292 @@ class __$TimeSyncMeasurementCopyWithImpl<$Res> implements _$TimeSyncMeasurementC
 }
 
 /// @nodoc
+mixin _$SyncPlayQueueTiming {
+  int get startPositionTicks;
+  DateTime? get lastUpdate;
+  bool get isPlaying;
+
+  /// Create a copy of SyncPlayQueueTiming
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SyncPlayQueueTimingCopyWith<SyncPlayQueueTiming> get copyWith =>
+      _$SyncPlayQueueTimingCopyWithImpl<SyncPlayQueueTiming>(this as SyncPlayQueueTiming, _$identity);
+
+  @override
+  String toString() {
+    return 'SyncPlayQueueTiming(startPositionTicks: $startPositionTicks, lastUpdate: $lastUpdate, isPlaying: $isPlaying)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SyncPlayQueueTimingCopyWith<$Res> {
+  factory $SyncPlayQueueTimingCopyWith(SyncPlayQueueTiming value, $Res Function(SyncPlayQueueTiming) _then) =
+      _$SyncPlayQueueTimingCopyWithImpl;
+  @useResult
+  $Res call({int startPositionTicks, DateTime? lastUpdate, bool isPlaying});
+}
+
+/// @nodoc
+class _$SyncPlayQueueTimingCopyWithImpl<$Res> implements $SyncPlayQueueTimingCopyWith<$Res> {
+  _$SyncPlayQueueTimingCopyWithImpl(this._self, this._then);
+
+  final SyncPlayQueueTiming _self;
+  final $Res Function(SyncPlayQueueTiming) _then;
+
+  /// Create a copy of SyncPlayQueueTiming
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? startPositionTicks = null,
+    Object? lastUpdate = freezed,
+    Object? isPlaying = null,
+  }) {
+    return _then(_self.copyWith(
+      startPositionTicks: null == startPositionTicks
+          ? _self.startPositionTicks
+          : startPositionTicks // ignore: cast_nullable_to_non_nullable
+              as int,
+      lastUpdate: freezed == lastUpdate
+          ? _self.lastUpdate
+          : lastUpdate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isPlaying: null == isPlaying
+          ? _self.isPlaying
+          : isPlaying // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [SyncPlayQueueTiming].
+extension SyncPlayQueueTimingPatterns on SyncPlayQueueTiming {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_SyncPlayQueueTiming value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SyncPlayQueueTiming() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_SyncPlayQueueTiming value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SyncPlayQueueTiming():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_SyncPlayQueueTiming value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SyncPlayQueueTiming() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(int startPositionTicks, DateTime? lastUpdate, bool isPlaying)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SyncPlayQueueTiming() when $default != null:
+        return $default(_that.startPositionTicks, _that.lastUpdate, _that.isPlaying);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(int startPositionTicks, DateTime? lastUpdate, bool isPlaying) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SyncPlayQueueTiming():
+        return $default(_that.startPositionTicks, _that.lastUpdate, _that.isPlaying);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(int startPositionTicks, DateTime? lastUpdate, bool isPlaying)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SyncPlayQueueTiming() when $default != null:
+        return $default(_that.startPositionTicks, _that.lastUpdate, _that.isPlaying);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class _SyncPlayQueueTiming extends SyncPlayQueueTiming {
+  const _SyncPlayQueueTiming({required this.startPositionTicks, this.lastUpdate, this.isPlaying = false}) : super._();
+
+  @override
+  final int startPositionTicks;
+  @override
+  final DateTime? lastUpdate;
+  @override
+  @JsonKey()
+  final bool isPlaying;
+
+  /// Create a copy of SyncPlayQueueTiming
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SyncPlayQueueTimingCopyWith<_SyncPlayQueueTiming> get copyWith =>
+      __$SyncPlayQueueTimingCopyWithImpl<_SyncPlayQueueTiming>(this, _$identity);
+
+  @override
+  String toString() {
+    return 'SyncPlayQueueTiming(startPositionTicks: $startPositionTicks, lastUpdate: $lastUpdate, isPlaying: $isPlaying)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SyncPlayQueueTimingCopyWith<$Res> implements $SyncPlayQueueTimingCopyWith<$Res> {
+  factory _$SyncPlayQueueTimingCopyWith(_SyncPlayQueueTiming value, $Res Function(_SyncPlayQueueTiming) _then) =
+      __$SyncPlayQueueTimingCopyWithImpl;
+  @override
+  @useResult
+  $Res call({int startPositionTicks, DateTime? lastUpdate, bool isPlaying});
+}
+
+/// @nodoc
+class __$SyncPlayQueueTimingCopyWithImpl<$Res> implements _$SyncPlayQueueTimingCopyWith<$Res> {
+  __$SyncPlayQueueTimingCopyWithImpl(this._self, this._then);
+
+  final _SyncPlayQueueTiming _self;
+  final $Res Function(_SyncPlayQueueTiming) _then;
+
+  /// Create a copy of SyncPlayQueueTiming
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? startPositionTicks = null,
+    Object? lastUpdate = freezed,
+    Object? isPlaying = null,
+  }) {
+    return _then(_SyncPlayQueueTiming(
+      startPositionTicks: null == startPositionTicks
+          ? _self.startPositionTicks
+          : startPositionTicks // ignore: cast_nullable_to_non_nullable
+              as int,
+      lastUpdate: freezed == lastUpdate
+          ? _self.lastUpdate
+          : lastUpdate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isPlaying: null == isPlaying
+          ? _self.isPlaying
+          : isPlaying // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
 mixin _$SyncPlayState {
   bool get isConnected;
   bool get isInGroup;
@@ -358,6 +644,21 @@ mixin _$SyncPlayState {
   /// so audio/subtitle reloads don't pause the rest of the group.
   int get localOnlyOperationCount;
 
+  /// False after the user halted group playback on this device
+  /// (`SetIgnoreWait(true)`): the server no longer waits for us and we
+  /// ignore playback commands until the user resumes or a new
+  /// playlist is set (jellyfin-web `followingGroupPlayback`).
+  bool get isFollowingGroupPlayback;
+
+  /// Local copy of the group play queue from the last `PlayQueue` frame.
+  List<SyncPlayQueueEntry> get playlist;
+
+  /// Index of the playing entry in [playlist], -1 when nothing plays.
+  int get playingItemIndex;
+
+  /// Timing of the last `PlayQueue` frame; null until one arrived.
+  SyncPlayQueueTiming? get queueTiming;
+
   /// Create a copy of SyncPlayState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -367,7 +668,7 @@ mixin _$SyncPlayState {
 
   @override
   String toString() {
-    return 'SyncPlayState(isConnected: $isConnected, isInGroup: $isInGroup, groupId: $groupId, groupName: $groupName, groupState: $groupState, stateReason: $stateReason, participants: $participants, playingItemId: $playingItemId, playlistItemId: $playlistItemId, positionTicks: $positionTicks, lastCommandTime: $lastCommandTime, isProcessingCommand: $isProcessingCommand, processingCommandType: $processingCommandType, correctionConfig: $correctionConfig, correctionState: $correctionState, startPlaybackInProgress: $startPlaybackInProgress, startingPlaylistItemId: $startingPlaylistItemId, localOnlyOperationCount: $localOnlyOperationCount)';
+    return 'SyncPlayState(isConnected: $isConnected, isInGroup: $isInGroup, groupId: $groupId, groupName: $groupName, groupState: $groupState, stateReason: $stateReason, participants: $participants, playingItemId: $playingItemId, playlistItemId: $playlistItemId, positionTicks: $positionTicks, lastCommandTime: $lastCommandTime, isProcessingCommand: $isProcessingCommand, processingCommandType: $processingCommandType, correctionConfig: $correctionConfig, correctionState: $correctionState, startPlaybackInProgress: $startPlaybackInProgress, startingPlaylistItemId: $startingPlaylistItemId, localOnlyOperationCount: $localOnlyOperationCount, isFollowingGroupPlayback: $isFollowingGroupPlayback, playlist: $playlist, playingItemIndex: $playingItemIndex, queueTiming: $queueTiming)';
   }
 }
 
@@ -393,7 +694,13 @@ abstract mixin class $SyncPlayStateCopyWith<$Res> {
       SyncCorrectionState correctionState,
       bool startPlaybackInProgress,
       String? startingPlaylistItemId,
-      int localOnlyOperationCount});
+      int localOnlyOperationCount,
+      bool isFollowingGroupPlayback,
+      List<SyncPlayQueueEntry> playlist,
+      int playingItemIndex,
+      SyncPlayQueueTiming? queueTiming});
+
+  $SyncPlayQueueTimingCopyWith<$Res>? get queueTiming;
 }
 
 /// @nodoc
@@ -426,6 +733,10 @@ class _$SyncPlayStateCopyWithImpl<$Res> implements $SyncPlayStateCopyWith<$Res> 
     Object? startPlaybackInProgress = null,
     Object? startingPlaylistItemId = freezed,
     Object? localOnlyOperationCount = null,
+    Object? isFollowingGroupPlayback = null,
+    Object? playlist = null,
+    Object? playingItemIndex = null,
+    Object? queueTiming = freezed,
   }) {
     return _then(_self.copyWith(
       isConnected: null == isConnected
@@ -500,7 +811,37 @@ class _$SyncPlayStateCopyWithImpl<$Res> implements $SyncPlayStateCopyWith<$Res> 
           ? _self.localOnlyOperationCount
           : localOnlyOperationCount // ignore: cast_nullable_to_non_nullable
               as int,
+      isFollowingGroupPlayback: null == isFollowingGroupPlayback
+          ? _self.isFollowingGroupPlayback
+          : isFollowingGroupPlayback // ignore: cast_nullable_to_non_nullable
+              as bool,
+      playlist: null == playlist
+          ? _self.playlist
+          : playlist // ignore: cast_nullable_to_non_nullable
+              as List<SyncPlayQueueEntry>,
+      playingItemIndex: null == playingItemIndex
+          ? _self.playingItemIndex
+          : playingItemIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      queueTiming: freezed == queueTiming
+          ? _self.queueTiming
+          : queueTiming // ignore: cast_nullable_to_non_nullable
+              as SyncPlayQueueTiming?,
     ));
+  }
+
+  /// Create a copy of SyncPlayState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SyncPlayQueueTimingCopyWith<$Res>? get queueTiming {
+    if (_self.queueTiming == null) {
+      return null;
+    }
+
+    return $SyncPlayQueueTimingCopyWith<$Res>(_self.queueTiming!, (value) {
+      return _then(_self.copyWith(queueTiming: value));
+    });
   }
 }
 
@@ -615,7 +956,11 @@ extension SyncPlayStatePatterns on SyncPlayState {
             SyncCorrectionState correctionState,
             bool startPlaybackInProgress,
             String? startingPlaylistItemId,
-            int localOnlyOperationCount)?
+            int localOnlyOperationCount,
+            bool isFollowingGroupPlayback,
+            List<SyncPlayQueueEntry> playlist,
+            int playingItemIndex,
+            SyncPlayQueueTiming? queueTiming)?
         $default, {
     required TResult orElse(),
   }) {
@@ -640,7 +985,11 @@ extension SyncPlayStatePatterns on SyncPlayState {
             _that.correctionState,
             _that.startPlaybackInProgress,
             _that.startingPlaylistItemId,
-            _that.localOnlyOperationCount);
+            _that.localOnlyOperationCount,
+            _that.isFollowingGroupPlayback,
+            _that.playlist,
+            _that.playingItemIndex,
+            _that.queueTiming);
       case _:
         return orElse();
     }
@@ -679,7 +1028,11 @@ extension SyncPlayStatePatterns on SyncPlayState {
             SyncCorrectionState correctionState,
             bool startPlaybackInProgress,
             String? startingPlaylistItemId,
-            int localOnlyOperationCount)
+            int localOnlyOperationCount,
+            bool isFollowingGroupPlayback,
+            List<SyncPlayQueueEntry> playlist,
+            int playingItemIndex,
+            SyncPlayQueueTiming? queueTiming)
         $default,
   ) {
     final _that = this;
@@ -703,7 +1056,11 @@ extension SyncPlayStatePatterns on SyncPlayState {
             _that.correctionState,
             _that.startPlaybackInProgress,
             _that.startingPlaylistItemId,
-            _that.localOnlyOperationCount);
+            _that.localOnlyOperationCount,
+            _that.isFollowingGroupPlayback,
+            _that.playlist,
+            _that.playingItemIndex,
+            _that.queueTiming);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -741,7 +1098,11 @@ extension SyncPlayStatePatterns on SyncPlayState {
             SyncCorrectionState correctionState,
             bool startPlaybackInProgress,
             String? startingPlaylistItemId,
-            int localOnlyOperationCount)?
+            int localOnlyOperationCount,
+            bool isFollowingGroupPlayback,
+            List<SyncPlayQueueEntry> playlist,
+            int playingItemIndex,
+            SyncPlayQueueTiming? queueTiming)?
         $default,
   ) {
     final _that = this;
@@ -765,7 +1126,11 @@ extension SyncPlayStatePatterns on SyncPlayState {
             _that.correctionState,
             _that.startPlaybackInProgress,
             _that.startingPlaylistItemId,
-            _that.localOnlyOperationCount);
+            _that.localOnlyOperationCount,
+            _that.isFollowingGroupPlayback,
+            _that.playlist,
+            _that.playingItemIndex,
+            _that.queueTiming);
       case _:
         return null;
     }
@@ -793,8 +1158,13 @@ class _SyncPlayState extends SyncPlayState {
       this.correctionState = const SyncCorrectionState(),
       this.startPlaybackInProgress = false,
       this.startingPlaylistItemId,
-      this.localOnlyOperationCount = 0})
+      this.localOnlyOperationCount = 0,
+      this.isFollowingGroupPlayback = true,
+      final List<SyncPlayQueueEntry> playlist = const [],
+      this.playingItemIndex = -1,
+      this.queueTiming})
       : _participants = participants,
+        _playlist = playlist,
         super._();
 
   @override
@@ -869,6 +1239,35 @@ class _SyncPlayState extends SyncPlayState {
   @JsonKey()
   final int localOnlyOperationCount;
 
+  /// False after the user halted group playback on this device
+  /// (`SetIgnoreWait(true)`): the server no longer waits for us and we
+  /// ignore playback commands until the user resumes or a new
+  /// playlist is set (jellyfin-web `followingGroupPlayback`).
+  @override
+  @JsonKey()
+  final bool isFollowingGroupPlayback;
+
+  /// Local copy of the group play queue from the last `PlayQueue` frame.
+  final List<SyncPlayQueueEntry> _playlist;
+
+  /// Local copy of the group play queue from the last `PlayQueue` frame.
+  @override
+  @JsonKey()
+  List<SyncPlayQueueEntry> get playlist {
+    if (_playlist is EqualUnmodifiableListView) return _playlist;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_playlist);
+  }
+
+  /// Index of the playing entry in [playlist], -1 when nothing plays.
+  @override
+  @JsonKey()
+  final int playingItemIndex;
+
+  /// Timing of the last `PlayQueue` frame; null until one arrived.
+  @override
+  final SyncPlayQueueTiming? queueTiming;
+
   /// Create a copy of SyncPlayState
   /// with the given fields replaced by the non-null parameter values.
   @override
@@ -879,7 +1278,7 @@ class _SyncPlayState extends SyncPlayState {
 
   @override
   String toString() {
-    return 'SyncPlayState(isConnected: $isConnected, isInGroup: $isInGroup, groupId: $groupId, groupName: $groupName, groupState: $groupState, stateReason: $stateReason, participants: $participants, playingItemId: $playingItemId, playlistItemId: $playlistItemId, positionTicks: $positionTicks, lastCommandTime: $lastCommandTime, isProcessingCommand: $isProcessingCommand, processingCommandType: $processingCommandType, correctionConfig: $correctionConfig, correctionState: $correctionState, startPlaybackInProgress: $startPlaybackInProgress, startingPlaylistItemId: $startingPlaylistItemId, localOnlyOperationCount: $localOnlyOperationCount)';
+    return 'SyncPlayState(isConnected: $isConnected, isInGroup: $isInGroup, groupId: $groupId, groupName: $groupName, groupState: $groupState, stateReason: $stateReason, participants: $participants, playingItemId: $playingItemId, playlistItemId: $playlistItemId, positionTicks: $positionTicks, lastCommandTime: $lastCommandTime, isProcessingCommand: $isProcessingCommand, processingCommandType: $processingCommandType, correctionConfig: $correctionConfig, correctionState: $correctionState, startPlaybackInProgress: $startPlaybackInProgress, startingPlaylistItemId: $startingPlaylistItemId, localOnlyOperationCount: $localOnlyOperationCount, isFollowingGroupPlayback: $isFollowingGroupPlayback, playlist: $playlist, playingItemIndex: $playingItemIndex, queueTiming: $queueTiming)';
   }
 }
 
@@ -907,7 +1306,14 @@ abstract mixin class _$SyncPlayStateCopyWith<$Res> implements $SyncPlayStateCopy
       SyncCorrectionState correctionState,
       bool startPlaybackInProgress,
       String? startingPlaylistItemId,
-      int localOnlyOperationCount});
+      int localOnlyOperationCount,
+      bool isFollowingGroupPlayback,
+      List<SyncPlayQueueEntry> playlist,
+      int playingItemIndex,
+      SyncPlayQueueTiming? queueTiming});
+
+  @override
+  $SyncPlayQueueTimingCopyWith<$Res>? get queueTiming;
 }
 
 /// @nodoc
@@ -940,6 +1346,10 @@ class __$SyncPlayStateCopyWithImpl<$Res> implements _$SyncPlayStateCopyWith<$Res
     Object? startPlaybackInProgress = null,
     Object? startingPlaylistItemId = freezed,
     Object? localOnlyOperationCount = null,
+    Object? isFollowingGroupPlayback = null,
+    Object? playlist = null,
+    Object? playingItemIndex = null,
+    Object? queueTiming = freezed,
   }) {
     return _then(_SyncPlayState(
       isConnected: null == isConnected
@@ -1014,7 +1424,37 @@ class __$SyncPlayStateCopyWithImpl<$Res> implements _$SyncPlayStateCopyWith<$Res
           ? _self.localOnlyOperationCount
           : localOnlyOperationCount // ignore: cast_nullable_to_non_nullable
               as int,
+      isFollowingGroupPlayback: null == isFollowingGroupPlayback
+          ? _self.isFollowingGroupPlayback
+          : isFollowingGroupPlayback // ignore: cast_nullable_to_non_nullable
+              as bool,
+      playlist: null == playlist
+          ? _self._playlist
+          : playlist // ignore: cast_nullable_to_non_nullable
+              as List<SyncPlayQueueEntry>,
+      playingItemIndex: null == playingItemIndex
+          ? _self.playingItemIndex
+          : playingItemIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      queueTiming: freezed == queueTiming
+          ? _self.queueTiming
+          : queueTiming // ignore: cast_nullable_to_non_nullable
+              as SyncPlayQueueTiming?,
     ));
+  }
+
+  /// Create a copy of SyncPlayState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SyncPlayQueueTimingCopyWith<$Res>? get queueTiming {
+    if (_self.queueTiming == null) {
+      return null;
+    }
+
+    return $SyncPlayQueueTimingCopyWith<$Res>(_self.queueTiming!, (value) {
+      return _then(_self.copyWith(queueTiming: value));
+    });
   }
 }
 

@@ -169,46 +169,54 @@ class PlaybackModelHelper {
   JellyService get api => ref.read(jellyApiProvider);
 
   Future<void> _ensureLocalTrackSwitchAutoplay() async {
-    // Poll for up to ~3 seconds, calling play() on every iteration the
-    // player isn't already playing and isn't buffering. media-kit on web
-    // sometimes drops the first one or two play() calls after a track
-    // change or transcode reload (the underlying media isn't fully
-    // ready yet, or the player is mid-transition). One-shot retries
-    // weren't enough; this keeps re-issuing play until the state
-    // stream confirms playing=true or we time out.
+    // media-kit on web sometimes drops the first play() calls after a reload, so re-issue until the backend's
+    // real state confirms playing. In a SyncPlay group the group state decides whether to play at all.
     for (var attempt = 0; attempt < 12; attempt++) {
-      final playbackState = ref.read(mediaPlaybackProvider);
-      if (playbackState.playing) {
+      final player = ref.read(videoPlayerProvider);
+      if (player.isPlayerPlaying) {
         return;
       }
-      if (!playbackState.buffering) {
-        await ref.read(videoPlayerProvider).play();
+      if (ref.read(isSyncPlayActiveProvider) &&
+          ref.read(syncPlayProvider.select((s) => s.groupState)) != SyncPlayGroupState.playing) {
+        return;
       }
+      await player.play();
       await Future<void>.delayed(const Duration(milliseconds: 250));
     }
   }
 
   Future<PlaybackModel?> loadNewVideo(ItemBaseModel newItem) async {
-    // When SyncPlay is active, route the next/previous episode through
-    // the group queue using the lightweight NextItem/PreviousItem
-    // endpoints (matches jellyfin-web). Determine direction from the
-    // current playback model's queue and fall back to setNewQueue only
-    // for non-adjacent jumps (e.g. user picked an arbitrary library item).
     if (ref.read(isSyncPlayActiveProvider)) {
-      // Use the same setNewQueue flow as initial play in _playSyncPlay.
-      // It reliably triggers the PlayQueue/NewPlaylist broadcast that
-      // drives _startPlayback through _handlePlayQueue, so the user
-      // sees the "Switching item…" overlay (SyncPlayCommandIndicator)
-      // and then the new media without having to navigate away.
-      //
-      // NextItem/PreviousItem would preserve the server-side queue
-      // context but in practice did not reliably trigger the
-      // PlayQueue broadcast we rely on; setNewQueue does.
-      await ref.read(syncPlayProvider.notifier).setNewQueue(
-        itemIds: [newItem.id],
-        playingItemPosition: 0,
-        startPositionTicks: 0,
+      // Adjacent moves use NextItem/PreviousItem, whose playlist-item guard lets the server drop the duplicate
+      // requests every participant fires at once; only an item outside the queue replaces it (whole local queue).
+      final syncPlay = ref.read(syncPlayProvider.notifier);
+      final syncPlayState = ref.read(syncPlayProvider);
+      final navigation = resolveQueueNavigation(
+        playlist: syncPlayState.playlist,
+        playingItemIndex: syncPlayState.playingItemIndex,
+        targetItemId: newItem.id,
       );
+      switch (navigation) {
+        case SyncPlayQueueNavigation.next:
+          await syncPlay.requestNextItem();
+          break;
+        case SyncPlayQueueNavigation.previous:
+          await syncPlay.requestPreviousItem();
+          break;
+        case SyncPlayQueueNavigation.setCurrentItem:
+          final entry = syncPlayState.playlist.firstWhere((entry) => entry.itemId == newItem.id);
+          await syncPlay.requestSetPlaylistItem(entry.playlistItemId);
+          break;
+        case SyncPlayQueueNavigation.newQueue:
+          final currentQueue = ref.read(playBackModel)?.queue.map((item) => item.id).toList() ?? const <String>[];
+          final itemIds = currentQueue.contains(newItem.id) ? currentQueue : [newItem.id];
+          await syncPlay.setNewQueue(
+            itemIds: itemIds,
+            playingItemPosition: itemIds.indexOf(newItem.id),
+            startPositionTicks: 0,
+          );
+          break;
+      }
       return null;
     }
 
@@ -606,7 +614,6 @@ class PlaybackModelHelper {
     final userId = ref.read(userProvider)?.id;
     if (userId?.isEmpty == true) return;
 
-    // Check if syncplay is active and get position from syncplay if so
     final isSyncPlayActive = ref.read(isSyncPlayActiveProvider);
     final Duration currentPosition;
 
@@ -619,17 +626,12 @@ class PlaybackModelHelper {
             reportToSyncPlay: shouldReportGroupBuffering,
           );
 
-      // Estimate the live group position rather than using the stale
-      // SyncPlayState.positionTicks (which is frozen at the last server
-      // event). Without this the local player reloads at an old position
-      // and the drift correction immediately SkipToSyncs forward, producing
-      // a visible jump after every audio/subtitle switch.
+      // The stale SyncPlayState.positionTicks would reload at an old position and SkipToSync forward visibly.
       final positionTicks = ref.read(syncPlayProvider.notifier).estimateCurrentGroupPositionTicks();
       currentPosition = Duration(milliseconds: ticksToMilliseconds(positionTicks));
 
       if (shouldReportGroupBuffering) {
-        // Report buffering BEFORE stop/reload only when this reload should
-        // affect group flow.
+        // Report buffering before stop/reload only when this reload should affect group flow.
         await ref.read(syncPlayProvider.notifier).reportBuffering();
       }
     } else {

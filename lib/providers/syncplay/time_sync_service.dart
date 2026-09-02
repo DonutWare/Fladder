@@ -4,11 +4,30 @@ import 'dart:developer';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/syncplay/syncplay_models.dart';
 
-/// Service for synchronizing client clock with Jellyfin server using NTP-like algorithm
-class TimeSyncService {
+/// Minimal clock contract so handler tests can substitute a fake clock without a Chopper client.
+abstract class SyncPlayClock {
+  /// True once at least one measurement has been taken; commands must not be scheduled before this.
+  bool get isReady;
+
+  /// One-way ping estimate from the best measurement.
+  Duration get ping;
+
+  DateTime remoteDateToLocal(DateTime serverTime);
+
+  DateTime localDateToRemote(DateTime localTime);
+}
+
+/// NTP-style clock sync against the server's `/GetUtcTime`.
+class TimeSyncService implements SyncPlayClock {
   TimeSyncService(this._api);
 
   final JellyfinOpenApi _api;
+
+  /// Invoked after every successful measurement with the current best offset and ping.
+  void Function(Duration offset, Duration ping)? onMeasurement;
+
+  @override
+  bool get isReady => _measurements.isNotEmpty;
 
   final List<TimeSyncMeasurement> _measurements = [];
   static const int _maxMeasurements = 8;
@@ -17,16 +36,13 @@ class TimeSyncService {
   int _pingCount = 0;
   bool _isActive = false;
 
-  // Polling intervals
   static const Duration _greedyInterval = Duration(seconds: 1);
   static const Duration _lowProfileInterval = Duration(seconds: 60);
   static const int _greedyPingCount = 3;
 
-  // Staleness threshold
   static const Duration _staleThreshold = Duration(seconds: 30);
   DateTime? _lastMeasurementTime;
 
-  /// Current best offset estimate
   Duration get offset {
     if (_measurements.isEmpty) {
       return Duration.zero;
@@ -38,7 +54,7 @@ class TimeSyncService {
     return best.offset;
   }
 
-  /// Current ping estimate (from best measurement)
+  @override
   Duration get ping {
     if (_measurements.isEmpty) {
       return Duration.zero;
@@ -49,7 +65,6 @@ class TimeSyncService {
     return best.ping;
   }
 
-  /// Whether time sync is stale and needs refresh
   bool get isStale {
     if (_lastMeasurementTime == null) {
       return true;
@@ -57,17 +72,16 @@ class TimeSyncService {
     return DateTime.now().difference(_lastMeasurementTime!) > _staleThreshold;
   }
 
-  /// Convert server time to local time
+  @override
   DateTime remoteDateToLocal(DateTime serverTime) {
     return serverTime.subtract(offset);
   }
 
-  /// Convert local time to server time
+  @override
   DateTime localDateToRemote(DateTime localTime) {
     return localTime.add(offset);
   }
 
-  /// Start time synchronization
   void start() {
     if (_isActive) {
       return;
@@ -77,19 +91,16 @@ class TimeSyncService {
     _poll();
   }
 
-  /// Stop time synchronization
   void stop() {
     _isActive = false;
     _pollingTimer?.cancel();
     _pollingTimer = null;
   }
 
-  /// Force an immediate sync update
   Future<void> forceUpdate() async {
     await _requestPing();
   }
 
-  /// Force update and wait for completion
   Future<void> forceUpdateAndWait() async {
     await _requestPing();
   }
@@ -117,7 +128,6 @@ class TimeSyncService {
       // T1: Record local time before request
       final requestSent = DateTime.now().toUtc();
 
-      // Make request to Jellyfin TimeSync API
       final response = await _api.getUtcTimeGet();
 
       // T4: Record local time after response
@@ -149,6 +159,7 @@ class TimeSyncService {
       _lastMeasurementTime = DateTime.now();
 
       log('Time sync: offset=${offset.inMilliseconds}ms, ping=${ping.inMilliseconds}ms');
+      onMeasurement?.call(offset, ping);
     } catch (e) {
       log('Time sync failed: $e');
     }
@@ -156,20 +167,17 @@ class TimeSyncService {
 
   void _addMeasurement(TimeSyncMeasurement measurement) {
     _measurements.add(measurement);
-    // Keep only the last N measurements
     while (_measurements.length > _maxMeasurements) {
       _measurements.removeAt(0);
     }
   }
 
-  /// Clear all measurements
   void clear() {
     _measurements.clear();
     _lastMeasurementTime = null;
     _pingCount = 0;
   }
 
-  /// Dispose resources
   void dispose() {
     stop();
     clear();

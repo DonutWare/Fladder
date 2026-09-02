@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:developer' as developer;
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/router_provider.dart';
+import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/syncplay/handlers/syncplay_command_handler.dart';
 import 'package:fladder/providers/syncplay/handlers/syncplay_message_handler.dart';
 import 'package:fladder/providers/syncplay/time_sync_service.dart';
@@ -15,13 +17,19 @@ import 'package:fladder/providers/websocket/jellyfin_websocket_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Controller for SyncPlay synchronized playback
 class SyncPlayController {
   static const bool _verboseSyncPlayLogs = false;
+
+  /// Position ticks arrive far more often than corrections should be attempted.
+  static const Duration _driftCheckInterval = Duration(milliseconds: 1500);
+
+  /// Position window inside which an already-loaded item is attached without a seek.
+  static const int _attachSeekToleranceTicks = SyncPlayCommandHandler.positionToleranceTicks;
 
   SyncPlayController(this._ref) {
     _commandHandler = SyncPlayCommandHandler(
@@ -30,38 +38,13 @@ class SyncPlayController {
     );
     _messageHandler = SyncPlayMessageHandler(
       onStateUpdate: _updateStateWith,
-      reportReady: ({bool isPlaying = true}) => reportReady(isPlaying: isPlaying),
-      // Wrap _startPlayback so the loader-UX completer resolves as soon
-      // as the server's PlayQueue is received (i.e. our queue request
-      // was accepted and broadcast). The actual local load
-      // (loadPlaybackItem → media-kit) can then take its time without
-      // gating the dialog: media-kit on web sometimes leaves
-      // `state.loadVideo()` hanging which would otherwise let the
-      // 20s timeout fire and surface a misleading "unable to play
-      // media format" snack while playback is in fact already running.
-      startPlayback: (itemId, ticks) async {
-        final completer = _startPlaybackCompleter;
-        if (completer != null && !completer.isCompleted) {
-          log('SyncPlay: PlayQueue accepted - resolving loader '
-              'completer eagerly for item=$itemId');
-          completer.complete(true);
-        }
-        await _startPlayback(itemId, ticks);
-      },
-      isBuffering: () => _commandHandler.isBuffering?.call() ?? false,
+      startPlayback: _onQueueStartPlayback,
       getContext: () => getNavigatorKey(_ref)?.currentContext,
       onGroupJoined: _onGroupJoined,
       onGroupJoinFailed: _onGroupJoinFailed,
       onGroupLeftOrKicked: _onGroupLeftOrKicked,
       onStateUpdateToPlaying: _onStateUpdateToPlaying,
       onGroupGone: ({required wasKicked}) => notifyGroupGone(wasKicked: wasKicked),
-      onLocalPauseForBuffer: () async {
-        final pause = _commandHandler.onPause;
-        if (pause != null && _commandHandler.isPlaying?.call() == true) {
-          log('SyncPlay: Pausing locally because another client is buffering');
-          await pause();
-        }
-      },
     );
   }
 
@@ -71,6 +54,7 @@ class SyncPlayController {
   StreamSubscription? _wsMessageSubscription;
   StreamSubscription? _wsStateSubscription;
   Timer? _syncCorrectionTimer;
+  DateTime? _lastDriftCheckAt;
 
   late final SyncPlayCommandHandler _commandHandler;
   late final SyncPlayMessageHandler _messageHandler;
@@ -82,33 +66,32 @@ class SyncPlayController {
 
   SyncPlayState get state => _state;
 
-  // Lifecycle state for reconnection
   String? _lastGroupId;
 
-  // Previous WebSocket state — used to detect reconnect transitions in
-  // `_handleConnectionState` so we can silently rejoin the last group.
-  // The very first connect is naturally skipped because `_lastGroupId`
-  // is null until the user joins a group for the first time.
+  /// Set while a transparent rejoin after a socket drop is in flight; the `PlayQueue` frame that follows
+  /// its `GroupJoined` must not be mistaken for a user-initiated join on a halted device.
+  bool _silentRejoinInFlight = false;
+  DateTime? _silentJoinedAt;
+  bool _queueFrameFromSilentRejoin = false;
+
+  /// The server replays the queue right after `GroupJoined`; a later frame is a participant's action.
+  static const Duration _silentRejoinQueueWindow = Duration(seconds: 5);
+
+  // Previous socket state, used to detect reconnects for the silent rejoin.
   WebSocketConnectionState? _previousWsState;
 
-  // Completer for waiting on group join confirmation
   Completer<bool>? _joinGroupCompleter;
 
-  // Completer that resolves the next time `_startPlayback` finishes
-  // (success or failure). Used by the loader UX for both initiator
-  // and receivers.
+  // Resolves when the next `_startPlayback` finishes; drives the loader UX.
   Completer<bool>? _startPlaybackCompleter;
 
-  // PlaylistItemId currently being started (dedup against concurrent
-  // PlayQueue updates issued by simultaneous initiators).
+  // Dedup key against concurrent PlayQueue updates from simultaneous initiators.
   String? _currentlyStartingPlaylistItemId;
   Completer<void>? _inFlightStartCompleter;
 
-  // Debounce: timestamp of the last `setNewQueue` API call so two
-  // initiators don't fire two requests in the same second.
+  // Debounces `setNewQueue` so a double tap does not send two requests.
   DateTime? _lastSetNewQueueAt;
 
-  // Player callbacks (delegated to command handler)
   set onPlay(SyncPlayPlayerCallback? callback) => _commandHandler.onPlay = callback;
 
   set onPause(SyncPlayPlayerCallback? callback) => _commandHandler.onPause = callback;
@@ -138,15 +121,13 @@ class SyncPlayController {
     }
   }
 
-  /// Mark that a SyncPlay command was executed locally.
-  /// Used by player-side cooldown logic to avoid feedback loops.
+  /// Stamps the last command time; the player-side cooldown uses it to avoid feedback loops.
   void markCommandExecuted([DateTime? at]) {
     _updateStateWith((state) => state.copyWith(
           lastCommandTime: at ?? DateTime.now().toUtc(),
         ));
   }
 
-  /// Update buffering/reloading status used by SyncPlay integration.
   void setPlayerBufferingState(bool isBuffering) {
     if (isBuffering) {
       _syncCorrectionTimer?.cancel();
@@ -177,14 +158,16 @@ class SyncPlayController {
         ));
   }
 
-  /// Reset correction strategy/state when commands are cleared, on stop,
-  /// or around rejoin flows.
+  /// [clearLastCommand] is false around halt/resume so the last command keeps describing the group's
+  /// playhead while this device is not following.
   void resetCorrectionState({
     String reason = 'reset',
     bool syncEnabled = true,
+    bool clearLastCommand = true,
   }) {
     _syncCorrectionTimer?.cancel();
     _syncCorrectionTimer = null;
+    _lastDriftCheckAt = null;
 
     final setSpeed = _commandHandler.onSetSpeed;
     if (setSpeed != null) {
@@ -194,7 +177,9 @@ class SyncPlayController {
         }),
       );
     }
-    _commandHandler.clearLastCommand();
+    if (clearLastCommand) {
+      _commandHandler.clearLastCommand();
+    }
 
     log('SyncPlay: Reset correction state ($reason)');
     _updateStateWith((state) => state.copyWith(
@@ -207,15 +192,22 @@ class SyncPlayController {
         ));
   }
 
-  /// Update current playback drift against estimated SyncPlay server time.
-  ///
-  /// Drift is computed as:
-  /// `estimatedServerPositionTicks - currentLocalPositionTicks`.
-  /// Positive means local player is behind, negative means ahead.
+  /// Drift = estimated server position - local position (positive: local is behind).
+  /// Throttled to [_driftCheckInterval] unless [force] (used right after a local-only reload).
   void updatePlaybackDrift({
     required int currentPositionTicks,
     DateTime? at,
+    bool force = false,
   }) {
+    if (!_state.isFollowingGroupPlayback) {
+      return;
+    }
+    // Throttle before any other work: this runs on every position tick.
+    final now = (at ?? DateTime.now().toUtc());
+    final lastCheck = _lastDriftCheckAt;
+    if (!force && lastCheck != null && now.difference(lastCheck) < _driftCheckInterval) {
+      return;
+    }
     if (!_commandHandler.canAttemptSyncCorrection(_state)) {
       return;
     }
@@ -229,15 +221,16 @@ class SyncPlayController {
     if (when == null) {
       return;
     }
+    _lastDriftCheckAt = now;
 
-    final now = (at ?? DateTime.now().toUtc());
     final remoteNow = _timeSync?.localDateToRemote(now) ?? now;
     final elapsedMs = remoteNow.difference(when).inMilliseconds;
 
     final estimatedServerTicks = lastCommand.positionTicks + millisecondsToTicks(elapsedMs);
     final diffTicks = estimatedServerTicks - currentPositionTicks;
     final diffMillis = ticksToMilliseconds(diffTicks).toDouble();
-    final correctionConfig = _state.correctionConfig;
+    final correctionEnabled = _ref.read(videoPlayerSettingsProvider).enableSyncPlayCorrection;
+    final correctionConfig = _state.correctionConfig.copyWith(enableSyncCorrection: correctionEnabled);
     final correctionState = _state.correctionState;
     final strategy = selectSyncCorrectionStrategy(
       config: correctionConfig,
@@ -273,29 +266,17 @@ class SyncPlayController {
         ));
   }
 
-  /// Estimate where the group's playhead is right now by extrapolating from
-  /// the last `Unpause`/`Seek` command timestamp. Falls back to
-  /// `state.positionTicks` if no command context is available — that value
-  /// is the position from the most recent state update, which may be tens
-  /// of seconds stale during continuous playback.
+  /// Estimates the live group playhead from the last command, then the last `PlayQueue` frame timing;
+  /// `state.positionTicks` is only a fallback because it can be tens of seconds stale.
   int estimateCurrentGroupPositionTicks() {
-    final lastCommand = _commandHandler.lastCommand;
-    final timeSyncService = _timeSync;
-    if (lastCommand == null || timeSyncService == null) {
-      return _state.positionTicks;
-    }
-    final when = DateTime.tryParse(lastCommand.when);
-    if (when == null) {
-      return _state.positionTicks;
-    }
-    // Only extrapolate from Unpause-style commands; Pause leaves the playhead
-    // frozen at the command's positionTicks.
-    if (lastCommand.command != SyncPlayCommand.unpause) {
-      return lastCommand.positionTicks;
-    }
-    final remoteNow = timeSyncService.localDateToRemote(DateTime.now().toUtc());
-    final elapsedMs = remoteNow.difference(when).inMilliseconds;
-    return lastCommand.positionTicks + millisecondsToTicks(elapsedMs);
+    final now = DateTime.now().toUtc();
+    return estimateGroupPositionTicks(
+      lastCommand: _commandHandler.lastCommand,
+      currentPlaylistItemId: _state.playlistItemId,
+      queueTiming: _state.queueTiming,
+      fallbackPositionTicks: _state.positionTicks,
+      remoteNow: _timeSync?.localDateToRemote(now) ?? now,
+    );
   }
 
   void _applySpeedToSync({
@@ -408,11 +389,7 @@ class SyncPlayController {
 
   JellyfinOpenApi get _api => _ref.read(jellyApiProvider).api;
 
-  /// Subscribe SyncPlay to the shared app-level WebSocket.
-  ///
-  /// The socket itself is owned by [JellyfinWebSocketController] and is
-  /// connected/disconnected off `userProvider`; SyncPlay only attaches
-  /// its message/state listeners and starts time-sync.
+  /// Attaches SyncPlay to the app-owned WebSocket (connected off `userProvider`) and starts time-sync.
   Future<void> connect() async {
     final user = _ref.read(userProvider);
     if (user == null) {
@@ -420,34 +397,31 @@ class SyncPlayController {
       return;
     }
 
-    // Activate the shared socket provider and grab its notifier.
     final ws = _ref.read(jellyfinWebSocketControllerProvider.notifier);
 
-    // Idempotent: if we are already subscribed, do nothing. (This path
-    // is hit every time the SyncPlay sheet re-opens via loadGroups().)
+    // Idempotent: the sheet calls this every time it re-opens.
     if (_wsStateSubscription != null) {
       log('SyncPlay: connect() called but already subscribed; reusing shared socket');
       return;
     }
 
-    // Initialize time sync (SyncPlay-owned, not part of the socket).
-    _timeSync = TimeSyncService(_api);
-    _timeSync!.start();
+    final timeSync = TimeSyncService(_api);
+    timeSync.onMeasurement = (_, __) {
+      // The server sizes the group's unpause delay from our ping; also release a clock-gated command.
+      unawaited(reportPing());
+      _commandHandler.flushQueuedCommand();
+    };
+    _timeSync = timeSync;
+    timeSync.start();
 
     _wsStateSubscription = ws.connectionState.listen(_handleConnectionState);
     _wsMessageSubscription = ws.messages.listen(_handleMessage);
 
-    // The shared socket is app-owned and is usually already connected by
-    // the time the user opens SyncPlay. The re-broadcast stream does not
-    // replay, so seed from the current state — otherwise `isConnected`
-    // would stay false and `joinGroup` would be blocked.
+    // The state stream does not replay; seed from the current state or `joinGroup` would stay blocked.
     _handleConnectionState(ws.currentState);
   }
 
-  /// Detach SyncPlay from the shared WebSocket.
-  ///
-  /// Does NOT close the socket — it is app-owned and shared. Leaving a
-  /// SyncPlay group no longer tears down the connection.
+  /// Detaches SyncPlay from the shared WebSocket without closing it (the socket is app-owned).
   Future<void> disconnect() async {
     resetCorrectionState(
       reason: 'disconnect',
@@ -460,12 +434,12 @@ class SyncPlayController {
     await _wsStateSubscription?.cancel();
     _wsMessageSubscription = null;
     _wsStateSubscription = null;
+    _timeSync?.onMeasurement = null;
     _timeSync?.dispose();
     _timeSync = null;
     _updateState(SyncPlayState());
   }
 
-  /// List available SyncPlay groups
   Future<List<GroupInfoDto>> listGroups() async {
     try {
       final response = await _api.syncPlayListGet();
@@ -476,47 +450,95 @@ class SyncPlayController {
     }
   }
 
-  /// Create a new SyncPlay group
+  /// Creates a group and waits for `GroupJoined`. Local video playback seeds the group through
+  /// `SetNewQueue`, since the server cannot seed from a `NowPlayingQueue` this client never reports.
   Future<GroupInfoDto?> createGroup(String groupName) async {
+    if (_state.isInGroup) {
+      log('SyncPlay: Already in a group, leaving before creating a new one');
+      await leaveGroup();
+    }
+
+    _updateStateWith((s) => s.copyWith(isFollowingGroupPlayback: true));
+    final completer = _joinGroupCompleter = Completer<bool>();
     try {
       final response = await _api.syncPlayNewPost(
         body: NewGroupRequestDto(groupName: groupName),
       );
-      return response.body;
+      final info = response.body;
+      if (info == null) {
+        _completeJoinRequest(false);
+        return null;
+      }
+
+      final joined = await completer.future.timeout(
+        const Duration(seconds: 12),
+        onTimeout: () => _state.isInGroup && _state.groupId == info.groupId,
+      );
+      if (identical(_joinGroupCompleter, completer)) {
+        _joinGroupCompleter = null;
+      }
+      if (!joined) {
+        log('SyncPlay: Group ${info.groupId} created but GroupJoined never arrived');
+        return null;
+      }
+      await _seedQueueFromLocalPlayback();
+      return info;
     } catch (e) {
       log('SyncPlay: Failed to create group: $e');
+      if (identical(_joinGroupCompleter, completer)) {
+        _completeJoinRequest(false);
+      }
       return null;
     }
   }
 
-  /// Join an existing SyncPlay group
-  /// Returns true only after receiving GroupJoined confirmation from WebSocket
+  /// Only an item showing in the video player qualifies: seeding from the audio queue would tear the
+  /// audio player down and reload the track through the video path.
+  Future<void> _seedQueueFromLocalPlayback() async {
+    final model = _ref.read(playBackModel);
+    if (model == null) {
+      return;
+    }
+    final videoRouteOpen = _ref.read(isVideoPlayerRouteOpenProvider);
+    if (!videoRouteOpen || model.item.type == FladderItemType.audio) {
+      log('SyncPlay: Not seeding new group (no video playing locally)');
+      return;
+    }
+    final queueIds = model.queue.map((item) => item.id).toList();
+    final itemIds = queueIds.isNotEmpty ? queueIds : [model.item.id];
+    final index = itemIds.indexOf(model.item.id).clamp(0, itemIds.length - 1);
+    final position = _ref.read(videoPlayerProvider).lastState?.position ?? Duration.zero;
+    final positionTicks = secondsToTicks(position.inMilliseconds / 1000);
+    log('SyncPlay: Seeding new group with local playback '
+        '(item=${model.item.id}, index=$index, ticks=$positionTicks)');
+    await setNewQueue(
+      itemIds: itemIds,
+      playingItemPosition: index,
+      startPositionTicks: positionTicks,
+    );
+  }
+
+  /// Returns true only once the server's `GroupJoined` frame arrived.
   Future<bool> joinGroup(String groupId) async {
-    // Check if already in a group
     if (_state.isInGroup) {
       log('SyncPlay: Already in a group, leaving first...');
       await leaveGroup();
     }
 
-    // Check if WebSocket is connected
     if (!_state.isConnected) {
       log('SyncPlay: WebSocket not connected, cannot join group');
       return false;
     }
 
     log('SyncPlay: Joining group: $groupId');
+    _updateStateWith((s) => s.copyWith(isFollowingGroupPlayback: true));
     final confirmed = await _sendJoinRequest(groupId);
-    // `_lastGroupId` is stamped in `_onGroupJoined` from the server
-    // frame (source of truth), so it is correct even if a slow socket
-    // makes this call reconcile/return before `GroupJoined` lands.
+    // `_lastGroupId` is stamped in `_onGroupJoined` from the server frame, not from this result.
     log(confirmed ? 'SyncPlay: Group join confirmed' : 'SyncPlay: Group join not confirmed');
     return confirmed;
   }
 
-  /// Send a Join request and wait for the matching `GroupJoined`
-  /// message via the completer. Caller is responsible for any pre/post
-  /// state management (e.g. `leaveGroup` first, `_lastGroupId` updates).
-  /// Used by both [joinGroup] and [_attemptSilentRejoin].
+  /// Sends Join and waits for the matching `GroupJoined`; shared by [joinGroup] and [_attemptSilentRejoin].
   Future<bool> _sendJoinRequest(String groupId) async {
     final completer = _joinGroupCompleter = Completer<bool>();
     try {
@@ -526,16 +548,8 @@ class SyncPlayController {
       final confirmed = await completer.future.timeout(
         const Duration(seconds: 12),
         onTimeout: () {
-          // The POST itself succeeded (no exception). Jellyfin keys
-          // SyncPlay membership by session and `Join` is idempotent, so
-          // a missing `GroupJoined` inside the window is almost always a
-          // slow/stalled WebSocket — not a real rejection. Genuine
-          // rejections arrive promptly as NotInGroup/GroupDoesNotExist
-          // and complete the completer `false` long before this fires.
-          // `_handleGroupJoined` also flips `isInGroup` whenever the
-          // frame eventually lands (or after a silent rejoin), so
-          // reconcile against the authoritative state instead of
-          // reporting a false "Failed to join group".
+          // Join is idempotent and real rejections arrive promptly, so a missing GroupJoined is almost
+          // always a slow socket: reconcile against the authoritative state instead of reporting failure.
           final joined = _state.isInGroup && _state.groupId == groupId;
           log('SyncPlay: GroupJoined not received within timeout; '
               'reconciled isInGroup=$joined for $groupId');
@@ -555,10 +569,7 @@ class SyncPlayController {
     }
   }
 
-  /// Complete and clear the pending join completer exactly once. Safe to
-  /// call from the success path, the failure path, the leave/kick reset
-  /// path, and a late-arriving `GroupJoined` — without ever risking a
-  /// "Future already completed" or leaking a stale completer reference.
+  /// Completes and clears the pending join completer exactly once, whichever path reaches it first.
   void _completeJoinRequest(bool joined) {
     final completer = _joinGroupCompleter;
     _joinGroupCompleter = null;
@@ -567,71 +578,39 @@ class SyncPlayController {
     }
   }
 
-  /// Called by message handler when GroupJoined is received.
-  ///
-  /// If the group is already playing/waiting/paused with an active item,
-  /// auto-attach the local player to it. This mirrors `jellyfin-web`'s
-  /// behavior — the group should not stall in Waiting because a fresh
-  /// joiner forgot to click "Resume Playback".
+  /// The `PlayQueue` frame that follows `GroupJoined` drives playback, so nothing is started here.
   void _onGroupJoined() {
     resetCorrectionState(
       reason: 'group_joined',
       syncEnabled: true,
     );
-    // Stamp `_lastGroupId` from the authoritative server frame, not the
-    // awaited `joinGroup` bool. A slow socket can make `_sendJoinRequest`
-    // time out (reconciled false) and only deliver `GroupJoined` after
-    // `joinGroup` already returned — without this, the reconnect
-    // silent-rejoin invariant (`_handleConnectionState`) would be lost
-    // even though we are genuinely in the group. This only fires on a
-    // real `GroupJoined`, so it is still "only on confirmation".
+    // Stamp from the server frame, not the awaited `joinGroup` bool: a slow socket can deliver
+    // `GroupJoined` after `joinGroup` already timed out, and the silent rejoin depends on this.
     _lastGroupId = _state.groupId ?? _lastGroupId;
+    final silentRejoin = _silentRejoinInFlight;
+    _silentJoinedAt = silentRejoin ? DateTime.now().toUtc() : null;
+    _silentRejoinInFlight = false;
     _completeJoinRequest(true);
-    final showSnackbar = _state.groupName != null;
+    unawaited(_timeSync?.forceUpdate());
+    // The server-side IgnoreWait flag died with the evicted session; a halted device must re-set it.
+    if (!_state.isFollowingGroupPlayback) {
+      unawaited(setIgnoreWait(true));
+    }
+    // A transparent rejoin after a socket drop is not news to the user.
+    final showSnackbar = _state.groupName != null && !silentRejoin;
     if (showSnackbar) {
       _showGroupSnackbar(
         (l) => l.syncPlayJoinedGroup(_state.groupName ?? ''),
       );
     }
-
-    final hasActiveItem = _state.playingItemId != null &&
-        (_state.groupState == SyncPlayGroupState.playing ||
-            _state.groupState == SyncPlayGroupState.waiting ||
-            _state.groupState == SyncPlayGroupState.paused);
-
-    if (hasActiveItem) {
-      // If the local player is already showing this exact item, skip
-      // the reload. This is the silent-rejoin path (WS dropped during
-      // a brief doze, user is still mid-playback locally): reloading
-      // would tear the player back to ticks=0 and the subsequent
-      // reportReady(positionTicks: 0) inside loadPlaybackItem would
-      // be broadcast by the server as the new group position,
-      // resetting every other client. The server's authoritative
-      // position is preserved server-side; the next Pause/Unpause/Seek
-      // command will resync our local player without a reload.
-      final currentPlayback = _ref.read(playBackModel);
-      final alreadyLoaded = currentPlayback?.item.id == _state.playingItemId;
-      if (alreadyLoaded) {
-        log('SyncPlay: Joined group with active item ${_state.playingItemId} '
-            'already loaded locally; skipping reload (silent rejoin)');
-      } else {
-        log('SyncPlay: Joined group with active item ${_state.playingItemId} '
-            '(state=${_state.groupState.name}); auto-loading playback');
-        unawaited(rejoinPlayback());
-      }
-    }
   }
 
-  /// Called by message handler when NotInGroup/GroupDoesNotExist is received
   void _onGroupJoinFailed() {
     _completeJoinRequest(false);
   }
 
-  /// Called when we leave or are kicked; cancel pending commands,
-  /// clear processing state and stop any local playback that was
-  /// driven by the previous group. Without the local stop, the player
-  /// keeps the old media loaded in the background and a later
-  /// `Unpause` command from a *different* group would resume it.
+  /// Also stops local playback: otherwise the old media stays loaded in the background and a later
+  /// `Unpause` from a different group would resume it.
   void _onGroupLeftOrKicked() {
     _resetGroupLifecycleState();
     _commandHandler.cancelPendingCommands();
@@ -646,50 +625,31 @@ class SyncPlayController {
           playlistItemId: null,
           startPlaybackInProgress: false,
           startingPlaylistItemId: null,
+          isFollowingGroupPlayback: true,
         ));
     _stopLocalPlayback();
   }
 
-  /// Stop and dispose the local video player & playback model so no
-  /// leftover media can resume after the SyncPlay session ended.
-  ///
-  /// Deferred to a microtask: this method is reached from a synchronous
-  /// chain that started inside a WebSocket message handler — the
-  /// `_stateController.add(_state)` from `_updateStateWith` fires the
-  /// Riverpod-side `state = newState` listener synchronously, which in
-  /// turn re-enters every `syncPlayProvider` listener (including
-  /// `videoPlayerProvider`). Reading `videoPlayerProvider` /
-  /// `playBackModel.notifier` while that re-entrant chain is still on
-  /// the stack throws `CircularDependencyError`. Yielding to a microtask
-  /// breaks out of that chain without changing observable behaviour:
-  /// the player is still stopped, the playback model is still cleared.
+  /// Deferred to a microtask: this can run inside a WebSocket handler still on the stack of a
+  /// `syncPlayProvider` listener, and reading `videoPlayerProvider` there throws `CircularDependencyError`.
   void _stopLocalPlayback() {
     Future<void>.microtask(() {
       try {
-        unawaited(_ref.read(videoPlayerProvider).stop());
-        _ref.read(playBackModel.notifier).update((_) => null);
-        _ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
+        unawaited(_ref.read(videoPlayerProvider.notifier).stopAndClosePlayer());
       } catch (e) {
         log('SyncPlay: Failed to stop local playback after leave: $e');
       }
     });
   }
 
-  /// Returns `true` once the user has left or been kicked while a
-  /// long-running playback start is in progress. Callers must check this
-  /// between every `await` so they don't push a player route or resume
-  /// media for a group we no longer belong to.
-  bool _shouldAbortStartPlayback() => !_state.isInGroup;
+  /// Callers must check this between every `await` so they don't resume media for a group we left.
+  bool _shouldAbortStartPlayback() => !_state.isInGroup || !_state.isFollowingGroupPlayback;
 
-  /// Clear all in-memory bookkeeping that is only meaningful while in a
-  /// group. Called from `leaveGroup`, `_onGroupLeftOrKicked`, and
-  /// `disconnect` so that a subsequent rejoin starts from a clean slate.
-  ///
-  /// In particular: `_lastSetNewQueueAt` was previously leaking past
-  /// leaveGroup, which silently debounced the first `setNewQueue` after
-  /// rejoin within 1s.
+  /// Clears in-group bookkeeping so a subsequent rejoin starts from a clean slate.
   void _resetGroupLifecycleState() {
     _lastSetNewQueueAt = null;
+    _silentRejoinInFlight = false;
+    _silentJoinedAt = null;
     _currentlyStartingPlaylistItemId = null;
     _inFlightStartCompleter = null;
     if (_startPlaybackCompleter != null && !_startPlaybackCompleter!.isCompleted) {
@@ -699,16 +659,46 @@ class SyncPlayController {
     _completeJoinRequest(false);
   }
 
-  /// When server reports Playing, ensure player is actually playing (per docs: recover if Unpause command was missed).
+  /// Must never pre-empt a scheduled Unpause (the command owns the start time); releases a clock-gated
+  /// Unpause, otherwise recovers a paused player when nothing of our own is in flight.
   void _onStateUpdateToPlaying() {
-    if (_commandHandler.isPlaying?.call() != true) {
-      log('SyncPlay: State is Playing but player not playing, triggering play');
-      _commandHandler.onPlay?.call();
+    if (!_state.isFollowingGroupPlayback || _state.startPlaybackInProgress) {
+      return;
+    }
+    if (_commandHandler.hasQueuedCommand) {
+      log('SyncPlay: Group is Playing - applying the command queued behind the clock gate');
+      _commandHandler.flushQueuedCommand(force: true);
+      return;
+    }
+    final now = DateTime.now().toUtc();
+    final remoteNow = _timeSync?.localDateToRemote(now) ?? now;
+    if (_commandHandler.shouldRecoverPlayback(remoteNow)) {
+      log('SyncPlay: Group is Playing but player is paused with nothing pending - recovering');
+      _commandHandler.recoverPlayback();
     }
   }
 
-  /// Leave the current SyncPlay group.
-  /// Resets processing state and cancels pending commands so playback is not stuck (per docs).
+  SyncPlayState _clearGroupState(SyncPlayState state) {
+    return state.copyWith(
+      isInGroup: false,
+      isFollowingGroupPlayback: true,
+      groupId: null,
+      groupName: null,
+      groupState: SyncPlayGroupState.idle,
+      participants: [],
+      isProcessingCommand: false,
+      processingCommandType: null,
+      positionTicks: 0,
+      playlistItemId: null,
+      playingItemId: null,
+      playlist: [],
+      playingItemIndex: -1,
+      queueTiming: null,
+      startPlaybackInProgress: false,
+      startingPlaylistItemId: null,
+    );
+  }
+
   Future<void> leaveGroup() async {
     if (!_state.isInGroup) {
       return;
@@ -716,54 +706,21 @@ class SyncPlayController {
     try {
       await _api.syncPlayLeavePost();
       _lastGroupId = null;
+      log('SyncPlay: Left group, state reset');
+    } catch (e) {
+      log('SyncPlay: Failed to leave group: $e');
+    } finally {
       _resetGroupLifecycleState();
       _commandHandler.cancelPendingCommands();
       resetCorrectionState(
         reason: 'leave_group',
         syncEnabled: false,
       );
-      _updateState(_state.copyWith(
-        isInGroup: false,
-        groupId: null,
-        groupName: null,
-        groupState: SyncPlayGroupState.idle,
-        participants: [],
-        isProcessingCommand: false,
-        processingCommandType: null,
-        positionTicks: 0,
-        playlistItemId: null,
-        playingItemId: null,
-        startPlaybackInProgress: false,
-        startingPlaylistItemId: null,
-      ));
-      _stopLocalPlayback();
-      log('SyncPlay: Left group, state reset');
-    } catch (e) {
-      log('SyncPlay: Failed to leave group: $e');
-      _resetGroupLifecycleState();
-      _commandHandler.cancelPendingCommands();
-      resetCorrectionState(
-        reason: 'leave_group_failed_local_reset',
-        syncEnabled: false,
-      );
-      _updateState(_state.copyWith(
-        isInGroup: false,
-        groupId: null,
-        groupName: null,
-        groupState: SyncPlayGroupState.idle,
-        participants: [],
-        isProcessingCommand: false,
-        processingCommandType: null,
-        playingItemId: null,
-        playlistItemId: null,
-        startPlaybackInProgress: false,
-        startingPlaylistItemId: null,
-      ));
+      _updateState(_clearGroupState(_state));
       _stopLocalPlayback();
     }
   }
 
-  /// Request pause
   Future<void> requestPause() async {
     if (!_state.isInGroup) {
       return;
@@ -775,7 +732,7 @@ class SyncPlayController {
     }
   }
 
-  /// Request unpause/play (server will move to Waiting until all clients report Ready, then broadcast Unpause).
+  /// The server moves to Waiting until all clients report Ready, then broadcasts Unpause.
   Future<void> requestUnpause() async {
     if (!_state.isInGroup) {
       return;
@@ -788,7 +745,6 @@ class SyncPlayController {
     }
   }
 
-  /// Request seek
   Future<void> requestSeek(int positionTicks) async {
     if (!_state.isInGroup) {
       return;
@@ -802,12 +758,8 @@ class SyncPlayController {
     }
   }
 
-  /// Advance to the next item in the SyncPlay queue.
-  ///
-  /// Mirrors jellyfin-web's lightweight flow: the server only swaps the
-  /// current playlist index and broadcasts a `PlayQueue` update with
-  /// reason=`NextItem`. Pass the current `playlistItemId` so the server
-  /// can reject the request if our view of the queue is stale.
+  /// Passes the current `playlistItemId` so the server rejects a stale request; that is what
+  /// de-duplicates simultaneous requests from every participant.
   Future<void> requestNextItem() async {
     if (!_state.isInGroup) {
       log('SyncPlay: Cannot request NextItem - not in group');
@@ -827,8 +779,6 @@ class SyncPlayController {
     }
   }
 
-  /// Step back to the previous item in the SyncPlay queue. Symmetric with
-  /// [requestNextItem].
   Future<void> requestPreviousItem() async {
     if (!_state.isInGroup) {
       log('SyncPlay: Cannot request PreviousItem - not in group');
@@ -848,18 +798,78 @@ class SyncPlayController {
     }
   }
 
-  /// Report buffering state.
-  ///
-  /// No-op while a local-only operation is active (track switch) so
-  /// changing audio/subtitle locally does not pause the group.
-  /// Report Buffering to the server. By default the position reported
-  /// is the local player's current position; pass [positionTicks] to
-  /// override (e.g. during a rejoin/initial-load where the local player
-  /// is at 0 but the group is mid-playback — sending 0 there would
-  /// make the server use it as the group's position and reset every
-  /// other client to the start).
-  Future<void> reportBuffering({int? positionTicks}) async {
+  Future<void> requestSetPlaylistItem(String playlistItemId) async {
     if (!_state.isInGroup) {
+      log('SyncPlay: Cannot request SetPlaylistItem - not in group');
+      return;
+    }
+    try {
+      await _api.syncPlaySetPlaylistItemPost(
+        body: SetPlaylistItemRequestDto(playlistItemId: playlistItemId),
+      );
+    } catch (e) {
+      log('SyncPlay: Failed to request SetPlaylistItem: $e');
+    }
+  }
+
+  /// `true` while the user halted playback on this device, so group waits skip this session.
+  Future<void> setIgnoreWait(bool ignoreWait) async {
+    if (!_state.isInGroup) {
+      return;
+    }
+    try {
+      await _api.syncPlaySetIgnoreWaitPost(
+        body: IgnoreWaitRequestDto(ignoreWait: ignoreWait),
+      );
+    } catch (e) {
+      log('SyncPlay: Failed to set IgnoreWait=$ignoreWait: $e');
+    }
+  }
+
+  /// Stops following group playback on this device while staying in the group; commands are only
+  /// recorded until [rejoinPlayback]. Local state changes first so `userStop` never waits on the network.
+  Future<void> haltPlayback({bool stopLocalPlayer = true}) async {
+    if (!_state.isInGroup || !_state.isFollowingGroupPlayback) {
+      return;
+    }
+    log('SyncPlay: Halting group playback on this device');
+    _commandHandler.cancelPendingCommands();
+    resetCorrectionState(
+      reason: 'halt_playback',
+      syncEnabled: false,
+      clearLastCommand: false,
+    );
+    _updateStateWith((s) => s.copyWith(
+          isFollowingGroupPlayback: false,
+          isProcessingCommand: false,
+          processingCommandType: null,
+          startPlaybackInProgress: false,
+          startingPlaylistItemId: null,
+        ));
+    if (stopLocalPlayer) {
+      _stopLocalPlayback();
+    }
+    await setIgnoreWait(true);
+  }
+
+  Future<void> _followGroupPlayback() async {
+    if (_state.isFollowingGroupPlayback) {
+      return;
+    }
+    log('SyncPlay: Following group playback again');
+    _updateStateWith((s) => s.copyWith(isFollowingGroupPlayback: true));
+    resetCorrectionState(
+      reason: 'follow_playback',
+      syncEnabled: true,
+      clearLastCommand: false,
+    );
+    await setIgnoreWait(false);
+  }
+
+  /// Pass [positionTicks] during a rejoin/initial load: reporting the local 0 would become the group
+  /// position and reset every other client. No-op in local-only mode or while halted.
+  Future<void> reportBuffering({int? positionTicks}) async {
+    if (!_state.isInGroup || !_state.isFollowingGroupPlayback) {
       return;
     }
     if (_state.isInLocalOnlyMode) {
@@ -882,12 +892,10 @@ class SyncPlayController {
     }
   }
 
-  /// Report ready state (required for server to broadcast Unpause when
-  /// in Waiting). Suppressed while local-only mode is active. Pass
-  /// [positionTicks] to override the position sent — same rationale as
-  /// [reportBuffering].
-  Future<void> reportReady({bool isPlaying = true, int? positionTicks}) async {
-    if (!_state.isInGroup) {
+  /// [isPlaying] must be the real player state: the server adds elapsed time only for a playing client.
+  /// [positionTicks] overrides the reported position (see [reportBuffering]).
+  Future<void> reportReady({required bool isPlaying, int? positionTicks}) async {
+    if (!_state.isInGroup || !_state.isFollowingGroupPlayback) {
       return;
     }
     if (_state.isInLocalOnlyMode) {
@@ -911,19 +919,9 @@ class SyncPlayController {
     }
   }
 
-  /// Run [body] as a "local-only" operation. While this runs the
-  /// controller will not emit `Buffering`/`Ready` to the server and
-  /// will trigger an immediate drift correction on completion so the
-  /// local player catches up to the group time after a track reload.
-  ///
-  /// If the group is in `Playing` state when the operation finishes,
-  /// the local player is explicitly resumed: media-kit on web does
-  /// not reliably auto-play after `loadVideo` + `setAudioTrack` /
-  /// `setSubtitleTrack`, and since we suppress `Buffering`/`Ready`
-  /// reports the server never re-issues an `Unpause` command we could
-  /// piggy-back on.
+  /// Suppresses Buffering/Ready reports while [body] runs (track switch), then forces a drift check.
+  /// Resumes explicitly if the group is Playing: media-kit on web does not reliably auto-play after a reload.
   Future<T> runLocalOnly<T>(Future<T> Function() body) async {
-    final wasPlaying = _commandHandler.isPlaying?.call() ?? false;
     _updateStateWith(
       (state) => state.copyWith(
         localOnlyOperationCount: state.localOnlyOperationCount + 1,
@@ -938,7 +936,7 @@ class SyncPlayController {
         ),
       );
 
-      final shouldResume = wasPlaying || _state.groupState == SyncPlayGroupState.playing;
+      final shouldResume = _state.groupState == SyncPlayGroupState.playing && _state.isFollowingGroupPlayback;
       if (shouldResume && _state.localOnlyOperationCount == 0 && _commandHandler.isPlaying?.call() == false) {
         log('SyncPlay: Resuming local playback after local-only switch');
         try {
@@ -949,11 +947,10 @@ class SyncPlayController {
       }
 
       final ticks = _commandHandler.getPositionTicks?.call() ?? 0;
-      updatePlaybackDrift(currentPositionTicks: ticks);
+      updatePlaybackDrift(currentPositionTicks: ticks, force: true);
     }
   }
 
-  /// Report ping to server
   Future<void> reportPing() async {
     if (!_state.isInGroup || _timeSync == null) {
       return;
@@ -967,16 +964,8 @@ class SyncPlayController {
     }
   }
 
-  /// Set a new queue/playlist.
-  ///
-  /// Debounced to 1 second so two participants cannot race the same
-  /// `setNewQueue` request and crash the player by triggering two
-  /// concurrent `_startPlayback` flows.
-  /// Returns `true` when the request was actually sent to the server,
-  /// `false` when it was suppressed (not in group, or debounced).
-  /// Callers awaiting the next `_startPlayback` (e.g. the loader UX in
-  /// `_playSyncPlay`) need this to avoid waiting for a `PlayQueue`
-  /// broadcast that will never arrive.
+  /// Debounced to 1s per device. Returns `true` only when the request was sent, so callers awaiting
+  /// the next `_startPlayback` do not wait for a `PlayQueue` broadcast that will never arrive.
   Future<bool> setNewQueue({
     required List<String> itemIds,
     int playingItemPosition = 0,
@@ -1011,11 +1000,7 @@ class SyncPlayController {
     }
   }
 
-  /// Returns a Future that completes the next time `_startPlayback`
-  /// finishes. Used by the loader UX (initiator path).
-  ///
-  /// Resolves to `true` on successful playback start, `false` on
-  /// error or timeout.
+  /// Completes with the outcome of the next `_startPlayback` (`false` on error or timeout).
   Future<bool> awaitNextStartPlayback({
     Duration timeout = const Duration(seconds: 20),
   }) {
@@ -1033,23 +1018,16 @@ class SyncPlayController {
     });
   }
 
-  /// Re-attach to the currently playing group item from outside the
-  /// player route. Re-uses [_startPlayback] with the current group
-  /// position so the local player jumps back into the running session.
+  /// "Resume playback" from outside the player: follows the group again, then restarts at the live position.
   Future<bool> rejoinPlayback() async {
     final itemId = _state.playingItemId;
     if (!_state.isInGroup || itemId == null) {
       log('SyncPlay: rejoinPlayback called but no active item in group');
       return false;
     }
-    // Extrapolate the live group position from the last Unpause command
-    // rather than reading the stale `_state.positionTicks` (which only
-    // updates on server-broadcast state changes, not continuous
-    // playback). Reporting the stale value to the server triggers a
-    // catch-up Unpause that schedules every other client to seek BACK
-    // to that stale position — visible as "everyone restarted to the
-    // beginning" from the perspective of clients that never paused.
+    // Loading at the stale `_state.positionTicks` costs a corrective Seek and a transcode at the wrong offset.
     final positionTicks = estimateCurrentGroupPositionTicks();
+    await _followGroupPlayback();
     final pending = awaitNextStartPlayback();
     log('SyncPlay: Rejoining playback for item=$itemId, '
         'positionTicks=$positionTicks (estimated live)');
@@ -1063,43 +1041,28 @@ class SyncPlayController {
     _updateState(_state.copyWith(isConnected: isConnected));
     log('SyncPlay: isConnected updated to: $isConnected');
 
-    // Detect a reconnect: previous state was not-connected and we are
-    // now connected. The initial connect after `connect()` falls into
-    // this branch too, but the `_lastGroupId != null` guard below makes
-    // it a no-op until the user has actually been in a group.
+    // The initial connect lands here too; the `_lastGroupId` guard makes it a no-op until a group was joined.
     final wasConnected = _previousWsState == WebSocketConnectionState.connected;
     final isReconnect = isConnected && !wasConnected;
     _previousWsState = wsState;
 
     if (isReconnect) {
-      // A fresh socket connection (initial or reconnect) may have a
-      // stale clock offset. Refresh time-sync on every reconnect — a
-      // safe superset of the old resume-only refresh that used to live
-      // in the now-deleted _handleAppResume().
+      // A fresh socket may carry a stale clock offset.
       if (_timeSync != null) {
         _timeSync!.start();
         unawaited(_timeSync!.forceUpdate());
       }
 
       if (_lastGroupId != null) {
-        // ColorOS / aggressive Android battery savers can drop the
-        // WebSocket during a brief window-focus loss — without a
-        // corresponding `AppLifecycleState.paused` — so the lifecycle
-        // observer can't catch it. Auto-rejoin here covers that case
-        // and runs even when the app stayed in the foreground.
+        // The server drops group membership with the socket; rejoin transparently and let it answer.
         log('SyncPlay: WS reconnected, attempting silent rejoin of $_lastGroupId');
         unawaited(_attemptSilentRejoin());
       }
     }
   }
 
-  /// Rejoin the last-known group without going through `joinGroup`'s
-  /// "leave first" path. Used after a transparent WebSocket reconnect
-  /// where the local `isInGroup` flag may still be true (we never got
-  /// a NotInGroup signal during the disconnect window) but the server
-  /// may have already evicted us. The server is the source of truth:
-  /// if it accepts the join, GroupJoined fires normally; if not, the
-  /// existing NotInGroup / GroupDoesNotExist handlers run.
+  /// Rejoins the last group after a socket reconnect without `joinGroup`'s leave-first path: the local
+  /// `isInGroup` may still be true although the server already evicted us.
   Future<void> _attemptSilentRejoin() async {
     final groupId = _lastGroupId;
     if (groupId == null) {
@@ -1109,11 +1072,13 @@ class SyncPlayController {
       log('SyncPlay: WS not connected, skipping silent rejoin');
       return;
     }
+    _silentRejoinInFlight = true;
     final confirmed = await _sendJoinRequest(groupId);
     if (confirmed) {
       log('SyncPlay: Silent rejoin confirmed');
     } else {
       log('SyncPlay: Silent rejoin not confirmed; clearing _lastGroupId');
+      _silentRejoinInFlight = false;
       _lastGroupId = null;
     }
   }
@@ -1128,28 +1093,87 @@ class SyncPlayController {
       case 'SyncPlayCommand':
         final cmd = (data as Map<String, dynamic>)['Command'] as String?;
         log('SyncPlay: Received SyncPlayCommand: $cmd');
+        if (!_state.isInGroup) {
+          log('SyncPlay: Ignoring $cmd - not in a group');
+          break;
+        }
+        if (!_state.isFollowingGroupPlayback) {
+          // Not applied, but recorded: a later resume needs the group's live position.
+          _commandHandler.recordCommand(data);
+          break;
+        }
         _commandHandler.handleCommand(data, _state);
         break;
       case 'SyncPlayGroupUpdate':
         log('SyncPlay: GroupUpdate data: $data');
-        _messageHandler.handleGroupUpdate(data as Map<String, dynamic>, _state);
+        final update = data as Map<String, dynamic>;
+        // The first queue frame after a transparent rejoin is a replay; see [_onQueueStartPlayback].
+        if (update['Type'] == 'PlayQueue') {
+          final joinedAt = _silentJoinedAt;
+          _silentJoinedAt = null;
+          _queueFrameFromSilentRejoin =
+              joinedAt != null && DateTime.now().toUtc().difference(joinedAt) < _silentRejoinQueueWindow;
+        }
+        _messageHandler.handleGroupUpdate(update, _state);
+        _queueFrameFromSilentRejoin = false;
         break;
       default:
-        // Log unhandled message types for debugging
         if (messageType?.startsWith('SyncPlay') == true) {
           log('SyncPlay: Unhandled SyncPlay message type: $messageType');
         }
     }
   }
 
-  /// Start playback of an item from SyncPlay.
-  ///
-  /// Guards against re-entrancy: if a `_startPlayback` is already in
-  /// flight for the same playlist item, the duplicate call is ignored
-  /// (this is the crash fix when two participants press play at the
-  /// same time and the server broadcasts two PlayQueue updates back to
-  /// back). If a different item is already starting, we wait for it
-  /// to finish before kicking off the new one.
+  /// Resolves the loader completer as soon as the frame arrives: media-kit on web can leave `loadVideo()`
+  /// hanging although playback runs. A halted device only follows again on a brand-new playlist.
+  Future<void> _onQueueStartPlayback(String itemId, int startPositionTicks, String? reason) async {
+    final fromSilentRejoin = _queueFrameFromSilentRejoin;
+    if (!_state.isFollowingGroupPlayback) {
+      // The replayed queue after a transparent rejoin is not a participant starting a new playlist.
+      if (reason != 'NewPlaylist' || fromSilentRejoin) {
+        log('SyncPlay: Ignoring $reason queue update while not following group playback');
+        return;
+      }
+      await _followGroupPlayback();
+    }
+    final completer = _startPlaybackCompleter;
+    if (completer != null && !completer.isCompleted) {
+      log('SyncPlay: PlayQueue accepted - resolving loader completer eagerly for item=$itemId');
+      completer.complete(true);
+    }
+    await _startPlayback(itemId, startPositionTicks);
+  }
+
+  /// True when the group's item is already loaded in an open player, so a seek can replace a full reload.
+  bool _isItemAttachable(String itemId) {
+    final routeOpen = _ref.read(isVideoPlayerRouteOpenProvider);
+    if (!routeOpen) {
+      return false;
+    }
+    final player = _ref.read(videoPlayerProvider);
+    if (!player.hasPlayer) {
+      return false;
+    }
+    final currentModel = _ref.read(playBackModel);
+    return currentModel != null && currentModel.item.id == itemId;
+  }
+
+  /// The server flagged us as buffering when it sent the queue frame, so a Ready is owed either way.
+  Future<void> _attachLoadedItem(int startPositionTicks) async {
+    final currentTicks = _commandHandler.getPositionTicks?.call() ?? 0;
+    await _commandHandler.onPause?.call();
+    if ((currentTicks - startPositionTicks).abs() > _attachSeekToleranceTicks) {
+      log('SyncPlay: Attaching loaded item - seeking from $currentTicks to $startPositionTicks');
+      await _commandHandler.onSeek?.call(startPositionTicks);
+    } else {
+      log('SyncPlay: Attaching loaded item in place (within tolerance)');
+    }
+    setPlayerBufferingState(false);
+    await reportReady(isPlaying: false, positionTicks: startPositionTicks);
+  }
+
+  /// Re-entrancy guard: a duplicate start for the same playlist item is ignored (two participants pressing
+  /// play produce two back-to-back PlayQueue frames); a different item waits for the in-flight start.
   Future<void> _startPlayback(String itemId, int startPositionTicks) async {
     final dedupKey = _state.playlistItemId ?? itemId;
     if (_state.startPlaybackInProgress) {
@@ -1175,15 +1199,20 @@ class SyncPlayController {
     log('SyncPlay: _startPlayback called for item: $itemId, ticks: $startPositionTicks');
 
     var success = false;
+    var loadAttempted = false;
     try {
+      if (_isItemAttachable(itemId)) {
+        log('SyncPlay: Item $itemId already loaded - attaching without reload');
+        await _attachLoadedItem(startPositionTicks);
+        success = true;
+        return;
+      }
+
       final playerRouteAlreadyOpen = _ref.read(isVideoPlayerRouteOpenProvider);
       log('SyncPlay: Player route already open: $playerRouteAlreadyOpen');
 
-      // Clear the old playback model BEFORE re-initializing. This prevents
-      // the fire-and-forget stop() inside _initPlayer() from entering a
-      // 1-second delayed playbackStopped flow that races against the new
-      // loadPlaybackItem call (which also calls stop()). With playBackModel
-      // null, every stop() becomes a no-op.
+      // Clear the playback model before re-initializing so the fire-and-forget stop() inside init() is a
+      // no-op instead of racing the new loadPlaybackItem through the delayed playbackStopped flow.
       if (!playerRouteAlreadyOpen) {
         _ref.read(playBackModel.notifier).update((state) => null);
         await _ref.read(videoPlayerProvider.notifier).init();
@@ -1193,7 +1222,6 @@ class SyncPlayController {
         return;
       }
 
-      // Fetch the item from Jellyfin
       log('SyncPlay: Fetching item from API...');
       final api = _ref.read(jellyApiProvider);
       final itemResponse = await api.usersUserIdItemsItemIdGet(itemId: itemId);
@@ -1209,7 +1237,6 @@ class SyncPlayController {
       }
       log('SyncPlay: Fetched item: ${itemModel.name}');
 
-      // Create playback model (context is optional - null for SyncPlay auto-play)
       log('SyncPlay: Creating playback model...');
       final playbackHelper = _ref.read(playbackModelHelper);
       final startPosition = Duration(microseconds: startPositionTicks ~/ 10);
@@ -1230,7 +1257,8 @@ class SyncPlayController {
       }
       log('SyncPlay: Playback model created successfully');
 
-      // Load and play
+      // From here on the player reports its own Ready on failure, so the finally block must not send one.
+      loadAttempted = true;
       log('SyncPlay: Loading playback item...');
       final loadedCorrectly = await _ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
             playbackModel,
@@ -1238,8 +1266,7 @@ class SyncPlayController {
           );
       if (_shouldAbortStartPlayback()) {
         log('SyncPlay: _startPlayback aborted after loadPlaybackItem (left group)');
-        // The player loaded media for a group we no longer belong to —
-        // tear it back down so we don't display the abandoned video.
+        // Tear down media loaded for a group we no longer belong to.
         _stopLocalPlayback();
         return;
       }
@@ -1251,28 +1278,20 @@ class SyncPlayController {
       success = true;
       log('SyncPlay: Playback item loaded successfully');
 
-      // Set state to fullScreen
       _ref.read(mediaPlaybackProvider.notifier).update(
             (state) => state.copyWith(state: VideoPlayerState.fullScreen),
           );
       log('SyncPlay: Set state to fullScreen');
 
-      // Only push the player route when it isn't already on screen.
-      // When the route is already open (e.g. User B whose player stayed
-      // open), loadPlaybackItem already swapped the video content in the
-      // existing player — pushing again would stack duplicate routes.
+      // When the route is already open, loadPlaybackItem swapped the content in place; pushing would stack routes.
       if (!playerRouteAlreadyOpen) {
         final navigatorKey = getNavigatorKey(_ref);
         final context = navigatorKey?.currentContext;
         log('SyncPlay: Navigator context: ${context != null ? "exists" : "null"}');
 
         if (context != null && !_shouldAbortStartPlayback()) {
-          // openPlayer pushes a route via Navigator.push, whose Future
-          // does not complete until the route is popped (i.e. the user
-          // closes the player). Awaiting it would hold _startPlayback
-          // open for as long as the player is visible — and with it
-          // startPlaybackInProgress and the "Switching item…" overlay.
-          // Fire-and-forget so we exit the load phase immediately.
+          // openPlayer's Future only completes when the route is popped; awaiting it would keep
+          // startPlaybackInProgress (and the "Switching item…" overlay) up while the player is visible.
           unawaited(_ref.read(videoPlayerProvider.notifier).openPlayer(context));
           log('SyncPlay: Pushed player route for $itemId');
         } else {
@@ -1290,11 +1309,10 @@ class SyncPlayController {
             startingPlaylistItemId: null,
           ));
       if (!success) {
-        // Failure or aborted-on-leave: clear the buffering flag so the rest
-        // of the group is not stranded waiting on us.
+        // Clear the buffering flag so the rest of the group is not stranded waiting on us.
         setPlayerBufferingState(false);
-        if (_state.isInGroup) {
-          unawaited(reportReady(isPlaying: false));
+        if (_state.isInGroup && !loadAttempted) {
+          unawaited(reportReady(isPlaying: false, positionTicks: startPositionTicks));
         }
       }
       _inFlightStartCompleter?.complete();
@@ -1316,29 +1334,25 @@ class SyncPlayController {
     _stateController.add(_state);
   }
 
-  /// Display a SyncPlay-related snackbar through the global overlay.
-  /// We never pass the navigator-key context to `FladderSnack`: that
-  /// context isn't under any `Overlay`. The notification manager keeps
-  /// a stored root context (set by `NotificationManagerInitializer`)
-  /// that resolves to the root overlay.
+  /// Never pass the navigator-key context to `FladderSnack`: it is not under an `Overlay`. The
+  /// notification manager resolves the root overlay from its own stored context.
   void _showGroupSnackbar(String Function(AppLocalizations l) message) {
     try {
-      final loc = lookupAppLocalizations(const Locale('en'));
+      final context = _ref.read(localizationContextProvider);
+      final loc = context != null ? context.localized : lookupAppLocalizations(const Locale('en'));
       FladderSnack.show(message(loc));
     } catch (_) {
       // Best effort - ignore if localizations are unavailable.
     }
   }
 
-  /// Notify listeners (and overlays) that we got kicked out of a group
-  /// while still believing we belonged to it.
+  /// Shown when the server evicted us from a group we still believed we belonged to.
   void notifyGroupGone({bool wasKicked = false}) {
     _showGroupSnackbar(
       (l) => wasKicked ? l.syncPlayKickedFromGroup : l.syncPlayGroupNoLongerExists,
     );
   }
 
-  /// Dispose resources
   Future<void> dispose() async {
     _commandHandler.dispose();
     await disconnect();

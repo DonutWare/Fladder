@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'syncplay_models.freezed.dart';
 
-/// Time sync measurement for NTP-like clock synchronization
 @Freezed(copyWith: true)
 abstract class TimeSyncMeasurement with _$TimeSyncMeasurement {
   const TimeSyncMeasurement._();
@@ -14,8 +13,7 @@ abstract class TimeSyncMeasurement with _$TimeSyncMeasurement {
     required DateTime responseReceived,
   }) = _TimeSyncMeasurement;
 
-  /// Clock offset between client and server
-  /// Positive = server is ahead of client
+  /// Positive means the server is ahead of the client.
   Duration get offset {
     final t1 = requestSent.millisecondsSinceEpoch;
     final t2 = requestReceived.millisecondsSinceEpoch;
@@ -39,7 +37,6 @@ abstract class TimeSyncMeasurement with _$TimeSyncMeasurement {
   Duration get ping => Duration(milliseconds: delay.inMilliseconds ~/ 2);
 }
 
-/// SyncPlay group state
 enum SyncPlayGroupState {
   idle,
   waiting,
@@ -47,9 +44,6 @@ enum SyncPlayGroupState {
   playing,
 }
 
-/// SyncPlay command type emitted by the server in `SyncPlayCommand`
-/// messages. Keeps the cross-platform contract typed instead of
-/// passing raw strings (AGENTS.md SyncPlay rule 2).
 enum SyncPlayCommand {
   pause('Pause'),
   unpause('Unpause'),
@@ -58,11 +52,9 @@ enum SyncPlayCommand {
 
   const SyncPlayCommand(this.wire);
 
-  /// Server-side wire identifier (used in REST/WebSocket payloads).
   final String wire;
 
-  /// Parse a wire string from the server. Returns `null` for unknown
-  /// values so callers can ignore the message instead of crashing.
+  /// Returns `null` for unknown values so callers can ignore the message instead of crashing.
   static SyncPlayCommand? fromWire(String? value) {
     if (value == null) {
       return null;
@@ -104,16 +96,13 @@ enum SyncPlayStateReason {
   }
 }
 
-/// Playback correction strategy used to resync local playback with group time.
 enum SyncCorrectionStrategy {
   none,
   speedToSync,
   skipToSync,
 }
 
-/// Config values for playback drift correction.
-///
-/// Defaults match official Jellyfin SyncPlay thresholds.
+/// Defaults match the official Jellyfin SyncPlay thresholds.
 class SyncCorrectionConfig {
   const SyncCorrectionConfig({
     this.minDelaySpeedToSyncMs = 60,
@@ -154,7 +143,6 @@ class SyncCorrectionConfig {
   }
 }
 
-/// Runtime state of playback correction logic.
 class SyncCorrectionState {
   const SyncCorrectionState({
     this.syncEnabled = true,
@@ -191,10 +179,7 @@ class SyncCorrectionState {
   }
 }
 
-/// Select correction strategy based on current diff and runtime/config state.
-///
-/// Precedence intentionally mirrors official behavior:
-/// SpeedToSync first, then SkipToSync fallback.
+/// SpeedToSync first, then SkipToSync, mirroring the official precedence.
 SyncCorrectionStrategy selectSyncCorrectionStrategy({
   required SyncCorrectionConfig config,
   required SyncCorrectionState state,
@@ -227,7 +212,138 @@ SyncCorrectionStrategy selectSyncCorrectionStrategy({
   return SyncCorrectionStrategy.none;
 }
 
-/// Current SyncPlay session state
+/// `playlistItemId` is the server-generated id used by NextItem/PreviousItem/SetPlaylistItem.
+class SyncPlayQueueEntry {
+  const SyncPlayQueueEntry({
+    required this.itemId,
+    required this.playlistItemId,
+  });
+
+  final String itemId;
+  final String playlistItemId;
+
+  @override
+  bool operator ==(Object other) {
+    return other is SyncPlayQueueEntry && other.itemId == itemId && other.playlistItemId == playlistItemId;
+  }
+
+  @override
+  int get hashCode => Object.hash(itemId, playlistItemId);
+}
+
+/// How a local "play this item" request maps onto the group queue.
+enum SyncPlayQueueNavigation {
+  /// Target is the entry right after the playing one: `NextItem`.
+  next,
+
+  /// Target is the entry right before the playing one: `PreviousItem`.
+  previous,
+
+  /// Target is elsewhere in the queue: `SetPlaylistItem`.
+  setCurrentItem,
+
+  /// Target is not in the group queue: `SetNewQueue`.
+  newQueue,
+}
+
+/// Using the server-side queue keeps every participant's context intact and lets the server de-duplicate.
+SyncPlayQueueNavigation resolveQueueNavigation({
+  required List<SyncPlayQueueEntry> playlist,
+  required int playingItemIndex,
+  required String targetItemId,
+}) {
+  final targetIndex = playlist.indexWhere((entry) => entry.itemId == targetItemId);
+  if (targetIndex < 0) {
+    return SyncPlayQueueNavigation.newQueue;
+  }
+  if (targetIndex == playingItemIndex + 1) {
+    return SyncPlayQueueNavigation.next;
+  }
+  if (targetIndex == playingItemIndex - 1) {
+    return SyncPlayQueueNavigation.previous;
+  }
+  return SyncPlayQueueNavigation.setCurrentItem;
+}
+
+/// Shared by the Flutter player and the native Android activity so every participant sees the same thing.
+enum SyncPlayOverlay {
+  none,
+
+  /// A queue switch is loading the next item.
+  switching,
+
+  /// A command from the server is being applied on this device.
+  command,
+
+  /// The server is holding the group for a participant to buffer.
+  waiting,
+}
+
+SyncPlayOverlay resolveSyncPlayOverlay(SyncPlayState state) {
+  if (!state.isInGroup || !state.isFollowingGroupPlayback) {
+    return SyncPlayOverlay.none;
+  }
+  if (state.startPlaybackInProgress) {
+    return SyncPlayOverlay.switching;
+  }
+  if (state.isProcessingCommand && state.processingCommandType != null) {
+    return SyncPlayOverlay.command;
+  }
+  if (state.groupState == SyncPlayGroupState.waiting) {
+    return SyncPlayOverlay.waiting;
+  }
+  return SyncPlayOverlay.none;
+}
+
+/// Lets a device that stopped following the group estimate the live position when it resumes.
+@Freezed(copyWith: true)
+abstract class SyncPlayQueueTiming with _$SyncPlayQueueTiming {
+  const SyncPlayQueueTiming._();
+
+  const factory SyncPlayQueueTiming({
+    required int startPositionTicks,
+    DateTime? lastUpdate,
+    @Default(false) bool isPlaying,
+  }) = _SyncPlayQueueTiming;
+
+  /// Frozen while paused, extrapolated from [lastUpdate] while playing.
+  int positionTicksAt(DateTime remoteNow) {
+    final since = lastUpdate;
+    if (!isPlaying || since == null) {
+      return startPositionTicks;
+    }
+    return startPositionTicks + millisecondsToTicks(remoteNow.difference(since).inMilliseconds);
+  }
+}
+
+/// Prefers the last command for the current item (recorded even while not following), then the last
+/// `PlayQueue` timing; [fallbackPositionTicks] can be tens of seconds stale.
+int estimateGroupPositionTicks({
+  required LastSyncPlayCommand? lastCommand,
+  required String? currentPlaylistItemId,
+  required SyncPlayQueueTiming? queueTiming,
+  required int fallbackPositionTicks,
+  required DateTime remoteNow,
+}) {
+  if (lastCommand != null) {
+    final forCurrentItem = lastCommand.playlistItemId.isEmpty ||
+        currentPlaylistItemId == null ||
+        lastCommand.playlistItemId == currentPlaylistItemId;
+    final when = DateTime.tryParse(lastCommand.when);
+    if (forCurrentItem && when != null) {
+      // Only Unpause moves the playhead; Pause/Seek leave it at the command's position.
+      if (lastCommand.command != SyncPlayCommand.unpause) {
+        return lastCommand.positionTicks;
+      }
+      return lastCommand.positionTicks + millisecondsToTicks(remoteNow.difference(when).inMilliseconds);
+    }
+  }
+  if (queueTiming != null) {
+    return queueTiming.positionTicksAt(remoteNow);
+  }
+  return fallbackPositionTicks;
+}
+
 @Freezed(copyWith: true)
 abstract class SyncPlayState with _$SyncPlayState {
   const SyncPlayState._();
@@ -244,42 +360,52 @@ abstract class SyncPlayState with _$SyncPlayState {
     String? playlistItemId,
     @Default(0) int positionTicks,
     DateTime? lastCommandTime,
-
-    /// Whether a SyncPlay command is currently being processed
     @Default(false) bool isProcessingCommand,
-
-    /// The type of command being processed (for UI feedback). Typed
-    /// as [SyncPlayCommand] to keep cross-platform contracts strongly
-    /// typed (AGENTS.md SyncPlay rule 2).
     SyncPlayCommand? processingCommandType,
-
-    /// Internal correction configuration and thresholds.
     @Default(SyncCorrectionConfig()) SyncCorrectionConfig correctionConfig,
-
-    /// Runtime correction status for UI and command logic.
     @Default(SyncCorrectionState()) SyncCorrectionState correctionState,
 
     /// True while a `_startPlayback` call is in flight (loader UX).
     @Default(false) bool startPlaybackInProgress,
 
-    /// PlaylistItemId currently being started (for dedup of concurrent
-    /// PlayQueue updates that race against each other).
+    /// Dedup key for concurrent PlayQueue updates racing each other.
     String? startingPlaylistItemId,
 
-    /// Number of nested local-only operations currently active. While
-    /// > 0, the controller suppresses `reportBuffering`/`reportReady`
-    /// so audio/subtitle reloads don't pause the rest of the group.
+    /// While > 0, `reportBuffering`/`reportReady` are suppressed so local reloads don't pause the group.
     @Default(0) int localOnlyOperationCount,
+
+    /// False after the user halted group playback on this device (`SetIgnoreWait(true)`): commands are
+    /// ignored until the user resumes or a new playlist is set.
+    @Default(true) bool isFollowingGroupPlayback,
+
+    /// Local copy of the group play queue from the last `PlayQueue` frame.
+    @Default([]) List<SyncPlayQueueEntry> playlist,
+
+    /// Index of the playing entry in [playlist], -1 when nothing plays.
+    @Default(-1) int playingItemIndex,
+
+    /// Timing of the last `PlayQueue` frame; null until one arrived.
+    SyncPlayQueueTiming? queueTiming,
   }) = _SyncPlayState;
 
   bool get isActive => isConnected && isInGroup;
 
+  /// Entry after the playing one, if any.
+  SyncPlayQueueEntry? get nextQueueEntry {
+    final index = playingItemIndex + 1;
+    return index > 0 && index < playlist.length ? playlist[index] : null;
+  }
+
+  /// Entry before the playing one, if any.
+  SyncPlayQueueEntry? get previousQueueEntry {
+    final index = playingItemIndex - 1;
+    return index >= 0 && index < playlist.length ? playlist[index] : null;
+  }
+
   /// True when local-only mode is active (audio/subtitle switch, etc.).
   bool get isInLocalOnlyMode => localOnlyOperationCount > 0;
 
-  /// True when the group has an active item playing/paused/waiting that
-  /// the local user could re-attach to (used by the "Resume playback"
-  /// button when the player route is not currently mounted).
+  /// The group has an item the local user could re-attach to ("Resume playback" outside the player route).
   bool get hasActivePlayback => isInGroup && playingItemId != null && groupState != SyncPlayGroupState.idle;
 }
 
@@ -294,18 +420,13 @@ abstract class LastSyncPlayCommand with _$LastSyncPlayCommand {
   }) = _LastSyncPlayCommand;
 }
 
-/// Ticks conversion constants
 const int ticksPerMillisecond = 10000;
 const int ticksPerSecond = 10000000;
 
-/// Convert seconds to ticks
 int secondsToTicks(double seconds) => (seconds * ticksPerSecond).round();
 
-/// Convert ticks to seconds
 double ticksToSeconds(int ticks) => ticks / ticksPerSecond;
 
-/// Convert milliseconds to ticks
 int millisecondsToTicks(int ms) => ms * ticksPerMillisecond;
 
-/// Convert ticks to milliseconds
 int ticksToMilliseconds(int ticks) => ticks ~/ ticksPerMillisecond;
