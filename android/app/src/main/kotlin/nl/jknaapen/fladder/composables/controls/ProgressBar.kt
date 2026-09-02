@@ -451,7 +451,7 @@ internal fun RowScope.SimpleProgressBar(
                     val clickRelativeOffset = offset.x / width.toFloat()
                     val newPosition =
                         effectiveDuration.milliseconds * clickRelativeOffset.toDouble()
-                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_SEEK)
                     player.seekTo(newPosition.toLong(DurationUnit.MILLISECONDS))
                 }
             }
@@ -475,7 +475,7 @@ internal fun RowScope.SimpleProgressBar(
                     },
                     onDragEnd = {
                         onScrubbingChanged(false)
-                        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_SEEK)
                         player.seekTo(internalTempPosition)
                     },
                     onDragCancel = {
@@ -658,7 +658,7 @@ internal fun RowScope.SimpleProgressBar(
                             if (!scrubbingTimeLine) {
                                 onTempPosChanged(effectivePosition)
                                 onScrubbingChanged(true)
-                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_PLAY_PAUSE)
                                 player.pause()
                             }
                             val newPos = max(
@@ -680,7 +680,7 @@ internal fun RowScope.SimpleProgressBar(
                             if (!scrubbingTimeLine) {
                                 onTempPosChanged(effectivePosition)
                                 onScrubbingChanged(true)
-                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_PLAY_PAUSE)
                                 player.pause()
                             }
                             val newPos = min(player.duration.takeIf { it > 0 } ?: 1L,
@@ -692,7 +692,7 @@ internal fun RowScope.SimpleProgressBar(
 
                         Enter, Spacebar, ButtonSelect, DirectionCenter -> {
                             if (scrubbingTimeLine) {
-                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_SEEK)
                                 player.seekTo(tempPosition)
                                 player.play()
                                 onScrubbingChanged(false)
@@ -703,7 +703,7 @@ internal fun RowScope.SimpleProgressBar(
                         Escape, Back -> {
                             if (scrubbingTimeLine) {
                                 onScrubbingChanged(false)
-                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                                VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_PLAY_PAUSE)
                                 player.play()
                                 true
                             }

@@ -40,15 +40,13 @@ import io.github.rabehx.iconsax.filled.Pause
 import io.github.rabehx.iconsax.filled.Play
 import io.github.rabehx.iconsax.filled.Refresh
 import io.github.rabehx.iconsax.filled.Stop
+import io.github.rabehx.iconsax.filled.Timer1
 import SyncPlayCommandType
 import nl.jknaapen.fladder.objects.Localized
 import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 
-/**
- * Centered overlay showing SyncPlay command being processed.
- * Mirrors the Flutter SyncPlayCommandIndicator design.
- */
+/** Mirrors the Flutter SyncPlayCommandIndicator. */
 @Composable
 fun BoxScope.SyncPlayCommandOverlay(
     modifier: Modifier = Modifier
@@ -100,6 +98,7 @@ fun BoxScope.SyncPlayCommandOverlay(
                             SyncPlayCommandType.UNPAUSE -> Localized.syncPlayCommandPlaying(cb)
                             SyncPlayCommandType.SEEK -> Localized.syncPlayCommandSeeking(cb)
                             SyncPlayCommandType.STOP -> Localized.syncPlayCommandStopping(cb)
+                            SyncPlayCommandType.WAITING -> Localized.syncPlayStateWaiting(cb)
                             else -> Localized.syncPlayCommandSyncing(cb)
                         }
                     },
@@ -149,6 +148,7 @@ private fun CommandIcon(commandType: SyncPlayCommandType) {
         SyncPlayCommandType.UNPAUSE -> Pair(Iconsax.Filled.Play, MaterialTheme.colorScheme.primary)
         SyncPlayCommandType.SEEK -> Pair(Iconsax.Filled.Forward, MaterialTheme.colorScheme.tertiary)
         SyncPlayCommandType.STOP -> Pair(Iconsax.Filled.Stop, MaterialTheme.colorScheme.error)
+        SyncPlayCommandType.WAITING -> Pair(Iconsax.Filled.Timer1, MaterialTheme.colorScheme.tertiary)
         else -> Pair(Iconsax.Filled.Refresh, MaterialTheme.colorScheme.primary)
     }
 

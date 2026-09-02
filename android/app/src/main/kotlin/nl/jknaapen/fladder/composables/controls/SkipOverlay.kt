@@ -70,7 +70,7 @@ internal fun BoxScope.SegmentSkipOverlay(
     val currentSegmentId = activeSegment?.let { "${it.type}-${it.start}-${it.end}" }
 
     fun skipSegment(segment: MediaSegment, segmentId: String) {
-        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_SEEK)
         VideoPlayerObject.implementation.player?.seekTo(segment.end + 250.milliseconds.inWholeMilliseconds)
         skippedSegments.add(segmentId)
     }
@@ -110,7 +110,7 @@ internal fun BoxScope.SegmentSkipOverlay(
             enableScaledFocus = true,
             onClick = {
                 activeSegment?.let {
-                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER)
+                    VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_SEEK)
                     VideoPlayerObject.implementation.player?.seekTo(it.end.toLong())
                 }
             }

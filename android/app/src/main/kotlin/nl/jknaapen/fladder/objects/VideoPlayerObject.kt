@@ -111,7 +111,6 @@ object VideoPlayerObject {
         guideVisible.value = !guideVisible.value
     }
 
-    // SyncPlay command state for overlay (Pigeon-generated type)
     val syncPlayCommandState = MutableStateFlow(
         SyncPlayCommandUiState(false, SyncPlayCommandType.NONE)
     )
@@ -130,6 +129,9 @@ object VideoPlayerObject {
     fun setPendingPlaybackChangeSource(source: PlaybackChangeSource) {
         pendingPlaybackChangeSource = source
     }
+
+    /** Read without consuming; ExoPlayer decides per frame whether the tag belongs to it. */
+    fun peekPendingPlaybackChangeSource(): PlaybackChangeSource? = pendingPlaybackChangeSource
 
     /** Consumed when building PlaybackState in ExoPlayer; clears after read. */
     fun getAndClearPendingPlaybackChangeSource(): PlaybackChangeSource? {

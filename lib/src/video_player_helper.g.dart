@@ -50,6 +50,9 @@ enum SyncPlayCommandType {
   unpause,
   seek,
   stop,
+
+  /// The group is waiting for a participant to buffer; shown so every device reports the same state.
+  waiting,
 }
 
 enum MediaSegmentType {
@@ -60,13 +63,17 @@ enum MediaSegmentType {
   outro,
 }
 
-/// Source of the last playback state change (for SyncPlay: infer user actions from stream).
+/// Who caused the last playback state change; Flutter infers SyncPlay requests from it.
 enum PlaybackChangeSource {
   /// No specific source (e.g. periodic update, buffering).
   none,
 
-  /// User tapped play/pause/seek on native; Flutter should send SyncPlay if active.
-  user,
+  /// User pressed play or pause on native; Flutter turns it into the SyncPlay request.
+  userPlayPause,
+
+  /// User seeked on native; the frame carries the new position even when the seek drops the player into
+  /// buffering. Kept apart from [userPlayPause] so a paused-while-buffering frame is never ambiguous.
+  userSeek,
 
   /// Change was caused by applying a SyncPlay command; do not send again.
   syncplay,
@@ -1480,9 +1487,7 @@ class VideoPlayerApi {
     }
   }
 
-  /// Sets the SyncPlay command state for the native player overlay.
-  /// [processing] indicates if a SyncPlay command is being processed.
-  /// [commandType] is the type of command.
+  /// Drives the native player's SyncPlay overlay.
   Future<void> setSyncPlayCommandState(bool processing, SyncPlayCommandType commandType) async {
     final String pigeonVar_channelName =
         'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSyncPlayCommandState$pigeonVar_messageChannelSuffix';
@@ -1563,16 +1568,6 @@ abstract class VideoPlayerControlsCallback {
   void loadProgram(GuideChannel selection);
 
   Future<List<GuideProgram>> fetchProgramsForChannel(String channelId);
-
-  /// User-initiated play action from native player (for SyncPlay integration)
-  void onUserPlay();
-
-  /// User-initiated pause action from native player (for SyncPlay integration)
-  void onUserPause();
-
-  /// User-initiated seek action from native player (for SyncPlay integration)
-  /// Position is in milliseconds
-  void onUserSeek(int positionMs);
 
   static void setUp(
     VideoPlayerControlsCallback? api, {
@@ -1736,72 +1731,6 @@ abstract class VideoPlayerControlsCallback {
           try {
             final List<GuideProgram> output = await api.fetchProgramsForChannel(arg_channelId!);
             return wrapResponse(result: output);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPlay$messageChannelSuffix',
-          pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        pigeonVar_channel.setMessageHandler(null);
-      } else {
-        pigeonVar_channel.setMessageHandler((Object? message) async {
-          try {
-            api.onUserPlay();
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserPause$messageChannelSuffix',
-          pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        pigeonVar_channel.setMessageHandler(null);
-      } else {
-        pigeonVar_channel.setMessageHandler((Object? message) async {
-          try {
-            api.onUserPause();
-            return wrapResponse(empty: true);
-          } on PlatformException catch (e) {
-            return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
-          }
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> pigeonVar_channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek$messageChannelSuffix',
-          pigeonChannelCodec,
-          binaryMessenger: binaryMessenger);
-      if (api == null) {
-        pigeonVar_channel.setMessageHandler(null);
-      } else {
-        pigeonVar_channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek was null.');
-          final List<Object?> args = (message as List<Object?>?)!;
-          final int? arg_positionMs = (args[0] as int?);
-          assert(arg_positionMs != null,
-              'Argument for dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerControlsCallback.onUserSeek was null, expected non-null int.');
-          try {
-            api.onUserSeek(arg_positionMs!);
-            return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
           } catch (e) {
