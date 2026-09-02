@@ -84,7 +84,7 @@ void main() {
   });
 
   group('SyncPlayCommandHandler', () {
-    test('ignores duplicate command', () async {
+    test('duplicate Pause while already paused at position is a no-op correction check', () async {
       var pauseCalls = 0;
       final handler = SyncPlayCommandHandler(
         timeSync: () => null,
@@ -172,7 +172,7 @@ void main() {
       )
         ..onPause = () async {}
         ..onSeek = (ticks) async {}
-        ..onReportReady = () async {
+        ..onReportReady = ({required bool isPlaying, required int positionTicks}) async {
           readyCalls++;
         }
         ..isBuffering = () => false;
@@ -207,9 +207,7 @@ void main() {
       final handler = SyncPlayCommandHandler(
         timeSync: () => null,
         onStateUpdate: (updater) {
-          // The finally block in _executeCommand calls
-          //   state.copyWith(isProcessingCommand: false, processingCommandType: null)
-          // — apply the updater to a sentinel and detect that transition.
+          // Detect the finally block's isProcessingCommand=false transition by applying the updater to a sentinel.
           final after = updater(SyncPlayState(isProcessingCommand: true));
           if (after.isProcessingCommand == false) {
             stateClearFired = true;

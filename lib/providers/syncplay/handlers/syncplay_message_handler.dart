@@ -6,58 +6,42 @@ import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:flutter/material.dart';
 
-/// Callback for reporting ready state after seek
-typedef ReportReadyCallback = Future<void> Function({bool isPlaying});
+/// [reason] is the server's `PlayQueueUpdateReason` wire value (`NewPlaylist`, `NextItem`, ...).
+typedef StartPlaybackCallback = Future<void> Function(String itemId, int startPositionTicks, String? reason);
 
-/// Callback for starting playback of an item
-typedef StartPlaybackCallback = Future<void> Function(String itemId, int startPositionTicks);
-
-/// Callback that pauses the local player without sending a SyncPlay
-/// pause request. Used when the group enters Waiting because another
-/// client is buffering — we must mirror the group state locally.
-typedef LocalPauseCallback = Future<void> Function();
-
-/// Handles SyncPlay group update messages from WebSocket
+/// Never answers a `StateUpdate` with a request: the server only needs `Ready` from sessions it flagged
+/// as buffering, and replying from here produced an N-client cascade of Ready/Pause exchanges.
 class SyncPlayMessageHandler {
   SyncPlayMessageHandler({
     required this.onStateUpdate,
-    required this.reportReady,
     required this.startPlayback,
-    required this.isBuffering,
     required this.getContext,
     required this.onGroupJoined,
     required this.onGroupJoinFailed,
     this.onGroupLeftOrKicked,
     this.onStateUpdateToPlaying,
     this.onGroupGone,
-    this.onLocalPauseForBuffer,
   });
 
   final void Function(SyncPlayState Function(SyncPlayState)) onStateUpdate;
-  final ReportReadyCallback reportReady;
   final StartPlaybackCallback startPlayback;
-  final bool Function() isBuffering;
   final BuildContext? Function() getContext;
   final void Function() onGroupJoined;
   final void Function() onGroupJoinFailed;
 
-  /// Called when we leave or are kicked so controller can cancel pending commands and clear processing state.
   final void Function()? onGroupLeftOrKicked;
 
-  /// Called when group state becomes Playing so controller can ensure player is actually playing (per docs).
+  /// Lets the controller run its missed-Unpause recovery check.
   final void Function()? onStateUpdateToPlaying;
 
-  /// Called when the user is no longer part of the group from the
-  /// server's perspective (kicked, group disposed, etc.) so that the
-  /// controller can surface a user-visible notification.
+  /// The server no longer considers us part of the group (kicked, group disposed).
   final void Function({required bool wasKicked})? onGroupGone;
 
-  /// Called when the group enters Waiting because another client is
-  /// buffering. Mirrors the group state locally before reporting Ready
-  /// so we don't keep playing while the group is logically paused.
-  final LocalPauseCallback? onLocalPauseForBuffer;
+  bool _wasInGroupAtLastUpdate = false;
 
-  /// Handle group update message
+  /// `LastUpdate` of the most recent applied `PlayQueue` frame; older frames are ignored.
+  DateTime? _lastQueueUpdate;
+
   void handleGroupUpdate(Map<String, dynamic> data, SyncPlayState currentState) {
     _wasInGroupAtLastUpdate = currentState.isInGroup;
     final updateType = data['Type'] as String?;
@@ -82,52 +66,51 @@ class SyncPlayMessageHandler {
       case 'NotInGroup':
         _handleNotInGroup();
         break;
+      case 'LibraryAccessDenied':
+        _handleLibraryAccessDenied();
+        break;
       case 'StateUpdate':
         _handleStateUpdate(updateData as Map<String, dynamic>);
         break;
       case 'PlayQueue':
         _handlePlayQueue(updateData as Map<String, dynamic>, currentState);
         break;
+      default:
+        log('SyncPlay: Unhandled group update type: $updateType');
     }
   }
 
+  /// The playing item arrives in the `PlayQueue` frame that follows.
   void _handleGroupJoined(Map<String, dynamic> data) {
     final groupId = data['GroupId'] as String?;
     final groupName = data['GroupName'] as String?;
     final stateStr = data['State'] as String?;
     final participants = (data['Participants'] as List?)?.cast<String>() ?? [];
-    final positionTicks = data['PositionTicks'] as int? ?? 0;
-    final playingItemId = data['PlayingItemId'] as String?;
 
+    // A (re)join's fresh PlayQueue frame may carry the LastUpdate we already applied; accept it.
+    _lastQueueUpdate = null;
+
+    // `isFollowingGroupPlayback` is left alone: the controller sets it for user-initiated joins, and a
+    // silent rejoin must not un-halt a device the user halted.
     onStateUpdate((state) => state.copyWith(
           isInGroup: true,
           groupId: groupId,
           groupName: groupName,
           groupState: _parseGroupState(stateStr),
           participants: participants,
-          positionTicks: positionTicks,
-          playingItemId: playingItemId ?? state.playingItemId,
         ));
 
     log('SyncPlay: Joined group "$groupName" ($groupId)');
 
-    // Notify controller that group join was confirmed
     onGroupJoined();
   }
 
-  /// Note: SyncPlay's `UserJoined` / `UserLeft` payloads carry the
-  /// participant's display name directly in `Data` (a plain string),
-  /// not a userId. No `usersUserIdGet` lookup is needed - calling that
-  /// endpoint with the username returns a 400.
+  /// `UserJoined` / `UserLeft` carry the participant's display name in `Data`, not a userId.
   void _handleUserJoined(String? userName, SyncPlayState currentState) {
     if (userName == null) {
       return;
     }
-    // The server re-broadcasts `UserJoined` on every `Join` POST —
-    // including reconnects, silent rejoins and retries after a
-    // false-negative "Failed to join". Appending unconditionally is
-    // what stacked the same user multiple times. Ignore if already a
-    // participant.
+    // The server re-broadcasts `UserJoined` on every `Join` POST (reconnects, silent rejoins, retries).
     if (currentState.participants.contains(userName)) {
       log('SyncPlay: Duplicate UserJoined ignored (already a participant): $userName');
       return;
@@ -150,12 +133,8 @@ class SyncPlayMessageHandler {
     log('SyncPlay: User left: $userName');
   }
 
-  /// Render a snackbar through the global notification overlay. We
-  /// deliberately do NOT pass the navigator-key context here: that
-  /// context lives under `Navigator` but not under any `Overlay`, so
-  /// `Overlay.of(context)` throws. `FladderSnack` keeps a stored root
-  /// context (set by `NotificationManagerInitializer`) that already
-  /// resolves to the root overlay.
+  /// Never pass the navigator-key context: it is not under an `Overlay`, so `Overlay.of` throws.
+  /// `FladderSnack` resolves the root overlay from its own stored context.
   void _showSnackbar(String Function(AppLocalizations l) builder) {
     final context = getContext();
     if (context != null) {
@@ -170,126 +149,119 @@ class SyncPlayMessageHandler {
     }
   }
 
+  SyncPlayState _clearGroup(SyncPlayState state) {
+    return state.copyWith(
+      isInGroup: false,
+      isFollowingGroupPlayback: true,
+      groupId: null,
+      groupName: null,
+      groupState: SyncPlayGroupState.idle,
+      participants: [],
+      isProcessingCommand: false,
+      processingCommandType: null,
+      playlist: [],
+      playingItemIndex: -1,
+      queueTiming: null,
+    );
+  }
+
   void _handleGroupLeft() {
-    onStateUpdate((state) => state.copyWith(
-          isInGroup: false,
-          groupId: null,
-          groupName: null,
-          groupState: SyncPlayGroupState.idle,
-          participants: [],
-          isProcessingCommand: false,
-          processingCommandType: null,
-        ));
+    _lastQueueUpdate = null;
+    onStateUpdate(_clearGroup);
     onGroupLeftOrKicked?.call();
     log('SyncPlay: Left group');
   }
 
   void _handleGroupDoesNotExist() {
     final wasInGroup = _wasInGroupAtLastUpdate;
-    onStateUpdate((state) => state.copyWith(
-          isInGroup: false,
-          groupId: null,
-          groupName: null,
-          groupState: SyncPlayGroupState.idle,
-          participants: [],
-          isProcessingCommand: false,
-          processingCommandType: null,
-        ));
-    onGroupLeftOrKicked?.call();
+    _lastQueueUpdate = null;
+    onStateUpdate(_clearGroup);
     log('SyncPlay: Group does not exist');
 
+    // A failed join must not stop what the user is watching; only a real member has playback to tear down.
     if (wasInGroup) {
+      onGroupLeftOrKicked?.call();
       onGroupGone?.call(wasKicked: false);
     }
 
-    // Notify controller that group join failed
     onGroupJoinFailed();
   }
 
   void _handleNotInGroup() {
     final wasInGroup = _wasInGroupAtLastUpdate;
-    onStateUpdate((state) => state.copyWith(
-          isInGroup: false,
-          groupId: null,
-          groupName: null,
-          groupState: SyncPlayGroupState.idle,
-          participants: [],
-          isProcessingCommand: false,
-          processingCommandType: null,
-        ));
-    onGroupLeftOrKicked?.call();
+    _lastQueueUpdate = null;
+    onStateUpdate(_clearGroup);
     log('SyncPlay: Not in group - server rejected operation');
 
     if (wasInGroup) {
+      onGroupLeftOrKicked?.call();
       onGroupGone?.call(wasKicked: true);
     }
 
-    // Notify controller that group join failed
     onGroupJoinFailed();
   }
 
-  bool _wasInGroupAtLastUpdate = false;
+  /// Sent instead of `GroupJoined` when the user lacks access to an item in the queue.
+  void _handleLibraryAccessDenied() {
+    _lastQueueUpdate = null;
+    onStateUpdate(_clearGroup);
+    log('SyncPlay: Join refused - library access denied');
+    _showSnackbar((l) => l.syncPlayLibraryAccessDenied);
+    onGroupJoinFailed();
+  }
 
   void _handleStateUpdate(Map<String, dynamic> data) {
     final stateStr = data['State'] as String?;
     final reasonStr = data['Reason'] as String?;
-    final positionTicks = data['PositionTicks'] as int? ?? 0;
     final newGroupState = _parseGroupState(stateStr);
-    final reason = SyncPlayStateReason.fromWire(reasonStr);
 
     onStateUpdate((state) => state.copyWith(
           groupState: newGroupState,
           stateReason: reasonStr,
-          positionTicks: positionTicks,
         ));
 
-    log('SyncPlay: State update: $stateStr (reason: $reasonStr, positionTicks: $positionTicks)');
+    log('SyncPlay: State update: $stateStr (reason: $reasonStr)');
 
-    if (newGroupState == SyncPlayGroupState.waiting) {
-      _handleWaitingState(reason);
-    }
-
-    // Per docs: when state becomes Playing, ensure player is actually
-    // playing (recover if Unpause was missed).
+    // The controller decides whether a missed Unpause needs recovering (see shouldRecoverPlayback).
     if (newGroupState == SyncPlayGroupState.playing) {
       onStateUpdateToPlaying?.call();
     }
   }
 
-  void _handleWaitingState(SyncPlayStateReason? reason) {
-    if (reason == SyncPlayStateReason.buffer) {
-      // Per spec: another client is buffering — pause locally first, then
-      // report ready so the server knows we're aligned.
-      final pauseFuture = onLocalPauseForBuffer?.call() ?? Future<void>.value();
-      pauseFuture.then((_) {
-        if (!isBuffering()) {
-          reportReady(isPlaying: true);
-        }
-      });
-      return;
-    }
-    if (reason == SyncPlayStateReason.unpause) {
-      if (!isBuffering()) {
-        reportReady(isPlaying: true);
-      }
-    }
-  }
-
   void _handlePlayQueue(Map<String, dynamic> data, SyncPlayState currentState) {
     final playlist = data['Playlist'] as List? ?? [];
-    final playingItemIndex = data['PlayingItemIndex'] as int? ?? 0;
+    final playingItemIndex = data['PlayingItemIndex'] as int? ?? -1;
     final startPositionTicks = data['StartPositionTicks'] as int? ?? 0;
     final isPlayingNow = data['IsPlaying'] as bool? ?? false;
     final reason = data['Reason'] as String?;
+    final lastUpdate = DateTime.tryParse(data['LastUpdate'] as String? ?? '');
 
-    String? playingItemId;
-    String? playlistItemId;
-
-    if (playlist.isNotEmpty && playingItemIndex < playlist.length) {
-      final item = playlist[playingItemIndex] as Map<String, dynamic>;
-      playingItemId = item['ItemId'] as String?;
-      playlistItemId = item['PlaylistItemId'] as String?;
+    final previousUpdate = _lastQueueUpdate;
+    if (lastUpdate != null && previousUpdate != null && !lastUpdate.isAfter(previousUpdate)) {
+      log('SyncPlay: Ignoring old PlayQueue update ($reason, $lastUpdate <= $previousUpdate)');
+      return;
     }
+    if (lastUpdate != null) {
+      _lastQueueUpdate = lastUpdate;
+    }
+
+    final entries = <SyncPlayQueueEntry>[];
+    for (final raw in playlist) {
+      if (raw is! Map<String, dynamic>) {
+        continue;
+      }
+      final itemId = raw['ItemId'] as String?;
+      final playlistItemId = raw['PlaylistItemId'] as String?;
+      if (itemId == null || playlistItemId == null) {
+        continue;
+      }
+      entries.add(SyncPlayQueueEntry(itemId: itemId, playlistItemId: playlistItemId));
+    }
+
+    final hasPlayingEntry = playingItemIndex >= 0 && playingItemIndex < entries.length;
+    final playingEntry = hasPlayingEntry ? entries[playingItemIndex] : null;
+    final playingItemId = playingEntry?.itemId;
+    final playlistItemId = playingEntry?.playlistItemId;
 
     final previousItemId = currentState.playingItemId;
 
@@ -297,13 +269,20 @@ class SyncPlayMessageHandler {
           playingItemId: playingItemId,
           playlistItemId: playlistItemId,
           positionTicks: startPositionTicks,
+          playlist: entries,
+          playingItemIndex: hasPlayingEntry ? playingItemIndex : -1,
+          queueTiming: SyncPlayQueueTiming(
+            startPositionTicks: startPositionTicks,
+            lastUpdate: lastUpdate,
+            isPlaying: isPlayingNow,
+          ),
         ));
 
-    log('SyncPlay: PlayQueue update - playing: $playingItemId (reason: $reason, isPlaying: $isPlayingNow, previousItemId: $previousItemId)');
+    log('SyncPlay: PlayQueue update - playing: $playingItemId '
+        '(reason: $reason, isPlaying: $isPlayingNow, previousItemId: $previousItemId, '
+        'queue: ${entries.length} items)');
 
-    // Trigger playback for NewPlaylist/SetCurrentItem/NextItem/PreviousItem regardless of
-    // whether the item changed (the same user who set the queue also receives the update
-    // and needs to start playing).
+    // Trigger regardless of whether the item changed: the user who set the queue also receives the update.
     final shouldTrigger = playingItemId != null &&
         (reason == 'NewPlaylist' ||
             reason == 'SetCurrentItem' ||
@@ -315,7 +294,7 @@ class SyncPlayMessageHandler {
 
     if (shouldTrigger) {
       log('SyncPlay: Triggering playback for item: $playingItemId');
-      startPlayback(playingItemId, startPositionTicks);
+      startPlayback(playingItemId, startPositionTicks, reason);
     }
   }
 

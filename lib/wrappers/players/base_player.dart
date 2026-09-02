@@ -11,9 +11,19 @@ import 'package:fladder/wrappers/players/player_states.dart';
 
 const libassFallbackFont = "assets/mp-font.ttf";
 
+/// Lets the full-screen player route be found and removed from the navigator (SyncPlay leave/kick/stop).
+const String videoPlayerRouteName = 'fladder/video_player';
+
 abstract class BasePlayer {
   Stream<PlayerState> get stateStream;
   PlayerState lastState = PlayerState();
+
+  /// Whether the backend is really playing: on mpv [lastState.playing] only means "not paused by the user",
+  /// so anything that must know whether a `play()` took reads this instead. media-kit overrides it.
+  bool get isPlaying => lastState.playing;
+
+  /// Route pushed by [open] for Flutter-rendered players; null for the native activity and once popped.
+  Route<void>? playerRoute;
 
   Future<void> init(VideoPlayerSettingsModel settings);
   Widget? videoWidget(Key key, BoxFit fit);

@@ -58,6 +58,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   Stream<PlayerState> get stateStream => _stateController.stream;
   PlayerState? get lastState => _player?.lastState;
 
+  /// The backend's real playing state, see [BasePlayer.isPlaying].
+  bool get isPlayerPlaying => _player?.isPlaying ?? false;
+
   Widget? subtitleWidget(bool showOverlay, {GlobalKey? controlsKey}) =>
       _player?.subtitles(showOverlay, controlsKey: controlsKey);
 
@@ -123,6 +126,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       _playerStateSubscription?.cancel();
     } finally {
       _player?.dispose();
+    }
+    if (_player is NativePlayer) {
+      ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
     }
   }
 
@@ -192,10 +198,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     _previousPlayer = null;
   }
 
-  /// Check if the native Android player is currently active
   bool get isNativePlayerActive => _player is NativePlayer;
 
-  /// Update SyncPlay command state for the native player overlay
   Future<void> updateSyncPlayCommandState(
     bool processing,
     SyncPlayCommandType commandType,
@@ -205,7 +209,24 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     }
   }
 
-  Future<void> openPlayer(BuildContext context) async => _player?.open(context);
+  /// The native activity has no Flutter route, so its route-open flag is maintained here.
+  Future<void> openPlayer(BuildContext context) async {
+    if (_player is NativePlayer) {
+      ref.read(isVideoPlayerRouteOpenProvider.notifier).state = true;
+      ref.read(videoPlayerProvider.notifier).refreshNativeOverlay();
+    }
+    return _player?.open(context);
+  }
+
+  /// Removes the player route wherever it sits in the stack; no-op for the native player (closed by [stop]).
+  void closePlayerRoute() {
+    final player = _player;
+    final route = player?.playerRoute;
+    if (route != null && route.isActive) {
+      route.navigator?.removeRoute(route);
+    }
+    player?.playerRoute = null;
+  }
 
   Future<void> _updatePositionWithRetry(PlaybackModel model, Duration position, bool isPlaying) async {
     try {
@@ -509,6 +530,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     unawaited(_applyWakelock(false));
 
     _player?.stop();
+    if (_player is NativePlayer) {
+      ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
+    }
     ref.read(windowTitleProvider.notifier).setPlayTitle(null);
 
     final position = _player?.lastState.position;
@@ -637,8 +661,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     if (previousVideo != null && !buffering) ref.read(playbackModelHelper).loadNewVideo(previousVideo);
   }
 
+  /// The native activity was closed by the user: halt group playback on this device before teardown.
   @override
-  void onStop() => stop();
+  void onStop() => ref.read(videoPlayerProvider.notifier).userStop();
 
   @override
   void swapAudioTrack(int value) async {
@@ -699,22 +724,6 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
               subTitle: context != null ? p.subLabel(context.localized) : null,
             ))
         .toList();
-  }
-
-  // SyncPlay-aware user actions from native player
-  @override
-  void onUserPlay() {
-    ref.read(videoPlayerProvider.notifier).userPlay();
-  }
-
-  @override
-  void onUserPause() {
-    ref.read(videoPlayerProvider.notifier).userPause();
-  }
-
-  @override
-  void onUserSeek(int positionMs) {
-    ref.read(videoPlayerProvider.notifier).userSeek(Duration(milliseconds: positionMs));
   }
 
   Future<Uint8List?> takeScreenshot() {
