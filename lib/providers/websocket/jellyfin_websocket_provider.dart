@@ -8,19 +8,18 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/arguments_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart' as connectivity;
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/websocket/jellyfin_websocket.dart';
 
 part 'jellyfin_websocket_provider.g.dart';
 
-/// Phone-only lifecycle observer: forces a clean WebSocket reconnect when
-/// the app returns to the foreground. Registered only on phones (see
-/// [isPhonePlatform]); desktop / web / Android-TV stay always-alive.
+/// Phone-only: on foreground it reconnects only if the socket died in the background. `inactive` is
+/// ignored because Android raises it for the notification shade, dialogs, PiP and call banners.
 class _WebSocketLifecycleObserver with WidgetsBindingObserver {
   _WebSocketLifecycleObserver(this._controller);
 
   final JellyfinWebSocketController _controller;
-  bool _wasConnected = false;
 
   void register() => WidgetsBinding.instance.addObserver(this);
   void unregister() => WidgetsBinding.instance.removeObserver(this);
@@ -28,17 +27,11 @@ class _WebSocketLifecycleObserver with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
+      case AppLifecycleState.resumed:
+        unawaited(_controller.ensureConnected(reason: 'app resumed'));
+        break;
       case AppLifecycleState.paused:
       case AppLifecycleState.inactive:
-        _wasConnected = _controller.currentState == WebSocketConnectionState.connected;
-        log('JellyfinWebSocket: app paused, wasConnected=$_wasConnected');
-        break;
-      case AppLifecycleState.resumed:
-        if (_wasConnected) {
-          log('JellyfinWebSocket: app resumed, forcing reconnect');
-          unawaited(_controller.forceReconnectSocket());
-        }
-        break;
       case AppLifecycleState.detached:
       case AppLifecycleState.hidden:
         break;
@@ -46,12 +39,8 @@ class _WebSocketLifecycleObserver with WidgetsBindingObserver {
   }
 }
 
-/// App-level shared Jellyfin WebSocket.
-///
-/// Owns a single [JellyfinWebSocket], connects when a user is
-/// authenticated, and re-broadcasts the socket's streams through
-/// long-lived controllers so consumers stay subscribed transparently
-/// across account switches / socket rebuilds.
+/// Owns a single [JellyfinWebSocket], connects when a user is authenticated, and re-broadcasts its
+/// streams through long-lived controllers so consumers survive account switches / socket rebuilds.
 @Riverpod(keepAlive: true)
 class JellyfinWebSocketController extends _$JellyfinWebSocketController {
   JellyfinWebSocket? _socket;
@@ -59,32 +48,39 @@ class JellyfinWebSocketController extends _$JellyfinWebSocketController {
   StreamSubscription<Map<String, dynamic>>? _socketMessageSub;
   _WebSocketLifecycleObserver? _observer;
 
-  // Serializes socket teardown/rebuild so two quick auth changes
-  // (e.g. token refresh then account switch) can't run concurrently
-  // and leak or duplicate a socket.
+  // Serializes socket teardown/rebuild so two quick auth changes cannot leak or duplicate a socket.
   Future<void> _socketOps = Future<void>.value();
 
-  // Long-lived re-broadcast controllers. Consumers subscribe to these,
-  // never to a JellyfinWebSocket instance directly, so a socket rebuild
-  // (e.g. account switch) is invisible to them.
+  // Long-lived re-broadcast controllers; consumers never subscribe to a JellyfinWebSocket directly.
   final _stateController = StreamController<WebSocketConnectionState>.broadcast();
   final _messageController = StreamController<Map<String, dynamic>>.broadcast();
 
-  /// Connection-state transitions (re-broadcast).
   Stream<WebSocketConnectionState> get connectionState => _stateController.stream;
 
-  /// Raw inbound messages (re-broadcast). Consumers filter by
-  /// `MessageType` themselves.
+  /// Consumers filter by `MessageType` themselves.
   Stream<Map<String, dynamic>> get messages => _messageController.stream;
 
-  /// Current connection state (disconnected if no socket).
   WebSocketConnectionState get currentState => _socket?.currentState ?? WebSocketConnectionState.disconnected;
 
-  /// Send a message through the shared socket (no-op if not connected).
   void send(Map<String, dynamic> message) => _socket?.send(message);
 
-  /// Force a clean reconnect of the underlying socket.
   Future<void> forceReconnectSocket() async => _socket?.forceReconnect();
+
+  /// A healthy socket only gets a KeepAlive so the server refreshes its liveness timer; a dead one is
+  /// rebuilt immediately instead of waiting for the backoff timer.
+  Future<void> ensureConnected({required String reason}) async {
+    final socket = _socket;
+    if (socket == null) {
+      return;
+    }
+    if (socket.currentState == WebSocketConnectionState.connected) {
+      log('JellyfinWebSocket: $reason, socket healthy, sending KeepAlive');
+      socket.send({'MessageType': 'KeepAlive'});
+      return;
+    }
+    log('JellyfinWebSocket: $reason, socket ${socket.currentState.name}, reconnecting now');
+    await socket.forceReconnect();
+  }
 
   bool get _isPhone => isPhonePlatform(
         isWeb: kIsWeb,
@@ -94,9 +90,7 @@ class JellyfinWebSocketController extends _$JellyfinWebSocketController {
 
   @override
   WebSocketConnectionState build() {
-    // Drive connect/disconnect off auth. fireImmediately handles the
-    // case where a user is already logged in when this provider is
-    // first activated (e.g. by base_app_wrapper after a relaunch).
+    // fireImmediately covers a user already logged in when this provider is first activated.
     ref.listen<AccountModel?>(
       userProvider,
       (previous, next) => _handleUserChange(previous, next),
@@ -107,13 +101,23 @@ class JellyfinWebSocketController extends _$JellyfinWebSocketController {
       _observer = _WebSocketLifecycleObserver(this)..register();
     }
 
+    // Coming back online is worth an immediate attempt; do not wait for the backoff timer.
+    ref.listen<connectivity.ConnectionState>(
+      connectivity.connectivityStatusProvider,
+      (previous, next) {
+        final wasOffline = previous == connectivity.ConnectionState.offline;
+        final isOnline = next != connectivity.ConnectionState.offline;
+        if (wasOffline && isOnline) {
+          unawaited(ensureConnected(reason: 'connectivity restored'));
+        }
+      },
+    );
+
     ref.onDispose(_disposeAll);
     return WebSocketConnectionState.disconnected;
   }
 
-  /// Chain a socket mutation onto the serial queue so teardown/rebuild
-  /// never overlap. Failures are logged, not propagated, so one bad op
-  /// doesn't wedge the queue.
+  /// Failures are logged, not propagated, so one bad op doesn't wedge the serial queue.
   void _enqueueSocketOp(Future<void> Function() op) {
     _socketOps = _socketOps.then((_) => op()).catchError((Object e, StackTrace s) {
       log('JellyfinWebSocket: socket op failed: $e');
@@ -137,15 +141,13 @@ class JellyfinWebSocketController extends _$JellyfinWebSocketController {
     final deviceId = next.credentials.deviceId;
 
     _enqueueSocketOp(() async {
-      // Re-evaluate against the live socket at execution time (a prior
-      // queued op may have changed it).
+      // Re-evaluate against the live socket: a prior queued op may have changed it.
       final existing = _socket;
       if (existing != null &&
           existing.serverUrl == serverUrl &&
           existing.token == token &&
           existing.deviceId == deviceId) {
-        // Same credentials/server — just ensure it is up (connect() is a
-        // no-op when already connected/connecting).
+        // Same credentials/server: connect() is a no-op when already connected/connecting.
         await existing.connect();
         return;
       }
