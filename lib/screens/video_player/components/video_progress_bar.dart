@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -105,13 +106,14 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                           ),
                       onChangeEnd: (e) async {
                         currentDuration = Duration(milliseconds: e.toInt());
-                        // Route seek through SyncPlay if active
+                        final inSyncPlay = ref.read(isSyncPlayActiveProvider);
+                        // One seek per release; in a group the server's Seek and the following Unpause resume everyone.
                         widget.onPositionChanged(Duration(milliseconds: e.toInt()));
-                        widget.onPositionChanged.call(Duration(milliseconds: e.toInt()));
-                        await Future.delayed(const Duration(milliseconds: 250));
-                        if (widget.wasPlaying) {
-                          // Route play through SyncPlay if active
-                          ref.read(videoPlayerProvider.notifier).userPlay();
+                        if (!inSyncPlay) {
+                          await Future.delayed(const Duration(milliseconds: 250));
+                          if (widget.wasPlaying) {
+                            ref.read(videoPlayerProvider.notifier).userPlay();
+                          }
                         }
                         widget.timerReset.call();
                         setState(() {
@@ -123,8 +125,10 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                           onHoverStart = true;
                         });
                         widget.wasPlayingChanged.call(player.lastState?.playing ?? false);
-                        // Route pause through SyncPlay if active
-                        ref.read(videoPlayerProvider.notifier).userPause();
+                        // In a group the player keeps running while dragging: pausing here would pause everyone.
+                        if (!ref.read(isSyncPlayActiveProvider)) {
+                          ref.read(videoPlayerProvider.notifier).userPause();
+                        }
                       },
                       onChanged: (e) {
                         currentDuration = Duration(milliseconds: e.toInt());

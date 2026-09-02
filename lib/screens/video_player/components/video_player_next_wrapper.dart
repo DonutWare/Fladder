@@ -123,7 +123,8 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
   Future<void> closePlayer() async {
     clearOverlaySettings();
     ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
-    ref.read(videoPlayerProvider).stop();
+    // Halts group playback on this device (SyncPlay) before stopping.
+    ref.read(videoPlayerProvider.notifier).userStop();
     Navigator.of(context).pop();
   }
 

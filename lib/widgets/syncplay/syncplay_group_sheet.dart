@@ -8,13 +8,13 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 
-/// Bottom sheet for managing SyncPlay groups
 class SyncPlayGroupSheet extends ConsumerStatefulWidget {
   const SyncPlayGroupSheet({super.key});
 
@@ -42,7 +42,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
 
     final group = await ref.read(syncPlayProvider.notifier).createGroup(name);
     if (group != null && mounted) {
-      FladderSnack.show(context.localized.syncPlayCreatedGroup(group.groupName ?? ''), context: context);
+      // The controller toasts the server's GroupJoined confirmation.
       Navigator.of(context).pop();
     } else {
       if (mounted) {
@@ -86,7 +86,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
 
     final success = await ref.read(syncPlayProvider.notifier).joinGroup(group.groupId ?? '');
     if (success && mounted) {
-      FladderSnack.show(context.localized.syncPlayJoinedGroup(group.groupName ?? ''), context: context);
+      // The controller toasts the server's GroupJoined confirmation.
       Navigator.of(context).pop();
     } else {
       if (mounted) {
@@ -108,6 +108,10 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
   Widget build(BuildContext context) {
     final syncPlayState = ref.watch(syncPlayProvider);
     final groupsState = ref.watch(syncPlayGroupsProvider);
+    // Mirrors the server policy; an unknown policy (older servers) does not block anything.
+    final syncPlayAccess = ref.watch(userProvider.select((user) => user?.policy?.syncPlayAccess));
+    final canCreate = syncPlayAccess == null || syncPlayAccess == SyncPlayUserAccessType.createandjoingroups;
+    final canJoin = syncPlayAccess == null || syncPlayAccess != SyncPlayUserAccessType.none;
 
     return ConstrainedBox(
       constraints: BoxConstraints(
@@ -122,7 +126,6 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Drag handle
               if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.touch)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -137,8 +140,6 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
                 )
               else
                 const SizedBox(height: 8),
-
-              // Header
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -160,7 +161,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
                         icon: const Icon(IconsaxPlusLinear.logout),
                         label: Text(context.localized.leave),
                       )
-                    else
+                    else if (canCreate)
                       IconButton(
                         onPressed: _createGroup,
                         icon: const Icon(IconsaxPlusLinear.add),
@@ -169,14 +170,13 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
                   ],
                 ),
               ),
-
               const Divider(),
-
-              // Content
               Flexible(
                 child: _SyncPlaySheetContent(
                   syncPlayState: syncPlayState,
                   groupsState: groupsState,
+                  canCreate: canCreate,
+                  canJoin: canJoin,
                   onCreateGroup: _createGroup,
                   onJoinGroup: _joinGroup,
                 ),
@@ -189,17 +189,20 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
   }
 }
 
-/// Content area of the SyncPlay group sheet (loading, error, empty, list, or active group).
 class _SyncPlaySheetContent extends ConsumerWidget {
   const _SyncPlaySheetContent({
     required this.syncPlayState,
     required this.groupsState,
+    required this.canCreate,
+    required this.canJoin,
     required this.onCreateGroup,
     required this.onJoinGroup,
   });
 
   final SyncPlayState syncPlayState;
   final SyncPlayGroupsState groupsState;
+  final bool canCreate;
+  final bool canJoin;
   final VoidCallback onCreateGroup;
   final void Function(GroupInfoDto) onJoinGroup;
 
@@ -207,6 +210,29 @@ class _SyncPlaySheetContent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     if (syncPlayState.isInGroup) {
       return _ActiveGroupView(state: syncPlayState);
+    }
+    if (!canJoin) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                IconsaxPlusLinear.lock,
+                size: 48,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                context.localized.syncPlayAccessDisabled,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ],
+          ),
+        ),
+      );
     }
     if (groupsState.isLoading) {
       return const Center(
@@ -267,13 +293,15 @@ class _SyncPlaySheetContent extends ConsumerWidget {
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
               ),
-              const SizedBox(height: 16),
-              FilledButton.icon(
-                autofocus: true,
-                onPressed: onCreateGroup,
-                icon: const Icon(IconsaxPlusLinear.add),
-                label: Text(context.localized.syncPlayCreateGroupButton),
-              ),
+              if (canCreate) ...[
+                const SizedBox(height: 16),
+                FilledButton.icon(
+                  autofocus: true,
+                  onPressed: onCreateGroup,
+                  icon: const Icon(IconsaxPlusLinear.add),
+                  label: Text(context.localized.syncPlayCreateGroupButton),
+                ),
+              ],
             ],
           ),
         ),
@@ -318,11 +346,21 @@ class _ActiveGroupView extends ConsumerWidget {
     Navigator.of(context).maybePop();
   }
 
+  Future<void> _onHaltPlayback(BuildContext context, WidgetRef ref) async {
+    await ref.read(syncPlayProvider.notifier).haltPlayback();
+    if (context.mounted) {
+      Navigator.of(context).maybePop();
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasActivePlayback = state.hasActivePlayback;
     final playerRouteOpen = ref.watch(isVideoPlayerRouteOpenProvider);
-    final showResume = hasActivePlayback && !playerRouteOpen;
+    final following = state.isFollowingGroupPlayback;
+    // "Resume playback" when the group has content this device is not showing, "Stop" while following.
+    final showResume = hasActivePlayback && (!playerRouteOpen || !following);
+    final showHalt = hasActivePlayback && playerRouteOpen && following;
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -330,7 +368,6 @@ class _ActiveGroupView extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Group name
           Row(
             children: [
               Container(
@@ -368,7 +405,6 @@ class _ActiveGroupView extends ConsumerWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 16),
           _StateIndicator(state: state),
           if (showResume) ...[
@@ -377,6 +413,14 @@ class _ActiveGroupView extends ConsumerWidget {
               onPressed: () => _onResumePlayback(context, ref),
               icon: const Icon(IconsaxPlusBold.play),
               label: Text(context.localized.syncPlayResumePlayback),
+            ),
+          ],
+          if (showHalt) ...[
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              onPressed: () => _onHaltPlayback(context, ref),
+              icon: const Icon(IconsaxPlusBold.pause_circle),
+              label: Text(context.localized.syncPlayHaltPlayback),
             ),
           ],
           const SizedBox(height: 16),
@@ -400,6 +444,11 @@ class _StateIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (icon, label, color) = switch (state.groupState) {
+      _ when !state.isFollowingGroupPlayback => (
+          IconsaxPlusLinear.pause_circle,
+          context.localized.syncPlayNotFollowing,
+          Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
       SyncPlayGroupState.idle => (
           IconsaxPlusLinear.pause_circle,
           context.localized.syncPlayStateIdle,

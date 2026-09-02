@@ -787,24 +787,11 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Future<void> closePlayer() async {
     clearOverlaySettings();
-    // Mark the route as closed immediately so that a SyncPlay
-    // _startPlayback call arriving during the pop animation knows
-    // it must push a new route.
+    // Mark the route closed now so a SyncPlay _startPlayback arriving during the pop knows to push a new one.
     ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
-    // Fire-and-forget the stop. The wrapper's stop() chain reports the
-    // session to the server (POST /Sessions/Playing/Stopped, ~2s) and
-    // we don't want the user staring at a black player with live
-    // controls during that time. Awaiting it would also reach `ref`
-    // after the widget is disposed by the route pop, throwing.
-    ref.read(videoPlayerProvider).stop();
-    if (ref.read(isSyncPlayActiveProvider)) {
-      // In SyncPlay we previously only paused, which left the floating
-      // mini-player visible and let a server-broadcast Unpause resume
-      // local playback in the background. Null out the playback model
-      // so the mini-player disappears; the user can re-attach via the
-      // SyncPlay sheet's "Resume Playback" button.
-      ref.read(playBackModel.notifier).update((_) => null);
-    }
+    // Fire-and-forget: userStop() halts group playback first (SetIgnoreWait) and then stops the wrapper,
+    // whose ~1-2 s session report would reach `ref` after the route pop disposed the widget.
+    unawaited(ref.read(videoPlayerProvider.notifier).userStop());
     Navigator.of(context).pop();
   }
 
@@ -842,6 +829,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   void _activateSpeedBoost() {
     if (_speedBoostActive) return;
+    // The rate belongs to SyncPlay's drift correction in a group; a local boost would desynchronise us.
+    if (ref.read(isSyncPlayActiveProvider)) {
+      return;
+    }
 
     final settings = ref.read(videoPlayerSettingsProvider);
     if (!settings.enableSpeedBoost) return;
