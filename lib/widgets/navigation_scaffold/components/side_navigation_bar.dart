@@ -238,9 +238,7 @@ class SideNavigationRail extends ConsumerWidget {
   }
 
   Widget actionButtonWidget(BuildContext context, bool expanded) {
-    final destination = (currentIndex >= 0 && currentIndex < destinations.length)
-        ? destinations[currentIndex]
-        : null;
+    final destination = (currentIndex >= 0 && currentIndex < destinations.length) ? destinations[currentIndex] : null;
 
     // If there's a custom FAB widget, use it (DashboardFabs already
     // includes SyncPlay for the dashboard route).
