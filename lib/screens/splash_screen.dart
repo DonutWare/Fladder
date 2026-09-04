@@ -10,6 +10,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/shared/fladder_logo.dart';
 import 'package:fladder/screens/shared/route_wrapper.dart';
+import 'package:fladder/services/local_network_permission.dart';
 
 @RoutePage()
 class SplashScreen extends ConsumerStatefulWidget {
@@ -33,6 +34,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         if (lastUsedAccount == null || ref.read(argumentsStateProvider).newWindow == true) {
           callBackOrNavigate(false);
         } else {
+          if (!await ensureLocalNetworkPermissions(
+            [lastUsedAccount.credentials.url, lastUsedAccount.credentials.localUrl],
+            context,
+          )) {
+            callBackOrNavigate(false);
+            return;
+          }
+
           switch (lastUsedAccount.authMethod) {
             case Authentication.autoLogin:
               callBackOrNavigate(true);

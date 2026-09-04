@@ -204,12 +204,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
   }
 
   Future<bool> _hasLocalNetworkPermission(String url) async {
-    if (!isLocalNetworkUrl(url)) return true;
-    if (await requestLocalNetworkPermission() == LocalNetworkPermissionStatus.denied) {
-      showLocalNetworkPermissionDenied(localContext);
-      return false;
-    }
-    return true;
+    return ensureLocalNetworkPermission(url, localContext);
   }
 
   List<AccountModel> getSavedAccounts() {

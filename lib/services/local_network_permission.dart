@@ -41,6 +41,19 @@ Future<LocalNetworkPermissionStatus> requestLocalNetworkPermission() async {
   return requestedStatus.isGranted ? LocalNetworkPermissionStatus.granted : LocalNetworkPermissionStatus.denied;
 }
 
+Future<bool> ensureLocalNetworkPermission(String url, BuildContext? context) async {
+  return ensureLocalNetworkPermissions([url], context);
+}
+
+Future<bool> ensureLocalNetworkPermissions(Iterable<String?> urls, BuildContext? context) async {
+  if (!urls.any((url) => url != null && url.isNotEmpty && isLocalNetworkUrl(url))) return true;
+  if (await requestLocalNetworkPermission() == LocalNetworkPermissionStatus.denied) {
+    showLocalNetworkPermissionDenied(context);
+    return false;
+  }
+  return true;
+}
+
 Future<LocalNetworkPermissionStatus> checkLocalNetworkPermission() async {
   if (!await _supportsLocalNetworkPermission()) {
     return LocalNetworkPermissionStatus.granted;
