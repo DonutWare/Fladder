@@ -735,8 +735,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       final directOptions = {
         'Static': 'true',
         'mediaSourceId': mediaSource!.id,
-        'ApiKey': user.credentials.token,
-        'api_key': user.credentials.token,
+        ...authQueryParams(user.credentials.token),
       };
       downloadUrl = buildServerUrl(
         ref,

@@ -201,6 +201,13 @@ Uri? tryParseServerBaseUri(String? url) {
 
 Uri? serverBaseUri(Ref ref) => tryParseServerBaseUri(ref.read(serverUrlProvider));
 
+/// [token] under both query-parameter names a Jellyfin server may bind.
+///
+/// `api_key` is only read when `EnableLegacyAuthorization` is on, which defaults to false from 12 onward;
+/// `ApiKey` is read first and unconditionally by every server since 10.8. Only for URLs whose consumer
+/// cannot send the `Authorization` header -- never for image URLs, which are anonymous and cached by URL.
+Map<String, String?> authQueryParams(String? token) => {'ApiKey': token, 'api_key': token};
+
 Uri? buildServerUriFromBase(
   String baseUrl, {
   List<String> pathSegments = const [],

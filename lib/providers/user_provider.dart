@@ -324,8 +324,14 @@ class User extends _$User {
 
   void deleteAllFilters() => userState = state?.copyWith(libraryFilters: []);
 
-  String? createDownloadUrl(ItemBaseModel item) => Uri.encodeFull("${state?.credentials.url}/Items/${item.id}"
-      "/Download?ApiKey=${state?.credentials.token}&api_key=${state?.credentials.token}");
+  /// Null when there is no usable server URL; the caller already treats that as "cannot download".
+  /// Hand-joining this produced a literal `null/Items/...` when signed out, and `//Items/...` for a
+  /// base URL with a trailing slash.
+  String? createDownloadUrl(ItemBaseModel item) => buildServerUriFromBase(
+        state?.credentials.url ?? '',
+        pathSegments: ['Items', item.id, 'Download'],
+        queryParameters: authQueryParams(state?.credentials.token),
+      )?.toString();
 
   Future<void> createNewUser(
     String userName,

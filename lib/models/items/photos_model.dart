@@ -146,10 +146,7 @@ class PhotoModel extends ItemBaseModel with PhotoModelMappable {
     return buildServerUriFromBase(
           baseUrl,
           pathSegments: ['Items', id, 'Download'],
-          queryParameters: {
-            'ApiKey': ref.read(userProvider)?.credentials.token,
-            'api_key': ref.read(userProvider)?.credentials.token,
-          },
+          queryParameters: authQueryParams(ref.read(userProvider)?.credentials.token),
         )?.toString() ??
         '';
   }
