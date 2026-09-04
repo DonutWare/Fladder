@@ -109,7 +109,7 @@ Used for **requesting** state changes. The server processes these and broadcasts
 Used for **receiving** commands and state updates. Connect to:
 
 ```
-wss://{server}/socket?api_key={token}&deviceId={deviceId}
+wss://{server}/socket?ApiKey={token}&deviceId={deviceId}
 ```
 
 Message types received:
