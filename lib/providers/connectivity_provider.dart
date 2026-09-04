@@ -10,6 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/services/local_network_permission.dart';
 
 part 'connectivity_provider.g.dart';
 
@@ -117,19 +118,23 @@ class ConnectivityStatus extends _$ConnectivityStatus {
     final localUrl = user.credentials.localUrl;
     final serverId = user.credentials.serverId;
 
+    ref.read(localConnectionAvailableProvider.notifier).state = false;
+
     if (localUrl != null && localUrl.isNotEmpty) {
-      final localConnection = await fetchSystemInfoDynamic(normalizeUrl(localUrl));
+      final permissionStatus = await checkLocalNetworkPermission();
+      if (permissionStatus == LocalNetworkPermissionStatus.granted) {
+        final localConnection = await fetchSystemInfoDynamic(normalizeUrl(localUrl));
 
-      if (_probeVersion != currentProbeId) return;
+        if (_probeVersion != currentProbeId) return;
 
-      if (localConnection?.id == serverId) {
-        ref.read(localConnectionAvailableProvider.notifier).state = true;
-        return;
+        if (localConnection?.id == serverId) {
+          ref.read(localConnectionAvailableProvider.notifier).state = true;
+          return;
+        }
       }
     }
 
     if (_probeVersion != currentProbeId) return;
-    ref.read(localConnectionAvailableProvider.notifier).state = false;
 
     final remoteUrl = ref.read(serverUrlProvider);
     if (remoteUrl != null && remoteUrl.isNotEmpty) {
