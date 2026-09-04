@@ -45,6 +45,36 @@ Duration reconnectDelay(int attempt, {Random? random}) {
   return Duration(milliseconds: (cappedMs * (1 + jitter)).round());
 }
 
+/// The `/socket` URI, carrying the token under both query-parameter names the server may bind.
+///
+/// `api_key` is only read when `EnableLegacyAuthorization` is on, and that defaults to true on 10.11 but
+/// false on 12, where the handshake is then refused outright and SyncPlay never sees a group frame.
+/// `ApiKey` is read unconditionally since 10.8; sending both leaves one build working against either.
+Uri buildWebSocketUri({
+  required String serverUrl,
+  required String token,
+  required String deviceId,
+}) {
+  final baseUri = Uri.parse(serverUrl);
+  final scheme = baseUri.scheme == 'https' ? 'wss' : 'ws';
+  final basePath = baseUri.path.replaceAll(RegExp(r'/+$'), '');
+  return Uri(
+    scheme: scheme,
+    host: baseUri.host,
+    port: baseUri.port,
+    path: '$basePath/socket',
+    queryParameters: {
+      'ApiKey': token,
+      'api_key': token,
+      'deviceId': deviceId,
+    },
+  );
+}
+
+/// [uri] with every token-bearing query parameter masked, for logging.
+String redactSocketUri(Uri uri) =>
+    uri.toString().replaceAllMapped(RegExp(r'(ApiKey|api_key)=[^&]+'), (match) => '${match[1]}=***');
+
 /// App-level shared connection; reconnects forever with capped backoff until [disconnect].
 class JellyfinWebSocket {
   JellyfinWebSocket({
@@ -75,21 +105,10 @@ class JellyfinWebSocket {
   WebSocketConnectionState _currentState = WebSocketConnectionState.disconnected;
   WebSocketConnectionState get currentState => _currentState;
 
-  Uri get _webSocketUri {
-    final baseUri = Uri.parse(serverUrl);
-    final scheme = baseUri.scheme == 'https' ? 'wss' : 'ws';
-    final basePath = baseUri.path.replaceAll(RegExp(r'/+$'), '');
-    return Uri(
-      scheme: scheme,
-      host: baseUri.host,
-      port: baseUri.port,
-      path: '$basePath/socket',
-      queryParameters: {
-        'api_key': token,
-        'deviceId': deviceId,
-      },
-    );
-  }
+  Uri get _webSocketUri => buildWebSocketUri(serverUrl: serverUrl, token: token, deviceId: deviceId);
+
+  /// The socket URI with every token-bearing parameter masked, for logging.
+  String get _redactedUri => redactSocketUri(_webSocketUri);
 
   Future<void> connect() async {
     if (_currentState == WebSocketConnectionState.connected || _currentState == WebSocketConnectionState.connecting) {
@@ -101,7 +120,7 @@ class JellyfinWebSocket {
 
     WebSocketChannel? opened;
     try {
-      log('WebSocket: Connecting to ${_webSocketUri.toString().replaceAll(RegExp(r'api_key=[^&]+'), 'api_key=***')}');
+      log('WebSocket: Connecting to $_redactedUri');
       final channel = WebSocketChannel.connect(_webSocketUri);
       opened = channel;
       _channel = channel;
