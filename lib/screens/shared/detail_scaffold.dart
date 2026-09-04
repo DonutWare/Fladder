@@ -185,8 +185,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
           await widget.onRefresh?.call();
           if (mounted) {
             setState(() {
-              if (widget.backDrops?.backDrop?.contains(backgroundImage) == true) {
-                backgroundImage = widget.backDrops?.randomBackDrop;
+              // Compare by key: a refresh yields new ImageData instances for the same art.
+              if (widget.backDrops?.backDrop?.any((image) => image.key == backgroundImage?.key) == true) {
+                backgroundImage = widget.backDrops?.backDropAfter(backgroundImage);
               }
             });
           }

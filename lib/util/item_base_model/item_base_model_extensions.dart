@@ -462,20 +462,26 @@ extension ItemBaseModelExtensions on ItemBaseModel {
     ];
   }
 
+  // Full-size photo downloads should not linger in the poster cache. Remove the
+  // index entry as well as the file, so the store stays consistent.
   Future<void> setAsWallpaper(PhotoModel photo, WidgetRef ref) async {
-    final file = await CustomCacheManager.instance.getSingleFile(photo.downloadPath(ref));
+    final url = photo.downloadPath(ref);
+    final file = await CustomCacheManager.instance.getSingleFile(url);
     await WallpaperApi().openWallpaperPopup(file.path);
-    await file.delete();
+    await CustomCacheManager.instance.removeFile(url);
+    if (await file.exists()) await file.delete();
   }
 
   Future<void> sharePhoto(PhotoModel photo, WidgetRef ref) async {
-    final file = await CustomCacheManager.instance.getSingleFile(photo.downloadPath(ref));
+    final url = photo.downloadPath(ref);
+    final file = await CustomCacheManager.instance.getSingleFile(url);
     await SharePlus.instance.share(ShareParams(files: [
       XFile(
         file.path,
       ),
     ]));
-    await file.delete();
+    await CustomCacheManager.instance.removeFile(url);
+    if (await file.exists()) await file.delete();
   }
 
   int? get tmdbId {

@@ -6,12 +6,30 @@ import 'package:flutter/widgets.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as enums;
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/util/custom_cache_manager.dart';
+
+const _defaultBackDrop = Size(2000, 2000);
+const _defaultThumb = Size(1200, 1200);
+const _defaultLogo = Size(500, 500);
+const _defaultPrimary = Size(600, 600);
+const _defaultPersonPrimary = Size(500, 500);
+
+/// Distinguishes cache entries for the same image at different sizes, leaving
+/// keys for the default size unchanged.
+String _sizeSuffix(Size size, Size defaultSize, {bool original = false}) {
+  if (original) return '_orig';
+  if (size == defaultSize) return '';
+  return '_${size.width.toInt()}x${size.height.toInt()}';
+}
+
+/// For entries persisted before [ImageData.largeArt] existed.
+bool _looksLikeLargeArt(String key) => key.contains('_backdrop_') || key.contains('_thumb_');
 
 class ImagesData {
   final ImageData? primary;
@@ -34,15 +52,30 @@ class ImagesData {
     return primary ?? thumb ?? backDrop?.firstOrNull;
   }
 
-  ImageData? get randomBackDrop => (backDrop?..shuffle())?.firstOrNull ?? primary;
+  /// A backdrop that varies between items but is stable for any given one, so
+  /// rebuilds do not trigger new downloads.
+  ImageData? get randomBackDrop {
+    final backDrops = backDrop;
+    if (backDrops == null || backDrops.isEmpty) return primary;
+    final seed = backDrops.first.key.hashCode.abs();
+    return backDrops[seed % backDrops.length];
+  }
+
+  /// The backdrop following [current], for callers that deliberately cycle art.
+  ImageData? backDropAfter(ImageData? current) {
+    final backDrops = backDrop;
+    if (backDrops == null || backDrops.isEmpty) return primary;
+    final index = current == null ? -1 : backDrops.indexWhere((image) => image.key == current.key);
+    return backDrops[(index + 1) % backDrops.length];
+  }
 
   static ImagesData? fromBaseItem(
     dto.BaseItemDto item,
     Ref ref, {
-    Size backDrop = const Size(2000, 2000),
-    Size thumb = const Size(1200, 1200),
-    Size logo = const Size(500, 500),
-    Size primary = const Size(600, 600),
+    Size backDrop = _defaultBackDrop,
+    Size thumb = _defaultThumb,
+    Size logo = _defaultLogo,
+    Size primary = _defaultPrimary,
     bool getOriginalSize = false,
   }) {
     final itemid = item.id;
@@ -63,7 +96,9 @@ class ImagesData {
                       maxHeight: primary.height.toInt(),
                       maxWidth: primary.width.toInt(),
                     ),
-              key: "${itemid}_primary_${item.imageTags?['Primary']}",
+              key:
+                  "${itemid}_primary_${item.imageTags?['Primary']}${_sizeSuffix(primary, _defaultPrimary, original: getOriginalSize)}",
+              largeArt: getOriginalSize,
               hash: item.imageBlurHashes?.primary?[item.imageTags?['Primary']] ?? "",
             )
           : null,
@@ -80,7 +115,9 @@ class ImagesData {
                       maxHeight: thumb.height.toInt(),
                       maxWidth: thumb.width.toInt(),
                     ),
-              key: "${itemid}_thumb_${item.imageTags?['Thumb']}",
+              key:
+                  "${itemid}_thumb_${item.imageTags?['Thumb']}${_sizeSuffix(thumb, _defaultThumb, original: getOriginalSize)}",
+              largeArt: true,
               hash: item.imageBlurHashes?.thumb?[item.imageTags?['Thumb']] ?? "",
             )
           : null,
@@ -96,7 +133,7 @@ class ImagesData {
                   maxHeight: logo.height.toInt(),
                   maxWidth: logo.width.toInt(),
                 ),
-          key: "${itemid}_logo_${item.imageTags?['Logo']}",
+          key: "${itemid}_logo_${item.imageTags?['Logo']}${_sizeSuffix(logo, _defaultLogo, original: getOriginalSize)}",
           hash: item.imageTags?['Logo'] != null ? (item.imageBlurHashes?.logo?[item.imageTags?['Logo']] ?? "") : ""),
       backDrop: (item.backdropImageTags ?? [])
           .mapIndexed(
@@ -115,7 +152,9 @@ class ImagesData {
                         maxHeight: backDrop.height.toInt(),
                         maxWidth: backDrop.width.toInt(),
                       ),
-                key: "${itemid}_backdrop_${index}_$backdrop",
+                key:
+                    "${itemid}_backdrop_${index}_$backdrop${_sizeSuffix(backDrop, _defaultBackDrop, original: getOriginalSize)}",
+                largeArt: true,
                 hash: item.imageBlurHashes?.backdrop?[backdrop] ?? "",
               );
               return image;
@@ -130,10 +169,10 @@ class ImagesData {
   static ImagesData? fromBaseItemParent(
     dto.BaseItemDto item,
     Ref ref, {
-    Size backDrop = const Size(2000, 2000),
-    Size thumb = const Size(1200, 1200),
-    Size logo = const Size(500, 500),
-    Size primary = const Size(600, 600),
+    Size backDrop = _defaultBackDrop,
+    Size thumb = _defaultThumb,
+    Size logo = _defaultLogo,
+    Size primary = _defaultPrimary,
   }) {
     if (item.seriesId == null && item.parentId == null) return null;
 
@@ -148,7 +187,8 @@ class ImagesData {
                 maxHeight: primary.height.toInt(),
                 maxWidth: primary.width.toInt(),
               ),
-              key: "${item.seriesId}_primary_${item.seriesPrimaryImageTag ?? ""}",
+              key:
+                  "${item.seriesId}_primary_${item.seriesPrimaryImageTag ?? ""}${_sizeSuffix(primary, _defaultPrimary)}",
               hash: item.imageBlurHashes?.primary?[item.seriesPrimaryImageTag] ?? "")
           : null,
       thumb: ((item.seriesThumbImageTag ?? item.parentThumbImageTag) != null)
@@ -160,7 +200,8 @@ class ImagesData {
                 maxWidth: thumb.width.toInt(),
               ),
               key:
-                  "${item.parentThumbItemId ?? item.seriesId ?? item.parentId}_thumb_${item.seriesThumbImageTag ?? item.parentThumbImageTag ?? ""}",
+                  "${item.parentThumbItemId ?? item.seriesId ?? item.parentId}_thumb_${item.seriesThumbImageTag ?? item.parentThumbImageTag ?? ""}${_sizeSuffix(thumb, _defaultThumb)}",
+              largeArt: true,
               hash: item.imageBlurHashes?.thumb?[item.seriesThumbImageTag ?? item.parentThumbImageTag] ?? "",
             )
           : null,
@@ -171,7 +212,7 @@ class ImagesData {
             maxHeight: logo.height.toInt(),
             maxWidth: logo.width.toInt(),
           ),
-          key: "${item.seriesId}_logo_${item.parentLogoImageTag ?? ""}",
+          key: "${item.seriesId}_logo_${item.parentLogoImageTag ?? ""}${_sizeSuffix(logo, _defaultLogo)}",
           hash: item.parentLogoImageTag != null ? (item.imageBlurHashes?.logo?[item.parentLogoImageTag] ?? "") : ""),
       backDrop: (item.backdropImageTags ?? [])
           .mapIndexed(
@@ -186,7 +227,8 @@ class ImagesData {
                   maxHeight: backDrop.height.toInt(),
                   maxWidth: backDrop.width.toInt(),
                 ),
-                key: "${itemId}_backdrop_${index}_$backdrop",
+                key: "${itemId}_backdrop_${index}_$backdrop${_sizeSuffix(backDrop, _defaultBackDrop)}",
+                largeArt: true,
                 hash: item.imageBlurHashes?.backdrop?[backdrop] ?? "",
               );
               return image;
@@ -203,7 +245,7 @@ class ImagesData {
     Ref ref, {
     Size backDrop = const Size(2000, 2000),
     Size logo = const Size(1000, 1000),
-    Size primary = const Size(500, 500),
+    Size primary = _defaultPersonPrimary,
   }) {
     return ImagesData(
       primary: (item.primaryImageTag != null && item.imageBlurHashes != null)
@@ -214,7 +256,8 @@ class ImagesData {
                     maxHeight: primary.height.toInt(),
                     maxWidth: primary.width.toInt(),
                   ),
-              key: "${item.id ?? ""}_primary_${item.primaryImageTag ?? ''}",
+              key:
+                  "${item.id ?? ""}_primary_${item.primaryImageTag ?? ''}${_sizeSuffix(primary, _defaultPersonPrimary)}",
               hash: item.imageBlurHashes?.primary?[item.primaryImageTag] ?? '')
           : null,
       thumb: null,
@@ -281,17 +324,24 @@ class ImageData {
   final String path;
   final String hash;
   final String key;
+
+  /// Large art (backdrops, thumbs, original-size images) is cached in a separate
+  /// store so a few multi-megabyte files cannot evict thousands of posters.
+  final bool largeArt;
   ImageData({
     this.path = '',
     this.hash = '',
     this.key = '',
+    this.largeArt = false,
   });
+
+  CacheManager get _cacheManager => largeArt ? CustomCacheManager.largeArt : CustomCacheManager.instance;
 
   ImageProvider get imageProvider {
     if (path.startsWith("http")) {
       return CachedNetworkImageProvider(
         cacheKey: key,
-        cacheManager: CustomCacheManager.instance,
+        cacheManager: _cacheManager,
         path,
       );
     } else {
@@ -302,13 +352,14 @@ class ImageData {
     }
   }
 
+  /// Always re-fetches, for images that may have just changed on the server
+  /// (a library thumbnail the user edited). The cache-buster keeps Flutter's
+  /// in-memory [ImageCache] from serving a stale copy, and nothing is written to
+  /// the disk stores.
   ImageProvider get nonCachedImageProvider {
     if (path.startsWith("http")) {
-      return CachedNetworkImageProvider(
-        cacheKey: UniqueKey().toString(),
-        cacheManager: CustomCacheManager.instance,
-        path,
-      );
+      final separator = path.contains('?') ? '&' : '?';
+      return NetworkImage('$path${separator}nocache=${DateTime.now().microsecondsSinceEpoch}');
     } else {
       return Image.file(
         key: Key(key),
@@ -318,17 +369,19 @@ class ImageData {
   }
 
   @override
-  String toString() => 'ImageData(path: $path, hash: $hash, key: $key)';
+  String toString() => 'ImageData(path: $path, hash: $hash, key: $key, largeArt: $largeArt)';
 
   ImageData copyWith({
     String? path,
     String? hash,
     String? key,
+    bool? largeArt,
   }) {
     return ImageData(
       path: path ?? this.path,
       hash: hash ?? this.hash,
       key: key ?? this.key,
+      largeArt: largeArt ?? this.largeArt,
     );
   }
 
@@ -337,6 +390,7 @@ class ImageData {
       'path': path,
       'hash': hash,
       'key': key,
+      'largeArt': largeArt,
     };
   }
 
@@ -345,6 +399,7 @@ class ImageData {
       path: map['path'] ?? '',
       hash: map['hash'] ?? '',
       key: map['key'] ?? '',
+      largeArt: map['largeArt'] ?? _looksLikeLargeArt(map['key'] ?? ''),
     );
   }
 
