@@ -93,9 +93,9 @@ Future<LocalNetworkPermissionStatus> openLocalNetworkPermissionSettings() async 
 
   try {
     final opened = await openAppSettings();
-    if (!opened) return checkLocalNetworkPermission();
+    if (!opened) return await checkLocalNetworkPermission();
     await resumed.future;
-    return checkLocalNetworkPermission();
+    return await checkLocalNetworkPermission();
   } finally {
     lifecycleListener.dispose();
   }
