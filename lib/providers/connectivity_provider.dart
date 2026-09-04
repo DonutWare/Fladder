@@ -41,14 +41,15 @@ final localConnectionAvailableProvider = StateProvider<bool>((ref) => false);
 class ConnectivityStatus extends _$ConnectivityStatus {
   Timer? _debounceTimer;
   int _probeVersion = 0;
+  Completer<void>? _probeCompleter;
 
   final Connectivity _connectivity = Connectivity();
 
   late final StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
-  Future<void> checkConnectivity() async {
+  Future<void> checkConnectivity({bool immediate = false}) async {
     final results = await _connectivity.checkConnectivity();
-    _onHardwareStateChange(results);
+    _onHardwareStateChange(results, immediate: immediate);
   }
 
   @override
@@ -57,9 +58,10 @@ class ConnectivityStatus extends _$ConnectivityStatus {
       userProvider.select((value) => value?.credentials.localUrl),
       (previous, next) {
         if (previous != next) {
-          _queueProbe();
+          _queueProbe(immediate: true);
         }
       },
+      fireImmediately: true,
     );
 
     _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_onHardwareStateChange);
@@ -67,13 +69,14 @@ class ConnectivityStatus extends _$ConnectivityStatus {
 
     ref.onDispose(() {
       _debounceTimer?.cancel();
+      _completeProbe();
       _connectivitySubscription.cancel();
     });
 
     return ConnectionState.mobile;
   }
 
-  Future<void> _onHardwareStateChange(List<ConnectivityResult> results) async {
+  Future<void> _onHardwareStateChange(List<ConnectivityResult> results, {bool immediate = false}) async {
     ConnectionState hardwareState = ConnectionState.offline;
 
     if (results.contains(ConnectivityResult.vpn)) {
@@ -89,66 +92,97 @@ class ConnectivityStatus extends _$ConnectivityStatus {
     if (hardwareState == ConnectionState.offline) {
       state = ConnectionState.offline;
       ref.read(localConnectionAvailableProvider.notifier).state = false;
+      _completeProbe();
       return;
     }
 
     state = hardwareState;
-    _queueProbe();
+    _queueProbe(immediate: immediate);
   }
 
-  void _queueProbe() {
+  void _queueProbe({bool immediate = false}) {
     _debounceTimer?.cancel();
+    _completeProbe();
+    final probeCompleter = Completer<void>();
+    _probeCompleter = probeCompleter;
 
-    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
-      _probeReachability();
-    });
+    if (immediate) {
+      unawaited(_probeReachability(probeCompleter));
+    } else {
+      _debounceTimer = Timer(
+        const Duration(milliseconds: 500),
+        () => unawaited(_probeReachability(probeCompleter)),
+      );
+    }
   }
 
-  Future<void> _probeReachability() async {
+  void _completeProbe() {
+    if (!(_probeCompleter?.isCompleted ?? true)) {
+      _probeCompleter?.complete();
+    }
+  }
+
+  Future<void> waitForProbe() async {
+    while (true) {
+      final probeCompleter = _probeCompleter;
+      if (probeCompleter == null) return;
+
+      await probeCompleter.future;
+      if (identical(_probeCompleter, probeCompleter)) return;
+    }
+  }
+
+  Future<void> _probeReachability(Completer<void> probeCompleter) async {
     final currentProbeId = ++_probeVersion;
 
-    if (state == ConnectionState.offline) {
+    try {
+      if (state == ConnectionState.offline) {
+        ref.read(localConnectionAvailableProvider.notifier).state = false;
+        return;
+      }
+
+      final user = ref.read(userProvider);
+      if (user == null) return;
+
+      final localUrl = user.credentials.localUrl;
+      final serverId = user.credentials.serverId;
+
       ref.read(localConnectionAvailableProvider.notifier).state = false;
-      return;
-    }
 
-    final user = ref.read(userProvider);
-    if (user == null) return;
+      if (localUrl != null && localUrl.isNotEmpty) {
+        final permissionStatus = await checkLocalNetworkPermission();
+        if (permissionStatus == LocalNetworkPermissionStatus.granted) {
+          final localConnection = await fetchSystemInfoDynamic(normalizeUrl(localUrl));
 
-    final localUrl = user.credentials.localUrl;
-    final serverId = user.credentials.serverId;
+          if (_probeVersion != currentProbeId) return;
 
-    ref.read(localConnectionAvailableProvider.notifier).state = false;
-
-    if (localUrl != null && localUrl.isNotEmpty) {
-      final permissionStatus = await checkLocalNetworkPermission();
-      if (permissionStatus == LocalNetworkPermissionStatus.granted) {
-        final localConnection = await fetchSystemInfoDynamic(normalizeUrl(localUrl));
-
-        if (_probeVersion != currentProbeId) return;
-
-        if (localConnection?.id == serverId) {
-          ref.read(localConnectionAvailableProvider.notifier).state = true;
-          return;
+          if (localConnection?.id == serverId) {
+            ref.read(localConnectionAvailableProvider.notifier).state = true;
+            return;
+          }
         }
       }
-    }
-
-    if (_probeVersion != currentProbeId) return;
-
-    final remoteUrl = ref.read(serverUrlProvider);
-    if (remoteUrl != null && remoteUrl.isNotEmpty) {
-      final checkServer = await probeJellyfinUrl(remoteUrl);
 
       if (_probeVersion != currentProbeId) return;
 
-      if (checkServer != null) {
-        return;
+      final remoteUrl = ref.read(serverUrlProvider);
+      if (remoteUrl != null && remoteUrl.isNotEmpty) {
+        final checkServer = await probeJellyfinUrl(remoteUrl);
+
+        if (_probeVersion != currentProbeId) return;
+
+        if (checkServer != null) {
+          return;
+        }
+      }
+
+      if (_probeVersion != currentProbeId) return;
+      state = ConnectionState.offline;
+    } finally {
+      if (identical(_probeCompleter, probeCompleter) && !probeCompleter.isCompleted) {
+        probeCompleter.complete();
       }
     }
-
-    if (_probeVersion != currentProbeId) return;
-    state = ConnectionState.offline;
   }
 }
 

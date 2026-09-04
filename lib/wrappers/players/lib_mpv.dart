@@ -342,8 +342,6 @@ class LibMPV extends BasePlayer {
     final replayGainOffsetDb = clampReplayGainDb(_replayGainVolumeOffsetDb);
     final replayGainFallbackDb = _settings.replayGainVolumeLevel.adjustedReplayGainDb(trackGainDb);
 
-    log("Setting replayGain to track, preamp: $replayGainOffsetDb dB, fallback: $replayGainFallbackDb dB");
-
     try {
       await nativePlayer.setProperty('replaygain', 'track');
       await nativePlayer.setProperty('replaygain-clip', 'yes');

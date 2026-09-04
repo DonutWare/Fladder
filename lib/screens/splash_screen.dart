@@ -34,13 +34,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         if (lastUsedAccount == null || ref.read(argumentsStateProvider).newWindow == true) {
           callBackOrNavigate(false);
         } else {
-          if (!await ensureLocalNetworkPermissions(
+          !await ensureLocalNetworkPermissions(
             [lastUsedAccount.credentials.url, lastUsedAccount.credentials.localUrl],
             context,
-          )) {
-            callBackOrNavigate(false);
-            return;
-          }
+          );
 
           switch (lastUsedAccount.authMethod) {
             case Authentication.autoLogin:

@@ -1748,7 +1748,7 @@
   "settingsLocalUrlSetDesc": "Specify the local Jellyfin address. Fladder will automatically use this URL when your device is on the same network.",
   "localNetworkPermissionRequest": "Allow local network access to discover servers.",
   "requestPermission": "Request Permission",
-  "localNetworkPermissionDenied": "Local network access is required. Enable it in system settings.",
+  "localNetworkPermissionDenied": "Local network access is required. Enable devices nearby permission in system settings.",
   "openSettings": "Open Settings",
   "regenerateTrickplayImages": "Regenerate trickplay images",
   "controlPanel": "Control Panel",

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -38,6 +39,7 @@ Future<LocalNetworkPermissionStatus> requestLocalNetworkPermission() async {
   if (status.isGranted) return LocalNetworkPermissionStatus.granted;
 
   final requestedStatus = await Permission.accessLocalNetwork.request();
+  log("request permission");
   return requestedStatus.isGranted ? LocalNetworkPermissionStatus.granted : LocalNetworkPermissionStatus.denied;
 }
 
