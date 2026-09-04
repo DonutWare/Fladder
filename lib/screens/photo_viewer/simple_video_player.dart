@@ -89,6 +89,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
     final Map<String, String?> directOptions = {
       'Static': 'true',
       'mediaSourceId': widget.video.id,
+      'ApiKey': ref.read(userProvider)?.credentials.token,
       'api_key': ref.read(userProvider)?.credentials.token,
     };
 

@@ -173,6 +173,7 @@ class VideoStream {
       final Map<String, String?> directOptions = {
         'Static': 'true',
         'mediaSourceId': mediaSource.id,
+        'ApiKey': ref.read(userProvider)?.credentials.token,
         'api_key': ref.read(userProvider)?.credentials.token,
       };
 

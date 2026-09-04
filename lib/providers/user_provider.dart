@@ -324,8 +324,8 @@ class User extends _$User {
 
   void deleteAllFilters() => userState = state?.copyWith(libraryFilters: []);
 
-  String? createDownloadUrl(ItemBaseModel item) =>
-      Uri.encodeFull("${state?.credentials.url}/Items/${item.id}/Download?api_key=${state?.credentials.token}");
+  String? createDownloadUrl(ItemBaseModel item) => Uri.encodeFull("${state?.credentials.url}/Items/${item.id}"
+      "/Download?ApiKey=${state?.credentials.token}&api_key=${state?.credentials.token}");
 
   Future<void> createNewUser(
     String userName,
