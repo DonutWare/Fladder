@@ -128,8 +128,8 @@ class ConnectivityStatus extends _$ConnectivityStatus {
 
       if (_probeId != id) return;
 
-      final remoteUrl = ref.read(serverUrlProvider);
-      if (remoteUrl != null && remoteUrl.isNotEmpty) {
+      final remoteUrl = user.credentials.url;
+      if (remoteUrl.isNotEmpty) {
         final checkServer = await fetchSystemInfoDynamic(normalizeUrl(remoteUrl));
 
         if (_probeId != id) return;
