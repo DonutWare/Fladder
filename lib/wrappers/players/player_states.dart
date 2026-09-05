@@ -1,3 +1,5 @@
+import 'package:fladder/src/video_player_helper.g.dart' show PlaybackChangeSource;
+
 class PlayerState {
   bool playing;
   bool completed;
@@ -8,6 +10,9 @@ class PlayerState {
   bool buffering;
   Duration buffer;
 
+  /// Set when state came from native player (for SyncPlay: infer user actions from stream).
+  PlaybackChangeSource? changeSource;
+
   PlayerState({
     this.playing = false,
     this.completed = false,
@@ -17,6 +22,7 @@ class PlayerState {
     this.rate = 1.0,
     this.buffering = true,
     this.buffer = Duration.zero,
+    this.changeSource,
   });
 
   PlayerState update({
@@ -28,6 +34,8 @@ class PlayerState {
     double? volume,
     double? rate,
     Duration? buffer,
+    PlaybackChangeSource? changeSource,
+    bool updateChangeSource = false,
   }) {
     if (playing != null) this.playing = playing;
     if (completed != null) this.completed = completed;
@@ -37,6 +45,7 @@ class PlayerState {
     if (volume != null) this.volume = volume;
     if (rate != null) this.rate = rate;
     if (buffer != null) this.buffer = buffer;
+    if (updateChangeSource) this.changeSource = changeSource;
     return this;
   }
 }

@@ -1,5 +1,6 @@
 package nl.jknaapen.fladder.player
 
+import kotlin.math.abs
 import PlaybackState
 import android.app.ActivityManager
 import android.os.Handler
@@ -122,18 +123,37 @@ internal fun ExoPlayer(
             )
     }
 
-    fun updatePlaybackState() {
-        videoHost.setPlaybackState(
-            PlaybackState(
-                position = exoPlayer.currentPosition,
-                buffered = exoPlayer.bufferedPosition,
-                duration = exoPlayer.duration,
-                playing = exoPlayer.isPlaying,
-                buffering = exoPlayer.playbackState == Player.STATE_BUFFERING,
-                completed = exoPlayer.playbackState == Player.STATE_ENDED,
-                failed = exoPlayer.playbackState == Player.STATE_IDLE
-            )
+    // The user-action tag must only be consumed by the frame carrying the transition it announced; the
+    // periodic poll would otherwise spend it on a no-op frame and the pause/seek would never reach SyncPlay.
+    val emitted = remember { EmittedPlaybackState(exoPlayer.isPlaying, exoPlayer.currentPosition) }
+
+    fun buildPlaybackState(playbackState: Int): PlaybackState {
+        val playing = exoPlayer.isPlaying
+        val position = exoPlayer.currentPosition
+        val consume = when (videoHost.peekPendingPlaybackChangeSource()) {
+            null -> false
+            // seekTo moves currentPosition synchronously, so the very next frame carries the new position.
+            PlaybackChangeSource.USER_SEEK -> true
+            // Play/pause announces itself once isPlaying flips or the position jumps; buffering frames keep the tag.
+            else -> playing != emitted.playing || abs(position - emitted.position) > 2000L
+        }
+        val changeSource = if (consume) videoHost.getAndClearPendingPlaybackChangeSource() else null
+        emitted.playing = playing
+        emitted.position = position
+        return PlaybackState(
+            position = position,
+            buffered = exoPlayer.bufferedPosition,
+            duration = exoPlayer.duration,
+            playing = playing,
+            buffering = playbackState == Player.STATE_BUFFERING,
+            completed = playbackState == Player.STATE_ENDED,
+            failed = playbackState == Player.STATE_IDLE,
+            changeSource = changeSource
         )
+    }
+
+    fun updatePlaybackState() {
+        videoHost.setPlaybackState(buildPlaybackState(exoPlayer.playbackState))
     }
 
     LaunchedEffect(exoPlayer) {
@@ -159,17 +179,7 @@ internal fun ExoPlayer(
             }
 
             override fun onPlaybackStateChanged(playbackState: Int) {
-                videoHost.setPlaybackState(
-                    PlaybackState(
-                        position = exoPlayer.currentPosition,
-                        buffered = exoPlayer.bufferedPosition,
-                        duration = exoPlayer.duration,
-                        playing = exoPlayer.isPlaying,
-                        buffering = playbackState == Player.STATE_BUFFERING,
-                        completed = playbackState == Player.STATE_ENDED,
-                        failed = playbackState == Player.STATE_IDLE
-                    )
-                )
+                videoHost.setPlaybackState(buildPlaybackState(playbackState))
             }
 
             override fun onEvents(player: Player, events: Player.Events) {
@@ -311,3 +321,6 @@ internal fun ExoPlayer(
         }
     }
 }
+
+/** Last playing flag and position sent to Flutter; a frame that differs from it is a transition. */
+class EmittedPlaybackState(var playing: Boolean, var position: Long)
