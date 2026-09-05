@@ -2351,6 +2351,8 @@
   "@seerrAuthLocal": {},
   "seerrAuthJellyfin": "Jellyfin",
   "@seerrAuthJellyfin": {},
+  "seerrAuthQuickConnect": "QuickConnect",
+  "@seerrAuthQuickConnect": {},
   "seerrUserFetchFailed": "Failed to fetch user from Seerr",
   "@seerrUserFetchFailed": {},
   "seerrEnterServerUrlFirst": "Enter a Seerr server URL first",
