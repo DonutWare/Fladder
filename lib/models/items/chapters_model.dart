@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
@@ -17,11 +19,13 @@ class Chapter {
   final String imageUrl;
   final Uint8List? imageData;
   final Duration startPosition;
+  final TrickPlayModel? trickplayFallback;
   Chapter({
     required this.name,
     required this.imageUrl,
     this.imageData,
     required this.startPosition,
+    this.trickplayFallback,
   });
 
   ImageProvider get imageProvider {
@@ -42,24 +46,29 @@ class Chapter {
     }
   }
 
-  static List<Chapter> chaptersFromInfo(String itemId, List<dto.ChapterInfo> chapters, Ref ref) {
-    return chapters
-        .mapIndexed((index, element) => Chapter(
-            name: element.name ?? "",
-            imageUrl: ref.read(imageUtilityProvider).getChapterUrl(itemId, index),
-            startPosition: Duration(milliseconds: (element.startPositionTicks ?? 0) ~/ 10000)))
-        .toList();
+  static List<Chapter> chaptersFromInfo(
+      String itemId, List<dto.ChapterInfo> chapters, TrickPlayModel? trickplay, Ref ref) {
+    return chapters.mapIndexed((index, element) {
+      final startPosition = Duration(milliseconds: (element.startPositionTicks ?? 0) ~/ 10000);
+      return Chapter(
+          name: element.name ?? "",
+          imageUrl: ref.read(imageUtilityProvider).getChapterUrl(itemId, index),
+          startPosition: startPosition,
+          trickplayFallback: trickplay);
+    }).toList();
   }
 
   Chapter copyWith({
     String? name,
     String? imageUrl,
     Duration? startPosition,
+    TrickPlayModel? trickplayFallback,
   }) {
     return Chapter(
       name: name ?? this.name,
       imageUrl: imageUrl ?? this.imageUrl,
       startPosition: startPosition ?? this.startPosition,
+      trickplayFallback: trickplayFallback ?? this.trickplayFallback,
     );
   }
 
@@ -82,10 +91,28 @@ class Chapter {
   String toJson() => json.encode(toMap());
 
   factory Chapter.fromJson(String source) => Chapter.fromMap(json.decode(source));
+
+  Future<bool> isImageValidWithCache({CacheManager? preferredCacheManager}) async {
+    try {
+      final cacheManager = preferredCacheManager ?? CustomCacheManager.instance;
+      final file = await cacheManager.getSingleFile(imageUrl);
+      return file.existsSync();
+    } catch (e) {
+      return false;
+    }
+  }
 }
 
 extension ChapterExtension on List<Chapter> {
   Chapter? getChapterFromDuration(Duration duration) {
     return lastWhereOrNull((element) => element.startPosition < duration);
+  }
+
+  Future<bool> allChapterImagesValidWithCache({CacheManager? preferredCacheManager}) async {
+    if (isEmpty) return false;
+    for (var element in this) {
+      if (!await element.isImageValidWithCache(preferredCacheManager: preferredCacheManager)) return false;
+    }
+    return true;
   }
 }

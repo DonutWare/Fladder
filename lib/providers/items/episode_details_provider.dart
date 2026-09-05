@@ -57,7 +57,19 @@ class EpisodeDetailsProvider extends StateNotifier<EpisodeDetailModel> {
 
       if (episodes.body == null) return null;
 
-      final episode = (await api.usersUserIdItemsItemIdGet(itemId: item.id)).bodyOrThrow as EpisodeModel;
+      var episode = (await api.usersUserIdItemsItemIdGet(itemId: item.id)).bodyOrThrow as EpisodeModel;
+
+      if (episode.chapters.any((c) => c.trickplayFallback?.images.isEmpty ?? true)) {
+        final trickPlay = (await api.getTrickPlay(item: episode, ref: ref))?.body;
+        if (trickPlay != null && trickPlay.images.isNotEmpty) {
+          final newChapters = episode.chapters
+              .map((chapter) => chapter.copyWith(
+                    trickplayFallback: trickPlay,
+                  ))
+              .toList();
+          episode = episode.copyWith(chapters: newChapters);
+        }
+      }
 
       state = state.copyWith(
         series: seriesResponse.bodyOrThrow as SeriesModel,
