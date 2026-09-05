@@ -52,10 +52,21 @@ class LibMPV extends BasePlayer {
   AudioSession? _audioSession;
 
   bool _musicPaused = false;
+  bool _musicPlaybackMode = false;
+
+  void setMusicPlaybackMode(bool enabled) {
+    _musicPlaybackMode = enabled;
+    if (!enabled) _musicPaused = false;
+    setState(lastState);
+  }
 
   Future<void> setupAudioSession() async {
     _audioSession = await AudioSession.instance;
     await _audioSession?.configure(const AudioSessionConfiguration.music());
+  }
+
+  Future<void> updateSettings(VideoPlayerSettingsModel settings) async {
+    _settings = settings;
   }
 
   @override
@@ -121,11 +132,8 @@ class LibMPV extends BasePlayer {
   }
 
   void setState(PlayerState state) {
-    if (state.playing && _musicPaused) {
-      _musicPaused = false;
-    }
     final newState = state.update(
-      playing: !_musicPaused,
+      playing: _musicPlaybackMode ? !_musicPaused : state.playing,
     );
     lastState = newState;
     _stateController.add(newState);
@@ -309,7 +317,7 @@ class LibMPV extends BasePlayer {
     if (item is AudioModel) {
       final gain = item.normalizationGain;
       if (gain != null && !gain.isNaN && !gain.isInfinite) {
-        gainDb = gain.clamp(-60.0, 20.0).toDouble();
+        gainDb = gain.clamp(-60.0, 0).toDouble();
       }
     }
     await _applyReplayGainSettings(trackGainDb: gainDb);

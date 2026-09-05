@@ -2,6 +2,7 @@ package nl.jknaapen.fladder
 
 import BatteryOptimizationPigeon
 import FlutterError
+import LocalNetworkPermissionPigeon
 import NativeVideoActivity
 import PlayerSettingsPigeon
 import StartResult
@@ -11,6 +12,7 @@ import VideoPlayerControlsCallback
 import VideoPlayerListenerCallback
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.PowerManager
 import android.net.Uri
 import android.util.Log
@@ -78,6 +80,13 @@ class MainActivity : AudioServiceFragmentActivity(), NativeVideoActivity {
                 override fun openBatteryOptimizationSettings() {
                     startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
                 }
+            }
+        )
+
+        LocalNetworkPermissionPigeon.setUp(
+            flutterEngine.dartExecutor.binaryMessenger,
+            api = object : LocalNetworkPermissionPigeon {
+                override fun getAndroidSdkInt(): Long = Build.VERSION.SDK_INT.toLong()
             }
         )
 
