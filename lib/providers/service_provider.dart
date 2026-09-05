@@ -664,13 +664,14 @@ class JellyService {
     bool? enableUserData,
     List<ImageType>? enableImageTypes,
     int? imageTypeLimit,
+    bool enableResumable = false,
   }) async {
     return api.showsNextUpGet(
       userId: account?.id,
       parentId: parentId,
       limit: limit,
       fields: fields,
-      enableResumable: false,
+      enableResumable: enableResumable,
       enableRewatching: false,
       disableFirstEpisode: false,
       nextUpDateCutoff: nextUpDateCutoff,

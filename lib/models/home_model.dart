@@ -18,6 +18,9 @@ class HomeModel {
     this.nextUp = const [],
   });
 
+  List<ItemBaseModel> get nextUpWithoutResume =>
+      nextUp.where((item) => item.userData.playbackPositionTicks <= 0).toList();
+
   HomeModel copyWith({
     bool? loading,
     List<ItemBaseModel>? resumeVideo,
