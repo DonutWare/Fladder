@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:chopper/chopper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -60,7 +61,13 @@ class SeerrRequest implements Interceptor {
       ...?creds?.customHeaders,
     };
     final headers = {...authHeaders, ...customHeaders};
-    final apiBaseUri = Uri.parse(serverUrl);
+    // On web, route through the same-origin nginx proxy when seerrProxyPath is set.
+    // Nginx injects the headers server-side so the header values never reach the browser.
+    // Require a same-origin absolute path (starts with '/' but not '//') so a tampered
+    // config.json can't redirect Seerr traffic to a foreign host via Uri.base.resolve.
+    final proxyPath = FladderConfig.seerrProxyPath;
+    final isSafeProxyPath = proxyPath != null && proxyPath.startsWith('/') && !proxyPath.startsWith('//');
+    final apiBaseUri = (kIsWeb && isSafeProxyPath) ? Uri.base.resolve(proxyPath) : Uri.parse(serverUrl);
 
     Uri resolvedRequestUri;
     try {
