@@ -10,6 +10,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/dashboard_mode_provider.dart';
@@ -26,6 +27,7 @@ import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/nested_sliver_appbar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/continue_row_merge.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -91,12 +93,24 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final resumeAudio = dashboardData.resumeAudio;
     final resumeBooks = dashboardData.resumeBooks;
     final tvChannels = dashboardData.activePrograms;
+    final nextUpWithoutResume = dashboardData.nextUpWithoutResume;
 
     final allResume = [...resumeVideo, ...resumeAudio, ...resumeBooks].toList();
+    final combinedResume = allResume.sorted((a, b) {
+      final dateOrder = (b.userData.lastPlayed ?? DateTime(0)).compareTo(a.userData.lastPlayed ?? DateTime(0));
+      return dateOrder != 0 ? dateOrder : a.id.compareTo(b.id);
+    });
+    final combinedItems = mergeContinueRow(
+      nextUp: dashboardData.nextUp,
+      resume: combinedResume,
+      idOf: (item) => item.id,
+      seriesIdOf: (item) => item is EpisodeModel ? item.parentId : null,
+      lastPlayedOf: (item) => item.userData.lastPlayed,
+    );
 
     final homeCarouselItems = switch (homeSettings.carouselSettings) {
-      HomeCarouselSettings.nextUp => dashboardData.nextUp,
-      HomeCarouselSettings.combined => [...allResume, ...dashboardData.nextUp],
+      HomeCarouselSettings.nextUp => nextUpWithoutResume,
+      HomeCarouselSettings.combined => combinedItems,
       HomeCarouselSettings.cont => allResume,
     };
 
@@ -113,7 +127,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     ? [value]
                     : [
                         ...homeCarouselItems,
-                        ...dashboardData.nextUp,
+                        ...nextUpWithoutResume,
                         ...allResume,
                       ])
                 .map((e) => e.images)
@@ -197,20 +211,20 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     label: context.localized.dashboardContinueReading,
                     posters: resumeBooks,
                   ),
-                if (dashboardData.nextUp.isNotEmpty &&
+                if (nextUpWithoutResume.isNotEmpty &&
                     (homeSettings.nextUp == HomeNextUp.nextUp || homeSettings.nextUp == HomeNextUp.separate))
                   PosterRow(
                     tvMode: useTVExpandedLayout,
                     contentPadding: padding,
                     label: context.localized.nextUp,
-                    posters: dashboardData.nextUp,
+                    posters: nextUpWithoutResume,
                   ),
-                if ([...allResume, ...dashboardData.nextUp].isNotEmpty && homeSettings.nextUp == HomeNextUp.combined)
+                if (combinedItems.isNotEmpty && homeSettings.nextUp == HomeNextUp.combined)
                   PosterRow(
                     tvMode: useTVExpandedLayout,
                     contentPadding: padding,
                     label: context.localized.dashboardContinue,
-                    posters: [...allResume, ...dashboardData.nextUp],
+                    posters: combinedItems,
                   ),
                 ...views.dashboardViews
                     .where(
