@@ -17,7 +17,9 @@ import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/screens/settings/widgets/settings_list_group.dart';
+import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/simple_duration_picker.dart';
 
@@ -96,17 +98,25 @@ class _ClientSettingsPageState extends ConsumerState<ClientSettingsPage> {
           const SizedBox(height: 12),
         ],
         ...buildClientSettingsAdvanced(context, ref),
+        const SizedBox(height: 64),
+        SettingsListTile(
+          label: Text(context.localized.clearImageCache),
+          contentColor: Theme.of(context).colorScheme.error,
+          onTap: () async {
+            final cleared = context.localized.imageCacheCleared;
+            final partial = context.localized.imageCacheClearedPartially;
+            PaintingBinding.instance.imageCache.clear();
+            PaintingBinding.instance.imageCache.clearLiveImages();
+            var complete = false;
+            try {
+              complete = await CustomCacheManager.clearAll();
+            } catch (e) {
+              complete = false;
+            }
+            if (context.mounted) FladderSnack.show(complete ? cleared : partial, context: context);
+          },
+        ),
         if (kDebugMode) ...[
-          const SizedBox(height: 64),
-          SettingsListTile(
-            label: const Text(
-              "Clear cache",
-            ),
-            contentColor: Theme.of(context).colorScheme.error,
-            onTap: () {
-              PaintingBinding.instance.imageCache.clear();
-            },
-          ),
           SettingsListTile(
             label: Text(
               context.localized.clearAllSettings,

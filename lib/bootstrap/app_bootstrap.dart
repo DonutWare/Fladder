@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -13,6 +14,7 @@ import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/providers/crash_log_provider.dart';
 import 'package:fladder/src/video_player_helper.g.dart';
 import 'package:fladder/util/application_info.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/svg_utils.dart';
@@ -65,6 +67,8 @@ Future<AppBootstrapResult> bootstrapApplication(List<String> args) async {
   var applicationDirectory = Directory('');
   if (!kIsWeb) {
     applicationDirectory = await getApplicationDocumentsDirectory();
+    // Reclaim image-cache files the cache manager evicted but never deleted.
+    unawaited(CustomCacheManager.removeOrphanedFiles());
   }
 
   final applicationInfo = ApplicationInfo(
