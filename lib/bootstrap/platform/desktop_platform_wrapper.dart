@@ -25,6 +25,10 @@ class DesktopAppWrapper extends BaseAppWrapper {
 }
 
 class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> with WindowListener {
+  bool _windowPlacementInitialized = false;
+  bool _windowIsMaximized = false;
+  bool _windowIsFullScreen = false;
+
   @override
   Future<void> platformInit() async {
     if (defaultTargetPlatform == TargetPlatform.windows) {
@@ -37,17 +41,33 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
     ApplicationMenu.setUp(ApplicationMenuImp());
 
     await WindowManager.instance.ensureInitialized();
+    _windowPlacementInitialized = defaultTargetPlatform != TargetPlatform.windows;
+    if (_windowPlacementInitialized) {
+      _windowIsMaximized = await windowManager.isMaximized();
+      _windowIsFullScreen = await windowManager.isFullScreen();
+    }
     windowManager.addListener(this);
 
     final packageInfo = await PackageInfo.fromPlatform();
     final clientSettings = ref.read(clientSettingsProvider);
     final startupArguments = ref.read(argumentsStateProvider);
-    await windowManager.setupFladderWindowChrome(
-      startupArguments,
-      clientSettings,
-      packageInfo,
-    );
-    await toggleMacTrafficLights(await windowManager.isFullScreen());
+    await windowManager.setupFladderWindowChrome(startupArguments, clientSettings, packageInfo);
+    if (defaultTargetPlatform == TargetPlatform.windows) {
+      unawaited(_enableWindowPlacementPersistenceAfterStartup());
+    }
+    if (defaultTargetPlatform == TargetPlatform.macOS) {
+      await toggleMacTrafficLights(await windowManager.isFullScreen());
+    }
+  }
+
+  Future<void> _enableWindowPlacementPersistenceAfterStartup() async {
+    await Future<void>.delayed(windowsWindowPlacementPersistenceDelay);
+    if (!mounted) return;
+
+    _windowIsMaximized = await windowManager.isMaximized();
+    _windowIsFullScreen = await windowManager.isFullScreen();
+    if (!mounted) return;
+    _windowPlacementInitialized = true;
   }
 
   @override
@@ -63,36 +83,65 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
     super.onWindowClose();
   }
 
-  @override
-  void onWindowResize() async {
+  bool get _canPersistWindowBounds => shouldPersistWindowBounds(
+        startupSettled: _windowPlacementInitialized,
+        isFullScreen: _windowIsFullScreen,
+        isMaximized: _windowIsMaximized,
+      );
+
+  Future<void> _persistWindowSize() async {
+    if (!_canPersistWindowBounds) return;
     final size = await windowManager.getSize();
+    if (!_canPersistWindowBounds) return;
     ref.read(clientSettingsProvider.notifier).setWindowSize(size);
+  }
+
+  Future<void> _persistWindowPosition() async {
+    if (!_canPersistWindowBounds) return;
+    final position = await windowManager.getPosition();
+    if (!_canPersistWindowBounds) return;
+    ref.read(clientSettingsProvider.notifier).setWindowPosition(position);
+  }
+
+  @override
+  void onWindowResize() {
+    unawaited(_persistWindowSize());
     super.onWindowResize();
   }
 
   @override
-  void onWindowResized() async {
-    final size = await windowManager.getSize();
-    ref.read(clientSettingsProvider.notifier).setWindowSize(size);
+  void onWindowResized() {
+    unawaited(_persistWindowSize());
     super.onWindowResized();
   }
 
   @override
-  void onWindowMove() async {
-    final position = await windowManager.getPosition();
-    ref.read(clientSettingsProvider.notifier).setWindowPosition(position);
+  void onWindowMove() {
+    unawaited(_persistWindowPosition());
     super.onWindowMove();
   }
 
   @override
-  void onWindowMoved() async {
-    final position = await windowManager.getPosition();
-    ref.read(clientSettingsProvider.notifier).setWindowPosition(position);
+  void onWindowMoved() {
+    unawaited(_persistWindowPosition());
     super.onWindowMoved();
   }
 
   @override
+  void onWindowMaximize() {
+    _windowIsMaximized = true;
+    super.onWindowMaximize();
+  }
+
+  @override
+  void onWindowUnmaximize() {
+    _windowIsMaximized = false;
+    super.onWindowUnmaximize();
+  }
+
+  @override
   void onWindowEnterFullScreen() {
+    _windowIsFullScreen = true;
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: true));
     unawaited(toggleMacTrafficLights(true));
     super.onWindowEnterFullScreen();
@@ -100,6 +149,7 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
 
   @override
   void onWindowLeaveFullScreen() {
+    _windowIsFullScreen = false;
     unawaited(toggleMacTrafficLights(false));
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: false));
     super.onWindowLeaveFullScreen();
