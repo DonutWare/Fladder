@@ -18,6 +18,7 @@ import 'package:fladder/providers/update_notifications_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
+import 'package:fladder/screens/settings/widgets/custom_headers_dialog.dart';
 import 'package:fladder/screens/settings/widgets/home_preferences_editors.dart';
 import 'package:fladder/screens/settings/widgets/password_reset_dialog.dart';
 import 'package:fladder/screens/settings/widgets/seerr_connection_dialog.dart';
@@ -384,6 +385,15 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
                   context.localized.settingsLocalUrlSetDesc,
                 );
               },
+            ),
+            SettingsListTile(
+              label: Text(context.localized.customHeaders),
+              subLabel: Text(
+                user?.credentials.customHeaders.isNotEmpty == true
+                    ? user!.credentials.customHeaders.keys.join(', ')
+                    : context.localized.none,
+              ),
+              onTap: () => showCustomHeadersDialog(context),
             ),
             SettingsListTileCheckbox(
               label: Row(

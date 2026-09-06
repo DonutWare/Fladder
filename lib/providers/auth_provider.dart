@@ -61,7 +61,8 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
 
   Future<void> _fetchServerInfo(String url) async {
     try {
-      final newCredentials = CredentialsModel.createNewCredentials().copyWith(url: url);
+      final newCredentials =
+          CredentialsModel.createNewCredentials().copyWith(url: url, customHeaders: state.tempCustomHeaders);
       final newLoginModel = ServerLoginModel(tempCredentials: newCredentials);
       state = state.copyWith(
         serverLoginModel: newLoginModel,
@@ -199,7 +200,11 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     final trimmed = server.trim();
     if (trimmed.isEmpty) return;
     if (!await _hasLocalNetworkPermission(trimmed)) return;
-    final result = await probeAndNormalizeUrl(trimmed, probeJellyfinUrl);
+    final customHeaders = state.tempCustomHeaders;
+    final result = await probeAndNormalizeUrl(
+      trimmed,
+      (url) => probeJellyfinUrl(url, headers: customHeaders.isEmpty ? null : customHeaders),
+    );
     await _fetchServerInfo(result.url);
   }
 
@@ -247,6 +252,17 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
     final sorted = matches.toList()..sort((a, b) => b.lastUsed.compareTo(a.lastUsed));
 
     return sorted.first.seerrCredentials?.serverUrl;
+  }
+
+  /// Custom headers to use for the server that is being set up. They are
+  /// carried over into the credentials of the account once the login succeeds.
+  void setTempCustomHeaders(Map<String, String> headers) {
+    state = state.copyWith(
+      tempCustomHeaders: Map.unmodifiable(headers),
+      serverLoginModel: state.serverLoginModel?.copyWith(
+        tempCredentials: state.serverLoginModel!.tempCredentials.copyWith(customHeaders: headers),
+      ),
+    );
   }
 
   void setTempSeerrUrl(String? url) {

@@ -20,14 +20,14 @@ mixin _$CredentialsModel implements DiagnosticableTreeMixin {
   String get serverName;
   String get serverId;
   String get deviceId;
+  Map<String, String> get customHeaders;
 
   /// Create a copy of CredentialsModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $CredentialsModelCopyWith<CredentialsModel> get copyWith =>
-      _$CredentialsModelCopyWithImpl<CredentialsModel>(
-          this as CredentialsModel, _$identity);
+      _$CredentialsModelCopyWithImpl<CredentialsModel>(this as CredentialsModel, _$identity);
 
   /// Serializes this CredentialsModel to a JSON map.
   Map<String, dynamic> toJson();
@@ -41,19 +41,19 @@ mixin _$CredentialsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('localUrl', localUrl))
       ..add(DiagnosticsProperty('serverName', serverName))
       ..add(DiagnosticsProperty('serverId', serverId))
-      ..add(DiagnosticsProperty('deviceId', deviceId));
+      ..add(DiagnosticsProperty('deviceId', deviceId))
+      ..add(DiagnosticsProperty('customHeaders', customHeaders));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CredentialsModel(token: $token, url: $url, localUrl: $localUrl, serverName: $serverName, serverId: $serverId, deviceId: $deviceId)';
+    return 'CredentialsModel(token: $token, url: $url, localUrl: $localUrl, serverName: $serverName, serverId: $serverId, deviceId: $deviceId, customHeaders: $customHeaders)';
   }
 }
 
 /// @nodoc
 abstract mixin class $CredentialsModelCopyWith<$Res> {
-  factory $CredentialsModelCopyWith(
-          CredentialsModel value, $Res Function(CredentialsModel) _then) =
+  factory $CredentialsModelCopyWith(CredentialsModel value, $Res Function(CredentialsModel) _then) =
       _$CredentialsModelCopyWithImpl;
   @useResult
   $Res call(
@@ -62,12 +62,12 @@ abstract mixin class $CredentialsModelCopyWith<$Res> {
       String? localUrl,
       String serverName,
       String serverId,
-      String deviceId});
+      String deviceId,
+      Map<String, String> customHeaders});
 }
 
 /// @nodoc
-class _$CredentialsModelCopyWithImpl<$Res>
-    implements $CredentialsModelCopyWith<$Res> {
+class _$CredentialsModelCopyWithImpl<$Res> implements $CredentialsModelCopyWith<$Res> {
   _$CredentialsModelCopyWithImpl(this._self, this._then);
 
   final CredentialsModel _self;
@@ -84,6 +84,7 @@ class _$CredentialsModelCopyWithImpl<$Res>
     Object? serverName = null,
     Object? serverId = null,
     Object? deviceId = null,
+    Object? customHeaders = null,
   }) {
     return _then(_self.copyWith(
       token: null == token
@@ -110,6 +111,10 @@ class _$CredentialsModelCopyWithImpl<$Res>
           ? _self.deviceId
           : deviceId // ignore: cast_nullable_to_non_nullable
               as String,
+      customHeaders: null == customHeaders
+          ? _self.customHeaders
+          : customHeaders // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 }
@@ -207,16 +212,16 @@ extension CredentialsModelPatterns on CredentialsModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String token, String url, String? localUrl,
-            String serverName, String serverId, String deviceId)?
+    TResult Function(String token, String url, String? localUrl, String serverName, String serverId, String deviceId,
+            Map<String, String> customHeaders)?
         internal,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _CredentialsModel() when internal != null:
-        return internal(_that.token, _that.url, _that.localUrl,
-            _that.serverName, _that.serverId, _that.deviceId);
+        return internal(_that.token, _that.url, _that.localUrl, _that.serverName, _that.serverId, _that.deviceId,
+            _that.customHeaders);
       case _:
         return orElse();
     }
@@ -237,15 +242,15 @@ extension CredentialsModelPatterns on CredentialsModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String token, String url, String? localUrl,
-            String serverName, String serverId, String deviceId)
+    required TResult Function(String token, String url, String? localUrl, String serverName, String serverId,
+            String deviceId, Map<String, String> customHeaders)
         internal,
   }) {
     final _that = this;
     switch (_that) {
       case _CredentialsModel():
-        return internal(_that.token, _that.url, _that.localUrl,
-            _that.serverName, _that.serverId, _that.deviceId);
+        return internal(_that.token, _that.url, _that.localUrl, _that.serverName, _that.serverId, _that.deviceId,
+            _that.customHeaders);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -265,15 +270,15 @@ extension CredentialsModelPatterns on CredentialsModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String token, String url, String? localUrl,
-            String serverName, String serverId, String deviceId)?
+    TResult? Function(String token, String url, String? localUrl, String serverName, String serverId, String deviceId,
+            Map<String, String> customHeaders)?
         internal,
   }) {
     final _that = this;
     switch (_that) {
       case _CredentialsModel() when internal != null:
-        return internal(_that.token, _that.url, _that.localUrl,
-            _that.serverName, _that.serverId, _that.deviceId);
+        return internal(_that.token, _that.url, _that.localUrl, _that.serverName, _that.serverId, _that.deviceId,
+            _that.customHeaders);
       case _:
         return null;
     }
@@ -289,10 +294,11 @@ class _CredentialsModel extends CredentialsModel with DiagnosticableTreeMixin {
       this.localUrl,
       this.serverName = "",
       this.serverId = "",
-      this.deviceId = ""})
-      : super._();
-  factory _CredentialsModel.fromJson(Map<String, dynamic> json) =>
-      _$CredentialsModelFromJson(json);
+      this.deviceId = "",
+      final Map<String, String> customHeaders = const {}})
+      : _customHeaders = customHeaders,
+        super._();
+  factory _CredentialsModel.fromJson(Map<String, dynamic> json) => _$CredentialsModelFromJson(json);
 
   @override
   @JsonKey()
@@ -311,6 +317,14 @@ class _CredentialsModel extends CredentialsModel with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final String deviceId;
+  final Map<String, String> _customHeaders;
+  @override
+  @JsonKey()
+  Map<String, String> get customHeaders {
+    if (_customHeaders is EqualUnmodifiableMapView) return _customHeaders;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_customHeaders);
+  }
 
   /// Create a copy of CredentialsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -336,20 +350,19 @@ class _CredentialsModel extends CredentialsModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('localUrl', localUrl))
       ..add(DiagnosticsProperty('serverName', serverName))
       ..add(DiagnosticsProperty('serverId', serverId))
-      ..add(DiagnosticsProperty('deviceId', deviceId));
+      ..add(DiagnosticsProperty('deviceId', deviceId))
+      ..add(DiagnosticsProperty('customHeaders', customHeaders));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CredentialsModel.internal(token: $token, url: $url, localUrl: $localUrl, serverName: $serverName, serverId: $serverId, deviceId: $deviceId)';
+    return 'CredentialsModel.internal(token: $token, url: $url, localUrl: $localUrl, serverName: $serverName, serverId: $serverId, deviceId: $deviceId, customHeaders: $customHeaders)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$CredentialsModelCopyWith<$Res>
-    implements $CredentialsModelCopyWith<$Res> {
-  factory _$CredentialsModelCopyWith(
-          _CredentialsModel value, $Res Function(_CredentialsModel) _then) =
+abstract mixin class _$CredentialsModelCopyWith<$Res> implements $CredentialsModelCopyWith<$Res> {
+  factory _$CredentialsModelCopyWith(_CredentialsModel value, $Res Function(_CredentialsModel) _then) =
       __$CredentialsModelCopyWithImpl;
   @override
   @useResult
@@ -359,12 +372,12 @@ abstract mixin class _$CredentialsModelCopyWith<$Res>
       String? localUrl,
       String serverName,
       String serverId,
-      String deviceId});
+      String deviceId,
+      Map<String, String> customHeaders});
 }
 
 /// @nodoc
-class __$CredentialsModelCopyWithImpl<$Res>
-    implements _$CredentialsModelCopyWith<$Res> {
+class __$CredentialsModelCopyWithImpl<$Res> implements _$CredentialsModelCopyWith<$Res> {
   __$CredentialsModelCopyWithImpl(this._self, this._then);
 
   final _CredentialsModel _self;
@@ -381,6 +394,7 @@ class __$CredentialsModelCopyWithImpl<$Res>
     Object? serverName = null,
     Object? serverId = null,
     Object? deviceId = null,
+    Object? customHeaders = null,
   }) {
     return _then(_CredentialsModel(
       token: null == token
@@ -407,6 +421,10 @@ class __$CredentialsModelCopyWithImpl<$Res>
           ? _self.deviceId
           : deviceId // ignore: cast_nullable_to_non_nullable
               as String,
+      customHeaders: null == customHeaders
+          ? _self._customHeaders
+          : customHeaders // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 }
