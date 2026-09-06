@@ -91,11 +91,16 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       final seerrUrl = _findSeerrUrlForServer(serverId);
       setTempSeerrUrl(seerrUrl);
     } catch (e) {
+      // A proxy in front of the server swallowing the request looks nothing
+      // like a bad URL, so say which of the two it is.
+      final customHeaders = state.tempCustomHeaders;
+      final behindProxy = await serverIsBehindAuthProxy(url, headers: customHeaders.isEmpty ? null : customHeaders);
+      final message = behindProxy ? localContext?.localized.serverBehindAuthProxy : localContext?.localized.invalidUrl;
       state = state.copyWith(
-        errorMessage: localContext?.localized.invalidUrl,
+        errorMessage: message,
         loading: false,
       );
-      FladderSnack.show(localContext?.localized.unableToConnectHost ?? "");
+      FladderSnack.show(message ?? localContext?.localized.unableToConnectHost ?? "");
     }
   }
 

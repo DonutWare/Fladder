@@ -187,6 +187,39 @@ Future<String?> probeSeerrUrl(String baseUrl) => _probeUrl(baseUrl, '/api/v1/sta
 Future<String?> probeJellyfinUrl(String baseUrl, {Map<String, String>? headers}) =>
     _probeUrl(baseUrl, '/System/Info/Public', headers: headers);
 
+/// Identity providers a header authenticating proxy bounces unauthenticated
+/// requests to.
+const _identityProviderHosts = {'cloudflareaccess.com'};
+
+/// Whether [baseUrl] answers with the challenge of a proxy sitting in front of
+/// the server, which is what Cloudflare Access does when a request carries no
+/// service token. Used to tell the user their headers are missing instead of
+/// blaming their URL.
+Future<bool> serverIsBehindAuthProxy(String baseUrl, {Map<String, String>? headers}) async {
+  final client = http.Client();
+  try {
+    final request = http.Request('GET', Uri.parse('$baseUrl/System/Info/Public'))..followRedirects = false;
+    if (headers != null) request.headers.addAll(headers);
+
+    final response = await client.send(request).timeout(const Duration(seconds: 5));
+    await response.stream.drain<void>();
+
+    if (response.headers['www-authenticate']?.toLowerCase().contains('cloudflare-access') == true) return true;
+
+    if (response.statusCode >= 300 && response.statusCode < 400) {
+      final location = response.headers['location'];
+      final host = location == null ? null : Uri.tryParse(location)?.host.toLowerCase();
+      return host != null && _identityProviderHosts.any(host.endsWith);
+    }
+    return false;
+  } catch (e) {
+    log('Auth proxy detection failed for $baseUrl: $e');
+    return false;
+  } finally {
+    client.close();
+  }
+}
+
 /// Result of [probeAndNormalizeUrl]: the resolved URL and whether a probe succeeded.
 typedef ProbeResult = ({String url, bool probed});
 

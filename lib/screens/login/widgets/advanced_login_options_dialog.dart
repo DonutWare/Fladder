@@ -52,7 +52,7 @@ class _AdvancedLoginOptionsDialog extends ConsumerStatefulWidget {
 
 class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptionsDialog> {
   late final TextEditingController seerrUrlController = TextEditingController(text: widget.initialSeerrUrl ?? '');
-  late Map<String, String> customHeaders = Map.of(widget.initialCustomHeaders);
+  late final CustomHeadersController headersController = CustomHeadersController(headers: widget.initialCustomHeaders);
   bool _probing = false;
   String? _warning;
 
@@ -61,6 +61,7 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
   @override
   void dispose() {
     seerrUrlController.dispose();
+    headersController.dispose();
     super.dispose();
   }
 
@@ -94,10 +95,7 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
                   onSubmitted: (_) => _save(),
                 ),
               SettingsLabelDivider(label: context.localized.customHeaders),
-              CustomHeadersEditor(
-                headers: customHeaders,
-                onChanged: (value) => customHeaders = value,
-              ),
+              CustomHeadersEditor(controller: headersController),
             ],
           ),
         ),
@@ -119,7 +117,7 @@ class _AdvancedLoginOptionsDialogState extends ConsumerState<_AdvancedLoginOptio
   }
 
   void _pop(String seerrUrl) => Navigator.of(context).pop(
-        AdvancedLoginOptions(seerrUrl: seerrUrl, customHeaders: customHeaders),
+        AdvancedLoginOptions(seerrUrl: seerrUrl, customHeaders: headersController.headers),
       );
 
   Future<void> _save() async {

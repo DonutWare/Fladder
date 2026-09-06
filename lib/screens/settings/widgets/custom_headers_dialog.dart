@@ -25,7 +25,15 @@ class _CustomHeadersDialog extends ConsumerStatefulWidget {
 }
 
 class _CustomHeadersDialogState extends ConsumerState<_CustomHeadersDialog> {
-  late Map<String, String> customHeaders = Map.of(ref.read(userProvider)?.credentials.customHeaders ?? const {});
+  late final CustomHeadersController controller = CustomHeadersController(
+    headers: ref.read(userProvider)?.credentials.customHeaders ?? const {},
+  );
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +48,7 @@ class _CustomHeadersDialogState extends ConsumerState<_CustomHeadersDialog> {
       content: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 500),
         child: SingleChildScrollView(
-          child: CustomHeadersEditor(
-            headers: customHeaders,
-            onChanged: (value) => customHeaders = value,
-          ),
+          child: CustomHeadersEditor(controller: controller),
         ),
       ),
       actions: [
@@ -54,7 +59,7 @@ class _CustomHeadersDialogState extends ConsumerState<_CustomHeadersDialog> {
         ),
         FilledButton(
           onPressed: () {
-            ref.read(userProvider.notifier).setCustomHeaders(customHeaders);
+            ref.read(userProvider.notifier).setCustomHeaders(controller.headers);
             Navigator.of(context).pop();
           },
           child: Text(context.localized.save),
