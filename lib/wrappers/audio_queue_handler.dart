@@ -37,10 +37,19 @@ extension AudioQueueHandler on MediaControlsWrapper {
     bool startPlayback,
   ) async {
     if (!_isAudioQueueMode) {
-      _previousPlayer = _player;
-      await _player?.stop();
-      await setup(LibMPV());
-      _isAudioQueueMode = true;
+      _audioQueueTransitioning = true;
+      try {
+        _previousPlayer = _player;
+        await _player?.stop();
+        await setup(LibMPV());
+        _isAudioQueueMode = true;
+      } finally {
+        _audioQueueTransitioning = false;
+      }
+    }
+
+    if (_player is LibMPV) {
+      (_player as LibMPV).setMusicPlaybackMode(true);
     }
 
     _playlistIndexSub?.cancel();

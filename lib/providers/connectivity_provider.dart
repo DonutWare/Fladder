@@ -19,7 +19,7 @@ enum ConnectionState {
   mobile,
   wifi,
   ethernet,
-  vpn; // 1. Added VPN state
+  vpn;
 
   bool get homeInternet => switch (this) {
         ConnectionState.offline => false,
@@ -40,17 +40,8 @@ final localConnectionAvailableProvider = StateProvider<bool>((ref) => false);
 @Riverpod(keepAlive: true)
 class ConnectivityStatus extends _$ConnectivityStatus {
   Timer? _debounceTimer;
-  int _probeVersion = 0;
+  int _probeId = 0;
   Completer<void>? _probeCompleter;
-
-  final Connectivity _connectivity = Connectivity();
-
-  late final StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
-
-  Future<void> checkConnectivity({bool immediate = false}) async {
-    final results = await _connectivity.checkConnectivity();
-    _onHardwareStateChange(results, immediate: immediate);
-  }
 
   @override
   ConnectionState build() {
@@ -58,131 +49,125 @@ class ConnectivityStatus extends _$ConnectivityStatus {
       userProvider.select((value) => value?.credentials.localUrl),
       (previous, next) {
         if (previous != next) {
-          _queueProbe(immediate: true);
+          checkConnectivity(immediate: true);
         }
       },
-      fireImmediately: true,
     );
 
-    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_onHardwareStateChange);
-    _connectivity.checkConnectivity().then(_onHardwareStateChange);
+    final subscription = Connectivity().onConnectivityChanged.listen((results) {
+      _handleHardwareChange(results);
+    });
 
     ref.onDispose(() {
       _debounceTimer?.cancel();
-      _completeProbe();
-      _connectivitySubscription.cancel();
+      subscription.cancel();
+      _probeId++;
+      _resolveProbe();
     });
+
+    checkConnectivity(immediate: true);
 
     return ConnectionState.mobile;
   }
 
-  Future<void> _onHardwareStateChange(List<ConnectivityResult> results, {bool immediate = false}) async {
-    ConnectionState hardwareState = ConnectionState.offline;
+  Future<void> checkConnectivity({bool immediate = false}) async {
+    final results = await Connectivity().checkConnectivity();
+    _handleHardwareChange(results, immediate: immediate);
+  }
 
-    if (results.contains(ConnectivityResult.vpn)) {
-      hardwareState = ConnectionState.vpn;
-    } else if (results.contains(ConnectivityResult.ethernet)) {
-      hardwareState = ConnectionState.ethernet;
-    } else if (results.contains(ConnectivityResult.wifi)) {
-      hardwareState = ConnectionState.wifi;
-    } else if (results.contains(ConnectivityResult.mobile)) {
-      hardwareState = ConnectionState.mobile;
-    }
+  Future<void> waitForProbe() async => _probeCompleter?.future;
+
+  void _handleHardwareChange(List<ConnectivityResult> results, {bool immediate = false}) {
+    final hardwareState = _parseHardwareState(results);
 
     if (hardwareState == ConnectionState.offline) {
-      state = ConnectionState.offline;
-      ref.read(localConnectionAvailableProvider.notifier).state = false;
-      _completeProbe();
+      _debounceTimer?.cancel();
+      _probeId++;
+      _resolveProbe();
+      _updateState(ConnectionState.offline, isLocal: false);
       return;
     }
 
-    state = hardwareState;
-    _queueProbe(immediate: immediate);
+    _queueProbe(hardwareState, immediate: immediate);
   }
 
-  void _queueProbe({bool immediate = false}) {
+  void _queueProbe(ConnectionState candidateState, {bool immediate = false}) {
     _debounceTimer?.cancel();
-    _completeProbe();
-    final probeCompleter = Completer<void>();
-    _probeCompleter = probeCompleter;
+    final id = ++_probeId;
+    _probeCompleter ??= Completer<void>();
 
     if (immediate) {
-      unawaited(_probeReachability(probeCompleter));
+      unawaited(_probeReachability(id, candidateState));
     } else {
       _debounceTimer = Timer(
         const Duration(milliseconds: 500),
-        () => unawaited(_probeReachability(probeCompleter)),
+        () => unawaited(_probeReachability(id, candidateState)),
       );
     }
   }
 
-  void _completeProbe() {
-    if (!(_probeCompleter?.isCompleted ?? true)) {
-      _probeCompleter?.complete();
-    }
-  }
-
-  Future<void> waitForProbe() async {
-    while (true) {
-      final probeCompleter = _probeCompleter;
-      if (probeCompleter == null) return;
-
-      await probeCompleter.future;
-      if (identical(_probeCompleter, probeCompleter)) return;
-    }
-  }
-
-  Future<void> _probeReachability(Completer<void> probeCompleter) async {
-    final currentProbeId = ++_probeVersion;
-
+  Future<void> _probeReachability(int id, ConnectionState candidateState) async {
     try {
-      if (state == ConnectionState.offline) {
-        ref.read(localConnectionAvailableProvider.notifier).state = false;
-        return;
-      }
-
       final user = ref.read(userProvider);
       if (user == null) return;
 
       final localUrl = user.credentials.localUrl;
-      final serverId = user.credentials.serverId;
-
-      ref.read(localConnectionAvailableProvider.notifier).state = false;
-
       if (localUrl != null && localUrl.isNotEmpty) {
-        final permissionStatus = await checkLocalNetworkPermission();
-        if (permissionStatus == LocalNetworkPermissionStatus.granted) {
+        final permission = await checkLocalNetworkPermission();
+        if (permission == LocalNetworkPermissionStatus.granted) {
           final localConnection = await fetchSystemInfoDynamic(normalizeUrl(localUrl));
 
-          if (_probeVersion != currentProbeId) return;
+          if (_probeId != id) return;
 
-          if (localConnection?.id == serverId) {
-            ref.read(localConnectionAvailableProvider.notifier).state = true;
+          if (localConnection?.id == user.credentials.serverId) {
+            _updateState(candidateState, isLocal: true);
             return;
           }
         }
       }
 
-      if (_probeVersion != currentProbeId) return;
+      if (_probeId != id) return;
 
-      final remoteUrl = ref.read(serverUrlProvider);
-      if (remoteUrl != null && remoteUrl.isNotEmpty) {
-        final checkServer = await probeJellyfinUrl(remoteUrl);
+      final remoteUrl = user.credentials.url;
+      if (remoteUrl.isNotEmpty) {
+        final checkServer = await fetchSystemInfoDynamic(normalizeUrl(remoteUrl));
 
-        if (_probeVersion != currentProbeId) return;
+        if (_probeId != id) return;
 
         if (checkServer != null) {
+          _updateState(candidateState, isLocal: false);
           return;
         }
       }
 
-      if (_probeVersion != currentProbeId) return;
-      state = ConnectionState.offline;
+      if (_probeId == id) {
+        _updateState(ConnectionState.offline, isLocal: false);
+      }
     } finally {
-      if (identical(_probeCompleter, probeCompleter) && !probeCompleter.isCompleted) {
-        probeCompleter.complete();
+      if (_probeId == id) {
+        _resolveProbe();
       }
     }
+  }
+
+  void _updateState(ConnectionState newState, {required bool isLocal}) {
+    ref.read(localConnectionAvailableProvider.notifier).state = isLocal;
+    state = newState;
+  }
+
+  void _resolveProbe() {
+    if (!(_probeCompleter?.isCompleted ?? true)) {
+      _probeCompleter?.complete();
+    }
+    _probeCompleter = null;
+  }
+
+  ConnectionState _parseHardwareState(List<ConnectivityResult> results) {
+    if (results.contains(ConnectivityResult.vpn)) return ConnectionState.vpn;
+    if (results.contains(ConnectivityResult.ethernet)) return ConnectionState.ethernet;
+    if (results.contains(ConnectivityResult.wifi)) return ConnectionState.wifi;
+    if (results.contains(ConnectivityResult.mobile)) return ConnectionState.mobile;
+    return ConnectionState.offline;
   }
 }
 
@@ -194,7 +179,7 @@ Future<PublicSystemInfo?> fetchSystemInfoDynamic(String baseUrl) async {
 
     final response = await http.get(uri).timeout(const Duration(seconds: 2));
 
-    if (response.statusCode == 200) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       return PublicSystemInfo.fromJson(jsonDecode(response.body));
     }
     return null;

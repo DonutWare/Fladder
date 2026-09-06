@@ -51,6 +51,13 @@ class LibMPV extends BasePlayer {
   AudioSession? _audioSession;
 
   bool _musicPaused = false;
+  bool _musicPlaybackMode = false;
+
+  void setMusicPlaybackMode(bool enabled) {
+    _musicPlaybackMode = enabled;
+    if (!enabled) _musicPaused = false;
+    setState(lastState);
+  }
 
   Future<void> setupAudioSession() async {
     _audioSession = await AudioSession.instance;
@@ -124,11 +131,8 @@ class LibMPV extends BasePlayer {
   }
 
   void setState(PlayerState state) {
-    if (state.playing && _musicPaused) {
-      _musicPaused = false;
-    }
     final newState = state.update(
-      playing: !_musicPaused,
+      playing: _musicPlaybackMode ? !_musicPaused : state.playing,
     );
     lastState = newState;
     _stateController.add(newState);
