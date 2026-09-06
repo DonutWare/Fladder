@@ -116,7 +116,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
         extendBody: true,
         floatingActionButton:
             !showAudioFullScreen && AdaptiveLayout.layoutModeOf(scaffoldContext) == LayoutMode.single && isHomeScreen
-                ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
+                ? widget.destinations.elementAtOrNull(currentIndex)?.fabWidget
                 : null,
         drawer: !showAudioFullScreen && homeRoutes.any((element) => element.name.contains(currentLocation))
             ? NestedNavigationDrawer(

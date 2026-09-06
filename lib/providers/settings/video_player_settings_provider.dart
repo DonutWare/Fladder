@@ -151,6 +151,8 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
 
   void setEnableDoubleTapSeek(bool value) => state = state.copyWith(enableDoubleTapSeek: value);
 
+  void setEnableSyncPlayCorrection(bool value) => state = state.copyWith(enableSyncPlayCorrection: value);
+
   void setEnableAdvancedVideoOptions(bool value) => state = state.copyWith(enableAdvancedVideoOptions: value);
 
   void setEnableEdgeGestures(bool value) => state = state.copyWith(enableEdgeGestures: value);

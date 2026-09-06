@@ -1,11 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -13,6 +10,8 @@ import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/gapped_container_shape.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/trick_play_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class VideoProgressBar extends ConsumerStatefulWidget {
   final Function(bool value) wasPlayingChanged;
@@ -107,10 +106,14 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                           ),
                       onChangeEnd: (e) async {
                         currentDuration = Duration(milliseconds: e.toInt());
-                        widget.onPositionChanged.call(Duration(milliseconds: e.toInt()));
-                        await Future.delayed(const Duration(milliseconds: 250));
-                        if (widget.wasPlaying) {
-                          player.play();
+                        final inSyncPlay = ref.read(isSyncPlayActiveProvider);
+                        // One seek per release; in a group the server's Seek and the following Unpause resume everyone.
+                        widget.onPositionChanged(Duration(milliseconds: e.toInt()));
+                        if (!inSyncPlay) {
+                          await Future.delayed(const Duration(milliseconds: 250));
+                          if (widget.wasPlaying) {
+                            ref.read(videoPlayerProvider.notifier).userPlay();
+                          }
                         }
                         widget.timerReset.call();
                         setState(() {
@@ -122,7 +125,10 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                           onHoverStart = true;
                         });
                         widget.wasPlayingChanged.call(player.lastState?.playing ?? false);
-                        player.pause();
+                        // In a group the player keeps running while dragging: pausing here would pause everyone.
+                        if (!ref.read(isSyncPlayActiveProvider)) {
+                          ref.read(videoPlayerProvider.notifier).userPause();
+                        }
                       },
                       onChanged: (e) {
                         currentDuration = Duration(milliseconds: e.toInt());

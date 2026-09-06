@@ -17,7 +17,9 @@ import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/update_notifications_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/providers/websocket/jellyfin_websocket_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
+import 'package:fladder/providers/router_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/services/notification_service.dart';
@@ -47,6 +49,12 @@ abstract class BaseAppWrapperState<T extends BaseAppWrapper> extends ConsumerSta
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      ref.read(routerProvider.notifier).state = autoRouter;
+    });
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       ref.read(sharedUtilityProvider).loadSettings();
@@ -144,6 +152,10 @@ abstract class BaseAppWrapperState<T extends BaseAppWrapper> extends ConsumerSta
 
   @override
   Widget build(BuildContext context) {
+    // Activate the app-level Jellyfin WebSocket for the whole session.
+    // The provider connects/disconnects itself off userProvider; this
+    // watch only ensures the keepAlive provider is instantiated.
+    ref.watch(jellyfinWebSocketControllerProvider);
     return widget.builder(
       context,
       autoRouter,
