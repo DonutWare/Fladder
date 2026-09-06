@@ -150,6 +150,19 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
               AspectRatio(
                 aspectRatio: 1,
                 child: Tooltip(
+                  message: context.localized.advanced,
+                  waitDuration: const Duration(seconds: 1),
+                  child: IconButton.filledTonal(
+                    onPressed: () => openAdvancedOptions(),
+                    icon: const Icon(
+                      IconsaxPlusLinear.setting_3,
+                    ),
+                  ),
+                ),
+              ),
+              AspectRatio(
+                aspectRatio: 1,
+                child: Tooltip(
                   message: context.localized.retrievePublicListOfUsers,
                   waitDuration: const Duration(seconds: 1),
                   child: IconButton.filled(
@@ -253,44 +266,23 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                     indent: 32,
                     endIndent: 32,
                   ),
-                  Row(
-                    spacing: 8,
-                    children: [
-                      Expanded(
-                        child: FilledButton(
-                          onPressed: enterCredentialsTryLogin,
-                          child: loggingIn
-                              ? SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: CircularProgressIndicator(
-                                      color: Theme.of(context).colorScheme.inversePrimary, strokeCap: StrokeCap.round),
-                                )
-                              : Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(context.localized.login),
-                                    const SizedBox(width: 8),
-                                    const Icon(IconsaxPlusBold.send_1),
-                                  ],
-                                ),
-                        ),
-                      ),
-                      if (FladderConfig.seerrBaseUrl?.isNotEmpty != true)
-                        IconButton.filledTonal(
-                          onPressed: () async {
-                            final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-                            final result = await showAdvancedLoginOptionsDialog(
-                              context,
-                              initialSeerrUrl: tempSeerrUrl,
-                            );
-                            if (result != null) {
-                              ref.read(authProvider.notifier).setTempSeerrUrl(result);
-                            }
-                          },
-                          icon: const Icon(IconsaxPlusLinear.setting_3),
-                        ),
-                    ],
+                  FilledButton(
+                    onPressed: enterCredentialsTryLogin,
+                    child: loggingIn
+                        ? SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(
+                                color: Theme.of(context).colorScheme.inversePrimary, strokeCap: StrokeCap.round),
+                          )
+                        : Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(context.localized.login),
+                              const SizedBox(width: 8),
+                              const Icon(IconsaxPlusBold.send_1),
+                            ],
+                          ),
                   ),
                   if (hasQuickConnect)
                     FilledButton(
@@ -421,6 +413,20 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     setState(() {
       loggingIn = false;
     });
+  }
+
+  Future<void> openAdvancedOptions() async {
+    final result = await showAdvancedLoginOptionsDialog(
+      context,
+      initialSeerrUrl: ref.read(authProvider.select((value) => value.tempSeerrUrl)),
+      initialCustomHeaders: ref.read(authProvider.select((value) => value.tempCustomHeaders)),
+    );
+    if (result == null) return;
+    final provider = ref.read(authProvider.notifier);
+    provider.setTempCustomHeaders(result.customHeaders);
+    if (FladderConfig.seerrBaseUrl?.isNotEmpty != true) {
+      provider.setTempSeerrUrl(result.seerrUrl);
+    }
   }
 
   bool emptyFields() => usernameController.text.isEmpty;

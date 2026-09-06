@@ -201,6 +201,16 @@ class User extends _$User {
     userState = state;
   }
 
+  /// Extra headers sent with every request to the Jellyfin server, used to get
+  /// through header authenticated proxies such as Cloudflare Access.
+  void setCustomHeaders(Map<String, String> headers) {
+    final user = state;
+    if (user == null) return;
+    userState = user.copyWith(
+      credentials: user.credentials.copyWith(customHeaders: Map.unmodifiable(headers)),
+    );
+  }
+
   void setSeerrServerUrl(String? value) {
     final user = state;
     if (user == null) return;

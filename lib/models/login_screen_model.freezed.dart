@@ -22,25 +22,24 @@ mixin _$LoginScreenModel {
   bool get loading;
   String? get tempSeerrUrl;
   String? get tempSeerrSessionCookie;
+  Map<String, String> get tempCustomHeaders;
 
   /// Create a copy of LoginScreenModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $LoginScreenModelCopyWith<LoginScreenModel> get copyWith =>
-      _$LoginScreenModelCopyWithImpl<LoginScreenModel>(
-          this as LoginScreenModel, _$identity);
+      _$LoginScreenModelCopyWithImpl<LoginScreenModel>(this as LoginScreenModel, _$identity);
 
   @override
   String toString() {
-    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
+    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie, tempCustomHeaders: $tempCustomHeaders)';
   }
 }
 
 /// @nodoc
 abstract mixin class $LoginScreenModelCopyWith<$Res> {
-  factory $LoginScreenModelCopyWith(
-          LoginScreenModel value, $Res Function(LoginScreenModel) _then) =
+  factory $LoginScreenModelCopyWith(LoginScreenModel value, $Res Function(LoginScreenModel) _then) =
       _$LoginScreenModelCopyWithImpl;
   @useResult
   $Res call(
@@ -51,14 +50,14 @@ abstract mixin class $LoginScreenModelCopyWith<$Res> {
       bool hasBaseUrl,
       bool loading,
       String? tempSeerrUrl,
-      String? tempSeerrSessionCookie});
+      String? tempSeerrSessionCookie,
+      Map<String, String> tempCustomHeaders});
 
   $ServerLoginModelCopyWith<$Res>? get serverLoginModel;
 }
 
 /// @nodoc
-class _$LoginScreenModelCopyWithImpl<$Res>
-    implements $LoginScreenModelCopyWith<$Res> {
+class _$LoginScreenModelCopyWithImpl<$Res> implements $LoginScreenModelCopyWith<$Res> {
   _$LoginScreenModelCopyWithImpl(this._self, this._then);
 
   final LoginScreenModel _self;
@@ -77,6 +76,7 @@ class _$LoginScreenModelCopyWithImpl<$Res>
     Object? loading = null,
     Object? tempSeerrUrl = freezed,
     Object? tempSeerrSessionCookie = freezed,
+    Object? tempCustomHeaders = null,
   }) {
     return _then(_self.copyWith(
       accounts: null == accounts
@@ -111,6 +111,10 @@ class _$LoginScreenModelCopyWithImpl<$Res>
           ? _self.tempSeerrSessionCookie
           : tempSeerrSessionCookie // ignore: cast_nullable_to_non_nullable
               as String?,
+      tempCustomHeaders: null == tempCustomHeaders
+          ? _self.tempCustomHeaders
+          : tempCustomHeaders // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 
@@ -230,22 +234,16 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             bool hasBaseUrl,
             bool loading,
             String? tempSeerrUrl,
-            String? tempSeerrSessionCookie)?
+            String? tempSeerrSessionCookie,
+            Map<String, String> tempCustomHeaders)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _LoginScreenModel() when $default != null:
-        return $default(
-            _that.accounts,
-            _that.screen,
-            _that.serverLoginModel,
-            _that.errorMessage,
-            _that.hasBaseUrl,
-            _that.loading,
-            _that.tempSeerrUrl,
-            _that.tempSeerrSessionCookie);
+        return $default(_that.accounts, _that.screen, _that.serverLoginModel, _that.errorMessage, _that.hasBaseUrl,
+            _that.loading, _that.tempSeerrUrl, _that.tempSeerrSessionCookie, _that.tempCustomHeaders);
       case _:
         return orElse();
     }
@@ -274,21 +272,15 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             bool hasBaseUrl,
             bool loading,
             String? tempSeerrUrl,
-            String? tempSeerrSessionCookie)
+            String? tempSeerrSessionCookie,
+            Map<String, String> tempCustomHeaders)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LoginScreenModel():
-        return $default(
-            _that.accounts,
-            _that.screen,
-            _that.serverLoginModel,
-            _that.errorMessage,
-            _that.hasBaseUrl,
-            _that.loading,
-            _that.tempSeerrUrl,
-            _that.tempSeerrSessionCookie);
+        return $default(_that.accounts, _that.screen, _that.serverLoginModel, _that.errorMessage, _that.hasBaseUrl,
+            _that.loading, _that.tempSeerrUrl, _that.tempSeerrSessionCookie, _that.tempCustomHeaders);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -316,21 +308,15 @@ extension LoginScreenModelPatterns on LoginScreenModel {
             bool hasBaseUrl,
             bool loading,
             String? tempSeerrUrl,
-            String? tempSeerrSessionCookie)?
+            String? tempSeerrSessionCookie,
+            Map<String, String> tempCustomHeaders)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _LoginScreenModel() when $default != null:
-        return $default(
-            _that.accounts,
-            _that.screen,
-            _that.serverLoginModel,
-            _that.errorMessage,
-            _that.hasBaseUrl,
-            _that.loading,
-            _that.tempSeerrUrl,
-            _that.tempSeerrSessionCookie);
+        return $default(_that.accounts, _that.screen, _that.serverLoginModel, _that.errorMessage, _that.hasBaseUrl,
+            _that.loading, _that.tempSeerrUrl, _that.tempSeerrSessionCookie, _that.tempCustomHeaders);
       case _:
         return null;
     }
@@ -348,8 +334,10 @@ class _LoginScreenModel implements LoginScreenModel {
       this.hasBaseUrl = false,
       this.loading = false,
       this.tempSeerrUrl,
-      this.tempSeerrSessionCookie})
-      : _accounts = accounts;
+      this.tempSeerrSessionCookie,
+      final Map<String, String> tempCustomHeaders = const {}})
+      : _accounts = accounts,
+        _tempCustomHeaders = tempCustomHeaders;
 
   final List<AccountModel> _accounts;
   @override
@@ -377,6 +365,14 @@ class _LoginScreenModel implements LoginScreenModel {
   final String? tempSeerrUrl;
   @override
   final String? tempSeerrSessionCookie;
+  final Map<String, String> _tempCustomHeaders;
+  @override
+  @JsonKey()
+  Map<String, String> get tempCustomHeaders {
+    if (_tempCustomHeaders is EqualUnmodifiableMapView) return _tempCustomHeaders;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_tempCustomHeaders);
+  }
 
   /// Create a copy of LoginScreenModel
   /// with the given fields replaced by the non-null parameter values.
@@ -388,15 +384,13 @@ class _LoginScreenModel implements LoginScreenModel {
 
   @override
   String toString() {
-    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
+    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie, tempCustomHeaders: $tempCustomHeaders)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$LoginScreenModelCopyWith<$Res>
-    implements $LoginScreenModelCopyWith<$Res> {
-  factory _$LoginScreenModelCopyWith(
-          _LoginScreenModel value, $Res Function(_LoginScreenModel) _then) =
+abstract mixin class _$LoginScreenModelCopyWith<$Res> implements $LoginScreenModelCopyWith<$Res> {
+  factory _$LoginScreenModelCopyWith(_LoginScreenModel value, $Res Function(_LoginScreenModel) _then) =
       __$LoginScreenModelCopyWithImpl;
   @override
   @useResult
@@ -408,15 +402,15 @@ abstract mixin class _$LoginScreenModelCopyWith<$Res>
       bool hasBaseUrl,
       bool loading,
       String? tempSeerrUrl,
-      String? tempSeerrSessionCookie});
+      String? tempSeerrSessionCookie,
+      Map<String, String> tempCustomHeaders});
 
   @override
   $ServerLoginModelCopyWith<$Res>? get serverLoginModel;
 }
 
 /// @nodoc
-class __$LoginScreenModelCopyWithImpl<$Res>
-    implements _$LoginScreenModelCopyWith<$Res> {
+class __$LoginScreenModelCopyWithImpl<$Res> implements _$LoginScreenModelCopyWith<$Res> {
   __$LoginScreenModelCopyWithImpl(this._self, this._then);
 
   final _LoginScreenModel _self;
@@ -435,6 +429,7 @@ class __$LoginScreenModelCopyWithImpl<$Res>
     Object? loading = null,
     Object? tempSeerrUrl = freezed,
     Object? tempSeerrSessionCookie = freezed,
+    Object? tempCustomHeaders = null,
   }) {
     return _then(_LoginScreenModel(
       accounts: null == accounts
@@ -469,6 +464,10 @@ class __$LoginScreenModelCopyWithImpl<$Res>
           ? _self.tempSeerrSessionCookie
           : tempSeerrSessionCookie // ignore: cast_nullable_to_non_nullable
               as String?,
+      tempCustomHeaders: null == tempCustomHeaders
+          ? _self._tempCustomHeaders
+          : tempCustomHeaders // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 
@@ -499,8 +498,7 @@ mixin _$ServerLoginModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ServerLoginModelCopyWith<ServerLoginModel> get copyWith =>
-      _$ServerLoginModelCopyWithImpl<ServerLoginModel>(
-          this as ServerLoginModel, _$identity);
+      _$ServerLoginModelCopyWithImpl<ServerLoginModel>(this as ServerLoginModel, _$identity);
 
   @override
   String toString() {
@@ -510,22 +508,17 @@ mixin _$ServerLoginModel {
 
 /// @nodoc
 abstract mixin class $ServerLoginModelCopyWith<$Res> {
-  factory $ServerLoginModelCopyWith(
-          ServerLoginModel value, $Res Function(ServerLoginModel) _then) =
+  factory $ServerLoginModelCopyWith(ServerLoginModel value, $Res Function(ServerLoginModel) _then) =
       _$ServerLoginModelCopyWithImpl;
   @useResult
   $Res call(
-      {CredentialsModel tempCredentials,
-      List<AccountModel> accounts,
-      String? serverMessage,
-      bool hasQuickConnect});
+      {CredentialsModel tempCredentials, List<AccountModel> accounts, String? serverMessage, bool hasQuickConnect});
 
   $CredentialsModelCopyWith<$Res> get tempCredentials;
 }
 
 /// @nodoc
-class _$ServerLoginModelCopyWithImpl<$Res>
-    implements $ServerLoginModelCopyWith<$Res> {
+class _$ServerLoginModelCopyWithImpl<$Res> implements $ServerLoginModelCopyWith<$Res> {
   _$ServerLoginModelCopyWithImpl(this._self, this._then);
 
   final ServerLoginModel _self;
@@ -666,18 +659,14 @@ extension ServerLoginModelPatterns on ServerLoginModel {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
-            CredentialsModel tempCredentials,
-            List<AccountModel> accounts,
-            String? serverMessage,
-            bool hasQuickConnect)?
+            CredentialsModel tempCredentials, List<AccountModel> accounts, String? serverMessage, bool hasQuickConnect)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ServerLoginModel() when $default != null:
-        return $default(_that.tempCredentials, _that.accounts,
-            _that.serverMessage, _that.hasQuickConnect);
+        return $default(_that.tempCredentials, _that.accounts, _that.serverMessage, _that.hasQuickConnect);
       case _:
         return orElse();
     }
@@ -699,17 +688,13 @@ extension ServerLoginModelPatterns on ServerLoginModel {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
-            CredentialsModel tempCredentials,
-            List<AccountModel> accounts,
-            String? serverMessage,
-            bool hasQuickConnect)
+            CredentialsModel tempCredentials, List<AccountModel> accounts, String? serverMessage, bool hasQuickConnect)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ServerLoginModel():
-        return $default(_that.tempCredentials, _that.accounts,
-            _that.serverMessage, _that.hasQuickConnect);
+        return $default(_that.tempCredentials, _that.accounts, _that.serverMessage, _that.hasQuickConnect);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -730,17 +715,13 @@ extension ServerLoginModelPatterns on ServerLoginModel {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
-            CredentialsModel tempCredentials,
-            List<AccountModel> accounts,
-            String? serverMessage,
-            bool hasQuickConnect)?
+            CredentialsModel tempCredentials, List<AccountModel> accounts, String? serverMessage, bool hasQuickConnect)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ServerLoginModel() when $default != null:
-        return $default(_that.tempCredentials, _that.accounts,
-            _that.serverMessage, _that.hasQuickConnect);
+        return $default(_that.tempCredentials, _that.accounts, _that.serverMessage, _that.hasQuickConnect);
       case _:
         return null;
     }
@@ -789,26 +770,20 @@ class _ServerLoginModel implements ServerLoginModel {
 }
 
 /// @nodoc
-abstract mixin class _$ServerLoginModelCopyWith<$Res>
-    implements $ServerLoginModelCopyWith<$Res> {
-  factory _$ServerLoginModelCopyWith(
-          _ServerLoginModel value, $Res Function(_ServerLoginModel) _then) =
+abstract mixin class _$ServerLoginModelCopyWith<$Res> implements $ServerLoginModelCopyWith<$Res> {
+  factory _$ServerLoginModelCopyWith(_ServerLoginModel value, $Res Function(_ServerLoginModel) _then) =
       __$ServerLoginModelCopyWithImpl;
   @override
   @useResult
   $Res call(
-      {CredentialsModel tempCredentials,
-      List<AccountModel> accounts,
-      String? serverMessage,
-      bool hasQuickConnect});
+      {CredentialsModel tempCredentials, List<AccountModel> accounts, String? serverMessage, bool hasQuickConnect});
 
   @override
   $CredentialsModelCopyWith<$Res> get tempCredentials;
 }
 
 /// @nodoc
-class __$ServerLoginModelCopyWithImpl<$Res>
-    implements _$ServerLoginModelCopyWith<$Res> {
+class __$ServerLoginModelCopyWithImpl<$Res> implements _$ServerLoginModelCopyWith<$Res> {
   __$ServerLoginModelCopyWithImpl(this._self, this._then);
 
   final _ServerLoginModel _self;

@@ -20,6 +20,7 @@ import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/screens/video_player/video_player.dart' as video_screen;
+import 'package:fladder/util/custom_headers.dart';
 import 'package:fladder/util/subtitle_position_calculator.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
@@ -201,7 +202,7 @@ class LibMPV extends BasePlayer {
     _fadeTimer?.cancel();
     _fadeTimer = null;
     await incomingPlayer.setVolume(0.0);
-    await incomingPlayer.open(mpv.Media(url), play: true);
+    await incomingPlayer.open(mpv.Media(url, httpHeaders: ServerCustomHeaders.forUrl(url)), play: true);
 
     final generation = ++_crossfadeGeneration;
     final fromVolume = oldPlayer.state.volume.clamp(0.0, 100.0);
@@ -254,7 +255,7 @@ class LibMPV extends BasePlayer {
 
     await setStartPosition(startPosition);
 
-    await _player?.open(mpv.Media(url), play: play);
+    await _player?.open(mpv.Media(url, httpHeaders: ServerCustomHeaders.forUrl(url)), play: play);
 
     _retryTimer?.cancel();
     _retryTimer = null;
@@ -270,7 +271,7 @@ class LibMPV extends BasePlayer {
         } else {
           log("Retrying to load video $url");
           await setStartPosition(startPosition);
-          await _player?.open(mpv.Media(url), play: play);
+          await _player?.open(mpv.Media(url, httpHeaders: ServerCustomHeaders.forUrl(url)), play: play);
           _retryTimer?.reset();
         }
       },
@@ -519,7 +520,8 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> addToPlaylist(String url) async => _player?.add(mpv.Media(url));
+  Future<void> addToPlaylist(String url) async =>
+      _player?.add(mpv.Media(url, httpHeaders: ServerCustomHeaders.forUrl(url)));
 
   @override
   Future<void> removeFromPlaylist(int index) async => _player?.remove(index);
