@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:fladder/util/custom_cache_manager.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'trick_play_model.freezed.dart';
@@ -36,6 +38,22 @@ abstract class TrickPlayModel with _$TrickPlayModel {
       (width * column).toDouble(),
       (height * row).toDouble(),
     );
+  }
+
+  Future<bool> allImagesValidWithCache({CacheManager? preferredCacheManager}) async {
+    if (images.isEmpty) return false;
+    try {
+      final cacheManager = preferredCacheManager ?? CustomCacheManager.instance;
+      for (var imageUrl in images) {
+        FileInfo? fileInfo = await cacheManager.getFileFromCache(imageUrl);
+
+        fileInfo ??= await cacheManager.downloadFile(imageUrl);
+        if (!fileInfo.file.existsSync()) return false;
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   static Map<String, TrickPlayModel> toTrickPlayMap(Map<String, dynamic> map) {

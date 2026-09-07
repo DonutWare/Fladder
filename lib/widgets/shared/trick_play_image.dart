@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:fladder/models/items/trick_play_model.dart';
 
@@ -81,9 +81,9 @@ class _TrickPlayImageState extends ConsumerState<TrickPlayImage> {
   }
 
   Future<void> loadNetworkImage(String url) async {
-    final http.Response response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      final Uint8List bytes = response.bodyBytes;
+    final file = await CustomCacheManager.instance.getSingleFile(url);
+    if (file.existsSync()) {
+      final Uint8List bytes = await file.readAsBytes();
       final ui.Codec codec = await ui.instantiateImageCodec(bytes);
       final ui.FrameInfo frameInfo = await codec.getNextFrame();
       if (!_isMounted) return;

@@ -57,7 +57,10 @@ class OverviewModel with OverviewModelMappable {
   }
 
   factory OverviewModel.fromBaseItemDto(BaseItemDto item, Ref? ref) {
-    final trickPlayItem = item.trickplay;
+    final trickPlayMap =
+        (item.trickplay != null && item.trickplay!.isNotEmpty) ? TrickPlayModel.toTrickPlayMap(item.trickplay!) : null;
+    final singleTrickPlayModel = trickPlayMap?.values.lastOrNull;
+
     return OverviewModel(
       runTime: item.runTimeDuration,
       yearAired: item.productionYear,
@@ -68,10 +71,10 @@ class OverviewModel with OverviewModelMappable {
       communityRating: item.communityRating,
       tags: item.tags ?? [],
       dateAdded: item.dateCreated,
-      trickPlayInfo:
-          trickPlayItem != null && trickPlayItem.isNotEmpty ? TrickPlayModel.toTrickPlayMap(trickPlayItem) : null,
-      chapters:
-          (ref != null && item.id != null) ? Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], ref) : null,
+      trickPlayInfo: trickPlayMap,
+      chapters: (ref != null && item.id != null)
+          ? Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], singleTrickPlayModel, ref)
+          : null,
       studios: item.studios?.map((e) => Studio(id: e.id ?? "", name: e.name ?? "")).toList() ?? [],
       genreItems: item.genreItems?.map((e) => GenreItems(id: e.id ?? "", name: e.name ?? "")).toList() ?? [],
       externalUrls: ExternalUrls.fromDto(item.externalUrls ?? []),
