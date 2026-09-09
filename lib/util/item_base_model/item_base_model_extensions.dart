@@ -17,8 +17,11 @@ import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/playback/playback_queue_source.dart';
+import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/audio_lyrics_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/collections/add_to_collection.dart';
 import 'package:fladder/screens/details_screens/tracks_detail_screen.dart';
@@ -90,6 +93,7 @@ extension ItemBaseModelsBooleans on List<ItemBaseModel> {
 
 enum ItemActions {
   play,
+  showLyrics,
   addToQueue,
   instantMix,
   openShow,
@@ -441,6 +445,12 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           },
           label: Text(context.localized.identify),
         ),
+      if (!exclude.contains(ItemActions.showLyrics) && this is AudioModel)
+        ItemActionButton(
+          action: () => _showTrackLyricsPopup(context, ref, this as AudioModel),
+          icon: const Icon(IconsaxPlusLinear.musicnote),
+          label: Text(context.localized.lyrics),
+        ),
       if (!exclude.contains(ItemActions.mediaInfo))
         ItemActionButton(
           icon: const Icon(IconsaxPlusLinear.info_circle),
@@ -494,4 +504,117 @@ extension ItemBaseModelExtensions on ItemBaseModel {
     final parsed = int.tryParse(value.toString());
     return parsed;
   }
+}
+
+Future<void> _showTrackLyricsPopup(BuildContext context, WidgetRef ref, AudioModel track) {
+  final providerState = ref.read(audioLyricsProvider);
+  final isCurrentProviderTrack = providerState.itemId == track.id && providerState.hasLyrics;
+
+  if (isCurrentProviderTrack) {
+    return _showTrackLyricsPopupWithTimeline(context, providerState.lines);
+  }
+
+  return showDialog<void>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(context.localized.lyrics),
+        content: SizedBox(
+          width: 540,
+          child: FutureBuilder(
+            future: ref.read(jellyApiProvider).audioItemIdLyricsGet(itemId: track.id),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              final response = snapshot.data;
+              final trackDuration = ref.read(playBackModel)?.item.overview.runTime ?? track.overview.runTime;
+              final lyricsState = AudioLyricsState(
+                rawLines: AudioLyricsTimelineBuilder.parseSyncedLines(response?.body),
+                trackDuration: trackDuration,
+              );
+              final timeline = lyricsState.lines;
+
+              return _buildLyricsTimelineList(context, timeline);
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(context.localized.close),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> _showTrackLyricsPopupWithTimeline(
+  BuildContext context,
+  List<SyncedLyricLine> timeline,
+) {
+  return showDialog<void>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(context.localized.lyrics),
+        content: SizedBox(
+          width: 540,
+          child: _buildLyricsTimelineList(context, timeline),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(context.localized.close),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Widget _buildLyricsTimelineList(BuildContext context, List<SyncedLyricLine> timeline) {
+  if (timeline.isEmpty) {
+    return Text(
+      context.localized.noSyncedLyrics,
+      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+    );
+  }
+
+  return Scrollbar(
+    thumbVisibility: true,
+    child: ListView.separated(
+      shrinkWrap: true,
+      itemCount: timeline.length,
+      separatorBuilder: (context, index) => const SizedBox(height: 8),
+      itemBuilder: (context, index) {
+        final line = timeline[index];
+        if (line.isInstrumentalGap) {
+          return Row(
+            spacing: 4,
+            children: List.generate(
+              4,
+              (index) => Icon(
+                Icons.music_note_rounded,
+                size: 18,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          );
+        }
+
+        return SelectableText(
+          line.text,
+          style: Theme.of(context).textTheme.bodyLarge,
+        );
+      },
+    ),
+  );
 }

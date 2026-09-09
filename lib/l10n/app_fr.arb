@@ -779,7 +779,7 @@
             }
         }
     },
-    "defaultFilterForLibrary": "Filtre par défaut pour la bibliothèque",
+    "defaultFilterForLibrary": "Définir le filtre par défaut pour la bibliothèque",
     "updateFilterForLibrary": "Mettre à jour le filtre",
     "deleteFilterConfirmation": "Voulez-vous vraiment supprimer ce filtre ?",
     "libraryFiltersLimitReached": "Limite de filtres atteinte (10), supprimez-en quelques-uns",
@@ -2019,5 +2019,121 @@
     "musicDashboard": "Tableau de bord musical",
     "quiet": "Faible",
     "loud": "Fort",
-    "toggleSubtitles": "Afficher/Masquer les sous-titres"
+    "toggleSubtitles": "Afficher/Masquer les sous-titres",
+    "openJellyfinQuickConnect": "Ouvrir Jellyfin QuickConnect",
+    "posterColorsDesc": "Utilisez des couleurs générées pour les affiches à la place de la couleur par défaut",
+    "share": "Partager",
+    "disc": "Disque {number}",
+    "@disc": {
+        "description": "disc",
+        "placeholders": {
+            "number": {
+                "type": "int"
+            }
+        }
+    },
+    "incognito": "Incognito",
+    "showInSideBar": "Afficher dans la barre latérale",
+    "hideInSideBar": "Cacher de la barre latérale",
+    "showInSideBarDesc": "Afficher ce filtre dans la barre latérale pour un accès rapide",
+    "playerSettingsAmbientBlurTitle": "Activer le flou ambiant",
+    "posterColorsTitle": "Couleurs d'affiche générées",
+    "setAs": "Définir comme",
+    "mediaTypeMusicVideo": "{count, plural, one{Vidéoclip} other{Vidéoclips}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeCollection": "{count, plural, one{Collection} other{Collections}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "authenticateWithBiometrics": "Utiliser la biométrie pour authentifier {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "pictureInPictureTitle": "Incrustation d'image",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "Incrustation d'image automatique",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureSubtitle": "Entrer automatiquement en mode incrustation d'image quand vous quittez le lecteur. Le bouton d'incrustation d'image (PiP) restera fonctionel.",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "L'incrustation d'image n'est pas disponible sur cet appareil",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "quitMultipleWindowsDesc": "Vous avez {count} fenêtres ouvertes. Quitter Fladder les fermera toutes. Voulez-vous continuez ?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "selectRandom": "Sélection aléatoire",
+    "playItems": "Jouer la sélection",
+    "shuffleItems": "Mélanger la sélection",
+    "incognitoModeLocal": "Mode Incognito (Profil)",
+    "incognitoModeDesc": "Le mode Incognito désactive l'envoi du statut de lecture au serveur",
+    "playerSettingsAmbientBlurDesc": "Activer le flou ambiant dans le lecteur. Cela floutera le fond derrière le lecteur pour réduire les distractions.",
+    "playerSettingsAmbientBlurDescWarning": "Le flou ambiant peut causer des problèmes de performance sur les appareils moins puissants.",
+    "openSelected": "Ouvrir la sélection",
+    "youLiked": "Vous avez apprécié",
+    "instantMixBy": "Instant Mix de {artist}",
+    "@instantMixBy": {
+        "description": "Instant Mix of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "applyFilter": "Appliquer le filtre",
+    "closeWindow": "Fermer la fenêtre",
+    "incognitoModeGlobal": "Mode Incognito (App)",
+    "discography": "Discographie",
+    "latestTracksBy": "Derniers titres par {artist}",
+    "@latestTracksBy": {
+        "description": "Latest tracks by artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "favoritesOf": "Favoris de {artist}",
+    "@favoritesOf": {
+        "description": "Favorites of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "leanBackModeTitle": "Mode Lean-back",
+    "leanBackModeInfo": "Le mode Lean-back est réactivé par défaut sur les appareils AndroidTV. Activer cette option sur les appareils non-AndroidTV peut entraîner un comportement inattendu."
 }

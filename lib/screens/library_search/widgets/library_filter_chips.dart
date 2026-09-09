@@ -60,6 +60,15 @@ class _LibraryFilterChipsState extends ConsumerState<LibraryFilterChips> {
           onSave: (value) => libraryProvider.setViews(value),
           onCancel: () => libraryProvider.setViews(librarySearchResults.views),
           onClear: () => libraryProvider.setViews(librarySearchResults.views.setAll(false)),
+        )
+      else if (librarySearchResults.folderOverwrite.length > 1)
+        CategoryChip(
+          label: Text(context.localized.mediaTypeFolder(2)),
+          items: librarySearchResults.folderOverwrite.sortByKey((value) => value.name),
+          labelBuilder: (item) => Text(item.name),
+          onSave: (value) => libraryProvider.setFolderOverwrite(value),
+          onCancel: () => libraryProvider.setFolderOverwrite(librarySearchResults.folderOverwrite),
+          onClear: () => libraryProvider.setFolderOverwrite(librarySearchResults.folderOverwrite.setAll(false)),
         ),
       CategoryChip<FladderItemType>(
         label: Text(context.localized.type(librarySearchResults.filters.types.length)),

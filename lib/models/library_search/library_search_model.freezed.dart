@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$LibrarySearchModel implements DiagnosticableTreeMixin {
   bool get loading;
   bool get selecteMode;
-  List<ItemBaseModel> get folderOverwrite;
+  Map<ItemBaseModel, bool> get folderOverwrite;
   Map<ViewModel, bool> get views;
   List<ItemBaseModel> get posters;
   List<ItemBaseModel> get selectedPosters;
@@ -62,7 +62,7 @@ abstract mixin class $LibrarySearchModelCopyWith<$Res> {
   $Res call(
       {bool loading,
       bool selecteMode,
-      List<ItemBaseModel> folderOverwrite,
+      Map<ItemBaseModel, bool> folderOverwrite,
       Map<ViewModel, bool> views,
       List<ItemBaseModel> posters,
       List<ItemBaseModel> selectedPosters,
@@ -109,7 +109,7 @@ class _$LibrarySearchModelCopyWithImpl<$Res> implements $LibrarySearchModelCopyW
       folderOverwrite: null == folderOverwrite
           ? _self.folderOverwrite
           : folderOverwrite // ignore: cast_nullable_to_non_nullable
-              as List<ItemBaseModel>,
+              as Map<ItemBaseModel, bool>,
       views: null == views
           ? _self.views
           : views // ignore: cast_nullable_to_non_nullable
@@ -248,7 +248,7 @@ extension LibrarySearchModelPatterns on LibrarySearchModel {
     TResult Function(
             bool loading,
             bool selecteMode,
-            List<ItemBaseModel> folderOverwrite,
+            Map<ItemBaseModel, bool> folderOverwrite,
             Map<ViewModel, bool> views,
             List<ItemBaseModel> posters,
             List<ItemBaseModel> selectedPosters,
@@ -287,7 +287,7 @@ extension LibrarySearchModelPatterns on LibrarySearchModel {
     TResult Function(
             bool loading,
             bool selecteMode,
-            List<ItemBaseModel> folderOverwrite,
+            Map<ItemBaseModel, bool> folderOverwrite,
             Map<ViewModel, bool> views,
             List<ItemBaseModel> posters,
             List<ItemBaseModel> selectedPosters,
@@ -324,7 +324,7 @@ extension LibrarySearchModelPatterns on LibrarySearchModel {
     TResult? Function(
             bool loading,
             bool selecteMode,
-            List<ItemBaseModel> folderOverwrite,
+            Map<ItemBaseModel, bool> folderOverwrite,
             Map<ViewModel, bool> views,
             List<ItemBaseModel> posters,
             List<ItemBaseModel> selectedPosters,
@@ -351,7 +351,7 @@ class _LibrarySearchModel with DiagnosticableTreeMixin implements LibrarySearchM
   const _LibrarySearchModel(
       {this.loading = false,
       this.selecteMode = false,
-      final List<ItemBaseModel> folderOverwrite = const <ItemBaseModel>[],
+      final Map<ItemBaseModel, bool> folderOverwrite = const <ItemBaseModel, bool>{},
       final Map<ViewModel, bool> views = const <ViewModel, bool>{},
       final List<ItemBaseModel> posters = const <ItemBaseModel>[],
       final List<ItemBaseModel> selectedPosters = const <ItemBaseModel>[],
@@ -372,13 +372,13 @@ class _LibrarySearchModel with DiagnosticableTreeMixin implements LibrarySearchM
   @override
   @JsonKey()
   final bool selecteMode;
-  final List<ItemBaseModel> _folderOverwrite;
+  final Map<ItemBaseModel, bool> _folderOverwrite;
   @override
   @JsonKey()
-  List<ItemBaseModel> get folderOverwrite {
-    if (_folderOverwrite is EqualUnmodifiableListView) return _folderOverwrite;
+  Map<ItemBaseModel, bool> get folderOverwrite {
+    if (_folderOverwrite is EqualUnmodifiableMapView) return _folderOverwrite;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_folderOverwrite);
+    return EqualUnmodifiableMapView(_folderOverwrite);
   }
 
   final Map<ViewModel, bool> _views;
@@ -472,7 +472,7 @@ abstract mixin class _$LibrarySearchModelCopyWith<$Res> implements $LibrarySearc
   $Res call(
       {bool loading,
       bool selecteMode,
-      List<ItemBaseModel> folderOverwrite,
+      Map<ItemBaseModel, bool> folderOverwrite,
       Map<ViewModel, bool> views,
       List<ItemBaseModel> posters,
       List<ItemBaseModel> selectedPosters,
@@ -520,7 +520,7 @@ class __$LibrarySearchModelCopyWithImpl<$Res> implements _$LibrarySearchModelCop
       folderOverwrite: null == folderOverwrite
           ? _self._folderOverwrite
           : folderOverwrite // ignore: cast_nullable_to_non_nullable
-              as List<ItemBaseModel>,
+              as Map<ItemBaseModel, bool>,
       views: null == views
           ? _self._views
           : views // ignore: cast_nullable_to_non_nullable

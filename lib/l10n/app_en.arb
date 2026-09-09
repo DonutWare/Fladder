@@ -1749,6 +1749,10 @@
   "settingsLocalUrlTitle": "Local Jellyfin URL",
   "settingsLocalUrlSetTitle": "Configure Local Jellyfin URL",
   "settingsLocalUrlSetDesc": "Specify the local Jellyfin address. Fladder will automatically use this URL when your device is on the same network.",
+  "localNetworkPermissionRequest": "Allow local network access to discover servers.",
+  "requestPermission": "Request Permission",
+  "localNetworkPermissionDenied": "Local network access is required. Enable devices nearby permission in system settings.",
+  "openSettings": "Open Settings",
   "regenerateTrickplayImages": "Regenerate trickplay images",
   "controlPanel": "Control Panel",
   "@controlPanel": {},
@@ -2469,6 +2473,12 @@
   },
   "removeFromQueue": "Remove from queue",
   "@removeFromQueue": {},
+  "lyrics": "Lyrics",
+  "@lyrics": {},
+  "returnToSyncedLyrics": "Return to synced lyrics",
+  "@returnToSyncedLyrics": {},
+  "noSyncedLyrics": "No synced lyrics available",
+  "@noSyncedLyrics": {},
   "noPrograms": "No programs available",
   "switchChannel": "Switch channel",
   "switchChannelDesc": "Do you want to watch \"{programName}\" on {channelName}?",
@@ -2854,5 +2864,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "leanBackModeTitle": "Lean-back Mode",
+  "leanBackModeDesc": "Enable lean-back mode on Android devices, even if the device reports back as false.",
+  "leanBackModeInfo": "Lean-back mode is re-enabled by default on AndroidTV devices. Toggling this option on non-AndroidTV devices may cause unexpected behavior."
 }

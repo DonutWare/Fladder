@@ -31,6 +31,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
 
     final imagesToFetch = {
       ImageType.logo,
+      ImageType.thumb,
       ImageType.primary,
       ImageType.backdrop,
       ImageType.banner,
@@ -117,6 +118,8 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
       nextUpDateCutoff: DateTime.now().subtract(
           ref.read(clientSettingsProvider.select((value) => value.nextUpDateCutoff ?? const Duration(days: 28)))),
       fields: fieldsToFetch.toList(),
+      enableImageTypes: imagesToFetch,
+      imageTypeLimit: 1,
     );
 
     final next = nextResponse.body?.items

@@ -18,7 +18,7 @@ abstract class LibrarySearchModel with _$LibrarySearchModel {
   const factory LibrarySearchModel({
     @Default(false) bool loading,
     @Default(false) bool selecteMode,
-    @Default(<ItemBaseModel>[]) List<ItemBaseModel> folderOverwrite,
+    @Default(<ItemBaseModel, bool>{}) Map<ItemBaseModel, bool> folderOverwrite,
     @Default(<ViewModel, bool>{}) Map<ViewModel, bool> views,
     @Default(<ItemBaseModel>[]) List<ItemBaseModel> posters,
     @Default(<ItemBaseModel>[]) List<ItemBaseModel> selectedPosters,
@@ -57,7 +57,7 @@ extension LibrarySearchModelX on LibrarySearchModel {
 
   String searchBarTitle(BuildContext context) {
     if (folderOverwrite.isNotEmpty) {
-      return "${context.localized.search} ${folderOverwrite.map((e) => e.name).join(",")}...";
+      return "${context.localized.search} ${folderOverwrite.included.map((e) => e.name).join(",")}...";
     }
     return views.included.length == 1
         ? "${context.localized.search} ${views.included.first.name}..."
@@ -164,6 +164,13 @@ extension LibrarySearchModelX on LibrarySearchModel {
     );
   }
 
-  List<String> get currentIds =>
-      folderOverwrite.isNotEmpty ? folderOverwrite.map((e) => e.id).toList() : views.included.map((e) => e.id).toList();
+  List<String> get currentIds => folderOverwrite.isNotEmpty
+      ? folderOverwrite.included.map((e) => e.id).toList()
+      : views.included.map((e) => e.id).toList();
+
+  bool shouldRefresh(LibrarySearchModel other) {
+    return !const DeepCollectionEquality().equals(folderOverwrite, other.folderOverwrite) ||
+        !const DeepCollectionEquality().equals(views, other.views) ||
+        filters != other.filters;
+  }
 }

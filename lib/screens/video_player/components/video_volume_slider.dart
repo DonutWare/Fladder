@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,13 @@ class _VideoVolumeSliderState extends ConsumerState<VideoVolumeSlider> {
     final volume = ref.read(videoPlayerSettingsProvider).volume;
     final delta = event.scrollDelta.dy / 100.0 * 4.5;
     final newVolume = (volume - delta).clamp(0.0, 100.0);
-    ref.read(videoPlayerSettingsProvider.notifier).setVolume(newVolume);
+    updateVolume(newVolume);
+  }
+
+  void updateVolume(double value) {
+    if (!{TargetPlatform.android, TargetPlatform.iOS}.contains(defaultTargetPlatform)) {
+      ref.read(videoPlayerSettingsProvider.notifier).setVolume(value);
+    }
     widget.onChanged?.call();
   }
 
@@ -59,7 +66,7 @@ class _VideoVolumeSliderState extends ConsumerState<VideoVolumeSlider> {
                 if (volume != 0) {
                   previousVolume = volume;
                 }
-                ref.read(videoPlayerSettingsProvider.notifier).setVolume(volume == 0 ? (previousVolume ?? 100) : 0);
+                updateVolume(volume == 0 ? (previousVolume ?? 100) : 0);
               },
             ),
             AnimatedSize(
@@ -83,7 +90,7 @@ class _VideoVolumeSliderState extends ConsumerState<VideoVolumeSlider> {
                   },
                   onChanged: (value) {
                     widget.onChanged?.call();
-                    ref.read(videoPlayerSettingsProvider.notifier).setVolume(value);
+                    updateVolume(value);
                   },
                 ),
               ),

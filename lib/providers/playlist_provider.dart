@@ -6,6 +6,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
+import 'package:fladder/util/map_bool_helper.dart';
 
 final playlistStateProvider = StateProvider<List<PlaylistModel>>((ref) => []);
 
@@ -65,23 +66,26 @@ class PlaylistNotifier extends StateNotifier<_PlaylistProviderModel> {
 
     ref.read(playlistStateProvider.notifier).state = playlists ?? [];
 
-    final List<Future<bool>> itemChecks = playlists?.map((element) async {
-          final itemList = await api.playlistsPlaylistIdItemsGet(
-            playlistId: element.id,
-            enableImages: false,
-            enableUserData: false,
-            fields: [],
-          );
-          final List<String?> items = (itemList.body?.items ?? []).map((e) => e.id).toList();
-          return items.contains(state.items.firstOrNull?.id);
-        }).toList() ??
-        [];
+    state = state.copyWith(
+      collections: Map.fromIterables(playlists ?? [], List.generate(playlists?.length ?? 0, (index) => null)),
+    );
 
-    final List<bool> results = await Future.wait(itemChecks);
+    playlists?.forEach(
+      (playlist) async {
+        final itemList = await api.playlistsPlaylistIdItemsGet(
+          playlistId: playlist.id,
+          enableImages: false,
+          enableUserData: false,
+          fields: [],
+        );
+        final List<String?> items = (itemList.body?.items ?? []).map((e) => e.id).toList();
+        state = state.copyWith(
+          collections: state.collections.setKey(playlist, items.contains(state.items.firstOrNull?.id)),
+        );
+      },
+    );
 
-    final Map<PlaylistModel, bool?> boxSetContainsItemMap = Map.fromIterables(playlists ?? [], results);
-
-    state = state.copyWith(collections: boxSetContainsItemMap, isLoading: false);
+    state = state.copyWith(isLoading: false);
   }
 
   Future<Response> addToPlaylist({required PlaylistModel playlist}) async {

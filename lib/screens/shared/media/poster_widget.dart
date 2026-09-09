@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as jelly;
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/album_model.dart';
 import 'package:fladder/models/items/artist_model.dart';
@@ -31,7 +32,7 @@ class PosterWidget extends ConsumerWidget {
   final Function(ItemBaseModel newItem)? onItemUpdated;
   final Function(ItemBaseModel oldItem)? onItemRemoved;
   final Function(VoidCallback action, ItemBaseModel item)? onPressed;
-  final bool primaryPosters;
+  final List<jelly.ImageType>? imagePriority;
   final Function(bool focus)? onFocusChanged;
   final bool showSyncStatus;
 
@@ -49,7 +50,7 @@ class PosterWidget extends ConsumerWidget {
     this.onItemUpdated,
     this.onItemRemoved,
     this.onPressed,
-    this.primaryPosters = false,
+    this.imagePriority,
     this.onFocusChanged,
     this.showSyncStatus = false,
     super.key,
@@ -81,7 +82,7 @@ class PosterWidget extends ConsumerWidget {
               onItemRemoved: onItemRemoved,
               onItemUpdated: onItemUpdated,
               onPressed: onPressed,
-              primaryPosters: primaryPosters,
+              imagePriority: imagePriority,
               onFocusChanged: onFocusChanged,
               showSyncStatus: showSyncStatus,
             ),

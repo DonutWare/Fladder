@@ -12,6 +12,12 @@ subprojects {
 }
 
 subprojects {
+    if (name == "permission_handler_android") {
+        apply plugin: "org.jetbrains.kotlin.android"
+    }
+}
+
+subprojects {
     project.evaluationDependsOn(":app")
 }
 

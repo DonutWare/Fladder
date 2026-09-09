@@ -1965,5 +1965,6 @@
     "audioPlayerRepeatAll": "Ripeti tutto",
     "audioPlayerRepeatOff": "Ripetizione off",
     "audioPlayerRepeatOne": "Ripeti una volta",
-    "audioPlayerShuffle": "Shuffle"
+    "audioPlayerShuffle": "Shuffle",
+    "instantMix": "Mix istantaneo"
 }

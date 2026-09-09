@@ -613,7 +613,7 @@
     "videoScalingContain": "احتواء",
     "videoScalingCover": "تغطية",
     "unableToPlayMedia": "حدث خطأ في العثور على نوع وسائط متوافق",
-    "defaultFilterForLibrary": "اعدادات الفلتر الافتراضي للمكتبة",
+    "defaultFilterForLibrary": "إعداد الفلتر الافتراضي للمكتبة",
     "updateFilterForLibrary": "تحديث الفلتر",
     "libraryFiltersLimitReached": "تم الوصول إلى حد الفلاتر (10) قم بإزالة بعض الفلتره",
     "libraryFiltersRemoveAll": "إزالة جميع الفلاتر",
@@ -627,7 +627,7 @@
     "schemeSettingsVibrant": "نابض بالحياة",
     "schemeSettingsRainbow": "قوس قزح",
     "clientSettingsRequireWifiDesc": "التنزيل فقط عند الاتصال بشبكة Wi-Fi",
-    "libraryShuffleAndPlayItems": "تشغيل العناصر عشوائياً",
+    "libraryShuffleAndPlayItems": "تشغيل العناصر عشوائياً والبدء في التشغيل",
     "clientSettingsRequireWifiTitle": "يتطلب اتصال Wi-Fi",
     "unknown": "مجهول",
     "libraryFiltersRemoveAllConfirm": "سيؤدي ذلك إلى حذف جميع الفلاتر المحفوظة لكل مكتبة",
@@ -2080,5 +2080,100 @@
             }
         }
     },
-    "setAs": "تعيين كـ"
+    "setAs": "تعيين كـ",
+    "posterColorsTitle": "الألوان المُولَّدة للملصقات",
+    "posterColorsDesc": "استخدام الألوان المُولَّدة للملصقات بدلاً من اللون الافتراضي",
+    "selectRandom": "اختيار عشوائي",
+    "stopSelection": "إيقاف تحديد {count}",
+    "@stopSelection": {
+        "description": "stopSelection",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "playItems": "تشغيل العناصر",
+    "shuffleItems": "تشغيل العناصر عشوائياً",
+    "disc": "القرص {number}",
+    "@disc": {
+        "description": "disc",
+        "placeholders": {
+            "number": {
+                "type": "int"
+            }
+        }
+    },
+    "mediaTypeCollection": "{count, plural, one{مجموعة} other{مجموعات}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "incognitoMode": "وضع التخفي",
+    "incognitoModeDesc": "وضع التخفي يمنع إرسال حالة التشغيل إلى الخادم",
+    "incognito": "التخفي",
+    "incognitoModeGlobal": "وضع التخفي (التطبيق)",
+    "incognitoModeLocal": "وضع التخفي (الملف الشخصي)",
+    "showInSideBar": "إظهار في الشريط الجانبي",
+    "hideInSideBar": "إخفاء من الشريط الجانبي",
+    "showInSideBarDesc": "إظهار هذا الفلتر في الشريط الجانبي للوصول السريع",
+    "applyFilter": "تطبيق الفلتر",
+    "playerSettingsAmbientBlurTitle": "تفعيل التمويه المحيطي",
+    "playerSettingsAmbientBlurDesc": "تفعيل التمويه المحيطي في المشغّل. سيؤدي ذلك إلى تمويه الخلفية خلف المشغّل لتقليل التشتت.",
+    "playerSettingsAmbientBlurDescWarning": "قد يتسبب التمويه المحيطي في مشاكل بالأداء على الأجهزة ذات الإمكانيات المحدودة.",
+    "mediaTypeMusicVideo": "{count, plural, one{فيديو موسيقي} other{فيديوهات موسيقية}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "openSelected": "فتح العناصر المحددة",
+    "discography": "الأعمال الكاملة",
+    "youLiked": "أعجبتك",
+    "instantMixBy": "مزج فوري لـ {artist}",
+    "@instantMixBy": {
+        "description": "Instant Mix of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "latestTracksBy": "أحدث المقاطع لـ {artist}",
+    "@latestTracksBy": {
+        "description": "Latest tracks by artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "favoritesOf": "مفضلات {artist}",
+    "@favoritesOf": {
+        "description": "Favorites of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "leanBackModeTitle": "وضع الاسترخاء",
+    "leanBackModeDesc": "تفعيل وضع الاسترخاء على أجهزة أندرويد، حتى إذا أبلغ الجهاز بعدم دعمه.",
+    "leanBackModeInfo": "وضع الاسترخاء مُفعّل افتراضياً على أجهزة AndroidTV. تفعيل هذا الخيار على أجهزة أخرى قد يسبب سلوكاً غير متوقع.",
+    "lyrics": "كلمات الأغنية",
+    "returnToSyncedLyrics": "العودة إلى الكلمات المتزامنة",
+    "noSyncedLyrics": "لا توجد كلمات متزامنة متاحة",
+    "localNetworkPermissionRequest": "السماح بالوصول إلى الشبكة المحلية لاكتشاف الخوادم.",
+    "requestPermission": "طلب الإذن",
+    "localNetworkPermissionDenied": "الوصول إلى الشبكة المحلية مطلوب. قم بتمكين إذن الأجهزة القريبة من إعدادات النظام.",
+    "openSettings": "فتح الإعدادات"
 }

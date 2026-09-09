@@ -795,7 +795,7 @@
     "syncSelectDownloadsFolder": "Wybierz folder pobierania",
     "errorOpeningMedia": "Coś poszło nie tak z próbą odtworzenia",
     "unableToPlayBooksOnWeb": "Książki nie są wspierane w wersji przeglądarkowej",
-    "defaultFilterForLibrary": "Domyślny filtr dla tej biblioteki",
+    "defaultFilterForLibrary": "Ustaw domyślny filtr dla tej biblioteki",
     "deleteFilterConfirmation": "Czy jesteś pewien, czy chcesz usunąć ten filtr?",
     "playerSettingsOrientationDesc": "Wymuś odtwarzacza wideo do korzystania z danej orientacji",
     "schemeSettingsTonalSpot": "Plama tonalna",
@@ -2058,5 +2058,46 @@
             }
         }
     },
-    "settingsPlayerPlayPauseFadeTitle": "Zanikanie głośności przy pauzie"
+    "settingsPlayerPlayPauseFadeTitle": "Zanikanie głośności przy pauzie",
+    "applyFilter": "Zastosuj filtry",
+    "showInSideBar": "Pokaż w pasku bocznym",
+    "hideInSideBar": "Ukryj z paska bocznego",
+    "showInSideBarDesc": "Pokaż ten filtr w pasku bocznym dla szybkiego dostępu",
+    "mediaTypeCollection": "{count, plural, one{Kolekcja} other{Kolekcje}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "posterColorsTitle": "Generowane kolory okładek",
+    "posterColorsDesc": "Zamiast domyślnego koloru użyj wygenerowanych kolorów dla plakatów",
+    "selectRandom": "Wybierz losowo",
+    "stopSelection": "Przestań zaznaczać {count}",
+    "@stopSelection": {
+        "description": "stopSelection",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "playItems": "Odtwórz elementy",
+    "shuffleItems": "Miksuj elementy",
+    "disc": "Płyta {number}",
+    "@disc": {
+        "description": "disc",
+        "placeholders": {
+            "number": {
+                "type": "int"
+            }
+        }
+    },
+    "incognito": "Tryb incognito",
+    "incognitoModeGlobal": "Tryb incognito (Aplikacja)",
+    "incognitoModeLocal": "Tryb incognito (Profil)",
+    "incognitoModeDesc": "Tryb incognito wyłącza wysyłanie statusu odtwarzania do serwera"
 }

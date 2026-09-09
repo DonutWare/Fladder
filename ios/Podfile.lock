@@ -71,7 +71,9 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - permission_handler_apple (9.3.0):
+  - permission_handler_apple (9.4.8):
+    - Flutter
+  - pip (0.0.1):
     - Flutter
   - pointer_interceptor_ios (0.0.1):
     - Flutter
@@ -148,6 +150,7 @@ DEPENDENCIES:
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - pip (from `.symlinks/plugins/pip/ios`)
   - pointer_interceptor_ios (from `.symlinks/plugins/pointer_interceptor_ios/ios`)
   - screen_brightness_ios (from `.symlinks/plugins/screen_brightness_ios/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
@@ -207,6 +210,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  pip:
+    :path: ".symlinks/plugins/pip/ios"
   pointer_interceptor_ios:
     :path: ".symlinks/plugins/pointer_interceptor_ios/ios"
   screen_brightness_ios:
@@ -253,7 +258,8 @@ SPEC CHECKSUMS:
   media_kit_video: 5da63f157170e5bf303bf85453b7ef6971218a2e
   package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
   path_provider_foundation: 0b743cbb62d8e47eab856f09262bb8c1ddcfe6ba
-  permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
+  permission_handler_apple: ee2fe0fd04551b304eb002714ff067c371c822ed
+  pip: 5101b81f04fb1b418bcdf6f15cb5cd0d08092cd7
   pointer_interceptor_ios: a78ffe95ad3c6cd52c42ad362c116d92355c3d42
   screen_brightness_ios: 6a6f7794b67f07c4f1e24f6374b2d8ad367ffb39
   SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf

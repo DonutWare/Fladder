@@ -799,7 +799,7 @@
     "playerSettingsOrientationDesc": "设置视频播放器为特定方向",
     "deviceOrientationLandscapeLeft": "水平向左",
     "deviceOrientationLandscapeRight": "水平向右",
-    "defaultFilterForLibrary": "媒体库的默认筛选器",
+    "defaultFilterForLibrary": "设置媒体库的默认筛选器",
     "removeFilterForLibrary": "删除 {filter}？",
     "@removeFilterForLibrary": {
         "description": "removeFilterForLibrary",
@@ -2091,5 +2091,86 @@
         }
     },
     "playItems": "播放项目",
-    "shuffleItems": "随机排列项目"
+    "shuffleItems": "随机排列项目",
+    "disc": "光盘 {number}",
+    "@disc": {
+        "description": "disc",
+        "placeholders": {
+            "number": {
+                "type": "int"
+            }
+        }
+    },
+    "mediaTypeCollection": "{count, plural, one{合集} other{合集}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "incognitoMode": "隐身模式",
+    "incognitoModeDesc": "隐身模式会禁用向服务器发送播放状态",
+    "incognito": "隐身",
+    "incognitoModeGlobal": "隐身模式（应用）",
+    "incognitoModeLocal": "隐身模式（个人资料）",
+    "showInSideBar": "在侧边栏中显示",
+    "hideInSideBar": "在侧边栏中隐藏",
+    "showInSideBarDesc": "在侧边栏中显示此筛选器以便快速访问",
+    "applyFilter": "应用筛选器",
+    "playerSettingsAmbientBlurTitle": "启用环境光模糊",
+    "playerSettingsAmbientBlurDesc": "启用播放器中的环境光模糊效果。这将模糊播放器后的背景，以减少干扰。",
+    "playerSettingsAmbientBlurDescWarning": "环境光模糊可能会导致低端设备出现性能问题。",
+    "mediaTypeMusicVideo": "{count, plural, one{音乐视频} other{音乐视频}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "openSelected": "打开选定的",
+    "discography": "专辑列表",
+    "youLiked": "你喜欢",
+    "instantMixBy": "即时混合 {artist}",
+    "@instantMixBy": {
+        "description": "Instant Mix of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "latestTracksBy": "最新曲目 {artist}",
+    "@latestTracksBy": {
+        "description": "Latest tracks by artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "favoritesOf": "收藏 {artist}",
+    "@favoritesOf": {
+        "description": "Favorites of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "leanBackModeTitle": "休闲模式",
+    "leanBackModeDesc": "即使设备报告为 false，也要在 Android 设备上启用休闲模式。",
+    "leanBackModeInfo": "在 Android TV 设备上，默认重新启用“休闲模式”。在非 Android TV 设备上切换此选项可能会导致意外情况。",
+    "lyrics": "歌词",
+    "returnToSyncedLyrics": "返回同步歌词",
+    "noSyncedLyrics": "暂无同步歌词",
+    "localNetworkPermissionRequest": "允许本地网络访问以发现服务器。",
+    "requestPermission": "请求权限",
+    "localNetworkPermissionDenied": "需要本地网络访问权限。请在系统设置中启用附近设备权限。",
+    "openSettings": "打开设置"
 }

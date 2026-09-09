@@ -11,6 +11,7 @@ import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/incognito_mode_provider.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/screens/home_screen.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout_model.dart';
@@ -167,13 +168,25 @@ class _AdaptiveLayoutBuilderState extends ConsumerState<AdaptiveLayoutBuilder> {
   }
 
   Future<void> checkLeanBackMode() async {
-    final currentArguments = ref.read(argumentsStateProvider);
-    if (!currentArguments.leanBackMode && TargetPlatform.android == defaultTargetPlatform) {
-      final leanBackEnabled = await resolveLeanBackEnabled();
-      if (leanBackEnabled) {
-        leanBackMode = leanBackEnabled;
-        ref.read(argumentsStateProvider.notifier).update((state) => state.copyWith(leanBackMode: true));
-      }
+    final currentArgs = ref.read(argumentsStateProvider);
+    final isForced = ref.read(clientSettingsProvider).forceLeanBackMode;
+
+    bool shouldEnable = currentArgs.leanBackMode || isForced;
+
+    if (!shouldEnable && defaultTargetPlatform == TargetPlatform.android) {
+      shouldEnable = await resolveLeanBackEnabled();
+    }
+
+    if (!shouldEnable) return;
+
+    leanBackMode = true;
+
+    if (!currentArgs.leanBackMode) {
+      ref.read(argumentsStateProvider.notifier).update((state) => state.copyWith(leanBackMode: true));
+    }
+
+    if (!isForced) {
+      ref.read(clientSettingsProvider.notifier).setForceLeanBackMode(true);
     }
   }
 

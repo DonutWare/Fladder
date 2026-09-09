@@ -1941,5 +1941,219 @@
             }
         }
     },
-    "anyLanguage": "Een taal"
+    "anyLanguage": "Een taal",
+    "addToQueue": "Aan wachtrij toevoegen",
+    "instantMix": "Instant mix",
+    "addedToQueue": "{count, plural, one{{count} track toegevoegd aan wachtrij} other{{count} track toegevoegd aan wachtrij}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerPlaybackOptionsTitle": "Afspeel opties",
+    "audioPlayerRepeatAll": "Herhaal alles",
+    "audioPlayerRepeatOff": "Herhalen uit",
+    "audioPlayerRepeatOne": "Herhaal een",
+    "audioPlayerShuffle": "Shuffle",
+    "showArtist": "Artiest tonen",
+    "track": "{count, plural, one{Nummer} other{Nummers}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "Recent toegevoegd {name}",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{Artiest} other{Artiesten}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeMusicVideo": "{count, plural, one{Muziek Video} other{Muziek Videos}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeCollection": "{count, plural, one{Collectie} other{Collecties}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playMusic": "Muziek afspelen",
+    "authenticateWithBiometrics": "Gebruik biometrie om {user} te authenticeren",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "settingsPlayerPlayPauseFadeTitle": "Afspeel/pauze volumefade",
+    "settingsPlayerPlayPauseFadeDesc": "Vervaag het volume in en uit tijdens het spelen of pauzeren",
+    "syncPlaylistDeleteTitle": "Verwijder gesynchroniseerde afspeellijst",
+    "syncPlaylistDeleteContent": "Wil je ook de gesynchroniseerde nummers uit deze afspeellijst verwijderen?",
+    "syncPlaylistKeepTracks": "Nummers bewaren",
+    "syncPlaylistRemoveTracks": "Nummers verwijderen",
+    "pictureInPictureTitle": "Picture-in-picture",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "Auto Picture-in-Picture",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureSubtitle": "Automatisch Picture-in-Picture openen wanneer je de speler verlaat. De PiP-knop in de bediening werkt altijd, ongeacht deze instelling.",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "Picture-in-Picture is niet beschikbaar op dit apparaat",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "removedFromPlaylist": "Verwijderd van {playlistName} afspeellijst",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerSettingsReplayGainTitle": "AfpseelGain",
+    "playerSettingsReplayGainDesc": "Normaliseer muziek volume met behulp van ReplayGain-tags.",
+    "playerSettingsReplayGainLevelTitle": "ReplayGain-niveau",
+    "playerSettingsReplayGainLevelDesc": "Stel het streefvolume in voor ReplayGain-normalisatie. Een veelgebruikte standaard is -14 dB, maar je kunt het naar eigen voorkeur aanpassen.",
+    "settingsPlayerCrossfadeTitle": "Crossfade",
+    "settingsPlayerCrossfadeDesc": "Fade tussen nummers die niet opeenvolgend in hetzelfde album staan",
+    "settingsPlayerCrossfadeDurationTitle": "Crossfade-duur",
+    "settingsPlayerCrossfadeDurationDesc": "Duur van de crossfade",
+    "quitMultipleWindowsDesc": "Je hebt {count} vensters open. Als je Fladder stopt, sluiten je ze allemaal af. Wil je doorgaan?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "Venster sluiten",
+    "openJellyfinQuickConnect": "Jellyfin QuickConnect openen",
+    "posterColorsTitle": "Gegenereerde poster kleuren",
+    "posterColorsDesc": "Gebruik gegenereerde poster kleuren in plaats van de standaard kleur",
+    "toggleSubtitles": "Ondertitels aan of uit zetten",
+    "recentlyPlayed": "Recent afgespeeld",
+    "recentlyFavorited": "Recente favoriet",
+    "mostPlayed": "Vaakst afgespeeld",
+    "nowPlaying": "Nu aan het spelen",
+    "upNext": "Volgende",
+    "queue": "Wachtrij",
+    "queueIsEmpty": "Wachtrij is leeg",
+    "queueItemCount": "{count} items",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "Verwijderen uit wachtrij",
+    "musicDashboard": "Muziek Dashboard",
+    "quiet": "Still",
+    "loud": "Luid",
+    "share": "Delen",
+    "setAs": "Instellen als",
+    "selectRandom": "Willekeurig selecteren",
+    "stopSelection": "Stop selecteren {count}",
+    "@stopSelection": {
+        "description": "stopSelection",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "playItems": "Items afspelen",
+    "shuffleItems": "Items shuffelen",
+    "disc": "Disc {number}",
+    "@disc": {
+        "description": "disc",
+        "placeholders": {
+            "number": {
+                "type": "int"
+            }
+        }
+    },
+    "incognito": "Incognito",
+    "incognitoModeGlobal": "Incognito modus (App)",
+    "incognitoModeLocal": "Incognito modus (Profile)",
+    "incognitoModeDesc": "Incognitomodus schakelt het verzenden van afspeelstatus naar de server uit",
+    "showInSideBar": "In zijbalk tonen",
+    "hideInSideBar": "Verbergen uit zijbalk",
+    "showInSideBarDesc": "Toon deze filter in de zijbalk voor snelle toegang",
+    "applyFilter": "Filter toepassen",
+    "playerSettingsAmbientBlurTitle": "Ambient blur inschakelen",
+    "playerSettingsAmbientBlurDesc": "Zet ambient blur in de speler aan. Hierdoor vervaagt de achtergrond achter de speler om afleidingen te verminderen.",
+    "playerSettingsAmbientBlurDescWarning": "Ambient blur kan prestatieproblemen veroorzaken bij oudere apparaten.",
+    "openSelected": "Geselecteerde items openen",
+    "discography": "Discografie",
+    "youLiked": "Je vond leuk",
+    "instantMixBy": "Instant Mix van {artist}",
+    "@instantMixBy": {
+        "description": "Instant Mix of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "latestTracksBy": "Laatste tracks van {artist}",
+    "@latestTracksBy": {
+        "description": "Latest tracks by artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "favoritesOf": "Favorieten van {artist}",
+    "@favoritesOf": {
+        "description": "Favorites of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "leanBackModeTitle": "Lean-back modus",
+    "leanBackModeDesc": "Schakel lean-back modus in op Android-apparaten, zelfs als het apparaat als onjuist wordt weergegeven.",
+    "leanBackModeInfo": "Lean-back modus wordt standaard weer ingeschakeld op AndroidTV-apparaten. Het aanzetten van deze optie op niet-AndroidTV-apparaten kan onverwacht gedrag veroorzaken."
 }

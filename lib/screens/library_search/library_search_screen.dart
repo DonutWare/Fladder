@@ -33,6 +33,7 @@ import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/position_provider.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/router_extension.dart';
@@ -149,7 +150,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
     ref.listen(
       providerKey,
       (previous, next) {
-        if (previous?.filters != next.filters) {
+        if (previous?.shouldRefresh(next) == true) {
           refreshSearch();
         }
       },
@@ -163,7 +164,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
       (value) => value.backgroundImage == BackgroundType.blurred && value.enableBlurEffects,
     ));
 
-    List<ItemAction>? itemActions = librarySearchResults.folderOverwrite.firstOrNull?.generateActions(
+    List<ItemAction>? itemActions = librarySearchResults.folderOverwrite.included.firstOrNull?.generateActions(
       context,
       ref,
       exclude: {
@@ -399,7 +400,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
             label: Text(context.localized.markAsUnwatched),
             icon: const Icon(IconsaxPlusLinear.eye_slash),
           ),
-          if (librarySearchResults.folderOverwrite.firstOrNull is BoxSetModel)
+          if (librarySearchResults.folderOverwrite.included.firstOrNull is BoxSetModel)
             ItemActionButton(
                 action: hasSelection
                     ? () async {
@@ -416,7 +417,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                     child: Icon(IconsaxPlusLinear.save_remove, size: 20),
                   ),
                 )),
-          if (librarySearchResults.folderOverwrite.firstOrNull is PlaylistModel)
+          if (librarySearchResults.folderOverwrite.included.firstOrNull is PlaylistModel)
             ItemActionButton(
               action: hasSelection
                   ? () async {
@@ -780,12 +781,13 @@ class LibraryAppBar extends ConsumerWidget {
                           color: Theme.of(context).colorScheme.surfaceContainerLow,
                         ),
                         child: Tooltip(
-                          message: librarySearchResults.folderOverwrite.firstOrNull?.type.label(context.localized) ??
+                          message: librarySearchResults.folderOverwrite.included.firstOrNull?.type
+                                  .label(context.localized) ??
                               context.localized.library(1),
                           child: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
                               ? PopupMenuButton(
                                   tooltip: context.localized.library(1),
-                                  icon: Icon(librarySearchResults.folderOverwrite.firstOrNull?.type.icon ??
+                                  icon: Icon(librarySearchResults.folderOverwrite.included.firstOrNull?.type.icon ??
                                       IconsaxPlusLinear.document),
                                   itemBuilder: (context) => menuActions.toList().popupMenuItems(useIcons: true),
                                 )
@@ -807,12 +809,13 @@ class LibraryAppBar extends ConsumerWidget {
                                   icon: Padding(
                                     padding: const EdgeInsets.all(6),
                                     child: Icon(
-                                      librarySearchResults.folderOverwrite.firstOrNull?.type.icon ??
+                                      librarySearchResults.folderOverwrite.included.firstOrNull?.type.icon ??
                                           IconsaxPlusLinear.document,
-                                      color:
-                                          librarySearchResults.folderOverwrite.firstOrNull?.userData.isFavourite == true
-                                              ? Theme.of(context).colorScheme.primary
-                                              : null,
+                                      color: librarySearchResults
+                                                  .folderOverwrite.included.firstOrNull?.userData.isFavourite ==
+                                              true
+                                          ? Theme.of(context).colorScheme.primary
+                                          : null,
                                     ),
                                   ),
                                 ),

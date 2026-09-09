@@ -108,7 +108,7 @@ class SubtitleSettingsModel {
   factory SubtitleSettingsModel.fromMap(Map<String, dynamic> map) {
     return const SubtitleSettingsModel().copyWith(
       fontSize: map['fontSize'] as double?,
-      fontWeight: FontWeight.values.firstWhereOrNull((element) => element.index == map['fontWeight'] as int?),
+      fontWeight: FontWeight.values.firstWhereOrNull((element) => element.value == map['fontWeight'] as int?),
       verticalOffset: map['verticalOffset'] as double?,
       color: colorFromJson(map['color']),
       outlineColor: colorFromJson(map['outlineColor']),

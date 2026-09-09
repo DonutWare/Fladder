@@ -55,7 +55,7 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
     );
 
     final activeLibraries = views.map((e) => e.name).join(", ");
-    final folderNames = folderOverwrite.map((e) => e.name).join(", ");
+    final folderNames = folderOverwrite.included.map((e) => e.name).join(", ");
     final libraryNames = folderNames.isNotEmpty ? folderNames : activeLibraries;
 
     List<ItemActionButton> filterActions(LibraryFiltersModel filter, bool isCurrentFilter) => [
@@ -68,7 +68,7 @@ class LibrarySavedFiltersDialogue extends ConsumerWidget {
                   },
             icon: const Icon(IconsaxPlusBold.filter_add),
           ),
-          if (views.length == 1 || folderOverwrite.length == 1)
+          if (views.length == 1 || folderOverwrite.included.length == 1)
             ItemActionButton(
               label: Text(context.localized.defaultFilterForLibrary),
               backgroundColor: filter.isFavourite ? Colors.yellowAccent.shade700.withValues(alpha: 0.5) : null,

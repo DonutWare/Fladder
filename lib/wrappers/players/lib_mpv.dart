@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:async/async.dart';
+import 'package:audio_session/audio_session.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_kit/media_kit.dart' as mpv;
@@ -48,6 +49,25 @@ class LibMPV extends BasePlayer {
   int _crossfadeGeneration = 0;
   Timer? _fadeTimer;
   Duration get playPauseFadeDuration => const Duration(milliseconds: 175);
+  AudioSession? _audioSession;
+
+  bool _musicPaused = false;
+  bool _musicPlaybackMode = false;
+
+  void setMusicPlaybackMode(bool enabled) {
+    _musicPlaybackMode = enabled;
+    if (!enabled) _musicPaused = false;
+    setState(lastState);
+  }
+
+  Future<void> setupAudioSession() async {
+    _audioSession = await AudioSession.instance;
+    await _audioSession?.configure(const AudioSessionConfiguration.music());
+  }
+
+  Future<void> updateSettings(VideoPlayerSettingsModel settings) async {
+    _settings = settings;
+  }
 
   @override
   Future<void> init(VideoPlayerSettingsModel settings) async {
@@ -78,12 +98,18 @@ class LibMPV extends BasePlayer {
     if (_player?.platform is mpv.NativePlayer) {
       final nativePlayer = _player!.platform as dynamic;
       await nativePlayer.setProperty('force-seekable', 'yes');
-      await nativePlayer.setProperty('gapless-audio', 'weak');
+      await nativePlayer.setProperty('gapless-audio', 'yes');
+      await nativePlayer.setProperty('cache', 'yes');
+      await nativePlayer.setProperty('demuxer-max-bytes', '150M');
+      await nativePlayer.setProperty('network-timeout', '60');
+      await nativePlayer.setProperty('stream-buffer-size', '4M');
+      await nativePlayer.setProperty('prefetch-playlist', 'yes');
 
       if (defaultTargetPlatform == TargetPlatform.android) {
-        // Use audiotrack as it is generally more stable on modern Android
         await nativePlayer.setProperty('ao', 'audiotrack');
       }
+
+      setupAudioSession();
     }
 
     await _applyReplayGainSettings();
@@ -91,6 +117,7 @@ class LibMPV extends BasePlayer {
 
   @override
   Future<void> dispose() async {
+    unawaited(_audioSession?.setActive(false));
     _fadeTimer?.cancel();
     _fadeTimer = null;
     _crossfadeGeneration++;
@@ -105,8 +132,11 @@ class LibMPV extends BasePlayer {
   }
 
   void setState(PlayerState state) {
-    lastState = state;
-    _stateController.add(state);
+    final newState = state.update(
+      playing: _musicPlaybackMode ? !_musicPaused : state.playing,
+    );
+    lastState = newState;
+    _stateController.add(newState);
   }
 
   void _cancelPlayerStreams() {
@@ -287,7 +317,7 @@ class LibMPV extends BasePlayer {
     if (item is AudioModel) {
       final gain = item.normalizationGain;
       if (gain != null && !gain.isNaN && !gain.isInfinite) {
-        gainDb = gain.clamp(-60.0, 20.0).toDouble();
+        gainDb = gain.clamp(-60.0, 0).toDouble();
       }
     }
     await _applyReplayGainSettings(trackGainDb: gainDb);
@@ -411,13 +441,17 @@ class LibMPV extends BasePlayer {
 
   @override
   Future<void> pause() async {
+    _musicPaused = true;
     setState(lastState.update(playing: false));
+    unawaited(_audioSession?.setActive(false));
     _startPlaybackFade(false);
   }
 
   @override
   Future<void> play() async {
+    _musicPaused = false;
     setState(lastState.update(playing: true));
+    unawaited(_audioSession?.setActive(true));
     _startPlaybackFade(true);
   }
 
@@ -433,6 +467,16 @@ class LibMPV extends BasePlayer {
   @override
   Future<void> seek(Duration position) async => _player?.seek(position);
 
+  // mpv parses tracks asynchronously after open(); at playback start the list is still empty, so a
+  // positional lookup would miss and leave mpv on its own default pick. Wait (capped) for [index].
+  Future<void> _awaitTrack(int index, int Function(mpv.Tracks) count) async {
+    final player = _player;
+    if (player == null || index < 0 || count(player.state.tracks) > index + 2) return;
+    await player.stream.tracks
+        .firstWhere((tracks) => count(tracks) > index + 2)
+        .timeout(const Duration(seconds: 5), onTimeout: () => player.state.tracks);
+  }
+
   @override
   Future<int> setAudioTrack(AudioStreamModel? model, PlaybackModel playbackModel) async {
     final wantedAudioStream = model ?? playbackModel.defaultAudioStream;
@@ -440,9 +484,10 @@ class LibMPV extends BasePlayer {
     if (wantedAudioStream.index == AudioStreamModel.no().index) {
       await _player?.setAudioTrack(mpv.AudioTrack.no());
     } else {
+      final index = (playbackModel.audioStreams?.indexOf(wantedAudioStream) ?? -1) - 1;
+      await _awaitTrack(index, (tracks) => tracks.audio.length);
       final internalTracks = audioTracks.getRange(2, audioTracks.length).toList();
-      final audioTrack =
-          internalTracks.elementAtOrNull((playbackModel.audioStreams?.indexOf(wantedAudioStream) ?? -1) - 1);
+      final audioTrack = internalTracks.elementAtOrNull(index);
       if (audioTrack != null) {
         await _player?.setAudioTrack(audioTrack);
       }
@@ -462,9 +507,10 @@ class LibMPV extends BasePlayer {
       return -1;
     }
     _currentSubtitleCodec = wantedSubtitle.codec;
+    final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id) ?? -1;
+    if (!wantedSubtitle.isExternal) await _awaitTrack(index, (tracks) => tracks.subtitle.length);
     final internalTrack = subTracks.getRange(2, subTracks.length).toList();
-    final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id);
-    final subTrack = internalTrack.elementAtOrNull(index ?? -1);
+    final subTrack = internalTrack.elementAtOrNull(index);
     if (wantedSubtitle.isExternal && wantedSubtitle.url != null && subTrack == null) {
       await _player?.setSubtitleTrack(mpv.SubtitleTrack.uri(wantedSubtitle.url!));
     } else if (subTrack != null) {
@@ -489,7 +535,10 @@ class LibMPV extends BasePlayer {
   Stream<int> get playlistIndexStream => _player?.stream.playlist.map((p) => p.index) ?? const Stream<int>.empty();
 
   @override
-  Future<void> stop() async => _player?.stop();
+  Future<void> stop() async {
+    unawaited(_audioSession?.setActive(false));
+    return _player?.stop();
+  }
 
   @override
   Future<Uint8List?> takeScreenshot() async {

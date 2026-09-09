@@ -198,6 +198,12 @@ class ItemBaseModel with ItemBaseModelMappable {
   Future<void> navigateTo(BuildContext context, {WidgetRef? ref, Object? tag}) async {
     switch (this) {
       case FolderModel _:
+        LibrarySearchRoute(parentId: [id])
+            .withFilter(
+              CollectionType.folders.defaultFilters,
+            )
+            .push(context);
+        break;
       case BoxSetModel _:
       case PlaylistModel _:
         LibrarySearchRoute(parentId: [id, "folder"])
