@@ -42,8 +42,7 @@ class OfflinePlaybackModel extends PlaybackModel {
   List<Chapter>? get chapters => syncedItem.chapters;
 
   @override
-  Future<Duration>? startDuration() async =>
-      isAudioPlayback ? Duration.zero : item.userData.playBackPosition;
+  Future<Duration>? startDuration() async => isAudioPlayback ? Duration.zero : item.userData.playBackPosition;
 
   @override
   ItemBaseModel? get nextVideo => queue.nextOrNull(item);
@@ -52,29 +51,21 @@ class OfflinePlaybackModel extends PlaybackModel {
   ItemBaseModel? get previousVideo => queue.previousOrNull(item);
 
   @override
-  List<SubStreamModel> get subStreams =>
-      [SubStreamModel.no(), ...syncedItem.subtitles];
+  List<SubStreamModel> get subStreams => [SubStreamModel.no(), ...syncedItem.subtitles];
 
   @override
-  Future<OfflinePlaybackModel> setSubtitle(
-      SubStreamModel? model, MediaControlsWrapper player) async {
+  Future<OfflinePlaybackModel> setSubtitle(SubStreamModel? model, MediaControlsWrapper player) async {
     final newIndex = await player.setSubtitleTrack(model, this);
-    return copyWith(
-        mediaStreams: () =>
-            mediaStreams?.copyWith(defaultSubStreamIndex: newIndex));
+    return copyWith(mediaStreams: () => mediaStreams?.copyWith(defaultSubStreamIndex: newIndex));
   }
 
   @override
-  List<AudioStreamModel> get audioStreams =>
-      [AudioStreamModel.no(), ...mediaStreams?.audioStreams ?? []];
+  List<AudioStreamModel> get audioStreams => [AudioStreamModel.no(), ...mediaStreams?.audioStreams ?? []];
 
   @override
-  Future<OfflinePlaybackModel>? setAudio(
-      AudioStreamModel? model, MediaControlsWrapper player) async {
+  Future<OfflinePlaybackModel>? setAudio(AudioStreamModel? model, MediaControlsWrapper player) async {
     final newIndex = await player.setAudioTrack(model, this);
-    return copyWith(
-        mediaStreams: () =>
-            mediaStreams?.copyWith(defaultAudioStreamIndex: newIndex));
+    return copyWith(mediaStreams: () => mediaStreams?.copyWith(defaultAudioStreamIndex: newIndex));
   }
 
   @override
@@ -102,17 +93,14 @@ class OfflinePlaybackModel extends PlaybackModel {
   }
 
   @override
-  Future<PlaybackModel?> playbackStopped(
-      Duration position, Duration? totalDuration, Ref ref) async {
+  Future<PlaybackModel?> playbackStopped(Duration position, Duration? totalDuration, Ref ref) async {
     if (ref.read(incognitoModeProvider) == true) return null;
-    final effectiveDuration =
-        totalDuration ?? item.overview.runTime ?? Duration.zero;
+    final effectiveDuration = totalDuration ?? item.overview.runTime ?? Duration.zero;
     final effectivePosition = resolvedStopPosition(position, totalDuration);
     final progress = _progressFor(effectivePosition, effectiveDuration);
     final isPlayed = UserData.isPlayed(effectivePosition, effectiveDuration);
     final userData = syncedItem.userData?.copyWith(
-      playbackPositionTicks:
-          isPlayed != false ? 0 : effectivePosition.toRuntimeTicks,
+      playbackPositionTicks: isPlayed != false ? 0 : effectivePosition.toRuntimeTicks,
       progress: isPlayed != false ? 0.0 : progress,
       played: isPlayed,
       lastPlayed: DateTime.now().toUtc(),
@@ -138,8 +126,7 @@ class OfflinePlaybackModel extends PlaybackModel {
   }
 
   @override
-  Future<PlaybackModel?> updatePlaybackPosition(
-      Duration position, bool isPlaying, Ref ref) async {
+  Future<PlaybackModel?> updatePlaybackPosition(Duration position, bool isPlaying, Ref ref) async {
     if (ref.read(incognitoModeProvider) == true) return null;
     final effectiveDuration = item.overview.runTime ?? Duration.zero;
     final progress = _progressFor(position, effectiveDuration);
@@ -178,8 +165,7 @@ class OfflinePlaybackModel extends PlaybackModel {
 
   double _progressFor(Duration position, Duration totalDuration) {
     if (totalDuration.inMilliseconds <= 0) return 0;
-    final progress =
-        position.inMilliseconds / totalDuration.inMilliseconds * 100;
+    final progress = position.inMilliseconds / totalDuration.inMilliseconds * 100;
     return progress.clamp(0.0, 100.0).toDouble();
   }
 
@@ -198,8 +184,7 @@ class OfflinePlaybackModel extends PlaybackModel {
   }
 
   @override
-  String toString() =>
-      'OfflinePlaybackModel(item: $item, syncedItem: $syncedItem)';
+  String toString() => 'OfflinePlaybackModel(item: $item, syncedItem: $syncedItem)';
 
   @override
   OfflinePlaybackModel copyWith({
@@ -219,8 +204,7 @@ class OfflinePlaybackModel extends PlaybackModel {
       media: media != null ? media() : this.media,
       syncedItem: syncedItem ?? this.syncedItem,
       mediaStreams: mediaStreams != null ? mediaStreams() : this.mediaStreams,
-      mediaSegments:
-          mediaSegments != null ? mediaSegments() : this.mediaSegments,
+      mediaSegments: mediaSegments != null ? mediaSegments() : this.mediaSegments,
       trickPlay: trickPlay != null ? trickPlay() : this.trickPlay,
       queue: queue ?? this.queue,
       playbackQueue: playbackQueue ?? this.playbackQueue,
