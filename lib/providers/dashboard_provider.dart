@@ -48,7 +48,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
       ItemFields.airtime,
     };
 
-    if (viewTypes.containsAny([CollectionType.livetv])) {
+    Future<List<ChannelModel>> fetchActivePrograms() async {
       List<ChannelModel> channels = (await api.liveTvChannelsGet(limit: limit))
               .body
               ?.items
@@ -56,7 +56,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
               .toList() ??
           [];
 
-      channels = await Future.wait(
+      return Future.wait(
         channels.map(
           (e) async {
             final programs = await ref.read(liveTvProvider.notifier).fetchProgramsForChannel(e);
@@ -66,70 +66,82 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
           },
         ),
       );
-
-      state = state.copyWith(activePrograms: channels);
-    } else {
-      state = state.copyWith(activePrograms: []);
     }
 
-    if (viewTypes.containsAny([CollectionType.movies, CollectionType.tvshows])) {
-      final resumeVideoResponse = await api.usersUserIdItemsResumeGet(
-        enableImageTypes: imagesToFetch,
+    List<ItemBaseModel> activePrograms = [];
+    List<ItemBaseModel>? resumeVideo;
+    List<ItemBaseModel>? resumeAudio;
+    List<ItemBaseModel>? resumeBooks;
+    List<ItemBaseModel> nextUp = [];
+
+    // eagerError: true, weil die alte sequenzielle Kette beim ersten Fehler
+    // ebenfalls sofort abbrach (spätere Requests wurden gar nicht erst gestartet).
+    final pending = <Future<void>>[
+      if (viewTypes.containsAny([CollectionType.livetv]))
+        fetchActivePrograms().then((value) {
+          activePrograms = value;
+        }),
+      if (viewTypes.containsAny([CollectionType.movies, CollectionType.tvshows]))
+        api
+            .usersUserIdItemsResumeGet(
+          enableImageTypes: imagesToFetch,
+          fields: fieldsToFetch.toList(),
+          mediaTypes: [MediaType.video],
+          enableTotalRecordCount: false,
+          limit: limit,
+        )
+            .then((response) {
+          resumeVideo = response.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList();
+        }),
+      if (viewTypes.contains(CollectionType.music))
+        api
+            .usersUserIdItemsResumeGet(
+          enableImageTypes: imagesToFetch,
+          fields: fieldsToFetch.toList(),
+          mediaTypes: [MediaType.audio],
+          enableTotalRecordCount: false,
+          limit: limit,
+        )
+            .then((response) {
+          resumeAudio = response.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList();
+        }),
+      if (viewTypes.contains(CollectionType.books))
+        api
+            .usersUserIdItemsResumeGet(
+          enableImageTypes: imagesToFetch,
+          fields: fieldsToFetch.toList(),
+          mediaTypes: [MediaType.book],
+          enableTotalRecordCount: false,
+          limit: limit,
+        )
+            .then((response) {
+          resumeBooks = response.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList();
+        }),
+      api
+          .showsNextUpGet(
+        nextUpDateCutoff: DateTime.now().subtract(
+            ref.read(clientSettingsProvider.select((value) => value.nextUpDateCutoff ?? const Duration(days: 28)))),
         fields: fieldsToFetch.toList(),
-        mediaTypes: [MediaType.video],
-        enableTotalRecordCount: false,
-        limit: limit,
-      );
-
-      state = state.copyWith(
-        resumeVideo: resumeVideoResponse.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList(),
-      );
-    }
-
-    if (viewTypes.contains(CollectionType.music)) {
-      final resumeAudioResponse = await api.usersUserIdItemsResumeGet(
         enableImageTypes: imagesToFetch,
-        fields: fieldsToFetch.toList(),
-        mediaTypes: [MediaType.audio],
-        enableTotalRecordCount: false,
-        limit: limit,
-      );
+        imageTypeLimit: 1,
+      )
+          .then((response) {
+        nextUp = response.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? [];
+      }),
+    ];
 
+    try {
+      await Future.wait(pending, eagerError: true);
       state = state.copyWith(
-        resumeAudio: resumeAudioResponse.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList(),
+        activePrograms: activePrograms,
+        resumeVideo: resumeVideo,
+        resumeAudio: resumeAudio,
+        resumeBooks: resumeBooks,
+        nextUp: nextUp,
       );
+    } finally {
+      state = state.copyWith(loading: false);
     }
-
-    if (viewTypes.contains(CollectionType.books)) {
-      final resumeBookResponse = await api.usersUserIdItemsResumeGet(
-        enableImageTypes: imagesToFetch,
-        fields: fieldsToFetch.toList(),
-        mediaTypes: [MediaType.book],
-        enableTotalRecordCount: false,
-        limit: limit,
-      );
-
-      state = state.copyWith(
-        resumeBooks: resumeBookResponse.body?.items?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList(),
-      );
-    }
-
-    final nextResponse = await api.showsNextUpGet(
-      nextUpDateCutoff: DateTime.now().subtract(
-          ref.read(clientSettingsProvider.select((value) => value.nextUpDateCutoff ?? const Duration(days: 28)))),
-      fields: fieldsToFetch.toList(),
-      enableImageTypes: imagesToFetch,
-      imageTypeLimit: 1,
-    );
-
-    final next = nextResponse.body?.items
-            ?.map(
-              (e) => ItemBaseModel.fromBaseDto(e, ref),
-            )
-            .toList() ??
-        [];
-
-    state = state.copyWith(nextUp: next, loading: false);
   }
 
   void clear() {
