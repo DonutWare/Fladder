@@ -65,8 +65,8 @@ enum VideoHotKeys {
       VideoHotKeys.takeScreenshot => context.localized.takeScreenshot,
       VideoHotKeys.takeScreenshotClean => context.localized.takeScreenshotClean,
       VideoHotKeys.toggleSubtitles => context.localized.toggleSubtitles,
-      VideoHotKeys.subtitleOffsetBackward => 'Subtitle backward',
-      VideoHotKeys.subtitleOffsetForward => 'Subtitle forward',
+      VideoHotKeys.subtitleOffsetBackward => context.localized.subtitleOffsetBackward,
+      VideoHotKeys.subtitleOffsetForward => context.localized.subtitleOffsetForward,
       VideoHotKeys.exit => context.localized.exit,
     };
   }

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/util/localization_helper.dart';
 
 class VideoPlayerSubtitleOffsetIndicator extends ConsumerStatefulWidget {
   const VideoPlayerSubtitleOffsetIndicator({super.key});
@@ -61,7 +62,7 @@ class _VideoPlayerSubtitleOffsetIndicatorState extends ConsumerState<VideoPlayer
                 spacing: 12,
                 children: [
                   const Icon(IconsaxPlusLinear.textalign_left),
-                  Text(_subtitleDelayLabel(currentOffset)),
+                  Text(_subtitleDelayLabel(context, currentOffset)),
                 ],
               ),
             ),
@@ -72,8 +73,8 @@ class _VideoPlayerSubtitleOffsetIndicatorState extends ConsumerState<VideoPlayer
   }
 }
 
-String _subtitleDelayLabel(Duration offset) {
+String _subtitleDelayLabel(BuildContext context, Duration offset) {
   final absMilliseconds = offset.inMilliseconds.abs();
   final sign = offset.inMilliseconds >= 0 ? '+' : '-';
-  return 'Subtitle $sign${absMilliseconds}ms';
+  return '${context.localized.subtitleOffset} $sign${absMilliseconds}ms';
 }
