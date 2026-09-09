@@ -119,6 +119,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     ref.read(playBackModel)?.dispose();
     await state.stop();
     ref.read(playbackRateProvider.notifier).state = 1.0;
+    ref.read(subtitleTimingOffsetProvider.notifier).state = Duration.zero; //reset subtitle offset on new video
 
     final useMinimizedPlayer =
         model.item.type == FladderItemType.audio || model.mediaStreams?.videoStreams.isEmpty == true;
