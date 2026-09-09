@@ -117,6 +117,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     final nextResponse = await api.showsNextUpGet(
       nextUpDateCutoff: DateTime.now().subtract(
           ref.read(clientSettingsProvider.select((value) => value.nextUpDateCutoff ?? const Duration(days: 28)))),
+      enableResumable: true,
       fields: fieldsToFetch.toList(),
       enableImageTypes: imagesToFetch,
       imageTypeLimit: 1,
