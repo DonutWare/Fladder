@@ -2047,5 +2047,9 @@
     "pictureInPictureAutoTitle": "Включать \"картинку в картинке\" автоматически",
     "@pictureInPictureAutoTitle": {
         "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "Режим Picture-in-Picture недоступен на этом устройстве",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
     }
 }
