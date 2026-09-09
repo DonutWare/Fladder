@@ -8,6 +8,7 @@ import 'package:xid/xid.dart';
 
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/util/application_info.dart';
+import 'package:fladder/util/custom_headers.dart';
 import 'package:fladder/util/string_extensions.dart';
 
 part 'credentials_model.freezed.dart';
@@ -24,6 +25,7 @@ abstract class CredentialsModel with _$CredentialsModel {
     @Default("") String serverName,
     @Default("") String serverId,
     @Default("") String deviceId,
+    @Default({}) Map<String, String> customHeaders,
   }) = _CredentialsModel;
 
   factory CredentialsModel.createNewCredentials() => CredentialsModel.internal(deviceId: Xid().toString());
@@ -39,7 +41,8 @@ abstract class CredentialsModel with _$CredentialsModel {
     };
     final headers = {
       'authorization':
-          'MediaBrowser Token="$token", Client="${application.name}", Device="$os", DeviceId="$deviceId", Version="${application.version}"'
+          'MediaBrowser Token="$token", Client="${application.name}", Device="$os", DeviceId="$deviceId", Version="${application.version}"',
+      ...customHeaders,
     };
     return headers;
   }
@@ -55,6 +58,7 @@ abstract class CredentialsModel with _$CredentialsModel {
       serverName: map['serverName'] ?? '',
       serverId: map['serverId'] ?? '',
       deviceId: map['deviceId'] ?? '',
+      customHeaders: parseCustomHeaders(map['customHeaders']),
     );
   }
 }

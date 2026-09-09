@@ -78,6 +78,7 @@ class NotificationHelpers {
     String token,
     int limit, {
     bool includeHiddenViews = false,
+    Map<String, String> customHeaders = const {},
     required DateTime since,
   }) async {
     dto.JellyfinOpenApi? api;
@@ -88,7 +89,7 @@ class NotificationHelpers {
       api = dto.JellyfinOpenApi.create(
         baseUrl: Uri.parse(trimmed),
         interceptors: [
-          _WorkerAuthInterceptor(token),
+          _WorkerAuthInterceptor(token, customHeaders),
         ],
       );
 
@@ -188,14 +189,16 @@ class NotificationHelpers {
 }
 
 class _WorkerAuthInterceptor implements Interceptor {
-  _WorkerAuthInterceptor(this.token);
+  _WorkerAuthInterceptor(this.token, this.customHeaders);
 
   final String token;
+  final Map<String, String> customHeaders;
 
   @override
   FutureOr<Response<BodyType>> intercept<BodyType>(Chain<BodyType> chain) {
     final headers = <String, String>{...chain.request.headers};
     headers['Authorization'] = 'MediaBrowser Token="$token"';
+    headers.addAll(customHeaders);
     final request = chain.request.copyWith(headers: headers);
     return chain.proceed(request);
   }

@@ -13,12 +13,14 @@ import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/util/custom_headers.dart';
 part 'api_provider.g.dart';
 
 final serverUrlProvider = StateProvider<String?>((ref) {
   final localUrlAvailable = ref.watch(localConnectionAvailableProvider);
   final userCredentials = ref.watch(userProvider.select((value) => value?.credentials));
-  final tempUrl = ref.watch(authProvider.select((value) => value.serverLoginModel?.tempCredentials.url));
+  final tempCredentials = ref.watch(authProvider.select((value) => value.serverLoginModel?.tempCredentials));
+  final tempUrl = tempCredentials?.url;
   String? newUrl;
 
   if (localUrlAvailable && userCredentials?.localUrl?.isNotEmpty == true) {
@@ -30,6 +32,14 @@ final serverUrlProvider = StateProvider<String?>((ref) {
   } else {
     newUrl = null;
   }
+
+  // Cached images and the media players cannot reach Riverpod, so the custom
+  // headers of the connection we resolved here are mirrored for them.
+  final credentials = userCredentials ?? tempCredentials;
+  ServerCustomHeaders.update(
+    headers: credentials?.customHeaders ?? const {},
+    serverUrls: [credentials?.url, credentials?.localUrl],
+  );
 
   return normalizeUrl(newUrl ?? "");
 });
@@ -156,9 +166,9 @@ String normalizeUrl(String url) {
   }
 }
 
-Future<String?> _probeUrl(String baseUrl, String endpoint) async {
+Future<String?> _probeUrl(String baseUrl, String endpoint, {Map<String, String>? headers}) async {
   try {
-    await http.head(Uri.parse('$baseUrl$endpoint')).timeout(const Duration(seconds: 5));
+    await http.head(Uri.parse('$baseUrl$endpoint'), headers: headers).timeout(const Duration(seconds: 5));
     // Any HTTP response (including 4xx/5xx) means the server is reachable at this URL.
     // This only acts as scheme detection, not as health check.
     return baseUrl;
@@ -172,7 +182,43 @@ Future<String?> _probeUrl(String baseUrl, String endpoint) async {
 Future<String?> probeSeerrUrl(String baseUrl) => _probeUrl(baseUrl, '/api/v1/status');
 
 /// Probes a Jellyfin server URL by hitting /System/Info/Public.
-Future<String?> probeJellyfinUrl(String baseUrl) => _probeUrl(baseUrl, '/System/Info/Public');
+/// [headers] carries the custom headers of the server being set up, so servers
+/// behind a header authenticated proxy answer the probe as well.
+Future<String?> probeJellyfinUrl(String baseUrl, {Map<String, String>? headers}) =>
+    _probeUrl(baseUrl, '/System/Info/Public', headers: headers);
+
+/// Identity providers a header authenticating proxy bounces unauthenticated
+/// requests to.
+const _identityProviderHosts = {'cloudflareaccess.com'};
+
+/// Whether [baseUrl] answers with the challenge of a proxy sitting in front of
+/// the server, which is what Cloudflare Access does when a request carries no
+/// service token. Used to tell the user their headers are missing instead of
+/// blaming their URL.
+Future<bool> serverIsBehindAuthProxy(String baseUrl, {Map<String, String>? headers}) async {
+  final client = http.Client();
+  try {
+    final request = http.Request('GET', Uri.parse('$baseUrl/System/Info/Public'))..followRedirects = false;
+    if (headers != null) request.headers.addAll(headers);
+
+    final response = await client.send(request).timeout(const Duration(seconds: 5));
+    await response.stream.drain<void>();
+
+    if (response.headers['www-authenticate']?.toLowerCase().contains('cloudflare-access') == true) return true;
+
+    if (response.statusCode >= 300 && response.statusCode < 400) {
+      final location = response.headers['location'];
+      final host = location == null ? null : Uri.tryParse(location)?.host.toLowerCase();
+      return host != null && _identityProviderHosts.any(host.endsWith);
+    }
+    return false;
+  } catch (e) {
+    log('Auth proxy detection failed for $baseUrl: $e');
+    return false;
+  } finally {
+    client.close();
+  }
+}
 
 /// Result of [probeAndNormalizeUrl]: the resolved URL and whether a probe succeeded.
 typedef ProbeResult = ({String url, bool probed});

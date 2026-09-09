@@ -14,6 +14,7 @@ import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/screens/video_player/video_player.dart' as video_screen;
+import 'package:fladder/util/custom_headers.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
@@ -73,7 +74,7 @@ class LibMDK extends BasePlayer {
 
     final validUrl = isValidUrl(url);
     if (validUrl != null) {
-      _controller = VideoPlayerController.networkUrl(validUrl);
+      _controller = VideoPlayerController.networkUrl(validUrl, httpHeaders: ServerCustomHeaders.forUri(validUrl));
     } else {
       _controller = VideoPlayerController.file(File(url));
     }
