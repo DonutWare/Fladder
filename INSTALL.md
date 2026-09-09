@@ -106,35 +106,44 @@ If your device can't access the Play Store, you can install Fladder manually.
 > Installing using Sideloadly is the only method of using Fladder on iOS or iPadOS at this time. See [this issue](https://github.com/DonutWare/Fladder/issues/40) for more information.
 
 > [!IMPORTANT]
-> If you are using Windows, you must install the web versions of iTunes and iCloud (**not the Microsoft Store versions**) before installing Sideloadly. You can download them [here](https://www.apple.com/itunes/download/win64) and [here](https://updates.cdn-apple.com/2020/windows/001-39935-20200911-1A70AA56-F448-11EA-8CC0-99D41950005E/iCloudSetup.exe).
+> On Windows, install the web versions of iTunes and iCloud (**not the Microsoft Store versions**) before installing Sideloadly. You can download them [here](https://www.apple.com/itunes/download/win64) and [here](https://updates.cdn-apple.com/2020/windows/001-39935-20200911-1A70AA56-F448-11EA-8CC0-99D41950005E/iCloudSetup.exe).
 
-1. Download and install Sideloadly from their [downloads page](https://sideloadly.io/#download).
+> [!NOTE]
+> On macOS Catalina (10.15) and later, iTunes is no longer available. Use Finder to manage and trust your device instead.
+
+1. Download and install Sideloadly from its [downloads page](https://sideloadly.io/#download).
 
 2. Download the latest iOS IPA file from the [Releases](https://github.com/DonutWare/Fladder/releases) page and save it to your computer.
 
-3. Plug your device into your computer and open iTunes.
+3. Connect your iPhone or iPad to your computer with a USB cable. Unlock it and tap **Trust** if prompted.
 
-4. Click the device icon in the top left next to the navigation buttons.
+4. Prepare the device connection:
+   - **Windows:** Open iTunes, select the device icon, enable **Sync with this device over Wi-Fi**, then click **Apply** and **Done**.
+   - **macOS:** Open Finder and select the device under **Locations**. If prompted, trust the device. Optionally enable **Show this [device] when on Wi-Fi**, then click **Apply**.
 
-5. Ensure **Sync with this device over Wi-Fi** is checked.
+5. Open Sideloadly. If macOS prevents it from opening, go to **System Settings → Privacy & Security** and select **Open Anyway**, but only if you downloaded Sideloadly from its official website.
 
-6. Click Apply, then Done, then close iTunes.
+6. Click the **Open IPA** button and select the IPA downloaded earlier.
 
-7. Open Sideloadly and click the Open IPA button in the top left. Select the IPA you downloaded earlier.
+7. Make sure the device is listed under **iDevice**. It will usually look like this: `<device name> (<iOS version>) <UDID> @USB`.
 
-8. Make sure your device is listed under **iDevice**. It will usually look like this: `<device name> (<iOS version>) <UDID> @USB`.
+8. Enter your Apple Account email address (formerly Apple ID) in the **Apple ID** box. Creating a separate Apple Account for sideloading is recommended, but not required.
 
-9. Enter your Apple ID in the **Apple ID** box. Creating a second Apple ID is recommended, but not required.
+9. If installation fails with an Anisette error such as `Anisette failed: No OTP`, open Sideloadly Settings and change **Anisette authentication** from **Local** to **Remote**. When prompted, sign in to Patreon to enable Remote Anisette authentication, then try again.
 
-10. Click Start. You will be prompted to enter your Apple ID password. Enter it and allow any two-factor authentication, if required.
+10. Click **Start**. Enter your Apple Account password when prompted and complete two-factor authentication if required.
 
-11. The installation process will take a while. Once it's finished, you will see the Fladder icon on your home screen or in your App Library.
+11. When installation is complete, Fladder will appear on the Home Screen or in the App Library.
+
+12. If iOS does not allow Fladder to open:
+   - Go to **Settings → General → VPN & Device Management**, select the developer profile for the Apple Account used in Sideloadly, and tap **Trust**.
+   - If prompted, enable **Settings → Privacy & Security → Developer Mode**, then restart the device.
 
 > [!NOTE]
-> Your password is only used for authentication to Apple's servers. It is not sent to any third parties.
+> Your password is used to authenticate with Apple's servers. Review Sideloadly's privacy policy and use only the official Sideloadly download.
 
 > [!IMPORTANT]
-> Once installed, Fladder will only be valid for 7 days. Enabling auto refresh will keep the app from expiring (this should already be enabled). Your computer needs to be on for this to occur.
+> With a free Apple Account, Fladder's signing certificate is valid for 7 days. Refresh or re-sign the app before it expires. If you enable Sideloadly's automatic refresh, your computer must be available for the refresh to run.
 
 ## Docker
 
