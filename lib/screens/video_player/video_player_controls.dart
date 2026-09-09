@@ -690,8 +690,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   Widget nextChapterButton(WidgetRef ref) {
     return Consumer(builder: (context, ref2, child) {
-      final chapters = ref.read(playBackModel.select((value) => value?.chapters));
-      final enabled = chapters?.isNotEmpty == true;
+      final chapters = ref.read(playBackModel.select((value) => value?.chapters)) ?? [];
+      final position = ref.read(mediaPlaybackProvider).position;
+      final enabled = chapters.nextChapter(position) != null;
       return IconButton(
         onPressed: enabled ? () => _nextChapter(ref) : null,
         iconSize: 30,
@@ -708,7 +709,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
       return IconButton(
         onPressed: enabled ? () => _previousChapter(ref) : null,
         iconSize: 30,
-        tooltip: context.localized.nextChapter,
+        tooltip: context.localized.prevChapter,
         icon: const Icon(IconsaxPlusLinear.arrow_left_3),
       );
     });
@@ -716,35 +717,19 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
 
   void _previousChapter(WidgetRef ref) {
     final chapters = ref.read(playBackModel.select((value) => value?.chapters)) ?? [];
-    if (chapters.isEmpty) return;
     final position = ref.read(mediaPlaybackProvider).position;
-    final threshold = const Duration(milliseconds: 3000);
-    Chapter? prev;
-    final earlier = chapters.where((c) => c.startPosition < position - threshold).toList();
-    if (earlier.isNotEmpty) prev = earlier.last;
-    final target = prev ?? chapters.first;
+    final target = chapters.previousChapter(position);
+    if (target == null) return;
     ref.read(videoPlayerProvider).seek(target.startPosition);
     resetTimer();
   }
 
   void _nextChapter(WidgetRef ref) {
     final chapters = ref.read(playBackModel.select((value) => value?.chapters)) ?? [];
-    if (chapters.isEmpty) return;
     final position = ref.read(mediaPlaybackProvider).position;
-    Chapter? next;
-    for (final c in chapters) {
-      if (c.startPosition > position) {
-        next = c;
-        break;
-      }
-    }
-    if (next != null) {
-      ref.read(videoPlayerProvider).seek(next.startPosition);
-    } else {
-      // fallback: load next video
-      final nextVideo = ref.read(playBackModel.select((value) => value?.nextVideo));
-      if (nextVideo != null) ref.read(playbackModelHelper).loadNewVideo(nextVideo);
-    }
+    final next = chapters.nextChapter(position);
+    if (next == null) return;
+    ref.read(videoPlayerProvider).seek(next.startPosition);
     resetTimer();
   }
 
