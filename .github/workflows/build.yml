@@ -6,6 +6,7 @@ on:
       - "v*"
     branches:
       - master
+      - develop
   pull_request:
     paths:
       - pubspec.yaml
@@ -56,19 +57,21 @@ jobs:
             BUILD_TYPE="${{ github.event.inputs.build_type }}"
           elif [[ "${{ startsWith(github.ref, 'refs/tags/v') }}" == "true" ]]; then
             BUILD_TYPE="release"
-          elif [[ "${{ github.event_name }}" == "schedule" ]]; then
-            # Check if there were commits to develop in the last 24 hours
-            git checkout develop
-            COMMITS_LAST_24H=$(git log --since="24 hours ago" --oneline | wc -l)
-            if [[ $COMMITS_LAST_24H -gt 0 ]]; then
-              BUILD_TYPE="nightly"
+          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]] || [[ "${{ github.event_name }}" == "schedule" ]]; then
+            if [[ "${{ github.event_name }}" == "schedule" ]]; then
+              # Check if there were commits to develop in the last 24 hours
+              git checkout develop
+              COMMITS_LAST_24H=$(git log --since="24 hours ago" --oneline | wc -l)
+              if [[ $COMMITS_LAST_24H -gt 0 ]]; then
+                BUILD_TYPE="nightly"
+              else
+                echo "No commits to develop in the last 24 hours, skipping nightly build"
+                echo "should_run=false" >> $GITHUB_OUTPUT
+                exit 0
+              fi
             else
-              echo "No commits to develop in the last 24 hours, skipping nightly build"
-              echo "should_run=false" >> $GITHUB_OUTPUT
-              exit 0
+              BUILD_TYPE="nightly"
             fi
-          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            BUILD_TYPE="nightly"
           else
             # For PRs and other events, build but don't release
             BUILD_TYPE="development"
@@ -251,10 +254,6 @@ jobs:
     needs: [fetch-info]
 
     steps:
-      # - uses: maxim-lobanov/setup-xcode@v1.6.0
-      #   with:
-      #     xcode-version: latest-stable
-
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
@@ -359,7 +358,7 @@ jobs:
 
       - name: Fix RPATH
         run: |
-          for lib in "build/linux/x64/release/bundle/lib"/*.so; do
+          for lib in "build/linux/x64/release/bundle"/*.so; do
             [[ -f "$lib" && -n "$(patchelf --print-rpath "$lib")" ]] && \
             patchelf --set-rpath '$ORIGIN' "$lib"
           done
@@ -758,27 +757,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
-
-  # Winget package submission
-  # winget-package-submit:
-  #   runs-on: ubuntu-latest
-  #   needs: [check-trigger, create_release]
-  #   strategy:
-  #     matrix:
-  #       include:
-  #         - build_type: release
-  #           identifier: DonutWare.Fladder
-  #           max_versions: "0"
-  #         - build_type: nightly
-  #           identifier: DonutWare.Fladder.Nightly
-  #           max_versions: "1"
-  #   steps:
-  #     - name: Submit to Winget (${{ matrix.build_type }})
-  #       if: needs.check-trigger.outputs.build_type == matrix.build_type
-  #       uses: vedantmgoyal9/winget-releaser@19e706d4c9121098010096f9c495a70a7518b30f
-  #       with:
-  #         identifier: ${{ matrix.identifier }}
-  #         installers-regex: 'Fladder-Windows-.*-Setup\.exe$'
-  #         token: ${{ secrets.WINGET_TOKEN }}
-  #         max-versions-to-keep: ${{ matrix.max_versions || '' }}
-  #         release-tag: ${{ matrix.build_type == 'nightly' && env.NIGHTLY_TAG || github.ref_name }}

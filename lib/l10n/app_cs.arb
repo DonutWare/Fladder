@@ -1091,7 +1091,7 @@
     "audioPlayerRepeatOff": "Neopakovat",
     "audioPlayerShuffle": "Zamíchat",
     "showArtist": "Ukázat umělce",
-    "track": "{count, plural, one{Skladba} many{Skladby} many{Skladby} other{Skladeb}}",
+    "track": "{count, plural, one{Skladba} many{Skladby} other{Skladeb}}",
     "@track": {
         "description": "track",
         "placeholders": {
