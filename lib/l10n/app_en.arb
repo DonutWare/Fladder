@@ -1527,6 +1527,10 @@
   },
   "closeWindow": "Close window",
   "castAndCrew": "Cast & Crew",
+  "crew": "Crew",
+  "@crew": {
+    "description": "Heading for non-acting credits such as producers and composers"
+  },
   "guestActor": "{count, plural, other{Guest Actors} one{Guest Actor}}",
   "@guestActor": {
     "description": "Guest actors",

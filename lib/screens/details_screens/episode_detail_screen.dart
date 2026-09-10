@@ -19,6 +19,7 @@ import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/screens/shared/media/expanding_text.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
+import 'package:fladder/screens/shared/media/person_list_.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
@@ -51,7 +52,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
     final wrapAlignment =
         AdaptiveLayout.viewSizeOf(context) != ViewSize.phone ? WrapAlignment.start : WrapAlignment.center;
 
-    final actors = details.episode?.overview.people ?? [];
+    final episodePeople = details.episode?.overview.people ?? [];
 
     return DetailScaffold(
       label: widget.item.name,
@@ -184,6 +185,16 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     ExpandingText(
                       text: episodeDetails.overview.summary,
                     ).padding(padding),
+                  if (episodeDetails.overview.directors.isNotEmpty)
+                    PersonList(
+                      label: detailsContext.localized.director(2),
+                      people: episodeDetails.overview.directors,
+                    ).padding(padding),
+                  if (episodeDetails.overview.writers.isNotEmpty)
+                    PersonList(
+                      label: detailsContext.localized.writer(2),
+                      people: episodeDetails.overview.writers,
+                    ).padding(padding),
                   if (episodeDetails.chapters.isNotEmpty)
                     ChapterRow(
                       chapters: episodeDetails.chapters,
@@ -193,15 +204,22 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                         ref.read(providerInstance.notifier).fetchDetails(widget.item);
                       },
                     ),
-                  if (actors.mainCast.isNotEmpty == true)
+                  if (episodePeople.actors.isNotEmpty)
                     PeopleRow(
-                      people: actors.mainCast,
+                      people: episodePeople.actors,
+                      contentPadding: padding,
+                      label: detailsContext.localized.actor(2),
+                    ),
+                  if (episodePeople.guestActors.isNotEmpty)
+                    PeopleRow(
+                      people: episodePeople.guestActors,
                       contentPadding: padding,
                     ),
-                  if (actors.guestActors.isNotEmpty == true)
+                  if (episodePeople.crew.isNotEmpty)
                     PeopleRow(
-                      people: actors.guestActors,
+                      people: episodePeople.crew,
                       contentPadding: padding,
+                      label: detailsContext.localized.crew,
                     ),
                   if (details.episodes.length > 1)
                     EpisodePosters(
