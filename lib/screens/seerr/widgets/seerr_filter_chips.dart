@@ -9,6 +9,7 @@ import 'package:fladder/providers/seerr_search_provider.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_filter_dialogs.dart';
 import 'package:fladder/screens/shared/chips/category_chip.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/position_provider.dart';
@@ -86,6 +87,7 @@ class SeerrFilterChips extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(6),
                       child: CachedNetworkImage(
                         imageUrl: item.logoUrl!,
+                        cacheManager: CustomCacheManager.shortLived,
                         fit: BoxFit.contain,
                         key: ValueKey(item.providerName),
                         placeholder: (context, url) => const SizedBox(),
