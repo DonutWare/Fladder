@@ -4,26 +4,84 @@ import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/home_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
+import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/live_tv_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/util/list_extensions.dart';
+import 'package:fladder/util/map_bool_helper.dart';
 
 final dashboardProvider = StateNotifierProvider<DashboardNotifier, HomeModel>((ref) {
   return DashboardNotifier(ref);
 });
 
 class DashboardNotifier extends StateNotifier<HomeModel> {
-  DashboardNotifier(this.ref) : super(HomeModel());
+  DashboardNotifier(this.ref) : super(HomeModel()) {
+    ref.listen(libraryFiltersByKeyProvider(FilterSortKey.dashboard), (_, __) => fetchNextUpAndResume());
+  }
 
   final Ref ref;
+  bool _refreshRequested = false;
 
   late final JellyService api = ref.read(jellyApiProvider);
 
+  static const _dashboardFilterLimit = 15;
+
+  Future<DashboardFilterModel> _fetchDashboardFilter(LibraryFiltersModel filter) async {
+    final searchTerm = filter.filter.searchQuery.isNotEmpty ? filter.filter.searchQuery : null;
+    final libraryIds = filter.ids.isEmpty ? [null] : filter.ids;
+    final libraryItems = await Future.wait(
+      libraryIds.map(
+        (id) => api.itemsGet(
+          parentId: id,
+          searchTerm: searchTerm,
+          genres: filter.filter.genres.included,
+          tags: filter.filter.tags.included,
+          recursive: searchTerm?.isNotEmpty == true ? true : filter.filter.recursive,
+          officialRatings: filter.filter.officialRatings.included,
+          years: filter.filter.years.included,
+          isMissing: false,
+          limit: _dashboardFilterLimit,
+          collapseBoxSetItems: false,
+          studioIds: filter.filter.studios.included.map((e) => e.id).toList(),
+          sortBy: filter.filter.sortingOption.toSortBy,
+          sortOrder: [filter.filter.sortOrder.sortOrder],
+          fields: [
+            ItemFields.genres,
+            ItemFields.parentid,
+            ItemFields.tags,
+            ItemFields.datecreated,
+            ItemFields.datelastmediaadded,
+            ItemFields.overview,
+            ItemFields.originaltitle,
+            ItemFields.customrating,
+            ItemFields.primaryimageaspectratio,
+          ],
+          isFavorite: filter.filter.favourites,
+          filters: filter.filter.itemFilters.included,
+          includeItemTypes: filter.filter.types.included.map((e) => e.dtoKind).expand((e) => e).toList(),
+        ),
+      ),
+    );
+
+    final items = libraryItems.expand((response) => response.body?.items ?? []).whereType<ItemBaseModel>().toList();
+
+    return DashboardFilterModel(filter: filter, items: items);
+  }
+
+  Future<List<DashboardFilterModel>> _fetchDashboardFilters() async {
+    final filters = ref.read(libraryFiltersByKeyProvider(FilterSortKey.dashboard));
+    return Future.wait(filters.map(_fetchDashboardFilter));
+  }
+
   Future<void> fetchNextUpAndResume() async {
-    if (state.loading) return;
+    if (state.loading) {
+      _refreshRequested = true;
+      return;
+    }
     state = state.copyWith(loading: true);
     final viewTypes =
         ref.read(viewsProvider.select((value) => value.dashboardViews)).map((e) => e.collectionType).toSet().toList();
@@ -129,7 +187,13 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
             .toList() ??
         [];
 
-    state = state.copyWith(nextUp: next, loading: false);
+    final dashboardFilters = await _fetchDashboardFilters();
+    state = state.copyWith(nextUp: next, dashboardFilters: dashboardFilters, loading: false);
+
+    if (_refreshRequested) {
+      _refreshRequested = false;
+      await fetchNextUpAndResume();
+    }
   }
 
   void clear() {

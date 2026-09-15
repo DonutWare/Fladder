@@ -140,6 +140,27 @@
 			}
 		},
 		{
+			"label": "Format Unstaged Dart Files",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-c",
+				"git diff --name-only --diff-filter=d -- \"*.dart\" | xargs -r dart format --line-length=120"
+			],
+			"windows": {
+				"command": "powershell",
+				"args": [
+					"-Command",
+					"$files = git diff --name-only --diff-filter=d -- \"*.dart\"; if ($files) { dart format --line-length=120 $files }"
+				]
+			},
+			"group": "build",
+			"problemMatcher": [],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
 			"label": "Build Web and Docker Image",
 			"type": "shell",
 			"command": "bash",

@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, invalid_annotation_target
 
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +14,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/seerr_credentials_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/util/localization_helper.dart';
 
 part 'account_model.freezed.dart';
@@ -81,14 +84,113 @@ class CredentialsConverter implements JsonConverter<CredentialsModel, Object?> {
   }
 }
 
+class LibraryFiltersConverter implements JsonConverter<List<LibraryFiltersModel>, Object?> {
+  const LibraryFiltersConverter();
+
+  @override
+  List<LibraryFiltersModel> fromJson(Object? json) {
+    final decoded = json is String ? jsonDecode(json) : json;
+    if (decoded is! List) return [];
+
+    return decoded.whereType<Map<String, dynamic>>().map(LibraryFiltersModel.fromJson).toList();
+  }
+
+  @override
+  Object toJson(List<LibraryFiltersModel> filters) => filters.map((filter) => filter.toJson()).toList();
+}
+
+class FilterSortOrderConverter implements JsonConverter<Map<FilterSortKey, List<String>>, Object?> {
+  const FilterSortOrderConverter();
+
+  @override
+  Map<FilterSortKey, List<String>> fromJson(Object? json) {
+    final decoded = json is String ? jsonDecode(json) : json;
+
+    if (decoded is! Map) return {};
+
+    return decoded.map((key, value) {
+      return MapEntry(
+        FilterSortKey.values.byName(key.toString()),
+        (value as List).whereType<String>().toList(),
+      );
+    });
+  }
+
+  @override
+  Object toJson(Map<FilterSortKey, List<String>> value) {
+    return jsonEncode(
+      value.map(
+        (key, value) => MapEntry(key.name, value),
+      ),
+    );
+  }
+}
+
+class DashboardSortingConverter implements JsonConverter<Map<DashboardSorting, bool>, Object?> {
+  const DashboardSortingConverter();
+
+  @override
+  Map<DashboardSorting, bool> fromJson(Object? json) {
+    final decoded = json is String ? jsonDecode(json) : json;
+
+    if (decoded is! Map) return {};
+
+    return decoded.map((key, value) {
+      return MapEntry(
+        DashboardSorting.values.byName(key.toString()),
+        value == true,
+      );
+    });
+  }
+
+  @override
+  Object toJson(Map<DashboardSorting, bool> value) {
+    return jsonEncode(
+      value.map(
+        (key, value) => MapEntry(key.name, value),
+      ),
+    );
+  }
+}
+
 @Freezed(copyWith: true)
 abstract class UserSettings with _$UserSettings {
+  const UserSettings._();
+
   factory UserSettings({
     @Default(Duration(seconds: 30)) Duration skipForwardDuration,
     @Default(Duration(seconds: 10)) Duration skipBackDuration,
+    @LibraryFiltersConverter() @Default([]) List<LibraryFiltersModel> libraryFilters,
+    @FilterSortOrderConverter() @Default({}) Map<FilterSortKey, List<String>> filterSortOrder,
+    @DashboardSortingConverter() @Default({}) Map<DashboardSorting, bool> pDashboardSorting,
   }) = _UserSettings;
 
+  Map<DashboardSorting, bool> get dashboardSorting {
+    return {
+      ...pDashboardSorting,
+      for (final sorting in DashboardSorting.values)
+        if (!pDashboardSorting.containsKey(sorting)) sorting: true,
+    };
+  }
+
   factory UserSettings.fromJson(Map<String, dynamic> json) => _$UserSettingsFromJson(json);
+
+  List<LibraryFiltersModel> getFilterSortOrder(FilterSortKey key) {
+    final keyFilters = libraryFilters.where((filter) => filter.sortKeys[key] ?? false).toList();
+
+    final order = filterSortOrder[key] ?? [];
+    if (order.isEmpty) return keyFilters;
+
+    final orderMap = {for (int i = 0; i < order.length; i++) order[i]: i};
+
+    keyFilters.sort((a, b) {
+      final indexA = orderMap[a.id] ?? double.maxFinite.toInt();
+      final indexB = orderMap[b.id] ?? double.maxFinite.toInt();
+      return indexA.compareTo(indexB);
+    });
+
+    return keyFilters;
+  }
 }
 
 enum Authentication {

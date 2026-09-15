@@ -10,7 +10,10 @@ _LibraryFiltersModel _$LibraryFiltersModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       name: json['name'] as String,
       isFavourite: json['isFavourite'] as bool,
-      showInSideBar: json['showInSideBar'] as bool? ?? false,
+      sortKeys: (json['sortKeys'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry($enumDecode(_$FilterSortKeyEnumMap, k), e as bool),
+          ) ??
+          const {},
       ids: (json['ids'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
       viewNames: (json['viewNames'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
       filter: json['filter'] == null
@@ -22,8 +25,15 @@ Map<String, dynamic> _$LibraryFiltersModelToJson(_LibraryFiltersModel instance) 
       'id': instance.id,
       'name': instance.name,
       'isFavourite': instance.isFavourite,
-      'showInSideBar': instance.showInSideBar,
+      'sortKeys': instance.sortKeys.map((k, e) => MapEntry(_$FilterSortKeyEnumMap[k]!, e)),
       'ids': instance.ids,
       'viewNames': instance.viewNames,
       'filter': instance.filter,
     };
+
+const _$FilterSortKeyEnumMap = {
+  FilterSortKey.dashboard: 'dashboard',
+  FilterSortKey.musicDashboard: 'musicDashboard',
+  FilterSortKey.sideBar: 'sideBar',
+  FilterSortKey.musicSideBar: 'musicSideBar',
+};

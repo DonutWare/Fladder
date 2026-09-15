@@ -11,10 +11,46 @@ import 'package:fladder/models/view_model.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/color_extensions.dart';
+import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/string_extensions.dart';
 
 part 'library_filters_model.freezed.dart';
 part 'library_filters_model.g.dart';
+
+enum FilterSortKey {
+  dashboard,
+  musicDashboard,
+  sideBar,
+  musicSideBar;
+
+  const FilterSortKey();
+
+  IconData get icon {
+    switch (this) {
+      case FilterSortKey.dashboard:
+        return IconsaxPlusBold.home;
+      case FilterSortKey.musicDashboard:
+        return IconsaxPlusBold.music;
+      case FilterSortKey.sideBar:
+        return IconsaxPlusBold.menu_1;
+      case FilterSortKey.musicSideBar:
+        return IconsaxPlusBold.music_circle;
+    }
+  }
+
+  String label(BuildContext context) {
+    switch (this) {
+      case FilterSortKey.dashboard:
+        return context.localized.dashboard;
+      case FilterSortKey.musicDashboard:
+        return context.localized.musicDashboard;
+      case FilterSortKey.sideBar:
+        return context.localized.sideBar;
+      case FilterSortKey.musicSideBar:
+        return context.localized.musicSideBar;
+    }
+  }
+}
 
 @Freezed(copyWith: true)
 abstract class LibraryFiltersModel with _$LibraryFiltersModel {
@@ -24,7 +60,7 @@ abstract class LibraryFiltersModel with _$LibraryFiltersModel {
     required String id,
     required String name,
     required bool isFavourite,
-    @Default(false) bool showInSideBar,
+    @Default({}) Map<FilterSortKey, bool> sortKeys,
     @Default([]) List<String> ids,
     @Default([]) List<String> viewNames,
     @Default(LibraryFilterModel()) LibraryFilterModel filter,
@@ -35,18 +71,14 @@ abstract class LibraryFiltersModel with _$LibraryFiltersModel {
   factory LibraryFiltersModel.fromLibrarySearch(
     String name,
     LibrarySearchModel searchModel, {
-    bool? isFavourite,
-    String? id,
-    bool showInSideBar = false,
     List<String>? viewNames,
   }) {
     return LibraryFiltersModel(
-      id: id ?? Xid().toString(),
+      id: Xid().toString(),
       name: name,
-      isFavourite: isFavourite ?? false,
+      isFavourite: false,
       ids: searchModel.currentIds,
       filter: searchModel.filters,
-      showInSideBar: showInSideBar,
       viewNames: viewNames ?? [],
     );
   }
@@ -54,6 +86,8 @@ abstract class LibraryFiltersModel with _$LibraryFiltersModel {
   bool containsSameIds(List<String> otherIds) => ids.length == otherIds.length && Set.from(ids).containsAll(otherIds);
 
   Key get navKey => Key("filter-$id");
+
+  LibraryFiltersModel get simplifiedModel => copyWith(filter: filter.removeIfFalse);
 
   Future<void> navigateTo(BuildContext context) async {
     context.pushRoute(

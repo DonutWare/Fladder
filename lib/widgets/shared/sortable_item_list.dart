@@ -11,7 +11,7 @@ class SortableItemList<T> extends StatelessWidget {
   final List<T>? included;
   final Function(T item) itemBuilder;
   final Function(List<T> items)? onReorder;
-  final Function(List<T> items) onIncludeChange;
+  final Function(List<T> items)? onIncludeChange;
   final double? maxHeight;
   const SortableItemList({
     this.selected,
@@ -19,7 +19,7 @@ class SortableItemList<T> extends StatelessWidget {
     this.included,
     required this.itemBuilder,
     this.onReorder,
-    required this.onIncludeChange,
+    this.onIncludeChange,
     this.maxHeight,
     super.key,
   });
@@ -58,7 +58,7 @@ class SortableItemList<T> extends StatelessWidget {
                         } else {
                           updatedIncluded.remove(item);
                         }
-                        onIncludeChange(updatedIncluded);
+                        onIncludeChange?.call(updatedIncluded);
                       },
                     ),
                   Expanded(child: itemBuilder(item)),
@@ -93,10 +93,9 @@ class SortableItemList<T> extends StatelessWidget {
                         ReorderableDragStartListener(
                           index: index,
                           enabled: !bigDragHandles,
-                          child: const Icon(
-                            IconsaxPlusLinear.menu,
-                          ),
+                          child: const Icon(IconsaxPlusBold.settings),
                         ),
+                        const SizedBox(width: 16),
                       ],
                     ),
                 ],
