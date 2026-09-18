@@ -6,17 +6,14 @@ part of 'discovery_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$serverDiscoveryHash() => r'f299dab33f48950f0bd91afab1f831fd6e351923';
+String _$serverDiscoveryHash() => r'f99ee026323bf92e13a87fd1e47e03760ad0ff78';
 
 /// See also [ServerDiscovery].
 @ProviderFor(ServerDiscovery)
-final serverDiscoveryProvider = AutoDisposeStreamNotifierProvider<
-    ServerDiscovery, List<DiscoveryInfo>>.internal(
+final serverDiscoveryProvider = AutoDisposeStreamNotifierProvider<ServerDiscovery, List<DiscoveryInfo>>.internal(
   ServerDiscovery.new,
   name: r'serverDiscoveryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$serverDiscoveryHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$serverDiscoveryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );

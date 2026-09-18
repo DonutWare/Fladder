@@ -1005,12 +1005,11 @@ class LibrarySearchNotifier extends StateNotifier<LibrarySearchModel> {
 
   void updateFilter(LibraryFiltersModel model) {
     ref.read(filterProvider.notifier).saveFilter(
-          LibraryFiltersModel.fromLibrarySearch(
-            model.name,
-            state,
+          model.copyWith(
+            name: model.name,
+            filter: state.filters,
             isFavourite: model.isFavourite,
             id: model.id,
-            showInSideBar: model.showInSideBar,
             viewNames: state.folderOverwrite.isNotEmpty
                 ? state.folderOverwrite.included.map((e) => e.name).toList()
                 : state.views.included.map((e) => e.name).toList(),

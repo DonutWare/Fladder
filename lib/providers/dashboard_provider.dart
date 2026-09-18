@@ -4,7 +4,9 @@ import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/models/home_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
+import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/live_tv_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
@@ -16,14 +18,31 @@ final dashboardProvider = StateNotifierProvider<DashboardNotifier, HomeModel>((r
 });
 
 class DashboardNotifier extends StateNotifier<HomeModel> {
-  DashboardNotifier(this.ref) : super(HomeModel());
+  DashboardNotifier(this.ref) : super(HomeModel()) {
+    ref.listen(libraryFiltersByKeyProvider(FilterSortKey.dashboard), (_, __) => fetchNextUpAndResume());
+  }
 
   final Ref ref;
+  bool _refreshRequested = false;
 
   late final JellyService api = ref.read(jellyApiProvider);
 
+  static const _dashboardFilterLimit = 15;
+
+  Future<List<DashboardFilterModel>> _fetchDashboardFilters() async {
+    final filters = ref.read(libraryFiltersByKeyProvider(FilterSortKey.dashboard));
+    return Future.wait(
+      filters.map(
+        (e) => e.fetchDashboardFilter(ref, limit: _dashboardFilterLimit),
+      ),
+    );
+  }
+
   Future<void> fetchNextUpAndResume() async {
-    if (state.loading) return;
+    if (state.loading) {
+      _refreshRequested = true;
+      return;
+    }
     state = state.copyWith(loading: true);
     final viewTypes =
         ref.read(viewsProvider.select((value) => value.dashboardViews)).map((e) => e.collectionType).toSet().toList();
@@ -129,7 +148,13 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
             .toList() ??
         [];
 
-    state = state.copyWith(nextUp: next, loading: false);
+    final dashboardFilters = await _fetchDashboardFilters();
+    state = state.copyWith(nextUp: next, dashboardFilters: dashboardFilters, loading: false);
+
+    if (_refreshRequested) {
+      _refreshRequested = false;
+      await fetchNextUpAndResume();
+    }
   }
 
   void clear() {
