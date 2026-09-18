@@ -223,7 +223,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                               posters: [...allResume, ...dashboardData.nextUp],
                             ),
                         ],
-                      DashboardSorting.libraries => [
+                      DashboardSorting.recentlyAdded => [
                           ...views.dashboardViews
                               .where(
                                 (element) =>

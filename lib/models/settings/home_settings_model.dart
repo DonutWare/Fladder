@@ -101,19 +101,19 @@ enum HomeNextUp {
 enum DashboardSorting {
   liveTV,
   nextUp,
-  libraries,
+  recentlyAdded,
   filters;
 
   const DashboardSorting();
 
   static Map<DashboardSorting, bool> get defaultSorting => {
-        for (final sorting in DashboardSorting.values) sorting: false,
+        for (final sorting in DashboardSorting.values) sorting: true,
       };
 
   String label(BuildContext context) => switch (this) {
         DashboardSorting.liveTV => context.localized.liveTV,
         DashboardSorting.nextUp => context.localized.nextUp,
-        DashboardSorting.libraries => context.localized.library(2),
+        DashboardSorting.recentlyAdded => context.localized.recentlyAdded,
         DashboardSorting.filters => context.localized.filter(2),
       };
 }

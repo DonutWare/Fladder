@@ -108,12 +108,19 @@ class FilterSortOrderConverter implements JsonConverter<Map<FilterSortKey, List<
 
     if (decoded is! Map) return {};
 
-    return decoded.map((key, value) {
-      return MapEntry(
-        FilterSortKey.values.byName(key.toString()),
-        (value as List).whereType<String>().toList(),
-      );
-    });
+    final result = <FilterSortKey, List<String>>{};
+
+    for (final entry in decoded.entries) {
+      final enumKey = FilterSortKey.values.byNameOrNull(entry.key.toString());
+      if (enumKey == null) continue;
+
+      final rawList = entry.value;
+      if (rawList is List) {
+        result[enumKey] = rawList.whereType<String>().toList();
+      }
+    }
+
+    return result;
   }
 
   @override
@@ -126,6 +133,15 @@ class FilterSortOrderConverter implements JsonConverter<Map<FilterSortKey, List<
   }
 }
 
+extension EnumByNameOrNull<T extends Enum> on Iterable<T> {
+  T? byNameOrNull(String name) {
+    for (final value in this) {
+      if (value.name == name) return value;
+    }
+    return null;
+  }
+}
+
 class DashboardSortingConverter implements JsonConverter<Map<DashboardSorting, bool>, Object?> {
   const DashboardSortingConverter();
 
@@ -135,12 +151,16 @@ class DashboardSortingConverter implements JsonConverter<Map<DashboardSorting, b
 
     if (decoded is! Map) return {};
 
-    return decoded.map((key, value) {
-      return MapEntry(
-        DashboardSorting.values.byName(key.toString()),
-        value == true,
-      );
-    });
+    final result = <DashboardSorting, bool>{};
+
+    for (final entry in decoded.entries) {
+      final enumValue = DashboardSorting.values.byNameOrNull(entry.key.toString());
+      if (enumValue != null) {
+        result[enumValue] = entry.value == true;
+      }
+    }
+
+    return result;
   }
 
   @override
@@ -150,6 +170,15 @@ class DashboardSortingConverter implements JsonConverter<Map<DashboardSorting, b
         (key, value) => MapEntry(key.name, value),
       ),
     );
+  }
+}
+
+extension DashboardSortingByNameOrNull on Iterable<DashboardSorting> {
+  DashboardSorting? byNameOrNull(String name) {
+    for (final value in this) {
+      if (value.name == name) return value;
+    }
+    return null;
   }
 }
 
