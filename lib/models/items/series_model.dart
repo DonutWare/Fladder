@@ -77,6 +77,10 @@ class SeriesModel extends ItemBaseModel with SeriesModelMappable {
   @override
   bool get identifiable => true;
 
+  //Progress is not calculated because it makes no sense to show it
+  @override
+  double get progress => 0;
+
   @override
   bool get unWatched =>
       !userData.played && userData.progress <= 0 && userData.unPlayedItemCount == 0 && childCount != 0;
