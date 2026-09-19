@@ -21,6 +21,7 @@ import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/navigation_scaffold.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
+import 'package:fladder/widgets/syncplay/dashboard_fabs.dart';
 
 enum HomeTabs {
   dashboard,
@@ -132,13 +133,7 @@ class HomeScreen extends ConsumerWidget {
                 action: () => e.navigate(context),
                 onLongPress: () => _showDashboardSwitcher(context, ref),
                 onSecondaryTapDown: (_) => _showDashboardSwitcher(context, ref),
-                floatingActionButton: AdaptiveFab(
-                  context: context,
-                  title: context.localized.search,
-                  key: Key(e.name.capitalize()),
-                  onPressed: () => context.router.navigate(LibrarySearchRoute()),
-                  child: const Icon(IconsaxPlusLinear.search_normal_1),
-                ),
+                customFab: const DashboardFabs(),
               );
             case HomeTabs.favorites:
               return DestinationModel(

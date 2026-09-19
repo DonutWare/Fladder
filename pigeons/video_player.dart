@@ -34,6 +34,17 @@ enum PlaybackType {
   tv,
 }
 
+enum SyncPlayCommandType {
+  none,
+  pause,
+  unpause,
+  seek,
+  stop,
+
+  /// The group is waiting for a participant to buffer; shown so every device reports the same state.
+  waiting,
+}
+
 class MediaInfo {
   final PlaybackType playbackType;
   final String videoInformation;
@@ -139,6 +150,7 @@ class SubtitleTrack {
 class Chapter {
   final String name;
   final String url;
+
   // Duration in milliseconds
   final int time;
 
@@ -155,6 +167,7 @@ class TrickPlayModel {
   final int tileWidth;
   final int tileHeight;
   final int thumbnailCount;
+
   //Duration in milliseconds
   final int interval;
   final List<String> images;
@@ -178,6 +191,7 @@ class StartResult {
 abstract class NativeVideoActivity {
   @async
   StartResult launchActivity();
+
   void disposeActivity();
 
   bool isLeanBackEnabled();
@@ -213,19 +227,43 @@ abstract class VideoPlayerApi {
   void stop();
 
   void setSubtitleSettings(SubtitleSettings settings);
+
+  /// Drives the native player's SyncPlay overlay.
+  void setSyncPlayCommandState(bool processing, SyncPlayCommandType commandType);
+}
+
+/// Who caused the last playback state change; Flutter infers SyncPlay requests from it.
+enum PlaybackChangeSource {
+  /// No specific source (e.g. periodic update, buffering).
+  none,
+
+  /// User pressed play or pause on native; Flutter turns it into the SyncPlay request.
+  userPlayPause,
+
+  /// User seeked on native; the frame carries the new position even when the seek drops the player into
+  /// buffering. Kept apart from [userPlayPause] so a paused-while-buffering frame is never ambiguous.
+  userSeek,
+
+  /// Change was caused by applying a SyncPlay command; do not send again.
+  syncplay,
 }
 
 class PlaybackState {
   //Milliseconds
   final int position;
+
   //Milliseconds
   final int buffered;
+
   //Milliseconds
   final int duration;
   final bool playing;
   final bool buffering;
   final bool completed;
   final bool failed;
+
+  /// When set, indicates who caused this state update (for SyncPlay inference).
+  final PlaybackChangeSource? changeSource;
 
   const PlaybackState({
     required this.position,
@@ -235,6 +273,7 @@ class PlaybackState {
     required this.buffering,
     required this.completed,
     required this.failed,
+    this.changeSource,
   });
 }
 
@@ -320,11 +359,17 @@ abstract class VideoPlayerListenerCallback {
 @FlutterApi()
 abstract class VideoPlayerControlsCallback {
   void loadNextVideo();
+
   void loadPreviousVideo();
+
   void onStop();
+
   void swapSubtitleTrack(int value);
+
   void swapAudioTrack(int value);
+
   void loadProgram(GuideChannel selection);
+
   @async
   List<GuideProgram> fetchProgramsForChannel(String channelId);
 }

@@ -46,7 +46,10 @@ class VideoPlayerScreenshotIndicatorState extends ConsumerState<VideoPlayerScree
       ref.read(playBackModel.notifier).update((state) => noSubsModel);
 
       if (noSubsModel != null) {
-        await ref.read(playbackModelHelper).shouldReload(noSubsModel);
+        await ref.read(playbackModelHelper).shouldReload(
+              noSubsModel,
+              isLocalTrackSwitch: true,
+            );
       }
 
       result = await ref.read(videoPlayerProvider.notifier).takeScreenshot();
@@ -55,7 +58,10 @@ class VideoPlayerScreenshotIndicatorState extends ConsumerState<VideoPlayerScree
       ref.read(playBackModel.notifier).update((state) => restoredModel);
 
       if (restoredModel != null) {
-        await ref.read(playbackModelHelper).shouldReload(restoredModel);
+        await ref.read(playbackModelHelper).shouldReload(
+              restoredModel,
+              isLocalTrackSwitch: true,
+            );
       }
     } else {
       result = await ref.read(videoPlayerProvider.notifier).takeScreenshot();
