@@ -56,16 +56,18 @@ class WindowTitleNotifier extends StateNotifier<String> {
   void _update() {
     final nav = _stackKeys.isNotEmpty ? _titles[_stackKeys.last] : null;
     final playerState = ref.read(mediaPlaybackProvider).state;
-    final appName = ref.read(musicDashboardModeProvider) ? 'Tjilp' : 'Fladder';
-
     final isPlayerActive = playerState != VideoPlayerState.disposed;
     final isPlayerMinimized = playerState == VideoPlayerState.minimized;
+    final isMusicMode = ref.read(musicDashboardModeProvider);
+    final appName = isMusicMode ? 'Tjilp' : 'Fladder';
 
     // Use playTitle if player is active and expanded/fullscreen.
     // If player is minimized or inactive, prefer navigation title.
     final title = (isPlayerActive && !isPlayerMinimized) ? (_playTitle ?? nav) : (nav ?? _playTitle);
 
-    final newState = title != null && title.isNotEmpty ? '$appName - $title' : appName;
+    // Avoid repeating Fladder in Linux panels; keep music windows identifiable.
+    final includeAppName = kIsWeb || !Platform.isLinux || isMusicMode;
+    final newState = title != null && title.isNotEmpty ? (includeAppName ? '$appName - $title' : title) : appName;
 
     if (state == newState) return;
 

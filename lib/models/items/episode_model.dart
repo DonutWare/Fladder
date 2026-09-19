@@ -86,7 +86,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
   String windowTitle(AppLocalizations l10n) {
     final s = season.toString().padLeft(2, '0');
     final e = episodeRange.padLeft(2, '0');
-    final prefix = seriesName != null ? '$seriesName • ' : '';
+    final prefix = seriesName != null ? '$seriesName - ' : '';
     return '$prefix${l10n.season(1)[0]}$s${l10n.episode(1)[0]}$e $name';
   }
 
