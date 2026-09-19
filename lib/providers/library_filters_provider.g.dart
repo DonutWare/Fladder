@@ -6,7 +6,7 @@ part of 'library_filters_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$libraryFiltersHash() => r'2fae16f2bf8f9aee08b047d8615a47ee794b30b0';
+String _$libraryFiltersHash() => r'52d05dd1366b82e81f290439adce82c30d1697bf';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,8 +29,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$LibraryFilters
-    extends BuildlessAutoDisposeNotifier<List<LibraryFiltersModel>> {
+abstract class _$LibraryFilters extends BuildlessAutoDisposeNotifier<List<LibraryFiltersModel>> {
   late final List<String> ids;
 
   List<LibraryFiltersModel> build(
@@ -73,16 +72,14 @@ class LibraryFiltersFamily extends Family<List<LibraryFiltersModel>> {
   static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
 
   @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies => _allTransitiveDependencies;
 
   @override
   String? get name => r'libraryFiltersProvider';
 }
 
 /// See also [LibraryFilters].
-class LibraryFiltersProvider extends AutoDisposeNotifierProviderImpl<
-    LibraryFilters, List<LibraryFiltersModel>> {
+class LibraryFiltersProvider extends AutoDisposeNotifierProviderImpl<LibraryFilters, List<LibraryFiltersModel>> {
   /// See also [LibraryFilters].
   LibraryFiltersProvider(
     List<String> ids,
@@ -90,13 +87,9 @@ class LibraryFiltersProvider extends AutoDisposeNotifierProviderImpl<
           () => LibraryFilters()..ids = ids,
           from: libraryFiltersProvider,
           name: r'libraryFiltersProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$libraryFiltersHash,
+          debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$libraryFiltersHash,
           dependencies: LibraryFiltersFamily._dependencies,
-          allTransitiveDependencies:
-              LibraryFiltersFamily._allTransitiveDependencies,
+          allTransitiveDependencies: LibraryFiltersFamily._allTransitiveDependencies,
           ids: ids,
         );
 
@@ -138,8 +131,7 @@ class LibraryFiltersProvider extends AutoDisposeNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeNotifierProviderElement<LibraryFilters, List<LibraryFiltersModel>>
-      createElement() {
+  AutoDisposeNotifierProviderElement<LibraryFilters, List<LibraryFiltersModel>> createElement() {
     return _LibraryFiltersProviderElement(this);
   }
 
@@ -159,14 +151,13 @@ class LibraryFiltersProvider extends AutoDisposeNotifierProviderImpl<
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin LibraryFiltersRef
-    on AutoDisposeNotifierProviderRef<List<LibraryFiltersModel>> {
+mixin LibraryFiltersRef on AutoDisposeNotifierProviderRef<List<LibraryFiltersModel>> {
   /// The parameter `ids` of this provider.
   List<String> get ids;
 }
 
-class _LibraryFiltersProviderElement extends AutoDisposeNotifierProviderElement<
-    LibraryFilters, List<LibraryFiltersModel>> with LibraryFiltersRef {
+class _LibraryFiltersProviderElement
+    extends AutoDisposeNotifierProviderElement<LibraryFilters, List<LibraryFiltersModel>> with LibraryFiltersRef {
   _LibraryFiltersProviderElement(super.provider);
 
   @override

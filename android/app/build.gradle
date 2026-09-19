@@ -47,7 +47,7 @@ android {
         }
     }
     namespace = "nl.jknaapen.fladder"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

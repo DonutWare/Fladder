@@ -14,9 +14,13 @@ class FladderSnack {
   FladderSnack._internal();
 
   static BuildContext? _storedContext;
+  static final Queue<void Function()> _pendingNotifications = Queue();
 
   static void setContext(BuildContext context) {
     _storedContext = context;
+    while (_pendingNotifications.isNotEmpty) {
+      _pendingNotifications.removeFirst()();
+    }
   }
 
   final Queue<_NotificationEntry> _notifications = Queue();
@@ -48,7 +52,20 @@ class FladderSnack {
       return;
     }
 
-    final overlay = Overlay.of(effectiveContext);
+    final overlay = Overlay.maybeOf(effectiveContext);
+    if (overlay == null) {
+      _pendingNotifications.add(
+        () => show(
+          message,
+          duration: duration,
+          permanent: permanent,
+          actionLabel: actionLabel,
+          onActionPressed: onActionPressed,
+          showCloseButton: showCloseButton,
+        ),
+      );
+      return;
+    }
     final instance = FladderSnack();
     final id = instance._nextId++;
 

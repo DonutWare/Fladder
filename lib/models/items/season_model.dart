@@ -84,11 +84,21 @@ class SeasonModel extends ItemBaseModel with SeasonModelMappable {
     return '$prefix${localizedName(l10n)}';
   }
 
+  //Progress is not calculated because it makes no sense to show it
+  @override
+  double get progress => 0;
+
+  @override
+  String get title => seriesName.isNotEmpty ? seriesName : "";
+
+  @override
+  String? get subText => super.title;
+
   @override
   bool get syncAble => episodes.isNotEmpty && episodes.any((element) => element.syncAble);
 
   @override
-  ImagesData? get getPosters => images ?? parentImages;
+  ImagesData? get getPosters => images?.primary != null ? images : parentImages;
 
   String localizedName(AppLocalizations l10n) => name.replaceFirst("Season", l10n.season(1));
 

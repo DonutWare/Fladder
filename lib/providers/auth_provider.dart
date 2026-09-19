@@ -22,6 +22,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
+import 'package:fladder/services/local_network_permission.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -191,13 +192,19 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
 
   Future<void> setServer(String server) async {
     if (state.hasBaseUrl) {
+      if (!await _hasLocalNetworkPermission(FladderConfig.baseUrl!)) return;
       await _fetchServerInfo(FladderConfig.baseUrl!);
       return;
     }
     final trimmed = server.trim();
     if (trimmed.isEmpty) return;
+    if (!await _hasLocalNetworkPermission(trimmed)) return;
     final result = await probeAndNormalizeUrl(trimmed, probeJellyfinUrl);
     await _fetchServerInfo(result.url);
+  }
+
+  Future<bool> _hasLocalNetworkPermission(String url) async {
+    return ensureLocalNetworkPermission(url, localContext);
   }
 
   List<AccountModel> getSavedAccounts() {

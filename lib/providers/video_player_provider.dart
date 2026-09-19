@@ -6,6 +6,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/playback_queue_state.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
@@ -78,6 +79,13 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   /// The backend's real playing state: on media-kit the wrapper's `playing` flag is only the requested one.
   bool get _livePlaying => state.isPlayerPlaying;
 
+  ProviderSubscription<VideoPlayerSettingsModel>? settingsChanged;
+  @override
+  void dispose() {
+    settingsChanged?.close();
+    super.dispose();
+  }
+
   /// media-kit sometimes drops the first `play()` after a paused `open()` or a reload, and in a group the
   /// server's Unpause is the only thing that starts this device, so re-issue until the backend really plays.
   Future<void> _playUntilPlaying() async {
@@ -107,6 +115,19 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     _bufferingDebouncer = BufferingReportDebouncer(
       onBuffering: () => ref.read(syncPlayProvider.notifier).reportBuffering(),
       onReady: () => ref.read(syncPlayProvider.notifier).reportReady(isPlaying: _livePlaying),
+    );
+
+    settingsChanged = ref.listen(
+      videoPlayerSettingsProvider,
+      (previous, next) {
+        final currentItem = ref.read(playBackModel)?.item;
+        if (currentItem != null) {
+          state.applyReplayGain(
+            currentItem,
+            settings: next,
+          );
+        }
+      },
     );
 
     final subscription = state.stateStream.listen((value) {

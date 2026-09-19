@@ -1093,7 +1093,12 @@ class JellyService {
       userId: account?.id ?? "",
       $client: _client,
       body: currentDisplayPreferences.body?.copyWith(
-        customPrefs: currentSettings.toJson(),
+        customPrefs: currentSettings.toJson().map(
+              (key, value) => MapEntry(
+                key,
+                value is String ? value : jsonEncode(value),
+              ),
+            ),
       ),
     );
   }

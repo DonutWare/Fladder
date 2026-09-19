@@ -1,10 +1,14 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
+import 'package:fladder/models/home_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/playlist_model.dart';
+import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 
 final musicDashboardProvider = StateNotifierProvider<MusicDashboardNotifier, MusicDashboardModel>((ref) {
@@ -26,6 +30,7 @@ class MusicDashboardModel {
   final List<ItemBaseModel> recentlyAddedArtists;
   final List<ItemBaseModel> mostPlayed;
   final List<AudioModel> recentlyFavoritedSongs;
+  final List<DashboardFilterModel> dashboardFilters;
 
   const MusicDashboardModel({
     this.loading = false,
@@ -36,6 +41,7 @@ class MusicDashboardModel {
     this.recentlyAddedArtists = const [],
     this.mostPlayed = const [],
     this.recentlyFavoritedSongs = const [],
+    this.dashboardFilters = const [],
   });
 
   MusicDashboardModel copyWith({
@@ -47,6 +53,7 @@ class MusicDashboardModel {
     List<ItemBaseModel>? recentlyAddedArtists,
     List<ItemBaseModel>? mostPlayed,
     List<AudioModel>? recentlyFavoritedSongs,
+    List<DashboardFilterModel>? dashboardFilters,
   }) {
     return MusicDashboardModel(
       loading: loading ?? this.loading,
@@ -57,12 +64,24 @@ class MusicDashboardModel {
       recentlyAddedArtists: recentlyAddedArtists ?? this.recentlyAddedArtists,
       mostPlayed: mostPlayed ?? this.mostPlayed,
       recentlyFavoritedSongs: recentlyFavoritedSongs ?? this.recentlyFavoritedSongs,
+      dashboardFilters: dashboardFilters ?? this.dashboardFilters,
     );
   }
 }
 
 class MusicDashboardNotifier extends StateNotifier<MusicDashboardModel> {
-  MusicDashboardNotifier(this.ref) : super(const MusicDashboardModel());
+  MusicDashboardNotifier(this.ref) : super(const MusicDashboardModel()) {
+    ref.listen(
+      libraryFiltersByKeyProvider(FilterSortKey.musicDashboard),
+      (previous, next) {
+        const listEquality = ListEquality<LibraryFiltersModel>();
+        if (!listEquality.equals(previous, next)) {
+          fetchMusicHome();
+        }
+      },
+      fireImmediately: false,
+    );
+  }
 
   final Ref ref;
 
@@ -93,6 +112,17 @@ class MusicDashboardNotifier extends StateNotifier<MusicDashboardModel> {
     );
 
     return response.body?.items.whereType<AudioModel>().toList() ?? const <ItemBaseModel>[];
+  }
+
+  static const _dashboardFilterLimit = 15;
+
+  Future<List<DashboardFilterModel>> _fetchDashboardFilters() async {
+    final filters = ref.read(libraryFiltersByKeyProvider(FilterSortKey.musicDashboard));
+    return Future.wait(
+      filters.map(
+        (e) => e.fetchDashboardFilter(ref, limit: _dashboardFilterLimit),
+      ),
+    );
   }
 
   Future<void> fetchMusicHome() async {
@@ -223,6 +253,8 @@ class MusicDashboardNotifier extends StateNotifier<MusicDashboardModel> {
       final recentlyFavoritedSongs =
           recentlyFavoritedSongsResponse.body?.items.whereType<AudioModel>().toList() ?? const <AudioModel>[];
 
+      final dashboardFilters = await _fetchDashboardFilters();
+
       state = state.copyWith(
         playlists: playlists,
         recentlyAddedAlbums: recentlyAddedAlbums,
@@ -232,6 +264,7 @@ class MusicDashboardNotifier extends StateNotifier<MusicDashboardModel> {
         mostPlayed: mostPlayed,
         recentlyFavoritedSongs: recentlyFavoritedSongs,
         loading: false,
+        dashboardFilters: dashboardFilters,
       );
     } catch (_) {
       state = state.copyWith(loading: false);

@@ -39,8 +39,12 @@ class _ControlServerPageState extends ConsumerState<ControlServerPage> {
       serverNameController.text = next.name;
       cachePathController.text = next.cachePath;
       metadataPathController.text = next.metaDataPath;
-      maxConcurrentLibraryScanController.text = next.maxConcurrentLibraryScan.toString();
-      maxImageDecodingThreadsController.text = next.maxImageDecodingThreads.toString();
+      if (maxConcurrentLibraryScanController.text != (next.maxConcurrentLibraryScan?.toString() ?? "-")) {
+        maxConcurrentLibraryScanController.text = next.maxConcurrentLibraryScan?.toString() ?? "-";
+      }
+      if (maxImageDecodingThreadsController.text != (next.maxImageDecodingThreads?.toString() ?? "-")) {
+        maxImageDecodingThreadsController.text = next.maxImageDecodingThreads?.toString() ?? "-";
+      }
     });
 
     return PullToRefresh(
@@ -121,8 +125,11 @@ class _ControlServerPageState extends ConsumerState<ControlServerPage> {
                 subLabel: Text(context.localized.maxConcurrentLibraryScanDesc),
                 trailing: IntInputField(
                   controller: maxConcurrentLibraryScanController,
+                  onChanged: (value) => provider.update(
+                    serverConfig.copyWith(maxConcurrentLibraryScan: value ?? 0),
+                  ),
                   onSubmitted: (value) => provider.update(
-                    serverConfig.copyWith(maxConcurrentLibraryScan: value ?? serverConfig.maxConcurrentLibraryScan),
+                    serverConfig.copyWith(maxConcurrentLibraryScan: value ?? 0),
                   ),
                 ),
               ),
@@ -132,8 +139,11 @@ class _ControlServerPageState extends ConsumerState<ControlServerPage> {
                 subLabel: Text(context.localized.maxImageDecodingThreadsDesc),
                 trailing: IntInputField(
                   controller: maxImageDecodingThreadsController,
+                  onChanged: (value) => provider.update(
+                    serverConfig.copyWith(maxImageDecodingThreads: value ?? 0),
+                  ),
                   onSubmitted: (value) => provider.update(
-                    serverConfig.copyWith(maxImageDecodingThreads: value ?? serverConfig.maxImageDecodingThreads),
+                    serverConfig.copyWith(maxImageDecodingThreads: value ?? 0),
                   ),
                 ),
               ),

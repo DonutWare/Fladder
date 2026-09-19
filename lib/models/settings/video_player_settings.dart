@@ -208,7 +208,7 @@ enum PlayerOptions {
 }
 
 double clampReplayGainDb(double gainDb) {
-  return gainDb.clamp(-60.0, 20.0).toDouble();
+  return gainDb.clamp(-60.0, 0.0).toDouble();
 }
 
 enum ReplayGainVolumeLevel {
