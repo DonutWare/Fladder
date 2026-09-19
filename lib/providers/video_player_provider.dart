@@ -53,8 +53,10 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   /// Debounces spontaneous buffering before it is reported to the group; recreated on every [init].
   BufferingReportDebouncer? _bufferingDebouncer;
 
-  /// Kept so a re-[init] does not stack native-overlay listeners.
-  ProviderSubscription<SyncPlayState>? _syncPlayStateSubscription;
+  /// Kept so a re-[init] does not stack native-overlay listeners. A stream subscription, not `ref.listen`:
+  /// listening to `syncPlayProvider` would make this provider its dependent, and the SyncPlay controller
+  /// reads `videoPlayerProvider` back, which trips Riverpod's circular-dependency assertion in debug builds.
+  StreamSubscription<SyncPlayState>? _syncPlayStateSubscription;
   SyncPlayCommandType _lastNativeOverlayType = SyncPlayCommandType.none;
 
   /// Bumped by everything that pauses or stops the player so a running [_playUntilPlaying] loop gives up.
@@ -83,6 +85,8 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   @override
   void dispose() {
     settingsChanged?.close();
+    _syncPlayStateSubscription?.cancel();
+    _bufferingDebouncer?.dispose();
     super.dispose();
   }
 
@@ -167,12 +171,11 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   }
 
   void _setupSyncPlayStateListener() {
-    _syncPlayStateSubscription?.close();
+    _syncPlayStateSubscription?.cancel();
     _lastNativeOverlayType = SyncPlayCommandType.none;
-    _syncPlayStateSubscription = ref.listen<SyncPlayState>(
-      syncPlayProvider,
-      (previous, next) => _forwardNativeOverlay(next),
-    );
+    _syncPlayStateSubscription = ref.read(syncPlayProvider.notifier).controller.stateStream.listen(
+          _forwardNativeOverlay,
+        );
   }
 
   /// Pushed right before the native activity opens so it does not wait for the next state change.
@@ -395,7 +398,10 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     final loadPositionTicks = startPosition.inMicroseconds * 10;
     if (reportingForSyncPlay) {
       _isLoadingForSyncPlay = true;
-      ref.read(syncPlayProvider.notifier).reportBuffering(positionTicks: loadPositionTicks);
+      // Awaited: the server handles requests in arrival order, and a fast load (an item starting at 00:00)
+      // let the Ready below overtake this Buffering, leaving the session marked buffering with no Ready to
+      // follow and the whole group stuck in Waiting.
+      await ref.read(syncPlayProvider.notifier).reportBuffering(positionTicks: loadPositionTicks);
     }
 
     final useMinimizedPlayer =

@@ -1431,6 +1431,10 @@ AGENTS.md #10.
       media URL via DevTools throttling/blocking). Confirm the group
       does not stick in Waiting; the failed client reports ready
       (isPlaying:false) and the group returns to Paused.
+- [ ] **Fast load at 00:00 (web):** Two web clients; start an unwatched
+      episode so the group begins at 0:00. Confirm neither client's
+      Buffering report lands after its own Ready (the load-time Buffering
+      is awaited) and the group does not stay in Waiting.
 
 ### Next-Episode flow
 
@@ -1438,6 +1442,11 @@ AGENTS.md #10.
       click Next Video while in a SyncPlay group. Confirm both clients
       switch within ~1-2s and the queue context is preserved (Previous
       Video still works).
+- [ ] **Switch with the player open (debug build):** In a debug build,
+      press Next or Previous while the player route is open. Confirm no
+      `CircularDependencyError` is logged from `_isItemAttachable` and the
+      new episode loads (the player subscribes to the controller's state
+      stream instead of `ref.listen(syncPlayProvider)`).
 - [ ] **Rapid Next clicks:** Click Next twice within 1 second. Confirm
       the second click is NOT silently dropped (was: setNewQueue
       debounce).
@@ -1487,3 +1496,28 @@ AGENTS.md #10.
 - [Jellyfin Web Client Source - PlaybackCore.js](https://raw.githubusercontent.com/jellyfin/jellyfin-web/master/src/plugins/syncPlay/core/PlaybackCore.js)
 - [Jellyfin Web Client Source - TimeSync.js](https://raw.githubusercontent.com/jellyfin/jellyfin-web/master/src/plugins/syncPlay/core/timeSync/TimeSync.js)
 - [NTP Clock Synchronization Algorithm](https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_synchronization_algorithm)
+
+---
+
+## Behaviour decisions (audit follow-up, 2026-09-02)
+
+These decisions come from comparing the port against the jellyfin-web plugin and the server's group state machine. They are deliberate and tests pin most of them.
+
+- **State updates never pre-empt a command, but they are the last word.** `StateUpdate` frames update `SyncPlayState` and drive the overlay. The server sends the `Unpause` command *before* `StateUpdate(Playing)`, and the command carries the `When` every client must honour, so `StateUpdate(Playing)` never starts the player while a command is armed, queued or executing, while the player is buffering, or after a Pause/Stop (`SyncPlayCommandHandler.shouldRecoverPlayback`). With nothing of our own in flight, a paused player is started: the Unpause was lost, dropped by the player, or is still parked behind the clock gate (then it is applied at once with the unsynced clock).
+- **`play()` is made to stick.** media-kit sometimes drops the first `play()` after a paused `open()` or a reload; on web the element's play promise is rejected when a load interrupts it and media-kit swallows the rejection. The SyncPlay `onPlay` callback (`_playUntilPlaying`) and `_ensureLocalTrackSwitchAutoplay` re-issue `play()` every 250 ms for up to 3 s until the backend really plays, and stop as soon as anything else pauses or stops the player. "Really plays" is `BasePlayer.isPlaying` (media-kit's own `state.playing`: `!pause` on libmpv, the element's play/pause events on web), never the wrapper's `lastState.playing`, which on mpv only records that the user did not pause and turns true on the first `play()` whether or not it took. That same real state feeds the SyncPlay `isPlaying` callback, so Ready reports and the missed-Unpause recovery are truthful too.
+- **Duplicate commands correct state, they are not ignored.** The server re-sends an identical command as "here is the current state". A duplicate whose time is still in the future is already armed; a past duplicate re-applies Unpause when paused, Pause when playing or off position, Seek with a small random offset when off position, Stop when playing.
+- **Commands are validated.** A command for a playlist item other than the current one is dropped (Stop excepted); commands are ignored while not in a group; while group playback is halted on this device they are only recorded (`SyncPlayCommandHandler.recordCommand`) so the group's playhead stays known; commands wait for the first clock measurement (`SyncPlayClock.isReady`) and only the latest one is queued, a resend of the queued command is re-queued rather than treated as a correction, and the wait is capped (`SyncPlayCommandHandler.clockFallback`, 2 s) so a broken `/GetUtcTime` never freezes the group.
+- **Positions are reported from the live player** (`MediaControlsWrapper.lastState`), never from the throttled provider copy. A load and a Seek report the *requested* position, because libmpv can land a few hundred milliseconds off on keyframe-bound media and the server tolerates only 500 ms.
+- **`isPlaying` is reported truthfully.** After a load or a Seek the player is paused and says so; the server ignores elapsed time for a paused client and only sends a corrective Seek when the position is off.
+- **Spontaneous buffering is debounced for 3 s** (`BufferingReportDebouncer`) before it pauses the group; a reported stall is always closed by exactly one Ready.
+- **Halt / resume.** Stopping the player (the close button on every platform, the Android back gesture out of the native activity, or "Stop group playback" in the group sheet) sets `isFollowingGroupPlayback = false`, stops the local player and sends `SetIgnoreWait(true)`; the flags flip before the request goes out so closing never waits on the network. The group no longer waits for this device. "Resume playback" in the sheet (or a brand-new playlist from another participant) sends `SetIgnoreWait(false)` and reloads at the live group position, estimated from the last recorded command or, failing that, from the last `PlayQueue` frame's `StartPositionTicks` + elapsed (`SyncPlayQueueTiming`). Mirrors jellyfin-web `haltGroupPlayback` / `resumeGroupPlayback` / `QueueCore.startPlayback`.
+- **A silent rejoin keeps the halt.** `GroupJoined` never touches `isFollowingGroupPlayback`; only a user-initiated join or create sets it. After a transparent rejoin a halted device re-sends `SetIgnoreWait(true)` (the server-side flag died with the evicted session) and ignores the `PlayQueue` frame the server replays for the rejoin, recognised as the first queue frame within 5 s of that `GroupJoined`. Known gaps of the heuristic, both rare: an idle group replays no queue frame, so a participant's genuine `NewPlaylist` inside that window is ignored once by a halted device; and a `GroupJoined` that lands after the 12 s join timeout is no longer known to be silent, so its replayed frame un-halts a halted device. The rejoin toast is suppressed for silent rejoins. A failed join (`NotInGroup` / `GroupDoesNotExist` while not in a group) never stops what the user is watching.
+- **Stop means stop.** A `Stop` command ends playback and closes the player route (jellyfin-web `localStop`).
+- **Same item, no reload.** A `PlayQueue` frame for the item already loaded in an open player is satisfied with a pause, a seek if more than 500 ms off, and a Ready. This covers silent rejoin after a socket drop and creating a group while watching.
+- **Create while watching seeds the group** with this device's queue and position through `SetNewQueue`, because the server seeds from the session's `NowPlayingQueue`, which this client does not report. Only an item showing in the video player qualifies; music in the audio queue is not attachable and would be reloaded through the video path. A create whose `GroupJoined` never arrives is reported as a failure. Caveat: the server seeds the new group from the session's `FullNowPlayingItem`, which this client provides through its normal playback reports; if that report failed, the group starts Idle and its `SessionJoined` sends a `Stop` that closes the player before the seed's `PlayQueue` reopens it.
+- **Next / previous go through the server queue** (`NextItem`, `PreviousItem`, `SetPlaylistItem`); `SetNewQueue` is only used for an item outside the group queue. The server's playlist-item guard drops the duplicate requests every participant's next-up timer fires simultaneously.
+- **User gestures.** Pause is applied locally at once and requested; seek is applied locally (paused) and requested, the Unpause after everyone's Ready resumes; the progress bar sends exactly one Seek on release and never pauses the group on drag start. Playback speed controls are locked in a group.
+- **Native Android tags say what happened.** The native controls tag the next `PlaybackState` frame with `PlaybackChangeSource.userPlayPause` or `userSeek` (Pigeon enum). ExoPlayer consumes a seek tag on the very next frame (the position moves synchronously, even when the seek drops the player into buffering) and a play/pause tag only when `isPlaying` actually flips, so a seek that rebuffers is never read as a pause and a small skip never leaves a tag behind for an unrelated transition.
+- **Socket reconnection never gives up** (exponential backoff capped at 30 s with jitter). On phones only `resumed` is handled, and a healthy socket just gets a KeepAlive. Coming back online forces a reconnect. A reconnect silently rejoins the last group, because the server drops the member when the socket closes. Close events are matched to the channel that raised them, so a channel replaced by `forceReconnect` can never null out its successor or open a third socket.
+- **Drift correction** is throttled to one check per 1.5 s and can be turned off in player settings; corrections show in the badge only, not in the centre overlay.
+- **One overlay for everyone.** `resolveSyncPlayOverlay` decides what the centre overlay shows, in priority order: a queue switch, a command being applied on this device, then the group's Waiting state ("Waiting for others…"). The same resolution feeds the native Android overlay through `SyncPlayCommandType.waiting`, so while the server holds the group for a buffering participant every device shows the same thing, instead of only the device that happens to be executing a command.
