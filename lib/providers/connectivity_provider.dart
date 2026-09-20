@@ -11,6 +11,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/services/local_network_permission.dart';
+import 'package:fladder/util/custom_headers.dart';
 
 part 'connectivity_provider.g.dart';
 
@@ -177,7 +178,7 @@ Future<PublicSystemInfo?> fetchSystemInfoDynamic(String baseUrl) async {
     final uri = buildServerUriFromBase(baseUrl, pathSegments: const ['System', 'Info', 'Public']);
     if (uri == null) return null;
 
-    final response = await http.get(uri).timeout(const Duration(seconds: 2));
+    final response = await http.get(uri, headers: ServerCustomHeaders.forUri(uri)).timeout(const Duration(seconds: 2));
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return PublicSystemInfo.fromJson(jsonDecode(response.body));

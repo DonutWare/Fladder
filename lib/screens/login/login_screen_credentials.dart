@@ -20,6 +20,7 @@ import 'package:fladder/screens/login/login_user_grid.dart';
 import 'package:fladder/screens/login/widgets/advanced_login_options_dialog.dart';
 import 'package:fladder/screens/login/widgets/connect_link_dialog.dart';
 import 'package:fladder/screens/login/widgets/discover_servers_widget.dart';
+import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
@@ -125,8 +126,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: 8,
             children: [
-              AspectRatio(
-                aspectRatio: 1,
+              _serverRowButton(
                 child: IconButton.filledTonal(
                   onPressed: () => provider.goUserSelect(),
                   icon: const Icon(
@@ -144,11 +144,21 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                     autocorrect: false,
                     textInputAction: TextInputAction.go,
                     label: context.localized.server,
-                    errorText: urlError,
                   ),
                 ),
-              AspectRatio(
-                aspectRatio: 1,
+              _serverRowButton(
+                child: Tooltip(
+                  message: context.localized.advanced,
+                  waitDuration: const Duration(seconds: 1),
+                  child: IconButton.filledTonal(
+                    onPressed: () => openAdvancedOptions(),
+                    icon: const Icon(
+                      IconsaxPlusLinear.setting_3,
+                    ),
+                  ),
+                ),
+              ),
+              _serverRowButton(
                 child: Tooltip(
                   message: context.localized.retrievePublicListOfUsers,
                   waitDuration: const Duration(seconds: 1),
@@ -163,6 +173,7 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
             ],
           ),
         ),
+        if (urlError != null) SettingsMessageBox(urlError, messageType: MessageType.error),
         if (serverCredentials == null)
           Column(
             mainAxisSize: MainAxisSize.max,
@@ -253,44 +264,23 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
                     indent: 32,
                     endIndent: 32,
                   ),
-                  Row(
-                    spacing: 8,
-                    children: [
-                      Expanded(
-                        child: FilledButton(
-                          onPressed: enterCredentialsTryLogin,
-                          child: loggingIn
-                              ? SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: CircularProgressIndicator(
-                                      color: Theme.of(context).colorScheme.inversePrimary, strokeCap: StrokeCap.round),
-                                )
-                              : Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(context.localized.login),
-                                    const SizedBox(width: 8),
-                                    const Icon(IconsaxPlusBold.send_1),
-                                  ],
-                                ),
-                        ),
-                      ),
-                      if (FladderConfig.seerrBaseUrl?.isNotEmpty != true)
-                        IconButton.filledTonal(
-                          onPressed: () async {
-                            final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
-                            final result = await showAdvancedLoginOptionsDialog(
-                              context,
-                              initialSeerrUrl: tempSeerrUrl,
-                            );
-                            if (result != null) {
-                              ref.read(authProvider.notifier).setTempSeerrUrl(result);
-                            }
-                          },
-                          icon: const Icon(IconsaxPlusLinear.setting_3),
-                        ),
-                    ],
+                  FilledButton(
+                    onPressed: enterCredentialsTryLogin,
+                    child: loggingIn
+                        ? SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(
+                                color: Theme.of(context).colorScheme.inversePrimary, strokeCap: StrokeCap.round),
+                          )
+                        : Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(context.localized.login),
+                              const SizedBox(width: 8),
+                              const Icon(IconsaxPlusBold.send_1),
+                            ],
+                          ),
                   ),
                   if (hasQuickConnect)
                     FilledButton(
@@ -423,8 +413,30 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
     });
   }
 
+  Future<void> openAdvancedOptions() async {
+    final result = await showAdvancedLoginOptionsDialog(
+      context,
+      initialSeerrUrl: ref.read(authProvider.select((value) => value.tempSeerrUrl)),
+      initialCustomHeaders: ref.read(authProvider.select((value) => value.tempCustomHeaders)),
+    );
+    if (result == null) return;
+    final provider = ref.read(authProvider.notifier);
+    provider.setTempCustomHeaders(result.customHeaders);
+    if (FladderConfig.seerrBaseUrl?.isNotEmpty != true) {
+      provider.setTempSeerrUrl(result.seerrUrl);
+    }
+  }
+
   bool emptyFields() => usernameController.text.isEmpty;
 }
+
+/// Square button flanking the server field. The row sizes these off its own
+/// height, so the width is capped: without it a tall field turns them into
+/// giant squares and leaves the field no room at all.
+Widget _serverRowButton({required Widget child}) => ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 64),
+      child: AspectRatio(aspectRatio: 1, child: child),
+    );
 
 Future<void> loggedInGoToHome(BuildContext context, WidgetRef ref) async {
   ref.read(lockScreenActiveProvider.notifier).update((state) => false);

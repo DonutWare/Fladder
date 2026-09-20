@@ -163,6 +163,7 @@ Future<List<NotificationModel>> _fetchAndNotifyLatestItemsForAccount(
       account.credentials.token,
       limit,
       includeHiddenViews: includeHiddenViews,
+      customHeaders: account.credentials.customHeaders,
       since: debug ? lastUpdateCheck.subtract(const Duration(days: 3)) : lastUpdateCheck,
     );
 
