@@ -37,11 +37,39 @@ final offlineStateProvider = Provider<bool>((ref) {
 
 final localConnectionAvailableProvider = StateProvider<bool>((ref) => false);
 
+/// Maps the platform's connectivity results onto a [ConnectionState].
+///
+/// Returns `null` for transports we cannot classify ([ConnectivityResult.other],
+/// [ConnectivityResult.bluetooth]) or an empty result. Neither `null` nor
+/// [ConnectionState.offline] may be committed without a reachability probe: on
+/// Windows the plugin only counts adapters the OS marks `IsConnectedToInternet`,
+/// a verdict that is transiently wrong on healthy networks.
+ConnectionState? mapConnectivityResults(List<ConnectivityResult> results) {
+  if (results.contains(ConnectivityResult.vpn)) return ConnectionState.vpn;
+  if (results.contains(ConnectivityResult.ethernet)) return ConnectionState.ethernet;
+  if (results.contains(ConnectivityResult.wifi)) return ConnectionState.wifi;
+  if (results.contains(ConnectivityResult.mobile)) return ConnectionState.mobile;
+  if (results.contains(ConnectivityResult.none)) return ConnectionState.offline;
+  return null;
+}
+
 @Riverpod(keepAlive: true)
 class ConnectivityStatus extends _$ConnectivityStatus {
   Timer? _debounceTimer;
   int _probeId = 0;
   Completer<void>? _probeCompleter;
+
+  /// Last transport the OS reported. Used as the candidate state when the OS
+  /// reports nothing usable, since that report is only a hint.
+  ConnectionState _lastKnownTransport = ConnectionState.mobile;
+
+  /// Retry while offline so a false negative recovers on its own. Desktop
+  /// platforms rarely emit lifecycle events, so nothing else would re-check.
+  /// Backs off so a device that is genuinely offline is not polled every 15s.
+  static const _offlineRetryInitial = Duration(seconds: 15);
+  static const _offlineRetryMax = Duration(minutes: 2);
+  Duration _offlineRetryDelay = _offlineRetryInitial;
+  Timer? _offlineRetryTimer;
 
   @override
   ConnectionState build() {
@@ -60,6 +88,7 @@ class ConnectivityStatus extends _$ConnectivityStatus {
 
     ref.onDispose(() {
       _debounceTimer?.cancel();
+      _offlineRetryTimer?.cancel();
       subscription.cancel();
       _probeId++;
       _resolveProbe();
@@ -78,17 +107,17 @@ class ConnectivityStatus extends _$ConnectivityStatus {
   Future<void> waitForProbe() async => _probeCompleter?.future;
 
   void _handleHardwareChange(List<ConnectivityResult> results, {bool immediate = false}) {
-    final hardwareState = _parseHardwareState(results);
+    final hardwareState = mapConnectivityResults(results);
 
-    if (hardwareState == ConnectionState.offline) {
-      _debounceTimer?.cancel();
-      _probeId++;
-      _resolveProbe();
-      _updateState(ConnectionState.offline, isLocal: false);
-      return;
+    // The OS signal is a hint, never a verdict. A usable transport is recorded
+    // for bitrate selection; "offline" or an unclassifiable transport is
+    // verified against the server instead of being committed. Committing it
+    // directly pinned the app offline on healthy networks with no way back.
+    if (hardwareState != null && hardwareState != ConnectionState.offline) {
+      _lastKnownTransport = hardwareState;
     }
 
-    _queueProbe(hardwareState, immediate: immediate);
+    _queueProbe(_lastKnownTransport, immediate: immediate);
   }
 
   void _queueProbe(ConnectionState candidateState, {bool immediate = false}) {
@@ -153,6 +182,26 @@ class ConnectivityStatus extends _$ConnectivityStatus {
   void _updateState(ConnectionState newState, {required bool isLocal}) {
     ref.read(localConnectionAvailableProvider.notifier).state = isLocal;
     state = newState;
+
+    if (newState == ConnectionState.offline) {
+      _scheduleOfflineRetry();
+    } else {
+      _offlineRetryTimer?.cancel();
+      _offlineRetryTimer = null;
+      _offlineRetryDelay = _offlineRetryInitial;
+    }
+  }
+
+  void _scheduleOfflineRetry() {
+    // Advance the backoff only when a retry is actually scheduled; several
+    // failing requests can confirm offline inside one pending window.
+    if (_offlineRetryTimer != null) return;
+    _offlineRetryTimer = Timer(_offlineRetryDelay, () {
+      _offlineRetryTimer = null;
+      _queueProbe(_lastKnownTransport, immediate: true);
+    });
+    final next = _offlineRetryDelay * 2;
+    _offlineRetryDelay = next > _offlineRetryMax ? _offlineRetryMax : next;
   }
 
   void _resolveProbe() {
@@ -160,14 +209,6 @@ class ConnectivityStatus extends _$ConnectivityStatus {
       _probeCompleter?.complete();
     }
     _probeCompleter = null;
-  }
-
-  ConnectionState _parseHardwareState(List<ConnectivityResult> results) {
-    if (results.contains(ConnectivityResult.vpn)) return ConnectionState.vpn;
-    if (results.contains(ConnectivityResult.ethernet)) return ConnectionState.ethernet;
-    if (results.contains(ConnectivityResult.wifi)) return ConnectionState.wifi;
-    if (results.contains(ConnectivityResult.mobile)) return ConnectionState.mobile;
-    return ConnectionState.offline;
   }
 }
 
@@ -177,7 +218,10 @@ Future<PublicSystemInfo?> fetchSystemInfoDynamic(String baseUrl) async {
     final uri = buildServerUriFromBase(baseUrl, pathSegments: const ['System', 'Info', 'Public']);
     if (uri == null) return null;
 
-    final response = await http.get(uri).timeout(const Duration(seconds: 2));
+    // 5s rather than 2s: this now guards the remote URL too, and a cold server
+    // or a slow link routinely needs more than two seconds. Timing out here
+    // is what commits offline, so the budget has to be generous.
+    final response = await http.get(uri).timeout(const Duration(seconds: 5));
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return PublicSystemInfo.fromJson(jsonDecode(response.body));
