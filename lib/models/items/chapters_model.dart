@@ -88,4 +88,20 @@ extension ChapterExtension on List<Chapter> {
   Chapter? getChapterFromDuration(Duration duration) {
     return lastWhereOrNull((element) => element.startPosition < duration);
   }
+
+  Chapter? previousChapter(Duration position, {Duration threshold = const Duration(milliseconds: 3000)}) {
+    if (isEmpty) return null;
+    final earlier = where((chapter) => chapter.startPosition < position - threshold).toList();
+    return earlier.isNotEmpty ? earlier.last : first;
+  }
+
+  Chapter? nextChapter(Duration position) {
+    if (isEmpty) return null;
+    for (final chapter in this) {
+      if (chapter.startPosition > position) {
+        return chapter;
+      }
+    }
+    return null;
+  }
 }
