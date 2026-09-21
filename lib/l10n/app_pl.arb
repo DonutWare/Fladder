@@ -2152,5 +2152,14 @@
                 "example": "1"
             }
         }
-    }
+    },
+    "libraryFilters": "Filtry biblioteki",
+    "editYourLibraryFilters": "Edytuj filtry biblioteki",
+    "libraryFiltersTitle": "FIltry biblioteki",
+    "libraryFiltersDesc": "Filtry biblioteki umożliwiają tworzenie niestandardowych widoków bibliotek na podstawie",
+    "libraryNoFiltersSaved": "Nie zapisano żadnych filtrów biblioteki",
+    "addTo": "Dodaj do",
+    "sideBar": "Panel boczny",
+    "musicSideBar": "Panel z muzyką",
+    "showOnDashboard": "Pokaż w panelu głównym"
 }
