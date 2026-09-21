@@ -39,6 +39,13 @@ class LibMPV extends BasePlayer {
   VideoPlayerSettingsModel _settings = VideoPlayerSettingsModel();
 
   RestartableTimer? _retryTimer;
+
+  /// Broken-timestamp fallback, see [_onMpvLog].
+  int _invalidTimestampWarnings = 0;
+  DateTime? _invalidTimestampWindowStart;
+  bool _fixedFrameRateTiming = false;
+  static const _invalidTimestampThreshold = 8;
+  static const _invalidTimestampWindow = Duration(seconds: 5);
   DateTime _firstLoadAttempt = DateTime.now();
   final Duration _maxRetryDuration = const Duration(minutes: 1);
   final Duration _currentRetryDuration = const Duration(seconds: 5);
@@ -81,6 +88,8 @@ class LibMPV extends BasePlayer {
         libassAndroidFont: libassFallbackFont,
         libass: !kIsWeb && settings.useLibass,
         bufferSize: settings.bufferSize * 1024 * 1024, // MPV uses buffer size in bytes
+        // Warnings are needed for the broken-timestamp fallback in [_onMpvLog].
+        logLevel: mpv.MPVLogLevel.warn,
       ),
     );
 
@@ -92,6 +101,7 @@ class LibMPV extends BasePlayer {
         ),
       );
       _setupPlayerStreams(_player!);
+      _playerStreamSubs.add(_player!.stream.log.listen(_onMpvLog));
     }
 
     if (_player?.platform is mpv.NativePlayer) {
@@ -247,10 +257,46 @@ class LibMPV extends BasePlayer {
     ));
   }
 
+  /// Some files carry decode-order timestamps on a B-frame stream - an mp4
+  /// muxed without composition offsets, for one. ffmpeg's own decoders repair
+  /// that from the packet dts, but the MediaCodec decoder on Android hands mpv
+  /// no dts at all, so mpv sees the timestamps run backwards, drops the "late"
+  /// frames and plays at half the frame rate. mpv's fixed-frame-rate timing
+  /// mode ignores the decoder timestamps and shows frames in output order at
+  /// the container's rate, which is exactly right for such a file, so switch
+  /// to it once the warnings pile up. Reset per file in [loadVideo].
+  void _onMpvLog(mpv.PlayerLog entry) {
+    if (_fixedFrameRateTiming || !entry.text.startsWith('Invalid video timestamp')) return;
+    final now = DateTime.now();
+    final windowStart = _invalidTimestampWindowStart;
+    if (windowStart == null || now.difference(windowStart) > _invalidTimestampWindow) {
+      _invalidTimestampWindowStart = now;
+      _invalidTimestampWarnings = 0;
+    }
+    if (++_invalidTimestampWarnings < _invalidTimestampThreshold) return;
+    _fixedFrameRateTiming = true;
+    log('LibMPV: decoder timestamps are broken, switching to fixed-frame-rate timing');
+    unawaited(_setCorrectPts(false));
+  }
+
+  Future<void> _setCorrectPts(bool enabled) async {
+    final native = _player?.platform;
+    if (native is mpv.NativePlayer) {
+      await native.setProperty('correct-pts', enabled ? 'yes' : 'no');
+    }
+  }
+
   @override
   Future<void> loadVideo(String url, bool play, {Duration startPosition = Duration.zero}) async {
     _loadCompleter = Completer<void>();
     _firstLoadAttempt = DateTime.now();
+
+    _invalidTimestampWarnings = 0;
+    _invalidTimestampWindowStart = null;
+    if (_fixedFrameRateTiming) {
+      _fixedFrameRateTiming = false;
+      await _setCorrectPts(true);
+    }
 
     await setStartPosition(startPosition);
 
