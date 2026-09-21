@@ -35,8 +35,18 @@ bool FlutterWindow::OnCreate() {
   });
   SetChildContent(flutter_controller_->view()->GetNativeWindow());
 
-  flutter_controller_->engine()->SetNextFrameCallback([&]() {
-    this->Show();
+  flutter_controller_->engine()->SetNextFrameCallback([this]() {
+    const HWND window = GetHandle();
+    const HWND flutter_view =
+        flutter_controller_->view()->GetNativeWindow();
+
+    // An external window manager can reveal or resize the parent while
+    // Flutter is attaching its child view. Ensure the rendered child remains
+    // visible without resetting placement on an already-visible parent.
+    ::ShowWindow(flutter_view, SW_SHOW);
+    if (window != nullptr && !::IsWindowVisible(window)) {
+      this->Show();
+    }
   });
 
   // Flutter can complete the first frame before the "show window" callback is
@@ -64,6 +74,16 @@ FlutterWindow::MessageHandler(HWND hwnd, UINT const message,
     std::optional<LRESULT> result =
         flutter_controller_->HandleTopLevelWindowProc(hwnd, message, wparam,
                                                       lparam);
+    if (message == WM_SIZE) {
+      // Plugins may report WM_SIZE as handled before Win32Window can resize
+      // the hosted FLUTTERVIEW. Always forward this message to the base host.
+      const LRESULT resize_result =
+          Win32Window::MessageHandler(hwnd, message, wparam, lparam);
+      if (wparam != SIZE_MINIMIZED) {
+        flutter_controller_->ForceRedraw();
+      }
+      return result.value_or(resize_result);
+    }
     if (result) {
       return *result;
     }
