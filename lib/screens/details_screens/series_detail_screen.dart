@@ -18,6 +18,7 @@ import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/screens/shared/media/expanding_text.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
+import 'package:fladder/screens/shared/media/person_list_.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/season_row.dart';
 import 'package:fladder/screens/shared/media/special_features_row.dart';
@@ -26,7 +27,9 @@ import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/people_extension.dart';
 import 'package:fladder/util/router_extension.dart';
+import 'package:fladder/util/widget_extensions.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
@@ -189,6 +192,16 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                         );
                       }),
                     ),
+                  if (details.overview.directors.isNotEmpty)
+                    PersonList(
+                      label: detailsContext.localized.director(2),
+                      people: details.overview.directors,
+                    ).padding(padding),
+                  if (details.overview.writers.isNotEmpty)
+                    PersonList(
+                      label: detailsContext.localized.writer(2),
+                      people: details.overview.writers,
+                    ).padding(padding),
                   if (details.availableEpisodes?.isNotEmpty ?? false)
                     Builder(builder: (context) {
                       return EpisodePosters(
@@ -219,10 +232,22 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                       contentPadding: padding,
                       seasons: details.seasons,
                     ),
-                  if (details.overview.people.isNotEmpty)
+                  if (details.overview.people.actors.isNotEmpty)
                     PeopleRow(
-                      people: details.overview.people,
+                      people: details.overview.people.actors,
                       contentPadding: padding,
+                      label: detailsContext.localized.actor(2),
+                    ),
+                  if (details.overview.people.guestActors.isNotEmpty)
+                    PeopleRow(
+                      people: details.overview.people.guestActors,
+                      contentPadding: padding,
+                    ),
+                  if (details.overview.people.crew.isNotEmpty)
+                    PeopleRow(
+                      people: details.overview.people.crew,
+                      contentPadding: padding,
+                      label: detailsContext.localized.crew,
                     ),
                   if (details.specialFeatures?.isNotEmpty ?? false)
                     SpecialFeaturesRow(

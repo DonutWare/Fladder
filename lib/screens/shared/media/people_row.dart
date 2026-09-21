@@ -18,10 +18,15 @@ class PeopleRow extends ConsumerWidget {
   final List<Person> people;
   final EdgeInsets contentPadding;
   final Function()? onTap;
+
+  /// Overrides the derived heading. Rows that contain only actors should pass
+  /// one, since the default still reads "Cast & Crew".
+  final String? label;
   const PeopleRow({
     required this.people,
     required this.contentPadding,
     this.onTap,
+    this.label,
     super.key,
   });
 
@@ -48,9 +53,10 @@ class PeopleRow extends ConsumerWidget {
     }
 
     return HorizontalList(
-      label: people.any((e) => e.type != PersonKind.gueststar)
-          ? context.localized.castAndCrew
-          : context.localized.guestActor(people.length),
+      label: label ??
+          (people.any((e) => e.type != PersonKind.gueststar)
+              ? context.localized.castAndCrew
+              : context.localized.guestActor(people.length)),
       height: AdaptiveLayout.poster(context).size * 0.9,
       contentPadding: contentPadding,
       items: people,
