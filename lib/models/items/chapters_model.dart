@@ -24,19 +24,24 @@ class Chapter {
     required this.startPosition,
   });
 
+  /// Chapter images carry no image tag, so the key is the name plus the URL.
+  /// Defined once here because widgets that build their own provider must use
+  /// the same key or the image is stored twice.
+  String get cacheKey => name + imageUrl;
+
   ImageProvider get imageProvider {
     if (imageData != null) {
       return Image.memory(imageData!).image;
     }
     if (imageUrl.startsWith("http")) {
       return CachedNetworkImageProvider(
-        cacheKey: name + imageUrl,
-        cacheManager: CustomCacheManager.instance,
+        cacheKey: cacheKey,
+        cacheManager: CustomCacheManager.shortLived,
         imageUrl,
       );
     } else {
       return Image.file(
-        key: Key(name + imageUrl),
+        key: Key(cacheKey),
         File(imageUrl),
       ).image;
     }

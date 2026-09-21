@@ -7,6 +7,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -70,6 +71,8 @@ class ChapterRow extends ConsumerWidget {
               aspectRatio: 1.75,
               child: CachedNetworkImage(
                 imageUrl: chapter.imageUrl,
+                cacheKey: chapter.cacheKey,
+                cacheManager: CustomCacheManager.shortLived,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => const Icon(IconsaxPlusBold.image),
               ),

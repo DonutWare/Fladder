@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/screens/shared/flat_button.dart';
+import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 
 void showPlayerChapterDialogue(
@@ -58,6 +59,8 @@ class VideoPlayerChapters extends ConsumerWidget {
                   Center(
                     child: CachedNetworkImage(
                       imageUrl: chapter.imageUrl,
+                      cacheKey: chapter.cacheKey,
+                      cacheManager: CustomCacheManager.shortLived,
                       fit: BoxFit.fitWidth,
                     ),
                   ),

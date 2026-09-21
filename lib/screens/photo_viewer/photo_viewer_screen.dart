@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:auto_route/annotations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photo_queue_source.dart';
@@ -21,7 +21,6 @@ import 'package:fladder/screens/photo_viewer/photo_viewer_controls.dart';
 import 'package:fladder/screens/photo_viewer/simple_video_player.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/util/custom_cache_manager.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -250,10 +249,12 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                     children: [
                       if (state.extendedImageLoadState != LoadState.completed)
                         Positioned.fill(
-                          child: CachedNetworkImage(
+                          // Via ImageData so this is a hit against the entry the
+                          // photo grid already wrote, and so synced photos with a
+                          // local file path work too.
+                          child: Image(
                             fit: BoxFit.contain,
-                            cacheManager: CustomCacheManager.instance,
-                            imageUrl: photo.thumbnail?.primary?.path ?? "",
+                            image: photo.thumbnail?.primary?.imageProvider ?? MemoryImage(kTransparentImage),
                           ),
                         ),
                       switch (state.extendedImageLoadState) {
@@ -297,10 +298,13 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                     ],
                   );
                 },
-                image: CachedNetworkImageProvider(
-                  photo.images?.primary?.path ?? "",
-                  cacheManager: CustomCacheManager.instance,
-                ),
+                // Uses the ImageData's own provider so the original-resolution
+                // photo is cached in the large-art store under the same key it
+                // would get anywhere else, rather than a second URL-keyed copy
+                // in the poster store.
+                image: photo.images?.primary?.imageProvider ??
+                    photo.thumbnail?.primary?.imageProvider ??
+                    MemoryImage(kTransparentImage),
               );
             },
           ),
@@ -549,19 +553,11 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
     photos
         .getRange((index - range).clamp(0, photos.length - 1), (index + range).clamp(0, photos.length - 1))
         .forEach((element) {
-      precacheImage(
-          CachedNetworkImageProvider(
-            element.thumbnail?.primary?.path ?? "",
-            cacheManager: CustomCacheManager.instance,
-          ),
-          context);
-      if (AdaptiveLayout.of(context).isDesktop) {
-        precacheImage(
-            CachedNetworkImageProvider(
-              element.images?.primary?.path ?? "",
-              cacheManager: CustomCacheManager.instance,
-            ),
-            context);
+      final thumbnail = element.thumbnail?.primary;
+      if (thumbnail != null) precacheImage(thumbnail.imageProvider, context);
+      final fullSize = element.images?.primary;
+      if (AdaptiveLayout.of(context).isDesktop && fullSize != null) {
+        precacheImage(fullSize.imageProvider, context);
       }
     });
   }
