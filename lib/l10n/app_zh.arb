@@ -2172,5 +2172,14 @@
     "localNetworkPermissionRequest": "允许本地网络访问以发现服务器。",
     "requestPermission": "请求权限",
     "localNetworkPermissionDenied": "需要本地网络访问权限。请在系统设置中启用附近设备权限。",
-    "openSettings": "打开设置"
+    "openSettings": "打开设置",
+    "sideBar": "侧边栏",
+    "musicSideBar": "音乐侧边栏",
+    "showOnDashboard": "在控制台上显示",
+    "libraryFilters": "媒体库筛选器",
+    "editYourLibraryFilters": "编辑您的媒体库筛选条件",
+    "libraryFiltersTitle": "媒体库筛选器",
+    "libraryFiltersDesc": "媒体库筛选器，允许您基于媒体库的内容创建自定义视图",
+    "libraryNoFiltersSaved": "未保存任何媒体库筛选器",
+    "addTo": "添加到"
 }
