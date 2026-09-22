@@ -155,16 +155,19 @@ class MusicPlaylistRow extends ConsumerWidget {
                         ),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: SizedBox.expand(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  playlist.title,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                          child: IgnorePointer(
+                            child: SizedBox.expand(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    playlist.title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                                  ),
                                 ),
                               ),
                             ),

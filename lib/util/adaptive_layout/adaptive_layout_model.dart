@@ -50,6 +50,7 @@ class AdaptiveLayoutModel {
   final Map<HomeTabs, ScrollController> controller;
   final double sideBarWidth;
   final double topBarHeight;
+  final double statusBarHeight;
 
   const AdaptiveLayoutModel({
     required this.viewSize,
@@ -61,6 +62,7 @@ class AdaptiveLayoutModel {
     required this.controller,
     required this.sideBarWidth,
     required this.topBarHeight,
+    required this.statusBarHeight,
   });
 
   AdaptiveLayoutModel copyWith({
@@ -73,6 +75,7 @@ class AdaptiveLayoutModel {
     Map<HomeTabs, ScrollController>? controller,
     double? sideBarWidth,
     double? topBarHeight,
+    double? statusBarHeight,
   }) {
     return AdaptiveLayoutModel(
       viewSize: viewSize ?? this.viewSize,
@@ -84,6 +87,7 @@ class AdaptiveLayoutModel {
       controller: controller ?? this.controller,
       sideBarWidth: sideBarWidth ?? this.sideBarWidth,
       topBarHeight: topBarHeight ?? this.topBarHeight,
+      statusBarHeight: statusBarHeight ?? this.statusBarHeight,
     );
   }
 

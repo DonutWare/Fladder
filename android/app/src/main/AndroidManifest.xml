@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -108,5 +109,9 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+
+        <provider android:name=".WallpaperFileProvider" android:authorities="${applicationId}.wallpaper_provider" android:exported="false" android:grantUriPermissions="true" tools:replace="android:authorities,android:name">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/wallpaper_file_paths" />
+        </provider>
     </application>
 </manifest>

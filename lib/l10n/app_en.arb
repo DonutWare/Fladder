@@ -509,6 +509,16 @@
       }
     }
   },
+  "mediaTypeMusicVideo": "{count, plural, one{Music Video} other{Music Videos}}",
+  "@mediaTypeMusicVideo": {
+    "description": "Music Video (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "mediaTypePhoto": "{count, plural, one{Photo} other{Photos}}",
   "@mediaTypePhoto": {
     "description": "Photo (plural)",
@@ -562,6 +572,16 @@
   "mediaTypeTV": "{count, plural, one{TV Channel} other{TV Channels}}",
   "@mediaTypeTV": {
     "description": "TV Channel (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "mediaTypeCollection": "{count, plural, one{Collection} other{Collections}}",
+  "@mediaTypeCollection": {
+    "description": "Collection (plural)",
     "placeholders": {
       "count": {
         "type": "int",
@@ -623,6 +643,8 @@
   "@name": {},
   "navigation": "Navigation",
   "@navigation": {},
+  "sideBar": "Sidebar",
+  "musicSideBar": "Music sidebar",
   "navigationDashboard": "Dashboard",
   "@navigationDashboard": {},
   "navigationFavorites": "Favorites",
@@ -856,11 +878,13 @@
   "@scanBiometricHint": {},
   "scanLibrary": "Scan library",
   "@scanLibrary": {},
-  "scanYourFingerprintToAuthenticate": "Scan your fingerprint to authenticate {user}",
-  "@scanYourFingerprintToAuthenticate": {
+  "authenticateWithBiometrics": "Use biometrics to authenticate {user}",
+  "@authenticateWithBiometrics": {
+    "description": "Prompt shown to the user when biometric authentication is requested",
     "placeholders": {
       "user": {
-        "type": "String"
+        "type": "String",
+        "example": "Jane"
       }
     }
   },
@@ -1375,7 +1399,7 @@
   "unableToPlayMedia": "There was an error finding a compatible media type",
   "errorOpeningMedia": "Something went wrong trying to play this media",
   "unableToPlayBooksOnWeb": "Books are not supported on web for now",
-  "defaultFilterForLibrary": "Default filter for library",
+  "defaultFilterForLibrary": "Set default filter for library",
   "updateFilterForLibrary": "Update filter",
   "removeFilterForLibrary": "Remove {filter}?",
   "@removeFilterForLibrary": {
@@ -1684,6 +1708,8 @@
   "showLess": "Show less",
   "itemColorsTitle": "Item colors",
   "itemColorsDesc": "Use item's primary color to theme the details page",
+  "posterColorsTitle": "Generated poster colors",
+  "posterColorsDesc": "Use generated colors for posters in place of the default color",
   "mediaTunnelingTitle": "Media tunneling",
   "mediaTunnelingDesc": "Enable media tunneling for native player",
   "refreshRateSwitchingTitle": "Refresh Rate Matching",
@@ -1724,6 +1750,10 @@
   "settingsLocalUrlTitle": "Local Jellyfin URL",
   "settingsLocalUrlSetTitle": "Configure Local Jellyfin URL",
   "settingsLocalUrlSetDesc": "Specify the local Jellyfin address. Fladder will automatically use this URL when your device is on the same network.",
+  "localNetworkPermissionRequest": "Allow local network access to discover servers.",
+  "requestPermission": "Request Permission",
+  "localNetworkPermissionDenied": "Local network access is required. Enable devices nearby permission in system settings.",
+  "openSettings": "Open Settings",
   "regenerateTrickplayImages": "Regenerate trickplay images",
   "controlPanel": "Control Panel",
   "@controlPanel": {},
@@ -2444,6 +2474,12 @@
   },
   "removeFromQueue": "Remove from queue",
   "@removeFromQueue": {},
+  "lyrics": "Lyrics",
+  "@lyrics": {},
+  "returnToSyncedLyrics": "Return to synced lyrics",
+  "@returnToSyncedLyrics": {},
+  "noSyncedLyrics": "No synced lyrics available",
+  "@noSyncedLyrics": {},
   "noPrograms": "No programs available",
   "switchChannel": "Switch channel",
   "switchChannelDesc": "Do you want to watch \"{programName}\" on {channelName}?",
@@ -2766,5 +2802,78 @@
   "musicDashboard": "Music Dashboard",
   "quiet": "Quiet",
   "loud": "Loud",
-  "share": "Share"
+  "share": "Share",
+  "setAs": "Set as",
+  "selectRandom": "Select random",
+  "stopSelection": "Stop selecting {count}",
+  "@stopSelection": {
+    "description": "stopSelection",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "playItems": "Play items",
+  "shuffleItems": "Shuffle items",
+  "disc": "Disc {number}",
+  "@disc": {
+    "description": "disc",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "incognito": "Incognito",
+  "incognitoModeGlobal": "Incognito mode (App)",
+  "incognitoModeLocal": "Incognito mode (Profile)",
+  "incognitoModeDesc": "Incognito mode disables sending playback status to the server",
+  "showInSideBar": "Show in sidebar",
+  "showOnDashboard": "Show on dashboard",
+  "hideInSideBar": "Hide from sidebar",
+  "showInSideBarDesc": "Show this filter in the sidebar for quick access",
+  "applyFilter": "Apply filter",
+  "playerSettingsAmbientBlurTitle": "Enable ambient blur",
+  "playerSettingsAmbientBlurDesc": "Enable ambient blur in the player. This will blur the background behind the player to reduce distractions.",
+  "playerSettingsAmbientBlurDescWarning": "Ambient blur can cause performance issues on lower-end devices.",
+  "openSelected": "Open selected",
+  "discography": "Discography",
+  "youLiked": "You liked",
+  "instantMixBy": "Instant Mix of {artist}",
+  "@instantMixBy": {
+    "description": "Instant Mix of artist",
+    "placeholders": {
+      "artist": {
+        "type": "String"
+      }
+    }
+  },
+  "latestTracksBy": "Latest tracks by {artist}",
+  "@latestTracksBy": {
+    "description": "Latest tracks by artist",
+    "placeholders": {
+      "artist": {
+        "type": "String"
+      }
+    }
+  },
+  "favoritesOf": "Favorites of {artist}",
+  "@favoritesOf": {
+    "description": "Favorites of artist",
+    "placeholders": {
+      "artist": {
+        "type": "String"
+      }
+    }
+  },
+  "leanBackModeTitle": "Lean-back Mode",
+  "leanBackModeDesc": "Enable lean-back mode on Android devices, even if the device reports back as false.",
+  "leanBackModeInfo": "Lean-back mode is re-enabled by default on AndroidTV devices. Toggling this option on non-AndroidTV devices may cause unexpected behavior.",
+  "libraryFilters": "Library filters",
+  "editYourLibraryFilters": "Edit your library filters",
+  "libraryFiltersTitle": "Library filters",
+  "libraryFiltersDesc": "Library filters allow you to create custom views of your libraries based",
+  "libraryNoFiltersSaved": "No library filters saved",
+  "addTo": "Add to"
 }

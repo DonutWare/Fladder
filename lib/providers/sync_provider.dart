@@ -223,16 +223,22 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   Directory get mainDirectory => Directory(path.joinAll([_savePath ?? "", subPath]));
 
   Directory? get saveDirectory {
-    if (kIsWeb) return null;
-    final directory = _savePath != null
-        ? Directory(path.joinAll([_savePath ?? "", subPath, ref.read(userProvider)?.id ?? "UnknownUser"]))
-        : null;
-    directory?.createSync(recursive: true);
-    if (directory?.existsSync() == true) {
-      final noMedia = File(path.joinAll([directory?.path ?? "", ".nomedia"]));
-      noMedia.writeAsString('');
+    try {
+      if (kIsWeb) return null;
+      final directory = _savePath != null
+          ? Directory(path.joinAll([_savePath ?? "", subPath, ref.read(userProvider)?.id ?? "UnknownUser"]))
+          : null;
+      directory?.createSync(recursive: true);
+      if (directory?.existsSync() == true) {
+        final noMedia = File(path.joinAll([directory?.path ?? "", ".nomedia"]));
+        noMedia.writeAsString('');
+        noMedia.createSync();
+      }
+      return directory;
+    } catch (e) {
+      log('Error accessing save directory: ${e.toString()}');
+      return null;
     }
-    return directory;
   }
 
   String? get syncPath => saveDirectory?.path;
@@ -252,7 +258,8 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
   Future<void> refresh() async => state = state.copyWith(items: _rootSyncItems(await _db.getAllItems.get()));
 
-  Future<List<SyncedItem>> getNestedChildren(SyncedItem item) async {
+  Future<List<SyncedItem>> getNestedChildren(SyncedItem? item) async {
+    if (item == null) return [];
     if (item.itemModel?.type == FladderItemType.playlist) {
       return _getPlaylistChildrenFromOverlay(item);
     }
@@ -539,7 +546,73 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     return _db.insertItem(syncedItem);
   }
 
+  Future<void> syncSyncedItem(
+    BuildContext context,
+    SyncedItem syncedItem, {
+    TranscodeDownloadModel? transcodeModel,
+    TranscodeMusicDownloadModel? musicTranscodeModel,
+  }) async {
+    final model = syncedItem.itemModel;
+
+    switch (model) {
+      case AudioModel audio:
+        await syncAudio(audio, musicTranscodeModel: musicTranscodeModel);
+        return;
+      case AlbumModel album:
+        await syncAlbum(album, musicTranscodeModel: musicTranscodeModel);
+        return;
+      case ArtistModel artist:
+        await syncArtist(artist, musicTranscodeModel: musicTranscodeModel);
+        return;
+      default:
+        await syncFile(
+          syncedItem,
+          false,
+          transcodeModel: transcodeModel,
+          musicTranscodeModel: musicTranscodeModel,
+        );
+        return;
+    }
+  }
+
   Future<SyncedItem> deleteFullSyncFiles(SyncedItem syncedItem, DownloadTask? task) async {
+    final itemType = syncedItem.itemModel?.type;
+
+    if (itemType == FladderItemType.audio) {
+      await _deleteSyncedItemAndFiles(syncedItem);
+      ref.read(downloadTasksProvider(syncedItem.id).notifier).update((state) => DownloadStream.empty());
+      await _cleanupOrphanedMusicParents([syncedItem]);
+      cleanupTemporaryFiles();
+      refresh();
+      return syncedItem;
+    }
+
+    if (itemType == FladderItemType.musicAlbum) {
+      final nestedChildren = await getNestedChildren(syncedItem);
+      final removedTracks = nestedChildren.where((element) => element.itemModel is AudioModel).toList();
+
+      for (var i = 0; i < nestedChildren.length; i++) {
+        final child = nestedChildren[i];
+        await ref.read(backgroundDownloaderProvider).cancelTaskWithId(child.id);
+        ref.read(downloadTasksProvider(child.id).notifier).update((state) => DownloadStream.empty());
+      }
+
+      await ref.read(backgroundDownloaderProvider).cancelTaskWithId(syncedItem.id);
+      ref.read(downloadTasksProvider(syncedItem.id).notifier).update((state) => DownloadStream.empty());
+
+      await _db.deleteAllItems([...nestedChildren, syncedItem]);
+
+      if (await syncedItem.directory.exists()) {
+        await syncedItem.directory.delete(recursive: true);
+      }
+
+      await _cleanupOrphanedMusicParents(removedTracks);
+
+      cleanupTemporaryFiles();
+      refresh();
+      return syncedItem;
+    }
+
     await syncedItem.deleteDatFiles(ref);
 
     syncedItem = syncedItem.copyWith(
@@ -643,6 +716,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     if (isAudioItem) {
       await writeMusicOverlayFile(syncItem, effectiveMusicTranscodeModel);
+      await _saveSyncedLyrics(syncItem);
     } else {
       await writeOverlayFile(syncItem, effectiveTranscodeModel, subtitles);
     }
@@ -661,7 +735,6 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       final directOptions = {
         'Static': 'true',
         'mediaSourceId': mediaSource!.id,
-        'api_key': user.credentials.token,
       };
       downloadUrl = buildServerUrl(
         ref,
@@ -795,6 +868,23 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       final updatedItem = item.copyWith(userData: updatedUserData, unSyncedData: !responseSuccessful);
       await _db.insertItem(updatedItem);
     });
+  }
+
+  Future<void> _saveSyncedLyrics(SyncedItem syncItem) async {
+    try {
+      final response = await api.audioItemIdLyricsGet(itemId: syncItem.id);
+      final lyrics = response.body;
+      if (lyrics == null) {
+        if (syncItem.lyricsFile.existsSync()) {
+          await syncItem.lyricsFile.delete();
+        }
+        return;
+      }
+
+      await syncItem.lyricsFile.writeAsString(jsonEncode(lyrics.toJson()));
+    } catch (e) {
+      log('Error saving lyrics for item ${syncItem.id}: ${e.toString()}');
+    }
   }
 }
 

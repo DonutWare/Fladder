@@ -1,16 +1,10 @@
 {
     "amoledBlack": "அமோல்ட் பிளாக்",
-    "@amoledBlack": {},
     "dateAdded": "தேதி சேர்க்கப்பட்டது",
-    "@dateAdded": {},
     "groupBy": "மூலம் குழு",
-    "@groupBy": {},
     "home": "வீடு",
-    "@home": {},
     "homeBannerCarousel": "கொணர்வி",
-    "@homeBannerCarousel": {},
     "libraryPageSizeTitle": "நூலக பக்க அளவு",
-    "@libraryPageSizeTitle": {},
     "logoutUserPopupTitle": "வெளியேறு {userName}?",
     "@logoutUserPopupTitle": {
         "description": "Pop-up for logging out the user",
@@ -21,61 +15,33 @@
         }
     },
     "loop": "லூப்",
-    "@loop": {},
     "markAsWatched": "பார்த்தபடி குறி",
-    "@markAsWatched": {},
     "mediaTypeBook": "நூல்",
-    "@mediaTypeBook": {},
     "noItemsSynced": "எந்த பொருட்களும் ஒத்திசைக்கப்படவில்லை",
-    "@noItemsSynced": {},
     "noServersFound": "புதிய சேவையகங்கள் எதுவும் கிடைக்கவில்லை",
-    "@noServersFound": {},
     "normal": "சாதாரண",
-    "@normal": {},
     "notPartOfAlbum": "ஆல்பத்தின் ஒரு பகுதியாக இல்லை",
-    "@notPartOfAlbum": {},
     "openParent": "திறந்த பெற்றோர்",
-    "@openParent": {},
     "openShow": "திறந்த நிகழ்ச்சி",
-    "@openShow": {},
     "outlineColor": "அவுட்லைன் நிறம்",
-    "@outlineColor": {},
     "outlineSize": "அவுட்லைன் அளவு",
-    "@outlineSize": {},
     "random": "சீரற்ற",
-    "@random": {},
     "settingsContinue": "தொடரவும்",
-    "@settingsContinue": {},
     "settingsHomeBannerTitle": "முகப்பு பேனர்",
-    "@settingsHomeBannerTitle": {},
     "settingsPlayerTitle": "வீரர்",
-    "@settingsPlayerTitle": {},
     "videoScalingFill": "நிரப்பவும்",
-    "@videoScalingFill": {},
     "videoScalingFillScreenTitle": "திரை நிரப்பவும்",
-    "@videoScalingFillScreenTitle": {},
     "addToNewCollection": "புதிய சேகரிப்பு",
-    "@addToNewCollection": {},
     "addToNewPlaylist": "புதிய பிளேலிச்ட்",
-    "@addToNewPlaylist": {},
     "syncStatusEnqueued": "Enqueuted",
-    "@syncStatusEnqueued": {},
     "syncStatusRunning": "இயங்கும்",
-    "@syncStatusRunning": {},
     "aboutLicenses": "உரிமங்கள்",
-    "@aboutLicenses": {},
     "scale": "அளவு",
-    "@scale": {},
     "autoNextOffStaticTitle": "நிலையான",
-    "@autoNextOffStaticTitle": {},
     "speed": "வேகம்",
-    "@speed": {},
     "clientSettingsShowAllCollectionsTitle": "அனைத்து சேகரிப்பு வகைகளையும் காட்டு",
-    "@clientSettingsShowAllCollectionsTitle": {},
     "mediaSegmentRecap": "மறுபரிசீலனை செய்யுங்கள்",
-    "@mediaSegmentRecap": {},
     "addAsFavorite": "பிடித்ததாகச் சேர்க்கவும்",
-    "@addAsFavorite": {},
     "actor": "{count, plural, other{நடிகர்கள்} one {நடிகர்}}",
     "@actor": {
         "description": "actor",
@@ -87,19 +53,12 @@
         }
     },
     "addToCollection": "சேகரிப்பில் சேர்க்கவும்",
-    "@addToCollection": {},
     "addToPlaylist": "பிளேலிச்ட்டில் சேர்க்கவும்",
-    "@addToPlaylist": {},
     "advanced": "மேம்பட்ட",
-    "@advanced": {},
     "all": "அனைத்தும்",
-    "@all": {},
     "appLockAutoLogin": "தானாக உள்நுழை",
-    "@appLockAutoLogin": {},
     "appLockBiometrics": "பயோமெட்ரிக்ச்",
-    "@appLockBiometrics": {},
     "appLockPasscode": "பாச்-கோட்",
-    "@appLockPasscode": {},
     "appLockTitle": "{userName} க்கான உள்நுழைவு முறையை அமை",
     "@appLockTitle": {
         "description": "Pop-up to pick a login method",
@@ -110,29 +69,17 @@
         }
     },
     "ascending": "ஏறுதல்",
-    "@ascending": {},
     "audio": "ஆடியோ",
-    "@audio": {},
     "autoPlay": "தானாக விளையாடும்",
-    "@autoPlay": {},
     "backgroundBlur": "பின்னணி மங்கலானது",
-    "@backgroundBlur": {},
     "backgroundOpacity": "பின்னணி ஒளிபுகாநிலை",
-    "@backgroundOpacity": {},
     "clearAllSettings": "எல்லா அமைப்புகளையும் அழிக்கவும்",
-    "@clearAllSettings": {},
     "clearAllSettingsQuestion": "எல்லா அமைப்புகளையும் அழிக்கவா?",
-    "@clearAllSettingsQuestion": {},
     "clearChanges": "மாற்றங்களை அழிக்கவும்",
-    "@clearChanges": {},
     "biometricsFailedCheckAgain": "பயோமெட்ரிக்ச் தோல்வியடைந்தது. அமைப்புகளை சரிபார்த்து மீண்டும் முயற்சிக்கவும்.",
-    "@biometricsFailedCheckAgain": {},
     "bold": "தடிமான",
-    "@bold": {},
     "cancel": "ரத்துசெய்",
-    "@cancel": {},
     "change": "மாற்றம்",
-    "@change": {},
     "chapter": "{count, plural, other{அத்தியாயங்கள்} one{அத்தியாயம்}}",
     "@chapter": {
         "description": "chapter",
@@ -144,21 +91,13 @@
         }
     },
     "clear": "தெளிவான",
-    "@clear": {},
     "clearSelection": "தேர்வை நீக்கு",
-    "@clearSelection": {},
     "close": "மூடு",
-    "@close": {},
     "code": "குறியீடு",
-    "@code": {},
     "collectionFolder": "சேகரிப்பு கோப்புறை",
-    "@collectionFolder": {},
     "color": "நிறம்",
-    "@color": {},
     "combined": "இணைக்கப்பட்டது",
-    "@combined": {},
     "communityRating": "சமூக மதிப்பீடு",
-    "@communityRating": {},
     "continuePage": "தொடரவும் - பக்கம் {page}",
     "@continuePage": {
         "description": "Continue - page 1",
@@ -169,19 +108,12 @@
         }
     },
     "controls": "கட்டுப்பாடுகள்",
-    "@controls": {},
     "dashboard": "முகப்புப்பெட்டி",
-    "@dashboard": {},
     "dashboardContinue": "தொடரவும்",
-    "@dashboardContinue": {},
     "dashboardContinueListening": "தொடர்ந்து கேட்பது",
-    "@dashboardContinueListening": {},
     "dashboardContinueReading": "தொடர்ந்து படிக்கவும்",
-    "@dashboardContinueReading": {},
     "dashboardContinueWatching": "தொடர்ந்து பார்த்துக் கொள்ளுங்கள்",
-    "@dashboardContinueWatching": {},
     "nextUp": "அடுத்தது",
-    "@nextUp": {},
     "dashboardRecentlyAdded": "அண்மைக் காலத்தில் {name} இல் சேர்க்கப்பட்டது",
     "@dashboardRecentlyAdded": {
         "description": "Recently added on home screen",
@@ -192,13 +124,9 @@
         }
     },
     "dateLastContentAdded": "தேதி கடைசி உள்ளடக்கம் சேர்க்கப்பட்டது",
-    "@dateLastContentAdded": {},
     "datePlayed": "விளையாடிய தேதி",
-    "@datePlayed": {},
     "days": "நாட்கள்",
-    "@days": {},
     "delete": "நீக்கு",
-    "@delete": {},
     "deleteFileFromSystem": "இந்த உருப்படியை நீக்குவது {item} கோப்பு முறைமை மற்றும் உங்கள் ஊடக நூலகம் இரண்டிலிருந்தும் அதை நீக்கிவிடும். நீங்கள் தொடர விரும்புகிறீர்களா?",
     "@deleteFileFromSystem": {
         "description": "Delete file from system",
@@ -218,7 +146,6 @@
         }
     },
     "descending": "இறங்கு",
-    "@descending": {},
     "director": "{count, plural, other{இயக்குனர்} two{இயக்குனர்கள்}}",
     "@director": {
         "description": "director",
@@ -230,31 +157,18 @@
         }
     },
     "disableFilters": "வடிப்பான்களை அணைக்கவும்",
-    "@disableFilters": {},
     "disabled": "அணை",
-    "@disabled": {},
     "discovered": "கண்டுபிடிக்கப்பட்டது",
-    "@discovered": {},
     "displayLanguage": "மொழியைக் காண்பி",
-    "@displayLanguage": {},
     "downloadsClearDesc": "ஒத்திசைக்கப்பட்ட அனைத்து தரவையும் அகற்றவும், ஒத்திசைக்கப்பட்ட ஒவ்வொரு பயனருக்கும் எல்லா தரவையும் அழிக்கவா?",
-    "@downloadsClearDesc": {},
     "downloadsClearTitle": "ஒத்திசைக்கப்பட்ட தரவை அழிக்கவும்",
-    "@downloadsClearTitle": {},
     "downloadsPath": "பாதை",
-    "@downloadsPath": {},
     "downloadsSyncedData": "ஒத்திசைக்கப்பட்ட தரவு",
-    "@downloadsSyncedData": {},
     "downloadsTitle": "பதிவிறக்கங்கள்",
-    "@downloadsTitle": {},
     "dynamicText": "மாறும்",
-    "@dynamicText": {},
     "editMetadata": "மெட்டாடேட்டாவைத் திருத்து",
-    "@editMetadata": {},
     "empty": "காலி",
-    "@empty": {},
     "enabled": "ஆன்",
-    "@enabled": {},
     "endsAt": "{date} இல் முடிகிறது",
     "@endsAt": {
         "description": "endsAt",
@@ -276,17 +190,11 @@
         }
     },
     "error": "பிழை",
-    "@error": {},
     "failedToLoadImage": "படத்தை ஏற்ற முடியவில்லை",
-    "@failedToLoadImage": {},
     "favorite": "பிடித்த",
-    "@favorite": {},
     "favorites": "பிடித்தவை",
-    "@favorites": {},
     "homeBannerSlideshow": "ச்லைடுசோ",
-    "@homeBannerSlideshow": {},
     "fetchingLibrary": "நூலக உருப்படிகளைப் பெறுதல்…",
-    "@fetchingLibrary": {},
     "filter": "{count, plural, other{வடிப்பான்கள்} one{வடிப்பான்}}",
     "@filter": {
         "description": "filter",
@@ -298,13 +206,9 @@
         }
     },
     "folders": "கோப்புறைகள்",
-    "@folders": {},
     "fontColor": "எழுத்துரு நிறம்",
-    "@fontColor": {},
     "fontSize": "எழுத்துரு அளவு",
-    "@fontSize": {},
     "forceRefresh": "கட்டாய புதுப்பிப்பு",
-    "@forceRefresh": {},
     "genre": "{count, plural, other{பாணிகள்} one{பாணி}}",
     "@genre": {
         "description": "genre",
@@ -316,25 +220,15 @@
         }
     },
     "goTo": "செல்",
-    "@goTo": {},
     "grid": "வலைவாய்",
-    "@grid": {},
     "group": "குழு",
-    "@group": {},
     "heightOffset": "உயரம் ஆஃப்செட்",
-    "@heightOffset": {},
     "hide": "மறை",
-    "@hide": {},
     "hideEmpty": "காலியாக மறைக்கவும்",
-    "@hideEmpty": {},
     "identify": "அடையாளம் காணவும்",
-    "@identify": {},
     "immediately": "உடனடியாக",
-    "@immediately": {},
     "incorrectPinTryAgain": "தவறான முள். மீண்டும் முயற்சிக்கவும்.",
-    "@incorrectPinTryAgain": {},
     "invalidUrlDesc": "முகவரி HTTP (கள்) உடன் தொடங்க வேண்டும்: //",
-    "@invalidUrlDesc": {},
     "itemCount": "உருப்படி எண்ணிக்கை: {count}",
     "@itemCount": {
         "description": "Item count",
@@ -345,9 +239,7 @@
         }
     },
     "info": "தகவல்",
-    "@info": {},
     "invalidUrl": "தவறான முகவரி",
-    "@invalidUrl": {},
     "label": "{count, plural, other{சிட்டைகள்} one{சிட்டை}}",
     "@label": {
         "description": "label",
@@ -369,21 +261,13 @@
         }
     },
     "libraryFetchNoItemsFound": "உருப்படிகள் எதுவும் கிடைக்கவில்லை. வெவ்வேறு அமைப்புகளை முயற்சிக்கவும்.",
-    "@libraryFetchNoItemsFound": {},
     "libraryPageSizeDesc": "ஒரு நேரத்தில் ஏற்ற அளவை அமைக்கவும். 0 பேசிங் அணைக்கப்படுகிறது.",
-    "@libraryPageSizeDesc": {},
     "light": "ஒளி",
-    "@light": {},
     "list": "பட்டியல்",
-    "@list": {},
     "lockscreen": "பூட்டு திரை",
-    "@lockscreen": {},
     "loggedIn": "உள்நுழைந்த",
-    "@loggedIn": {},
     "login": "புகுபதிகை",
-    "@login": {},
     "logout": "விடுபதிகை",
-    "@logout": {},
     "logoutUserPopupContent": "இது {userName} வெளியேறி, பயன்பாட்டிலிருந்து பயனரை நீக்கும்.\n நீங்கள்{serverName}இல் மீண்டும் உள்நுழைய வேண்டும்.",
     "@logoutUserPopupContent": {
         "description": "Pop-up for logging out the user description",
@@ -397,33 +281,19 @@
         }
     },
     "markAsUnwatched": "குறிக்கப்படாத எனக் குறிக்கவும்",
-    "@markAsUnwatched": {},
     "masonry": "கொத்து",
-    "@masonry": {},
     "mediaTypeBase": "தள வகை",
-    "@mediaTypeBase": {},
     "mediaTypeBoxset": "பாக்ச் செட்",
-    "@mediaTypeBoxset": {},
     "mediaTypeEpisode": "அத்தியாயம்",
-    "@mediaTypeEpisode": {},
-    "mediaTypeFolder": "கோப்புறை",
-    "@mediaTypeFolder": {},
+    "mediaTypeFolder": "{count, plural, one{Folder} other{Folders}}",
     "mediaTypeMovie": "படம்",
-    "@mediaTypeMovie": {},
     "mediaTypePerson": "ஆள்",
-    "@mediaTypePerson": {},
     "mediaTypePhoto": "புகைப்படம்",
-    "@mediaTypePhoto": {},
-    "mediaTypePhotoAlbum": "புகைப்பட ஆல்பம்",
-    "@mediaTypePhotoAlbum": {},
+    "mediaTypePhotoAlbum": "{count, plural, one{Photo Album} other{Photo Albums}}",
     "mediaTypePlaylist": "பிளேலிச்ட்",
-    "@mediaTypePlaylist": {},
     "mediaTypeSeason": "சீசன்",
-    "@mediaTypeSeason": {},
-    "mediaTypeSeries": "தொடர்",
-    "@mediaTypeSeries": {},
+    "mediaTypeSeries": "{count, plural, one{Series} other{Series}}",
     "metadataRefreshFull": "அனைத்து மெட்டாடேட்டாவையும் மாற்றவும்",
-    "@metadataRefreshFull": {},
     "metaDataSavedFor": "மேனிலை தரவு {item} க்காகச் சேமிக்கப்பட்டது",
     "@metaDataSavedFor": {
         "description": "metaDataSavedFor",
@@ -434,9 +304,7 @@
         }
     },
     "metadataRefreshDefault": "புதிய மற்றும் புதுப்பிக்கப்பட்ட கோப்புகளுக்கு ச்கேன் செய்யுங்கள்",
-    "@metadataRefreshDefault": {},
     "metadataRefreshValidation": "காணாமல் போன மெட்டாடேட்டாவைத் தேடுங்கள்",
-    "@metadataRefreshValidation": {},
     "minutes": "{count, plural, other{நிமையங்கள்} one{நிமையம்} }",
     "@minutes": {
         "description": "minute",
@@ -448,7 +316,6 @@
         }
     },
     "mode": "பயன்முறை",
-    "@mode": {},
     "moreFrom": "{info} இலிருந்து மேலும்",
     "@moreFrom": {
         "description": "More from",
@@ -459,41 +326,23 @@
         }
     },
     "moreOptions": "மேலும் விருப்பங்கள்",
-    "@moreOptions": {},
     "musicAlbum": "ஆல்பம்",
-    "@musicAlbum": {},
     "mouseDragSupport": "சுட்டியைப் பயன்படுத்தி இழுக்கவும்",
-    "@mouseDragSupport": {},
     "name": "பெயர்",
-    "@name": {},
     "navigation": "வானோடல்",
-    "@navigation": {},
     "navigationDashboard": "முகப்புப்பெட்டி",
-    "@navigationDashboard": {},
     "navigationFavorites": "பிடித்தவை",
-    "@navigationFavorites": {},
     "navigationSync": "ஒத்திசைக்கப்பட்டது",
-    "@navigationSync": {},
     "never": "ஒருபோதும்",
-    "@never": {},
     "noItemsToShow": "காட்ட உருப்படிகள் இல்லை",
-    "@noItemsToShow": {},
     "noRating": "மதிப்பீடு இல்லை",
-    "@noRating": {},
     "noResults": "முடிவுகள் இல்லை",
-    "@noResults": {},
     "noSuggestionsFound": "பரிந்துரைகள் எதுவும் கிடைக்கவில்லை",
-    "@noSuggestionsFound": {},
     "none": "எதுவுமில்லை",
-    "@none": {},
     "openWebLink": "வலை இணைப்பைத் திறக்கவும்",
-    "@openWebLink": {},
     "options": "விருப்பங்கள்",
-    "@options": {},
     "other": "மற்றது",
-    "@other": {},
     "overview": "கண்ணோட்டம்",
-    "@overview": {},
     "page": "பக்கம் {index}",
     "@page": {
         "description": "page",
@@ -504,17 +353,11 @@
         }
     },
     "parentalRating": "பெற்றோர் மதிப்பீடு",
-    "@parentalRating": {},
     "password": "கடவுச்சொல்",
-    "@password": {},
     "pathClearTitle": "பதிவிறக்கங்களின் பாதையை அழிக்கவும்",
-    "@pathClearTitle": {},
     "pathEditSelect": "பதிவிறக்க இலக்கு என்பதைத் தேர்ந்தெடுக்கவும்",
-    "@pathEditSelect": {},
     "pathEditDesc": "இந்த இடம் அனைத்து பயனர்களுக்கும் அமைக்கப்பட்டுள்ளது, ஒத்திசைக்கப்பட்ட தரவும் இனி அணுக முடியாது. இது உங்கள் சேமிப்பகத்தில் இருக்கும்.",
-    "@pathEditDesc": {},
     "pathEditTitle": "இருப்பிடத்தை மாற்றவும்",
-    "@pathEditTitle": {},
     "play": "இயக்கு {item}",
     "@play": {
         "description": "Play with",
@@ -534,7 +377,6 @@
         }
     },
     "playCount": "விளையாட்டு எண்ணிக்கை",
-    "@playCount": {},
     "playFromStart": "தொடக்கத்திலிருந்தே {name} விளையாடுங்கள்",
     "@playFromStart": {
         "description": "speel vanaf het begin",
@@ -545,19 +387,12 @@
         }
     },
     "playLabel": "விளையாடுங்கள்",
-    "@playLabel": {},
     "playVideos": "வீடியோக்களை இயக்கவும்",
-    "@playVideos": {},
     "played": "விளையாடியது",
-    "@played": {},
     "quickConnectAction": "விரைவான இணைப்பு குறியீட்டை உள்ளிடவும்",
-    "@quickConnectAction": {},
     "quickConnectInputACode": "ஒரு குறியீட்டை உள்ளிடவும்",
-    "@quickConnectInputACode": {},
     "quickConnectTitle": "விரைவான இணைப்பு",
-    "@quickConnectTitle": {},
     "quickConnectWrongCode": "தவறான குறியீடு",
-    "@quickConnectWrongCode": {},
     "rating": "{count, plural, other{வீதப்பாடுகள்} one{வீதப்பாடு}}",
     "@rating": {
         "description": "rating",
@@ -569,7 +404,6 @@
         }
     },
     "reWatch": "மீண்டும் பார்க்க",
-    "@reWatch": {},
     "read": "{item} படிக்கவும்",
     "@read": {
         "description": "read",
@@ -589,19 +423,12 @@
         }
     },
     "recursive": "சுழல்நிலை",
-    "@recursive": {},
     "refresh": "புதுப்பிப்பு",
-    "@refresh": {},
     "related": "தொடர்புடைய",
-    "@related": {},
     "releaseDate": "வெளியீட்டு தேதி",
-    "@releaseDate": {},
     "removeAsFavorite": "பிடித்ததாக அகற்று",
-    "@removeAsFavorite": {},
     "removeFromCollection": "சேகரிப்பிலிருந்து அகற்று",
-    "@removeFromCollection": {},
     "refreshMetadata": "மெட்டாடேட்டாவை புதுப்பிக்கவும்",
-    "@refreshMetadata": {},
     "refreshPopup": "புதுப்பிக்கவும் - {name}",
     "@refreshPopup": {
         "placeholders": {
@@ -611,19 +438,12 @@
         }
     },
     "refreshPopupContentMetadata": "டாச்போர்டில் இயக்கப்பட்ட அமைப்புகள் மற்றும் இணைய சேவைகளின் அடிப்படையில் மேனிலை தரவு புதுப்பிக்கப்படுகிறது.",
-    "@refreshPopupContentMetadata": {},
     "removeFromPlaylist": "பிளேலிச்ட்டிலிருந்து அகற்று",
-    "@removeFromPlaylist": {},
     "replaceAllImages": "எல்லா படங்களையும் மாற்றவும்",
-    "@replaceAllImages": {},
     "replaceExistingImages": "இருக்கும் படங்களை மாற்றவும்",
-    "@replaceExistingImages": {},
     "restart": "மறுதொடக்கம்",
-    "@restart": {},
     "result": "முடிவு",
-    "@result": {},
     "resumable": "ரெனம்ப்லி",
-    "@resumable": {},
     "resume": "{item} மீண்டும் தொடங்குங்கள்",
     "@resume": {
         "description": "resume",
@@ -634,19 +454,12 @@
         }
     },
     "retrievePublicListOfUsers": "பயனர்களின் பொது பட்டியலை மீட்டெடுக்கவும்",
-    "@retrievePublicListOfUsers": {},
     "retry": "மீண்டும் முயற்சிக்கவும்",
-    "@retry": {},
     "runTime": "நேரம் ரன்",
-    "@runTime": {},
     "save": "சேமி",
-    "@save": {},
     "saved": "சேமிக்கப்பட்டது",
-    "@saved": {},
     "scanBiometricHint": "அடையாளத்தை சரிபார்க்கவும்",
-    "@scanBiometricHint": {},
     "scanLibrary": "ச்கேன் நூலகம்",
-    "@scanLibrary": {},
     "scanYourFingerprintToAuthenticate": "{user}",
     "@scanYourFingerprintToAuthenticate": {
         "placeholders": {
@@ -664,9 +477,7 @@
         }
     },
     "scrollToTop": "மேலே உருட்டவும்",
-    "@scrollToTop": {},
     "search": "தேடல்",
-    "@search": {},
     "season": "{count, plural, other{பருவங்கள்} one{பருவம்} }",
     "@season": {
         "description": "season",
@@ -688,13 +499,9 @@
         }
     },
     "selectAll": "அனைத்தையும் தெரிவுசெய்",
-    "@selectAll": {},
     "selectTime": "நேரம் தேர்ந்தெடுக்கவும்",
-    "@selectTime": {},
     "selectViewType": "பார்வை வகையைத் தேர்ந்தெடுக்கவும்",
-    "@selectViewType": {},
     "selected": "தேர்ந்தெடுக்கப்பட்டது",
-    "@selected": {},
     "selectedWith": "தேர்ந்தெடுக்கப்பட்ட {info}",
     "@selectedWith": {
         "description": "selected",
@@ -705,9 +512,7 @@
         }
     },
     "separate": "தனி",
-    "@separate": {},
     "server": "சேவையகம்",
-    "@server": {},
     "set": "கணம்",
     "@set": {
         "description": "Use for setting a certain value",
@@ -723,93 +528,49 @@
         }
     },
     "settingSecurityApplockTitle": "பயன்பாட்டு பூட்டு",
-    "@settingSecurityApplockTitle": {},
     "settings": "அமைப்புகள்",
-    "@settings": {},
     "settingsBlurEpisodesDesc": "வரவிருக்கும் அனைத்து அத்தியாயங்களையும் மழுங்கடிக்கவும்",
-    "@settingsBlurEpisodesDesc": {},
     "settingsBlurredPlaceholderTitle": "மங்கலான ஒதுக்கிட",
-    "@settingsBlurredPlaceholderTitle": {},
     "settingsBlurEpisodesTitle": "அடுத்த அத்தியாயங்களை மங்கச் செய்யுங்கள்",
-    "@settingsBlurEpisodesTitle": {},
     "settingsBlurredPlaceholderDesc": "சுவரொட்டிகளை ஏற்றும்போது மங்கலான பின்னணியைக் காட்டு",
-    "@settingsBlurredPlaceholderDesc": {},
     "settingsClientDesc": "பொது, நேரம்-அவுட், தளவமைப்பு, கருப்பொருள்",
-    "@settingsClientDesc": {},
     "settingsClientTitle": "படபடப்பு",
-    "@settingsClientTitle": {},
     "settingsHomeBannerDescription": "ச்லைடுசோ, கொணர்வி அல்லது பேனரை மறைக்க",
-    "@settingsHomeBannerDescription": {},
     "settingsHomeBannerInformationDesc": "வீட்டு பேனரில் காண்பிக்க செய்தி",
-    "@settingsHomeBannerInformationDesc": {},
     "settingsEnableOsMediaControls": "OS மீடியா கட்டுப்பாடுகளை இயக்கவும்",
-    "@settingsEnableOsMediaControls": {},
     "settingsHomeBannerInformationTitle": "பேனர் செய்தி",
-    "@settingsHomeBannerInformationTitle": {},
     "settingsPlayerCustomSubtitlesTitle": "வசன வரிகள் தனிப்பயனாக்கு",
-    "@settingsPlayerCustomSubtitlesTitle": {},
     "settingsPlayerDesc": "அம்சம்-விகித, மேம்பட்டது",
-    "@settingsPlayerDesc": {},
     "settingsPlayerMobileWarning": "ஆண்ட்ராய்டு இல் வன்பொருள் முடுக்கம் மற்றும் சொந்த லிபாச் வசன வரிகள் ஆகியவற்றை இயக்குவது சில வசன வரிகள் வழங்கக்கூடாது.",
-    "@settingsPlayerMobileWarning": {},
     "settingsHomeNextUpDesc": "டாச்போர்டு திரையில் காட்டப்பட்டுள்ள சுவரொட்டிகளின் வகை",
-    "@settingsHomeNextUpDesc": {},
     "settingsHomeNextUpTitle": "அடுத்த சுவரொட்டிகள்",
-    "@settingsHomeNextUpTitle": {},
     "settingsNextUpCutoffDays": "அடுத்த வெட்டு நாட்கள்",
-    "@settingsNextUpCutoffDays": {},
     "settingsPlayerCustomSubtitlesDesc": "அளவு, வண்ணம், நிலை, அவுட்லைன் ஆகியவற்றைத் தனிப்பயனாக்குங்கள்",
-    "@settingsPlayerCustomSubtitlesDesc": {},
     "settingsPlayerVideoHWAccelDesc": "வீடியோ வழங்க சி.பீ.யைப் பயன்படுத்தவும் (பரிந்துரைக்கப்படுகிறது)",
-    "@settingsPlayerVideoHWAccelDesc": {},
     "settingsPlayerNativeLibassAccelDesc": "வீடியோ பிளேயர் லிபாச் வசன ரெண்டரரைப் பயன்படுத்தவும்",
-    "@settingsPlayerNativeLibassAccelDesc": {},
     "settingsPlayerNativeLibassAccelTitle": "சொந்த லிபாச் வசன வரிகள்",
-    "@settingsPlayerNativeLibassAccelTitle": {},
     "settingsPlayerVideoHWAccelTitle": "வன்பொருள் முடுக்கம்",
-    "@settingsPlayerVideoHWAccelTitle": {},
     "settingsPosterPinch": "சுவரொட்டிகளை அளவிட பிஞ்ச்-சூம்",
-    "@settingsPosterPinch": {},
     "settingsPosterSize": "சுவரொட்டி அளவு",
-    "@settingsPosterSize": {},
     "settingsPosterSlider": "அளவுகோல் ச்லைடர்",
-    "@settingsPosterSlider": {},
-    "settingsProfileDesc": "பூட்டு திரை",
-    "@settingsProfileDesc": {},
+    "settingsProfileDesc": "பூட்டுத்திரை, உள்ளக URL, சீர்",
     "settingsProfileTitle": "சுயவிவரம்",
-    "@settingsProfileTitle": {},
     "settingsQuickConnectTitle": "விரைவான இணைப்பு",
-    "@settingsQuickConnectTitle": {},
     "settingsSecurity": "பாதுகாப்பு",
-    "@settingsSecurity": {},
     "settingsShowScaleSlider": "சுவரொட்டி அளவு ச்லைடைக் காட்டு",
-    "@settingsShowScaleSlider": {},
     "settingsVisual": "காட்சி",
-    "@settingsVisual": {},
     "shadow": "நிழல்",
-    "@shadow": {},
     "showAlbum": "ஆல்பத்தைக் காட்டு",
-    "@showAlbum": {},
     "showDetails": "விவரங்களைக் காட்டு",
-    "@showDetails": {},
     "showEmpty": "காலியாகக் காட்டு",
-    "@showEmpty": {},
     "shuffleGallery": "கலக்கு கேலரி",
-    "@shuffleGallery": {},
     "shuffleVideos": "வீடியோக்களை மாற்றவும்",
-    "@shuffleVideos": {},
     "somethingWentWrong": "ஏதோ தவறு நடந்தது",
-    "@somethingWentWrong": {},
     "somethingWentWrongPasswordCheck": "ஏதோ தவறு நடந்தது. உங்கள் கடவுச்சொல்லை சரிபார்க்கவும்.",
-    "@somethingWentWrongPasswordCheck": {},
     "sortBy": "வரிசைப்படுத்தவும்",
-    "@sortBy": {},
     "sortName": "பெயர்",
-    "@sortName": {},
     "sortOrder": "வரிசைப்படுத்தும் முறை",
-    "@sortOrder": {},
     "start": "தொடங்கு",
-    "@start": {},
     "studio": "{count, plural, other{கலைக்கூடங்கள்} one{கலைக்கூடம்}}",
     "@studio": {
         "description": "studio",
@@ -821,15 +582,10 @@
         }
     },
     "subtitleConfigurator": "வசன வரிகள்",
-    "@subtitleConfigurator": {},
     "subtitleConfiguratorPlaceHolder": "இது ஒதுக்கிட உரை, இங்கே பார்க்க எதுவும் இல்லை.",
-    "@subtitleConfiguratorPlaceHolder": {},
     "subtitles": "வசன வரிகள்",
-    "@subtitles": {},
     "switchUser": "பயனரை மாற்றவும்",
-    "@switchUser": {},
     "sync": "ஒத்திசைவு",
-    "@sync": {},
     "syncDeleteItemDesc": "{item} க்கான அனைத்து ஒத்திசைக்கப்பட்ட தரவையும் நீக்கவா?",
     "@syncDeleteItemDesc": {
         "description": "Sync delete item pop-up window",
@@ -840,21 +596,13 @@
         }
     },
     "syncDeleteItemTitle": "ஒத்திசைக்கப்பட்ட உருப்படியை நீக்கு",
-    "@syncDeleteItemTitle": {},
     "syncDeletePopupPermanent": "இந்த நடவடிக்கை நிரந்தரமானது மற்றும் உள்நாட்டில் ஒத்திசைக்கப்பட்ட அனைத்து கோப்புகளையும் அகற்றும்",
-    "@syncDeletePopupPermanent": {},
     "syncDetails": "விவரங்களை ஒத்திசைக்கவும்",
-    "@syncDetails": {},
     "syncOpenParent": "திறந்த பெற்றோர்",
-    "@syncOpenParent": {},
     "syncRemoveDataDesc": "ஒத்திசைக்கப்பட்ட வீடியோ தரவை நீக்கவா? இது நிரந்தரமானது மற்றும் நீங்கள் கோப்புகளை மீண்டும் ஒத்திசைக்க வேண்டும்",
-    "@syncRemoveDataDesc": {},
     "themeModeDark": "இருண்ட",
-    "@themeModeDark": {},
     "syncRemoveDataTitle": "ஒத்திசைக்கப்பட்ட தரவை அகற்றவா?",
-    "@syncRemoveDataTitle": {},
     "syncedItems": "ஒத்திசைக்கப்பட்ட உருப்படிகள்",
-    "@syncedItems": {},
     "tag": "{count, plural, one{குறிச்சொல்} other{குறிச்சொற்கள்}}",
     "@tag": {
         "description": "tag",
@@ -866,13 +614,9 @@
         }
     },
     "theme": "கருப்பொருள்",
-    "@theme": {},
     "themeColor": "கருப்பொருள் நிறம்",
-    "@themeColor": {},
     "themeModeLight": "ஒளி",
-    "@themeModeLight": {},
     "themeModeSystem": "மண்டலம்",
-    "@themeModeSystem": {},
     "timeAndAnnotation": "{minutes} மற்றும் {seconds}",
     "@timeAndAnnotation": {
         "description": "timeAndAnnotation",
@@ -886,7 +630,6 @@
         }
     },
     "timeOut": "நேரம்-அவுட்",
-    "@timeOut": {},
     "totalSize": "மொத்த அளவு: {size}",
     "@totalSize": {
         "placeholders": {
@@ -906,39 +649,22 @@
         }
     },
     "unPlayed": "விளையாடப்படாதது",
-    "@unPlayed": {},
     "unableToConnectHost": "ஓச்டுடன் இணைக்க முடியவில்லை",
-    "@unableToConnectHost": {},
     "unableToReverseAction": "இந்த செயலை மாற்ற முடியாது. இது எல்லா அமைப்புகளையும் அகற்றும்.",
-    "@unableToReverseAction": {},
     "unknown": "தெரியவில்லை",
-    "@unknown": {},
     "userName": "பயனர்பெயர்",
-    "@userName": {},
     "useDefaults": "இயல்புநிலைகளைப் பயன்படுத்தவும்",
-    "@useDefaults": {},
     "video": "ஒளிதோற்றம்",
-    "@video": {},
     "videoScaling": "வீடியோ அளவிடுதல்",
-    "@videoScaling": {},
     "videoScalingContain": "கட்டுப்படுத்தவும்",
-    "@videoScalingContain": {},
     "videoScalingCover": "கவர்",
-    "@videoScalingCover": {},
     "videoScalingFillScreenDesc": "வழிசெலுத்தல் மற்றும் நிலை பட்டியை நிரப்பவும்",
-    "@videoScalingFillScreenDesc": {},
     "videoScalingFillScreenNotif": "நிரப்பப்பட்ட-திரை கிடைமட்ட சுழற்சியில் வீடியோ பொருத்தத்தை மேலெழுதும்",
-    "@videoScalingFillScreenNotif": {},
     "videoScalingFitHeight": "பொருத்தமான உயரத்திற்கு",
-    "@videoScalingFitHeight": {},
     "videoScalingFitWidth": "பொருந்தக்கூடிய அகலம்",
-    "@videoScalingFitWidth": {},
-    "videoScalingScaleDown": "அளவிடுதல்",
-    "@videoScalingScaleDown": {},
+    "videoScalingScaleDown": "அளவைக் குறைக்கவும்",
     "viewPhotos": "புகைப்படங்களைக் காண்க",
-    "@viewPhotos": {},
     "watchOn": "பாருங்கள்",
-    "@watchOn": {},
     "writer": "{count, plural, other{எழுத்தாளர்} two{எழுத்தாளர்கள்}}",
     "@writer": {
         "description": "writer",
@@ -1000,31 +726,18 @@
         }
     },
     "syncStatusComplete": "முழுமையானது",
-    "@syncStatusComplete": {},
     "syncStatusNotFound": "கண்டுபிடிக்கப்படவில்லை",
-    "@syncStatusNotFound": {},
     "syncStatusFailed": "தோல்வியுற்றது",
-    "@syncStatusFailed": {},
     "syncStatusCanceled": "ரத்து செய்யப்பட்டது",
-    "@syncStatusCanceled": {},
     "syncStatusWaitingToRetry": "மீண்டும் முயற்சிக்க காத்திருக்கிறது",
-    "@syncStatusWaitingToRetry": {},
     "syncStatusPaused": "இடைநிறுத்தப்பட்டது",
-    "@syncStatusPaused": {},
     "syncStatusPartially": "ஓரளவு",
-    "@syncStatusPartially": {},
     "syncOverlayDeleting": "ஒத்திசைக்கப்பட்ட உருப்படியை நீக்குதல்",
-    "@syncOverlayDeleting": {},
     "syncStatusSynced": "ஒத்திசைக்கப்பட்டது",
-    "@syncStatusSynced": {},
     "syncOverlaySyncing": "உருப்படி விவரங்களை ஒத்திசைத்தல்",
-    "@syncOverlaySyncing": {},
     "syncSelectDownloadsFolder": "பதிவிறக்கங்கள் கோப்புறையைத் தேர்ந்தெடுக்கவும்",
-    "@syncSelectDownloadsFolder": {},
     "syncNoFolderSetup": "ஒத்திசைவு கோப்புறை அமைப்பு இல்லை",
-    "@syncNoFolderSetup": {},
     "syncRemoveUnableToDeleteItem": "ஒத்திசைக்கப்பட்ட உருப்படியை அகற்ற முடியவில்லை, ஏதோ தவறு ஏற்பட்டது",
-    "@syncRemoveUnableToDeleteItem": {},
     "syncAddItemForSyncing": "ஒத்திசைவதற்கு {item} சேர்க்கப்பட்டது",
     "@syncAddItemForSyncing": {
         "placeholders": {
@@ -1066,41 +779,23 @@
         }
     },
     "aboutCreatedBy": "டோனுட்வேர் உருவாக்கியது",
-    "@aboutCreatedBy": {},
     "aboutSocials": "சமூகங்கள்",
-    "@aboutSocials": {},
     "subtitle": "வசன வரிகள்",
-    "@subtitle": {},
     "subtitleConfiguration": "வசன கட்டமைப்பு",
-    "@subtitleConfiguration": {},
     "off": "அணை",
-    "@off": {},
     "screenBrightness": "திரை ஒளி",
-    "@screenBrightness": {},
     "playBackSettings": "பின்னணி அமைப்புகள்",
-    "@playBackSettings": {},
     "settingsAutoNextTitle": "அடுத்த முன்னோட்டம்",
-    "@settingsAutoNextTitle": {},
     "settingsAutoNextDesc": "மற்றொரு உருப்படி வரிசைப்படுத்தப்பட்டால், அடுத்த-அப் முன்னோட்டத்தைக் காட்டுகிறது",
-    "@settingsAutoNextDesc": {},
     "autoNextOffSmartTitle": "அறிவாளி",
-    "@autoNextOffSmartTitle": {},
     "autoNextOffSmartDesc": "வரவுகளுக்குப் பிறகு 10 வினாடிகள் இருக்கும் என்று வரவுகள் தொடங்கும் போது அடுத்த திரையை காண்பிக்கும். இல்லையெனில் இது 30 விநாடிகள் விளையாட்டு நேரத்துடன் அடுத்த திரையை காட்டுகிறது",
-    "@autoNextOffSmartDesc": {},
     "autoNextOffStaticDesc": "30 விநாடிகள் விளையாட்டு நேரம் இருக்கும்போது அடுத்த திரையைக் காட்டு",
-    "@autoNextOffStaticDesc": {},
     "playbackRate": "பின்னணி வீதம்",
-    "@playbackRate": {},
     "unableToPlayMedia": "இணக்கமான ஊடக வகையைக் கண்டுபிடிப்பதில் பிழை ஏற்பட்டது",
-    "@unableToPlayMedia": {},
     "errorOpeningMedia": "இந்த ஊடகத்தை விளையாட முயற்சிக்கும் ஏதோ தவறு நடந்தது",
-    "@errorOpeningMedia": {},
     "unableToPlayBooksOnWeb": "இப்போது வலையில் புத்தகங்கள் ஆதரிக்கப்படவில்லை",
-    "@unableToPlayBooksOnWeb": {},
     "defaultFilterForLibrary": "நூலகத்திற்கான இயல்புநிலை வடிகட்டி",
-    "@defaultFilterForLibrary": {},
     "updateFilterForLibrary": "புதுப்பிப்பு வடிகட்டி",
-    "@updateFilterForLibrary": {},
     "removeFilterForLibrary": "{filter} ஐ அகற்று?",
     "@removeFilterForLibrary": {
         "description": "removeFilterForLibrary",
@@ -1111,76 +806,43 @@
         }
     },
     "deleteFilterConfirmation": "இந்த வடிப்பானை நீக்க விரும்புகிறீர்களா?",
-    "@deleteFilterConfirmation": {},
     "libraryFiltersLimitReached": "வடிகட்டி வரம்பு அடைந்தது (10) சில வடிப்பான்களை அகற்றவும்",
-    "@libraryFiltersLimitReached": {},
     "libraryFiltersRemoveAll": "அனைத்து வடிப்பான்களையும் அகற்றவும்",
-    "@libraryFiltersRemoveAll": {},
     "libraryFiltersRemoveAllConfirm": "இது ஒவ்வொரு நூலகத்திற்கும் சேமிக்கப்பட்ட அனைத்து வடிப்பான்களையும் நீக்கிவிடும்",
-    "@libraryFiltersRemoveAllConfirm": {},
     "playerSettingsOrientationTitle": "பிளேயர் நோக்குநிலை",
-    "@playerSettingsOrientationTitle": {},
     "playerSettingsOrientationDesc": "வீடியோ பிளேயரை சில நோக்குநிலைகளுக்கு கட்டாயப்படுத்தவும்",
-    "@playerSettingsOrientationDesc": {},
     "deviceOrientationPortraitUp": "உருவப்படம்",
-    "@deviceOrientationPortraitUp": {},
     "deviceOrientationPortraitDown": "உருவப்படம் கீழே",
-    "@deviceOrientationPortraitDown": {},
     "deviceOrientationLandscapeLeft": "இயற்கை இடது",
-    "@deviceOrientationLandscapeLeft": {},
     "deviceOrientationLandscapeRight": "இயற்கை சரியானது",
-    "@deviceOrientationLandscapeRight": {},
     "clientSettingsSchemeVariantTitle": "திட்ட மாறுபாடு",
-    "@clientSettingsSchemeVariantTitle": {},
     "schemeSettingsTonalSpot": "டோனல் ச்பாட்",
-    "@schemeSettingsTonalSpot": {},
     "schemeSettingsFidelity": "மெய்நிலை",
-    "@schemeSettingsFidelity": {},
     "schemeSettingsMonochrome": "ஒரே வண்ணமுடைய",
-    "@schemeSettingsMonochrome": {},
     "schemeSettingsNeutral": "நடுநிலை",
-    "@schemeSettingsNeutral": {},
     "schemeSettingsVibrant": "துடிப்பான",
-    "@schemeSettingsVibrant": {},
     "schemeSettingsExpressive": "வெளிப்படையான",
-    "@schemeSettingsExpressive": {},
     "schemeSettingsContent": "உள்ளடக்கம்",
-    "@schemeSettingsContent": {},
     "schemeSettingsRainbow": "ரெயின்போ",
-    "@schemeSettingsRainbow": {},
     "schemeSettingsFruitSalad": "பழ சாலட்",
-    "@schemeSettingsFruitSalad": {},
     "clientSettingsRequireWifiTitle": "வைஃபை தேவை",
-    "@clientSettingsRequireWifiTitle": {},
     "libraryShuffleAndPlayItems": "பொருட்களை மாற்றி விளையாடுங்கள்",
-    "@libraryShuffleAndPlayItems": {},
     "libraryPlayItems": "உருப்படிகளை விளையாடுங்கள்",
-    "@libraryPlayItems": {},
     "clientSettingsRequireWifiDesc": "வைஃபை நெட்வொர்க்குடன் இணைக்கப்படும்போது மட்டுமே பதிவிறக்கவும்",
-    "@clientSettingsRequireWifiDesc": {},
     "clientSettingsShowAllCollectionsDesc": "இயக்கப்பட்டால், FLADDER ஆல் ஆதரிக்கப்படாதவை உட்பட அனைத்து சேகரிப்பு வகைகளையும் காட்டு",
-    "@clientSettingsShowAllCollectionsDesc": {},
     "resumeVideo": "வீடியோவை மீண்டும் தொடங்குங்கள்",
-    "@resumeVideo": {},
     "stop": "நிறுத்து",
-    "@stop": {},
     "closeVideo": "வீடியோவை மூடு",
-    "@closeVideo": {},
     "playNextVideo": "அடுத்த வீடியோவை இயக்கவும்",
-    "@playNextVideo": {},
-    "playerSettingsBackendTitle": "வீடியோ பிளேயர் பின்தளத்தில்",
-    "@playerSettingsBackendTitle": {},
+    "playerSettingsBackendTitle": "மீடியா பிளேயர் பின்தளம்",
     "defaultLabel": "இயல்புநிலை",
     "@defaultLabel": {
         "description": "To indicate a default value, default video player backend"
     },
     "playerSettingsBackendDesc": "உகந்த பின்னணி அனுபவத்திற்கு உங்களுக்கு விருப்பமான மீடியா பிளேயரைத் தேர்வுசெய்க",
-    "@playerSettingsBackendDesc": {},
     "noVideoPlayerOptions": "தேர்ந்தெடுக்கப்பட்ட பின்தளத்தில் விருப்பங்கள் இல்லை",
-    "@noVideoPlayerOptions": {},
     "mdkExperimental": "எம்.டி.கே இன்னும் ஒரு சோதனை கட்டத்தில் உள்ளது",
-    "@mdkExperimental": {},
-    "skipButtonLabel": "(கள்) கிப் {segment}",
+    "skipButtonLabel": "{segment} ஐத் தவிர்",
     "@skipButtonLabel": {
         "placeholders": {
             "segment": {
@@ -1189,45 +851,25 @@
         }
     },
     "mediaSegmentUnknown": "தெரியவில்லை",
-    "@mediaSegmentUnknown": {},
     "mediaSegmentCommercial": "வணிக",
-    "@mediaSegmentCommercial": {},
     "mediaSegmentPreview": "முன்னோட்டம்",
-    "@mediaSegmentPreview": {},
     "mediaSegmentOutro": "மற்றொன்று",
-    "@mediaSegmentOutro": {},
     "mediaSegmentIntro": "அறிமுகம்",
-    "@mediaSegmentIntro": {},
     "nativeName": "ஆங்கிலம்",
-    "@nativeName": {},
     "about": "பற்றி",
-    "@about": {},
     "accept": "ஏற்றுக்கொள்",
-    "@accept": {},
     "active": "செயலில்",
-    "@active": {},
     "errorLogs": "பிழை பதிவுகள்",
-    "@errorLogs": {},
     "external": "வெளிப்புற",
-    "@external": {},
     "settingsLayoutSizesTitle": "தளவமைப்பு அளவுகள்",
-    "@settingsLayoutSizesTitle": {},
     "settingsLayoutSizesDesc": "சாளர அளவின் அடிப்படையில் பயன்பாடு எந்த தளவமைப்பு அளவுகளைப் பயன்படுத்தலாம் என்பதைத் தேர்வுசெய்க",
-    "@settingsLayoutSizesDesc": {},
     "settingsLayoutModesTitle": "தளவமைப்பு முறைகள்",
-    "@settingsLayoutModesTitle": {},
     "tablet": "டேப்லெட்",
-    "@tablet": {},
     "mediaSegmentActions": "ஊடக பிரிவு செயல்கள்",
-    "@mediaSegmentActions": {},
     "segmentActionNone": "எதுவுமில்லை",
-    "@segmentActionNone": {},
     "segmentActionAskToSkip": "தவிர்க்கச் சொல்லுங்கள்",
-    "@segmentActionAskToSkip": {},
     "segmentActionSkip": "தவிர்",
-    "@segmentActionSkip": {},
     "castAndCrew": "நடிகர்கள் & குழுவினர்",
-    "@castAndCrew": {},
     "downloadFile": "பதிவிறக்கம் {type}",
     "@downloadFile": {
         "placeholders": {
@@ -1237,47 +879,26 @@
         }
     },
     "copyStreamUrl": "ச்ட்ரீம் முகவரி ஐ நகலெடுக்கவும்",
-    "@copyStreamUrl": {},
     "copiedToClipboard": "இடைநிலைப்பலகைக்கு நகலெடுக்கப்பட்டது",
-    "@copiedToClipboard": {},
     "internetStreamingQualityTitle": "இணைய தகுதி",
-    "@internetStreamingQualityTitle": {},
     "internetStreamingQualityDesc": "இணையத்தில் அதிகபட்ச ச்ட்ரீமிங் தகுதி (மொபைல்)",
-    "@internetStreamingQualityDesc": {},
     "homeStreamingQualityTitle": "வீட்டின் தகுதி",
-    "@homeStreamingQualityTitle": {},
     "homeStreamingQualityDesc": "வீட்டு நெட்வொர்க்குடன் இணைக்கப்படும்போது அதிகபட்ச ச்ட்ரீமிங் தகுதி",
-    "@homeStreamingQualityDesc": {},
     "qualityOptionsTitle": "தரமான விருப்பங்கள்",
-    "@qualityOptionsTitle": {},
     "loading": "ஏற்றுகிறது",
-    "@loading": {},
     "episodeAvailable": "கிடைக்கிறது",
-    "@episodeAvailable": {},
     "episodeUnaired": "UNIRED",
-    "@episodeUnaired": {},
     "episodeMissing": "இல்லை",
-    "@episodeMissing": {},
     "settingsPlayerBufferSizeTitle": "வீடியோ இடையக அளவு",
-    "@settingsPlayerBufferSizeTitle": {},
     "settingsPlayerBufferSizeDesc": "வீடியோ பிளேபேக்கிற்கான இடையக அளவை உள்ளமைக்கவும், தற்காலிக சேமிப்பில் எவ்வளவு தரவு ஏற்றப்படுகிறது என்பதை தீர்மானிக்கவும்.",
-    "@settingsPlayerBufferSizeDesc": {},
     "settingsLayoutModesDesc": "பயன்பாடு ஒற்றை அல்லது இரட்டை-பேனல் தளவமைப்புகளைப் பயன்படுத்தலாமா என்பதைக் கட்டுப்படுத்தவும்",
-    "@settingsLayoutModesDesc": {},
     "phone": "தொலைபேசி",
-    "@phone": {},
     "desktop": "டெச்க்டாப்",
-    "@desktop": {},
     "layoutModeSingle": "ஒற்றை",
-    "@layoutModeSingle": {},
     "layoutModeDual": "இருமம்",
-    "@layoutModeDual": {},
     "qualityOptionsOriginal": "அசல்",
-    "@qualityOptionsOriginal": {},
     "qualityOptionsAuto": "தானி",
-    "@qualityOptionsAuto": {},
     "version": "பதிப்பு",
-    "@version": {},
     "guestActor": "{count, plural, other{கௌரவ நடிகர்கள்} one{கௌரவ நடிகர்}}",
     "@guestActor": {
         "description": "Guest actors",
@@ -1287,5 +908,1058 @@
                 "example": "1"
             }
         }
-    }
+    },
+    "addToQueue": "வரிசையில் சேர்க்கவும்",
+    "instantMix": "Instant mix",
+    "audioPlayerPlaybackOptionsTitle": "பின்னணி விருப்பங்கள்",
+    "audioPlayerRepeatAll": "Repeat அனைத்தும்",
+    "audioPlayerRepeatOff": "Repeat அணை",
+    "audioPlayerRepeatOne": "Repeat one",
+    "audioPlayerShuffle": "கலக்கு",
+    "showArtist": "கலைஞரைக் காட்டு",
+    "track": "{count, plural, one{Track} other{Tracks}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "generateLoginLink": "குறியீடு க்கு {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "பங்கு புகுபதிவு இணைப்பு",
+    "shareQRCode": "பங்கு QR குறியீடு",
+    "copyLoginLink": "இணைப்பை நகலெடுக்கவும்",
+    "includePassword": "Include password",
+    "invalidAuthLink": "தவறான உள்நுழைவு இணைப்பு",
+    "gestures": "சைகைகள்",
+    "dashboardRecentlyAddedItems": "அண்மைக் காலத்தில் added {name}",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "homeBannerDetailed": "Detailed",
+    "homeBannerTV": "டி.வி",
+    "playMusic": "இசையை இயக்கவும்",
+    "popularity": "புகழ்",
+    "contentRating": "உள்ளடக்க மதிப்பீடு",
+    "runtimeMinutesTitle": "இயக்க நேரம் (நிமிடங்கள்)",
+    "runtimeRangeMinutes": "{min} - {max} நிமிடங்கள்",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} மணித்துளி",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "வழங்குநர்கள் ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "authenticateWithBiometrics": "{user}ஐ அங்கீகரிக்க பயோமெட்ரிக்சைப் பயன்படுத்தவும்",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "settingsEnableOsMediaControlsDesc": "மீடியா-விசைகளைப் பயன்படுத்தி பிளேபேக் கட்டுப்பாட்டை அனுமதிக்கவும் மற்றும் OS இல் தற்போது இயங்கும் மீடியாவைக் காட்டவும்",
+    "settingsPlayerPlayPauseFadeTitle": "ப்ளே/பாச் வால்யூம் மங்கல்",
+    "settingsPlayerPlayPauseFadeDesc": "விளையாடும்போது அல்லது இடைநிறுத்தும்போது ஒலியை உள்ளேயும் வெளியேயும் குறைக்கவும்",
+    "settingsProfileSubtitleLanguage": "விருப்பமான வசன மொழி",
+    "anyLanguage": "எந்த மொழியும்",
+    "settingsProfileSubtitleMode": "வசன முறை",
+    "subtitlePlaybackModeDefault": "இயல்புநிலை",
+    "subtitlePlaybackModeAlways": "எப்போதும் விளையாடு",
+    "subtitlePlaybackModeOnlyForced": "கட்டாயம் மட்டுமே",
+    "subtitlePlaybackModeNone": "எதுவுமில்லை",
+    "subtitlePlaybackModeSmart": "அறிவாளி",
+    "backgroundColor": "பின்னணி நிறம்",
+    "syncPlaylistDeleteTitle": "நீக்கு synced playlist",
+    "syncPlaylistDeleteContent": "Do you also want பெறுநர் அகற்று the tracks synced இருந்து this playlist?",
+    "syncPlaylistKeepTracks": "தடங்களை வைத்திருங்கள்",
+    "syncPlaylistRemoveTracks": "தடங்களை அகற்று",
+    "pictureInPictureTitle": "பிக்சர்-இன்-பிக்சர்",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "ஆட்டோ பிக்சர்-இன்-பிக்சர்",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureSubtitle": "நீங்கள் பிளேயரை விட்டு வெளியேறும் போது தானாகவே பிக்சர்-இன்-பிக்ச்சரை உள்ளிடவும். இந்த அமைப்பைப் பொருட்படுத்தாமல் கட்டுப்பாடுகளில் உள்ள PiP பொத்தான் எப்போதும் வேலை செய்யும்.",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "இந்தச் சாதனத்தில் பிக்சர்-இன்-பிக்சர் இல்லை",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "removedFromPlaylist": "{playlistName} பிளேலிச்ட்டில் இருந்து அகற்றப்பட்டது",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "enableEdgeGesturesTitle": "விளிம்பு சைகைகளை இயக்கு",
+    "enableEdgeGesturesDesc": "திரையின் விளிம்புகளில் மேலும் கீழும் சறுக்கி ஒளி மற்றும் ஒலியளவைக் கட்டுப்படுத்தவும்",
+    "reverseEdgeGesturesTitle": "விளிம்பு சைகைகளை மாற்றவும்",
+    "reverseEdgeGesturesDesc": "ஒளி மற்றும் ஒலி அளவைக் கட்டுப்படுத்த பக்கத்தை மாற்றவும்",
+    "deleteRequestConfirmation": "இந்தக் கோரிக்கையை நிச்சயமாக நீக்க விரும்புகிறீர்களா?",
+    "playerSettingsReplayGainTitle": "மீண்டும் விளையாடு",
+    "playerSettingsReplayGainDesc": "ReplayGain குறிச்சொற்களைப் பயன்படுத்தி இசை ஒலியை இயல்பாக்கவும்.",
+    "playerSettingsReplayGainLevelTitle": "ReplayGain நிலை",
+    "playerSettingsReplayGainLevelDesc": "ReplayGain இயல்பாக்கத்திற்கான இலக்கு ஒலி அளவை அமைக்கவும். ஒரு பொதுவான தரநிலை -14 dB, ஆனால் நீங்கள் அதை உங்கள் விருப்பத்திற்கு ஏற்ப சரிசெய்யலாம்.",
+    "settingsPlayerCrossfadeTitle": "கிராச்ஃபேட்",
+    "settingsPlayerCrossfadeDesc": "ஒரே ஆல்பத்தில் தொடர்ச்சியாக இல்லாத டிராக்குகளுக்கு இடையே மங்கல்",
+    "settingsPlayerCrossfadeDurationTitle": "கிராச்ஃபேட் காலம்",
+    "settingsPlayerCrossfadeDurationDesc": "குறுக்குவழியின் காலம்",
+    "television": "தொலைக்காட்சி",
+    "advancedVideoOptionsTitle": "மேம்பட்ட வீடியோ விருப்பங்கள்",
+    "advancedVideoOptionsDesc": "HDR, டோன் மேப்பிங் மற்றும் மேம்பட்ட வண்ண கையாளுதலை இயக்கு (சில சாதனங்களுக்கு நிலையற்றது)",
+    "segmentActionSkipOnce": "ஒருமுறை தவிர்க்கவும்",
+    "exitFladderTitle": "பிளாடரில் இருந்து வெளியேறு",
+    "exitFladderDesc": "Fladder ஐ நிச்சயமாக மூட விரும்புகிறீர்களா?",
+    "quitMultipleWindowsDesc": "உங்களிடம் {count} சாளரங்கள் திறக்கப்பட்டுள்ளன. ஃபிளாடரை விட்டு வெளியேறுவது அவை அனைத்தையும் மூடும். தொடர வேண்டுமா?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "சாளரத்தை மூடு",
+    "maxConcurrentDownloadsTitle": "அதிகபட்ச ஒரே நேரத்தில் பதிவிறக்கங்கள்",
+    "maxConcurrentDownloadsDesc": "Sets the பெருமம் எண் of downloads that can ஓடு at the same time. Set பெறுநர் 0 பெறுநர் முடக்கு the limit.",
+    "playbackTrackSelection": "பின்னணி டிராக் தேர்வு",
+    "rememberSubtitleSelections": "முந்தைய உருப்படியின் அடிப்படையில் வசன வரிகளை அமைக்கவும்",
+    "rememberAudioSelections": "முந்தைய உருப்படியின் அடிப்படையில் ஆடியோ டிராக்கை அமைக்கவும்",
+    "rememberSubtitleSelectionsDesc": "சப்டைட்டில் டிராக்கை கடைசி வீடியோவுக்கு மிக நெருக்கமான பொருத்தமாக அமைக்க முயற்சிக்கவும்.",
+    "rememberAudioSelectionsDesc": "கடைசி வீடியோவுக்கு மிக நெருக்கமான பொருத்தத்திற்கு ஆடியோ டிராக்கை அமைக்க முயற்சிக்கவும்.",
+    "similarToRecentlyPlayed": "Similar பெறுநர் அண்மைக் காலத்தில் played",
+    "similarToLikedItem": "விரும்பிய பொருளைப் போன்றது",
+    "hasDirectorFromRecentlyPlayed": "அண்மைக் காலத்தில் இயக்கியவர்",
+    "hasActorFromRecentlyPlayed": "அண்மைக் காலத்தில் நடித்த நடிகர் உண்டு",
+    "hasLikedDirector": "இயக்குனருக்கு பிடித்திருக்கிறது",
+    "hasLikedActor": "நடிகரை விரும்பினார்",
+    "latest": "அண்மைக் கால",
+    "recommended": "பரிந்துரைக்கப்படுகிறது",
+    "playbackType": "பின்னணி வகை",
+    "playbackTypeDirect": "நேரடி",
+    "playbackTypeTranscode": "டிரான்ச்கோட்",
+    "playbackTypeOffline": "இணையமில்லாமல்",
+    "playbackTypeTV": "டி.வி",
+    "latestReleases": "அண்மைக் கால வெளியீடுகள்",
+    "autoCheckForUpdates": "Periodically சரிபார் க்கு updates",
+    "newReleaseFoundTitle": "புதுப்பிப்பு {newRelease} உள்ளது!",
+    "@newReleaseFoundTitle": {
+        "placeholders": {
+            "newRelease": {
+                "type": "String"
+            }
+        }
+    },
+    "newUpdateFoundOnGithub": "Github இல் புதிய அப்டேட் கிடைத்தது",
+    "enableBackgroundPostersTitle": "பின்னணி சுவரொட்டிகளை இயக்கவும்",
+    "enableBackgroundPostersDesc": "பொருந்தக்கூடிய திரைகளில் சீரற்ற சுவரொட்டிகளைக் காட்டு",
+    "notificationDownloadingDownloading": "பதிவிறக்குகிறது",
+    "notificationDownloadingPaused": "பதிவிறக்கம் இடைநிறுத்தப்பட்டது",
+    "notificationDownloadingFinished": "பதிவிறக்கம் முடிந்தது",
+    "notificationDownloadingError": "பதிவிறக்க பிழை",
+    "syncAllItemsTitle": "Sync அனைத்தும் items இருந்து {itemName}?",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAllItemsDesc": "இது '{itemName}' இலிருந்து உங்கள் சாதனத்துடன் ({itemCount}) உருப்படிகளை ஒத்திசைக்கும். \nThis can take a while depending on the amount of items.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "{itemName} இலிருந்து ஒத்திசைக்கப்பட்ட அனைத்து உருப்படிகளையும் நீக்கவா?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsDesc": "இது '{itemName}' இலிருந்து அனைத்து ஒத்திசைக்கப்பட்ட உருப்படிகளையும் நீக்கும். \nஇது நிரந்தரமானது மற்றும் நீங்கள் ({itemCount}) கோப்புகளை மீண்டும் ஒத்திசைக்க வேண்டும்.",
+    "@syncDeleteAllItemsDesc": {
+        "description": "syncDeleteAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncPauseAll": "அனைத்தையும் இடைநிறுத்து",
+    "syncResumeAll": "அனைத்தையும் தொடரவும்",
+    "syncStopAll": "அனைத்தையும் நிறுத்து",
+    "syncDeleteAll": "எல்லா கோப்புகளையும் நீக்கு",
+    "syncAllFiles": "எல்லா கோப்புகளையும் ஒத்திசைக்கவும்",
+    "usePostersForLibraryIconsTitle": "நூலக ஐகான்களுக்கான சுவரொட்டிகளைக் காட்டு",
+    "usePostersForLibraryIconsDesc": "நூலகங்களுக்கான ஐகான்களுக்குப் பதிலாக சுவரொட்டிகளைக் காட்டு",
+    "offline": "இணையமில்லாமல்",
+    "shortCuts": "குறுக்குவழிகள்",
+    "keyboardShortCuts": "விசைப்பலகை குறுக்குவழிகள்",
+    "skipForwardLength": "முன்னோக்கி நீளத்தைத் தவிர்க்கவும்",
+    "skipBackLength": "பின் நீளத்தைத் தவிர்க்கவும்",
+    "playPause": "விளையாடு/இடைநிறுத்தம்",
+    "seekForward": "சீக் ஃபார்வர்டு",
+    "seekBack": "சீக் பேக்",
+    "seekForwardInstant": "சீக் ஃபார்வர்டு (உடனடி)",
+    "seekBackInstant": "சீக் பேக் (உடனடி)",
+    "stepForward": "படி முன்னோக்கி",
+    "stepBack": "பின்வாங்கவும்",
+    "mute": "முடக்கு",
+    "volumeUp": "வால்யூம் அப்",
+    "volumeDown": "வால்யூம் பேரூர்",
+    "speedUp": "வேகப்படுத்து",
+    "speedDown": "வேகத்தைக் குறைக்கவும்",
+    "nextVideo": "அடுத்த வீடியோ",
+    "prevVideo": "முந்தைய வீடியோ",
+    "nextChapter": "அடுத்த அத்தியாயம்",
+    "prevChapter": "முந்தைய அத்தியாயம்",
+    "fullScreen": "முழுத்திரை",
+    "skipMediaSegment": "மீடியா பிரிவைத் தவிர்",
+    "exit": "வெளியேறு",
+    "shortCutAlreadyAssigned": "'{hotKey}' குறுக்குவழி ஏற்கனவே ஒதுக்கப்பட்டுள்ளது",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "blurred": "மங்கலானது",
+    "volumeIndicator": "தொகுதி: {volume}",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    },
+    "brightnessIndicator": "பிரகாசம்: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "speedIndicator": "பின்னணி விகிதம்: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "enableSpeedBoostTitle": "வேக ஊக்கத்தை இயக்கு",
+    "enableSpeedBoostDesc": "பிளேபேக் வேகத்தை தற்காலிகமாக அதிகரிக்க திரை (மொபைல்) அல்லது ச்பேச்பாரை (டெச்க்டாப்) அழுத்திப் பிடிக்கவும்",
+    "speedBoostRateTitle": "வேக அதிகரிப்பு விகிதம்",
+    "speedBoostRateDesc": "வேக அதிகரிப்பு செயல்படுத்தப்படும் போது பின்னணி விரைவு",
+    "enableDoubleTapSeekTitle": "தேட/விளையாட/இடைநிறுத்த இருமுறை தட்டவும்",
+    "enableDoubleTapSeekDesc": "பின்னோக்கி/முன்னோக்கி பார்க்க திரையின் இடது/வலது பக்கத்தை இருமுறை தட்டவும். விளையாட/இடைநிறுத்த மையத்தில் இருமுறை தட்டவும்",
+    "quickConnectPostFailed": "Failed பெறுநர் get quick இணை குறியீடு",
+    "quickConnectLoginUsingCode": "Using quick இணை",
+    "quickConnectEnterCodeDescription": "உள்நுழைய கீழே உள்ள குறியீட்டை உள்ளிடவும்",
+    "openJellyfinQuickConnect": "Jellyfin QuickConnect ஐத் திறக்கவும்",
+    "showMore": "மேலும் காட்டு",
+    "showLess": "குறைவாகக் காட்டு",
+    "itemColorsTitle": "பொருள் வண்ணங்கள்",
+    "itemColorsDesc": "விவரங்கள் பக்கத்தை கருப்பொருள் செய்ய பொருளின் முதன்மை நிறத்தைப் பயன்படுத்தவும்",
+    "mediaTunnelingTitle": "ஊடக சுரங்கப்பாதை",
+    "mediaTunnelingDesc": "நேட்டிவ் பிளேயருக்கு மீடியா டன்னலிங்கை இயக்கவும்",
+    "clientSettingsUseSystemIMETitle": "கணினி விசைப்பலகையைப் பயன்படுத்தவும்",
+    "clientSettingsUseSystemIMEDesc": "உங்கள் கணினி வழங்கிய உள்ளமைக்கப்பட்ட விசைப்பலகையைப் பயன்படுத்தவும்",
+    "nextUpInCount": "அடுத்தது {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "takeScreenshot": "திரைக்காட்சி எடுக்கவும்",
+    "takeScreenshotClean": "திரைக்காட்சி எடுக்கவும் (வசனங்கள் இல்லாமல்)",
+    "toggleSubtitles": "வசன வரிகளை நிலைமாற்று",
+    "screenshotTaken": "திரைக்காட்சி சேமிக்கப்பட்டது!",
+    "screenshotCleanTaken": "வசனங்கள் இல்லாத திரைக்காட்சி சேமிக்கப்பட்டது!",
+    "errorTakingScreenshot": "ச்கிரீன்சாட்டை எடுப்பதில் பிழை",
+    "openImeKeyboard": "IME விசைப்பலகையைத் திறக்கவும்",
+    "screensaverDvd": "DVD",
+    "screensaverLogo": "சின்னம்",
+    "screensaverTime": "நேரம்",
+    "screensaverBlack": "கருப்பு",
+    "playerSettingsScreensaverTitle": "ச்கிரீன்சேவர்",
+    "playerSettingsScreensaverDesc": "பிளேயர் செயல்பாடு இல்லாத திரை சேவரைத் தேர்ந்தெடுக்கவும்",
+    "settingsLocalUrlTitle": "உள்ளக செல்லிஃபின் முகவரி",
+    "settingsLocalUrlSetTitle": "உள்ளக செல்லிஃபின் முகவரி ஐ உள்ளமைக்கவும்",
+    "settingsLocalUrlSetDesc": "உள்ளக செல்லிஃபின் முகவரியைக் குறிப்பிடவும். உங்கள் சாதனம் ஒரே நெட்வொர்க்கில் இருக்கும்போது Fladder தானாகவே இந்த முகவரி ஐப் பயன்படுத்தும்.",
+    "regenerateTrickplayImages": "தந்திரமான படங்களை மீண்டும் உருவாக்கவும்",
+    "controlPanel": "கண்ட்ரோல் பேனல்",
+    "controlPanelDesc": "சேவையகம், செயல்பாடு, பயனர்கள், நூலகம்",
+    "controlDashboard": "கட்டுப்பாட்டு டாச்போர்டு",
+    "serverName": "சர்வர் பெயர்",
+    "serverVersion": "சர்வர் பதிப்பு",
+    "webVersion": "இணைய பதிப்பு",
+    "devices": "சாதனங்கள்",
+    "used": "பயன்படுத்தப்பட்டது",
+    "storagePaths": "சேமிப்பு பாதைகள்",
+    "programData": "நிரல் தரவு",
+    "web": "விரலிடைத் தோல்",
+    "cache": "தற்காலிக சேமிப்பு",
+    "logs": "பதிவுகள்",
+    "transcodingTemp": "டிரான்ச்கோடிங் டெம்ப்",
+    "count": "எண்ணுங்கள்",
+    "scanAllLibraries": "அனைத்து நூலகங்களையும் வருடு செய்யவும்",
+    "restartServer": "சேவையகத்தை மறுதொடக்கம் செய்யுங்கள்",
+    "shutDownServer": "சர்வரை மூடு",
+    "dashboardDesc": "சேவையகம், எண்ணிக்கை, சாதனங்கள், சேமிப்பு",
+    "lastActivity": "கடைசி செயல்பாடு",
+    "activeTasks": "செயலில் உள்ள பணிகள்",
+    "timeAgo": "{time} முன்பு",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "airsIn": "{count} {duration} இல் ஒளிபரப்பாகும்",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "lastRunTaking": "கடைசி ஓட்டம் {date}, எடுத்துக்கொண்டது {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "ஒரு நிமிடத்திற்கும் குறைவானது",
+    "plannedTasks": "Planned பணிகள்",
+    "taskTriggerTypeInterval": "இடைவேளை",
+    "taskTriggerTypeDaily": "நாள்தோறும்",
+    "taskTriggerTypeWeekly": "வாரந்தோறும்",
+    "taskTriggerTypeStartup": "தொடங்கு",
+    "create": "உருவாக்கு",
+    "taskTriggerTypeName": "தூண்டுதல் வகை",
+    "newTrigger": "புதிய தூண்டுதல்",
+    "newTaskTrigger": "புதிய பணி தூண்டுதல்",
+    "dayOfTheWeek": "வாரத்தின் நாள்",
+    "time": "நேரம்",
+    "interval": "இடைவேளை",
+    "taskTimeLimitInHours": "நேர வரம்பு (மணிநேரம்)",
+    "taskTriggerIntervalDesc": "ஒவ்வொரு {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "தினமும் {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "வாரந்தோறும் {day} அன்று {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "நேர வரம்பு: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "செயல்திறன்",
+    "serverNameLabel": "சர்வர் பெயர்",
+    "cachePath": "கேச் பாதை",
+    "metadataPath": "மேனிலை தரவு பாதை",
+    "maxConcurrentLibraryScanLabel": "அதிகபட்ச ஒரே நேரத்தில் நூலக ச்கேன்கள்",
+    "maxConcurrentLibraryScanDesc": "லைப்ரரி ச்கேன்களின் போது இணையான பணிகளின் அதிகபட்ச எண்ணிக்கை. இதை காலியாக விடுவது உங்கள் சிச்டம்களின் முக்கிய எண்ணிக்கையின் அடிப்படையில் வரம்பை தேர்ந்தெடுக்கும். எச்சரிக்கை: இந்த எண்ணை மிக அதிகமாக அமைப்பதால் பிணைய கோப்பு முறைமைகளில் சிக்கல்கள் ஏற்படலாம்; நீங்கள் சிக்கல்களை எதிர்கொண்டால், இந்த எண்ணைக் குறைக்கவும்.",
+    "maxImageDecodingThreadsLabel": "அதிகபட்ச பட டிகோடிங் இழைகள்",
+    "maxImageDecodingThreadsDesc": "இணையாக இயக்க அனுமதிக்கப்படும் பட குறியாக்கங்களின் அதிகபட்ச எண்ணிக்கை. இதை காலியாக விடுவது உங்கள் சிச்டம்களின் முக்கிய எண்ணிக்கையின் அடிப்படையில் வரம்பை தேர்ந்தெடுக்கும்.",
+    "controlPanelServerDesc": "சர்வர் பெயர், விரைவு இணைப்பு, செயல்திறன்",
+    "deleteUserTitle": "{user} பயனரை நீக்கவா?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "இது பயனர் {user} மற்றும் தொடர்புடைய அனைத்து அமைப்புகளையும் நிரந்தரமாக நீக்கும்.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "பயனர் செய்தி",
+    "allowManageServer": "சேவையகத்தை நிர்வகிக்க இந்தப் பயனரை அனுமதிக்கவும்",
+    "allowCollections": "இந்த பயனரை சேகரிப்பை அனுமதிக்கவும்",
+    "allowEditSubtitles": "இந்த பயனர் வசன திருத்தங்களை அனுமதிக்கவும்",
+    "featureAccess": "அம்ச அணுகல்",
+    "allowLiveTVAccess": "நேரடி டிவி அணுகலை அனுமதிக்கவும்",
+    "allowLiveTVRecording": "நேரடி டிவி ரெக்கார்டிங் நிர்வாகத்தை அனுமதிக்கவும்",
+    "mediaPlayback": "மீடியா பிளேபேக்",
+    "allowMediaPlayback": "மீடியா பிளேபேக்கை அனுமதிக்கவும்",
+    "allowVideoTranscoding": "டிரான்ச்கோடிங் தேவைப்படும் வீடியோ பிளேபேக்கை அனுமதிக்கவும்",
+    "allowAudioTranscoding": "டிரான்ச்கோடிங் தேவைப்படும் ஆடியோ பிளேபேக்கை அனுமதிக்கவும்",
+    "allowMediaConversion": "மீடியா மாற்றம் தேவைப்படும் வீடியோ பிளேபேக்கை அனுமதிக்கவும்",
+    "forceRemoteTranscoding": "ரிமோட் சோர்ச் டிரான்ச்கோடிங்கை கட்டாயப்படுத்தவும்",
+    "syncplay": "ஒத்திசைவு",
+    "syncplayAccess": "ஒத்திசைவு அணுகல்",
+    "syncplayAccessCreateAndJoinGroups": "குழுக்களை உருவாக்கி சேரவும்",
+    "syncplayAccessJoinGroups": "குழுக்களில் சேரவும்",
+    "syncplayAccessNone": "எதுவுமில்லை",
+    "allowMediaDeletion": "மீடியா நீக்கத்தை அனுமதிக்கவும்",
+    "allLibraries": "அனைத்து நூலகங்கள்",
+    "libraryAccess": "நூலக அணுகல்",
+    "enableAllLibraries": "அனைத்து நூலகங்களுக்கும் அணுகலை இயக்கவும்",
+    "enableAllDevices": "எல்லா சாதனங்களுக்கும் அணுகலை இயக்கவும்",
+    "parentalControl": "பெற்றோர் கட்டுப்பாடு",
+    "blockedItemsNoRating": "எந்த அல்லது அங்கீகரிக்கப்படாத மதிப்பீடுகள் கொண்ட தடுக்கப்பட்ட உருப்படிகள்",
+    "maxParentalRating": "அதிகபட்ச பெற்றோர் மதிப்பீடு",
+    "allowItemsTags": "குறிச்சொற்களைக் கொண்ட உருப்படிகளை அனுமதிக்கவும்",
+    "blockItemsTags": "குறிச்சொற்களுடன் உருப்படிகளைத் தடுக்கவும்",
+    "accessSchedules": "அணுகல் அட்டவணைகள்",
+    "addAccessSchedule": "அணுகல் அட்டவணையைச் சேர்க்கவும்",
+    "dayOfWeek": "வாரத்தின் நாள்",
+    "startTime": "தொடக்க நேரம்",
+    "endTime": "முடிவு நேரம்",
+    "addTag": "குறியைச் சேர்க்கவும்",
+    "createNewUser": "புதிய பயனரை உருவாக்கவும்",
+    "createUser": "பயனரை உருவாக்கவும்",
+    "users": "பயனர்கள்",
+    "editUser": "பயனரைத் திருத்து",
+    "general": "பொது",
+    "access": "அணுகல்",
+    "endTimeMustBeAfter": "முடிவு நேரம் தொடக்க நேரத்திற்குப் பிறகு இருக்க வேண்டும்",
+    "assignLibraries": "நூலகங்களை ஒதுக்குங்கள்",
+    "enableAccessAllLibraries": "அனைத்து நூலகங்களுக்கும் அணுகலை இயக்கவும்",
+    "currentPassword": "தற்போதைய கடவுச்சொல்",
+    "newPassword": "புதிய கடவுச்சொல்",
+    "confirmPassword": "கடவுச்சொல்லை உறுதிப்படுத்தவும்",
+    "resetPassword": "கடவுச்சொல்லை மீட்டமைக்கவும்",
+    "passwordResetSuccess": "கடவுச்சொல் மீட்டமைக்கப்பட்டது",
+    "passwordResetFailed": "கடவுச்சொல்லை மீட்டமைக்க முடியவில்லை",
+    "passwordMismatch": "புதிய கடவுச்சொல் மற்றும் உறுதிப்படுத்தல் கடவுச்சொல் பொருந்தவில்லை",
+    "passwordChangeSuccess": "கடவுச்சொல் வெற்றிகரமாக மாற்றப்பட்டது",
+    "savePassword": "கடவுச்சொல்லை சேமிக்கவும்",
+    "deleteLibraryConfirmTitle": "நூலகத்தை நீக்கவா?",
+    "deleteLibraryConfirmMessage": "{libraryName} ஐ நிச்சயமாக நீக்க விரும்புகிறீர்களா? \nஇந்தச் செயலைச் செயல்தவிர்க்க முடியாது.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "நூலகம் எதுவும் தேர்ந்தெடுக்கப்படவில்லை",
+    "enabledPhotos": "இயக்கப்பட்ட புகைப்படங்கள்",
+    "enabledLUFSScan": "LUFS வருடு இயக்கப்பட்டது",
+    "enabledRealtimeMonitoring": "நிகழ்நேர கண்காணிப்பு இயக்கப்பட்டது",
+    "automaticallyAddToCollection": "சேகரிப்பில் தானாகவே சேர்",
+    "enabledEmbeddedTitles": "உட்பொதிக்கப்பட்ட தலைப்புகள் இயக்கப்பட்டன",
+    "enabledEmbeddedExtrasTitles": "கூடுதல் உட்பொதிக்கப்பட்ட தலைப்புகள் இயக்கப்பட்டது",
+    "automaticRefreshInterval": "தானியங்கி புதுப்பிப்பு இடைவெளி",
+    "autoRefreshIntervalNote": "இதை இயக்குவது நீண்ட நூலக புதுப்பிப்பு நேரத்தை ஏற்படுத்தும்.",
+    "preferredDownloadLanguage": "விருப்பமான பதிவிறக்க மொழி",
+    "countryRegion": "நாடு/பிராந்தியம்",
+    "saveMetadata": "மெட்டாடேட்டாவைச் சேமிக்கவும்",
+    "metadataFetchers": "மேனிலை தரவு பெறுபவர்கள் ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "Enable and rank your preferred metadata fetchers in order of priority.",
+    "enableAndRankImagesFetchers": "முன்னுரிமையின்படி உங்கள் விருப்பமான படங்களைப் பெறுபவர்களை இயக்கி வரிசைப்படுத்தவும்.",
+    "imageFetchers": "படத்தை எடுப்பவர்கள் ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentProviders": "மீடியா பிரிவு வழங்குநர்கள்",
+    "enableAndRankMediaSegmentProviders": "முன்னுரிமையின்படி உங்களுக்கு விருப்பமான மீடியாசெக்மென்ட் வழங்குநர்களை இயக்கி தரவரிசைப்படுத்தவும்.",
+    "trickplay": "தந்திரம்",
+    "enableTrickplayImageExtraction": "ட்ரிக்ப்ளே படத்தை பிரித்தெடுப்பதை இயக்கு",
+    "extractTrickplayImagesDuringLibraryScan": "லைப்ரரி வருடு செய்யும் போது ட்ரிக்ப்ளே படங்களை பிரித்தெடுக்கவும்",
+    "saveTrickplayImagesNextToMedia": "ட்ரிக்ப்ளே படங்களை மீடியாவுக்கு அடுத்ததாக சேமிக்கவும்",
+    "chapterImages": "அத்தியாய படங்கள்",
+    "enableChapterImageExtraction": "Enable பாடங்கள் படம் extraction",
+    "extractChapterImagesDuringLibraryScan": "Extract பாடங்கள் படங்கள் during library scans",
+    "subtitleDownloads": "வசன பதிவிறக்கங்கள்",
+    "downloadLanguages": "மொழிகளைப் பதிவிறக்கவும்",
+    "subtitleDownloaders": "Subtitle downloaders",
+    "onlyPerfectSubtitleMatch": "மீடியாவுடன் சரியாகப் பொருந்தக்கூடிய வசனங்களை மட்டும் பதிவிறக்கவும்",
+    "perfectSubtitleMatchDescription": "சரியான பொருத்தம் தேவைப்படுவதால், உங்கள் சரியான வீடியோ கோப்புடன் சோதனை செய்யப்பட்டு சரிபார்க்கப்பட்ட வசனங்களை மட்டும் சேர்க்க, வசன வரிகள் வடிகட்டப்படும். இதைத் தேர்வுநீக்கினால், வசனங்கள் பதிவிறக்கப்படும் வாய்ப்பு அதிகரிக்கும், ஆனால் தவறான அல்லது தவறான வசன உரைக்கான வாய்ப்புகள் அதிகரிக்கும்.",
+    "skipSubtitlesIfAudioMatches": "Skip if the இயல்புநிலை audio மின்தடம் matches the பதிவிறக்கம் மொழி",
+    "skipSubtitlesIfEmbedded": "வீடியோவில் ஏற்கனவே உட்பொதிக்கப்பட்ட வசனங்கள் இருந்தால் தவிர்க்கவும்",
+    "saveSubtitlesNextToMedia": "Save subtitles அடுத்தது பெறுநர் ஊடகம்",
+    "saveArtWorkNextToMedia": "சேமி ஒளிமறைப்பு அடுத்தது பெறுநர் ஊடகம் கோப்புகள்",
+    "saveArtWorkNextToMediaDesc": "மீடியா கோப்புறைகளில் கலைப்படைப்புகளைச் சேமிப்பது அவற்றை எளிதாகத் திருத்தக்கூடிய இடத்தில் வைக்கும்.",
+    "select": "தேர்ந்தெடு",
+    "newLibrary": "New Library",
+    "contentType": "உள்ளடக்க வகை",
+    "metadataImageLongPressTouch": "படத்தை நீக்க நீண்ட நேரம் அழுத்தவும்",
+    "metadataImageLongPressClick": "படத்தை நீக்க வலது சொடுக்கு செய்யவும்",
+    "primary": "முதன்மை",
+    "logo": "{count, plural, other{Logos} one{Logo}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "சேர்க்க கோப்புறையைத் தேர்ந்தெடுக்கவும்",
+    "systemRootFolder": "கணினி ரூட் கோப்புறை",
+    "selectedPath": "தேர்ந்தெடுக்கப்பட்ட பாதை: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "recentlyAdded": "அண்மைக் காலத்தில் சேர்க்கப்பட்டது",
+    "recentlyPlayed": "அண்மைக் காலத்தில் விளையாடியது",
+    "recentlyFavorited": "அண்மைக் காலத்தில் பிடித்தது",
+    "mostPlayed": "அதிகம் விளையாடியது",
+    "recentRequests": "அண்மைக் கால கோரிக்கைகள்",
+    "trending": "டிரெண்டிங்",
+    "popularMovies": "பிரபலமான திரைப்படங்கள்",
+    "popularSeries": "பிரபலமான தொடர்",
+    "expectedMovies": "எதிர்பார்த்த படங்கள்",
+    "expectedSeries": "Expected series",
+    "requestConfiguration": "கோரிக்கை உள்ளமைவு",
+    "qualityProfile": "தரமான சுயவிவரம்",
+    "selectProfile": "சுயவிவரத்தைத் தேர்ந்தெடுக்கவும்",
+    "rootFolder": "ரூட் கோப்புறை",
+    "selectFolder": "கோப்புறையைத் தேர்ந்தெடு",
+    "tags": "குறிச்சொற்கள்",
+    "noTags": "குறிச்சொற்கள் இல்லை",
+    "requestAs": "Request அச்",
+    "requestQuotaStatus": "மீதமுள்ள {remaining} இல் {limit} (ஒவ்வொரு {days} நாட்களுக்கும் மீட்டமைக்கப்படும்)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Request limit reached க்கு {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "Submit request",
+    "noOverviewAvailable": "மேலோட்டம் இல்லை.",
+    "downloading": "பதிவிறக்குகிறது",
+    "request": "கோரிக்கை",
+    "requestMore": "மேலும் கோருங்கள்",
+    "viewRequest": "கோரிக்கையைப் பார்க்கவும்",
+    "email": "மின்னஞ்சல்",
+    "username": "பயனர் பெயர்",
+    "ok": "சரி",
+    "transcodeInfoTitle": "டிரான்ச்கோட் செய்தி",
+    "transcodeInfoNoMetadata": "இல்லை transcoding metadata is available.",
+    "transcodeDetailsTitle": "டிரான்ச்கோட் விவரங்கள்",
+    "containerLabel": "சரக்குப் பெட்டகம்",
+    "videoCodecLabel": "வீடியோ கோடெக்",
+    "audioCodecLabel": "ஆடியோ கோடெக்",
+    "bitrateLabel": "பிட்ரேட்",
+    "kbps": "கேபிஎச்",
+    "resolutionLabel": "பகுத்தல்",
+    "seerr": "உடல்",
+    "seerrNotConfigured": "கட்டமைக்கப்படவில்லை",
+    "seerrLoadingUser": "பயனரை ஏற்றுகிறது",
+    "seerrUnknownUser": "அறியப்படாத பயனர்",
+    "loggedInAs": "{displayName} ஆக உள்நுழைந்துள்ளீர்கள்",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "சீர் சர்வர்",
+    "seerrAuthenticateLocal": "சீர் ஏற்பு (உள்ளூர்)",
+    "rootFolderDefaultLabel": "{folder} (இயல்புநிலை)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* இந்தத் தொடர் ஒரு அனிமேசன்.",
+    "seerrAutoApproveNotice": "நீங்கள் சமர்ப்பிக்கும் கோரிக்கைகள் தானாக அங்கீகரிக்கப்படும்.",
+    "seerrPermissionDenied": "இந்த மீடியா வகையைக் கோர உங்களுக்கு இசைவு இல்லை.",
+    "seerrRequestStatusPending": "நிலுவையில் உள்ளது",
+    "seerrRequestStatusApproved": "அங்கீகரிக்கப்பட்டது",
+    "seerrRequestStatusDeclined": "நிராகரிக்கப்பட்டது",
+    "seerrRequestStatusFailed": "தோல்வியடைந்தது",
+    "seerrRequestStatusCompleted": "முடிந்தது",
+    "seerrMediaStatusProcessing": "செயலாக்கம்",
+    "seerrMediaStatusPartiallyAvailable": "ஓரளவு கிடைக்கும்",
+    "seerrMediaStatusAvailable": "கிடைக்கும்",
+    "seerrMediaStatusBlacklisted": "பிளாக்லிச்ட்",
+    "seerrMediaStatusDeleted": "நீக்கப்பட்டது",
+    "seerrAuthApiKey": "பநிஇ விசை",
+    "seerrAuthLocal": "உள்ளக",
+    "seerrAuthJellyfin": "செல்லிமீன்",
+    "seerrUserFetchFailed": "Seerr இலிருந்து பயனரைப் பெறுவதில் தோல்வி",
+    "seerrEnterServerUrlFirst": "முதலில் சீர் சர்வர் முகவரி ஐ உள்ளிடவும்",
+    "seerrUrlSchemeWarning": "முகவரி திட்டத்தை தானாகக் கண்டறிய முடியவில்லை. இயல்புநிலையாக https://. உங்கள் சர்வர் HTTPS ஐப் பயன்படுத்தவில்லை என்றால் http:// உடன் முன்னொட்டு.",
+    "seerrApiKeySaved": "பநிஇ விசை சேமிக்கப்பட்டது",
+    "seerrLoggedIn": "Seerr இல் உள்நுழைந்துள்ளார்",
+    "seerrConnectedToServer": "Seerr சர்வருடன் இணைக்கப்பட்டது: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrCustomHeaders": "தனிப்பயன் தலைப்புகள்",
+    "seerrHeader": "தலைப்பி",
+    "seerrHeaderValue": "மதிப்பு",
+    "emailUsername": "மின்னஞ்சல்/பயனர் பெயர்",
+    "discover": "கண்டுபிடி",
+    "sponsor": "ஒப்புரவாளர்",
+    "sponsorMessage": "நீங்கள் ஃபிளாடரைப் பயன்படுத்துவதை விரும்புகிறீர்கள் என்றால், தற்போதைய மேம்பாடு மற்றும் மேம்பாடுகளை ஆதரிக்க திட்டத்திற்கு நிதியளிப்பதைக் கருத்தில் கொள்ளுங்கள். உங்கள் ஆதரவுக்கு நன்றி!",
+    "min": "மணித்துளி",
+    "max": "அதிகபட்சம்",
+    "manageRequest": "கோரிக்கையை நிர்வகிக்கவும்",
+    "requestAll": "அனைவரையும் கேட்டுக்கொள்",
+    "openInSeerr": "Seerr இல் திறக்கவும்",
+    "openInSonarr": "சோனாரில் திறக்கவும்",
+    "openInRadarr": "ராடாரில் திறக்கவும்",
+    "removeFromSonarr": "Sonarr இலிருந்து அகற்று",
+    "removeFromRadarr": "ராடாரிலிருந்து அகற்று",
+    "markAllSeasonsAsAvailable": "எல்லாப் பருவங்களையும் கிடைக்கக்கூடியதாகக் குறிக்கவும்",
+    "markAsAvailable": "கிடைப்பதாகக் குறிக்கவும்",
+    "deleteData": "தரவை நீக்கு",
+    "removeSeriesFromSonarrConfirm": "இந்த தொடரை Sonarr இலிருந்து அகற்றவா? இது கோப்புகள் உட்பட எல்லா தரவையும் அகற்றும்.",
+    "removeMovieFromRadarrConfirm": "Radarr இலிருந்து இந்தத் திரைப்படத்தை அகற்றவா? இது கோப்புகள் உட்பட எல்லா தரவையும் அகற்றும்.",
+    "removedFromSonarr": "சோனாரிலிருந்து அகற்றப்பட்டது",
+    "removedFromRadarr": "ராடாரிலிருந்து அகற்றப்பட்டது",
+    "markAllSeasonsAsAvailableConfirm": "எல்லா சீசன்களும் கிடைக்கும் என குறிக்கவா?",
+    "markAsAvailableConfirm": "கிடைப்பதாகக் குறிக்கவா?",
+    "markedAsAvailable": "கிடைப்பதாகக் குறிக்கப்பட்டது",
+    "deleteSeerrDataConfirm": "Seerr இலிருந்து எல்லா கோப்புகளையும் நீக்கவா? இந்தச் செயலைச் செயல்தவிர்க்க முடியாது. \n{service} இல் தரவு இன்னும் இருந்தால், அது மீண்டும் இறக்குமதி செய்யப்படலாம்.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "தரவு நீக்கப்பட்டது",
+    "approve": "ஒப்புதல்",
+    "decline": "நிராகரி",
+    "pendingRequests": "{count, plural, other{No pending requests} one{{count} pending request} two{{count} pending requests}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "செயலாக்கம்",
+    "seerrDetails": "பார்ப்பவர் விவரங்கள்",
+    "viewTrailer": "டிரெய்லரைப் பார்க்கவும்",
+    "watch": "பார்க்கவும்",
+    "watchChannel": "{channel} பார்க்கவும்",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "இப்போது",
+    "nowPlaying": "இப்போது விளையாடுகிறது",
+    "upNext": "அடுத்தது",
+    "queue": "வரிசை",
+    "queueIsEmpty": "வரிசை காலியாக உள்ளது",
+    "queueItemCount": "{count} items",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "வரிசையில் இருந்து அகற்று",
+    "noPrograms": "திட்டங்கள் எதுவும் இல்லை",
+    "switchChannel": "சேனலை மாற்றவும்",
+    "switchChannelDesc": "{channelName} இல் \"{programName}\" ஐப் பார்க்க விரும்புகிறீர்களா?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "activeTvChannels": "செயலில் உள்ள டிவி சேனல்கள்",
+    "enableNewTVLayout": "புதிய டிவி தளவமைப்பை இயக்கவும்",
+    "liveTV": "நேரலை டிவி",
+    "liveTvManageTunersEpg": "ட்யூனர் சாதனங்கள் மற்றும் EPG வழங்குநர்களை நிர்வகிக்கவும்",
+    "tunerDevices": "ட்யூனர் சாதனங்கள்",
+    "epgGuideProviders": "EPG வழிகாட்டி வழங்குநர்கள்",
+    "noTunerDevicesConfigured": "ட்யூனர் சாதனங்கள் எதுவும் உள்ளமைக்கப்படவில்லை",
+    "noEpgProvidersConfigured": "இல்லை EPG providers configured",
+    "addTunerDevice": "ட்யூனர் சாதனத்தைச் சேர்க்கவும்",
+    "addProvider": "வழங்குநரைச் சேர்",
+    "tunerHostAddedSuccessfully": "ட்யூனர் புரவலன் வெற்றிகரமாக சேர்க்கப்பட்டது",
+    "failedToAddTunerHost": "Failed பெறுநர் கூட்டு இசைப்பி host: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "ட்யூனர் புரவலன் வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
+    "failedToUpdateTunerHost": "ட்யூனர் ஓச்டைப் புதுப்பிக்க முடியவில்லை: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "ட்யூனர் ஓச்டை நீக்கு",
+    "deleteTunerHostConfirm": "\"{name}\" ஐ நிச்சயமாக நீக்க விரும்புகிறீர்களா?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "ட்யூனர் புரவலன் வெற்றிகரமாக நீக்கப்பட்டது",
+    "failedToDeleteTunerHost": "ட்யூனர் ஓச்டை நீக்க முடியவில்லை: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "EPG வழங்குநர் வெற்றிகரமாக சேர்க்கப்பட்டார்",
+    "failedToAddEpgProvider": "EPG வழங்குநரைச் சேர்ப்பதில் தோல்வி: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "EPG வழங்குநர் வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
+    "failedToUpdateEpgProvider": "EPG வழங்குநரைப் புதுப்பிக்க முடியவில்லை: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "நீக்கு EPG வழங்குநர்",
+    "deleteEpgProviderConfirm": "இந்த வழங்குநரை நிச்சயமாக நீக்க விரும்புகிறீர்களா?",
+    "epgProviderDeletedSuccessfully": "EPG வழங்குநர் வெற்றிகரமாக நீக்கப்பட்டார்",
+    "failedToDeleteEpgProvider": "EPG வழங்குநரை நீக்க முடியவில்லை: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "ட்யூனர் சாதனத்தைத் திருத்து",
+    "friendlyName": "நட்புப் பெயர்",
+    "url": "முகவரி",
+    "userAgent": "பயனர் முகவர்",
+    "userAgentOptional": "பயனர் முகவர் (விரும்பினால்)",
+    "maxConcurrentStreams": "அதிகபட்ச ஒரே நேரத்தில் நீரோடைகள்",
+    "addEpgProvider": "EPG வழங்குநரைச் சேர்க்கவும்",
+    "editEpgProvider": "EPG வழங்குநரைத் திருத்து",
+    "xmltvPathUrl": "எக்ச்எம்எல்டிவி பாதை/URL",
+    "enableAllTuners": "அனைத்து ட்யூனர்களுக்கும் இயக்கு",
+    "enabledTuners": "இயக்கப்பட்ட ட்யூனர்கள்",
+    "selectTuners": "ட்யூனர்களைத் தேர்ந்தெடுக்கவும்",
+    "moviePrefix": "திரைப்பட முன்னொட்டு",
+    "movieCategories": "திரைப்பட வகைகள்",
+    "newsCategories": "செய்தி வகைகள்",
+    "sportsCategories": "விளையாட்டு வகைகள்",
+    "kidsCategories": "குழந்தைகள் வகைகள்",
+    "fileOrUrl": "கோப்பு அல்லது முகவரி",
+    "tunerIpAddress": "ட்யூனர் ஐபி முகவரி",
+    "fallbackMaxBitrate": "அதிகபட்ச ஃபால்பேக் பிட்ரேட் (Mbps)",
+    "concurrentStreams": "அதிகபட்ச ஒரே நேரத்தில் நீரோடைகள்",
+    "concurrentStreamsHint": "0 = வரம்பற்றது",
+    "allowFmp4Container": "fMP4 டிரான்ச்கோடிங் கொள்கலனை அனுமதிக்கவும்",
+    "allowStreamSharing": "Allow stream sharing",
+    "enableStreamLooping": "ச்ட்ரீம் லூப்பிங்கை இயக்கு",
+    "ignoreDts": "டிடிஎச் நேர முத்திரைகளைப் புறக்கணிக்கவும்",
+    "readAtNativeFramerate": "சொந்த ஃப்ரேம்ரேட்டில் படிக்கவும்",
+    "importFavoritesOnly": "பிடித்த சேனல்களை மட்டும் இறக்குமதி செய்யவும்",
+    "allowHWTranscoding": "வன்பொருள் டிரான்ச்கோடிங்கை அனுமதிக்கவும்",
+    "detectDevices": "சாதனங்களைக் கண்டறியவும்",
+    "discoveredDevices": "கண்டுபிடிக்கப்பட்ட சாதனங்கள்",
+    "noDevicesFound": "சாதனங்கள் எதுவும் இல்லை",
+    "failedToDiscoverDevices": "சாதனங்களைக் கண்டறிய முடியவில்லை: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "பாதை",
+    "maxConcurrentStreamsLabel": "அதிகபட்ச ஒரே நேரத்தில் நீரோடைகள்",
+    "noCategories": "பிரிவுகள் இல்லை",
+    "moviePrefixSubLabel": "திரைப்படத் தலைப்புகளுக்கு முன்னொட்டுப் பயன்படுத்தப்பட்டால், அதை இங்கே தட்டச்சு செய்யவும், இதனால் சர்வர் அதைச் சரியாகச் செயலாக்க முடியும்.",
+    "movieCategoriesSubLabel": "திரைப்பட முன்னொட்டுடன் பொருந்தும் சேனல்களுக்கு ஒதுக்க வேண்டிய வகைகள்",
+    "newsCategoriesSubLabel": "செய்தி முன்னொட்டுடன் பொருந்தக்கூடிய சேனல்களுக்கு ஒதுக்க வேண்டிய வகைகள்",
+    "sportsCategoriesSubLabel": "விளையாட்டு முன்னொட்டுடன் பொருந்தும் சேனல்களுக்கு ஒதுக்க வேண்டிய வகைகள்",
+    "kidsCategoriesSubLabel": "குழந்தைகள் முன்னொட்டுடன் பொருந்தும் சேனல்களுக்கு ஒதுக்க வேண்டிய வகைகள்",
+    "enableNewTVLayoutDesc": "பெரிய டிவி பாணி பேனர்களை டாச்போர்டில் காட்டு. இது எதிர்கால வெளியீட்டில் இயல்புநிலை அமைப்பாக மாறும்.",
+    "notifications": "அறிவிப்புகள்",
+    "showNewItemNotificationTitle": "Notifications க்கு library items",
+    "notificationChannelDescription": "புதிதாக சேர்க்கப்பட்ட உருப்படிகளுக்கான அறிவிப்புகள்",
+    "seerrRequestNotifications": "சீர் கோரிக்கைகளுக்கான அறிவிப்புகள்",
+    "notificationNewEpisodes": "புதிய அத்தியாயங்கள் சேர்க்கப்பட்டன",
+    "notificationNewItems": "{count, plural, one{{count} புதிய item} other{{count} புதிய items}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " புதுப்பிப்புகள் எப்போது/எப்போது இயங்குகின்றன என்பதை ஐஇமு தீர்மானிக்கிறது, அறிவிப்புகள் தாமதமாகலாம் அல்லது காட்டப்படாமல் போகலாம்.",
+    "batteryOptimizationDesc": "பேட்டரி மேம்படுத்தல்கள் Fladder க்கான பின்னணி அறிவிப்புகளை தாமதப்படுத்தலாம். \nசிச்டம் அமைப்புகளைத் திறக்க தட்டவும் மற்றும் அறிவிப்பு நம்பகத்தன்மையை மேம்படுத்த பிளாடருக்கான மேம்படுத்தல்களை முடக்கவும்.",
+    "updateCheckInterval": "சரிபார்ப்பு இடைவெளியைப் புதுப்பிக்கவும்",
+    "updateCheckIntervalDesc": "பின்னணி பணி எவ்வளவு அடிக்கடி இயங்குகிறது",
+    "notificationsIntervalClientReminder": "அனைத்து பயனர்களுக்கும் அறிவிப்பு இடைவெளி அமைக்கப்பட்டுள்ளது.",
+    "lastUpdateAt": "கடைசியாகப் புதுப்பிக்கப்பட்டது {date} அன்று {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "மறைக்கப்பட்ட நூலகங்களைச் சேர்க்கவும்",
+    "includeHiddenItemsDesc": "டாச்போர்டிலிருந்து மறைக்கப்பட்ட நூலகங்களைச் சேர்க்கவும்",
+    "settingsBlurEffectsTitle": "மங்கலான விளைவுகளை இயக்கு",
+    "settingsBlurEffectsDesc": "இடைமுகம் இல் மங்கலான விளைவுகளை இயக்கவும். இதை முடக்குவது குறைந்த-இறுதி சாதனங்களில் செயல்திறனை மேம்படுத்தலாம்.",
+    "profileSettingsOpenAuthAtLaunch": "பயன்பாட்டு பூட்டில் அங்கீகார முறையைக் காட்டு",
+    "toggleSidebar": "பக்கப்பட்டியை மாற்றவும்",
+    "requestedSuccessForItem": "{itemName} வெற்றிகரமாக கோரப்பட்டது",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "linkData": "இணைப்பு தரவு",
+    "passwordNotRequired": "தேவையில்லை, இணைப்பில் கடவுச்சொல்லை சேர்க்காமல் இருக்க காலியாக விடவும்",
+    "authLinkButtonToolTip": "அங்கீகார இணைப்பு உரையாடலைத் திறக்கவும்",
+    "connectWithAuthLink": "அங்கீகார இணைப்புடன் இணைக்கவும்",
+    "pasteFladderAuthLink": "flutter auth இணைப்பை ஒட்டவும் flutter:///login?authLink=...",
+    "connect": "இணை",
+    "authLinkDesc": "அங்கீகார இணைப்பை வழங்க சர்வர் நிர்வாகியிடம் கேளுங்கள். இணைப்பில் அங்கீகரிப்புத் செய்தி உள்ளது, எனவே அதைப் பாதுகாப்பாக வைத்திருக்கவும்.",
+    "deletedItem": "{itemName} நீக்கப்பட்டது",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "முகப்புத் திரை வரிசை",
+    "libraryOrderDescription": "முகப்புத் திரையில் நூலகங்களை மறுவரிசைப்படுத்த இழுக்கவும். தேர்வு செய்யப்படாத நூலகங்கள் அண்மைக் காலத்தில் சேர்க்கப்பட்ட உருப்படிகளைக் காட்டாது.",
+    "hidePlayedInLatestTitle": "பார்த்த உள்ளடக்கத்தை மறை",
+    "hidePlayedInLatestDescription": "'அண்மைக் காலத்தில் சேர்க்கப்பட்ட மீடியா' இலிருந்து பார்த்த உள்ளடக்கத்தை மறை",
+    "groupedFoldersTitle": "தொகுக்கப்பட்ட நூலகங்கள்",
+    "groupedFoldersDescription": "பின்வரும் நூலகங்களிலிருந்து உள்ளடக்கத்தை 'திரைப்படங்கள்', 'இசை' மற்றும் 'டிவி' போன்ற காட்சிகளாகத் தானாகவே குழுவாக்கவும்.",
+    "downloadTranscoded": "பதிவிறக்கம் குறியிடப்பட்டது",
+    "downloadOriginal": "அசல் பதிவிறக்க",
+    "personBirthday": "பிறந்த நாள்: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "வயது: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "{place} பிறந்தார்",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "திரைப்படங்களைக் கண்டறியுங்கள்",
+    "seerrSeries": "தொடர்களைக் கண்டறியுங்கள்",
+    "today": "இன்று",
+    "musicDashboard": "இசை டாச்போர்டு",
+    "quiet": "அமைதியான",
+    "loud": "சத்தமாக",
+    "share": "பங்கு",
+    "setAs": "என அமைக்கவும்"
 }

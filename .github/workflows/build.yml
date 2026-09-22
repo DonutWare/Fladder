@@ -6,6 +6,7 @@ on:
       - "v*"
     branches:
       - master
+      - develop
   pull_request:
     paths:
       - pubspec.yaml
@@ -14,9 +15,6 @@ on:
     types:
       - opened
       - reopened
-  schedule:
-    # Run nightly at midnight UTC, but only if there were changes to develop
-    - cron: "0 0 * * *"
   workflow_dispatch:
     inputs:
       build_type:
@@ -36,19 +34,13 @@ env:
   NIGHTLY_TAG: nightly
 
 jobs:
-  # Check if workflow should run based on trigger conditions
+  # Determine build type based on trigger conditions
   check-trigger:
     runs-on: ubuntu-latest
     outputs:
-      should_run: ${{ steps.check.outputs.should_run }}
       build_type: ${{ steps.check.outputs.build_type }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: Check if should run and determine build type
+      - name: Determine build type
         id: check
         run: |
           # Determine build type based on trigger and input
@@ -56,18 +48,7 @@ jobs:
             BUILD_TYPE="${{ github.event.inputs.build_type }}"
           elif [[ "${{ startsWith(github.ref, 'refs/tags/v') }}" == "true" ]]; then
             BUILD_TYPE="release"
-          elif [[ "${{ github.event_name }}" == "schedule" ]]; then
-            # Check if there were commits to develop in the last 24 hours
-            git checkout develop
-            COMMITS_LAST_24H=$(git log --since="24 hours ago" --oneline | wc -l)
-            if [[ $COMMITS_LAST_24H -gt 0 ]]; then
-              BUILD_TYPE="nightly"
-            else
-              echo "No commits to develop in the last 24 hours, skipping nightly build"
-              echo "should_run=false" >> $GITHUB_OUTPUT
-              exit 0
-            fi
-          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             BUILD_TYPE="nightly"
           else
             # For PRs and other events, build but don't release
@@ -75,12 +56,10 @@ jobs:
           fi
 
           echo "build_type=${BUILD_TYPE}" >> $GITHUB_OUTPUT
-          echo "should_run=true" >> $GITHUB_OUTPUT
           echo "Build type determined: ${BUILD_TYPE}"
 
   fetch-info:
     needs: [check-trigger]
-    if: needs.check-trigger.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     outputs:
       version_name: ${{ steps.fetch.outputs.version_name }}
@@ -251,10 +230,6 @@ jobs:
     needs: [fetch-info]
 
     steps:
-      # - uses: maxim-lobanov/setup-xcode@v1.6.0
-      #   with:
-      #     xcode-version: latest-stable
-
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
@@ -359,7 +334,7 @@ jobs:
 
       - name: Fix RPATH
         run: |
-          for lib in "build/linux/x64/release/bundle/lib"/*.so; do
+          for lib in "build/linux/x64/release/bundle"/*.so; do
             [[ -f "$lib" && -n "$(patchelf --print-rpath "$lib")" ]] && \
             patchelf --set-rpath '$ORIGIN' "$lib"
           done
@@ -758,27 +733,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
-
-  # Winget package submission
-  # winget-package-submit:
-  #   runs-on: ubuntu-latest
-  #   needs: [check-trigger, create_release]
-  #   strategy:
-  #     matrix:
-  #       include:
-  #         - build_type: release
-  #           identifier: DonutWare.Fladder
-  #           max_versions: "0"
-  #         - build_type: nightly
-  #           identifier: DonutWare.Fladder.Nightly
-  #           max_versions: "1"
-  #   steps:
-  #     - name: Submit to Winget (${{ matrix.build_type }})
-  #       if: needs.check-trigger.outputs.build_type == matrix.build_type
-  #       uses: vedantmgoyal9/winget-releaser@19e706d4c9121098010096f9c495a70a7518b30f
-  #       with:
-  #         identifier: ${{ matrix.identifier }}
-  #         installers-regex: 'Fladder-Windows-.*-Setup\.exe$'
-  #         token: ${{ secrets.WINGET_TOKEN }}
-  #         max-versions-to-keep: ${{ matrix.max_versions || '' }}
-  #         release-tag: ${{ matrix.build_type == 'nightly' && env.NIGHTLY_TAG || github.ref_name }}

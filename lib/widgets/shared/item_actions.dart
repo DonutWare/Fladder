@@ -35,7 +35,7 @@ class ItemActionDivider extends ItemAction {
   Widget toListItem(BuildContext context, {bool useIcons = false, bool shouldPop = true}) => const Divider();
 
   @override
-  Widget toButton() => Container();
+  Widget toButton() => const VerticalDivider();
 
   @override
   Widget toGroupButton(BuildContext context, {required bool useIcons, required bool shouldPop}) => const Divider();
@@ -100,17 +100,31 @@ class ItemActionButton extends ItemAction {
       );
 
   @override
-  Widget toButton() => IconButton(onPressed: action, icon: icon ?? const SizedBox.shrink());
+  Widget toButton() => backgroundColor != null
+      ? IconButton.filled(
+          onPressed: action,
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(backgroundColor),
+            foregroundColor: WidgetStatePropertyAll(foregroundColor),
+          ),
+          icon: icon ?? const SizedBox.shrink(),
+        )
+      : IconButton(
+          tooltip: label != null ? (label is Text ? (label as Text).data : null) : null,
+          onPressed: action,
+          icon: icon ?? const SizedBox.shrink(),
+        );
 
   @override
-  PopupMenuItem toPopupMenuItem({bool useIcons = false}) {
+  PopupMenuItem toPopupMenuItem({bool useIcons = false, bool useColors = true}) {
     return PopupMenuItem(
       onTap: action,
       enabled: action != null,
       child: Builder(
         builder: (context) {
-          final resolvedForegroundColor = _resolveForegroundColor(context);
-
+          final backgroundColor = useColors ? _resolveBackgroundColor(context) : Colors.transparent;
+          final resolvedForegroundColor =
+              useColors ? _resolveForegroundColor(context) : Theme.of(context).colorScheme.onSurface;
           final child = useIcons
               ? Padding(
                   padding: const EdgeInsets.all(4.0),
@@ -129,11 +143,18 @@ class ItemActionButton extends ItemAction {
                   ],
                 );
 
-          return IconTheme(
-            data: IconThemeData(color: resolvedForegroundColor),
-            child: DefaultTextStyle.merge(
-              style: TextStyle(color: resolvedForegroundColor),
-              child: child,
+          return Container(
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: const EdgeInsets.all(6.0),
+            child: IconTheme(
+              data: IconThemeData(color: resolvedForegroundColor),
+              child: DefaultTextStyle.merge(
+                style: TextStyle(color: resolvedForegroundColor),
+                child: child,
+              ),
             ),
           );
         },

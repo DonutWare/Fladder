@@ -20,16 +20,15 @@ mixin _$ControlServerModel {
   String get cachePath;
   String get metaDataPath;
   bool get quickConnectEnabled;
-  int get maxConcurrentLibraryScan;
-  int get maxImageDecodingThreads;
+  int? get maxConcurrentLibraryScan;
+  int? get maxImageDecodingThreads;
 
   /// Create a copy of ControlServerModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $ControlServerModelCopyWith<ControlServerModel> get copyWith =>
-      _$ControlServerModelCopyWithImpl<ControlServerModel>(
-          this as ControlServerModel, _$identity);
+      _$ControlServerModelCopyWithImpl<ControlServerModel>(this as ControlServerModel, _$identity);
 
   @override
   String toString() {
@@ -39,8 +38,7 @@ mixin _$ControlServerModel {
 
 /// @nodoc
 abstract mixin class $ControlServerModelCopyWith<$Res> {
-  factory $ControlServerModelCopyWith(
-          ControlServerModel value, $Res Function(ControlServerModel) _then) =
+  factory $ControlServerModelCopyWith(ControlServerModel value, $Res Function(ControlServerModel) _then) =
       _$ControlServerModelCopyWithImpl;
   @useResult
   $Res call(
@@ -50,13 +48,12 @@ abstract mixin class $ControlServerModelCopyWith<$Res> {
       String cachePath,
       String metaDataPath,
       bool quickConnectEnabled,
-      int maxConcurrentLibraryScan,
-      int maxImageDecodingThreads});
+      int? maxConcurrentLibraryScan,
+      int? maxImageDecodingThreads});
 }
 
 /// @nodoc
-class _$ControlServerModelCopyWithImpl<$Res>
-    implements $ControlServerModelCopyWith<$Res> {
+class _$ControlServerModelCopyWithImpl<$Res> implements $ControlServerModelCopyWith<$Res> {
   _$ControlServerModelCopyWithImpl(this._self, this._then);
 
   final ControlServerModel _self;
@@ -73,8 +70,8 @@ class _$ControlServerModelCopyWithImpl<$Res>
     Object? cachePath = null,
     Object? metaDataPath = null,
     Object? quickConnectEnabled = null,
-    Object? maxConcurrentLibraryScan = null,
-    Object? maxImageDecodingThreads = null,
+    Object? maxConcurrentLibraryScan = freezed,
+    Object? maxImageDecodingThreads = freezed,
   }) {
     return _then(_self.copyWith(
       name: null == name
@@ -101,14 +98,14 @@ class _$ControlServerModelCopyWithImpl<$Res>
           ? _self.quickConnectEnabled
           : quickConnectEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
-      maxConcurrentLibraryScan: null == maxConcurrentLibraryScan
+      maxConcurrentLibraryScan: freezed == maxConcurrentLibraryScan
           ? _self.maxConcurrentLibraryScan
           : maxConcurrentLibraryScan // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxImageDecodingThreads: null == maxImageDecodingThreads
+              as int?,
+      maxImageDecodingThreads: freezed == maxImageDecodingThreads
           ? _self.maxImageDecodingThreads
           : maxImageDecodingThreads // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }
@@ -213,23 +210,16 @@ extension ControlServerModelPatterns on ControlServerModel {
             String cachePath,
             String metaDataPath,
             bool quickConnectEnabled,
-            int maxConcurrentLibraryScan,
-            int maxImageDecodingThreads)?
+            int? maxConcurrentLibraryScan,
+            int? maxImageDecodingThreads)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ControlServerModel() when $default != null:
-        return $default(
-            _that.name,
-            _that.language,
-            _that.availableLanguages,
-            _that.cachePath,
-            _that.metaDataPath,
-            _that.quickConnectEnabled,
-            _that.maxConcurrentLibraryScan,
-            _that.maxImageDecodingThreads);
+        return $default(_that.name, _that.language, _that.availableLanguages, _that.cachePath, _that.metaDataPath,
+            _that.quickConnectEnabled, _that.maxConcurrentLibraryScan, _that.maxImageDecodingThreads);
       case _:
         return orElse();
     }
@@ -257,22 +247,15 @@ extension ControlServerModelPatterns on ControlServerModel {
             String cachePath,
             String metaDataPath,
             bool quickConnectEnabled,
-            int maxConcurrentLibraryScan,
-            int maxImageDecodingThreads)
+            int? maxConcurrentLibraryScan,
+            int? maxImageDecodingThreads)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ControlServerModel():
-        return $default(
-            _that.name,
-            _that.language,
-            _that.availableLanguages,
-            _that.cachePath,
-            _that.metaDataPath,
-            _that.quickConnectEnabled,
-            _that.maxConcurrentLibraryScan,
-            _that.maxImageDecodingThreads);
+        return $default(_that.name, _that.language, _that.availableLanguages, _that.cachePath, _that.metaDataPath,
+            _that.quickConnectEnabled, _that.maxConcurrentLibraryScan, _that.maxImageDecodingThreads);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -299,22 +282,15 @@ extension ControlServerModelPatterns on ControlServerModel {
             String cachePath,
             String metaDataPath,
             bool quickConnectEnabled,
-            int maxConcurrentLibraryScan,
-            int maxImageDecodingThreads)?
+            int? maxConcurrentLibraryScan,
+            int? maxImageDecodingThreads)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ControlServerModel() when $default != null:
-        return $default(
-            _that.name,
-            _that.language,
-            _that.availableLanguages,
-            _that.cachePath,
-            _that.metaDataPath,
-            _that.quickConnectEnabled,
-            _that.maxConcurrentLibraryScan,
-            _that.maxImageDecodingThreads);
+        return $default(_that.name, _that.language, _that.availableLanguages, _that.cachePath, _that.metaDataPath,
+            _that.quickConnectEnabled, _that.maxConcurrentLibraryScan, _that.maxImageDecodingThreads);
       case _:
         return null;
     }
@@ -331,8 +307,8 @@ class _ControlServerModel implements ControlServerModel {
       this.cachePath = "",
       this.metaDataPath = "",
       this.quickConnectEnabled = false,
-      this.maxConcurrentLibraryScan = 1,
-      this.maxImageDecodingThreads = 1})
+      this.maxConcurrentLibraryScan,
+      this.maxImageDecodingThreads})
       : _availableLanguages = availableLanguages;
 
   @override
@@ -345,8 +321,7 @@ class _ControlServerModel implements ControlServerModel {
   List<jelly.LocalizationOption>? get availableLanguages {
     final value = _availableLanguages;
     if (value == null) return null;
-    if (_availableLanguages is EqualUnmodifiableListView)
-      return _availableLanguages;
+    if (_availableLanguages is EqualUnmodifiableListView) return _availableLanguages;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -361,11 +336,9 @@ class _ControlServerModel implements ControlServerModel {
   @JsonKey()
   final bool quickConnectEnabled;
   @override
-  @JsonKey()
-  final int maxConcurrentLibraryScan;
+  final int? maxConcurrentLibraryScan;
   @override
-  @JsonKey()
-  final int maxImageDecodingThreads;
+  final int? maxImageDecodingThreads;
 
   /// Create a copy of ControlServerModel
   /// with the given fields replaced by the non-null parameter values.
@@ -382,10 +355,8 @@ class _ControlServerModel implements ControlServerModel {
 }
 
 /// @nodoc
-abstract mixin class _$ControlServerModelCopyWith<$Res>
-    implements $ControlServerModelCopyWith<$Res> {
-  factory _$ControlServerModelCopyWith(
-          _ControlServerModel value, $Res Function(_ControlServerModel) _then) =
+abstract mixin class _$ControlServerModelCopyWith<$Res> implements $ControlServerModelCopyWith<$Res> {
+  factory _$ControlServerModelCopyWith(_ControlServerModel value, $Res Function(_ControlServerModel) _then) =
       __$ControlServerModelCopyWithImpl;
   @override
   @useResult
@@ -396,13 +367,12 @@ abstract mixin class _$ControlServerModelCopyWith<$Res>
       String cachePath,
       String metaDataPath,
       bool quickConnectEnabled,
-      int maxConcurrentLibraryScan,
-      int maxImageDecodingThreads});
+      int? maxConcurrentLibraryScan,
+      int? maxImageDecodingThreads});
 }
 
 /// @nodoc
-class __$ControlServerModelCopyWithImpl<$Res>
-    implements _$ControlServerModelCopyWith<$Res> {
+class __$ControlServerModelCopyWithImpl<$Res> implements _$ControlServerModelCopyWith<$Res> {
   __$ControlServerModelCopyWithImpl(this._self, this._then);
 
   final _ControlServerModel _self;
@@ -419,8 +389,8 @@ class __$ControlServerModelCopyWithImpl<$Res>
     Object? cachePath = null,
     Object? metaDataPath = null,
     Object? quickConnectEnabled = null,
-    Object? maxConcurrentLibraryScan = null,
-    Object? maxImageDecodingThreads = null,
+    Object? maxConcurrentLibraryScan = freezed,
+    Object? maxImageDecodingThreads = freezed,
   }) {
     return _then(_ControlServerModel(
       name: null == name
@@ -447,14 +417,14 @@ class __$ControlServerModelCopyWithImpl<$Res>
           ? _self.quickConnectEnabled
           : quickConnectEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
-      maxConcurrentLibraryScan: null == maxConcurrentLibraryScan
+      maxConcurrentLibraryScan: freezed == maxConcurrentLibraryScan
           ? _self.maxConcurrentLibraryScan
           : maxConcurrentLibraryScan // ignore: cast_nullable_to_non_nullable
-              as int,
-      maxImageDecodingThreads: null == maxImageDecodingThreads
+              as int?,
+      maxImageDecodingThreads: freezed == maxImageDecodingThreads
           ? _self.maxImageDecodingThreads
           : maxImageDecodingThreads // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
     ));
   }
 }

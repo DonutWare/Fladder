@@ -11,7 +11,7 @@ class NotificationKeys {
   static const String htpcMode = '--htpc';
 }
 
-@freezed
+@Freezed(copyWith: true)
 abstract class ArgumentsModel with _$ArgumentsModel {
   const ArgumentsModel._();
 

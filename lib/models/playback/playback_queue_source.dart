@@ -1,3 +1,4 @@
+import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -5,6 +6,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/util/map_bool_helper.dart';
 
 typedef ProviderReader = T Function<T>(ProviderListenable<T> provider);
@@ -56,6 +58,41 @@ class ArtistLatestTracksQueueSource extends PlaybackQueueSource {
   }
 }
 
+class ArtistFavoriteQueueSource extends PlaybackQueueSource {
+  final String artistId;
+
+  const ArtistFavoriteQueueSource({
+    required this.artistId,
+    required super.limit,
+  });
+
+  @override
+  bool get supportsRefill => true;
+
+  @override
+  Future<List<ItemBaseModel>> fetchQueue(ProviderReader read, {int? limit, int? startIndex}) async {
+    final response = await read(jellyApiProvider).itemsGet(
+      artistIds: [artistId],
+      includeItemTypes: [BaseItemKind.audio],
+      recursive: true,
+      sortBy: [
+        ItemSortBy.album,
+        ItemSortBy.parentindexnumber,
+        ItemSortBy.indexnumber,
+        ItemSortBy.sortname,
+      ],
+      isFavorite: true,
+      sortOrder: [SortOrder.ascending],
+      enableTotalRecordCount: false,
+      collapseBoxSetItems: false,
+      startIndex: startIndex,
+      limit: limit ?? this.limit,
+    );
+
+    return response.body?.items.whereType<AudioModel>().toList() ?? [];
+  }
+}
+
 class ArtistCatalogQueueSource extends PlaybackQueueSource {
   final String artistId;
 
@@ -73,8 +110,6 @@ class ArtistCatalogQueueSource extends PlaybackQueueSource {
       artistIds: [artistId],
       includeItemTypes: [BaseItemKind.audio],
       recursive: true,
-      filters: [ItemFilter.isnotfolder],
-      excludeLocationTypes: [LocationType.virtual],
       sortBy: [
         ItemSortBy.album,
         ItemSortBy.parentindexnumber,
@@ -82,10 +117,6 @@ class ArtistCatalogQueueSource extends PlaybackQueueSource {
         ItemSortBy.sortname,
       ],
       sortOrder: [SortOrder.ascending],
-      fields: [
-        ItemFields.chapters,
-        ItemFields.trickplay,
-      ],
       enableTotalRecordCount: false,
       collapseBoxSetItems: false,
       startIndex: startIndex,
@@ -99,31 +130,45 @@ class ArtistCatalogQueueSource extends PlaybackQueueSource {
 class PlaylistAudioQueueSource extends PlaybackQueueSource {
   final String playlistId;
 
-  const PlaylistAudioQueueSource({
-    required this.playlistId,
-    required super.limit,
-  });
+  const PlaylistAudioQueueSource({required this.playlistId, required super.limit, required this.shuffle});
 
   @override
   bool get supportsRefill => true;
 
+  final bool shuffle;
+
   @override
   Future<List<ItemBaseModel>> fetchQueue(ProviderReader read, {int? limit, int? startIndex}) async {
-    final response = await read(jellyApiProvider).playlistsPlaylistIdItemsGet(
-      playlistId: playlistId,
-      startIndex: startIndex,
-      limit: limit ?? this.limit,
-      enableUserData: true,
-      enableImages: true,
-      imageTypeLimit: 1,
-      fields: [
-        ItemFields.primaryimageaspectratio,
-        ItemFields.mediasources,
-        ItemFields.mediastreams,
-        ItemFields.parentid,
-        ItemFields.overview,
-      ],
-    );
+    Response<ServerQueryResult>? response;
+    if (shuffle) {
+      response = await read(jellyApiProvider).itemsGet(
+        parentId: playlistId,
+        includeItemTypes: [BaseItemKind.audio],
+        recursive: true,
+        sortBy: [ItemSortBy.random],
+        sortOrder: [SortOrder.ascending],
+        enableTotalRecordCount: false,
+        collapseBoxSetItems: false,
+        startIndex: startIndex,
+        limit: limit ?? this.limit,
+      );
+    } else {
+      response = await read(jellyApiProvider).playlistsPlaylistIdItemsGet(
+        playlistId: playlistId,
+        startIndex: startIndex,
+        limit: limit ?? this.limit,
+        enableUserData: true,
+        enableImages: true,
+        imageTypeLimit: 1,
+        fields: [
+          ItemFields.primaryimageaspectratio,
+          ItemFields.mediasources,
+          ItemFields.mediastreams,
+          ItemFields.parentid,
+          ItemFields.overview,
+        ],
+      );
+    }
 
     return response.body?.items.whereType<AudioModel>().toList() ?? [];
   }
@@ -188,7 +233,7 @@ class AudioInstantMixQueueSource extends PlaybackQueueSource {
 
 class LibraryMusicQueueSource extends PlaybackQueueSource {
   final LibrarySearchModel libraryState;
-  final String? parentId;
+  final List<String?> parentId;
   final bool? recursive;
   final bool shuffle;
 
@@ -206,40 +251,47 @@ class LibraryMusicQueueSource extends PlaybackQueueSource {
   @override
   Future<List<ItemBaseModel>> fetchQueue(ProviderReader read, {int? limit, int? startIndex}) async {
     final filters = libraryState.filters;
-    final searchTerm = libraryState.searchQuery.isNotEmpty ? libraryState.searchQuery : null;
+    final searchTerm = libraryState.filters.searchQuery.isNotEmpty ? libraryState.filters.searchQuery : null;
 
-    final response = await read(jellyApiProvider).itemsGet(
-      parentId: parentId,
-      searchTerm: searchTerm,
-      genres: filters.genres.included,
-      tags: filters.tags.included,
-      recursive: recursive,
-      officialRatings: filters.officialRatings.included,
-      years: filters.years.included,
-      isMissing: false,
-      limit: limit ?? this.limit,
-      startIndex: startIndex,
-      collapseBoxSetItems: false,
-      studioIds: filters.studios.included.map((e) => e.id).toList(),
-      sortBy: shuffle ? [ItemSortBy.random] : filters.sortingOption.toSortBy,
-      sortOrder: [filters.sortOrder.sortOrder],
-      fields: [
-        ItemFields.primaryimageaspectratio,
-        ItemFields.mediasources,
-        ItemFields.mediastreams,
-        ItemFields.parentid,
-        ItemFields.overview,
-      ],
-      filters: [
-        ...filters.itemFilters.included,
-        if (filters.favourites == true) ItemFilter.isfavorite,
-      ],
-      includeItemTypes: [BaseItemKind.audio],
-      enableImages: true,
-      enableUserData: true,
-      imageTypeLimit: 1,
+    List<AudioModel> items = [];
+
+    await Future.forEach(
+      parentId,
+      (element) async {
+        final newItems = await read(jellyApiProvider).itemsGet(
+          parentId: element,
+          searchTerm: searchTerm,
+          genres: filters.genres.included,
+          tags: filters.tags.included,
+          recursive: recursive,
+          officialRatings: filters.officialRatings.included,
+          years: filters.years.included,
+          isMissing: false,
+          limit: limit ?? this.limit,
+          startIndex: startIndex,
+          collapseBoxSetItems: false,
+          studioIds: filters.studios.included.map((e) => e.id).toList(),
+          sortBy: shuffle ? [ItemSortBy.random] : filters.sortingOption.toSortBy,
+          sortOrder: [filters.sortOrder.sortOrder],
+          fields: [
+            ItemFields.primaryimageaspectratio,
+            ItemFields.mediasources,
+            ItemFields.mediastreams,
+            ItemFields.parentid,
+            ItemFields.overview,
+          ],
+          filters: [
+            ...filters.itemFilters.included,
+            if (filters.favourites == true) ItemFilter.isfavorite,
+          ],
+          includeItemTypes: [BaseItemKind.audio],
+          enableImages: true,
+          enableUserData: true,
+          imageTypeLimit: 1,
+        );
+        items = [...items, ...newItems.body?.items.whereType<AudioModel>().toList() ?? []];
+      },
     );
-
-    return response.body?.items.whereType<AudioModel>().toList() ?? [];
+    return items.whereType<AudioModel>().toList();
   }
 }

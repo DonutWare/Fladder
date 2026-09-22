@@ -687,5 +687,16 @@
         }
     },
     "shareLoginLink": "Zdieľať odkaz na prihlásenie",
-    "shareQRCode": "Zdieľať QR kód"
+    "shareQRCode": "Zdieľať QR kód",
+    "addToQueue": "Pridať do poradia",
+    "instantMix": "Okamžitý mix",
+    "audioPlayerPlaybackOptionsTitle": "Nastavenia prehrávania",
+    "audioPlayerRepeatAll": "Zopakovať všetky",
+    "audioPlayerRepeatOff": "Vypnúť opakovanie",
+    "audioPlayerRepeatOne": "Opakovať jedno",
+    "showArtist": "Ukázať interpreta",
+    "copyLoginLink": "Kopírovať link",
+    "includePassword": "Zahrnúť heslo",
+    "invalidAuthLink": "Nesprávna adresa prihlásenia",
+    "gestures": "Gestá"
 }

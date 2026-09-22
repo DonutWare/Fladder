@@ -177,8 +177,10 @@ class PlaybackModelHelper {
           oldModel: currentModel,
         );
     if (newModel == null) return null;
-    ref.read(videoPlayerProvider.notifier).loadPlaybackItem(newModel, Duration.zero);
-    return newModel;
+    final advancedQueue = currentModel?.playbackQueue.advanceFromCurrentTo(currentModel.item.id, newItem.id);
+    final modelToLoad = advancedQueue != null ? newModel.updatePlaybackQueue(advancedQueue) : newModel;
+    ref.read(videoPlayerProvider.notifier).loadPlaybackItem(modelToLoad, Duration.zero);
+    return modelToLoad;
   }
 
   Future<void> loadTVChannel(ChannelModel? channel) async {
@@ -287,7 +289,7 @@ class PlaybackModelHelper {
         if (firstItemIsSynced) PlaybackType.offline,
       };
 
-      final isOffline = ref.read(connectivityStatusProvider.select((value) => value == ConnectionState.offline));
+      final isOffline = ref.read(offlineStateProvider);
 
       if (firstItemToPlay is AudioModel && firstItemIsSynced) {
         final offlinePlayback = await _createOfflinePlaybackModel(
@@ -303,6 +305,24 @@ class PlaybackModelHelper {
         }
       }
 
+      Future<PlaybackModel?> getOfflineModel() => _createOfflinePlaybackModel(
+            fullItem,
+            item.streamModel,
+            syncedItem,
+            oldModel: oldModel,
+            queueSource: effectiveQueueSource,
+          );
+
+      Future<PlaybackModel?> getServerModel(PlaybackType type) => _createServerPlaybackModel(
+            fullItem,
+            item.streamModel,
+            forcedPlaybackType ?? type,
+            oldModel: oldModel,
+            libraryQueue: queue,
+            queueSource: effectiveQueueSource,
+            startPosition: actualStartPosition,
+          );
+
       if (((showPlaybackOptions || firstItemIsSynced) && !isOffline) && context != null) {
         final playbackType = await showPlaybackTypeSelection(
           context: context,
@@ -312,42 +332,17 @@ class PlaybackModelHelper {
         if (!context.mounted) return null;
 
         return switch (playbackType) {
-          PlaybackType.directStream || PlaybackType.transcode || PlaybackType.tv => await _createServerPlaybackModel(
-              fullItem,
-              item.streamModel,
-              forcedPlaybackType ?? playbackType,
-              oldModel: oldModel,
-              libraryQueue: queue,
-              queueSource: effectiveQueueSource,
-              startPosition: actualStartPosition,
-            ),
-          PlaybackType.offline => await _createOfflinePlaybackModel(
-              fullItem,
-              item.streamModel,
-              syncedItem,
-              oldModel: oldModel,
-              queueSource: effectiveQueueSource,
-            ),
-          null => null
+          PlaybackType.directStream || PlaybackType.transcode || PlaybackType.tv => await getServerModel(playbackType!),
+          PlaybackType.offline => await getOfflineModel(),
+          null => null,
         };
-      } else {
-        return (await _createServerPlaybackModel(
-              fullItem,
-              item.streamModel,
-              forcedPlaybackType ?? PlaybackType.directStream,
-              startPosition: actualStartPosition,
-              oldModel: oldModel,
-              libraryQueue: queue,
-              queueSource: effectiveQueueSource,
-            )) ??
-            await _createOfflinePlaybackModel(
-              fullItem,
-              item.streamModel,
-              syncedItem,
-              oldModel: oldModel,
-              queueSource: effectiveQueueSource,
-            );
       }
+
+      if (isOffline) {
+        return await getOfflineModel();
+      }
+
+      return await getServerModel(PlaybackType.directStream) ?? await getOfflineModel();
     } catch (e) {
       log("Error creating playback model: ${e.toString()}");
       return null;
@@ -368,10 +363,16 @@ class PlaybackModelHelper {
       if (userId?.isEmpty == true) return null;
 
       final newStreamModel = streamModel ?? item.streamModel;
+      final videoPlayerSettings = ref.read(videoPlayerSettingsProvider);
+      final maxBitRate = selectPlaybackBitrate(
+        homeInternet: ref.read(connectivityStatusProvider).homeInternet,
+        maxHomeBitrate: videoPlayerSettings.maxHomeBitrate,
+        maxInternetBitrate: videoPlayerSettings.maxInternetBitrate,
+      );
 
       Map<Bitrate, bool> qualityOptions = getVideoQualityOptions(
         VideoQualitySettings(
-          maxBitRate: ref.read(videoPlayerSettingsProvider.select((value) => value.maxHomeBitrate)),
+          maxBitRate: maxBitRate,
           videoBitRate: newStreamModel?.videoStreams.firstOrNull?.bitRate ?? 0,
           videoCodec: newStreamModel?.videoStreams.firstOrNull?.codec,
         ),
@@ -389,7 +390,7 @@ class PlaybackModelHelper {
           newStreamModel?.subStreams,
           newStreamModel?.defaultSubStreamIndex);
 
-      //Native player does not allow for loading external subtitles with transcoding
+//Native player does not allow for loading external subtitles with transcoding
       final isNativePlayer =
           ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer == PlayerOptions.nativePlayer));
       final isExternalSub = newStreamModel?.currentSubStream?.isExternal == true;
@@ -456,7 +457,7 @@ class PlaybackModelHelper {
         final Map<String, String?> directOptions = {
           'Static': 'true',
           'mediaSourceId': mediaSource.id,
-          'api_key': ref.read(userProvider)?.credentials.token,
+          'ApiKey': ref.read(userProvider)?.credentials.token,
         };
 
         if (mediaSource.eTag != null) {
@@ -599,7 +600,7 @@ class PlaybackModelHelper {
       final Map<String, String?> directOptions = {
         'Static': 'true',
         'mediaSourceId': mediaSource.id,
-        'api_key': ref.read(userProvider)?.credentials.token,
+        'ApiKey': ref.read(userProvider)?.credentials.token,
       };
 
       if (mediaSource.eTag != null) {

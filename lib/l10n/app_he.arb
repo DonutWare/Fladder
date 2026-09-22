@@ -1,12 +1,8 @@
 {
     "nativeName": "אנגלית",
-    "@nativeName": {},
     "about": "אודות",
-    "@about": {},
     "accept": "לאשר",
-    "@accept": {},
     "active": "פעיל",
-    "@active": {},
     "actor": "{count, plural, one{שחקן} other{שחקנים}}",
     "@actor": {
         "description": "actor",
@@ -18,23 +14,14 @@
         }
     },
     "addAsFavorite": "הוסף למועדפים",
-    "@addAsFavorite": {},
     "addToCollection": "הוסף לאוסף",
-    "@addToCollection": {},
-    "addToPlaylist": "הוסף לרשימת ניגון",
-    "@addToPlaylist": {},
+    "addToPlaylist": "הוסף לרשימת השמעה",
     "advanced": "מתקדם",
-    "@advanced": {},
     "all": "הכל",
-    "@all": {},
     "amoledBlack": "שחור אמולד",
-    "@amoledBlack": {},
     "appLockAutoLogin": "כניסה אוטומטית",
-    "@appLockAutoLogin": {},
     "appLockBiometrics": "ביומטרים",
-    "@appLockBiometrics": {},
     "appLockPasscode": "סיסמה",
-    "@appLockPasscode": {},
     "appLockTitle": "הגדר את שיטת ההתחברות עבור {userName}",
     "@appLockTitle": {
         "description": "Pop-up to pick a login method",
@@ -44,20 +31,13 @@
             }
         }
     },
-    "audio": "שמע",
-    "@audio": {},
+    "audio": "{count, plural, one{שמע} other{שמע}}",
     "autoPlay": "ניגון אוטומטי",
-    "@autoPlay": {},
     "backgroundOpacity": "שקיפות רקע",
-    "@backgroundOpacity": {},
     "biometricsFailedCheckAgain": "ביומטרי נכשל. יש לבדוק את ההגדרות ולנסות מחדש.",
-    "@biometricsFailedCheckAgain": {},
-    "bold": "מובלט",
-    "@bold": {},
-    "cancel": "לבטל",
-    "@cancel": {},
+    "bold": "מודגש",
+    "cancel": "ביטול",
     "change": "לשנות",
-    "@change": {},
     "chapter": "{count, plural, one{פרק} other{פרקים}}",
     "@chapter": {
         "description": "chapter",
@@ -69,101 +49,569 @@
         }
     },
     "clear": "לנקות",
-    "@clear": {},
     "clearAllSettings": "לנקות את כלל ההגדרות",
-    "@clearAllSettings": {},
-    "clearAllSettingsQuestion": "לנקות את כלל ההגדרות?",
-    "@clearAllSettingsQuestion": {},
+    "clearAllSettingsQuestion": "לנקות את כל ההגדרות?",
     "clearChanges": "לנקות את השינויים",
-    "@clearChanges": {},
     "clearSelection": "לנקות בחירה",
-    "@clearSelection": {},
     "close": "לסגור",
-    "@close": {},
     "code": "קוד",
-    "@code": {},
-    "collectionFolder": "תקית אוספים",
-    "@collectionFolder": {},
+    "collectionFolder": "{count, plural, one{תיקיית אוספים} other{תיקיות אוספים}}",
     "color": "צבע",
-    "@color": {},
     "combined": "מאוחד",
-    "@combined": {},
     "communityRating": "דירוג קהילה",
-    "@communityRating": {},
     "controls": "שליטה",
-    "@controls": {},
     "dashboard": "מסך שליטה",
-    "@dashboard": {},
     "dashboardContinue": "להמשיך",
-    "@dashboardContinue": {},
     "dashboardContinueListening": "להמשיך להאזין",
-    "@dashboardContinueListening": {},
     "dashboardContinueReading": "להמשיך לקרוא",
-    "@dashboardContinueReading": {},
     "dashboardContinueWatching": "להמשיך לצפות",
-    "@dashboardContinueWatching": {},
     "nextUp": "הבא בתור",
-    "@nextUp": {},
     "dateAdded": "תאריך הוספה",
-    "@dateAdded": {},
     "dateLastContentAdded": "תאריך הוספת התוכן האחרון",
-    "@dateLastContentAdded": {},
     "datePlayed": "תאריך ניגון",
-    "@datePlayed": {},
-    "days": "ימים",
-    "@days": {},
+    "days": "{count, plural, one{יום} other{ימים}}",
     "delete": "מחיקה",
-    "@delete": {},
     "disableFilters": "לכבות את המסננים",
-    "@disableFilters": {},
     "disabled": "כבוי",
-    "@disabled": {},
     "discovered": "גילוי",
-    "@discovered": {},
     "displayLanguage": "שפת תצוגה",
-    "@displayLanguage": {},
     "downloadsClearDesc": "למחוק את כל המידע המסונכרן, לנקות את כל המידע לכל משתמש מסונכרן?",
-    "@downloadsClearDesc": {},
     "downloadsClearTitle": "לנקות מידע מסונכרן",
-    "@downloadsClearTitle": {},
-    "downloadsPath": "דרך",
-    "@downloadsPath": {},
+    "downloadsPath": "נתיב",
     "downloadsSyncedData": "מידע מסונכרן",
-    "@downloadsSyncedData": {},
     "downloadsTitle": "הורדות",
-    "@downloadsTitle": {},
     "dynamicText": "דינאמי",
-    "@dynamicText": {},
     "editMetadata": "לערוך מידע צללים",
-    "@editMetadata": {},
     "empty": "ריק",
-    "@empty": {},
     "enabled": "דלוק",
-    "@enabled": {},
     "error": "תקלה",
-    "@error": {},
     "failedToLoadImage": "לא היה ניתן לטעון את התמונה",
-    "@failedToLoadImage": {},
     "favorite": "מועדף",
-    "@favorite": {},
     "favorites": "מועדפים",
-    "@favorites": {},
     "fetchingLibrary": "מושך ספריית חפצים…",
-    "@fetchingLibrary": {},
     "folders": "תיקיות",
-    "@folders": {},
     "fontColor": "צבע גופן",
-    "@fontColor": {},
     "fontSize": "גודל גופן",
-    "@fontSize": {},
     "forceRefresh": "ריענון מאולץ",
-    "@forceRefresh": {},
     "goTo": "לך אל",
-    "@goTo": {},
     "grid": "רשת",
-    "@grid": {},
     "group": "קבוצה",
-    "@group": {},
     "groupBy": "לקבץ לפי",
-    "@groupBy": {}
+    "addToQueue": "הוסף לתור",
+    "ascending": "בסדר עולה",
+    "audioPlayerPlaybackOptionsTitle": "אפשרויות השמעה",
+    "audioPlayerRepeatAll": "חזור על הכל",
+    "audioPlayerShuffle": "ערבב",
+    "showArtist": "הצג אמן",
+    "track": "{count, plural, one{רצועת שמע} other{רצועות שמע}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backgroundBlur": "טשטוש רקע",
+    "generateLoginLink": "קוד עבור {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "שתף קישור התחברות",
+    "shareQRCode": "שתף קוד QR",
+    "copyLoginLink": "העתק קישור",
+    "invalidAuthLink": "קישור התחברות לא תקין",
+    "continuePage": "המשך - עמוד {page}",
+    "@continuePage": {
+        "description": "Continue - page 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "gestures": "מחוות",
+    "dashboardRecentlyAdded": "נוסף לאחרונה ב {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteFileFromSystem": "ביטול פריט {item} ימחק אותו הן ממערכת הקבצים והן בספריית המדיה שלך. אתה בטוח שאתה רוצה להמשיך?",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteItem": "מחיקת {item}?",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "descending": "בסדר יורד",
+    "director": "{count, plural, other{במאי} two{במאים}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "episode": "{count, plural, other{פרקים} one{פרק} }",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "filter": "{count, plural, other{מסננים} one{מסנן}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "incorrectPinTryAgain": "PIN שגוי. נסה שוב.",
+    "invalidUrl": "כתובת אתר לא תקינה",
+    "lockscreen": "מסך נעילה",
+    "login": "התחבר",
+    "logout": "התנתק",
+    "logoutUserPopupTitle": "לנתק את {userName}?",
+    "@logoutUserPopupTitle": {
+        "description": "Pop-up for logging out the user",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "markAsUnwatched": "סמן כלא נצפה",
+    "markAsWatched": "סמן כנצפה",
+    "mediaTypeBook": "{count, plural, one{ספר} other{ספרים}}",
+    "@mediaTypeBook": {
+        "description": "Book (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "includePassword": "כולל סיסמה",
+    "hide": "הסתר",
+    "home": "בית",
+    "homeBannerDetailed": "מפורט",
+    "homeBannerTV": "טלוויזיה",
+    "info": "מידע",
+    "libraryFetchNoItemsFound": "לא נמצאו פריטים. נסו הגדרות שונות.",
+    "list": "רשימה",
+    "addedToQueue": "{count, plural, one{נוספה רצועה אחת לתור} other{נוספו {count} רצועות לתור}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerRepeatOne": "חזור פעם אחת",
+    "dashboardRecentlyAddedItems": "{name} נוסף לאחרונה",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "endsAt": "מסתיים ב {date}",
+    "@endsAt": {
+        "description": "endsAt",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "genre": "{count, plural, other{סגנונות} one{סגנון}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "identify": "מזהה",
+    "immediately": "מיידי",
+    "label": "{count, plural, other{תגיות} one{תג}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{ספריות} one{ספריה}}",
+    "@library": {
+        "description": "Plural",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "logoutUserPopupContent": "פעולה זו תנתק את {userName} ותמחק את המשתמש מהאפליקציה.\nיש להתחבר מחדש אל {serverName}.",
+    "@logoutUserPopupContent": {
+        "description": "Pop-up for logging out the user description",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "serverName": {
+                "type": "String"
+            }
+        }
+    },
+    "loop": "לולאה",
+    "mediaTypeEpisode": "{count, plural, one{פרק} other{פרקים}}",
+    "@mediaTypeEpisode": {
+        "description": "Episode (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeFolder": "{count, plural, one{תיקיה} other{תיקיות}}",
+    "@mediaTypeFolder": {
+        "description": "Folder (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeMovie": "{count, plural, one{סרט} other{סרטים}}",
+    "@mediaTypeMovie": {
+        "description": "Movie (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePhoto": "{count, plural, one{תמונה} other{תמונות}}",
+    "@mediaTypePhoto": {
+        "description": "Photo (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePhotoAlbum": "{count, plural, one{אלבום תמונות} other{אלבומי תמונות}}",
+    "@mediaTypePhotoAlbum": {
+        "description": "Photo Album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePlaylist": "{count, plural, one{רשימת השמעה} other{רשימות השמעה}}",
+    "@mediaTypePlaylist": {
+        "description": "Playlist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeSeason": "{count, plural, one{עונה} other{עונות}}",
+    "@mediaTypeSeason": {
+        "description": "Season (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeSeries": "{count, plural, one{סדרה} other{סדרות}}",
+    "@mediaTypeSeries": {
+        "description": "Series (plural, same singular/plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeTV": "{count, plural, one{ערוץ טלוויזיה} other{ערוצי טלוויזיה}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "minutes": "{count, plural, other{דקות} one{דקה} }",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "moreFrom": "עוד מ {info}",
+    "@moreFrom": {
+        "description": "More from",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "moreOptions": "עוד אפשרויות",
+    "mouseDragSupport": "גרור באמצעות העכבר",
+    "musicAlbum": "{count, plural, one{אלבום} other{אלבומים}}",
+    "@musicAlbum": {
+        "description": "Music album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "name": "שם",
+    "navigation": "ניווט",
+    "navigationFavorites": "מועדפים",
+    "navigationSync": "סונכרן",
+    "never": "אף פעם",
+    "noItemsSynced": "לא סונכרנו פריטים",
+    "noItemsToShow": "אין פריטים להצגה",
+    "noRating": "ללא דירוג",
+    "noResults": "אין תוצאות",
+    "noServersFound": "לא נמצאו שרתים חדשים",
+    "noSuggestionsFound": "לא נמצאו המלצות",
+    "notPartOfAlbum": "לא חלק מאלבום",
+    "options": "אפשרויות",
+    "other": "אחר",
+    "outlineColor": "צבע קו המתאר",
+    "outlineSize": "גודל קו המתאר",
+    "page": "עמוד {index}",
+    "@page": {
+        "description": "page",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "password": "סיסמה",
+    "pathEditSelect": "בחר נתיב הורדות",
+    "pathEditTitle": "שנה מיקום",
+    "play": "נגן {item}",
+    "@play": {
+        "description": "Play with",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "playFrom": "נגן מ {name}",
+    "@playFrom": {
+        "description": "playFrom",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playFromStart": "נגן {name} מההתחלה",
+    "@playFromStart": {
+        "description": "speel vanaf het begin",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playLabel": "נגן",
+    "playMusic": "נגן מוזיקה",
+    "played": "נוגן",
+    "quickConnectTitle": "התחברות מהירה",
+    "quickConnectWrongCode": "קוד שגוי",
+    "random": "אקראי",
+    "rating": "{count, plural, other{דירוגים} one{דירוג}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "popularity": "פופולריות",
+    "reWatch": "צפה מחדש",
+    "read": "קרא {item}",
+    "@read": {
+        "description": "read",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "readFromStart": "קרא {item} מההתחלה",
+    "@readFromStart": {
+        "description": "Read book from start",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "refresh": "רענן",
+    "releaseDate": "תאריך שחרור",
+    "contentRating": "דירוג תוכן",
+    "removeAsFavorite": "הסר מהמועדפים",
+    "removeFromPlaylist": "הסר מרשימת השמעה",
+    "replaceAllImages": "החלף את כל התמונות",
+    "replaceExistingImages": "החלף תמונות קיימות",
+    "result": "תוצאה",
+    "retry": "נסה שוב",
+    "runTime": "זמן ריצה",
+    "runtimeMinutesTitle": "זמן ריצה (דקות)",
+    "runtimeRangeMinutes": "{min} - {max} דקות",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "streamingServices": "ספקים ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "save": "שמור",
+    "saved": "נשמר",
+    "scanLibrary": "סרוק ספריה",
+    "scanningName": "סורק - {name}…",
+    "@scanningName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "scrollToTop": "גלול להתחלה",
+    "search": "חפש",
+    "season": "{count, plural, other{עונות} one{עונה} }",
+    "@season": {
+        "description": "season",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "seconds": "{count, plural, other{שניות} one{שניה}}",
+    "@seconds": {
+        "description": "second",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectAll": "בחר הכל",
+    "selected": "נבחרו",
+    "server": "שרת",
+    "settingSecurityApplockTitle": "נעילת אפליקציה",
+    "settings": "הגדרות",
+    "settingsBlurEpisodesDesc": "טשטש פרקים עתידיים",
+    "settingsBlurEpisodesTitle": "טשטש את הפרקים הבאים",
+    "settingsBlurredPlaceholderDesc": "הצג רקע מטושטש בטעינת הכרזות",
+    "settingsContinue": "המשך",
+    "settingsPlayerTitle": "נגן",
+    "settingsPosterSize": "גודל כרזה",
+    "settingsProfileTitle": "פרופיל",
+    "settingsProfileSubtitleLanguage": "שפת כתוביות מועדפת",
+    "anyLanguage": "כל שפה",
+    "subtitlePlaybackModeDefault": "ברירת מחדל",
+    "subtitlePlaybackModeAlways": "תמיד",
+    "subtitlePlaybackModeNone": "אף פעם",
+    "subtitlePlaybackModeSmart": "בחירה חכמה",
+    "settingsQuickConnectTitle": "התחברות מהירה",
+    "settingsSecurity": "אבטחה",
+    "settingsVisual": "תצוגה",
+    "shadow": "צל",
+    "backgroundColor": "צבע רקע",
+    "showAlbum": "הצג אלבום",
+    "showDetails": "הצג פרטים",
+    "somethingWentWrong": "משהו השתבש",
+    "somethingWentWrongPasswordCheck": "משהו השתבש. בדוק את הסיסמה.",
+    "sortBy": "מיין לפי",
+    "sortName": "שם",
+    "sortOrder": "סדר מיון",
+    "start": "התחל",
+    "subtitles": "כתוביות",
+    "switchUser": "החלף משתמש",
+    "sync": "סנכרן",
+    "hideEmpty": "הסתר ריק"
 }

@@ -52,80 +52,83 @@ class _ControlUserCreateState extends ConsumerState<ControlUserCreate> {
           alignment: Alignment.topCenter,
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(context.localized.createNewUser, style: Theme.of(context).textTheme.headlineSmall),
-              ListView(
-                shrinkWrap: true,
-                children: [
-                  AutofillGroup(
-                    child: Column(
-                      spacing: 8,
-                      children: [
-                        OutlinedTextField(
-                          controller: nameController,
-                          autoFillHints: const [AutofillHints.username],
-                          textInputAction: TextInputAction.next,
-                          autocorrect: false,
-                          label: context.localized.userName,
-                        ),
-                        OutlinedTextField(
-                          controller: password,
-                          autoFillHints: const [AutofillHints.password],
-                          keyboardType: TextInputType.visiblePassword,
-                          autocorrect: false,
-                          textInputAction: TextInputAction.send,
-                          label: context.localized.password,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(),
-                  //Enable access to all libraries toggle
-                  SwitchListTile(
-                    title: Text(context.localized.enableAccessAllLibraries),
-                    value: enableAllLibraries,
-                    onChanged: (value) {
-                      setState(() {
-                        enableAllLibraries = value;
-                      });
-                    },
-                  ),
-
-                  if (enableAllLibraries == false) ...[
-                    const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(context.localized.assignLibraries, style: Theme.of(context).textTheme.titleMedium),
-                    ),
-                    ...viewModels.map(
-                      (library) => SwitchListTile(
-                        title: Text(library.name),
-                        value: selectedLibraries.any((element) => element.id == library.id),
-                        onChanged: (value) {
-                          setState(() {
-                            if (value == true) {
-                              selectedLibraries.add(library);
-                            } else {
-                              selectedLibraries.removeWhere((element) => element.id == library.id);
-                            }
-                          });
-                        },
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    AutofillGroup(
+                      child: Column(
+                        spacing: 8,
+                        children: [
+                          OutlinedTextField(
+                            controller: nameController,
+                            autoFillHints: const [AutofillHints.username],
+                            textInputAction: TextInputAction.next,
+                            autocorrect: false,
+                            label: context.localized.userName,
+                          ),
+                          OutlinedTextField(
+                            controller: password,
+                            autoFillHints: const [AutofillHints.password],
+                            keyboardType: TextInputType.visiblePassword,
+                            autocorrect: false,
+                            textInputAction: TextInputAction.send,
+                            label: context.localized.password,
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                  FilledButtonAwait(
-                    onPressed: () async {
-                      await ref.read(userProvider.notifier).createNewUser(
-                            nameController.text,
-                            password.text,
-                            enableAllFolders: enableAllLibraries,
-                            enabledFolders: enableAllLibraries ? [] : selectedLibraries.map((e) => e.id).toList(),
-                          );
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(context.localized.createUser),
-                  ),
-                ].addInBetween(const SizedBox(height: 12)),
+                    const Divider(),
+                    //Enable access to all libraries toggle
+                    SwitchListTile(
+                      title: Text(context.localized.enableAccessAllLibraries),
+                      value: enableAllLibraries,
+                      onChanged: (value) {
+                        setState(() {
+                          enableAllLibraries = value;
+                        });
+                      },
+                    ),
+
+                    if (enableAllLibraries == false) ...[
+                      const Divider(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(context.localized.assignLibraries, style: Theme.of(context).textTheme.titleMedium),
+                      ),
+                      ...viewModels.map(
+                        (library) => SwitchListTile(
+                          title: Text(library.name),
+                          value: selectedLibraries.any((element) => element.id == library.id),
+                          onChanged: (value) {
+                            setState(() {
+                              if (value == true) {
+                                selectedLibraries.add(library);
+                              } else {
+                                selectedLibraries.removeWhere((element) => element.id == library.id);
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ].addInBetween(const SizedBox(height: 12)),
+                ),
+              ),
+              FilledButtonAwait(
+                onPressed: () async {
+                  await ref.read(userProvider.notifier).createNewUser(
+                        nameController.text,
+                        password.text,
+                        enableAllFolders: enableAllLibraries,
+                        enabledFolders: enableAllLibraries ? [] : selectedLibraries.map((e) => e.id).toList(),
+                      );
+                  Navigator.of(context).pop();
+                },
+                child: Text(context.localized.createUser),
               ),
             ],
           ),

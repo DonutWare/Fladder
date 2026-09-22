@@ -30,7 +30,8 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
   List<LibraryFiltersModel> get libraryFilters;
   bool get updateNotificationsEnabled;
   bool get seerrRequestsEnabled;
-  bool get includeHiddenViews; //Server values not stored in the database
+  bool get includeHiddenViews;
+  bool? get incognitoMode; //Server values not stored in the database
   @JsonKey(includeFromJson: false, includeToJson: false)
   UserPolicy? get policy;
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,8 +49,7 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $AccountModelCopyWith<AccountModel> get copyWith =>
-      _$AccountModelCopyWithImpl<AccountModel>(
-          this as AccountModel, _$identity);
+      _$AccountModelCopyWithImpl<AccountModel>(this as AccountModel, _$identity);
 
   /// Serializes this AccountModel to a JSON map.
   Map<String, dynamic> toJson();
@@ -71,10 +71,10 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('searchQueryHistory', searchQueryHistory))
       ..add(DiagnosticsProperty('quickConnectState', quickConnectState))
       ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
-      ..add(DiagnosticsProperty(
-          'updateNotificationsEnabled', updateNotificationsEnabled))
+      ..add(DiagnosticsProperty('updateNotificationsEnabled', updateNotificationsEnabled))
       ..add(DiagnosticsProperty('seerrRequestsEnabled', seerrRequestsEnabled))
       ..add(DiagnosticsProperty('includeHiddenViews', includeHiddenViews))
+      ..add(DiagnosticsProperty('incognitoMode', incognitoMode))
       ..add(DiagnosticsProperty('policy', policy))
       ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
       ..add(DiagnosticsProperty('userConfiguration', userConfiguration))
@@ -85,15 +85,13 @@ mixin _$AccountModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, askForAuthOnLaunch: $askForAuthOnLaunch, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, seerrRequestsEnabled: $seerrRequestsEnabled, includeHiddenViews: $includeHiddenViews, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, askForAuthOnLaunch: $askForAuthOnLaunch, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, seerrRequestsEnabled: $seerrRequestsEnabled, includeHiddenViews: $includeHiddenViews, incognitoMode: $incognitoMode, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
   }
 }
 
 /// @nodoc
 abstract mixin class $AccountModelCopyWith<$Res> {
-  factory $AccountModelCopyWith(
-          AccountModel value, $Res Function(AccountModel) _then) =
-      _$AccountModelCopyWithImpl;
+  factory $AccountModelCopyWith(AccountModel value, $Res Function(AccountModel) _then) = _$AccountModelCopyWithImpl;
   @useResult
   $Res call(
       {String name,
@@ -112,14 +110,12 @@ abstract mixin class $AccountModelCopyWith<$Res> {
       bool updateNotificationsEnabled,
       bool seerrRequestsEnabled,
       bool includeHiddenViews,
+      bool? incognitoMode,
       @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      ServerConfiguration? serverConfiguration,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      UserConfiguration? userConfiguration,
+      @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
+      @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,
       @JsonKey(includeFromJson: false, includeToJson: false) bool? hasPassword,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      bool? hasConfiguredPassword,
+      @JsonKey(includeFromJson: false, includeToJson: false) bool? hasConfiguredPassword,
       UserSettings? userSettings});
 
   $CredentialsModelCopyWith<$Res> get credentials;
@@ -155,6 +151,7 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
     Object? updateNotificationsEnabled = null,
     Object? seerrRequestsEnabled = null,
     Object? includeHiddenViews = null,
+    Object? incognitoMode = freezed,
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
     Object? userConfiguration = freezed,
@@ -227,6 +224,10 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
           ? _self.includeHiddenViews
           : includeHiddenViews // ignore: cast_nullable_to_non_nullable
               as bool,
+      incognitoMode: freezed == incognitoMode
+          ? _self.incognitoMode
+          : incognitoMode // ignore: cast_nullable_to_non_nullable
+              as bool?,
       policy: freezed == policy
           ? _self.policy
           : policy // ignore: cast_nullable_to_non_nullable
@@ -273,8 +274,7 @@ class _$AccountModelCopyWithImpl<$Res> implements $AccountModelCopyWith<$Res> {
       return null;
     }
 
-    return $SeerrCredentialsModelCopyWith<$Res>(_self.seerrCredentials!,
-        (value) {
+    return $SeerrCredentialsModelCopyWith<$Res>(_self.seerrCredentials!, (value) {
       return _then(_self.copyWith(seerrCredentials: value));
     });
   }
@@ -404,16 +404,12 @@ extension AccountModelPatterns on AccountModel {
             bool updateNotificationsEnabled,
             bool seerrRequestsEnabled,
             bool includeHiddenViews,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            UserPolicy? policy,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            ServerConfiguration? serverConfiguration,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            UserConfiguration? userConfiguration,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            bool? hasPassword,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            bool? hasConfiguredPassword,
+            bool? incognitoMode,
+            @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
+            @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
+            @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,
+            @JsonKey(includeFromJson: false, includeToJson: false) bool? hasPassword,
+            @JsonKey(includeFromJson: false, includeToJson: false) bool? hasConfiguredPassword,
             UserSettings? userSettings)?
         $default, {
     required TResult orElse(),
@@ -438,6 +434,7 @@ extension AccountModelPatterns on AccountModel {
             _that.updateNotificationsEnabled,
             _that.seerrRequestsEnabled,
             _that.includeHiddenViews,
+            _that.incognitoMode,
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
@@ -481,16 +478,12 @@ extension AccountModelPatterns on AccountModel {
             bool updateNotificationsEnabled,
             bool seerrRequestsEnabled,
             bool includeHiddenViews,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            UserPolicy? policy,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            ServerConfiguration? serverConfiguration,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            UserConfiguration? userConfiguration,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            bool? hasPassword,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            bool? hasConfiguredPassword,
+            bool? incognitoMode,
+            @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
+            @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
+            @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,
+            @JsonKey(includeFromJson: false, includeToJson: false) bool? hasPassword,
+            @JsonKey(includeFromJson: false, includeToJson: false) bool? hasConfiguredPassword,
             UserSettings? userSettings)
         $default,
   ) {
@@ -514,6 +507,7 @@ extension AccountModelPatterns on AccountModel {
             _that.updateNotificationsEnabled,
             _that.seerrRequestsEnabled,
             _that.includeHiddenViews,
+            _that.incognitoMode,
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
@@ -556,16 +550,12 @@ extension AccountModelPatterns on AccountModel {
             bool updateNotificationsEnabled,
             bool seerrRequestsEnabled,
             bool includeHiddenViews,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            UserPolicy? policy,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            ServerConfiguration? serverConfiguration,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            UserConfiguration? userConfiguration,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            bool? hasPassword,
-            @JsonKey(includeFromJson: false, includeToJson: false)
-            bool? hasConfiguredPassword,
+            bool? incognitoMode,
+            @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
+            @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
+            @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,
+            @JsonKey(includeFromJson: false, includeToJson: false) bool? hasPassword,
+            @JsonKey(includeFromJson: false, includeToJson: false) bool? hasConfiguredPassword,
             UserSettings? userSettings)?
         $default,
   ) {
@@ -589,6 +579,7 @@ extension AccountModelPatterns on AccountModel {
             _that.updateNotificationsEnabled,
             _that.seerrRequestsEnabled,
             _that.includeHiddenViews,
+            _that.incognitoMode,
             _that.policy,
             _that.serverConfiguration,
             _that.userConfiguration,
@@ -621,21 +612,18 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       this.updateNotificationsEnabled = false,
       this.seerrRequestsEnabled = false,
       this.includeHiddenViews = false,
+      this.incognitoMode,
       @JsonKey(includeFromJson: false, includeToJson: false) this.policy,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      this.serverConfiguration,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      this.userConfiguration,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.serverConfiguration,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.userConfiguration,
       @JsonKey(includeFromJson: false, includeToJson: false) this.hasPassword,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      this.hasConfiguredPassword,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.hasConfiguredPassword,
       this.userSettings})
       : _latestItemsExcludes = latestItemsExcludes,
         _searchQueryHistory = searchQueryHistory,
         _libraryFilters = libraryFilters,
         super._();
-  factory _AccountModel.fromJson(Map<String, dynamic> json) =>
-      _$AccountModelFromJson(json);
+  factory _AccountModel.fromJson(Map<String, dynamic> json) => _$AccountModelFromJson(json);
 
   @override
   final String name;
@@ -663,8 +651,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   List<String> get latestItemsExcludes {
-    if (_latestItemsExcludes is EqualUnmodifiableListView)
-      return _latestItemsExcludes;
+    if (_latestItemsExcludes is EqualUnmodifiableListView) return _latestItemsExcludes;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_latestItemsExcludes);
   }
@@ -673,8 +660,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   List<String> get searchQueryHistory {
-    if (_searchQueryHistory is EqualUnmodifiableListView)
-      return _searchQueryHistory;
+    if (_searchQueryHistory is EqualUnmodifiableListView) return _searchQueryHistory;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_searchQueryHistory);
   }
@@ -700,6 +686,8 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final bool includeHiddenViews;
+  @override
+  final bool? incognitoMode;
 //Server values not stored in the database
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -724,8 +712,7 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$AccountModelCopyWith<_AccountModel> get copyWith =>
-      __$AccountModelCopyWithImpl<_AccountModel>(this, _$identity);
+  _$AccountModelCopyWith<_AccountModel> get copyWith => __$AccountModelCopyWithImpl<_AccountModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -751,10 +738,10 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('searchQueryHistory', searchQueryHistory))
       ..add(DiagnosticsProperty('quickConnectState', quickConnectState))
       ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
-      ..add(DiagnosticsProperty(
-          'updateNotificationsEnabled', updateNotificationsEnabled))
+      ..add(DiagnosticsProperty('updateNotificationsEnabled', updateNotificationsEnabled))
       ..add(DiagnosticsProperty('seerrRequestsEnabled', seerrRequestsEnabled))
       ..add(DiagnosticsProperty('includeHiddenViews', includeHiddenViews))
+      ..add(DiagnosticsProperty('incognitoMode', incognitoMode))
       ..add(DiagnosticsProperty('policy', policy))
       ..add(DiagnosticsProperty('serverConfiguration', serverConfiguration))
       ..add(DiagnosticsProperty('userConfiguration', userConfiguration))
@@ -765,16 +752,13 @@ class _AccountModel extends AccountModel with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, askForAuthOnLaunch: $askForAuthOnLaunch, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, seerrRequestsEnabled: $seerrRequestsEnabled, includeHiddenViews: $includeHiddenViews, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
+    return 'AccountModel(name: $name, id: $id, avatar: $avatar, lastUsed: $lastUsed, authMethod: $authMethod, askForAuthOnLaunch: $askForAuthOnLaunch, localPin: $localPin, credentials: $credentials, seerrCredentials: $seerrCredentials, latestItemsExcludes: $latestItemsExcludes, searchQueryHistory: $searchQueryHistory, quickConnectState: $quickConnectState, libraryFilters: $libraryFilters, updateNotificationsEnabled: $updateNotificationsEnabled, seerrRequestsEnabled: $seerrRequestsEnabled, includeHiddenViews: $includeHiddenViews, incognitoMode: $incognitoMode, policy: $policy, serverConfiguration: $serverConfiguration, userConfiguration: $userConfiguration, hasPassword: $hasPassword, hasConfiguredPassword: $hasConfiguredPassword, userSettings: $userSettings)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$AccountModelCopyWith<$Res>
-    implements $AccountModelCopyWith<$Res> {
-  factory _$AccountModelCopyWith(
-          _AccountModel value, $Res Function(_AccountModel) _then) =
-      __$AccountModelCopyWithImpl;
+abstract mixin class _$AccountModelCopyWith<$Res> implements $AccountModelCopyWith<$Res> {
+  factory _$AccountModelCopyWith(_AccountModel value, $Res Function(_AccountModel) _then) = __$AccountModelCopyWithImpl;
   @override
   @useResult
   $Res call(
@@ -794,14 +778,12 @@ abstract mixin class _$AccountModelCopyWith<$Res>
       bool updateNotificationsEnabled,
       bool seerrRequestsEnabled,
       bool includeHiddenViews,
+      bool? incognitoMode,
       @JsonKey(includeFromJson: false, includeToJson: false) UserPolicy? policy,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      ServerConfiguration? serverConfiguration,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      UserConfiguration? userConfiguration,
+      @JsonKey(includeFromJson: false, includeToJson: false) ServerConfiguration? serverConfiguration,
+      @JsonKey(includeFromJson: false, includeToJson: false) UserConfiguration? userConfiguration,
       @JsonKey(includeFromJson: false, includeToJson: false) bool? hasPassword,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      bool? hasConfiguredPassword,
+      @JsonKey(includeFromJson: false, includeToJson: false) bool? hasConfiguredPassword,
       UserSettings? userSettings});
 
   @override
@@ -813,8 +795,7 @@ abstract mixin class _$AccountModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$AccountModelCopyWithImpl<$Res>
-    implements _$AccountModelCopyWith<$Res> {
+class __$AccountModelCopyWithImpl<$Res> implements _$AccountModelCopyWith<$Res> {
   __$AccountModelCopyWithImpl(this._self, this._then);
 
   final _AccountModel _self;
@@ -841,6 +822,7 @@ class __$AccountModelCopyWithImpl<$Res>
     Object? updateNotificationsEnabled = null,
     Object? seerrRequestsEnabled = null,
     Object? includeHiddenViews = null,
+    Object? incognitoMode = freezed,
     Object? policy = freezed,
     Object? serverConfiguration = freezed,
     Object? userConfiguration = freezed,
@@ -913,6 +895,10 @@ class __$AccountModelCopyWithImpl<$Res>
           ? _self.includeHiddenViews
           : includeHiddenViews // ignore: cast_nullable_to_non_nullable
               as bool,
+      incognitoMode: freezed == incognitoMode
+          ? _self.incognitoMode
+          : incognitoMode // ignore: cast_nullable_to_non_nullable
+              as bool?,
       policy: freezed == policy
           ? _self.policy
           : policy // ignore: cast_nullable_to_non_nullable
@@ -959,8 +945,7 @@ class __$AccountModelCopyWithImpl<$Res>
       return null;
     }
 
-    return $SeerrCredentialsModelCopyWith<$Res>(_self.seerrCredentials!,
-        (value) {
+    return $SeerrCredentialsModelCopyWith<$Res>(_self.seerrCredentials!, (value) {
       return _then(_self.copyWith(seerrCredentials: value));
     });
   }
@@ -984,14 +969,19 @@ class __$AccountModelCopyWithImpl<$Res>
 mixin _$UserSettings implements DiagnosticableTreeMixin {
   Duration get skipForwardDuration;
   Duration get skipBackDuration;
+  @LibraryFiltersConverter()
+  List<LibraryFiltersModel> get libraryFilters;
+  @FilterSortOrderConverter()
+  Map<FilterSortKey, List<String>> get filterSortOrder;
+  @DashboardSortingConverter()
+  Map<DashboardSorting, bool> get pDashboardSorting;
 
   /// Create a copy of UserSettings
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $UserSettingsCopyWith<UserSettings> get copyWith =>
-      _$UserSettingsCopyWithImpl<UserSettings>(
-          this as UserSettings, _$identity);
+      _$UserSettingsCopyWithImpl<UserSettings>(this as UserSettings, _$identity);
 
   /// Serializes this UserSettings to a JSON map.
   Map<String, dynamic> toJson();
@@ -1001,22 +991,28 @@ mixin _$UserSettings implements DiagnosticableTreeMixin {
     properties
       ..add(DiagnosticsProperty('type', 'UserSettings'))
       ..add(DiagnosticsProperty('skipForwardDuration', skipForwardDuration))
-      ..add(DiagnosticsProperty('skipBackDuration', skipBackDuration));
+      ..add(DiagnosticsProperty('skipBackDuration', skipBackDuration))
+      ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
+      ..add(DiagnosticsProperty('filterSortOrder', filterSortOrder))
+      ..add(DiagnosticsProperty('pDashboardSorting', pDashboardSorting));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration)';
+    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration, libraryFilters: $libraryFilters, filterSortOrder: $filterSortOrder, pDashboardSorting: $pDashboardSorting)';
   }
 }
 
 /// @nodoc
 abstract mixin class $UserSettingsCopyWith<$Res> {
-  factory $UserSettingsCopyWith(
-          UserSettings value, $Res Function(UserSettings) _then) =
-      _$UserSettingsCopyWithImpl;
+  factory $UserSettingsCopyWith(UserSettings value, $Res Function(UserSettings) _then) = _$UserSettingsCopyWithImpl;
   @useResult
-  $Res call({Duration skipForwardDuration, Duration skipBackDuration});
+  $Res call(
+      {Duration skipForwardDuration,
+      Duration skipBackDuration,
+      @LibraryFiltersConverter() List<LibraryFiltersModel> libraryFilters,
+      @FilterSortOrderConverter() Map<FilterSortKey, List<String>> filterSortOrder,
+      @DashboardSortingConverter() Map<DashboardSorting, bool> pDashboardSorting});
 }
 
 /// @nodoc
@@ -1033,6 +1029,9 @@ class _$UserSettingsCopyWithImpl<$Res> implements $UserSettingsCopyWith<$Res> {
   $Res call({
     Object? skipForwardDuration = null,
     Object? skipBackDuration = null,
+    Object? libraryFilters = null,
+    Object? filterSortOrder = null,
+    Object? pDashboardSorting = null,
   }) {
     return _then(_self.copyWith(
       skipForwardDuration: null == skipForwardDuration
@@ -1043,6 +1042,18 @@ class _$UserSettingsCopyWithImpl<$Res> implements $UserSettingsCopyWith<$Res> {
           ? _self.skipBackDuration
           : skipBackDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
+      libraryFilters: null == libraryFilters
+          ? _self.libraryFilters
+          : libraryFilters // ignore: cast_nullable_to_non_nullable
+              as List<LibraryFiltersModel>,
+      filterSortOrder: null == filterSortOrder
+          ? _self.filterSortOrder
+          : filterSortOrder // ignore: cast_nullable_to_non_nullable
+              as Map<FilterSortKey, List<String>>,
+      pDashboardSorting: null == pDashboardSorting
+          ? _self.pDashboardSorting
+          : pDashboardSorting // ignore: cast_nullable_to_non_nullable
+              as Map<DashboardSorting, bool>,
     ));
   }
 }
@@ -1140,14 +1151,20 @@ extension UserSettingsPatterns on UserSettings {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Duration skipForwardDuration, Duration skipBackDuration)?
+    TResult Function(
+            Duration skipForwardDuration,
+            Duration skipBackDuration,
+            @LibraryFiltersConverter() List<LibraryFiltersModel> libraryFilters,
+            @FilterSortOrderConverter() Map<FilterSortKey, List<String>> filterSortOrder,
+            @DashboardSortingConverter() Map<DashboardSorting, bool> pDashboardSorting)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UserSettings() when $default != null:
-        return $default(_that.skipForwardDuration, _that.skipBackDuration);
+        return $default(_that.skipForwardDuration, _that.skipBackDuration, _that.libraryFilters, _that.filterSortOrder,
+            _that.pDashboardSorting);
       case _:
         return orElse();
     }
@@ -1168,13 +1185,19 @@ extension UserSettingsPatterns on UserSettings {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Duration skipForwardDuration, Duration skipBackDuration)
+    TResult Function(
+            Duration skipForwardDuration,
+            Duration skipBackDuration,
+            @LibraryFiltersConverter() List<LibraryFiltersModel> libraryFilters,
+            @FilterSortOrderConverter() Map<FilterSortKey, List<String>> filterSortOrder,
+            @DashboardSortingConverter() Map<DashboardSorting, bool> pDashboardSorting)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserSettings():
-        return $default(_that.skipForwardDuration, _that.skipBackDuration);
+        return $default(_that.skipForwardDuration, _that.skipBackDuration, _that.libraryFilters, _that.filterSortOrder,
+            _that.pDashboardSorting);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -1194,13 +1217,19 @@ extension UserSettingsPatterns on UserSettings {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(Duration skipForwardDuration, Duration skipBackDuration)?
+    TResult? Function(
+            Duration skipForwardDuration,
+            Duration skipBackDuration,
+            @LibraryFiltersConverter() List<LibraryFiltersModel> libraryFilters,
+            @FilterSortOrderConverter() Map<FilterSortKey, List<String>> filterSortOrder,
+            @DashboardSortingConverter() Map<DashboardSorting, bool> pDashboardSorting)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserSettings() when $default != null:
-        return $default(_that.skipForwardDuration, _that.skipBackDuration);
+        return $default(_that.skipForwardDuration, _that.skipBackDuration, _that.libraryFilters, _that.filterSortOrder,
+            _that.pDashboardSorting);
       case _:
         return null;
     }
@@ -1209,12 +1238,18 @@ extension UserSettingsPatterns on UserSettings {
 
 /// @nodoc
 @JsonSerializable()
-class _UserSettings with DiagnosticableTreeMixin implements UserSettings {
+class _UserSettings extends UserSettings with DiagnosticableTreeMixin {
   _UserSettings(
       {this.skipForwardDuration = const Duration(seconds: 30),
-      this.skipBackDuration = const Duration(seconds: 10)});
-  factory _UserSettings.fromJson(Map<String, dynamic> json) =>
-      _$UserSettingsFromJson(json);
+      this.skipBackDuration = const Duration(seconds: 10),
+      @LibraryFiltersConverter() final List<LibraryFiltersModel> libraryFilters = const [],
+      @FilterSortOrderConverter() final Map<FilterSortKey, List<String>> filterSortOrder = const {},
+      @DashboardSortingConverter() final Map<DashboardSorting, bool> pDashboardSorting = const {}})
+      : _libraryFilters = libraryFilters,
+        _filterSortOrder = filterSortOrder,
+        _pDashboardSorting = pDashboardSorting,
+        super._();
+  factory _UserSettings.fromJson(Map<String, dynamic> json) => _$UserSettingsFromJson(json);
 
   @override
   @JsonKey()
@@ -1222,14 +1257,42 @@ class _UserSettings with DiagnosticableTreeMixin implements UserSettings {
   @override
   @JsonKey()
   final Duration skipBackDuration;
+  final List<LibraryFiltersModel> _libraryFilters;
+  @override
+  @JsonKey()
+  @LibraryFiltersConverter()
+  List<LibraryFiltersModel> get libraryFilters {
+    if (_libraryFilters is EqualUnmodifiableListView) return _libraryFilters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_libraryFilters);
+  }
+
+  final Map<FilterSortKey, List<String>> _filterSortOrder;
+  @override
+  @JsonKey()
+  @FilterSortOrderConverter()
+  Map<FilterSortKey, List<String>> get filterSortOrder {
+    if (_filterSortOrder is EqualUnmodifiableMapView) return _filterSortOrder;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_filterSortOrder);
+  }
+
+  final Map<DashboardSorting, bool> _pDashboardSorting;
+  @override
+  @JsonKey()
+  @DashboardSortingConverter()
+  Map<DashboardSorting, bool> get pDashboardSorting {
+    if (_pDashboardSorting is EqualUnmodifiableMapView) return _pDashboardSorting;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_pDashboardSorting);
+  }
 
   /// Create a copy of UserSettings
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$UserSettingsCopyWith<_UserSettings> get copyWith =>
-      __$UserSettingsCopyWithImpl<_UserSettings>(this, _$identity);
+  _$UserSettingsCopyWith<_UserSettings> get copyWith => __$UserSettingsCopyWithImpl<_UserSettings>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -1243,29 +1306,33 @@ class _UserSettings with DiagnosticableTreeMixin implements UserSettings {
     properties
       ..add(DiagnosticsProperty('type', 'UserSettings'))
       ..add(DiagnosticsProperty('skipForwardDuration', skipForwardDuration))
-      ..add(DiagnosticsProperty('skipBackDuration', skipBackDuration));
+      ..add(DiagnosticsProperty('skipBackDuration', skipBackDuration))
+      ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
+      ..add(DiagnosticsProperty('filterSortOrder', filterSortOrder))
+      ..add(DiagnosticsProperty('pDashboardSorting', pDashboardSorting));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration)';
+    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration, libraryFilters: $libraryFilters, filterSortOrder: $filterSortOrder, pDashboardSorting: $pDashboardSorting)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$UserSettingsCopyWith<$Res>
-    implements $UserSettingsCopyWith<$Res> {
-  factory _$UserSettingsCopyWith(
-          _UserSettings value, $Res Function(_UserSettings) _then) =
-      __$UserSettingsCopyWithImpl;
+abstract mixin class _$UserSettingsCopyWith<$Res> implements $UserSettingsCopyWith<$Res> {
+  factory _$UserSettingsCopyWith(_UserSettings value, $Res Function(_UserSettings) _then) = __$UserSettingsCopyWithImpl;
   @override
   @useResult
-  $Res call({Duration skipForwardDuration, Duration skipBackDuration});
+  $Res call(
+      {Duration skipForwardDuration,
+      Duration skipBackDuration,
+      @LibraryFiltersConverter() List<LibraryFiltersModel> libraryFilters,
+      @FilterSortOrderConverter() Map<FilterSortKey, List<String>> filterSortOrder,
+      @DashboardSortingConverter() Map<DashboardSorting, bool> pDashboardSorting});
 }
 
 /// @nodoc
-class __$UserSettingsCopyWithImpl<$Res>
-    implements _$UserSettingsCopyWith<$Res> {
+class __$UserSettingsCopyWithImpl<$Res> implements _$UserSettingsCopyWith<$Res> {
   __$UserSettingsCopyWithImpl(this._self, this._then);
 
   final _UserSettings _self;
@@ -1278,6 +1345,9 @@ class __$UserSettingsCopyWithImpl<$Res>
   $Res call({
     Object? skipForwardDuration = null,
     Object? skipBackDuration = null,
+    Object? libraryFilters = null,
+    Object? filterSortOrder = null,
+    Object? pDashboardSorting = null,
   }) {
     return _then(_UserSettings(
       skipForwardDuration: null == skipForwardDuration
@@ -1288,6 +1358,18 @@ class __$UserSettingsCopyWithImpl<$Res>
           ? _self.skipBackDuration
           : skipBackDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
+      libraryFilters: null == libraryFilters
+          ? _self._libraryFilters
+          : libraryFilters // ignore: cast_nullable_to_non_nullable
+              as List<LibraryFiltersModel>,
+      filterSortOrder: null == filterSortOrder
+          ? _self._filterSortOrder
+          : filterSortOrder // ignore: cast_nullable_to_non_nullable
+              as Map<FilterSortKey, List<String>>,
+      pDashboardSorting: null == pDashboardSorting
+          ? _self._pDashboardSorting
+          : pDashboardSorting // ignore: cast_nullable_to_non_nullable
+              as Map<DashboardSorting, bool>,
     ));
   }
 }

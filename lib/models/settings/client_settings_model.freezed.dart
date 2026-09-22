@@ -25,6 +25,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
   ThemeMode get themeMode;
   ColorThemes? get themeColor;
   bool get deriveColorsFromItem;
+  bool get dynamicPosterColors;
   bool get amoledBlack;
   bool get blurPlaceHolders;
   bool get blurUpcomingEpisodes;
@@ -45,6 +46,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
   bool get usePosterForLibrary;
   bool get useSystemIME;
   bool get useTVExpandedLayout;
+  bool get forceLeanBackMode;
   String? get lastViewedUpdate;
   int? get libraryPageSize;
   Map<GlobalHotKeys, KeyCombination> get shortcuts;
@@ -74,6 +76,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('themeMode', themeMode))
       ..add(DiagnosticsProperty('themeColor', themeColor))
       ..add(DiagnosticsProperty('deriveColorsFromItem', deriveColorsFromItem))
+      ..add(DiagnosticsProperty('dynamicPosterColors', dynamicPosterColors))
       ..add(DiagnosticsProperty('amoledBlack', amoledBlack))
       ..add(DiagnosticsProperty('blurPlaceHolders', blurPlaceHolders))
       ..add(DiagnosticsProperty('blurUpcomingEpisodes', blurUpcomingEpisodes))
@@ -93,6 +96,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
       ..add(DiagnosticsProperty('useSystemIME', useSystemIME))
       ..add(DiagnosticsProperty('useTVExpandedLayout', useTVExpandedLayout))
+      ..add(DiagnosticsProperty('forceLeanBackMode', forceLeanBackMode))
       ..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))
       ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize))
       ..add(DiagnosticsProperty('shortcuts', shortcuts));
@@ -100,7 +104,7 @@ mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, transcodeDownloadModel: $transcodeDownloadModel, transcodeMusicDownloadModel: $transcodeMusicDownloadModel, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel(syncPath: $syncPath, transcodeDownloadModel: $transcodeDownloadModel, transcodeMusicDownloadModel: $transcodeMusicDownloadModel, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, dynamicPosterColors: $dynamicPosterColors, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, forceLeanBackMode: $forceLeanBackMode, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -121,6 +125,7 @@ abstract mixin class $ClientSettingsModelCopyWith<$Res> {
       ThemeMode themeMode,
       ColorThemes? themeColor,
       bool deriveColorsFromItem,
+      bool dynamicPosterColors,
       bool amoledBlack,
       bool blurPlaceHolders,
       bool blurUpcomingEpisodes,
@@ -140,6 +145,7 @@ abstract mixin class $ClientSettingsModelCopyWith<$Res> {
       bool usePosterForLibrary,
       bool useSystemIME,
       bool useTVExpandedLayout,
+      bool forceLeanBackMode,
       String? lastViewedUpdate,
       int? libraryPageSize,
       Map<GlobalHotKeys, KeyCombination> shortcuts});
@@ -170,6 +176,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res> implements $ClientSettingsModelCop
     Object? themeMode = null,
     Object? themeColor = freezed,
     Object? deriveColorsFromItem = null,
+    Object? dynamicPosterColors = null,
     Object? amoledBlack = null,
     Object? blurPlaceHolders = null,
     Object? blurUpcomingEpisodes = null,
@@ -189,6 +196,7 @@ class _$ClientSettingsModelCopyWithImpl<$Res> implements $ClientSettingsModelCop
     Object? usePosterForLibrary = null,
     Object? useSystemIME = null,
     Object? useTVExpandedLayout = null,
+    Object? forceLeanBackMode = null,
     Object? lastViewedUpdate = freezed,
     Object? libraryPageSize = freezed,
     Object? shortcuts = null,
@@ -237,6 +245,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res> implements $ClientSettingsModelCop
       deriveColorsFromItem: null == deriveColorsFromItem
           ? _self.deriveColorsFromItem
           : deriveColorsFromItem // ignore: cast_nullable_to_non_nullable
+              as bool,
+      dynamicPosterColors: null == dynamicPosterColors
+          ? _self.dynamicPosterColors
+          : dynamicPosterColors // ignore: cast_nullable_to_non_nullable
               as bool,
       amoledBlack: null == amoledBlack
           ? _self.amoledBlack
@@ -313,6 +325,10 @@ class _$ClientSettingsModelCopyWithImpl<$Res> implements $ClientSettingsModelCop
       useTVExpandedLayout: null == useTVExpandedLayout
           ? _self.useTVExpandedLayout
           : useTVExpandedLayout // ignore: cast_nullable_to_non_nullable
+              as bool,
+      forceLeanBackMode: null == forceLeanBackMode
+          ? _self.forceLeanBackMode
+          : forceLeanBackMode // ignore: cast_nullable_to_non_nullable
               as bool,
       lastViewedUpdate: freezed == lastViewedUpdate
           ? _self.lastViewedUpdate
@@ -445,6 +461,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             ThemeMode themeMode,
             ColorThemes? themeColor,
             bool deriveColorsFromItem,
+            bool dynamicPosterColors,
             bool amoledBlack,
             bool blurPlaceHolders,
             bool blurUpcomingEpisodes,
@@ -464,6 +481,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool usePosterForLibrary,
             bool useSystemIME,
             bool useTVExpandedLayout,
+            bool forceLeanBackMode,
             String? lastViewedUpdate,
             int? libraryPageSize,
             Map<GlobalHotKeys, KeyCombination> shortcuts)?
@@ -485,6 +503,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.themeMode,
             _that.themeColor,
             _that.deriveColorsFromItem,
+            _that.dynamicPosterColors,
             _that.amoledBlack,
             _that.blurPlaceHolders,
             _that.blurUpcomingEpisodes,
@@ -504,6 +523,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.usePosterForLibrary,
             _that.useSystemIME,
             _that.useTVExpandedLayout,
+            _that.forceLeanBackMode,
             _that.lastViewedUpdate,
             _that.libraryPageSize,
             _that.shortcuts);
@@ -539,6 +559,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             ThemeMode themeMode,
             ColorThemes? themeColor,
             bool deriveColorsFromItem,
+            bool dynamicPosterColors,
             bool amoledBlack,
             bool blurPlaceHolders,
             bool blurUpcomingEpisodes,
@@ -558,6 +579,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool usePosterForLibrary,
             bool useSystemIME,
             bool useTVExpandedLayout,
+            bool forceLeanBackMode,
             String? lastViewedUpdate,
             int? libraryPageSize,
             Map<GlobalHotKeys, KeyCombination> shortcuts)
@@ -578,6 +600,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.themeMode,
             _that.themeColor,
             _that.deriveColorsFromItem,
+            _that.dynamicPosterColors,
             _that.amoledBlack,
             _that.blurPlaceHolders,
             _that.blurUpcomingEpisodes,
@@ -597,6 +620,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.usePosterForLibrary,
             _that.useSystemIME,
             _that.useTVExpandedLayout,
+            _that.forceLeanBackMode,
             _that.lastViewedUpdate,
             _that.libraryPageSize,
             _that.shortcuts);
@@ -631,6 +655,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             ThemeMode themeMode,
             ColorThemes? themeColor,
             bool deriveColorsFromItem,
+            bool dynamicPosterColors,
             bool amoledBlack,
             bool blurPlaceHolders,
             bool blurUpcomingEpisodes,
@@ -650,6 +675,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             bool usePosterForLibrary,
             bool useSystemIME,
             bool useTVExpandedLayout,
+            bool forceLeanBackMode,
             String? lastViewedUpdate,
             int? libraryPageSize,
             Map<GlobalHotKeys, KeyCombination> shortcuts)?
@@ -670,6 +696,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.themeMode,
             _that.themeColor,
             _that.deriveColorsFromItem,
+            _that.dynamicPosterColors,
             _that.amoledBlack,
             _that.blurPlaceHolders,
             _that.blurUpcomingEpisodes,
@@ -689,6 +716,7 @@ extension ClientSettingsModelPatterns on ClientSettingsModel {
             _that.usePosterForLibrary,
             _that.useSystemIME,
             _that.useTVExpandedLayout,
+            _that.forceLeanBackMode,
             _that.lastViewedUpdate,
             _that.libraryPageSize,
             _that.shortcuts);
@@ -713,6 +741,7 @@ class _ClientSettingsModel extends ClientSettingsModel with DiagnosticableTreeMi
       this.themeMode = ThemeMode.system,
       this.themeColor,
       this.deriveColorsFromItem = true,
+      this.dynamicPosterColors = true,
       this.amoledBlack = false,
       this.blurPlaceHolders = true,
       this.blurUpcomingEpisodes = false,
@@ -732,6 +761,7 @@ class _ClientSettingsModel extends ClientSettingsModel with DiagnosticableTreeMi
       this.usePosterForLibrary = false,
       this.useSystemIME = false,
       this.useTVExpandedLayout = false,
+      this.forceLeanBackMode = false,
       this.lastViewedUpdate,
       this.libraryPageSize,
       final Map<GlobalHotKeys, KeyCombination> shortcuts = const {}})
@@ -768,6 +798,9 @@ class _ClientSettingsModel extends ClientSettingsModel with DiagnosticableTreeMi
   @override
   @JsonKey()
   final bool deriveColorsFromItem;
+  @override
+  @JsonKey()
+  final bool dynamicPosterColors;
   @override
   @JsonKey()
   final bool amoledBlack;
@@ -826,6 +859,9 @@ class _ClientSettingsModel extends ClientSettingsModel with DiagnosticableTreeMi
   @JsonKey()
   final bool useTVExpandedLayout;
   @override
+  @JsonKey()
+  final bool forceLeanBackMode;
+  @override
   final String? lastViewedUpdate;
   @override
   final int? libraryPageSize;
@@ -868,6 +904,7 @@ class _ClientSettingsModel extends ClientSettingsModel with DiagnosticableTreeMi
       ..add(DiagnosticsProperty('themeMode', themeMode))
       ..add(DiagnosticsProperty('themeColor', themeColor))
       ..add(DiagnosticsProperty('deriveColorsFromItem', deriveColorsFromItem))
+      ..add(DiagnosticsProperty('dynamicPosterColors', dynamicPosterColors))
       ..add(DiagnosticsProperty('amoledBlack', amoledBlack))
       ..add(DiagnosticsProperty('blurPlaceHolders', blurPlaceHolders))
       ..add(DiagnosticsProperty('blurUpcomingEpisodes', blurUpcomingEpisodes))
@@ -887,6 +924,7 @@ class _ClientSettingsModel extends ClientSettingsModel with DiagnosticableTreeMi
       ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
       ..add(DiagnosticsProperty('useSystemIME', useSystemIME))
       ..add(DiagnosticsProperty('useTVExpandedLayout', useTVExpandedLayout))
+      ..add(DiagnosticsProperty('forceLeanBackMode', forceLeanBackMode))
       ..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))
       ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize))
       ..add(DiagnosticsProperty('shortcuts', shortcuts));
@@ -894,7 +932,7 @@ class _ClientSettingsModel extends ClientSettingsModel with DiagnosticableTreeMi
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel.internal(syncPath: $syncPath, transcodeDownloadModel: $transcodeDownloadModel, transcodeMusicDownloadModel: $transcodeMusicDownloadModel, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+    return 'ClientSettingsModel.internal(syncPath: $syncPath, transcodeDownloadModel: $transcodeDownloadModel, transcodeMusicDownloadModel: $transcodeMusicDownloadModel, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, dynamicPosterColors: $dynamicPosterColors, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, forceLeanBackMode: $forceLeanBackMode, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
   }
 }
 
@@ -916,6 +954,7 @@ abstract mixin class _$ClientSettingsModelCopyWith<$Res> implements $ClientSetti
       ThemeMode themeMode,
       ColorThemes? themeColor,
       bool deriveColorsFromItem,
+      bool dynamicPosterColors,
       bool amoledBlack,
       bool blurPlaceHolders,
       bool blurUpcomingEpisodes,
@@ -935,6 +974,7 @@ abstract mixin class _$ClientSettingsModelCopyWith<$Res> implements $ClientSetti
       bool usePosterForLibrary,
       bool useSystemIME,
       bool useTVExpandedLayout,
+      bool forceLeanBackMode,
       String? lastViewedUpdate,
       int? libraryPageSize,
       Map<GlobalHotKeys, KeyCombination> shortcuts});
@@ -966,6 +1006,7 @@ class __$ClientSettingsModelCopyWithImpl<$Res> implements _$ClientSettingsModelC
     Object? themeMode = null,
     Object? themeColor = freezed,
     Object? deriveColorsFromItem = null,
+    Object? dynamicPosterColors = null,
     Object? amoledBlack = null,
     Object? blurPlaceHolders = null,
     Object? blurUpcomingEpisodes = null,
@@ -985,6 +1026,7 @@ class __$ClientSettingsModelCopyWithImpl<$Res> implements _$ClientSettingsModelC
     Object? usePosterForLibrary = null,
     Object? useSystemIME = null,
     Object? useTVExpandedLayout = null,
+    Object? forceLeanBackMode = null,
     Object? lastViewedUpdate = freezed,
     Object? libraryPageSize = freezed,
     Object? shortcuts = null,
@@ -1033,6 +1075,10 @@ class __$ClientSettingsModelCopyWithImpl<$Res> implements _$ClientSettingsModelC
       deriveColorsFromItem: null == deriveColorsFromItem
           ? _self.deriveColorsFromItem
           : deriveColorsFromItem // ignore: cast_nullable_to_non_nullable
+              as bool,
+      dynamicPosterColors: null == dynamicPosterColors
+          ? _self.dynamicPosterColors
+          : dynamicPosterColors // ignore: cast_nullable_to_non_nullable
               as bool,
       amoledBlack: null == amoledBlack
           ? _self.amoledBlack
@@ -1109,6 +1155,10 @@ class __$ClientSettingsModelCopyWithImpl<$Res> implements _$ClientSettingsModelC
       useTVExpandedLayout: null == useTVExpandedLayout
           ? _self.useTVExpandedLayout
           : useTVExpandedLayout // ignore: cast_nullable_to_non_nullable
+              as bool,
+      forceLeanBackMode: null == forceLeanBackMode
+          ? _self.forceLeanBackMode
+          : forceLeanBackMode // ignore: cast_nullable_to_non_nullable
               as bool,
       lastViewedUpdate: freezed == lastViewedUpdate
           ? _self.lastViewedUpdate

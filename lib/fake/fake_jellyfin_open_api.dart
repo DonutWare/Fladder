@@ -471,6 +471,19 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
+  Future<chopper.Response<LyricDto>> audioItemIdLyricsGet({
+    required String? itemId,
+  }) async {
+    return chopper.Response(
+      FakeHelper.fakeCorrectResponse,
+      const LyricDto(
+        metadata: LyricMetadata(isSynced: false),
+        lyrics: [],
+      ),
+    );
+  }
+
+  @override
   Future<chopper.Response<UserItemDataDto>> userPlayedItemsItemIdPost({
     String? userId,
     required String? itemId,

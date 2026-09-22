@@ -64,33 +64,40 @@ class ExpressiveButton extends StatelessWidget {
     required this.label,
     this.icon,
     required this.onPressed,
+    this.onLongPress,
   });
 
-  final bool isSelected;
+  final bool? isSelected;
   final Widget label;
   final Widget? icon;
   final Function()? onPressed;
+  final Function()? onLongPress;
 
   @override
   Widget build(BuildContext context) {
     final position = PositionProvider.of(context);
     final borderRadius = BorderRadiusDirectional.horizontal(
-      start: isSelected || position == PositionContext.first ? const Radius.circular(16) : const Radius.circular(4),
-      end: isSelected || position == PositionContext.last ? const Radius.circular(16) : const Radius.circular(4),
+      start: isSelected == true || position == PositionContext.first
+          ? const Radius.circular(16)
+          : const Radius.circular(4),
+      end:
+          isSelected == true || position == PositionContext.last ? const Radius.circular(16) : const Radius.circular(4),
     );
     return ElevatedButton.icon(
       style: ButtonStyle(
         shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: borderRadius)),
         elevation: const WidgetStatePropertyAll(0),
-        backgroundColor: WidgetStatePropertyAll(
-            isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surfaceContainerHighest),
-        foregroundColor: WidgetStatePropertyAll(
-            isSelected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurfaceVariant),
+        backgroundColor: WidgetStatePropertyAll(isSelected == true
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.surfaceContainerHighest),
+        foregroundColor: WidgetStatePropertyAll(isSelected == true
+            ? Theme.of(context).colorScheme.onPrimary
+            : Theme.of(context).colorScheme.onSurfaceVariant),
         textStyle: WidgetStatePropertyAll(Theme.of(context).textTheme.labelLarge),
         visualDensity: VisualDensity.comfortable,
         side: WidgetStateProperty.resolveWith((states) => BorderSide(
               width: 2,
-              color: (isSelected
+              color: (isSelected == true
                       ? Theme.of(context).colorScheme.onPrimary
                       : Theme.of(context).colorScheme.onPrimaryContainer)
                   .withValues(alpha: states.contains(WidgetState.focused) ? 1.0 : 0),
@@ -98,6 +105,7 @@ class ExpressiveButton extends StatelessWidget {
         padding: const WidgetStatePropertyAll(EdgeInsets.all(12)),
       ),
       onPressed: onPressed,
+      onLongPress: onLongPress,
       label: label,
       icon: icon,
     );

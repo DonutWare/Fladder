@@ -20,9 +20,12 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
+import 'package:fladder/providers/incognito_mode_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
@@ -31,12 +34,10 @@ const _userSettings = "usersettings";
 const _client = "fladder";
 
 class ServerQueryResult {
-  final List<BaseItemDto> original;
   final List<ItemBaseModel> items;
   final int? totalRecordCount;
   final int? startIndex;
   ServerQueryResult({
-    required this.original,
     required this.items,
     this.totalRecordCount,
     this.startIndex,
@@ -47,7 +48,6 @@ class ServerQueryResult {
     Ref ref,
   ) {
     return ServerQueryResult(
-      original: baseQuery.items ?? [],
       items: baseQuery.items
               ?.map(
                 (e) => ItemBaseModel.fromBaseDto(e, ref),
@@ -66,7 +66,6 @@ class ServerQueryResult {
     int? startIndex,
   }) {
     return ServerQueryResult(
-      original: original ?? this.original,
       items: items ?? this.items,
       totalRecordCount: totalRecordCount ?? this.totalRecordCount,
       startIndex: startIndex ?? this.startIndex,
@@ -92,9 +91,30 @@ class JellyService {
   final Ref ref;
   AccountModel? get account => ref.read(userProvider);
 
+  Future<Response<ItemBaseModel>> _syncedItemResponse(String? itemId) async {
+    final item = (await ref.read(syncProvider.notifier).getSyncedItem(itemId))?.itemModel;
+    return Response<ItemBaseModel>(
+      http.Response("", 202),
+      item,
+    );
+  }
+
+  Future<Response<LyricDto?>> _syncedLyricsResponse(String? itemId) async {
+    final lyrics = (await ref.read(syncProvider.notifier).getSyncedItem(itemId))?.lyrics;
+    return Response<LyricDto?>(
+      http.Response("", lyrics != null ? 202 : 404),
+      lyrics,
+    );
+  }
+
   Future<Response<ItemBaseModel>> usersUserIdItemsItemIdGet({
     String? itemId,
   }) async {
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) {
+      return _syncedItemResponse(itemId);
+    }
+
     try {
       final response = await api.itemsItemIdGet(
         userId: account?.id,
@@ -102,34 +122,43 @@ class JellyService {
       );
       return response.copyWith(body: ItemBaseModel.fromBaseDto(response.bodyOrThrow, ref));
     } catch (e) {
-      final item = (await ref.read(syncProvider.notifier).getSyncedItem(itemId))?.itemModel;
-      return Response<ItemBaseModel>(
-        http.Response("", 202),
-        item,
-      );
+      return _syncedItemResponse(itemId);
     }
   }
 
   Future<Response<BaseItemDto>> usersUserIdItemsItemIdGetBaseItem({
     String? itemId,
   }) async {
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) {
+      final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(itemId);
+      return syncedItem?.data != null
+          ? Response<BaseItemDto>(
+              http.Response("", 202),
+              syncedItem?.data,
+            )
+          : Response<BaseItemDto>(
+              http.Response("", 404),
+              null,
+            );
+    }
+
     try {
       return await api.itemsItemIdGet(
         userId: account?.id,
         itemId: itemId,
       );
     } catch (e) {
-      return ref.read(syncProvider.notifier).getSyncedItem(itemId).then(
-            (value) => value?.data != null
-                ? Response<BaseItemDto>(
-                    http.Response("", 202),
-                    value?.data,
-                  )
-                : Response<BaseItemDto>(
-                    http.Response("", 404),
-                    null,
-                  ),
-          );
+      final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(itemId);
+      return syncedItem?.data != null
+          ? Response<BaseItemDto>(
+              http.Response("", 202),
+              syncedItem?.data,
+            )
+          : Response<BaseItemDto>(
+              http.Response("", 404),
+              null,
+            );
     }
   }
 
@@ -255,6 +284,102 @@ class JellyService {
     bool? enableTotalRecordCount,
     bool? enableImages,
   }) async {
+    final isOffline = ref.read(offlineStateProvider);
+
+    if (isOffline) {
+      List<SyncedItem> syncedItems = [];
+
+      if (ids != null && ids.isNotEmpty) {
+        final itemsWithId = await Future.wait(
+          ids.map((id) => ref.read(syncProvider.notifier).getSyncedItem(id)),
+        );
+
+        syncedItems = itemsWithId.nonNulls.toList().toList();
+      } else if (parentId != null) {
+        final parentItems = await ref.read(syncProvider.notifier).getSyncedItem(parentId);
+
+        if (parentItems == null) {
+          return Response(
+            http.Response("", 202),
+            ServerQueryResult(
+              items: [],
+              totalRecordCount: 0,
+              startIndex: 0,
+            ),
+          );
+        }
+
+        final children = await ref.read(syncProvider.notifier).getNestedChildren(parentItems);
+
+        syncedItems = [parentItems, ...children];
+      } else {
+        final allItems = ref.read(syncProvider).items;
+
+        for (var item in allItems) {
+          final nestedChildren = await ref.read(syncProvider.notifier).getNestedChildren(item);
+          syncedItems.addAll(nestedChildren);
+        }
+
+        syncedItems.addAll(allItems);
+      }
+
+      if (syncedItems.isEmpty) {
+        return Response(
+          http.Response("", 202),
+          ServerQueryResult(
+            items: [],
+            totalRecordCount: 0,
+            startIndex: 0,
+          ),
+        );
+      }
+
+      final actualItems = syncedItems.nonNulls.toList();
+
+      final filteredItems = actualItems.where((element) {
+        final type = element.data?.type;
+
+        if (parentId != null && (element.id == parentId || element.itemModel?.id == parentId)) {
+          return false;
+        }
+
+        if (excludeItemIds != null && excludeItemIds.contains(element.id)) return false;
+
+        if (includeItemTypes != null && includeItemTypes.isNotEmpty) {
+          if (type == null || !includeItemTypes.contains(type)) return false;
+        }
+
+        if (isFavorite != null) {
+          final isFav = element.itemModel?.userData.isFavourite ?? element.userData?.isFavourite ?? false;
+          if (isFav != isFavorite) return false;
+        }
+
+        if (isPlayed != null) {
+          final played = element.itemModel?.userData.played ?? element.userData?.played ?? false;
+          if (played != isPlayed) return false;
+        }
+
+        return true;
+      }).toList();
+
+      if (sortBy?.contains(ItemSortBy.random) == true) {
+        filteredItems.shuffle();
+      } else {
+        filteredItems.sort((a, b) => _sortSyncedItems(a.data, b.data, sortBy, sortOrder));
+      }
+
+      final baseItems = filteredItems.map((e) => e.itemModel).nonNulls.toList();
+
+      return Response(
+        http.Response("", 202),
+        ServerQueryResult(
+          items: baseItems,
+          totalRecordCount: baseItems.length,
+          startIndex: 0,
+        ),
+      );
+    }
+
     final response = await api.usersUserIdItemsGet(
       userId: account?.id,
       maxOfficialRating: maxOfficialRating,
@@ -344,7 +469,7 @@ class JellyService {
     );
 
     return response.copyWith(
-      body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow, ref),
+      body: ServerQueryResult.fromBaseQuery(response.bodyOrThrow.copyWith(items: response.bodyOrThrow.items), ref),
     );
   }
 
@@ -566,14 +691,36 @@ class JellyService {
       userId: account?.id,
       sortBy: sortBy,
       sortOrder: sortOrder,
+      includeItemTypes: includeItemTypes,
     );
   }
 
-  Future<Response> sessionsPlayingPost({required PlaybackStartInfo? body}) async => api.sessionsPlayingPost(body: body);
+  Future<Response<BaseItemDtoQueryResult>> yearsGet({
+    String? parentId,
+    List<ItemSortBy>? sortBy,
+    List<SortOrder>? sortOrder,
+    List<BaseItemKind>? includeItemTypes,
+  }) async {
+    return api.yearsGet(
+      parentId: parentId,
+      userId: account?.id,
+      sortBy: sortBy,
+      includeItemTypes: includeItemTypes,
+      sortOrder: sortOrder,
+      recursive: false,
+      enableImages: false,
+    );
+  }
+
+  Future<Response> sessionsPlayingPost({required PlaybackStartInfo? body}) async {
+    if (ref.read(incognitoProvider)) return Response(http.Response("", 200), null);
+    return api.sessionsPlayingPost(body: body);
+  }
 
   Future<Response> sessionsPlayingStoppedPost({
     required PlaybackStopInfo? body,
-  }) {
+  }) async {
+    if (ref.read(incognitoProvider)) return Response(http.Response("", 200), null);
     final positionTicks = body?.positionTicks;
     if (positionTicks != null) {
       ref
@@ -583,8 +730,10 @@ class JellyService {
     return api.sessionsPlayingStoppedPost(body: body);
   }
 
-  Future<Response> sessionsPlayingProgressPost({required PlaybackProgressInfo? body}) async =>
-      api.sessionsPlayingProgressPost(body: body);
+  Future<Response> sessionsPlayingProgressPost({required PlaybackProgressInfo? body}) async {
+    if (ref.read(incognitoProvider)) return Response(http.Response("", 200), null);
+    return api.sessionsPlayingProgressPost(body: body);
+  }
 
   Future<Response<PlaybackInfoResponse>> itemsItemIdPlaybackInfoPost({
     required String? itemId,
@@ -625,6 +774,29 @@ class JellyService {
     return response;
   }
 
+  Future<Response<LyricDto?>> audioItemIdLyricsGet({
+    required String? itemId,
+  }) async {
+    if (itemId == null || itemId.isEmpty) {
+      return Response<LyricDto?>(
+        http.Response("", 400),
+        null,
+      );
+    }
+
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) {
+      return _syncedLyricsResponse(itemId);
+    }
+
+    try {
+      final response = await api.audioItemIdLyricsGet(itemId: itemId);
+      return Response<LyricDto?>(response.base, response.body);
+    } catch (_) {
+      return _syncedLyricsResponse(itemId);
+    }
+  }
+
   Future<Response<BaseItemDtoQueryResult>> showsSeriesIdEpisodesGet({
     required String? seriesId,
     List<ItemFields>? fields,
@@ -641,28 +813,7 @@ class JellyService {
     bool? enableUserData,
     ShowsSeriesIdEpisodesGetSortBy? sortBy,
   }) async {
-    try {
-      var response = await api.showsSeriesIdEpisodesGet(
-        seriesId: seriesId,
-        userId: account?.id,
-        fields: [
-          ...?fields,
-          ItemFields.parentid,
-        ],
-        isMissing: isMissing,
-        limit: limit,
-        sortBy: sortBy,
-        enableUserData: enableUserData,
-        startIndex: startIndex,
-        adjacentTo: adjacentTo,
-        startItemId: startItemId,
-        season: season,
-        seasonId: seasonId,
-        enableImages: enableImages,
-        enableImageTypes: enableImageTypes,
-      );
-      return response;
-    } catch (e) {
+    Future<Response<BaseItemDtoQueryResult>> fetchOfflineEpisodes() async {
       final seriesItem = await ref.read(syncProvider.notifier).getSyncedItem(seriesId);
       if (seriesItem != null) {
         final episodes = await ref.read(syncProvider.notifier).getNestedChildren(seriesItem)
@@ -686,6 +837,37 @@ class JellyService {
         );
       }
     }
+
+    final isOffline = ref.read(offlineStateProvider);
+
+    if (isOffline) {
+      return fetchOfflineEpisodes();
+    }
+
+    try {
+      var response = await api.showsSeriesIdEpisodesGet(
+        seriesId: seriesId,
+        userId: account?.id,
+        fields: [
+          ...?fields,
+          ItemFields.parentid,
+        ],
+        isMissing: isMissing,
+        limit: limit,
+        sortBy: sortBy,
+        enableUserData: enableUserData,
+        startIndex: startIndex,
+        adjacentTo: adjacentTo,
+        startItemId: startItemId,
+        season: season,
+        seasonId: seasonId,
+        enableImages: enableImages,
+        enableImageTypes: enableImageTypes,
+      );
+      return response;
+    } catch (e) {
+      return fetchOfflineEpisodes();
+    }
   }
 
   Future<List<ItemBaseModel>> fetchEpisodeFromShow({
@@ -697,6 +879,10 @@ class JellyService {
   }
 
   Future<Response<List<BaseItemDto>>> itemsItemIdSpecialFeaturesGet({required String itemId}) async {
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) {
+      return Response<List<BaseItemDto>>(http.Response("", 400), []);
+    }
     return api.itemsItemIdSpecialFeaturesGet(itemId: itemId, userId: account?.id);
   }
 
@@ -704,13 +890,7 @@ class JellyService {
     String? itemId,
     int? limit,
   }) async {
-    try {
-      return await api.itemsItemIdSimilarGet(userId: account?.id, itemId: itemId, limit: limit, fields: [
-        ItemFields.parentid,
-        ItemFields.candelete,
-        ItemFields.candownload,
-      ]);
-    } catch (e) {
+    Future<Response<BaseItemDtoQueryResult>> fetchSimilarGet() async {
       return Response<BaseItemDtoQueryResult>(
         http.Response("", 400),
         const BaseItemDtoQueryResult(
@@ -719,6 +899,22 @@ class JellyService {
           startIndex: 0,
         ),
       );
+    }
+
+    final isOffline = ref.read(offlineStateProvider);
+
+    if (isOffline) {
+      return fetchSimilarGet();
+    }
+
+    try {
+      return await api.itemsItemIdSimilarGet(userId: account?.id, itemId: itemId, limit: limit, fields: [
+        ItemFields.parentid,
+        ItemFields.candelete,
+        ItemFields.candownload,
+      ]);
+    } catch (e) {
+      return fetchSimilarGet();
     }
   }
 
@@ -897,7 +1093,12 @@ class JellyService {
       userId: account?.id ?? "",
       $client: _client,
       body: currentDisplayPreferences.body?.copyWith(
-        customPrefs: currentSettings.toJson(),
+        customPrefs: currentSettings.toJson().map(
+              (key, value) => MapEntry(
+                key,
+                value is String ? value : jsonEncode(value),
+              ),
+            ),
       ),
     );
   }
@@ -969,15 +1170,7 @@ class JellyService {
     bool? isMissing,
     List<ItemFields>? fields,
   }) async {
-    try {
-      final response = await api.showsSeriesIdSeasonsGet(
-        seriesId: seriesId,
-        isMissing: isMissing,
-        enableUserData: enableUserData,
-        fields: fields,
-      );
-      return response;
-    } catch (e) {
+    Future<Response<BaseItemDtoQueryResult>> fetchOfflineSeasons() async {
       final seriesItem = await ref.read(syncProvider.notifier).getSyncedItem(seriesId);
       if (seriesItem != null) {
         final seasons = await ref.read(syncProvider.notifier).getChildren(seriesItem.id);
@@ -999,6 +1192,23 @@ class JellyService {
           ),
         );
       }
+    }
+
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) {
+      return fetchOfflineSeasons();
+    }
+
+    try {
+      final response = await api.showsSeriesIdSeasonsGet(
+        seriesId: seriesId,
+        isMissing: isMissing,
+        enableUserData: enableUserData,
+        fields: fields,
+      );
+      return response;
+    } catch (e) {
+      return fetchOfflineSeasons();
     }
   }
 
@@ -1130,6 +1340,19 @@ class JellyService {
     int? imageTypeLimit,
     List<ImageType>? enableImageTypes,
   }) async {
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) {
+      final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(playlistId);
+      final nestedItems = await ref.read(syncProvider.notifier).getNestedChildren(syncedItem);
+      return Response(
+          http.Response("", 202),
+          ServerQueryResult(
+            items: nestedItems.map((e) => e.itemModel).nonNulls.toList(),
+            totalRecordCount: nestedItems.length,
+            startIndex: 0,
+          ));
+    }
+
     final response = await api.playlistsPlaylistIdItemsGet(
       playlistId: playlistId,
       userId: account?.id,
@@ -1683,6 +1906,68 @@ class JellyService {
 
     return queryString.isEmpty ? '$baseUrl$path' : '$baseUrl$path?$queryString';
   }
+}
+
+int _sortSyncedItems(BaseItemDto? aItem, BaseItemDto? bItem, List<ItemSortBy>? sortBy, List<SortOrder>? sortOrder) {
+  final a = aItem;
+  final b = bItem;
+  if (a == null && b == null) return 0;
+  if (a == null) return 1;
+  if (b == null) return -1;
+
+  if (sortBy != null && sortBy.isNotEmpty) {
+    for (int i = 0; i < sortBy.length; i++) {
+      final sortField = sortBy[i];
+
+      final order =
+          (sortOrder != null && sortOrder.length > i) ? sortOrder[i] : (sortOrder?.firstOrNull ?? SortOrder.ascending);
+
+      final isAscending = order != SortOrder.descending;
+      int comp = 0;
+
+      switch (sortField) {
+        case ItemSortBy.name:
+          comp = (a.name ?? '').compareTo(b.name ?? '');
+          break;
+        case ItemSortBy.sortname:
+          comp = (a.sortName ?? '').compareTo(b.sortName ?? '');
+          break;
+        case ItemSortBy.premieredate:
+          comp = (a.premiereDate ?? DateTime(0)).compareTo(b.premiereDate ?? DateTime(0));
+          break;
+        case ItemSortBy.datecreated:
+          comp = (a.dateCreated ?? DateTime(0)).compareTo(b.dateCreated ?? DateTime(0));
+          break;
+        case ItemSortBy.communityrating:
+          comp = (a.communityRating ?? 0.0).compareTo(b.communityRating ?? 0.0);
+          break;
+        case ItemSortBy.criticrating:
+          comp = (a.criticRating ?? 0.0).compareTo(b.criticRating ?? 0.0);
+          break;
+        case ItemSortBy.runtime:
+          comp = (a.runTimeTicks ?? 0).compareTo(b.runTimeTicks ?? 0);
+          break;
+        case ItemSortBy.productionyear:
+          comp = (a.productionYear ?? 0).compareTo(b.productionYear ?? 0);
+          break;
+        case ItemSortBy.playcount:
+          comp = (a.userData?.playCount ?? 0).compareTo(b.userData?.playCount ?? 0);
+          break;
+        case ItemSortBy.isfavoriteorliked:
+          comp = ((a.userData?.isFavorite ?? false) ? 1 : 0).compareTo((b.userData?.isFavorite ?? false) ? 1 : 0);
+          break;
+        default:
+          comp = 0;
+          break;
+      }
+
+      if (comp != 0) {
+        return isAscending ? comp : -comp;
+      }
+    }
+    return 0;
+  }
+  return 0;
 }
 
 extension ParsedMap on Map<String, dynamic> {

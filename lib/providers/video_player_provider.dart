@@ -10,6 +10,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/playback_queue_state.dart';
+import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
@@ -35,13 +36,34 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
   MediaPlaybackModel get playbackState => ref.read(mediaPlaybackProvider);
 
+  ProviderSubscription<VideoPlayerSettingsModel>? settingsChanged;
+  @override
+  void dispose() {
+    settingsChanged?.close();
+    super.dispose();
+  }
+
   Future<void> init() async {
+    await state.stop();
     await state.dispose();
     await state.init();
 
     for (final s in subscriptions) {
       s.cancel();
     }
+
+    settingsChanged = ref.listen(
+      videoPlayerSettingsProvider,
+      (previous, next) {
+        final currentItem = ref.read(playBackModel)?.item;
+        if (currentItem != null) {
+          state.applyReplayGain(
+            currentItem,
+            settings: next,
+          );
+        }
+      },
+    );
 
     final subscription = state.stateStream.listen((value) {
       updateBuffering(value.buffering);
@@ -84,7 +106,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     mediaState.update(
       (state) => state.copyWith(playing: event),
     );
-    ref.read(playBackModel)?.updatePlaybackPosition(currentState.position, currentState.playing, ref);
+    ref.read(playBackModel)?.updatePlaybackPosition(currentState.position, event, ref);
   }
 
   Future<void> updatePosition(Duration event) async {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:overflow_view/overflow_view.dart';
 
@@ -15,12 +16,14 @@ const videoPlayerHeroTag = "HeroPlayer";
 class FloatingPlayerBarPreview extends StatelessWidget {
   const FloatingPlayerBarPreview({
     super.key,
+    this.ratio = 1.0,
     required this.showExpandButton,
     required this.onShowExpandButton,
     required this.openFullScreenPlayer,
     required this.child,
   });
 
+  final double ratio;
   final bool showExpandButton;
   final ValueChanged<bool> onShowExpandButton;
   final VoidCallback openFullScreenPlayer;
@@ -30,7 +33,7 @@ class FloatingPlayerBarPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: AspectRatio(
-        aspectRatio: 1.0,
+        aspectRatio: ratio,
         child: MouseRegion(
           onEnter: (_) => onShowExpandButton(true),
           onExit: (_) => onShowExpandButton(false),

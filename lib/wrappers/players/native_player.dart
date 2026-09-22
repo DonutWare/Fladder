@@ -45,12 +45,18 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   }
 
   @override
-  Future<void> pause() {
-    return player.pause();
+  Future<void> pause() async {
+    await player.pause();
+    lastState = lastState.update(playing: false);
+    _stateController.add(lastState);
   }
 
   @override
-  Future<void> play() => player.play();
+  Future<void> play() async {
+    await player.play();
+    lastState = lastState.update(playing: true);
+    _stateController.add(lastState);
+  }
 
   @override
   Future<void> playOrPause() async {

@@ -53,8 +53,9 @@ class _ThemeOverwriteState extends ConsumerState<ThemeOverwrite> {
 
     final schemeVariant = ref.watch(clientSettingsProvider.select((value) => value.schemeVariant));
     final amoledBlack = ref.watch(clientSettingsProvider.select((value) => value.amoledBlack));
+    final isDarkTheme = Theme.brightnessOf(context) == Brightness.dark;
     final effectiveColor = widget.image != null ? _dominantColor : widget.color;
-    final amoledOverwrite = amoledBlack ? Colors.black : null;
+    final amoledOverwrite = amoledBlack && isDarkTheme ? Colors.black : null;
 
     final newColorScheme = effectiveColor != null
         ? ColorScheme.fromSeed(

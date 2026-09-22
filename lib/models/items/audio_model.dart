@@ -37,6 +37,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
   final List<MusicArtistModel> artists;
   final List<MusicArtistModel> albumArtists;
   final int? trackNumber;
+  final int? discNumber;
   final Map<String, dynamic>? providerIds;
   final double? normalizationGain;
 
@@ -46,6 +47,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
     this.artists = const [],
     this.albumArtists = const [],
     this.trackNumber,
+    this.discNumber,
     this.providerIds,
     this.normalizationGain,
     required super.name,
@@ -187,6 +189,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
           item.albumArtists?.map((artist) => MusicArtistModel(name: artist.name ?? '', id: artist.id ?? '')).toList() ??
               const [],
       trackNumber: item.indexNumber,
+      discNumber: item.parentIndexNumber,
       providerIds: item.providerIds,
       normalizationGain: item.normalizationGain,
       canDelete: item.canDelete,

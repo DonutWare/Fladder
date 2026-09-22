@@ -56,8 +56,12 @@ class SeerrFilterChips extends ConsumerWidget {
         ExpressiveButton(
           isSelected: filters.yearGte != null || filters.yearLte != null,
           icon: const Icon(IconsaxPlusBold.calendar_1),
-          label: Text(yearLabel(context, filters)),
-          onPressed: () => openYearDialog(context, notifier, filters),
+          label: Text(yearLabel(context, (filters.yearGte, filters.yearLte))),
+          onPressed: () => openYearDialog(
+            context,
+            (first, last) => notifier.setYearRangeWithoutSubmit(minYear: first, maxYear: last),
+            (filters.yearGte, filters.yearLte),
+          ),
         ),
         if (watchRegions.isNotEmpty)
           ExpressiveButton(

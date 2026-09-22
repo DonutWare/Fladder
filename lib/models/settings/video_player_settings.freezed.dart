@@ -44,14 +44,14 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   bool get enableCrossfade;
   int get crossfadeDurationMs;
   bool get refreshRateSwitching;
+  bool get ambientBlur;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $VideoPlayerSettingsModelCopyWith<VideoPlayerSettingsModel> get copyWith =>
-      _$VideoPlayerSettingsModelCopyWithImpl<VideoPlayerSettingsModel>(
-          this as VideoPlayerSettingsModel, _$identity);
+      _$VideoPlayerSettingsModelCopyWithImpl<VideoPlayerSettingsModel>(this as VideoPlayerSettingsModel, _$identity);
 
   /// Serializes this VideoPlayerSettingsModel to a JSON map.
   Map<String, dynamic> toJson();
@@ -80,30 +80,29 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('enableSpeedBoost', enableSpeedBoost))
       ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
-      ..add(DiagnosticsProperty(
-          'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty('enableAdvancedVideoOptions', enableAdvancedVideoOptions))
       ..add(DiagnosticsProperty('enableEdgeGestures', enableEdgeGestures))
       ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures))
-      ..add(
-          DiagnosticsProperty('enablePictureInPicture', enablePictureInPicture))
+      ..add(DiagnosticsProperty('enablePictureInPicture', enablePictureInPicture))
       ..add(DiagnosticsProperty('enableReplayGain', enableReplayGain))
       ..add(DiagnosticsProperty('replayGainVolumeLevel', replayGainVolumeLevel))
       ..add(DiagnosticsProperty('enablePlayPauseFade', enablePlayPauseFade))
       ..add(DiagnosticsProperty('enableCrossfade', enableCrossfade))
       ..add(DiagnosticsProperty('crossfadeDurationMs', crossfadeDurationMs))
-      ..add(DiagnosticsProperty('refreshRateSwitching', refreshRateSwitching));
+      ..add(DiagnosticsProperty('refreshRateSwitching', refreshRateSwitching))
+      ..add(DiagnosticsProperty('ambientBlur', ambientBlur));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs, refreshRateSwitching: $refreshRateSwitching)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs, refreshRateSwitching: $refreshRateSwitching, ambientBlur: $ambientBlur)';
   }
 }
 
 /// @nodoc
 abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
-  factory $VideoPlayerSettingsModelCopyWith(VideoPlayerSettingsModel value,
-          $Res Function(VideoPlayerSettingsModel) _then) =
+  factory $VideoPlayerSettingsModelCopyWith(
+          VideoPlayerSettingsModel value, $Res Function(VideoPlayerSettingsModel) _then) =
       _$VideoPlayerSettingsModelCopyWithImpl;
   @useResult
   $Res call(
@@ -136,12 +135,12 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       bool enablePlayPauseFade,
       bool enableCrossfade,
       int crossfadeDurationMs,
-      bool refreshRateSwitching});
+      bool refreshRateSwitching,
+      bool ambientBlur});
 }
 
 /// @nodoc
-class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
-    implements $VideoPlayerSettingsModelCopyWith<$Res> {
+class _$VideoPlayerSettingsModelCopyWithImpl<$Res> implements $VideoPlayerSettingsModelCopyWith<$Res> {
   _$VideoPlayerSettingsModelCopyWithImpl(this._self, this._then);
 
   final VideoPlayerSettingsModel _self;
@@ -182,6 +181,7 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? enableCrossfade = null,
     Object? crossfadeDurationMs = null,
     Object? refreshRateSwitching = null,
+    Object? ambientBlur = null,
   }) {
     return _then(_self.copyWith(
       screenBrightness: freezed == screenBrightness
@@ -303,6 +303,10 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
       refreshRateSwitching: null == refreshRateSwitching
           ? _self.refreshRateSwitching
           : refreshRateSwitching // ignore: cast_nullable_to_non_nullable
+              as bool,
+      ambientBlur: null == ambientBlur
+          ? _self.ambientBlur
+          : ambientBlur // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -431,7 +435,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enablePlayPauseFade,
             bool enableCrossfade,
             int crossfadeDurationMs,
-            bool refreshRateSwitching)?
+            bool refreshRateSwitching,
+            bool ambientBlur)?
         $default, {
     required TResult orElse(),
   }) {
@@ -468,7 +473,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enablePlayPauseFade,
             _that.enableCrossfade,
             _that.crossfadeDurationMs,
-            _that.refreshRateSwitching);
+            _that.refreshRateSwitching,
+            _that.ambientBlur);
       case _:
         return orElse();
     }
@@ -519,7 +525,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enablePlayPauseFade,
             bool enableCrossfade,
             int crossfadeDurationMs,
-            bool refreshRateSwitching)
+            bool refreshRateSwitching,
+            bool ambientBlur)
         $default,
   ) {
     final _that = this;
@@ -555,7 +562,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enablePlayPauseFade,
             _that.enableCrossfade,
             _that.crossfadeDurationMs,
-            _that.refreshRateSwitching);
+            _that.refreshRateSwitching,
+            _that.ambientBlur);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -605,7 +613,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enablePlayPauseFade,
             bool enableCrossfade,
             int crossfadeDurationMs,
-            bool refreshRateSwitching)?
+            bool refreshRateSwitching,
+            bool ambientBlur)?
         $default,
   ) {
     final _that = this;
@@ -641,7 +650,8 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enablePlayPauseFade,
             _that.enableCrossfade,
             _that.crossfadeDurationMs,
-            _that.refreshRateSwitching);
+            _that.refreshRateSwitching,
+            _that.ambientBlur);
       case _:
         return null;
     }
@@ -650,8 +660,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
 
 /// @nodoc
 @JsonSerializable()
-class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
-    with DiagnosticableTreeMixin {
+class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel with DiagnosticableTreeMixin {
   _VideoPlayerSettingsModel(
       {this.screenBrightness,
       this.videoFit = BoxFit.contain,
@@ -667,8 +676,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.maxHomeBitrate = Bitrate.original,
       this.maxInternetBitrate = Bitrate.original,
       this.audioDevice,
-      final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings =
-          defaultSegmentSkipValues,
+      final Map<MediaSegmentType, SegmentSkip> segmentSkipSettings = defaultSegmentSkipValues,
       final Map<VideoHotKeys, KeyCombination> hotKeys = const {},
       this.screensaver = Screensaver.logo,
       this.enableSpeedBoost = false,
@@ -683,13 +691,13 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.enablePlayPauseFade = true,
       this.enableCrossfade = true,
       this.crossfadeDurationMs = 400,
-      this.refreshRateSwitching = false})
+      this.refreshRateSwitching = false,
+      this.ambientBlur = false})
       : _allowedOrientations = allowedOrientations,
         _segmentSkipSettings = segmentSkipSettings,
         _hotKeys = hotKeys,
         super._();
-  factory _VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) =>
-      _$VideoPlayerSettingsModelFromJson(json);
+  factory _VideoPlayerSettingsModel.fromJson(Map<String, dynamic> json) => _$VideoPlayerSettingsModelFromJson(json);
 
   @override
   final double? screenBrightness;
@@ -721,8 +729,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
   Set<DeviceOrientation>? get allowedOrientations {
     final value = _allowedOrientations;
     if (value == null) return null;
-    if (_allowedOrientations is EqualUnmodifiableSetView)
-      return _allowedOrientations;
+    if (_allowedOrientations is EqualUnmodifiableSetView) return _allowedOrientations;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableSetView(value);
   }
@@ -742,8 +749,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
   @override
   @JsonKey()
   Map<MediaSegmentType, SegmentSkip> get segmentSkipSettings {
-    if (_segmentSkipSettings is EqualUnmodifiableMapView)
-      return _segmentSkipSettings;
+    if (_segmentSkipSettings is EqualUnmodifiableMapView) return _segmentSkipSettings;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_segmentSkipSettings);
   }
@@ -796,7 +802,12 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
   @override
   @JsonKey()
   final int crossfadeDurationMs;
+  @override
+  @JsonKey()
   final bool refreshRateSwitching;
+  @override
+  @JsonKey()
+  final bool ambientBlur;
 
   /// Create a copy of VideoPlayerSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -804,8 +815,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   _$VideoPlayerSettingsModelCopyWith<_VideoPlayerSettingsModel> get copyWith =>
-      __$VideoPlayerSettingsModelCopyWithImpl<_VideoPlayerSettingsModel>(
-          this, _$identity);
+      __$VideoPlayerSettingsModelCopyWithImpl<_VideoPlayerSettingsModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -838,31 +848,29 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('enableSpeedBoost', enableSpeedBoost))
       ..add(DiagnosticsProperty('speedBoostRate', speedBoostRate))
       ..add(DiagnosticsProperty('enableDoubleTapSeek', enableDoubleTapSeek))
-      ..add(DiagnosticsProperty(
-          'enableAdvancedVideoOptions', enableAdvancedVideoOptions))
+      ..add(DiagnosticsProperty('enableAdvancedVideoOptions', enableAdvancedVideoOptions))
       ..add(DiagnosticsProperty('enableEdgeGestures', enableEdgeGestures))
       ..add(DiagnosticsProperty('reverseEdgeGestures', reverseEdgeGestures))
-      ..add(
-          DiagnosticsProperty('enablePictureInPicture', enablePictureInPicture))
+      ..add(DiagnosticsProperty('enablePictureInPicture', enablePictureInPicture))
       ..add(DiagnosticsProperty('enableReplayGain', enableReplayGain))
       ..add(DiagnosticsProperty('replayGainVolumeLevel', replayGainVolumeLevel))
       ..add(DiagnosticsProperty('enablePlayPauseFade', enablePlayPauseFade))
       ..add(DiagnosticsProperty('enableCrossfade', enableCrossfade))
       ..add(DiagnosticsProperty('crossfadeDurationMs', crossfadeDurationMs))
-      ..add(DiagnosticsProperty('refreshRateSwitching', refreshRateSwitching));
+      ..add(DiagnosticsProperty('refreshRateSwitching', refreshRateSwitching))
+      ..add(DiagnosticsProperty('ambientBlur', ambientBlur));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs, refreshRateSwitching: $refreshRateSwitching)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs, refreshRateSwitching: $refreshRateSwitching, ambientBlur: $ambientBlur)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
-    implements $VideoPlayerSettingsModelCopyWith<$Res> {
-  factory _$VideoPlayerSettingsModelCopyWith(_VideoPlayerSettingsModel value,
-          $Res Function(_VideoPlayerSettingsModel) _then) =
+abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res> implements $VideoPlayerSettingsModelCopyWith<$Res> {
+  factory _$VideoPlayerSettingsModelCopyWith(
+          _VideoPlayerSettingsModel value, $Res Function(_VideoPlayerSettingsModel) _then) =
       __$VideoPlayerSettingsModelCopyWithImpl;
   @override
   @useResult
@@ -896,12 +904,12 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
       bool enablePlayPauseFade,
       bool enableCrossfade,
       int crossfadeDurationMs,
-      bool refreshRateSwitching});
+      bool refreshRateSwitching,
+      bool ambientBlur});
 }
 
 /// @nodoc
-class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
-    implements _$VideoPlayerSettingsModelCopyWith<$Res> {
+class __$VideoPlayerSettingsModelCopyWithImpl<$Res> implements _$VideoPlayerSettingsModelCopyWith<$Res> {
   __$VideoPlayerSettingsModelCopyWithImpl(this._self, this._then);
 
   final _VideoPlayerSettingsModel _self;
@@ -942,6 +950,7 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? enableCrossfade = null,
     Object? crossfadeDurationMs = null,
     Object? refreshRateSwitching = null,
+    Object? ambientBlur = null,
   }) {
     return _then(_VideoPlayerSettingsModel(
       screenBrightness: freezed == screenBrightness
@@ -1063,6 +1072,10 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
       refreshRateSwitching: null == refreshRateSwitching
           ? _self.refreshRateSwitching
           : refreshRateSwitching // ignore: cast_nullable_to_non_nullable
+              as bool,
+      ambientBlur: null == ambientBlur
+          ? _self.ambientBlur
+          : ambientBlur // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }

@@ -22,4 +22,23 @@ class MainFlutterWindow: NSWindow {
 
     super.awakeFromNib()
   }
+
+  override func sendEvent(_ event: NSEvent) {
+    if event.type == .leftMouseDown, event.clickCount == 2, !styleMask.contains(.fullScreen) {
+      let titleBarHeight: CGFloat = 35
+      if event.locationInWindow.y >= frame.height - titleBarHeight {
+        switch UserDefaults.standard.string(forKey: "AppleActionOnDoubleClick") {
+        case "Minimize":
+          performMiniaturize(nil)
+          return
+        case "None":
+          break
+        default:
+          performZoom(nil)
+          return
+        }
+      }
+    }
+    super.sendEvent(event)
+  }
 }

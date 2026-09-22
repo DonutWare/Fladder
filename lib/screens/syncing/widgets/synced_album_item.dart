@@ -36,104 +36,107 @@ class _SyncedAlbumItemState extends ConsumerState<SyncedAlbumItem> {
   Widget build(BuildContext context) {
     final childrenAsync = ref.watch(syncedChildrenProvider(widget.syncedItem));
 
-    return childrenAsync.when(
-      data: (children) {
-        final trackChildren = children.where((item) => item.itemModel is AudioModel).toList();
-        final album = widget.album;
-        final syncedItem = widget.syncedItem;
-        return ExpansionTile(
-          tilePadding: EdgeInsets.zero,
-          shape: const Border(),
-          title: Row(
-            spacing: 12,
-            children: [
-              SizedBox(
-                width: 125,
-                child: AspectRatio(
-                  aspectRatio: 1.0,
-                  child: FlatButton(
-                    onTap: () {
-                      album.navigateTo(context);
-                      return context.maybePop();
-                    },
-                    child: Card(
-                      child: FladderImage(
-                        image: album.getPosters?.primary ?? album.getPosters?.backDrop?.firstOrNull,
-                      ),
+    Widget buildWidget(List<SyncedItem> children, bool loading) {
+      final trackChildren = children.where((item) => item.itemModel is AudioModel).toList();
+      final album = widget.album;
+      final syncedItem = widget.syncedItem;
+      return ExpansionTile(
+        tilePadding: EdgeInsets.zero,
+        shape: const Border(),
+        title: Row(
+          spacing: 12,
+          children: [
+            SizedBox(
+              width: 125,
+              child: AspectRatio(
+                aspectRatio: 1.0,
+                child: FlatButton(
+                  onTap: () {
+                    album.navigateTo(context);
+                    return context.maybePop();
+                  },
+                  child: Card(
+                    child: FladderImage(
+                      image: album.getPosters?.primary ?? album.getPosters?.backDrop?.firstOrNull,
                     ),
                   ),
                 ),
               ),
-              Flexible(
-                child: SyncProgressBuilder(
-                  item: syncedItem,
-                  children: trackChildren,
-                  builder: (context, combinedStream) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      spacing: 4,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            album.name,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
+            ),
+            Flexible(
+              child: SyncProgressBuilder(
+                item: syncedItem,
+                children: trackChildren,
+                builder: (context, combinedStream) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 4,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          album.name,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
-                        if (album.artistLabel.isNotEmpty)
-                          Flexible(
-                            child: Opacity(
-                              opacity: 0.75,
-                              child: Text(
-                                album.artistLabel,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ),
-                          ),
+                      ),
+                      if (album.artistLabel.isNotEmpty)
                         Flexible(
-                          child: SyncSubtitle(
-                            syncItem: syncedItem,
-                            children: trackChildren,
-                          ),
-                        ),
-                        Flexible(
-                          child: Consumer(
-                            builder: (context, ref, child) => SyncLabel(
-                              label: context.localized.totalSize(
-                                  ref.watch(syncSizeProvider(syncedItem, trackChildren))?.byteFormat ?? '--'),
-                              status: combinedStream?.status ?? TaskStatus.notFound,
+                          child: Opacity(
+                            opacity: 0.75,
+                            child: Text(
+                              album.artistLabel,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
                         ),
-                        if (combinedStream != null && combinedStream.hasDownload)
-                          SyncProgressBar(item: syncedItem, task: combinedStream),
-                      ],
-                    );
-                  },
+                      Flexible(
+                        child: SyncSubtitle(
+                          syncItem: syncedItem,
+                          children: trackChildren,
+                        ),
+                      ),
+                      Flexible(
+                        child: Consumer(
+                          builder: (context, ref, child) => SyncLabel(
+                            label: context.localized
+                                .totalSize(ref.watch(syncSizeProvider(syncedItem, trackChildren))?.byteFormat ?? '--'),
+                            status: combinedStream?.status ?? TaskStatus.notFound,
+                          ),
+                        ),
+                      ),
+                      if (combinedStream != null && combinedStream.hasDownload)
+                        SyncProgressBar(item: syncedItem, task: combinedStream),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        trailing: loading
+            ? const CircularProgressIndicator()
+            : SyncOptionsButton(syncedItem: syncedItem, children: trackChildren),
+        children: trackChildren
+            .map(
+              (item) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: SyncedAudioItem(
+                  audio: item.itemModel as AudioModel,
+                  syncedItem: item,
                 ),
               ),
-            ],
-          ),
-          trailing: SyncOptionsButton(syncedItem: syncedItem, children: trackChildren),
-          children: trackChildren
-              .map(
-                (item) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: SyncedAudioItem(
-                    audio: item.itemModel as AudioModel,
-                    syncedItem: item,
-                  ),
-                ),
-              )
-              .toList(),
-        );
-      },
-      error: (error, stackTrace) => const SizedBox.shrink(),
-      loading: () => const SizedBox.shrink(),
-    );
+            )
+            .toList(),
+      );
+    }
+
+    return switch (childrenAsync) {
+      AsyncData(:final asData) => buildWidget(asData?.value ?? [], false),
+      _ => buildWidget([], true),
+    };
   }
 }

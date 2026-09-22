@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/models/seerr/seerr_item_models.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_chopper_service.dart';
 import 'package:fladder/seerr/seerr_models.dart';
@@ -211,6 +212,8 @@ class SeerrService {
     String? language,
     SeerrMediaType? mediaType,
   }) async {
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) return null;
     if (tvdbId != null) {
       if (tmdbId == null) return null;
       final tvResponse = await tvDetails(tvId: tmdbId, language: language);
@@ -443,6 +446,8 @@ class SeerrService {
     required int tmdbId,
     String? language,
   }) async {
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) return [];
     final response = await _api.getTvSimilar(tmdbId, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
     return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
@@ -452,6 +457,8 @@ class SeerrService {
     required int tmdbId,
     String? language,
   }) async {
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) return [];
     final response = await _api.getMovieRecommendations(tmdbId, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
     return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);
@@ -461,6 +468,8 @@ class SeerrService {
     required int tmdbId,
     String? language,
   }) async {
+    final isOffline = ref.read(offlineStateProvider);
+    if (isOffline) return [];
     final response = await _api.getTvRecommendations(tmdbId, language: language);
     final results = response.body?.results ?? const <SeerrDiscoverItem>[];
     return results.map(_posterFromDiscoverItem).whereType<SeerrDashboardPosterModel>().toList(growable: false);

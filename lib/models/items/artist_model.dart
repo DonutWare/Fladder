@@ -18,12 +18,14 @@ part 'artist_model.mapper.dart';
 class ArtistModel extends ItemBaseModel with ArtistModelMappable {
   final List<AlbumModel> albums;
   final List<AudioModel> tracks;
+  final List<AudioModel> favoriteTracks;
   final List<ArtistModel> similarArtists;
   final Map<String, dynamic>? providerIds;
 
   const ArtistModel({
     this.albums = const [],
     this.tracks = const [],
+    this.favoriteTracks = const [],
     this.similarArtists = const [],
     this.providerIds,
     required super.name,
@@ -44,7 +46,7 @@ class ArtistModel extends ItemBaseModel with ArtistModelMappable {
   Widget get detailScreenWidget => ArtistDetailScreen(item: this);
 
   @override
-  bool get playAble => false;
+  bool get playAble => true;
 
   @override
   bool get syncAble => true;

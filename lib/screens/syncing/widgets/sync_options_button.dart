@@ -36,7 +36,8 @@ class SyncOptionsButton extends ConsumerWidget {
       itemBuilder: (context) {
         final unSyncedChildren = children.where((element) {
           final hasDownload = ref.read(syncDownloadStatusProvider(element, []));
-          return element.hasVideoFile && !element.videoFile.existsSync() && hasDownload?.status == TaskStatus.notFound;
+          final canSync = element.itemModel?.syncAble == true || element.hasVideoFile;
+          return canSync && !element.videoFile.existsSync() && hasDownload?.status == TaskStatus.notFound;
         }).toList();
         final isAudioBatch =
             unSyncedChildren.isNotEmpty && unSyncedChildren.every((element) => element.itemModel is AudioModel);
@@ -263,9 +264,9 @@ Future<dynamic> _syncRemainingItems(
         ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.localized.cancel)),
         FilledButtonAwait(
           onPressed: () async {
-            final syncList = unSyncedChildren.map((e) => ref.read(syncProvider.notifier).syncFile(
+            final syncList = unSyncedChildren.map((e) => ref.read(syncProvider.notifier).syncSyncedItem(
+                  context,
                   e,
-                  false,
                   transcodeModel: transcodeModel,
                   musicTranscodeModel: musicTranscodeModel,
                 ));

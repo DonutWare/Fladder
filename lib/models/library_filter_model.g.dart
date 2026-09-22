@@ -7,6 +7,7 @@ part of 'library_filter_model.dart';
 // **************************************************************************
 
 _LibraryFilterModel _$LibraryFilterModelFromJson(Map<String, dynamic> json) => _LibraryFilterModel(
+      searchQuery: json['searchQuery'] as String? ?? "",
       genres: (json['genres'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, e as bool),
           ) ??
@@ -49,13 +50,15 @@ _LibraryFilterModel _$LibraryFilterModelFromJson(Map<String, dynamic> json) => _
           },
       sortingOption: $enumDecodeNullable(_$SortingOptionsEnumMap, json['sortingOption']) ?? SortingOptions.sortName,
       sortOrder: $enumDecodeNullable(_$SortingOrderEnumMap, json['sortOrder']) ?? SortingOrder.ascending,
-      favourites: json['favourites'] as bool? ?? false,
+      favourites: json['favourites'] as bool?,
       hideEmptyShows: json['hideEmptyShows'] as bool? ?? true,
-      recursive: json['recursive'] as bool? ?? true,
+      recursive: json['recursive'] as bool? ?? false,
       groupBy: $enumDecodeNullable(_$GroupByEnumMap, json['groupBy']) ?? GroupBy.none,
+      isDefault: json['isDefault'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$LibraryFilterModelToJson(_LibraryFilterModel instance) => <String, dynamic>{
+      'searchQuery': instance.searchQuery,
       'genres': instance.genres,
       'itemFilters': instance.itemFilters.map((k, e) => MapEntry(_$ItemFilterEnumMap[k], e)),
       'studios': const StudioEncoder().toJson(instance.studios),
@@ -69,6 +72,7 @@ Map<String, dynamic> _$LibraryFilterModelToJson(_LibraryFilterModel instance) =>
       'hideEmptyShows': instance.hideEmptyShows,
       'recursive': instance.recursive,
       'groupBy': _$GroupByEnumMap[instance.groupBy]!,
+      'isDefault': instance.isDefault,
     };
 
 const _$ItemFilterEnumMap = {

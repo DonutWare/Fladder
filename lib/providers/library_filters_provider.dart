@@ -8,14 +8,28 @@ part 'library_filters_provider.g.dart';
 @riverpod
 class LibraryFilters extends _$LibraryFilters {
   @override
-  List<LibraryFiltersModel> build(List<String> ids) => ref.watch(
-        userProvider
-            .select((value) => (value?.libraryFilters ?? []).where((element) => element.containsSameIds(ids)).toList()),
-      );
+  List<LibraryFiltersModel> build(List<String> ids) {
+    if (ids.isEmpty) {
+      return ref.watch(userProvider.select((value) => value?.userSettings?.libraryFilters ?? []));
+    }
+    return ref.watch(
+      userProvider.select((value) =>
+          (value?.userSettings?.libraryFilters ?? []).where((element) => element.containsSameIds(ids)).toList()),
+    );
+  }
 
   void removeFilter(LibraryFiltersModel model) => ref.read(userProvider.notifier).removeFilter(model);
 
   void saveFilter(LibraryFiltersModel model) => ref.read(userProvider.notifier).saveFilter(model);
 
   void deleteAllFilters() => ref.read(userProvider.notifier).deleteAllFilters();
+
+  void updateSortOrder(FilterSortKey key, List<String> newOrder) =>
+      ref.read(userProvider.notifier).updateFilterSortOrder(key, newOrder);
 }
+
+final libraryFiltersByKeyProvider = Provider.family<List<LibraryFiltersModel>, FilterSortKey>((ref, key) {
+  final userSettings = ref.watch(userProvider.select((value) => value?.userSettings));
+  if (userSettings == null) return [];
+  return userSettings.getFilterSortOrder(key);
+});

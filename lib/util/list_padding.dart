@@ -1,5 +1,6 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
 
 extension ListExtensions on List<Widget> {
   List<Widget> addInBetween(Widget widget) {
@@ -7,6 +8,18 @@ extension ListExtensions on List<Widget> {
       (index, element) {
         if (element != last) {
           return [element, widget];
+        } else {
+          return [element];
+        }
+      },
+    ).expand((element) => element).toList();
+  }
+
+  List<Widget> addInBetweenIndexed(Widget Function(int index) widgetBuilder) {
+    return mapIndexed(
+      (index, element) {
+        if (element != last) {
+          return [element, widgetBuilder(index)];
         } else {
           return [element];
         }

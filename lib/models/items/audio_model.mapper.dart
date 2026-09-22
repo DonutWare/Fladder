@@ -105,6 +105,8 @@ class AudioModelMapper extends SubClassMapperBase<AudioModel> {
       Field('albumArtists', _$albumArtists, opt: true, def: const []);
   static int? _$trackNumber(AudioModel v) => v.trackNumber;
   static const Field<AudioModel, int> _f$trackNumber = Field('trackNumber', _$trackNumber, opt: true);
+  static int? _$discNumber(AudioModel v) => v.discNumber;
+  static const Field<AudioModel, int> _f$discNumber = Field('discNumber', _$discNumber, opt: true);
   static Map<String, dynamic>? _$providerIds(AudioModel v) => v.providerIds;
   static const Field<AudioModel, Map<String, dynamic>> _f$providerIds = Field('providerIds', _$providerIds, opt: true);
   static double? _$normalizationGain(AudioModel v) => v.normalizationGain;
@@ -146,6 +148,7 @@ class AudioModelMapper extends SubClassMapperBase<AudioModel> {
     #artists: _f$artists,
     #albumArtists: _f$albumArtists,
     #trackNumber: _f$trackNumber,
+    #discNumber: _f$discNumber,
     #providerIds: _f$providerIds,
     #normalizationGain: _f$normalizationGain,
     #name: _f$name,
@@ -180,6 +183,7 @@ class AudioModelMapper extends SubClassMapperBase<AudioModel> {
         artists: data.dec(_f$artists),
         albumArtists: data.dec(_f$albumArtists),
         trackNumber: data.dec(_f$trackNumber),
+        discNumber: data.dec(_f$discNumber),
         providerIds: data.dec(_f$providerIds),
         normalizationGain: data.dec(_f$normalizationGain),
         name: data.dec(_f$name),
@@ -227,6 +231,7 @@ abstract class AudioModelCopyWith<$R, $In extends AudioModel, $Out> implements I
       List<MusicArtistModel>? artists,
       List<MusicArtistModel>? albumArtists,
       int? trackNumber,
+      int? discNumber,
       Map<String, dynamic>? providerIds,
       double? normalizationGain,
       String? name,
@@ -275,6 +280,7 @@ class _AudioModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AudioModel
           List<MusicArtistModel>? artists,
           List<MusicArtistModel>? albumArtists,
           Object? trackNumber = $none,
+          Object? discNumber = $none,
           Object? providerIds = $none,
           Object? normalizationGain = $none,
           String? name,
@@ -297,6 +303,7 @@ class _AudioModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AudioModel
         if (artists != null) #artists: artists,
         if (albumArtists != null) #albumArtists: albumArtists,
         if (trackNumber != $none) #trackNumber: trackNumber,
+        if (discNumber != $none) #discNumber: discNumber,
         if (providerIds != $none) #providerIds: providerIds,
         if (normalizationGain != $none) #normalizationGain: normalizationGain,
         if (name != null) #name: name,
@@ -321,6 +328,7 @@ class _AudioModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AudioModel
       artists: data.get(#artists, or: $value.artists),
       albumArtists: data.get(#albumArtists, or: $value.albumArtists),
       trackNumber: data.get(#trackNumber, or: $value.trackNumber),
+      discNumber: data.get(#discNumber, or: $value.discNumber),
       providerIds: data.get(#providerIds, or: $value.providerIds),
       normalizationGain: data.get(#normalizationGain, or: $value.normalizationGain),
       name: data.get(#name, or: $value.name),

@@ -1957,5 +1957,132 @@
     "stepBack": "Schritt zurück",
     "stepForward": "Schritt vorwärts",
     "seekForwardInstant": "Vorspulen (sofort)",
-    "seekBackInstant": "Zurückspulen (sofort)"
+    "seekBackInstant": "Zurückspulen (sofort)",
+    "toggleSubtitles": "Untertitel umschalten",
+    "addToQueue": "Zur Warteschlange hinzufügen",
+    "instantMix": "Sofortmix",
+    "audioPlayerRepeatOff": "Wiederholen aus",
+    "audioPlayerRepeatOne": "Wiederholen einmalig",
+    "audioPlayerShuffle": "Zufällige Wiedergabe",
+    "showArtist": "Interpret anzeigen",
+    "track": "{count, plural, one{Titel} other{Titel}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "{name} kürzlich hinzugefügt",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{Interpret} other{Interpreten}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "playMusic": "Musik abspielen",
+    "authenticateWithBiometrics": "Biometrische Anmeldung aktivieren für {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "settingsPlayerPlayPauseFadeTitle": "Play/Pause Lautsärkeabblendung",
+    "settingsPlayerPlayPauseFadeDesc": "Lautstärke beim starten und pausieren der Wiedergabe ein/abblenden",
+    "syncPlaylistDeleteTitle": "Synchronisierte Wiedergabelisten löschen",
+    "syncPlaylistDeleteContent": "Willst du ebenfalls alle Titel entfernen, die mit der Wiedergabeliste synchronisiert sind?",
+    "syncPlaylistKeepTracks": "Titel behalten",
+    "syncPlaylistRemoveTracks": "Titel entfernen",
+    "pictureInPictureTitle": "Bild-in-Bild",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "Automatisches Bild-in-Bild",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureSubtitle": "Automatisch Bild-in-Bild aktivieren, wenn der Player verlassen wird. Der PiP Knopf funktioniert weiterhin, unabhängig von dieser Einstellung.",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "Bild-in-Bild ist auf diesem Gerät nicht verfügbar",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "removedFromPlaylist": "Aus Wiedergabeliste \"{playlistName}\" entfernt",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "playerSettingsReplayGainTitle": "ReplayGain",
+    "playerSettingsReplayGainDesc": "Musiklautstärke auf Basis der ReplayGain Tags angleichen.",
+    "playerSettingsReplayGainLevelTitle": "ReplayGain Niveau",
+    "playerSettingsReplayGainLevelDesc": "Setze das Zielniveau für die Lautsärkeanpassung mittels ReplayGain. Häufig wird ein Niveau von -14 dB gewählt, aber du kannst es nach deinen eigenen Vorlieben festlegen.",
+    "audioPlayerPlaybackOptionsTitle": "Wiedergabeoptionen",
+    "audioPlayerRepeatAll": "Alle wiederholen",
+    "settingsPlayerCrossfadeTitle": "Crossfade",
+    "openJellyfinQuickConnect": "Jellyfin QuickConnect öffnen",
+    "recentlyPlayed": "Zuletzt wiedergegeben",
+    "recentlyFavorited": "Zuletzt favorisiert",
+    "mostPlayed": "Am häufigsten wiedergegeben",
+    "nowPlaying": "Derzeit wiedergegeben",
+    "upNext": "Als nächstes",
+    "queue": "Warteschlange",
+    "queueIsEmpty": "Warteschlange ist leer",
+    "queueItemCount": "{count} Einträge",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "Aus Warteschlange entfernen",
+    "musicDashboard": "Musik Dashboard",
+    "quiet": "Ruhig",
+    "loud": "Laut",
+    "share": "Teilen",
+    "setAs": "Festlegen als",
+    "settingsPlayerCrossfadeDurationTitle": "Crossfade Dauer",
+    "settingsPlayerCrossfadeDurationDesc": "Dauer des Crossfades",
+    "quitMultipleWindowsDesc": "Du hast {count} Fenster geöffnet. Beim Beenden von Fladder werden alle geschlossen. Willst du fortfahren ?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "Fenster schließen",
+    "addedToQueue": "{count, plural, one{ {count} Titel zur Warteschlange hinzugefügt} other{ {count} Titel zur Warteschlange hinzugefügt}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "settingsPlayerCrossfadeDesc": "Blende zwischen Titel über, die im selben Album nicht aufeinander folgen"
 }

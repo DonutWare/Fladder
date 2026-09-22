@@ -134,11 +134,26 @@ class LibMDK extends BasePlayer {
       );
 
   @override
-  Future<void> pause() async => _controller?.pause();
+  Future<void> pause() async {
+    await _controller?.pause();
+    updateState();
+  }
+
   @override
-  Future<void> play() async => _controller?.play();
+  Future<void> play() async {
+    await _controller?.play();
+    updateState();
+  }
+
   @override
-  Future<void> playOrPause() async => lastState.playing ? _controller?.pause() : _controller?.play();
+  Future<void> playOrPause() async {
+    final isPlaying = _controller?.value.isPlaying ?? lastState.playing;
+    if (isPlaying) {
+      await pause();
+    } else {
+      await play();
+    }
+  }
 
   @override
   Future<void> seek(Duration position) async => _controller?.seekTo(position);

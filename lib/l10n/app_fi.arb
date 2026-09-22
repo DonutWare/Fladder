@@ -1,0 +1,2191 @@
+{
+    "nativeName": "Suomi",
+    "about": "Tietoja",
+    "accept": "Hyväksy",
+    "active": "Aktiivinen",
+    "actor": "{count, plural, other{Näyttelijät} one{Näyttelijä}}",
+    "@actor": {
+        "description": "actor",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addAsFavorite": "Lisää suosikkeihin",
+    "addToCollection": "Lisää kokoelmaan",
+    "addToPlaylist": "Lisää soittolistaan",
+    "addToQueue": "Lisää jonoon",
+    "instantMix": "Pikamiksaus",
+    "addedToQueue": "{count, plural, one{Lisätty {count} raita jonoon} other{Lisätty {count} raitaa jonoon}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "advanced": "Lisäasetukset",
+    "all": "Kaikki",
+    "amoledBlack": "Amoled-musta",
+    "appLockAutoLogin": "Automaattinen kirjautuminen",
+    "appLockBiometrics": "Biometriikka",
+    "appLockPasscode": "Pääsykoodi",
+    "appLockTitle": "Aseta kirjautumistapa käyttäjälle {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "ascending": "Nouseva",
+    "audio": "{count, plural, one{Ääni} other{Ääni}}",
+    "@audio": {
+        "description": "Audio (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "audioPlayerPlaybackOptionsTitle": "Toistoasetukset",
+    "audioPlayerRepeatAll": "Kertaa kaikki",
+    "audioPlayerRepeatOff": "Kertaus pois",
+    "audioPlayerRepeatOne": "Kertaa yksi",
+    "audioPlayerShuffle": "Sekoita",
+    "showArtist": "Näytä esittäjä",
+    "track": "{count, plural, one{Raita} other{Raidat}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "autoPlay": "Automaattinen toisto",
+    "backgroundBlur": "Taustan sumennus",
+    "backgroundOpacity": "Taustan läpinäkyvyys",
+    "biometricsFailedCheckAgain": "Biometriikka epäonnistui. Tarkista asetukset ja yritä uudelleen.",
+    "bold": "Lihavoitu",
+    "cancel": "Peruuta",
+    "change": "Muuta",
+    "chapter": "{count, plural, other{Luvut} one{Luku}}",
+    "@chapter": {
+        "description": "chapter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "clear": "Tyhjennä",
+    "clearAllSettings": "Tyhjennä kaikki asetukset",
+    "clearAllSettingsQuestion": "Tyhjennetäänkö kaikki asetukset?",
+    "clearChanges": "Tyhjennä muutokset",
+    "clearSelection": "Tyhjennä valinta",
+    "close": "Sulje",
+    "generateLoginLink": "Koodi käyttäjälle {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "Jaa kirjautumislinkki",
+    "shareQRCode": "Jaa QR-koodi",
+    "copyLoginLink": "Kopioi linkki",
+    "includePassword": "Sisällytä salasana",
+    "invalidAuthLink": "Virheellinen kirjautumislinkki",
+    "code": "Koodi",
+    "collectionFolder": "{count, plural, one{Kokoelmakansio} other{Kokoelmakansiot}}",
+    "@collectionFolder": {
+        "description": "Collection folder (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "color": "Väri",
+    "combined": "Yhdistetty",
+    "communityRating": "Yhteisön arvio",
+    "continuePage": "Jatka - sivu {page}",
+    "@continuePage": {
+        "description": "Continue - page 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "controls": "Ohjaimet",
+    "gestures": "Eleet",
+    "dashboard": "Aloitusnäkymä",
+    "dashboardContinue": "Jatka",
+    "dashboardContinueListening": "Jatka kuuntelua",
+    "dashboardContinueReading": "Jatka lukemista",
+    "dashboardContinueWatching": "Jatka katselua",
+    "nextUp": "Seuraavaksi",
+    "dashboardRecentlyAdded": "Äskettäin lisätty kirjastoon {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "Äskettäin lisätty {name}",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "dateAdded": "Lisäyspäivä",
+    "dateLastContentAdded": "Viimeksi lisätyn sisällön päivä",
+    "datePlayed": "Toistopäivä",
+    "delete": "Poista",
+    "deleteFileFromSystem": "Tämän kohteen {item} poistaminen poistaa sen sekä tiedostojärjestelmästä että mediakirjastostasi. Haluatko varmasti jatkaa?",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteItem": "Poistetaanko {item}?",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "descending": "Laskeva",
+    "director": "{count, plural, other{Ohjaaja} two{Ohjaajat}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "disableFilters": "Poista suodattimet käytöstä",
+    "disabled": "Pois käytöstä",
+    "discovered": "Löydetty",
+    "displayLanguage": "Näyttökieli",
+    "downloadsClearDesc": "Poistetaanko kaikki synkronoidut tiedot ja tyhjennetäänkö kaikkien synkronoitujen käyttäjien tiedot?",
+    "downloadsClearTitle": "Tyhjennä synkronoidut tiedot",
+    "downloadsPath": "Polku",
+    "downloadsSyncedData": "Synkronoidut tiedot",
+    "downloadsTitle": "Lataukset",
+    "dynamicText": "Dynaaminen",
+    "editMetadata": "Muokkaa metatietoja",
+    "empty": "Tyhjä",
+    "enabled": "Käytössä",
+    "endsAt": "päättyy {date}",
+    "@endsAt": {
+        "description": "endsAt",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "episode": "{count, plural, other{Jaksot} one{Jakso} }",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "error": "Virhe",
+    "failedToLoadImage": "Kuvaa ei voitu ladata",
+    "favorite": "Suosikki",
+    "favorites": "Suosikit",
+    "fetchingLibrary": "Haetaan kirjaston kohteita…",
+    "filter": "{count, plural, other{Suodattimet} one{Suodatin}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "folders": "Kansiot",
+    "fontColor": "Fontin väri",
+    "fontSize": "Fonttikoko",
+    "forceRefresh": "Pakota päivitys",
+    "genre": "{count, plural, other{Genret} one{Genre}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "goTo": "Siirry",
+    "grid": "Ruudukko",
+    "group": "Ryhmä",
+    "groupBy": "Ryhmittele",
+    "heightOffset": "Korkeuden siirtymä",
+    "hide": "Piilota",
+    "hideEmpty": "Piilota tyhjät",
+    "home": "Etusivu",
+    "homeBannerSlideshow": "Diaesitys",
+    "homeBannerCarousel": "Karuselli",
+    "homeBannerDetailed": "Yksityiskohtainen",
+    "homeBannerTV": "TV",
+    "identify": "Tunnista",
+    "immediately": "Heti",
+    "incorrectPinTryAgain": "Väärä PIN. Yritä uudelleen.",
+    "info": "Tiedot",
+    "invalidUrl": "Virheellinen URL-osoite",
+    "itemCount": "Kohteiden määrä: {count}",
+    "@itemCount": {
+        "description": "Item count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "label": "{count, plural, other{Tunnisteet} one{Tunniste}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{Kirjastot} one{Kirjasto}}",
+    "@library": {
+        "description": "Plural",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "libraryFetchNoItemsFound": "Kohteita ei löytynyt. Kokeile eri asetuksia.",
+    "libraryPageSizeDesc": "Aseta kerralla ladattava määrä. 0 poistaa sivutuksen käytöstä.",
+    "libraryPageSizeTitle": "Kirjaston sivukoko",
+    "light": "Vaalea",
+    "list": "Lista",
+    "lockscreen": "Lukitusnäyttö",
+    "loggedIn": "Kirjautunut",
+    "login": "Kirjaudu sisään",
+    "logout": "Kirjaudu ulos",
+    "logoutUserPopupContent": "Tämä kirjaa käyttäjän {userName} ulos ja poistaa käyttäjän sovelluksesta.\nSinun on kirjauduttava uudelleen sisään palvelimeen {serverName}.",
+    "@logoutUserPopupContent": {
+        "description": "Pop-up for logging out the user description",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "serverName": {
+                "type": "String"
+            }
+        }
+    },
+    "logoutUserPopupTitle": "Kirjataanko {userName} ulos?",
+    "@logoutUserPopupTitle": {
+        "description": "Pop-up for logging out the user",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "loop": "Toista jatkuvasti",
+    "markAsUnwatched": "Merkitse katsomattomaksi",
+    "markAsWatched": "Merkitse katsotuksi",
+    "masonry": "Muurausasettelu",
+    "mediaTypeBase": "Perustyyppi",
+    "mediaTypeBook": "{count, plural, one{Kirja} other{Kirjat}}",
+    "@mediaTypeBook": {
+        "description": "Book (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeBoxset": "{count, plural, one{Kokoelma} other{Kokoelmat}}",
+    "@mediaTypeBoxset": {
+        "description": "Boxset (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeEpisode": "{count, plural, one{Jakso} other{Jaksot}}",
+    "@mediaTypeEpisode": {
+        "description": "Episode (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeFolder": "{count, plural, one{Kansio} other{Kansiot}}",
+    "@mediaTypeFolder": {
+        "description": "Folder (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeMovie": "{count, plural, one{Elokuva} other{Elokuvat}}",
+    "@mediaTypeMovie": {
+        "description": "Movie (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePerson": "{count, plural, one{Henkilö} other{Henkilöt}}",
+    "@mediaTypePerson": {
+        "description": "Person (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{Artisti} other{Artistit}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePhoto": "{count, plural, one{Valokuva} other{Valokuvat}}",
+    "@mediaTypePhoto": {
+        "description": "Photo (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePhotoAlbum": "{count, plural, one{Valokuva-albumi} other{Valokuva-albumit}}",
+    "@mediaTypePhotoAlbum": {
+        "description": "Photo Album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePlaylist": "{count, plural, one{Soittolista} other{Soittolistat}}",
+    "@mediaTypePlaylist": {
+        "description": "Playlist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeSeason": "{count, plural, one{Kausi} other{Kaudet}}",
+    "@mediaTypeSeason": {
+        "description": "Season (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeSeries": "{count, plural, one{Sarja} other{Sarjat}}",
+    "@mediaTypeSeries": {
+        "description": "Series (plural, same singular/plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeTV": "{count, plural, one{TV-kanava} other{TV-kanavat}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "metaDataSavedFor": "Metatiedot tallennettu kohteelle {item}",
+    "@metaDataSavedFor": {
+        "description": "metaDataSavedFor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "metadataRefreshDefault": "Etsi uudet ja päivitetyt tiedostot",
+    "metadataRefreshFull": "Korvaa kaikki metatiedot",
+    "metadataRefreshValidation": "Etsi puuttuvat metatiedot",
+    "minutes": "{count, plural, other{Minuuttia} one{Minuutti} }",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mode": "Tila",
+    "moreFrom": "Lisää lähteestä {info}",
+    "@moreFrom": {
+        "description": "More from",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "moreOptions": "Lisää asetuksia",
+    "mouseDragSupport": "Vedä hiirellä",
+    "musicAlbum": "{count, plural, one{Albumi} other{Albumit}}",
+    "@musicAlbum": {
+        "description": "Music album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "name": "Nimi",
+    "navigation": "Navigointi",
+    "navigationDashboard": "Aloitusnäkymä",
+    "navigationFavorites": "Suosikit",
+    "navigationSync": "Synkronoitu",
+    "never": "Ei koskaan",
+    "noItemsSynced": "Ei synkronoituja kohteita",
+    "noItemsToShow": "Ei näytettäviä kohteita",
+    "noRating": "Ei arviota",
+    "noResults": "Ei tuloksia",
+    "noServersFound": "Uusia palvelimia ei löytynyt",
+    "noSuggestionsFound": "Ehdotuksia ei löytynyt",
+    "none": "Ei mitään",
+    "normal": "Normaali",
+    "notPartOfAlbum": "Ei osa albumia",
+    "openParent": "Avaa ylätaso",
+    "openShow": "Avaa sarja",
+    "options": "Asetukset",
+    "other": "Muu",
+    "outlineColor": "Ääriviivan väri",
+    "outlineSize": "Ääriviivan koko",
+    "overview": "Yleiskatsaus",
+    "page": "Sivu {index}",
+    "@page": {
+        "description": "page",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "parentalRating": "Ikäraja",
+    "password": "Salasana",
+    "pathClearTitle": "Tyhjennä latauspolku",
+    "pathEditDesc": "Tämä sijainti on asetettu kaikille käyttäjille, eikä synkronoituun dataan enää pääse käsiksi. Se säilyy laitteesi tallennustilassa.",
+    "pathEditSelect": "Valitse latausten kohde",
+    "pathEditTitle": "Vaihda sijaintia",
+    "play": "Toista {item}",
+    "@play": {
+        "description": "Play with",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "playCount": "Toistokerrat",
+    "playFrom": "Toista kohdasta {name}",
+    "@playFrom": {
+        "description": "playFrom",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playFromStart": "Toista {name} alusta",
+    "@playFromStart": {
+        "description": "speel vanaf het begin",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playLabel": "Toista",
+    "playVideos": "Toista videot",
+    "playMusic": "Toista musiikki",
+    "played": "Toistettu",
+    "quickConnectAction": "Syötä pikayhteyskoodi kohteelle",
+    "quickConnectInputACode": "Syötä koodi",
+    "quickConnectTitle": "Pikayhteys",
+    "quickConnectWrongCode": "Väärä koodi",
+    "random": "Satunnainen",
+    "rating": "{count, plural, other{Arviot} one{Arvio}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "popularity": "Suosio",
+    "reWatch": "Katso uudelleen",
+    "read": "Lue {item}",
+    "@read": {
+        "description": "read",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "readFromStart": "Lue {item} alusta",
+    "@readFromStart": {
+        "description": "Read book from start",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "recursive": "Rekursiivinen",
+    "refresh": "Päivitä",
+    "refreshMetadata": "Päivitä metatiedot",
+    "refreshPopup": "Päivitä - {name}",
+    "@refreshPopup": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "refreshPopupContentMetadata": "Metatiedot päivitetään hallintapaneelissa käyttöön otettujen asetusten ja internetpalveluiden perusteella.",
+    "related": "Liittyvät",
+    "releaseDate": "Julkaisupäivä",
+    "contentRating": "Sisältöluokitus",
+    "removeAsFavorite": "Poista suosikeista",
+    "removeFromCollection": "Poista kokoelmasta",
+    "removeFromPlaylist": "Poista soittolistalta",
+    "replaceAllImages": "Korvaa kaikki kuvat",
+    "replaceExistingImages": "Korvaa olemassa olevat kuvat",
+    "restart": "Käynnistä uudelleen",
+    "result": "Tulos",
+    "resumable": "Jatkettavissa",
+    "resume": "Jatka {item}",
+    "@resume": {
+        "description": "resume",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "retrievePublicListOfUsers": "Hae julkinen käyttäjäluettelo",
+    "retry": "Yritä uudelleen",
+    "runTime": "Kesto",
+    "runtimeMinutesTitle": "Kesto (minuuttia)",
+    "runtimeRangeMinutes": "{min} - {max} minuuttia",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} min",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "Palveluntarjoajat ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "save": "Tallenna",
+    "saved": "Tallennettu",
+    "scanBiometricHint": "Vahvista henkilöllisyys",
+    "scanLibrary": "Skannaa kirjasto",
+    "authenticateWithBiometrics": "Tunnistaudu biometrisesti käyttäjänä {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "scanningName": "Skannataan - {name}…",
+    "@scanningName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "scrollToTop": "Vieritä ylös",
+    "search": "Hae",
+    "season": "{count, plural, other{Kaudet} one{Kausi} }",
+    "@season": {
+        "description": "season",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "seconds": "{count, plural, other{Sekuntia} one{Sekunti}}",
+    "@seconds": {
+        "description": "second",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectAll": "Valitse kaikki",
+    "selectTime": "Valitse aika",
+    "selectViewType": "Valitse näkymätyyppi",
+    "selected": "Valittu",
+    "selectedWith": "Valittu {info}",
+    "@selectedWith": {
+        "description": "selected",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "separate": "Erillinen",
+    "server": "Palvelin",
+    "set": "Aseta",
+    "@set": {
+        "description": "Use for setting a certain value",
+        "context": "Set 'time'"
+    },
+    "setIdentityTo": "Vaihda henkilöllisyydeksi {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "settingSecurityApplockTitle": "Sovelluslukko",
+    "settings": "Asetukset",
+    "settingsBlurEpisodesDesc": "Sumenna kaikki tulevat jaksot",
+    "settingsBlurEpisodesTitle": "Sumenna seuraavaksi-jaksot",
+    "settingsBlurredPlaceholderDesc": "Näytä sumennettu tausta julisteita ladattaessa",
+    "settingsBlurredPlaceholderTitle": "Sumennettu paikkamerkki",
+    "settingsClientDesc": "Yleiset, Aikakatkaisu, Asettelu, Teema",
+    "settingsClientTitle": "Fladder",
+    "settingsContinue": "Jatka",
+    "settingsEnableOsMediaControls": "Ota käyttöön käyttöjärjestelmän mediaohjaimet",
+    "settingsEnableOsMediaControlsDesc": "Salli toiston ohjaus medianäppäimillä ja näytä parhaillaan toistettava media käyttöjärjestelmässä",
+    "settingsHomeBannerDescription": "Näytä diaesityksenä tai karusellina tai piilota banneri",
+    "settingsHomeBannerTitle": "Etusivun banneri",
+    "settingsHomeBannerInformationDesc": "Etusivun bannerissa näytettävät tiedot",
+    "settingsHomeBannerInformationTitle": "Bannerin tiedot",
+    "settingsHomeNextUpDesc": "Etusivulla näytettävien julisteiden tyyppi",
+    "settingsHomeNextUpTitle": "Seuraavaksi-julisteet",
+    "settingsNextUpCutoffDays": "Seuraavaksi-raja päivinä",
+    "settingsPlayerCustomSubtitlesDesc": "Mukauta kokoa, väriä, sijaintia ja reunaviivaa",
+    "settingsPlayerCustomSubtitlesTitle": "Mukauta tekstityksiä",
+    "settingsPlayerDesc": "Kuvasuhde, Lisäasetukset",
+    "settingsPlayerMobileWarning": "Laitteistokiihdytyksen ja natiivien libass-tekstitysten käyttäminen Androidilla saattaa estää joidenkin tekstitysten näkymisen.",
+    "settingsPlayerNativeLibassAccelDesc": "Käytä videosoittimen libass-tekstitysten piirtoa",
+    "settingsPlayerNativeLibassAccelTitle": "Natiivit libass-tekstitykset",
+    "settingsPlayerBufferSizeTitle": "Videon puskurin koko",
+    "settingsPlayerPlayPauseFadeTitle": "Toiston ja tauon äänenvoimakkuuden häivytys",
+    "settingsPlayerPlayPauseFadeDesc": "Häivytä äänenvoimakkuus toistettaessa tai keskeytettäessä",
+    "settingsPlayerBufferSizeDesc": "Määritä videotoiston puskurin koko, joka määrää kuinka paljon dataa ladataan välimuistiin.",
+    "settingsPlayerTitle": "Soitin",
+    "settingsPlayerVideoHWAccelDesc": "Käytä näytönohjainta videon piirtoon (suositus)",
+    "settingsPlayerVideoHWAccelTitle": "Laitteistokiihdytys",
+    "settingsPosterPinch": "Skaalaa julisteita nipistyszoomilla",
+    "settingsPosterSize": "Julisteen koko",
+    "settingsProfileDesc": "Lukitusnäyttö, Paikallinen URL, Seerr",
+    "settingsProfileTitle": "Profiili",
+    "settingsProfileSubtitleLanguage": "Ensisijainen tekstityskieli",
+    "anyLanguage": "Mikä tahansa kieli",
+    "settingsProfileSubtitleMode": "Tekstitystila",
+    "subtitlePlaybackModeDefault": "Oletus",
+    "subtitlePlaybackModeAlways": "Toista aina",
+    "subtitlePlaybackModeOnlyForced": "Vain pakotetut",
+    "subtitlePlaybackModeNone": "Ei mitään",
+    "subtitlePlaybackModeSmart": "Älykäs",
+    "settingsQuickConnectTitle": "Pikayhteys",
+    "settingsSecurity": "Suojaus",
+    "settingsShowScaleSlider": "Näytä julisteen koon liukusäädin",
+    "settingsVisual": "Ulkoasu",
+    "shadow": "Varjo",
+    "backgroundColor": "Taustaväri",
+    "showAlbum": "Näytä albumi",
+    "showDetails": "Näytä tiedot",
+    "showEmpty": "Näytä tyhjät",
+    "shuffleVideos": "Sekoita videot",
+    "somethingWentWrong": "Jokin meni vikaan",
+    "somethingWentWrongPasswordCheck": "Jokin meni vikaan. Tarkista salasanasi.",
+    "sortBy": "Lajitteluperuste",
+    "sortName": "Nimi",
+    "sortOrder": "Lajittelujärjestys",
+    "start": "Aloita",
+    "studio": "{count, plural, other{Studiot} one{Studio}}",
+    "@studio": {
+        "description": "studio",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "subtitleConfigurator": "Tekstitysten määritys",
+    "subtitleConfiguratorPlaceHolder": "Tämä on paikkamerkkiteksti, täällä ei ole mitään nähtävää.",
+    "subtitles": "Tekstitykset",
+    "switchUser": "Vaihda käyttäjää",
+    "sync": "Synkronoi",
+    "syncDeleteItemDesc": "Poistetaanko kaikki synkronoitu data kohteelle {item}?",
+    "@syncDeleteItemDesc": {
+        "description": "Sync delete item pop-up window",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteItemTitle": "Poista synkronoitu kohde",
+    "syncDeletePopupPermanent": "Tämä toiminto on pysyvä ja poistaa kaikki paikallisesti synkronoidut tiedostot",
+    "syncPlaylistDeleteTitle": "Poista synkronoitu soittolista",
+    "syncPlaylistDeleteContent": "Haluatko poistaa myös tästä soittolistasta synkronoidut kappaleet?",
+    "syncPlaylistKeepTracks": "Säilytä kappaleet",
+    "syncPlaylistRemoveTracks": "Poista kappaleet",
+    "syncDetails": "Synkronoinnin tiedot",
+    "syncOpenParent": "Avaa yläkohde",
+    "syncRemoveDataDesc": "Poistetaanko synkronoitu videodata? Tämä on pysyvää ja tiedostot on synkronoitava uudelleen",
+    "syncRemoveDataTitle": "Poistetaanko synkronoitu data?",
+    "syncedItems": "Synkronoidut kohteet",
+    "tag": "{count, plural, one{Tagi} other{Tagit}}",
+    "@tag": {
+        "description": "tag",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "theme": "Teema",
+    "themeColor": "Teeman väri",
+    "themeModeDark": "Tumma",
+    "themeModeLight": "Vaalea",
+    "themeModeSystem": "Järjestelmä",
+    "timeAndAnnotation": "{minutes} ja {seconds}",
+    "@timeAndAnnotation": {
+        "description": "timeAndAnnotation",
+        "placeholders": {
+            "minutes": {
+                "type": "String"
+            },
+            "seconds": {
+                "type": "String"
+            }
+        }
+    },
+    "timeOut": "Aikakatkaisu",
+    "totalSize": "Kokonaiskoko: {size}",
+    "@totalSize": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "type": "{count, plural, other{Tyypit} one{Tyyppi}}",
+    "@type": {
+        "description": "type",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "unPlayed": "Toistamaton",
+    "unableToConnectHost": "Isäntään ei saada yhteyttä",
+    "unableToReverseAction": "Tätä toimintoa ei voi peruuttaa. Se poistaa kaikki asetukset.",
+    "unknown": "Tuntematon",
+    "useDefaults": "Käytä oletuksia",
+    "userName": "Käyttäjänimi",
+    "video": "{count, plural, one{Video} other{Videot}}",
+    "@video": {
+        "description": "Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "videoScaling": "Videon skaalaus",
+    "videoScalingContain": "Sovita sisään",
+    "videoScalingCover": "Peitä",
+    "videoScalingFill": "Täytä",
+    "videoScalingFillScreenDesc": "Täytä navigointi- ja tilapalkki",
+    "videoScalingFillScreenNotif": "Koko näytön täyttö korvaa videon sovituksen vaakasuunnassa",
+    "videoScalingFillScreenTitle": "Täytä näyttö",
+    "pictureInPictureTitle": "Kuva kuvassa",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "Automaattinen kuva kuvassa",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureSubtitle": "Siirry automaattisesti kuva kuvassa -tilaan, kun poistut toistimesta. Säätimissä oleva PiP-painike toimii aina tästä asetuksesta riippumatta.",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "Kuva kuvassa -toiminto ei ole käytettävissä tällä laitteella",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "videoScalingFitHeight": "Sovita korkeus",
+    "videoScalingFitWidth": "Sovita leveys",
+    "videoScalingScaleDown": "Pienennä",
+    "viewPhotos": "Näytä valokuvat",
+    "writer": "{count, plural, other{Käsikirjoittaja} two{Käsikirjoittajat}}",
+    "@writer": {
+        "description": "writer",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "year": "{count, plural, other{Vuodet} one{Vuosi}}",
+    "@year": {
+        "description": "year",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addToNewCollection": "Uusi kokoelma",
+    "addItemsToCollection": "Lisää {itemLength} kohdetta kokoelmaan",
+    "@addItemsToCollection": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addedToCollection": "Lisätty kokoelmaan {collectionName}",
+    "@addedToCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "removedFromCollection": "Poistettu kokoelmasta {collectionName}",
+    "@removedFromCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "addToNewPlaylist": "Uusi soittolista",
+    "addItemsToPlaylist": "Lisää {itemLength} kohdetta soittolistaan",
+    "@addItemsToPlaylist": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addedToPlaylist": "Lisätty soittolistaan {playlistName}",
+    "@addedToPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "removedFromPlaylist": "Poistettu soittolistasta {playlistName}",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncStatusEnqueued": "Jonossa",
+    "syncStatusRunning": "Käynnissä",
+    "syncStatusNotFound": "Ei löytynyt",
+    "syncStatusFailed": "Epäonnistui",
+    "syncStatusCanceled": "Peruutettu",
+    "syncStatusWaitingToRetry": "Odottaa uudelleenyritystä",
+    "syncStatusPaused": "Keskeytetty",
+    "syncStatusSynced": "Synkronoitu",
+    "syncOverlayDeleting": "Poistetaan synkronoitua kohdetta",
+    "syncOverlaySyncing": "Synkronoidaan kohteen tietoja",
+    "syncSelectDownloadsFolder": "Valitse latauskansio",
+    "syncNoFolderSetup": "Synkronointikansiota ei ole määritetty",
+    "syncRemoveUnableToDeleteItem": "Synkronoidun kohteen poistaminen epäonnistui, jokin meni vikaan",
+    "syncAddItemForSyncing": "Lisätty {item} synkronoitavaksi",
+    "@syncAddItemForSyncing": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "startedSyncingItem": "Aloitettiin kohteen {item} synkronointi",
+    "@startedSyncingItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "unableToSyncItem": "Kohteen {item} synkronointi epäonnistui, jokin meni vikaan",
+    "@unableToSyncItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutVersion": "Versio: {version}",
+    "@aboutVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutBuild": "Koontiversio: {buildNumber}",
+    "@aboutBuild": {
+        "placeholders": {
+            "buildNumber": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutCreatedBy": "Tekijä DonutWare",
+    "aboutSocials": "Sosiaalinen media",
+    "aboutLicenses": "Lisenssit",
+    "subtitle": "Tekstitys",
+    "subtitleConfiguration": "Tekstityksen määritykset",
+    "off": "Pois",
+    "screenBrightness": "Näytön kirkkaus",
+    "enableEdgeGesturesTitle": "Ota reunaeleet käyttöön",
+    "enableEdgeGesturesDesc": "Säädä kirkkautta ja äänenvoimakkuutta liu'uttamalla ylös ja alas näytön reunoilla",
+    "reverseEdgeGesturesTitle": "Vaihda reunaeleet",
+    "reverseEdgeGesturesDesc": "Vaihda kirkkauden ja äänenvoimakkuuden säädön puolet keskenään",
+    "scale": "Skaala",
+    "playBackSettings": "Toistoasetukset",
+    "settingsAutoNextTitle": "Seuraavaksi-esikatselu",
+    "settingsAutoNextDesc": "Näyttää seuraavaksi-esikatselun lopun lähestyessä, jos jonossa on toinen kohde",
+    "autoNextOffSmartTitle": "Älykäs",
+    "autoNextOffSmartDesc": "Näyttää seuraavaksi-näkymän lopputekstien alkaessa, jos niiden jälkeen on jäljellä enintään 10 sekuntia. Muuten näkymä näytetään, kun toistoaikaa on jäljellä 30 sekuntia",
+    "autoNextOffStaticTitle": "Staattinen",
+    "autoNextOffStaticDesc": "Näytä seuraavaksi-näkymä, kun toistoaikaa on jäljellä 30 sekuntia",
+    "playbackRate": "Toistonopeus",
+    "speed": "Nopeus",
+    "unableToPlayMedia": "Yhteensopivan mediatyypin etsinnässä tapahtui virhe",
+    "errorOpeningMedia": "Tämän median toistossa tapahtui virhe",
+    "unableToPlayBooksOnWeb": "Kirjoja ei toistaiseksi tueta verkossa",
+    "defaultFilterForLibrary": "Kirjaston oletussuodatin",
+    "updateFilterForLibrary": "Päivitä suodatin",
+    "removeFilterForLibrary": "Poistetaanko {filter}?",
+    "@removeFilterForLibrary": {
+        "description": "removeFilterForLibrary",
+        "placeholders": {
+            "filter": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteFilterConfirmation": "Haluatko varmasti poistaa tämän suodattimen?",
+    "deleteRequestConfirmation": "Haluatko varmasti poistaa tämän pyynnön?",
+    "libraryFiltersLimitReached": "Suodattimien yläraja saavutettu (10), poista joitakin suodattimia",
+    "libraryFiltersRemoveAll": "Poista kaikki suodattimet",
+    "libraryFiltersRemoveAllConfirm": "Tämä poistaa kaikki tallennetut suodattimet jokaisesta kirjastosta",
+    "playerSettingsOrientationTitle": "Soittimen suunta",
+    "playerSettingsOrientationDesc": "Pakota videosoitin tiettyihin suuntiin",
+    "deviceOrientationPortraitUp": "Pystysuunta ylös",
+    "deviceOrientationPortraitDown": "Pystysuunta alas",
+    "deviceOrientationLandscapeLeft": "Vaakasuunta vasemmalle",
+    "deviceOrientationLandscapeRight": "Vaakasuunta oikealle",
+    "clientSettingsSchemeVariantTitle": "Väriteeman muunnelma",
+    "schemeSettingsTonalSpot": "Sävypiste",
+    "schemeSettingsFidelity": "Tarkkuus",
+    "schemeSettingsMonochrome": "Yksivärinen",
+    "schemeSettingsNeutral": "Neutraali",
+    "schemeSettingsVibrant": "Eloisa",
+    "schemeSettingsExpressive": "Ilmeikäs",
+    "schemeSettingsContent": "Sisältö",
+    "schemeSettingsRainbow": "Sateenkaari",
+    "schemeSettingsFruitSalad": "Hedelmäsalaatti",
+    "clientSettingsRequireWifiTitle": "Vaadi Wi-Fi",
+    "clientSettingsRequireWifiDesc": "Lataa vain, kun yhteydessä Wi-Fi-verkkoon",
+    "libraryShuffleAndPlayItems": "Sekoita ja toista kohteet",
+    "libraryPlayItems": "Toista kohteet",
+    "clientSettingsShowAllCollectionsTitle": "Näytä kaikki kokoelmatyypit",
+    "clientSettingsShowAllCollectionsDesc": "Näyttää kaikki kokoelmatyypit, myös ne, joita Fladder ei tue",
+    "stop": "Pysäytä",
+    "resumeVideo": "Jatka videota",
+    "closeVideo": "Sulje video",
+    "playNextVideo": "Toista seuraava video",
+    "playerSettingsBackendTitle": "Mediasoittimen taustajärjestelmä",
+    "playerSettingsBackendDesc": "Valitse haluamasi mediasoitin parasta toistokokemusta varten",
+    "playerSettingsReplayGainTitle": "ReplayGain-asetukset",
+    "playerSettingsReplayGainDesc": "Normalisoi musiikin äänenvoimakkuus ReplayGain-tunnisteiden avulla.",
+    "playerSettingsReplayGainLevelTitle": "ReplayGain-taso",
+    "playerSettingsReplayGainLevelDesc": "Aseta ReplayGain-normalisoinnin tavoiteäänenvoimakkuus. Yleinen standardi on -14 dB, mutta voit säätää sen mieltymyksesi mukaan.",
+    "settingsPlayerCrossfadeTitle": "Ristihäivytys",
+    "settingsPlayerCrossfadeDesc": "Häivytä kappaleiden välillä, jotka eivät ole peräkkäin samalla albumilla",
+    "settingsPlayerCrossfadeDurationTitle": "Ristihäivytyksen kesto",
+    "settingsPlayerCrossfadeDurationDesc": "Ristihäivytyksen kesto",
+    "defaultLabel": "Oletus",
+    "@defaultLabel": {
+        "description": "To indicate a default value, default media player backend"
+    },
+    "noVideoPlayerOptions": "Valitulla taustajärjestelmällä ei ole asetuksia",
+    "mdkExperimental": "MDK on edelleen kokeellisessa vaiheessa",
+    "skipButtonLabel": "Ohita {segment}",
+    "@skipButtonLabel": {
+        "placeholders": {
+            "segment": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentUnknown": "Tuntematon",
+    "mediaSegmentCommercial": "Mainos",
+    "mediaSegmentPreview": "Esikatselu",
+    "mediaSegmentRecap": "Kertaus",
+    "mediaSegmentOutro": "Lopputekstit",
+    "mediaSegmentIntro": "Alkutekstit",
+    "errorLogs": "Virhelokit",
+    "external": "Ulkoinen",
+    "downloadFile": "Lataa {type}",
+    "@downloadFile": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "copyStreamUrl": "Kopioi stream-linkki",
+    "settingsLayoutSizesTitle": "Asettelukoot",
+    "settingsLayoutSizesDesc": "Valitse, mitä asettelukokoja sovellus voi käyttää ikkunan koon perusteella",
+    "settingsLayoutModesTitle": "Asettelutilat",
+    "settingsLayoutModesDesc": "Määritä, voiko sovellus käyttää yhden vai kahden paneelin asetteluja",
+    "phone": "Puhelin",
+    "tablet": "Tabletti",
+    "desktop": "Työpöytä",
+    "television": "Televisio",
+    "layoutModeSingle": "Yksi",
+    "layoutModeDual": "Kaksi",
+    "copiedToClipboard": "Kopioitu leikepöydälle",
+    "episodeAvailable": "Saatavilla",
+    "episodeUnaired": "Esittämättä",
+    "episodeMissing": "Puuttuu",
+    "internetStreamingQualityTitle": "Internet-laatu",
+    "internetStreamingQualityDesc": "Suurin suoratoistolaatu internetin yli (mobiili)",
+    "homeStreamingQualityTitle": "Kotiverkon laatu",
+    "homeStreamingQualityDesc": "Suurin suoratoistolaatu kotiverkkoon yhdistettäessä",
+    "qualityOptionsTitle": "Laatuasetukset",
+    "qualityOptionsOriginal": "Alkuperäinen",
+    "qualityOptionsAuto": "Automaattinen",
+    "advancedVideoOptionsTitle": "Videon lisäasetukset",
+    "advancedVideoOptionsDesc": "Ota käyttöön HDR, sävykartoitus ja edistynyt värinkäsittely (epävakaa joillakin laitteilla)",
+    "version": "Versio",
+    "mediaSegmentActions": "Mediasegmenttien toiminnot",
+    "segmentActionNone": "Ei mitään",
+    "segmentActionAskToSkip": "Kysy ohittamista",
+    "segmentActionSkipOnce": "Ohita kerran",
+    "segmentActionSkip": "Ohita",
+    "loading": "Ladataan",
+    "exitFladderTitle": "Sulje Fladder",
+    "exitFladderDesc": "Haluatko varmasti sulkea Fladderin?",
+    "quitMultipleWindowsDesc": "Sinulla on {count} ikkunaa auki. Fladderin sulkeminen sulkee ne kaikki. Haluatko jatkaa?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "Sulje ikkuna",
+    "castAndCrew": "Näyttelijät ja työryhmä",
+    "guestActor": "{count, plural, other{Vierailevat näyttelijät} one{Vieraileva näyttelijä}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "maxConcurrentDownloadsTitle": "Samanaikaisten latausten enimmäismäärä",
+    "maxConcurrentDownloadsDesc": "Määrittää, kuinka monta latausta voi olla käynnissä samanaikaisesti. Poista rajoitus käytöstä asettamalla arvoksi 0.",
+    "playbackTrackSelection": "Toiston raitavalinta",
+    "rememberSubtitleSelections": "Aseta tekstitysraita edellisen kohteen perusteella",
+    "rememberAudioSelections": "Aseta ääniraita edellisen kohteen perusteella",
+    "rememberSubtitleSelectionsDesc": "Yritä asettaa tekstitysraidaksi edellistä videota lähinnä vastaava.",
+    "rememberAudioSelectionsDesc": "Yritä asettaa ääniraidaksi edellistä videota lähinnä vastaava.",
+    "similarToRecentlyPlayed": "Samankaltaisia kuin viimeksi toistetut",
+    "similarToLikedItem": "Samankaltaisia kuin pidetty kohde",
+    "hasDirectorFromRecentlyPlayed": "Ohjaaja viimeksi toistetuista",
+    "hasActorFromRecentlyPlayed": "Näyttelijä viimeksi toistetuista",
+    "hasLikedDirector": "Pidetty ohjaaja",
+    "hasLikedActor": "Pidetty näyttelijä",
+    "latest": "Uusimmat",
+    "recommended": "Suositellut",
+    "playbackType": "Toistotapa",
+    "playbackTypeDirect": "Suora",
+    "playbackTypeTranscode": "Transkoodaus",
+    "playbackTypeOffline": "Offline-tila",
+    "playbackTypeTV": "TV",
+    "latestReleases": "Uusimmat julkaisut",
+    "autoCheckForUpdates": "Tarkista päivitykset säännöllisesti",
+    "newReleaseFoundTitle": "Päivitys {newRelease} saatavilla!",
+    "@newReleaseFoundTitle": {
+        "placeholders": {
+            "newRelease": {
+                "type": "String"
+            }
+        }
+    },
+    "newUpdateFoundOnGithub": "Githubista löytyi uusi päivitys",
+    "enableBackgroundPostersTitle": "Ota taustajulisteet käyttöön",
+    "enableBackgroundPostersDesc": "Näytä satunnaisia julisteita soveltuvilla näytöillä",
+    "notificationDownloadingDownloading": "Ladataan",
+    "notificationDownloadingPaused": "Lataus keskeytetty",
+    "notificationDownloadingFinished": "Lataus valmis",
+    "notificationDownloadingError": "Latausvirhe",
+    "syncAllItemsTitle": "Synkronoidaanko kaikki kohteet kirjastosta {itemName}?",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAllItemsDesc": "Tämä synkronoi ({itemCount}) kohdetta kohteesta '{itemName}' laitteellesi.\nTämä voi kestää hetken kohteiden määrästä riippuen.",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "Poistetaanko kaikki synkronoidut kohteet kohteesta {itemName}?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsDesc": "Tämä poistaa kaikki synkronoidut kohteet kohteesta '{itemName}'.\nTämä on pysyvää, ja sinun on synkronoitava ({itemCount}) tiedostoa uudelleen.",
+    "@syncDeleteAllItemsDesc": {
+        "description": "syncDeleteAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncPauseAll": "Keskeytä kaikki",
+    "syncResumeAll": "Jatka kaikkia",
+    "syncStopAll": "Pysäytä kaikki",
+    "syncDeleteAll": "Poista kaikki tiedostot",
+    "syncAllFiles": "Synkronoi kaikki tiedostot",
+    "usePostersForLibraryIconsTitle": "Näytä julisteet kirjastokuvakkeina",
+    "usePostersForLibraryIconsDesc": "Näytä kirjastoille julisteet kuvakkeiden sijaan",
+    "offline": "Offline-tila",
+    "shortCuts": "Pikanäppäimet",
+    "keyboardShortCuts": "Näppäimistön pikanäppäimet",
+    "skipForwardLength": "Eteenpäin hypyn pituus",
+    "skipBackLength": "Taaksepäin hypyn pituus",
+    "playPause": "Toista/Keskeytä",
+    "seekForward": "Kelaa eteenpäin",
+    "seekBack": "Kelaa taaksepäin",
+    "seekForwardInstant": "Kelaa eteenpäin (välitön)",
+    "seekBackInstant": "Kelaa taaksepäin (välitön)",
+    "stepForward": "Askel eteenpäin",
+    "stepBack": "Askel taaksepäin",
+    "mute": "Mykistä",
+    "volumeUp": "Lisää äänenvoimakkuutta",
+    "volumeDown": "Vähennä äänenvoimakkuutta",
+    "speedUp": "Nopeuta",
+    "speedDown": "Hidasta",
+    "nextVideo": "Seuraava video",
+    "prevVideo": "Edellinen video",
+    "nextChapter": "Seuraava luku",
+    "prevChapter": "Edellinen luku",
+    "fullScreen": "Koko näyttö",
+    "skipMediaSegment": "Ohita mediasegmentti",
+    "exit": "Poistu",
+    "shortCutAlreadyAssigned": "Pikanäppäin '{hotKey}' on jo määritetty",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "blurred": "Sumennettu",
+    "volumeIndicator": "Äänenvoimakkuus: {volume}",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    },
+    "brightnessIndicator": "Kirkkaus: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "speedIndicator": "Toistonopeus: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "enableSpeedBoostTitle": "Ota nopeustehostus käyttöön",
+    "enableSpeedBoostDesc": "Pidä näyttöä (mobiili) tai välilyöntiä (työpöytä) painettuna nostaaksesi toistonopeutta tilapäisesti",
+    "speedBoostRateTitle": "Nopeustehostuksen nopeus",
+    "speedBoostRateDesc": "Toistonopeus, kun nopeustehostus on aktiivinen",
+    "enableDoubleTapSeekTitle": "Kaksoisnapauta kelataksesi/toistaaksesi/keskeyttääksesi",
+    "enableDoubleTapSeekDesc": "Kaksoisnapauta näytön vasenta/oikeaa reunaa kelataksesi taakse-/eteenpäin. Kaksoisnapauta keskeltä toistaaksesi/keskeyttääksesi",
+    "quickConnectPostFailed": "Pikayhteyskoodin haku epäonnistui",
+    "quickConnectLoginUsingCode": "Käytetään pikayhteyttä",
+    "quickConnectEnterCodeDescription": "Kirjaudu sisään syöttämällä alla oleva koodi",
+    "openJellyfinQuickConnect": "Avaa Jellyfin QuickConnect",
+    "showMore": "Näytä lisää",
+    "showLess": "Näytä vähemmän",
+    "itemColorsTitle": "Kohteen värit",
+    "itemColorsDesc": "Käytä kohteen pääväriä tietosivun teemana",
+    "mediaTunnelingTitle": "Median tunnelointi",
+    "mediaTunnelingDesc": "Ota median tunnelointi käyttöön natiivisoittimessa",
+    "clientSettingsUseSystemIMETitle": "Käytä järjestelmän näppäimistöä",
+    "clientSettingsUseSystemIMEDesc": "Käytä järjestelmäsi sisäänrakennettua näppäimistöä",
+    "nextUpInCount": "Seuraavaksi {seconds} kuluttua",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "takeScreenshot": "Ota kuvakaappaus",
+    "takeScreenshotClean": "Ota kuvakaappaus (ilman tekstitystä)",
+    "toggleSubtitles": "Näytä tai piilota tekstitys",
+    "screenshotTaken": "Kuvakaappaus tallennettu!",
+    "screenshotCleanTaken": "Kuvakaappaus ilman tekstitystä tallennettu!",
+    "errorTakingScreenshot": "Kuvakaappauksen ottamisessa tapahtui virhe",
+    "openImeKeyboard": "Avaa IME-näppäimistö",
+    "screensaverDvd": "DVD",
+    "screensaverLogo": "Logo",
+    "screensaverTime": "Aika",
+    "screensaverBlack": "Musta",
+    "playerSettingsScreensaverTitle": "Näytönsäästäjä",
+    "playerSettingsScreensaverDesc": "Valitse näytönsäästäjä, joka näytetään toiston ollessa toimettomana",
+    "settingsLocalUrlTitle": "Paikallinen Jellyfin-osoite",
+    "settingsLocalUrlSetTitle": "Määritä paikallinen Jellyfin-osoite",
+    "settingsLocalUrlSetDesc": "Määritä paikallinen Jellyfin-osoite. Fladder käyttää tätä osoitetta automaattisesti, kun laitteesi on samassa verkossa.",
+    "regenerateTrickplayImages": "Luo trickplay-kuvat uudelleen",
+    "controlPanel": "Hallintapaneeli",
+    "controlPanelDesc": "Palvelin, aktiviteetti, käyttäjät, kirjasto",
+    "controlDashboard": "Hallintanäkymä",
+    "serverName": "Palvelimen nimi",
+    "serverVersion": "Palvelimen versio",
+    "webVersion": "Web-versio",
+    "devices": "Laitteet",
+    "used": "Käytetty",
+    "storagePaths": "Tallennuspolut",
+    "programData": "Ohjelman tiedot",
+    "web": "Web",
+    "cache": "Välimuisti",
+    "logs": "Lokit",
+    "transcodingTemp": "Transkoodauksen väliaikaistiedostot",
+    "count": "Määrä",
+    "scanAllLibraries": "Tarkista kaikki kirjastot",
+    "restartServer": "Käynnistä palvelin uudelleen",
+    "shutDownServer": "Sammuta palvelin",
+    "dashboardDesc": "Palvelin, määrä, laitteet, tallennustila",
+    "lastActivity": "Viimeisin aktiviteetti",
+    "activeTasks": "Aktiiviset tehtävät",
+    "hours": "{count, plural, one{Tunti} other{Tuntia}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{Viikko} other{Viikkoa}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{Kuukausi} other{Kuukautta}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{Vuosi} other{Vuotta}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "days": "{count, plural, one{Päivä} other{Päivää}}",
+    "@days": {
+        "description": "Pluralization for days (keeps existing 'days' getter)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "4"
+            }
+        }
+    },
+    "timeAgo": "{time} sitten",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "airsIn": "Esitetään {count} {duration} kuluttua",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "lastRunTaking": "Viimeksi suoritettu {date}, kesto {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Alle minuutti",
+    "plannedTasks": "Suunnitellut tehtävät",
+    "taskTriggerTypeInterval": "Aikaväli",
+    "taskTriggerTypeDaily": "Päivittäin",
+    "taskTriggerTypeWeekly": "Viikoittain",
+    "taskTriggerTypeStartup": "Käynnistys",
+    "create": "Luo",
+    "taskTriggerTypeName": "Käynnistystyyppi",
+    "newTrigger": "Uusi käynnistin",
+    "newTaskTrigger": "Uusi tehtävän käynnistin",
+    "dayOfTheWeek": "Viikonpäivä",
+    "time": "Aika",
+    "interval": "Aikaväli",
+    "taskTimeLimitInHours": "Aikaraja (tuntia)",
+    "taskTriggerIntervalDesc": "Joka {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "Päivittäin klo {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Viikoittain {day} klo {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Aikaraja: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "Suorituskyky",
+    "serverNameLabel": "Palvelimen nimi",
+    "cachePath": "Välimuistin polku",
+    "metadataPath": "Metatietojen polku",
+    "maxConcurrentLibraryScanLabel": "Samanaikaisten kirjastotarkistusten enimmäismäärä",
+    "maxConcurrentLibraryScanDesc": "Rinnakkaisten tehtävien enimmäismäärä kirjastotarkistusten aikana. Jos jätät tämän tyhjäksi, raja valitaan järjestelmäsi ydinmäärän perusteella. VAROITUS: Liian suuri arvo voi aiheuttaa ongelmia verkkotiedostojärjestelmissä; jos kohtaat ongelmia, pienennä tätä lukua.",
+    "maxImageDecodingThreadsLabel": "Kuvien purkusäikeiden enimmäismäärä",
+    "maxImageDecodingThreadsDesc": "Rinnakkain suoritettavien kuvakoodausten enimmäismäärä. Jos jätät tämän tyhjäksi, raja valitaan järjestelmäsi ydinmäärän perusteella.",
+    "controlPanelServerDesc": "Palvelimen nimi, Quick Connect, suorituskyky",
+    "deleteUserTitle": "Poistetaanko käyttäjä {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Tämä poistaa pysyvästi käyttäjän {user} ja kaikki siihen liittyvät asetukset.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "Käyttäjän tiedot",
+    "allowManageServer": "Salli tämän käyttäjän hallita palvelinta",
+    "allowCollections": "Salli tämän käyttäjän hallita kokoelmia",
+    "allowEditSubtitles": "Salli tämän käyttäjän muokata tekstityksiä",
+    "featureAccess": "Ominaisuuksien käyttöoikeudet",
+    "allowLiveTVAccess": "Salli Live TV -käyttö",
+    "allowLiveTVRecording": "Salli Live TV -tallennusten hallinta",
+    "mediaPlayback": "Median toisto",
+    "allowMediaPlayback": "Salli median toisto",
+    "allowVideoTranscoding": "Salli transkoodausta vaativa videon toisto",
+    "allowAudioTranscoding": "Salli transkoodausta vaativa äänen toisto",
+    "allowMediaConversion": "Salli mediamuunnosta vaativa videon toisto",
+    "forceRemoteTranscoding": "Pakota etälähteen transkoodaus",
+    "syncplay": "Katso yhdessä",
+    "syncplayAccess": "Syncplay-käyttöoikeudet",
+    "syncplayAccessCreateAndJoinGroups": "Luo ja liity ryhmiin",
+    "syncplayAccessJoinGroups": "Liity ryhmiin",
+    "syncplayAccessNone": "Ei mitään",
+    "allowMediaDeletion": "Salli median poistaminen",
+    "allLibraries": "Kaikki kirjastot",
+    "libraryAccess": "Kirjaston käyttöoikeudet",
+    "enableAllLibraries": "Salli pääsy kaikkiin kirjastoihin",
+    "enableAllDevices": "Salli pääsy kaikkiin laitteisiin",
+    "parentalControl": "Lapsilukko",
+    "blockedItemsNoRating": "Estetyt kohteet, joilla ei ole arviota tai jonka arviota ei tunnisteta",
+    "maxParentalRating": "Suurin sallittu ikäraja",
+    "allowItemsTags": "Salli kohteet, joilla on tunnisteet",
+    "blockItemsTags": "Estä kohteet, joilla on tunnisteet",
+    "accessSchedules": "Käyttöaikataulut",
+    "addAccessSchedule": "Lisää käyttöaikataulu",
+    "dayOfWeek": "Viikonpäivä",
+    "startTime": "Alkamisaika",
+    "endTime": "Päättymisaika",
+    "addTag": "Lisää tunniste",
+    "createNewUser": "Luo uusi käyttäjä",
+    "createUser": "Luo käyttäjä",
+    "users": "Käyttäjät",
+    "editUser": "Muokkaa käyttäjää",
+    "general": "Yleiset",
+    "access": "Käyttöoikeudet",
+    "endTimeMustBeAfter": "Päättymisajan on oltava alkamisajan jälkeen",
+    "assignLibraries": "Määritä kirjastot",
+    "enableAccessAllLibraries": "Salli pääsy kaikkiin kirjastoihin",
+    "currentPassword": "Nykyinen salasana",
+    "newPassword": "Uusi salasana",
+    "confirmPassword": "Vahvista salasana",
+    "resetPassword": "Nollaa salasana",
+    "passwordResetSuccess": "Salasanan nollaus onnistui",
+    "passwordResetFailed": "Salasanan nollaus epäonnistui",
+    "passwordMismatch": "Uusi salasana ja vahvistus eivät täsmää",
+    "passwordChangeSuccess": "Salasanan vaihto onnistui",
+    "savePassword": "Tallenna salasana",
+    "deleteLibraryConfirmTitle": "Poistetaanko kirjasto?",
+    "deleteLibraryConfirmMessage": "Haluatko varmasti poistaa kirjaston {libraryName}?\nTätä toimintoa ei voi peruuttaa.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "Kirjastoa ei ole valittu",
+    "enabledPhotos": "Valokuvat käytössä",
+    "enabledLUFSScan": "LUFS-skannaus käytössä",
+    "enabledRealtimeMonitoring": "Reaaliaikainen valvonta käytössä",
+    "automaticallyAddToCollection": "Lisää automaattisesti kokoelmaan",
+    "enabledEmbeddedTitles": "Upotetut nimet käytössä",
+    "enabledEmbeddedExtrasTitles": "Lisämateriaalien upotetut nimet käytössä",
+    "automaticRefreshInterval": "Automaattinen päivitysväli",
+    "autoRefreshIntervalNote": "Tämän käyttöönotto voi pidentää kirjaston päivitysaikoja.",
+    "preferredDownloadLanguage": "Ensisijainen latauskieli",
+    "countryRegion": "Maa/alue",
+    "saveMetadata": "Tallenna metatiedot",
+    "metadataFetchers": "Metatietojen hakijat ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "Ota käyttöön ja järjestä ensisijaiset metatietojen hakijat tärkeysjärjestykseen.",
+    "enableAndRankImagesFetchers": "Ota käyttöön ja järjestä ensisijaiset kuvien hakijat tärkeysjärjestykseen.",
+    "imageFetchers": "Kuvien hakijat ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentProviders": "Mediasegmenttien tarjoajat",
+    "enableAndRankMediaSegmentProviders": "Ota käyttöön ja järjestä ensisijaiset mediasegmenttien tarjoajat tärkeysjärjestykseen.",
+    "trickplay": "Toiston esikatselukuvat",
+    "enableTrickplayImageExtraction": "Ota käyttöön trickplay-kuvien poiminta",
+    "extractTrickplayImagesDuringLibraryScan": "Poimi trickplay-kuvat kirjaston skannausten aikana",
+    "saveTrickplayImagesNextToMedia": "Tallenna trickplay-kuvat median viereen",
+    "chapterImages": "Lukujen kuvat",
+    "enableChapterImageExtraction": "Ota käyttöön lukujen kuvien poiminta",
+    "extractChapterImagesDuringLibraryScan": "Poimi lukujen kuvat kirjaston skannausten aikana",
+    "subtitleDownloads": "Tekstitysten lataukset",
+    "downloadLanguages": "Lataa kielet",
+    "subtitleDownloaders": "Tekstitysten lataajat",
+    "onlyPerfectSubtitleMatch": "Lataa vain mediaan täsmälleen sopivat tekstitykset",
+    "perfectSubtitleMatchDescription": "Täsmällisen vastaavuuden vaatiminen suodattaa tekstitykset niin, että mukaan tulevat vain ne, jotka on testattu ja vahvistettu juuri tämän videotiedoston kanssa. Tämän poistaminen käytöstä lisää todennäköisyyttä, että tekstitys ladataan, mutta kasvattaa väärin ajoitetun tai virheellisen tekstityksen riskiä.",
+    "skipSubtitlesIfAudioMatches": "Ohita, jos oletusääniraita vastaa latauskieltä",
+    "skipSubtitlesIfEmbedded": "Ohita, jos video sisältää jo upotetut tekstitykset",
+    "saveSubtitlesNextToMedia": "Tallenna tekstitykset median viereen",
+    "saveArtWorkNextToMedia": "Tallenna kuvitus mediatiedostojen viereen",
+    "saveArtWorkNextToMediaDesc": "Kuvituksen tallentaminen mediakansioihin sijoittaa ne paikkaan, jossa niitä voi helposti muokata.",
+    "select": "Valitse",
+    "newLibrary": "Uusi kirjasto",
+    "contentType": "Sisältötyyppi",
+    "metadataImageLongPressTouch": "Poista kuva painamalla pitkään",
+    "metadataImageLongPressClick": "Poista kuva napsauttamalla hiiren oikealla painikkeella",
+    "primary": "Ensisijainen",
+    "logo": "{count, plural, other{Logot} one{Logo}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, other{Taustakuvat} one{Taustakuva}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "Valitse lisättävä kansio",
+    "systemRootFolder": "Järjestelmän juurikansio",
+    "selectedPath": "Valittu polku: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "recentlyAdded": "Äskettäin lisätyt",
+    "recentlyPlayed": "Äskettäin toistetut",
+    "recentlyFavorited": "Äskettäin suosikkeihin lisätyt",
+    "mostPlayed": "Eniten toistetut",
+    "recentRequests": "Viimeisimmät pyynnöt",
+    "trending": "Suosittua",
+    "popularMovies": "Suositut elokuvat",
+    "popularSeries": "Suositut sarjat",
+    "expectedMovies": "Odotetut elokuvat",
+    "expectedSeries": "Odotetut sarjat",
+    "requestConfiguration": "Pyynnön määritykset",
+    "qualityProfile": "Laatuprofiili",
+    "selectProfile": "Valitse profiili",
+    "rootFolder": "Juurikansio",
+    "selectFolder": "Valitse kansio",
+    "tags": "Tunnisteet",
+    "noTags": "Ei tunnisteita",
+    "requestAs": "Pyydä käyttäjänä",
+    "requestQuotaStatus": "{remaining}/{limit} jäljellä (nollautuu {days} päivän välein)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Pyyntöraja saavutettu tyypille {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "Lähetä pyyntö",
+    "noOverviewAvailable": "Yhteenvetoa ei ole saatavilla.",
+    "downloading": "ladataan",
+    "request": "Pyydä",
+    "requestMore": "Pyydä lisää",
+    "viewRequest": "Näytä pyyntö",
+    "email": "Sähköposti",
+    "username": "Käyttäjänimi",
+    "ok": "OK",
+    "transcodeInfoTitle": "Transkoodaustiedot",
+    "transcodeInfoNoMetadata": "Transkoodauksen metatietoja ei ole saatavilla.",
+    "transcodeDetailsTitle": "Transkoodauksen tiedot",
+    "containerLabel": "Säiliö",
+    "videoCodecLabel": "Videokoodekki",
+    "audioCodecLabel": "Äänikoodekki",
+    "bitrateLabel": "Bittinopeus",
+    "kbps": "kbps",
+    "resolutionLabel": "Tarkkuus",
+    "seerr": "Seerr",
+    "seerrNotConfigured": "Ei määritetty",
+    "seerrLoadingUser": "Ladataan käyttäjää",
+    "seerrUnknownUser": "Tuntematon käyttäjä",
+    "loggedInAs": "Kirjautuneena käyttäjänä {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Seerr-palvelin",
+    "seerrAuthenticateLocal": "Seerr-todennus (paikallinen)",
+    "rootFolderDefaultLabel": "{folder} (oletus)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* Tämä sarja on anime.",
+    "seerrAutoApproveNotice": "Lähettämäsi pyynnöt hyväksytään automaattisesti.",
+    "seerrPermissionDenied": "Sinulla ei ole oikeutta pyytää tätä mediatyyppiä.",
+    "seerrRequestStatusPending": "Odottaa",
+    "seerrRequestStatusApproved": "Hyväksytty",
+    "seerrRequestStatusDeclined": "Hylätty",
+    "seerrRequestStatusFailed": "Epäonnistui",
+    "seerrRequestStatusCompleted": "Valmis",
+    "seerrMediaStatusProcessing": "Käsitellään",
+    "seerrMediaStatusPartiallyAvailable": "Osittain saatavilla",
+    "seerrMediaStatusAvailable": "Saatavilla",
+    "seerrMediaStatusBlacklisted": "Estolistalla",
+    "seerrMediaStatusDeleted": "Poistettu",
+    "seerrAuthApiKey": "API-avain",
+    "seerrAuthLocal": "Paikallinen",
+    "seerrAuthJellyfin": "Jellyfin",
+    "seerrUserFetchFailed": "Käyttäjän haku Seerristä epäonnistui",
+    "seerrEnterServerUrlFirst": "Anna ensin Seerr-palvelimen URL-osoite",
+    "seerrUrlSchemeWarning": "URL-skeemaa ei voitu tunnistaa automaattisesti. Käytetään oletuksena https://. Lisää eteen http://, jos palvelimesi ei käytä HTTPS:ää.",
+    "seerrApiKeySaved": "API-avain tallennettu",
+    "seerrLoggedIn": "Kirjauduttu sisään Seerriin",
+    "seerrConnectedToServer": "Yhdistetty Seerr-palvelimeen: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrCustomHeaders": "Mukautetut otsakkeet",
+    "seerrHeader": "Otsake",
+    "seerrHeaderValue": "Arvo",
+    "emailUsername": "Sähköposti/käyttäjänimi",
+    "discover": "Löydä",
+    "sponsor": "Tue projektia",
+    "sponsorMessage": "Jos pidät Fladderin käytöstä, harkitse projektin tukemista jatkuvan kehityksen ja parannusten ylläpitämiseksi. Kiitos tuestasi!",
+    "min": "min",
+    "max": "max",
+    "manageRequest": "Hallinnoi pyyntöä",
+    "requestAll": "Pyydä kaikki",
+    "openInSeerr": "Avaa Seerrissä",
+    "openInSonarr": "Avaa Sonarrissa",
+    "openInRadarr": "Avaa Radarrissa",
+    "removeFromSonarr": "Poista Sonarrista",
+    "removeFromRadarr": "Poista Radarrista",
+    "markAllSeasonsAsAvailable": "Merkitse kaikki kaudet saataville",
+    "markAsAvailable": "Merkitse saatavilla olevaksi",
+    "deleteData": "Poista tiedot",
+    "removeSeriesFromSonarrConfirm": "Poistetaanko tämä sarja Sonarrista? Tämä poistaa kaikki tiedot, MYÖS tiedostot.",
+    "removeMovieFromRadarrConfirm": "Poistetaanko tämä elokuva Radarrista? Tämä poistaa kaikki tiedot, MYÖS tiedostot.",
+    "removedFromSonarr": "Poistettu Sonarrista",
+    "removedFromRadarr": "Poistettu Radarrista",
+    "markAllSeasonsAsAvailableConfirm": "Merkitäänkö kaikki kaudet saataville?",
+    "markAsAvailableConfirm": "Merkitäänkö saatavilla olevaksi?",
+    "markedAsAvailable": "Merkitty saatavilla olevaksi",
+    "deleteSeerrDataConfirm": "Poistetaanko kaikki tiedostot Seerristä? Tätä toimintoa ei voi kumota.\nJos tiedot ovat yhä palvelussa {service}, ne saatetaan tuoda uudelleen.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "Tiedot poistettu",
+    "approve": "Hyväksy",
+    "decline": "Hylkää",
+    "pendingRequests": "{count, plural, other{Ei odottavia pyyntöjä} one{{count} odottava pyyntö} two{{count} odottavaa pyyntöä}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "Käsitellään",
+    "seerrDetails": "Seerr-tiedot",
+    "viewTrailer": "Katso traileri",
+    "watch": "Katso",
+    "watchChannel": "Katso {channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "Nyt",
+    "nowPlaying": "Toistetaan nyt",
+    "upNext": "Seuraavaksi",
+    "queue": "Jono",
+    "queueIsEmpty": "Jono on tyhjä",
+    "queueItemCount": "{count} kohdetta",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "Poista jonosta",
+    "noPrograms": "Ei ohjelmia saatavilla",
+    "switchChannel": "Vaihda kanavaa",
+    "switchChannelDesc": "Haluatko katsoa ohjelman \"{programName}\" kanavalla {channelName}?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "specialFeature": "{count, plural, other{Lisämateriaalit} one{Lisämateriaali} }",
+    "@specialFeature": {
+        "description": "special feature",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "activeTvChannels": "Aktiiviset TV-kanavat",
+    "enableNewTVLayout": "Ota käyttöön uusi TV-asettelu",
+    "liveTV": "Live-TV",
+    "liveTvManageTunersEpg": "Hallinnoi viritinlaitteita ja EPG-palveluntarjoajia",
+    "tunerDevices": "Viritinlaitteet",
+    "epgGuideProviders": "EPG-opaspalveluntarjoajat",
+    "noTunerDevicesConfigured": "Viritinlaitteita ei ole määritetty",
+    "noEpgProvidersConfigured": "EPG-palveluntarjoajia ei ole määritetty",
+    "addTunerDevice": "Lisää viritinlaite",
+    "addProvider": "Lisää palveluntarjoaja",
+    "tunerHostAddedSuccessfully": "Viritinpalvelin lisätty onnistuneesti",
+    "failedToAddTunerHost": "Viritinpalvelimen lisääminen epäonnistui: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "Viritinpalvelin päivitetty onnistuneesti",
+    "failedToUpdateTunerHost": "Viritinpalvelimen päivittäminen epäonnistui: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "Poista viritinpalvelin",
+    "deleteTunerHostConfirm": "Haluatko varmasti poistaa kohteen \"{name}\"?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "Viritinpalvelin poistettu onnistuneesti",
+    "failedToDeleteTunerHost": "Viritinpalvelimen poistaminen epäonnistui: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "EPG-palveluntarjoaja lisätty onnistuneesti",
+    "failedToAddEpgProvider": "EPG-palveluntarjoajan lisääminen epäonnistui: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "EPG-palveluntarjoaja päivitetty onnistuneesti",
+    "failedToUpdateEpgProvider": "EPG-palveluntarjoajan päivittäminen epäonnistui: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "Poista EPG-palveluntarjoaja",
+    "deleteEpgProviderConfirm": "Haluatko varmasti poistaa tämän palveluntarjoajan?",
+    "epgProviderDeletedSuccessfully": "EPG-palveluntarjoaja poistettu onnistuneesti",
+    "failedToDeleteEpgProvider": "EPG-palveluntarjoajan poistaminen epäonnistui: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "Muokkaa viritinlaitetta",
+    "friendlyName": "Selkonimi",
+    "url": "URL",
+    "userAgent": "User Agent",
+    "userAgentOptional": "User Agent (valinnainen)",
+    "maxConcurrentStreams": "Samanaikaisten suoratoistojen enimmäismäärä",
+    "addEpgProvider": "Lisää EPG-palveluntarjoaja",
+    "editEpgProvider": "Muokkaa EPG-palveluntarjoajaa",
+    "xmltvPathUrl": "XMLTV-polku/URL",
+    "enableAllTuners": "Ota käyttöön kaikille virittimille",
+    "enabledTuners": "Käytössä olevat virittimet",
+    "selectTuners": "Valitse virittimet",
+    "moviePrefix": "Elokuvan etuliite",
+    "movieCategories": "Elokuvakategoriat",
+    "newsCategories": "Uutiskategoriat",
+    "sportsCategories": "Urheilukategoriat",
+    "kidsCategories": "Lastenkategoriat",
+    "fileOrUrl": "Tiedosto tai URL",
+    "tunerIpAddress": "Virittimen IP-osoite",
+    "fallbackMaxBitrate": "Suurin varabittinopeus (Mbps)",
+    "concurrentStreams": "Samanaikaisten suoratoistojen enimmäismäärä",
+    "concurrentStreamsHint": "0 = Rajoittamaton",
+    "allowFmp4Container": "Salli fMP4-transkoodaussäiliö",
+    "allowStreamSharing": "Salli suoratoiston jakaminen",
+    "enableStreamLooping": "Ota käyttöön suoratoiston toisto silmukassa",
+    "ignoreDts": "Ohita DTS-aikaleimat",
+    "readAtNativeFramerate": "Lue alkuperäisellä kuvataajuudella",
+    "importFavoritesOnly": "Tuo vain suosikkikanavat",
+    "allowHWTranscoding": "Salli laitteistotranskoodaus",
+    "detectDevices": "Tunnista laitteet",
+    "discoveredDevices": "Löydetyt laitteet",
+    "noDevicesFound": "Laitteita ei löytynyt",
+    "failedToDiscoverDevices": "Laitteiden tunnistus epäonnistui: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "Polku",
+    "maxConcurrentStreamsLabel": "Samanaikaisten suoratoistojen enimmäismäärä",
+    "noCategories": "Ei kategorioita",
+    "moviePrefixSubLabel": "Jos elokuvien nimiin lisätään etuliite, kirjoita se tähän, jotta palvelin voi käsitellä sen oikein.",
+    "movieCategoriesSubLabel": "Kategoriat, jotka liitetään elokuvan etuliitettä vastaaviin kanaviin",
+    "newsCategoriesSubLabel": "Kategoriat, jotka liitetään uutisten etuliitettä vastaaviin kanaviin",
+    "sportsCategoriesSubLabel": "Kategoriat, jotka liitetään urheilun etuliitettä vastaaviin kanaviin",
+    "kidsCategoriesSubLabel": "Kategoriat, jotka liitetään lastensisällön etuliitettä vastaaviin kanaviin",
+    "enableNewTVLayoutDesc": "Näytä suuremmat TV-tyyliset bannerit kojelaudalla. Tästä tulee oletusasettelu tulevassa julkaisussa.",
+    "notifications": "Ilmoitukset",
+    "showNewItemNotificationTitle": "Kirjaston kohteiden ilmoitukset",
+    "notificationChannelDescription": "Ilmoitukset uusista lisätyistä kohteista",
+    "seerrRequestNotifications": "Seerr-pyyntöjen ilmoitukset",
+    "notificationNewEpisodes": "Uusia jaksoja lisätty",
+    "notificationNewItems": "{count, plural, one{{count} uusi kohde} other{{count} uutta kohdetta}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationNewRequests": "{count, plural, one{{count} uusi pyyntö} other{{count} uutta pyyntöä}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " iOS päättää, milloin ja toteutuvatko päivitykset, joten ilmoitukset voivat viivästyä tai jäädä kokonaan näkymättä.",
+    "batteryOptimizationDesc": "Akun optimoinnit voivat viivästyttää Fladderin taustailmoituksia.\nAvaa järjestelmäasetukset napauttamalla ja poista Fladderin optimoinnit käytöstä parantaaksesi ilmoitusten luotettavuutta.",
+    "updateCheckInterval": "Päivitysten tarkistusväli",
+    "updateCheckIntervalDesc": "Kuinka usein taustatehtävä suoritetaan",
+    "notificationsIntervalClientReminder": "Ilmoitusväli on asetettu kaikille käyttäjille.",
+    "lastUpdateAt": "Viimeksi päivitetty {date} klo {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "Sisällytä piilotetut kirjastot",
+    "includeHiddenItemsDesc": "Sisällytä kojelaudalta piilotetut kirjastot",
+    "settingsBlurEffectsTitle": "Ota sumennustehosteet käyttöön",
+    "settingsBlurEffectsDesc": "Ota sumennustehosteet käyttöön käyttöliittymässä. Tämän poistaminen käytöstä voi parantaa suorituskykyä heikkotehoisemmilla laitteilla.",
+    "profileSettingsOpenAuthAtLaunch": "Näytä todennustapa sovelluslukituksessa",
+    "toggleSidebar": "Näytä tai piilota sivupalkki",
+    "requestedSuccessForItem": "Kohde {itemName} pyydettiin onnistuneesti",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "linkData": "Linkin tiedot",
+    "passwordNotRequired": "Ei pakollinen, jätä tyhjäksi jos et halua sisällyttää salasanaa linkkiin",
+    "authLinkButtonToolTip": "Avaa todennuslinkin valintaikkuna",
+    "connectWithAuthLink": "Yhdistä todennuslinkillä",
+    "pasteFladderAuthLink": "Liitä Fladder-todennuslinkki fladder:///login?authLink=...",
+    "connect": "Yhdistä",
+    "authLinkDesc": "Pyydä palvelimen järjestelmänvalvojaa antamaan todennuslinkki. Linkki sisältää todennustiedot, joten pidä se turvassa.",
+    "deletedItem": "Poistettiin {itemName}",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "Etusivun järjestys",
+    "libraryOrderDescription": "Vedä järjestääksesi kirjastot etusivulla uudelleen. Valitsemattomat kirjastot eivät näytä äskettäin lisättyjä kohteita.",
+    "hidePlayedInLatestTitle": "Piilota katsottu sisältö",
+    "hidePlayedInLatestDescription": "Piilota katsottu sisältö kohdasta 'Äskettäin lisätty media'",
+    "groupedFoldersTitle": "Ryhmitellyt kirjastot",
+    "groupedFoldersDescription": "Ryhmittele seuraavien kirjastojen sisältö automaattisesti näkymiin, kuten 'Elokuvat', 'Musiikki' ja 'TV'.",
+    "downloadTranscoded": "Lataa transkoodattuna",
+    "downloadOriginal": "Lataa alkuperäinen",
+    "personBirthday": "Syntymäpäivä: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "Ikä: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "Syntynyt paikassa {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "Löydä elokuvia",
+    "seerrSeries": "Löydä sarjoja",
+    "today": "Tänään",
+    "musicDashboard": "Musiikkikojelauta",
+    "quiet": "Hiljainen",
+    "loud": "Voimakas",
+    "share": "Jaa",
+    "setAs": "Aseta"
+}

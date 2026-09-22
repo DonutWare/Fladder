@@ -151,6 +151,7 @@ class _ScreenshotRunnerState extends State<ScreenshotRunner> {
                                   controller: {},
                                   sideBarWidth: 0,
                                   topBarHeight: 0,
+                                  statusBarHeight: 0,
                                 )
                               : AdaptiveLayout.of(context),
                           child: widget.child,
