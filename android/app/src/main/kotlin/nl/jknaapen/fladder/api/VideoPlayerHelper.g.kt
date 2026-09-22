@@ -196,7 +196,10 @@ data class PlayableData (
   val previousVideo: SimpleItemModel? = null,
   val nextVideo: SimpleItemModel? = null,
   val mediaInfo: MediaInfo,
-  val url: String
+  val url: String,
+  val videoWidth: Long? = null,
+  val videoHeight: Long? = null,
+  val videoFrameRate: Double? = null
 )
  {
   companion object {
@@ -215,7 +218,10 @@ data class PlayableData (
       val nextVideo = pigeonVar_list[11] as SimpleItemModel?
       val mediaInfo = pigeonVar_list[12] as MediaInfo
       val url = pigeonVar_list[13] as String
-      return PlayableData(currentItem, description, startPosition, defaultAudioTrack, audioTracks, defaultSubtrack, subtitleTracks, trickPlayModel, chapters, segments, previousVideo, nextVideo, mediaInfo, url)
+      val videoWidth = pigeonVar_list[14] as Long?
+      val videoHeight = pigeonVar_list[15] as Long?
+      val videoFrameRate = pigeonVar_list[16] as Double?
+      return PlayableData(currentItem, description, startPosition, defaultAudioTrack, audioTracks, defaultSubtrack, subtitleTracks, trickPlayModel, chapters, segments, previousVideo, nextVideo, mediaInfo, url, videoWidth, videoHeight, videoFrameRate)
     }
   }
   fun toList(): List<Any?> {
@@ -234,6 +240,9 @@ data class PlayableData (
       nextVideo,
       mediaInfo,
       url,
+      videoWidth,
+      videoHeight,
+      videoFrameRate,
     )
   }
   override fun equals(other: Any?): Boolean {

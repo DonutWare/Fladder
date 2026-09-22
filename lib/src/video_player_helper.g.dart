@@ -182,6 +182,9 @@ class PlayableData {
     this.nextVideo,
     required this.mediaInfo,
     required this.url,
+    this.videoWidth,
+    this.videoHeight,
+    this.videoFrameRate,
   });
 
   SimpleItemModel currentItem;
@@ -212,6 +215,12 @@ class PlayableData {
 
   String url;
 
+  int? videoWidth;
+
+  int? videoHeight;
+
+  double? videoFrameRate;
+
   List<Object?> _toList() {
     return <Object?>[
       currentItem,
@@ -228,6 +237,9 @@ class PlayableData {
       nextVideo,
       mediaInfo,
       url,
+      videoWidth,
+      videoHeight,
+      videoFrameRate,
     ];
   }
 
@@ -251,6 +263,9 @@ class PlayableData {
       nextVideo: result[11] as SimpleItemModel?,
       mediaInfo: result[12]! as MediaInfo,
       url: result[13]! as String,
+      videoWidth: result[14] as int?,
+      videoHeight: result[15] as int?,
+      videoFrameRate: result[16] as double?,
     );
   }
 
