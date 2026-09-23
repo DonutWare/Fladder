@@ -162,8 +162,10 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                                   : _handleDoubleTapSeek,
                               onLongPressStart: initInputDevice == InputDevice.touch ? _handleLongPressStart : null,
                               onLongPressEnd: initInputDevice == InputDevice.touch ? _handleLongPressEnd : null,
-                              onVerticalDragStart: initInputDevice == InputDevice.touch ? _handleVerticalDragStart : null,
-                              onVerticalDragUpdate: initInputDevice == InputDevice.touch ? _handleVerticalDragUpdate : null,
+                              onVerticalDragStart:
+                                  initInputDevice == InputDevice.touch ? _handleVerticalDragStart : null,
+                              onVerticalDragUpdate:
+                                  initInputDevice == InputDevice.touch ? _handleVerticalDragUpdate : null,
                               onVerticalDragEnd: initInputDevice == InputDevice.touch ? _handleVerticalDragEnd : null,
                               //better play/pause handling on Desktop (works with dragging on click)
                               onHorizontalDragDown:
@@ -198,14 +200,16 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           Consumer(
                             builder: (context, ref, child) {
                               final position = ref.watch(mediaPlaybackProvider.select((value) => value.position));
-                              final skippedSegments = ref.watch(mediaPlaybackProvider.select((value) => value.skippedSegments));
+                              final skippedSegments =
+                                  ref.watch(mediaPlaybackProvider.select((value) => value.skippedSegments));
                               MediaSegment? segment = mediaSegments?.atPosition(position);
                               SegmentVisibility forceShow =
                                   segment?.visibility(position, force: showOverlay) ?? SegmentVisibility.hidden;
-                              final segmentSkipType = ref
-                                  .watch(videoPlayerSettingsProvider.select((value) => value.segmentSkipSettings[segment?.type]));
+                              final segmentSkipType = ref.watch(videoPlayerSettingsProvider
+                                  .select((value) => value.segmentSkipSettings[segment?.type]));
 
-                              final segmentId = segment != null ? '${segment.type.name}_${segment.start.inMilliseconds}' : null;
+                              final segmentId =
+                                  segment != null ? '${segment.type.name}_${segment.start.inMilliseconds}' : null;
                               final wasSkipped = segmentId != null && skippedSegments.contains(segmentId);
 
                               final autoSkip = forceShow != SegmentVisibility.hidden &&
