@@ -5,9 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/season_model.dart';
+import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
+import 'package:fladder/screens/shared/media/episode_details_list.dart';
 import 'package:fladder/screens/syncing/sync_button.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -17,6 +19,7 @@ import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
+import 'package:fladder/util/sticky_header_text.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/focus_row.dart';
@@ -35,6 +38,7 @@ class EpisodePosters extends ConsumerStatefulWidget {
   final EpisodeModel? selectedEpisode;
   final Function(VoidCallback action, EpisodeModel episodeModel)? onEpisodeTap;
   final Function(EpisodeModel selected)? onFocused;
+  final EpisodeDetailsViewType? viewType;
   const EpisodePosters({
     this.label,
     this.titleActionsPosition = VerticalDirection.up,
@@ -45,6 +49,7 @@ class EpisodePosters extends ConsumerStatefulWidget {
     this.onEpisodeTap,
     this.selectedEpisode,
     this.onFocused,
+    this.viewType,
     super.key,
   });
 
@@ -94,6 +99,70 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
 
     final hasSeasons = episodesBySeason.isNotEmpty && episodesBySeason.length > 1;
 
+    final titleActions = [
+      if (!isDPad && hasSeasons) ...{
+        const SizedBox(width: 16),
+        EnumBox(
+          current: selectedSeason != null
+              ? constructSeasonNames[selectedSeason!] ?? "${context.localized.season(1)} ${selectedSeason!}"
+              : context.localized.all,
+          itemBuilder: (context) => [
+            ItemActionButton(
+              label: Text(context.localized.all),
+              action: () => setState(() => selectedSeason = null),
+            ),
+            ...episodesBySeason.entries.map(
+              (e) => ItemActionButton(
+                label: Text(constructSeasonNames[e.key] ?? "${context.localized.season(1)} ${e.key}"),
+                action: () {
+                  setState(() => selectedSeason = e.key);
+                },
+              ),
+            )
+          ],
+        )
+      },
+    ];
+
+    final viewType = widget.viewType;
+    if (!isDPad && viewType != null) {
+      final visibleSeasons = selectedSeason != null ? {selectedSeason!: episodes} : episodesBySeason;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        spacing: 16,
+        children: [
+          Padding(
+            padding: widget.contentPadding,
+            child: Row(
+              children: [
+                if (widget.label != null)
+                  Flexible(
+                    child: StickyHeaderText(label: widget.label!),
+                  ),
+                ...titleActions,
+              ],
+            ),
+          ),
+          for (final season in visibleSeasons.entries) ...[
+            if (visibleSeasons.length > 1)
+              Padding(
+                padding: widget.contentPadding,
+                child: Text(
+                  constructSeasonNames[season.key] ?? "${context.localized.season(1)} ${season.key}",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+            EpisodeDetailsList(
+              viewType: viewType,
+              episodes: season.value,
+              padding: widget.contentPadding,
+            ),
+          ],
+        ],
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -110,30 +179,7 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
               context.ensureVisible();
             }
           },
-          titleActions: [
-            if (!isDPad && hasSeasons) ...{
-              const SizedBox(width: 16),
-              EnumBox(
-                current: selectedSeason != null
-                    ? constructSeasonNames[selectedSeason!] ?? "${context.localized.season(1)} ${selectedSeason!}"
-                    : context.localized.all,
-                itemBuilder: (context) => [
-                  ItemActionButton(
-                    label: Text(context.localized.all),
-                    action: () => setState(() => selectedSeason = null),
-                  ),
-                  ...episodesBySeason.entries.map(
-                    (e) => ItemActionButton(
-                      label: Text(constructSeasonNames[e.key] ?? "${context.localized.season(1)} ${e.key}"),
-                      action: () {
-                        setState(() => selectedSeason = e.key);
-                      },
-                    ),
-                  )
-                ],
-              )
-            }
-          ],
+          titleActions: titleActions,
           contentPadding: widget.contentPadding,
           startIndex: indexOfCurrent,
           items: episodes,

@@ -2873,5 +2873,6 @@
   "libraryFiltersTitle": "Library filters",
   "libraryFiltersDesc": "Library filters allow you to create custom views of your libraries based",
   "libraryNoFiltersSaved": "No library filters saved",
-  "addTo": "Add to"
+  "addTo": "Add to",
+  "row": "Row"
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -11,19 +12,60 @@ import 'package:fladder/util/humanize_duration.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/theme_extensions.dart';
 
-enum EpisodeDetailsViewType {
-  list(icon: IconsaxPlusBold.grid_6),
-  grid(icon: IconsaxPlusBold.grid_2);
+class EpisodeViewTypeSelector extends StatelessWidget {
+  final List<EpisodeDetailsViewType?> options;
+  final EpisodeDetailsViewType? selected;
+  final ValueChanged<EpisodeDetailsViewType?> onChanged;
+  final bool showLabels;
 
-  const EpisodeDetailsViewType({required this.icon});
+  const EpisodeViewTypeSelector({
+    required this.options,
+    required this.selected,
+    required this.onChanged,
+    this.showLabels = true,
+    super.key,
+  });
 
-  String label(BuildContext context) => switch (this) {
-        EpisodeDetailsViewType.list => context.localized.list,
-        EpisodeDetailsViewType.grid => context.localized.grid,
-      };
-
-  final IconData icon;
+  @override
+  Widget build(BuildContext context) {
+    return SegmentedButton<EpisodeDetailsViewType?>(
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.resolveWith((state) {
+          if (state.contains(WidgetState.selected)) {
+            return context.colors.primaryContainer;
+          }
+          return context.colors.surfaceContainer;
+        }),
+        padding: WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 8, horizontal: showLabels ? 16 : 8)),
+        visualDensity: showLabels ? null : VisualDensity.compact,
+        elevation: const WidgetStatePropertyAll(5),
+        side: const WidgetStatePropertyAll(BorderSide.none),
+      ),
+      showSelectedIcon: showLabels,
+      segments: options.map(
+        (e) {
+          final label = e?.label(context) ?? context.localized.row;
+          return ButtonSegment(
+            value: e,
+            icon: Icon(e?.icon ?? IconsaxPlusBold.slider_horizontal),
+            tooltip: showLabels ? null : label,
+            label: showLabels
+                ? SizedBox(
+                    height: 40,
+                    child: Center(
+                      child: Text(label),
+                    ),
+                  )
+                : null,
+          );
+        },
+      ).toList(),
+      selected: {selected},
+      onSelectionChanged: (newOptions) => onChanged(newOptions.first),
+    );
+  }
 }
 
 class EpisodeDetailsList extends ConsumerWidget {
