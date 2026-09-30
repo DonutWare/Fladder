@@ -378,25 +378,31 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
 
   Future<void> _tryAuthenticateSeerr(String seerrUrl) async {
     try {
-      final username = usernameController.text.trim();
-      final password = passwordController.text;
-
       final effectiveSeerrUrl = FladderConfig.seerrBaseUrl ?? seerrUrl;
       ref.read(userProvider.notifier).setSeerrServerUrl(effectiveSeerrUrl);
 
       final tempCookie = ref.read(authProvider.select((value) => value.tempSeerrSessionCookie));
-      final cookie = tempCookie ??
-          await ref.read(seerrApiProvider).authenticateJellyfin(
-                username: username,
-                password: password,
-              );
+      if (tempCookie != null) {
+        ref.read(userProvider.notifier).setSeerrSessionCookie(tempCookie);
+        ref.read(userProvider.notifier).setSeerrApiKey('');
+        ref.read(authProvider.notifier).setTempSeerrSessionCookie(null);
+        if (context.mounted) {
+          FladderSnack.show(context.localized.seerrLoggedIn, context: context);
+        }
+        return;
+      }
 
-      ref.read(userProvider.notifier).setSeerrSessionCookie(cookie);
-      ref.read(userProvider.notifier).setSeerrApiKey('');
-      ref.read(authProvider.notifier).setTempSeerrSessionCookie(null);
-
-      if (context.mounted) {
-        FladderSnack.show(context.localized.seerrLoggedIn, context: context);
+      final password = passwordController.text;
+      if (password.isNotEmpty) {
+        final cookie = await ref.read(seerrApiProvider).authenticateJellyfin(
+              username: usernameController.text.trim(),
+              password: password,
+            );
+        ref.read(userProvider.notifier).setSeerrSessionCookie(cookie);
+        ref.read(userProvider.notifier).setSeerrApiKey('');
+        if (context.mounted) {
+          FladderSnack.show(context.localized.seerrLoggedIn, context: context);
+        }
       }
     } catch (e) {
       if (context.mounted) {
@@ -416,7 +422,13 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
       ref.read(authProvider.notifier).authenticateUsingSecret(secret),
     );
     if (response.isSuccess && context.mounted) {
-      loggedInGoToHome(context, ref);
+      final tempSeerrUrl = ref.read(authProvider.select((value) => value.tempSeerrUrl));
+      if (tempSeerrUrl != null && tempSeerrUrl.isNotEmpty) {
+        await _tryAuthenticateSeerr(tempSeerrUrl);
+      }
+      if (context.mounted) {
+        loggedInGoToHome(context, ref);
+      }
     }
     setState(() {
       loggingIn = false;
