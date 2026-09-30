@@ -10,6 +10,7 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
 
 const libassFallbackFont = "assets/mp-font.ttf";
+const libassFallbackFontName = "Droid Sans Fallback";
 
 abstract class BasePlayer {
   Stream<PlayerState> get stateStream;
