@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,12 +13,15 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/seerr_credentials_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/util/debouncer.dart';
+import 'package:fladder/util/map_bool_helper.dart';
 
 part 'user_provider.g.dart';
 
@@ -64,6 +69,7 @@ class User extends _$User {
           quickConnectState: quickConnectStatus.body ?? false,
           latestItemsExcludes: user.configuration?.latestItemsExcludes ?? [],
           userSettings: customConfig.body,
+          libraryFilters: customConfig.body?.libraryFilters ?? state?.libraryFilters ?? [],
           hasConfiguredPassword: user.hasConfiguredPassword ?? false,
           hasPassword: user.hasPassword ?? false,
         );
@@ -129,9 +135,26 @@ class User extends _$User {
     }
   }
 
+  Completer<Response<dynamic>>? _configCompleter;
+  final debouncer = Debouncer(const Duration(seconds: 1));
+
   Future<Response<dynamic>> updateCustomConfig(UserSettings settings) async {
     state = state?.copyWith(userSettings: settings);
-    return api.setCustomConfig(settings);
+
+    _configCompleter ??= Completer<Response<dynamic>>();
+
+    debouncer.run(() async {
+      try {
+        final response = await api.setCustomConfig(settings);
+        _configCompleter?.complete(response);
+      } catch (e, st) {
+        _configCompleter?.completeError(e, st);
+      } finally {
+        _configCompleter = null;
+      }
+    });
+
+    return _configCompleter?.future ?? Future.error("Failed to update custom config");
   }
 
   Future<ApiResult> refreshMetaData(
@@ -296,36 +319,48 @@ class User extends _$User {
   }
 
   void removeFilter(LibraryFiltersModel model) {
-    final currentList = (state?.libraryFilters ?? []).toList(growable: true);
+    final currentList = (state?.userSettings?.libraryFilters ?? []).toList(growable: true);
     currentList.remove(model);
-    userState = state?.copyWith(libraryFilters: currentList);
+
+    final userSettings = state?.userSettings?.copyWith(libraryFilters: currentList);
+    if (userSettings != null) {
+      updateCustomConfig(userSettings);
+    }
   }
 
   void saveFilter(LibraryFiltersModel model) {
-    final currentList = (state?.libraryFilters ?? []).toList(growable: true);
+    final currentList = (state?.userSettings?.libraryFilters ?? []).toList(growable: true);
     final index = currentList.indexWhere((value) => value.id == model.id);
     if (index != -1) {
       currentList[index] = model;
     } else {
       currentList.add(model);
     }
-    userState = state?.copyWith(libraryFilters: currentList);
-  }
-
-  void hideFilterFromSideBar(LibraryFiltersModel model) {
-    final currentList = (state?.libraryFilters ?? []).toList(growable: true);
-    final index = currentList.indexWhere((value) => value.id == model.id);
-    if (index != -1) {
-      final updatedModel = model.copyWith(showInSideBar: false);
-      currentList[index] = updatedModel;
-      userState = state?.copyWith(libraryFilters: currentList);
+    final userSettings = state?.userSettings?.copyWith(libraryFilters: currentList);
+    if (userSettings != null) {
+      updateCustomConfig(userSettings);
     }
   }
 
-  void deleteAllFilters() => userState = state?.copyWith(libraryFilters: []);
+  void hideFilterFromSideBar(LibraryFiltersModel model) {
+    final currentList = (state?.userSettings?.libraryFilters ?? []).toList(growable: true);
+    final index = currentList.indexWhere((value) => value.id == model.id);
+    if (index != -1) {
+      final updatedModel =
+          model.copyWith(sortKeys: model.sortKeys.setKey(FilterSortKey.sideBar, false, addIfNotExists: true));
+      currentList[index] = updatedModel;
+      final userSettings = state?.userSettings?.copyWith(libraryFilters: currentList);
+      if (userSettings != null) {
+        updateCustomConfig(userSettings);
+      }
+    }
+  }
+
+  void deleteAllFilters() =>
+      userState = state?.copyWith(userSettings: state?.userSettings?.copyWith(libraryFilters: []));
 
   String? createDownloadUrl(ItemBaseModel item) =>
-      Uri.encodeFull("${state?.credentials.url}/Items/${item.id}/Download?api_key=${state?.credentials.token}");
+      Uri.encodeFull("${state?.credentials.url}/Items/${item.id}/Download?ApiKey=${state?.credentials.token}");
 
   Future<void> createNewUser(
     String userName,
@@ -350,5 +385,46 @@ class User extends _$User {
   void toggleIncognitoMode() {
     final currentMode = state?.incognitoMode;
     userState = state?.copyWith(incognitoMode: currentMode == true ? null : true);
+  }
+
+  void updateFilterSortOrder(FilterSortKey key, List<String> newOrder) {
+    final currentSortOrder = state?.userSettings?.filterSortOrder ?? {};
+    final updatedSortOrder = Map<FilterSortKey, List<String>>.from(currentSortOrder);
+    updatedSortOrder[key] = newOrder;
+
+    final userSettings = state?.userSettings?.copyWith(filterSortOrder: updatedSortOrder);
+    if (userSettings != null) {
+      updateCustomConfig(userSettings);
+    }
+  }
+
+  void setDashboardSorting(List<DashboardSorting> items) {
+    final currentSorting = state?.userSettings?.dashboardSorting ?? {};
+
+    final updatedSorting = <DashboardSorting, bool>{
+      for (final item in items) item: currentSorting[item] ?? true,
+    };
+
+    final newUserSettings = state?.userSettings?.copyWith(pDashboardSorting: updatedSorting);
+
+    if (newUserSettings != null) {
+      state = state?.copyWith(userSettings: newUserSettings);
+      updateCustomConfig(newUserSettings);
+    }
+  }
+
+  void setDashboardEnabled(List<DashboardSorting> enabledItems) {
+    final currentSorting = state?.userSettings?.dashboardSorting ?? {};
+
+    final updatedSorting = <DashboardSorting, bool>{
+      for (final key in currentSorting.keys) key: enabledItems.contains(key),
+    };
+
+    final newUserSettings = state?.userSettings?.copyWith(pDashboardSorting: updatedSorting);
+
+    if (newUserSettings != null) {
+      state = state?.copyWith(userSettings: newUserSettings);
+      updateCustomConfig(newUserSettings);
+    }
   }
 }

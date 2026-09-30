@@ -2165,5 +2165,12 @@
     },
     "leanBackModeTitle": "休闲模式",
     "leanBackModeDesc": "即使设备报告为 false，也要在 Android 设备上启用休闲模式。",
-    "leanBackModeInfo": "在 Android TV 设备上，默认重新启用“休闲模式”。在非 Android TV 设备上切换此选项可能会导致意外情况。"
+    "leanBackModeInfo": "在 Android TV 设备上，默认重新启用“休闲模式”。在非 Android TV 设备上切换此选项可能会导致意外情况。",
+    "lyrics": "歌词",
+    "returnToSyncedLyrics": "返回同步歌词",
+    "noSyncedLyrics": "暂无同步歌词",
+    "localNetworkPermissionRequest": "允许本地网络访问以发现服务器。",
+    "requestPermission": "请求权限",
+    "localNetworkPermissionDenied": "需要本地网络访问权限。请在系统设置中启用附近设备权限。",
+    "openSettings": "打开设置"
 }

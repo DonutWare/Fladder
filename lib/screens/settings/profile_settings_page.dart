@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as enums;
 import 'package:fladder/models/seerr_credentials_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/cultures_provider.dart';
 import 'package:fladder/providers/home_preferences_provider.dart';
@@ -16,6 +17,7 @@ import 'package:fladder/providers/seerr_user_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/update_notifications_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/screens/settings/filters/filters_dialog_popup.dart';
 import 'package:fladder/screens/settings/settings_list_tile.dart';
 import 'package:fladder/screens/settings/settings_scaffold.dart';
 import 'package:fladder/screens/settings/widgets/home_preferences_editors.dart';
@@ -31,8 +33,10 @@ import 'package:fladder/services/battery_optimization.dart';
 import 'package:fladder/services/notification_service.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/map_bool_helper.dart';
 import 'package:fladder/util/simple_duration_picker.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
+import 'package:fladder/widgets/shared/sortable_item_list.dart';
 
 @RoutePage()
 class ProfileSettingsPage extends ConsumerStatefulWidget {
@@ -117,6 +121,30 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
     return SettingsScaffold(
       label: context.localized.settingsProfileTitle,
       items: [
+        ...settingsListGroup(
+          context,
+          SettingsLabelDivider(label: context.localized.general),
+          [
+            SortableItemList(
+              items: user?.userSettings?.dashboardSorting.keys.toList() ?? DashboardSorting.values,
+              included: user?.userSettings?.dashboardSorting.included ?? <DashboardSorting>[],
+              itemBuilder: (filter) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  filter.label(context),
+                ),
+              ),
+              onReorder: (reordered) => ref.read(userProvider.notifier).setDashboardSorting(reordered),
+              onIncludeChange: (items) => ref.read(userProvider.notifier).setDashboardEnabled(items),
+            ),
+            SettingsListTile(
+              label: Text(context.localized.libraryFilters),
+              subLabel: Text(context.localized.editYourLibraryFilters),
+              onTap: () => showFiltersDialogue(context),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
         ...settingsListGroup(
           context,
           SettingsLabelDivider(label: context.localized.settingsSecurity),

@@ -175,6 +175,11 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 trailing: IntInputField(
                   suffix: context.localized.seconds(10),
                   controller: TextEditingController(text: userSettings.skipBackDuration.inSeconds.toString()),
+                  onChanged: (value) {
+                    if (value != null) {
+                      ref.read(userProvider.notifier).setBackwardSpeed(value);
+                    }
+                  },
                   onSubmitted: (value) {
                     if (value != null) {
                       ref.read(userProvider.notifier).setBackwardSpeed(value);
@@ -187,6 +192,11 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               trailing: IntInputField(
                 suffix: context.localized.seconds(10),
                 controller: TextEditingController(text: userSettings!.skipForwardDuration.inSeconds.toString()),
+                onChanged: (value) {
+                  if (value != null) {
+                    ref.read(userProvider.notifier).setForwardSpeed(value);
+                  }
+                },
                 onSubmitted: (value) {
                   if (value != null) {
                     ref.read(userProvider.notifier).setForwardSpeed(value);

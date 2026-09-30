@@ -12,12 +12,14 @@ class IntInputField extends ConsumerWidget {
   final String? placeHolder;
   final String? suffix;
   final Function(int? value)? onSubmitted;
+  final Function(int? value)? onChanged;
   const IntInputField({
     this.value,
     this.controller,
     this.suffix,
     this.placeHolder,
     this.onSubmitted,
+    this.onChanged,
     super.key,
   });
 
@@ -31,11 +33,12 @@ class IntInputField extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6),
         child: OutlinedTextField(
-          controller: controller ?? TextEditingController(text: (value ?? 0).toString()),
+          controller: controller ?? TextEditingController(text: value.toString()),
           keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.done,
           onSubmitted: (value) => onSubmitted?.call(int.tryParse(value)),
+          onChanged: (value) => onChanged?.call(int.tryParse(value)),
           textAlign: TextAlign.center,
           suffix: suffix,
           placeHolder: placeHolder,

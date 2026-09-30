@@ -127,8 +127,28 @@ abstract class LibraryFilterModel with _$LibraryFilterModel {
         types: types.setAll(false),
       );
 
+  LibraryFilterModel get removeIfFalse {
+    return copyWith(
+      genres: genres.removeIfFalse,
+      tags: tags.removeIfFalse,
+      officialRatings: officialRatings.removeIfFalse,
+      years: years.removeIfFalse,
+      studios: studios.removeIfFalse,
+      itemFilters: itemFilters.removeIfFalse,
+      types: types.removeIfFalse,
+    );
+  }
+
   LibraryFilterModel clear() {
     return defaultFilter;
+  }
+}
+
+extension LibraryMapFilter<T> on Map<T, bool> {
+  Map<T, bool> get removeIfFalse {
+    final newMap = Map<T, bool>.from(this);
+    newMap.removeWhere((key, value) => !value);
+    return newMap;
   }
 }
 

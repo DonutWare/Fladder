@@ -116,14 +116,15 @@ class ItemActionButton extends ItemAction {
         );
 
   @override
-  PopupMenuItem toPopupMenuItem({bool useIcons = false}) {
+  PopupMenuItem toPopupMenuItem({bool useIcons = false, bool useColors = true}) {
     return PopupMenuItem(
       onTap: action,
       enabled: action != null,
       child: Builder(
         builder: (context) {
-          final resolvedForegroundColor = _resolveForegroundColor(context);
-
+          final backgroundColor = useColors ? _resolveBackgroundColor(context) : Colors.transparent;
+          final resolvedForegroundColor =
+              useColors ? _resolveForegroundColor(context) : Theme.of(context).colorScheme.onSurface;
           final child = useIcons
               ? Padding(
                   padding: const EdgeInsets.all(4.0),
@@ -142,11 +143,18 @@ class ItemActionButton extends ItemAction {
                   ],
                 );
 
-          return IconTheme(
-            data: IconThemeData(color: resolvedForegroundColor),
-            child: DefaultTextStyle.merge(
-              style: TextStyle(color: resolvedForegroundColor),
-              child: child,
+          return Container(
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: const EdgeInsets.all(6.0),
+            child: IconTheme(
+              data: IconThemeData(color: resolvedForegroundColor),
+              child: DefaultTextStyle.merge(
+                style: TextStyle(color: resolvedForegroundColor),
+                child: child,
+              ),
             ),
           );
         },
