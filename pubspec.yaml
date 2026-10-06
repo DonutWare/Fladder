@@ -149,6 +149,7 @@ dependencies:
   chinese_font_library: ^1.2.0
   material_ui: ^1.11.0
   cupertino_ui: ^1.1.6
+  cronet_http: ^1.10.0
 
   local_auth_android: any
   local_auth_darwin: any

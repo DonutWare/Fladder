@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:http/http.dart' as http;
+import 'package:fladder/util/http_client.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class ReleaseInfo {
@@ -76,7 +76,8 @@ class UpdateChecker {
     final currentVersion = info.version;
 
     final url = Uri.parse('https://api.github.com/repos/$owner/$repo/releases?per_page=$count');
-    final response = await http.get(url);
+    final client = createHttpClient();
+    final response = await client.get(url);
 
     if (response.statusCode != 200) {
       print('Failed to fetch releases: ${response.statusCode}');
