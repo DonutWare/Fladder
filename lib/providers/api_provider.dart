@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 import 'package:punycoder/punycoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -13,6 +12,8 @@ import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/util/http_client.dart';
+
 part 'api_provider.g.dart';
 
 final serverUrlProvider = StateProvider<String?>((ref) {
@@ -39,6 +40,7 @@ class JellyApi extends _$JellyApi {
   @override
   JellyService build() {
     final api = JellyfinOpenApi.create(
+      httpClient: createHttpClient(),
       interceptors: [
         JellyRequest(ref),
         JellyResponse(ref),
@@ -52,6 +54,7 @@ class JellyApi extends _$JellyApi {
 
 JellyfinOpenApi createJellyfinApiForAccount(Ref ref, String baseUrl, Map<String, String> headers) {
   return JellyfinOpenApi.create(
+    httpClient: createHttpClient(),
     interceptors: [
       _TempJellyRequest(baseUrl: baseUrl, headers: headers),
       JellyResponse(ref),
@@ -159,7 +162,8 @@ String normalizeUrl(String url) {
 
 Future<String?> _probeUrl(String baseUrl, String endpoint) async {
   try {
-    await http.head(Uri.parse('$baseUrl$endpoint')).timeout(const Duration(seconds: 5));
+    final client = createHttpClient();
+    await client.head(Uri.parse('$baseUrl$endpoint')).timeout(const Duration(seconds: 5));
     // Any HTTP response (including 4xx/5xx) means the server is reachable at this URL.
     // This only acts as scheme detection, not as health check.
     return baseUrl;

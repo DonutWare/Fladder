@@ -147,6 +147,7 @@ dependencies:
 
   # Fix cjk font rendering issue on Windows
   chinese_font_library: ^1.2.0
+  cronet_http: ^1.10.0
 
 dependency_overrides:
   pip:
