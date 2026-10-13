@@ -13,6 +13,7 @@ import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/theme_extensions.dart';
+import 'package:fladder/widgets/shared/deferred_build.dart';
 
 class EpisodeViewTypeSelector extends StatelessWidget {
   final List<EpisodeDetailsViewType?> options;
@@ -93,78 +94,88 @@ class EpisodeDetailsList extends ConsumerWidget {
             itemCount: episodes.length,
             itemBuilder: (context, index) {
               final episode = episodes[index];
-              List<Widget> children = [
-                Flexible(
-                  flex: 1,
-                  child: EpisodePoster(
-                    episode: episode,
-                    showLabel: false,
-                    actions: episode.generateActions(context, ref),
-                    onTap: () => episode.navigateTo(context),
-                    isCurrentEpisode: false,
-                  ),
-                ),
-                const SizedBox(width: 16, height: 16),
-                Flexible(
-                  flex: 3,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Flexible(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SelectableText(
-                                  episode.seasonEpisodeLabel(context.localized),
-                                  style: textStyle,
-                                ),
-                                if (episode.overview.runTime != null)
-                                  SelectableText(
-                                    " - ${episode.overview.runTime!.humanize!}",
-                                    style: textStyle,
-                                  ),
-                              ],
-                            ),
-                            SelectableText(
-                              episode.name,
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            SelectableText(
-                              episode.overview.summary,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ].addPadding(const EdgeInsets.symmetric(vertical: 4)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-              ];
               return LayoutBuilder(
                 builder: (context, constraints) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: constraints.maxWidth > 800
-                            ? Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: children,
-                              )
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: children,
+                  final wide = constraints.maxWidth > 800;
+                  // Outer and inner card padding, plus the gap between poster and text when side by side.
+                  final posterWidth = wide ? (constraints.maxWidth - 32 - 16) / 4 : constraints.maxWidth - 32;
+                  final placeholderHeight = posterWidth / 1.76 + 32 + (wide ? 0 : 120);
+                  return DeferredBuild(
+                    placeholderHeight: placeholderHeight,
+                    builder: (context) {
+                      final children = [
+                        Flexible(
+                          flex: 1,
+                          child: EpisodePoster(
+                            episode: episode,
+                            showLabel: false,
+                            actions: episode.generateActions(context, ref),
+                            onTap: () => episode.navigateTo(context),
+                            isCurrentEpisode: false,
+                          ),
+                        ),
+                        const SizedBox(width: 16, height: 16),
+                        Flexible(
+                          flex: 3,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Flexible(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SelectableText(
+                                          episode.seasonEpisodeLabel(context.localized),
+                                          style: textStyle,
+                                        ),
+                                        if (episode.overview.runTime != null)
+                                          SelectableText(
+                                            " - ${episode.overview.runTime!.humanize!}",
+                                            style: textStyle,
+                                          ),
+                                      ],
+                                    ),
+                                    SelectableText(
+                                      episode.name,
+                                      style:
+                                          Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                                    ),
+                                    SelectableText(
+                                      episode.overview.summary,
+                                      style: Theme.of(context).textTheme.bodyMedium,
+                                    ),
+                                  ].addPadding(const EdgeInsets.symmetric(vertical: 4)),
+                                ),
                               ),
-                      ),
-                    ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ];
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: wide
+                                ? Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: children,
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: children,
+                                  ),
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               );
@@ -182,11 +193,15 @@ class EpisodeDetailsList extends ConsumerWidget {
             itemCount: episodes.length,
             itemBuilder: (context, index) {
               final episode = episodes[index];
-              return EpisodePoster(
-                episode: episode,
-                actions: episode.generateActions(context, ref),
-                onTap: () => episode.navigateTo(context),
-                isCurrentEpisode: false,
+              // The grid delegate sizes the cell, so the placeholder height doesn't matter here.
+              return DeferredBuild(
+                placeholderHeight: 0,
+                builder: (context) => EpisodePoster(
+                  episode: episode,
+                  actions: episode.generateActions(context, ref),
+                  onTap: () => episode.navigateTo(context),
+                  isCurrentEpisode: false,
+                ),
               );
             },
           )
