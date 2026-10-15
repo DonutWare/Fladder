@@ -1391,9 +1391,9 @@
   "settingsAutoNextTitle": "Next-up preview",
   "settingsAutoNextDesc": "Displays a next-up preview near the end if another item is queued",
   "autoNextOffSmartTitle": "Smart",
-  "autoNextOffSmartDesc": "Shows the next-up screen when the credits start if no more then 10 seconds remain after the credits. Else it shows the next-up screen with 30 seconds of playtime remaining",
+  "autoNextOffSmartDesc": "Shows the next-up screen when the credits start if no more then 10 seconds remain after the credits. Else it shows the next-up screen so its countdown ends as the video ends",
   "autoNextOffStaticTitle": "Static",
-  "autoNextOffStaticDesc": "Show the next-up screen when 30 seconds of playtime remain",
+  "autoNextOffStaticDesc": "Show the next-up screen so its countdown ends as the video ends",
   "playbackRate": "Playback rate",
   "speed": "Speed",
   "unableToPlayMedia": "There was an error finding a compatible media type",
@@ -2902,5 +2902,7 @@
   "deepLinkItemNotFound": "This item isn't available for any of your accounts",
   "lowResourceModeTitle": "Low resource mode",
   "lowResourceModeDesc": "Uses less memory on devices with limited RAM by lowering caches and buffers and turning off heavy visual effects. Automatic enables it on devices with 3 GB of RAM or less.",
-  "lowResourceModeAuto": "Automatic"
+  "lowResourceModeAuto": "Automatic",
+  "settingsNextUpCountdownTitle": "Next-up countdown",
+  "settingsNextUpCountdownDesc": "How long the next-up screen counts down before the next item starts"
 }

@@ -515,6 +515,44 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                       _ => const SizedBox.shrink(),
                     },
                   ),
+                  if (videoSettings.nextVideoType != AutoNextType.off)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            context.localized.settingsNextUpCountdownTitle,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Text(
+                              context.localized.settingsNextUpCountdownDesc,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: FladderSlider(
+                                  min: 5,
+                                  max: 30,
+                                  value: videoSettings.nextUpCountdownSeconds.toDouble(),
+                                  divisions: 25,
+                                  onChanged: (value) => provider.setNextUpCountdownSeconds(value.round()),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(
+                                '${videoSettings.nextUpCountdownSeconds} s',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                 ],
               ),
               if (currentPlayer == PlayerOptions.libMPV) SettingsLabelDivider(label: context.localized.audio(1)),

@@ -64,6 +64,7 @@ internal fun NextUpOverlay(
     val nextVideo by VideoPlayerObject.nextUpVideo.collectAsState(null)
 
     val nextType by PlayerSettingsObject.autoNextType.collectAsState(AutoNextType.OFF)
+    val countdownSeconds by PlayerSettingsObject.nextUpCountdownSeconds.collectAsState(30)
     var disableUntilNextVideo by remember { mutableStateOf(false) }
 
     if (nextType == AutoNextType.OFF || nextVideo == null) {
@@ -78,7 +79,7 @@ internal fun NextUpOverlay(
 
     var nextUpVisible by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
-    var timeUntilNextVideo by remember { mutableIntStateOf(30) }
+    var timeUntilNextVideo by remember { mutableIntStateOf(countdownSeconds) }
 
     fun reInitNextUp() {
         nextUpVisible = false
@@ -88,7 +89,7 @@ internal fun NextUpOverlay(
     LaunchedEffect(isConditionMet) {
         if (isConditionMet && !nextUpVisible && !disableUntilNextVideo) {
             nextUpVisible = true
-            timeUntilNextVideo = 30
+            timeUntilNextVideo = countdownSeconds
             focusRequester.requestFocus()
         } else if (!isConditionMet) {
             nextUpVisible = false
@@ -289,6 +290,7 @@ private fun showNextUp(): Boolean {
     val durationMs by VideoPlayerObject.duration.collectAsState(0L)
     val positionMs by VideoPlayerObject.position.collectAsState(0L)
     val buffering by VideoPlayerObject.buffering.collectAsState(true)
+    val countdownSeconds by PlayerSettingsObject.nextUpCountdownSeconds.collectAsState(30)
 
     val videoDuration = durationMs.toDuration(DurationUnit.MILLISECONDS)
     val videoPosition = positionMs.toDuration(DurationUnit.MILLISECONDS)
@@ -302,7 +304,8 @@ private fun showNextUp(): Boolean {
         (playbackData?.segments ?: listOf()).firstOrNull { it.type == MediaSegmentType.OUTRO }
 
     val timeToVideoEnd = (videoDuration - videoPosition).absoluteValue
-    val nearEndOfVideo = timeToVideoEnd < 32.seconds
+    // Show the next-up screen just early enough for its countdown to end with the video.
+    val nearEndOfVideo = timeToVideoEnd < (countdownSeconds + 2).seconds
 
     when (nextType) {
         AutoNextType.STATIC -> {

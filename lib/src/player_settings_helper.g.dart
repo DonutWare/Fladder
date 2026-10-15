@@ -83,6 +83,7 @@ class PlayerSettings {
     required this.skipForward,
     required this.skipBackward,
     required this.autoNextType,
+    required this.nextUpCountdownSeconds,
     required this.acceptedOrientations,
     required this.fillScreen,
     required this.videoFit,
@@ -102,6 +103,8 @@ class PlayerSettings {
   int skipBackward;
 
   AutoNextType autoNextType;
+
+  int nextUpCountdownSeconds;
 
   List<PlayerOrientations> acceptedOrientations;
 
@@ -123,6 +126,7 @@ class PlayerSettings {
       skipForward,
       skipBackward,
       autoNextType,
+      nextUpCountdownSeconds,
       acceptedOrientations,
       fillScreen,
       videoFit,
@@ -144,12 +148,13 @@ class PlayerSettings {
       skipForward: result[3]! as int,
       skipBackward: result[4]! as int,
       autoNextType: result[5]! as AutoNextType,
-      acceptedOrientations: (result[6] as List<Object?>?)!.cast<PlayerOrientations>(),
-      fillScreen: result[7]! as bool,
-      videoFit: result[8]! as VideoPlayerFit,
-      screensaver: result[9]! as Screensaver,
-      refreshRateSwitching: result[10]! as bool,
-      lowResourceMode: result[11]! as bool,
+      nextUpCountdownSeconds: result[6]! as int,
+      acceptedOrientations: (result[7] as List<Object?>?)!.cast<PlayerOrientations>(),
+      fillScreen: result[8]! as bool,
+      videoFit: result[9]! as VideoPlayerFit,
+      screensaver: result[10]! as Screensaver,
+      refreshRateSwitching: result[11]! as bool,
+      lowResourceMode: result[12]! as bool,
     );
   }
 

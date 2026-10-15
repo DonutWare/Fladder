@@ -63,8 +63,10 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
     if (!model.playing) return;
     if (model.buffering) return;
 
+    final countdown = ref.read(videoPlayerSettingsProvider.select((value) => value.nextUpCountdownSeconds));
     setState(() {
       show = true;
+      timerController.setDuration(Duration(seconds: countdown));
       timerController.reset();
       timerController.play();
     });
@@ -86,9 +88,12 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
     }
 
     final credits = ref.read(playBackModel)?.mediaSegments?.outro;
+    // Show the next-up screen just early enough for its countdown to end with the video.
+    final countdown = ref.read(videoPlayerSettingsProvider.select((value) => value.nextUpCountdownSeconds));
+    final nearEnd = (model.duration - model.position).abs() < Duration(seconds: countdown + 2);
 
     if (nextType == AutoNextType.static || credits == null) {
-      if ((model.duration - model.position).abs() < const Duration(seconds: 32)) {
+      if (nearEnd) {
         showNextScreen(model);
         return;
       }
@@ -101,7 +106,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
           showNextScreen(model);
           return;
         }
-      } else if ((model.duration - model.position).abs() < const Duration(seconds: 32)) {
+      } else if (nearEnd) {
         showNextScreen(model);
         return;
       }
