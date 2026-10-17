@@ -14,8 +14,10 @@ import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
@@ -245,6 +247,117 @@ class PlaybackModelHelper {
     );
   }
 
+  /// Inserts the additional parts of multi-part movies and episodes directly
+  /// after their parent item, preserving the queue order.
+  ///
+  /// The method is idempotent: parents that already have parts in the queue are
+  /// not fetched again, and existing item IDs are never inserted twice.
+  Future<List<ItemBaseModel>> expandQueueWithParts(List<ItemBaseModel> queue) async {
+    if (queue.isEmpty) return queue;
+
+    final expandedParentIds = queue.whereType<VideoPartModel>().map((part) => part.parentItemId).toSet();
+
+    final parentsToExpand = queue
+        .whereType<ItemStreamModel>()
+        .where((item) => item is! VideoPartModel)
+        .where((item) => item.hasMultipleParts)
+        .where((item) => !expandedParentIds.contains(item.id))
+        .toList();
+
+    if (parentsToExpand.isEmpty) return queue;
+
+    final partsByParentId = <String, List<VideoPartModel>>{};
+    await Future.wait(
+      parentsToExpand.map((parent) async {
+        final parts = await _fetchAdditionalParts(parent.id);
+        if (parts.isNotEmpty) {
+          partsByParentId[parent.id] = parts;
+        }
+      }),
+    );
+
+    if (partsByParentId.isEmpty) return queue;
+    return interleaveParts(queue, partsByParentId);
+  }
+
+  /// Pure queue interleaving helper, exposed for tests.
+  ///
+  /// Parts are inserted after their parent and only when their ID is not already
+  /// present in the queue. Re-running this on an expanded queue is a no-op.
+  static List<ItemBaseModel> interleaveParts(
+    List<ItemBaseModel> queue,
+    Map<String, List<VideoPartModel>> partsByParentId,
+  ) {
+    final queueIds = queue.map((item) => item.id).toSet();
+
+    // Parts that are already in the queue but appear after their parent are
+    // re-inserted in the correct position instead of being duplicated.
+    final relocatablePartIds = <String>{
+      for (final entry in partsByParentId.entries)
+        if (queueIds.contains(entry.key))
+          for (final part in entry.value)
+            if (queueIds.contains(part.id)) part.id,
+    };
+
+    final addedIds = <String>{};
+    final result = <ItemBaseModel>[];
+
+    for (final item in queue) {
+      if (relocatablePartIds.contains(item.id)) continue;
+
+      if (addedIds.add(item.id)) {
+        result.add(item);
+      }
+
+      final parts = partsByParentId[item.id];
+      if (parts == null) continue;
+
+      for (final part in parts) {
+        if (addedIds.add(part.id)) {
+          result.add(part);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  Future<List<VideoPartModel>> _fetchAdditionalParts(String itemId) async {
+    try {
+      final response = await api.getAdditionalParts(itemId: itemId);
+      final items = response.body?.items ?? const [];
+      if (items.isEmpty) return const [];
+
+      return VideoPartModel.fromDtos(
+        items,
+        ref,
+        parentItemId: itemId,
+        totalParts: items.length + 1,
+      );
+    } catch (e) {
+      log("Failed to load additional parts for $itemId: $e");
+      return const [];
+    }
+  }
+
+  /// Builds the queue around the logical parent of [part].
+  ///
+  /// Starting a specific part should still allow previous/next to move across
+  /// the parent item and its siblings.
+  Future<List<ItemBaseModel>> _buildQueueForPart(VideoPartModel part) async {
+    try {
+      final parentResponse = await api.usersUserIdItemsItemIdGet(itemId: part.parentItemId);
+      final parent = parentResponse.body;
+      if (parent == null) return [part];
+
+      final parentQueue = await collectQueue(parent);
+      return parentQueue.isNotEmpty ? parentQueue : [parent];
+    } catch (e) {
+      log("Failed to build the queue for part ${part.id}: $e");
+      return [part];
+    }
+  }
+
   Future<PlaybackModel?> createPlaybackModel(
     BuildContext? context,
     ItemBaseModel? item, {
@@ -260,7 +373,32 @@ class PlaybackModelHelper {
       final userId = ref.read(userProvider)?.id;
       if (userId?.isEmpty == true) return null;
 
-      final queue = oldModel?.queue ?? libraryQueue ?? await collectQueue(item);
+      List<ItemBaseModel> queue;
+      if (oldModel != null) {
+        queue = oldModel.queue;
+      } else if (libraryQueue != null) {
+        queue = libraryQueue;
+      } else if (item is VideoPartModel) {
+        queue = await _buildQueueForPart(item);
+      } else {
+        queue = await collectQueue(item);
+      }
+
+      // Movies have no collected queue; seed it so their parts can be expanded
+      // and next/previous keep working. Episodes fall back to themselves when
+      // their series queue could not be loaded.
+      if (queue.isEmpty && (item is MovieModel || item is EpisodeModel)) {
+        queue = [item];
+      }
+
+      queue = await expandQueueWithParts(queue);
+
+      // The requested part must stay playable even when the server does not
+      // return it as part of the logical parent's queue.
+      if (item is VideoPartModel && !queue.any((queueItem) => queueItem.id == item.id)) {
+        queue = [...queue, item];
+      }
+
       final effectiveQueueSource = oldModel?.queueSource ?? queueSource;
 
       final firstItemToPlay = switch (item) {
