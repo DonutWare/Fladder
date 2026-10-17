@@ -3,10 +3,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as enums;
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/overview_model.dart';
 import 'package:fladder/models/items/video_part_model.dart';
 import 'package:fladder/models/playback/multipart_playback.dart';
+import 'package:fladder/models/syncing/sync_item.dart';
+import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
 
 void main() {
@@ -74,6 +77,23 @@ void main() {
             part(id: 'p3', partNumber: 3),
           ],
     )!;
+  }
+
+  SyncedItem syncedItem({
+    required String id,
+    String? parentId,
+    String? partOfId,
+    int? partNumber,
+    int? totalParts,
+  }) {
+    return SyncedItem(
+      id: id,
+      userId: 'user',
+      parentId: parentId,
+      partOfId: partOfId,
+      partNumber: partNumber,
+      totalParts: totalParts,
+    );
   }
 
   group('MultipartGroup construction', () {
@@ -344,6 +364,94 @@ void main() {
 
       expect(group.allPartsPlayed, isTrue);
       expect(group.aggregateProgressForDisplay, 100.0);
+    });
+  });
+
+  group('Offline queue ordering', () {
+    test('interleaves parts directly after their parent', () {
+      final movie = syncedItem(id: 'movie1');
+      final p2 = syncedItem(id: 'p2', partOfId: 'movie1', partNumber: 2);
+      final p3 = syncedItem(id: 'p3', partOfId: 'movie1', partNumber: 3);
+
+      final queue = SyncNotifier.interleaveSyncedVideoQueue(
+        [movie],
+        {
+          'movie1': [p2, p3]
+        },
+        current: p2,
+      );
+
+      expect(queue.map((item) => item.id), ['movie1', 'p2', 'p3']);
+    });
+
+    test('keeps episodes and their parts in order', () {
+      final e1 = syncedItem(id: 'e1');
+      final e2 = syncedItem(id: 'e2');
+      final p2 = syncedItem(id: 'p2', partOfId: 'e1', partNumber: 2);
+
+      final queue = SyncNotifier.interleaveSyncedVideoQueue(
+        [e1, e2],
+        {
+          'e1': [p2]
+        },
+        current: p2,
+      );
+
+      expect(queue.map((item) => item.id), ['e1', 'p2', 'e2']);
+    });
+
+    test('appends the current part when it is missing from the queue', () {
+      final e1 = syncedItem(id: 'e1');
+      final p2 = syncedItem(id: 'p2', partOfId: 'e1', partNumber: 2);
+
+      final queue = SyncNotifier.interleaveSyncedVideoQueue([e1], const {}, current: p2);
+
+      expect(queue.map((item) => item.id), ['e1', 'p2']);
+    });
+  });
+
+  group('Offline aggregate user data', () {
+    final now = DateTime.utc(2026, 1, 1);
+
+    test('Part 1 keeps its clamped local position and stays unplayed', () {
+      final updated = MultipartGroup.part1UserData(
+        const UserData(),
+        const Duration(minutes: 45),
+        const Duration(minutes: 30),
+        now: now,
+      )!;
+
+      expect(updated.playbackPositionTicks, const Duration(minutes: 30).toRuntimeTicks);
+      expect(updated.progress, 100);
+      expect(updated.played, isFalse);
+      expect(updated.lastPlayed, now);
+    });
+
+    test('later parts store scaled parent ticks and aggregate progress', () {
+      final updated = MultipartGroup.parentProgressUserData(
+        const UserData(played: true),
+        123456,
+        42.5,
+        now: now,
+      )!;
+
+      expect(updated.playbackPositionTicks, 123456);
+      expect(updated.progress, 42.5);
+      expect(updated.played, isFalse);
+      expect(updated.lastPlayed, now);
+    });
+
+    test('completion marks the parent played and increments play count', () {
+      final updated = MultipartGroup.completedParentUserData(
+        const UserData(playCount: 2),
+        now: now,
+      )!;
+
+      expect(updated.played, isTrue);
+      expect(updated.playbackPositionTicks, 0);
+      expect(updated.progress, 100);
+      expect(updated.playCount, 3);
+      expect(updated.lastPlayed, now);
     });
   });
 }
