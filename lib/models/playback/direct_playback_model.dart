@@ -92,6 +92,8 @@ class DirectPlaybackModel extends PlaybackModel {
           ),
         );
 
+    await handleMultipartStopped(stopPosition, ref);
+
     return null;
   }
 
@@ -114,6 +116,8 @@ class DirectPlaybackModel extends PlaybackModel {
         repeatMode: RepeatMode.repeatall,
       ),
     );
+
+    await updateMultipartProgress(position, ref);
 
     return null;
   }

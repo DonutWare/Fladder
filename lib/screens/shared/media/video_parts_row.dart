@@ -6,6 +6,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/video_part_model.dart';
+import 'package:fladder/models/playback/multipart_playback.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/theme.dart';
@@ -46,10 +47,14 @@ class VideoPartsRow extends ConsumerWidget {
         .map((item) => item.overview.runTime ?? Duration.zero)
         .fold(Duration.zero, (total, runtime) => total + runtime);
 
+    final group = MultipartGroup.fromMain(mainItem, parts);
+    final aggregateProgress = group?.aggregateProgressForDisplay;
+
     final runtimeLabel = totalDuration > Duration.zero ? totalDuration.humanize : null;
     final label = [
       context.localized.parts(items.length),
       if (runtimeLabel != null && runtimeLabel.isNotEmpty) runtimeLabel,
+      if (aggregateProgress != null && aggregateProgress > 0) '${aggregateProgress.round()}%',
     ].join(' • ');
 
     return HorizontalList(
@@ -59,10 +64,18 @@ class VideoPartsRow extends ConsumerWidget {
       items: items,
       itemBuilder: (context, index) {
         final item = items[index];
+        final isFirstPart = index == 0;
+        final played = isFirstPart && group != null ? group.part1Played : item.userData.played;
+        final progress = isFirstPart && group != null
+            ? (group.part1Played ? 1.0 : (item.userData.progress / 100).clamp(0.0, 1.0))
+            : (item.userData.progress / 100).clamp(0.0, 1.0);
+
         return VideoPartPoster(
           item: item,
           partNumber: index + 1,
           fallbackImages: mainItem.images,
+          played: played,
+          progress: progress,
           onTap: () => item.play(
             context,
             ref,
@@ -78,12 +91,16 @@ class VideoPartPoster extends ConsumerWidget {
   final ItemBaseModel item;
   final int partNumber;
   final ImagesData? fallbackImages;
+  final bool played;
+  final double progress;
   final VoidCallback onTap;
 
   const VideoPartPoster({
     required this.item,
     required this.partNumber,
     required this.fallbackImages,
+    required this.played,
+    required this.progress,
     required this.onTap,
     super.key,
   });
@@ -101,8 +118,6 @@ class VideoPartPoster extends ConsumerWidget {
 
     final image = item.images?.primary ?? item.getPosters?.primary ?? fallbackImages?.primary;
     final runtime = item.overview.runTime;
-    final played = item.userData.played;
-    final progress = (item.userData.progress / 100).clamp(0.0, 1.0);
 
     final placeHolder = Container(
       height: double.infinity,

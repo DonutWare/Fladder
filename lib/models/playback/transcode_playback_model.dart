@@ -91,6 +91,8 @@ class TranscodePlaybackModel extends PlaybackModel {
           ),
         );
 
+    await handleMultipartStopped(stopPosition, ref);
+
     return null;
   }
 
@@ -114,6 +116,7 @@ class TranscodePlaybackModel extends PlaybackModel {
         repeatMode: RepeatMode.repeatall,
       ),
     );
+    await updateMultipartProgress(position, ref);
     return this;
   }
 

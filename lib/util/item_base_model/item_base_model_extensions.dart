@@ -261,7 +261,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
             icon: const Icon(IconsaxPlusLinear.refresh),
             action: (this is BookModel)
                 ? () => ((this as BookModel).play(context, ref, currentPage: 0))
-                : () => play(context, ref, startPosition: Duration.zero),
+                : () => play(context, ref, startPosition: Duration.zero, restart: true),
             label: Text((this is BookModel)
                 ? context.localized.readFromStart(name)
                 : context.localized.playFromStart(subTextShort(context.localized) ?? name)),

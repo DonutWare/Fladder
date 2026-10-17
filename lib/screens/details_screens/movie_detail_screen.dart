@@ -6,6 +6,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/video_part_model.dart';
+import 'package:fladder/models/playback/multipart_playback.dart';
 import 'package:fladder/providers/items/movies_details_provider.dart';
 import 'package:fladder/providers/items/video_parts_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -52,6 +53,15 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
         : const <VideoPartModel>[];
     final runTimes = [details?.overview.runTime, ...parts.map((part) => part.overview.runTime)].nonNulls;
     final totalRunTime = runTimes.isEmpty ? null : runTimes.fold(Duration.zero, (total, runtime) => total + runtime);
+    final multipartGroup = details != null && parts.isNotEmpty ? MultipartGroup.fromMain(details, parts) : null;
+    final displayDetails = details == null || multipartGroup == null
+        ? details
+        : details.copyWith(
+            userData: details.userData.copyWith(
+              progress: multipartGroup.aggregateProgressForDisplay,
+              played: multipartGroup.allPartsPlayed,
+            ),
+          );
     final wrapAlignment =
         AdaptiveLayout.viewSizeOf(context) != ViewSize.phone ? WrapAlignment.start : WrapAlignment.center;
 
@@ -89,13 +99,14 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     image: details.images,
                     padding: padding,
                     mainButton: MediaPlayButton(
-                      item: details,
+                      item: displayDetails,
                       onLongPressed: (restart) async {
                         await details.play(
                           detailsContext,
                           ref,
                           showPlaybackOption: true,
                           startPosition: restart ? Duration.zero : null,
+                          restart: restart,
                         );
                         ref.invalidate(videoPartsProvider(widget.item.id));
                         ref.read(providerInstance.notifier).fetchDetails(widget.item);
@@ -105,6 +116,7 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                           detailsContext,
                           ref,
                           startPosition: restart ? Duration.zero : null,
+                          restart: restart,
                         );
                         ref.invalidate(videoPartsProvider(widget.item.id));
                         ref.read(providerInstance.notifier).fetchDetails(widget.item);
@@ -130,7 +142,7 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                           onPressed: () async {
                             await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
                           },
-                          selected: details.userData.played,
+                          selected: displayDetails?.userData.played ?? details.userData.played,
                           selectedIcon: IconsaxPlusBold.tick_circle,
                           icon: IconsaxPlusLinear.tick_circle,
                         ),

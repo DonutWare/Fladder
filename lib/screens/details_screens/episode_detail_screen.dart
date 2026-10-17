@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/video_part_model.dart';
+import 'package:fladder/models/playback/multipart_playback.dart';
 import 'package:fladder/providers/items/episode_details_provider.dart';
 import 'package:fladder/providers/items/video_parts_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -56,6 +57,16 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
         : const <VideoPartModel>[];
     final runTimes = [episodeDetails?.overview.runTime, ...parts.map((part) => part.overview.runTime)].nonNulls;
     final totalRunTime = runTimes.isEmpty ? null : runTimes.fold(Duration.zero, (total, runtime) => total + runtime);
+    final multipartGroup =
+        episodeDetails != null && parts.isNotEmpty ? MultipartGroup.fromMain(episodeDetails, parts) : null;
+    final displayEpisode = episodeDetails == null || multipartGroup == null
+        ? episodeDetails
+        : episodeDetails.copyWith(
+            userData: episodeDetails.userData.copyWith(
+              progress: multipartGroup.aggregateProgressForDisplay,
+              played: multipartGroup.allPartsPlayed,
+            ),
+          );
     final wrapAlignment =
         AdaptiveLayout.viewSizeOf(context) != ViewSize.phone ? WrapAlignment.start : WrapAlignment.center;
 
@@ -95,12 +106,13 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     image: seasonDetails.images,
                     mainButton: episodeDetails.playAble
                         ? MediaPlayButton(
-                            item: episodeDetails,
+                            item: displayEpisode,
                             onPressed: (restart) async {
                               await details.episode.play(
                                 detailsContext,
                                 ref,
                                 startPosition: restart ? Duration.zero : null,
+                                restart: restart,
                               );
                               ref.invalidate(videoPartsProvider(widget.item.id));
                               ref.read(providerInstance.notifier).fetchDetails(widget.item);
@@ -111,6 +123,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                                 ref,
                                 showPlaybackOption: true,
                                 startPosition: restart ? Duration.zero : null,
+                                restart: restart,
                               );
                               ref.invalidate(videoPartsProvider(widget.item.id));
                               ref.read(providerInstance.notifier).fetchDetails(widget.item);
@@ -139,7 +152,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                                 .read(userProvider.notifier)
                                 .markAsPlayed(!(episodeDetails.userData.played), episodeDetails.id);
                           },
-                          selected: episodeDetails.userData.played,
+                          selected: displayEpisode?.userData.played ?? episodeDetails.userData.played,
                           selectedIcon: IconsaxPlusBold.tick_circle,
                           icon: IconsaxPlusLinear.tick_circle,
                         ),

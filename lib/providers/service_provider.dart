@@ -198,6 +198,30 @@ class JellyService {
     );
   }
 
+  /// Narrow partial update used for aggregated multipart progress.
+  ///
+  /// Only sends the fields Jellyfin needs for progress/played updates so
+  /// favourites and play counts are never clobbered.
+  Future<Response> updateItemUserData({
+    required String itemId,
+    int? playbackPositionTicks,
+    bool? played,
+    DateTime? lastPlayed,
+  }) async {
+    if (ref.read(incognitoProvider)) return Response(http.Response("", 200), null);
+
+    return api.userItemsItemIdUserDataPost(
+      userId: account?.id,
+      itemId: itemId,
+      body: UpdateUserItemDataDto(
+        playbackPositionTicks: playbackPositionTicks,
+        played: played,
+        lastPlayedDate: lastPlayed,
+        itemId: itemId,
+      ),
+    );
+  }
+
   Future<Response<ServerQueryResult>> itemsGet({
     String? maxOfficialRating,
     bool? hasThemeSong,
@@ -887,6 +911,9 @@ class JellyService {
   }
 
   Future<Response<BaseItemDtoQueryResult>> getAdditionalParts({required String itemId}) async {
+    if (ref.read(offlineStateProvider)) {
+      return Response<BaseItemDtoQueryResult>(http.Response("", 400), const BaseItemDtoQueryResult(items: []));
+    }
     return api.videosItemIdAdditionalPartsGet(itemId: itemId, userId: account?.id);
   }
 

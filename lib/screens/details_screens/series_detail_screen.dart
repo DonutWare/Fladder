@@ -89,6 +89,7 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                                 detailsContext,
                                 ref,
                                 startPosition: restart ? Duration.zero : null,
+                                restart: restart,
                               );
                               ref.read(providerId.notifier).fetchDetails(widget.item);
                             },
@@ -98,6 +99,7 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
                                 ref,
                                 showPlaybackOption: true,
                                 startPosition: restart ? Duration.zero : null,
+                                restart: restart,
                               );
                               ref.read(providerId.notifier).fetchDetails(widget.item);
                             },

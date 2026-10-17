@@ -23,6 +23,7 @@ import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/items/video_part_model.dart';
 import 'package:fladder/models/playback/direct_playback_model.dart';
+import 'package:fladder/models/playback/multipart_playback.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
 import 'package:fladder/models/playback/playback_options_dialogue.dart';
 import 'package:fladder/models/playback/playback_queue_source.dart';
@@ -36,6 +37,7 @@ import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
+import 'package:fladder/providers/incognito_mode_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
@@ -120,6 +122,73 @@ class PlaybackModel {
   }
 
   Future<Duration>? startDuration() async => isAudioPlayback ? Duration.zero : item.userData.playBackPosition;
+
+  MultipartGroup? get multipartGroup => MultipartGroup.fromQueue(queue, item);
+
+  /// Writes the aggregated parent progress for the current part.
+  ///
+  /// Part 1 keeps its local position: Jellyfin's session progress call already
+  /// stores it on the parent item.
+  Future<void> updateMultipartProgress(Duration position, Ref ref) async {
+    final group = multipartGroup;
+    if (group == null) return;
+
+    final update = group.progressUpdate(item, position);
+    if (update == null) return;
+
+    await _postMultipartUpdate(update, ref);
+  }
+
+  /// After the per-part session stop, writes the parent aggregate state and
+  /// completes the logical item when the final part finished.
+  Future<void> handleMultipartStopped(Duration stopPosition, Ref ref) async {
+    final group = multipartGroup;
+    if (group == null) return;
+
+    final update = group.stopUpdate(item, stopPosition);
+    if (update != null) {
+      await _postMultipartUpdate(update, ref);
+    }
+
+    if (group.shouldMarkCompleted(item, stopPosition)) {
+      await _completeMultipartGroup(group, ref);
+    }
+  }
+
+  Future<void> _postMultipartUpdate(MultipartUserDataUpdate update, Ref ref) async {
+    try {
+      await ref.read(jellyApiProvider).updateItemUserData(
+            itemId: update.itemId,
+            playbackPositionTicks: update.playbackPositionTicks,
+            played: update.played,
+            lastPlayed: update.lastPlayed,
+          );
+    } catch (e, st) {
+      log("Failed to update aggregate progress for ${update.itemId}: $e\n$st");
+    }
+  }
+
+  Future<void> _completeMultipartGroup(MultipartGroup group, Ref ref) async {
+    if (ref.read(incognitoProvider)) return;
+
+    try {
+      await ref.read(userProvider.notifier).markAsPlayed(true, group.main.id);
+    } catch (e, st) {
+      log("Failed to mark multipart parent ${group.main.id} as played: $e\n$st");
+    }
+
+    for (final part in group.additionalParts) {
+      try {
+        await ref.read(jellyApiProvider).updateItemUserData(
+              itemId: part.id,
+              playbackPositionTicks: 0,
+              played: true,
+            );
+      } catch (e, st) {
+        log("Failed to mark part ${part.id} as played: $e\n$st");
+      }
+    }
+  }
 
   PlaybackModel? updateUserData(UserData userData) => throw UnimplementedError();
 
@@ -358,6 +427,23 @@ class PlaybackModelHelper {
     }
   }
 
+  /// Clears the aggregate and per-part progress before a rewatch.
+  Future<void> _resetMultipartGroup(MultipartGroup group) async {
+    if (ref.read(incognitoProvider)) return;
+
+    for (final update in group.resetUpdates()) {
+      try {
+        await ref.read(jellyApiProvider).updateItemUserData(
+              itemId: update.itemId,
+              playbackPositionTicks: update.playbackPositionTicks,
+              played: update.played,
+            );
+      } catch (e, st) {
+        log("Failed to reset multipart item ${update.itemId}: $e\n$st");
+      }
+    }
+  }
+
   Future<PlaybackModel?> createPlaybackModel(
     BuildContext? context,
     ItemBaseModel? item, {
@@ -367,6 +453,7 @@ class PlaybackModelHelper {
     bool showPlaybackOptions = false,
     PlaybackType? forcedPlaybackType,
     Duration? startPosition,
+    bool restart = false,
   }) async {
     try {
       if (item == null) return null;
@@ -408,14 +495,56 @@ class PlaybackModelHelper {
 
       if (firstItemToPlay == null) return null;
 
+      final isOffline = ref.read(offlineStateProvider);
+
+      var resolvedItem = firstItemToPlay;
+      Duration? resolvedStartPosition = startPosition;
+      MultipartGroup? multipartGroup;
+      var resetMultipartGroup = false;
+
+      // Part-aware resume selection (plan §4.5). An explicit start position or
+      // an explicitly selected part bypasses auto-selection. Offline parts and
+      // aggregate writes are handled in Phase 4, so keep offline resume as-is.
+      if (!isOffline && !restart && !MultipartGroup.bypassesAutoResume(firstItemToPlay, startPosition)) {
+        final isMovieOrEpisode = firstItemToPlay is MovieModel || firstItemToPlay is EpisodeModel;
+        final streamItem = isMovieOrEpisode ? firstItemToPlay as ItemStreamModel : null;
+        if (streamItem != null) {
+          final group = MultipartGroup.fromQueue(queue, streamItem);
+          if (group != null) {
+            multipartGroup = group;
+            final decision = group.resumeDecision();
+            resolvedItem = decision.item;
+            resolvedStartPosition = decision.startPosition;
+            resetMultipartGroup = decision.resetGroup;
+          } else if (streamItem.hasMultipleParts) {
+            // The parts could not be loaded; do not trust a potentially
+            // scaled parent position.
+            resolvedStartPosition = Duration.zero;
+          }
+        }
+      }
+
+      if (restart) {
+        final group = multipartGroup ?? MultipartGroup.fromQueue(queue, firstItemToPlay);
+        if (group != null) {
+          multipartGroup = group;
+          resetMultipartGroup = true;
+        }
+        resolvedStartPosition = Duration.zero;
+      }
+
+      if (!isOffline && resetMultipartGroup && multipartGroup != null) {
+        await _resetMultipartGroup(multipartGroup);
+      }
+
       // Additional parts are already fully populated by the AdditionalParts
       // response. Refetching them would map the `video` item through
       // `ItemBaseModel.fromBaseDto`, turning it into a PhotoModel.
       final ItemBaseModel playableItem;
-      if (firstItemToPlay is VideoPartModel) {
-        playableItem = firstItemToPlay;
+      if (resolvedItem is VideoPartModel) {
+        playableItem = resolvedItem;
       } else {
-        final fullItemResponse = await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id);
+        final fullItemResponse = await api.usersUserIdItemsItemIdGet(itemId: resolvedItem.id);
         final fullItem = fullItemResponse.body;
         if (fullItem == null) {
           return null;
@@ -427,7 +556,7 @@ class PlaybackModelHelper {
 
       final firstItemIsSynced = syncedItem != null && syncedItem.status == TaskStatus.complete;
 
-      final actualStartPosition = startPosition ?? playableItem.userData.playBackPosition;
+      final actualStartPosition = resolvedStartPosition ?? playableItem.userData.playBackPosition;
 
       final options = {
         PlaybackType.directStream,
@@ -435,12 +564,16 @@ class PlaybackModelHelper {
         if (firstItemIsSynced) PlaybackType.offline,
       };
 
-      final isOffline = ref.read(offlineStateProvider);
+      // Explicit stream selections made on the details screen belong to the
+      // requested item. When resume selection redirects to a different part or
+      // episode, use that item's own streams instead of the original item's
+      // Part 1 streams.
+      final selectedStreamModel = resolvedItem.id == item.id ? item.streamModel : playableItem.streamModel;
 
       if (firstItemToPlay is AudioModel && firstItemIsSynced) {
         final offlinePlayback = await _createOfflinePlaybackModel(
           playableItem,
-          item.streamModel,
+          selectedStreamModel,
           syncedItem,
           oldModel: oldModel,
           queueSource: effectiveQueueSource,
@@ -453,7 +586,7 @@ class PlaybackModelHelper {
 
       Future<PlaybackModel?> getOfflineModel() => _createOfflinePlaybackModel(
             playableItem,
-            item.streamModel,
+            selectedStreamModel,
             syncedItem,
             oldModel: oldModel,
             queueSource: effectiveQueueSource,
@@ -461,7 +594,7 @@ class PlaybackModelHelper {
 
       Future<PlaybackModel?> getServerModel(PlaybackType type) => _createServerPlaybackModel(
             playableItem,
-            item.streamModel,
+            selectedStreamModel,
             forcedPlaybackType ?? type,
             oldModel: oldModel,
             libraryQueue: queue,

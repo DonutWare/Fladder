@@ -193,7 +193,7 @@ class _FocusedFullBannerState extends ConsumerState<TVSliderBanner> {
                           showRestartOption: !isDpad,
                           onPressed: (restart) {
                             if (restart) {
-                              _currentItem.play(context, ref, startPosition: Duration.zero);
+                              _currentItem.play(context, ref, startPosition: Duration.zero, restart: true);
                             } else {
                               _currentItem.play(context, ref);
                             }
