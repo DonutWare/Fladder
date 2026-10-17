@@ -63,6 +63,9 @@ class ItemStreamModelMapper extends SubClassMapperBase<ItemStreamModel> {
   static dto.BaseItemKind? _$jellyType(ItemStreamModel v) => v.jellyType;
   static const Field<ItemStreamModel, dto.BaseItemKind> _f$jellyType =
       Field('jellyType', _$jellyType, opt: true);
+  static int _$partCount(ItemStreamModel v) => v.partCount;
+  static const Field<ItemStreamModel, int> _f$partCount =
+      Field('partCount', _$partCount, opt: true, def: 1);
 
   @override
   final MappableFields<ItemStreamModel> fields = const {
@@ -80,6 +83,7 @@ class ItemStreamModelMapper extends SubClassMapperBase<ItemStreamModel> {
     #canDelete: _f$canDelete,
     #canDownload: _f$canDownload,
     #jellyType: _f$jellyType,
+    #partCount: _f$partCount,
   };
   @override
   final bool ignoreNull = true;
@@ -107,7 +111,8 @@ class ItemStreamModelMapper extends SubClassMapperBase<ItemStreamModel> {
         userData: data.dec(_f$userData),
         canDelete: data.dec(_f$canDelete),
         canDownload: data.dec(_f$canDownload),
-        jellyType: data.dec(_f$jellyType));
+        jellyType: data.dec(_f$jellyType),
+        partCount: data.dec(_f$partCount));
   }
 
   @override
@@ -148,7 +153,8 @@ abstract class ItemStreamModelCopyWith<$R, $In extends ItemStreamModel, $Out>
       UserData? userData,
       bool? canDelete,
       bool? canDownload,
-      dto.BaseItemKind? jellyType});
+      dto.BaseItemKind? jellyType,
+      int? partCount});
   ItemStreamModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -182,7 +188,8 @@ class _ItemStreamModelCopyWithImpl<$R, $Out>
           UserData? userData,
           Object? canDelete = $none,
           Object? canDownload = $none,
-          Object? jellyType = $none}) =>
+          Object? jellyType = $none,
+          int? partCount}) =>
       $apply(FieldCopyWithData({
         if (parentImages != $none) #parentImages: parentImages,
         if (mediaStreams != null) #mediaStreams: mediaStreams,
@@ -197,7 +204,8 @@ class _ItemStreamModelCopyWithImpl<$R, $Out>
         if (userData != null) #userData: userData,
         if (canDelete != $none) #canDelete: canDelete,
         if (canDownload != $none) #canDownload: canDownload,
-        if (jellyType != $none) #jellyType: jellyType
+        if (jellyType != $none) #jellyType: jellyType,
+        if (partCount != null) #partCount: partCount
       }));
   @override
   ItemStreamModel $make(CopyWithData data) => ItemStreamModel(
@@ -214,7 +222,8 @@ class _ItemStreamModelCopyWithImpl<$R, $Out>
       userData: data.get(#userData, or: $value.userData),
       canDelete: data.get(#canDelete, or: $value.canDelete),
       canDownload: data.get(#canDownload, or: $value.canDownload),
-      jellyType: data.get(#jellyType, or: $value.jellyType));
+      jellyType: data.get(#jellyType, or: $value.jellyType),
+      partCount: data.get(#partCount, or: $value.partCount));
 
   @override
   ItemStreamModelCopyWith<$R2, ItemStreamModel, $Out2> $chain<$R2, $Out2>(

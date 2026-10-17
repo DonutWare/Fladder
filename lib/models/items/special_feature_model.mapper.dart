@@ -69,6 +69,9 @@ class SpecialFeatureModelMapper
   static dto.BaseItemKind? _$jellyType(SpecialFeatureModel v) => v.jellyType;
   static const Field<SpecialFeatureModel, dto.BaseItemKind> _f$jellyType =
       Field('jellyType', _$jellyType, opt: true);
+  static int _$partCount(SpecialFeatureModel v) => v.partCount;
+  static const Field<SpecialFeatureModel, int> _f$partCount =
+      Field('partCount', _$partCount, opt: true, def: 1);
 
   @override
   final MappableFields<SpecialFeatureModel> fields = const {
@@ -87,6 +90,7 @@ class SpecialFeatureModelMapper
     #canDelete: _f$canDelete,
     #canDownload: _f$canDownload,
     #jellyType: _f$jellyType,
+    #partCount: _f$partCount,
   };
   @override
   final bool ignoreNull = true;
@@ -115,7 +119,8 @@ class SpecialFeatureModelMapper
         mediaStreams: data.dec(_f$mediaStreams),
         canDelete: data.dec(_f$canDelete),
         canDownload: data.dec(_f$canDownload),
-        jellyType: data.dec(_f$jellyType));
+        jellyType: data.dec(_f$jellyType),
+        partCount: data.dec(_f$partCount));
   }
 
   @override
@@ -158,7 +163,8 @@ abstract class SpecialFeatureModelCopyWith<$R, $In extends SpecialFeatureModel,
       MediaStreamsModel? mediaStreams,
       bool? canDelete,
       bool? canDownload,
-      dto.BaseItemKind? jellyType});
+      dto.BaseItemKind? jellyType,
+      int? partCount});
   SpecialFeatureModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -193,7 +199,8 @@ class _SpecialFeatureModelCopyWithImpl<$R, $Out>
           MediaStreamsModel? mediaStreams,
           Object? canDelete = $none,
           Object? canDownload = $none,
-          Object? jellyType = $none}) =>
+          Object? jellyType = $none,
+          int? partCount}) =>
       $apply(FieldCopyWithData({
         if (dateAired != $none) #dateAired: dateAired,
         if (name != null) #name: name,
@@ -209,7 +216,8 @@ class _SpecialFeatureModelCopyWithImpl<$R, $Out>
         if (mediaStreams != null) #mediaStreams: mediaStreams,
         if (canDelete != $none) #canDelete: canDelete,
         if (canDownload != $none) #canDownload: canDownload,
-        if (jellyType != $none) #jellyType: jellyType
+        if (jellyType != $none) #jellyType: jellyType,
+        if (partCount != null) #partCount: partCount
       }));
   @override
   SpecialFeatureModel $make(CopyWithData data) => SpecialFeatureModel(
@@ -227,7 +235,8 @@ class _SpecialFeatureModelCopyWithImpl<$R, $Out>
       mediaStreams: data.get(#mediaStreams, or: $value.mediaStreams),
       canDelete: data.get(#canDelete, or: $value.canDelete),
       canDownload: data.get(#canDownload, or: $value.canDownload),
-      jellyType: data.get(#jellyType, or: $value.jellyType));
+      jellyType: data.get(#jellyType, or: $value.jellyType),
+      partCount: data.get(#partCount, or: $value.partCount));
 
   @override
   SpecialFeatureModelCopyWith<$R2, SpecialFeatureModel, $Out2>

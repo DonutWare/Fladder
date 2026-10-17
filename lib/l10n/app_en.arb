@@ -2501,6 +2501,30 @@
       }
     }
   },
+  "part": "Part {number}",
+  "@part": {
+    "description": "Label for a single part of a multi-part video",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "parts": "{count, plural, =1{1 part} other{{count} parts}}",
+  "@parts": {
+    "description": "Number of parts a multi-part video consists of",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "nextPart": "Next part",
+  "@nextPart": {
+    "description": "Label shown when the next playback queue item is another part"
+  },
   "activeTvChannels": "Active TV Channels",
   "enableNewTVLayout": "Enable new TV layout",
   "liveTV": "Live TV",

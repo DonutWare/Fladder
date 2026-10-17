@@ -72,6 +72,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
     super.canDelete,
     super.canDownload,
     super.jellyType,
+    super.partCount,
   });
   EpisodeStatus get status {
     return switch (location) {
@@ -211,6 +212,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
         canDelete: item.canDelete,
         canDownload: item.canDownload,
         jellyType: item.type,
+        partCount: item.partCount ?? 1,
       );
     }
 
@@ -236,6 +238,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
       canDownload: item.canDownload,
       mediaStreams: MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref),
       jellyType: item.type,
+      partCount: item.partCount ?? 1,
     );
   }
 

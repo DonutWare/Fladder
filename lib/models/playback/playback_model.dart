@@ -19,6 +19,7 @@ import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/items/video_part_model.dart';
 import 'package:fladder/models/playback/direct_playback_model.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
 import 'package:fladder/models/playback/playback_options_dialogue.dart';
@@ -269,19 +270,26 @@ class PlaybackModelHelper {
 
       if (firstItemToPlay == null) return null;
 
-      final fullItemResponse = await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id);
-
-      final fullItem = fullItemResponse.body;
-
-      if (fullItem == null) {
-        return null;
+      // Additional parts are already fully populated by the AdditionalParts
+      // response. Refetching them would map the `video` item through
+      // `ItemBaseModel.fromBaseDto`, turning it into a PhotoModel.
+      final ItemBaseModel playableItem;
+      if (firstItemToPlay is VideoPartModel) {
+        playableItem = firstItemToPlay;
+      } else {
+        final fullItemResponse = await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id);
+        final fullItem = fullItemResponse.body;
+        if (fullItem == null) {
+          return null;
+        }
+        playableItem = fullItem;
       }
 
-      SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(fullItem.id);
+      SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(playableItem.id);
 
       final firstItemIsSynced = syncedItem != null && syncedItem.status == TaskStatus.complete;
 
-      final actualStartPosition = startPosition ?? fullItem.userData.playBackPosition;
+      final actualStartPosition = startPosition ?? playableItem.userData.playBackPosition;
 
       final options = {
         PlaybackType.directStream,
@@ -293,7 +301,7 @@ class PlaybackModelHelper {
 
       if (firstItemToPlay is AudioModel && firstItemIsSynced) {
         final offlinePlayback = await _createOfflinePlaybackModel(
-          fullItem,
+          playableItem,
           item.streamModel,
           syncedItem,
           oldModel: oldModel,
@@ -306,7 +314,7 @@ class PlaybackModelHelper {
       }
 
       Future<PlaybackModel?> getOfflineModel() => _createOfflinePlaybackModel(
-            fullItem,
+            playableItem,
             item.streamModel,
             syncedItem,
             oldModel: oldModel,
@@ -314,7 +322,7 @@ class PlaybackModelHelper {
           );
 
       Future<PlaybackModel?> getServerModel(PlaybackType type) => _createServerPlaybackModel(
-            fullItem,
+            playableItem,
             item.streamModel,
             forcedPlaybackType ?? type,
             oldModel: oldModel,

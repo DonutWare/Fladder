@@ -886,6 +886,10 @@ class JellyService {
     return api.itemsItemIdSpecialFeaturesGet(itemId: itemId, userId: account?.id);
   }
 
+  Future<Response<BaseItemDtoQueryResult>> getAdditionalParts({required String itemId}) async {
+    return api.videosItemIdAdditionalPartsGet(itemId: itemId, userId: account?.id);
+  }
+
   Future<Response<BaseItemDtoQueryResult>> itemsItemIdSimilarGet({
     String? itemId,
     int? limit,

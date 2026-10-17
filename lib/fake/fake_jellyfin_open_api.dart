@@ -442,6 +442,17 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
   }
 
   @override
+  Future<chopper.Response<BaseItemDtoQueryResult>> videosItemIdAdditionalPartsGet({
+    required String? itemId,
+    String? userId,
+  }) async {
+    return chopper.Response(
+      FakeHelper.fakeCorrectResponse,
+      BaseItemDtoQueryResult(items: []),
+    );
+  }
+
+  @override
   Future<chopper.Response<BaseItemDtoQueryResult>> showsNextUpGet({
     String? userId,
     int? startIndex,

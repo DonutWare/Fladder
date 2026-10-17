@@ -83,6 +83,9 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
   static dto.BaseItemKind? _$jellyType(EpisodeModel v) => v.jellyType;
   static const Field<EpisodeModel, dto.BaseItemKind> _f$jellyType =
       Field('jellyType', _$jellyType, opt: true);
+  static int _$partCount(EpisodeModel v) => v.partCount;
+  static const Field<EpisodeModel, int> _f$partCount =
+      Field('partCount', _$partCount, opt: true, def: 1);
 
   @override
   final MappableFields<EpisodeModel> fields = const {
@@ -107,6 +110,7 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
     #canDelete: _f$canDelete,
     #canDownload: _f$canDownload,
     #jellyType: _f$jellyType,
+    #partCount: _f$partCount,
   };
   @override
   final bool ignoreNull = true;
@@ -141,7 +145,8 @@ class EpisodeModelMapper extends SubClassMapperBase<EpisodeModel> {
         mediaStreams: data.dec(_f$mediaStreams),
         canDelete: data.dec(_f$canDelete),
         canDownload: data.dec(_f$canDownload),
-        jellyType: data.dec(_f$jellyType));
+        jellyType: data.dec(_f$jellyType),
+        partCount: data.dec(_f$partCount));
   }
 
   @override
@@ -189,7 +194,8 @@ abstract class EpisodeModelCopyWith<$R, $In extends EpisodeModel, $Out>
       MediaStreamsModel? mediaStreams,
       bool? canDelete,
       bool? canDownload,
-      dto.BaseItemKind? jellyType});
+      dto.BaseItemKind? jellyType,
+      int? partCount});
   EpisodeModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -233,7 +239,8 @@ class _EpisodeModelCopyWithImpl<$R, $Out>
           MediaStreamsModel? mediaStreams,
           Object? canDelete = $none,
           Object? canDownload = $none,
-          Object? jellyType = $none}) =>
+          Object? jellyType = $none,
+          int? partCount}) =>
       $apply(FieldCopyWithData({
         if (seriesName != $none) #seriesName: seriesName,
         if (season != null) #season: season,
@@ -255,7 +262,8 @@ class _EpisodeModelCopyWithImpl<$R, $Out>
         if (mediaStreams != null) #mediaStreams: mediaStreams,
         if (canDelete != $none) #canDelete: canDelete,
         if (canDownload != $none) #canDownload: canDownload,
-        if (jellyType != $none) #jellyType: jellyType
+        if (jellyType != $none) #jellyType: jellyType,
+        if (partCount != null) #partCount: partCount
       }));
   @override
   EpisodeModel $make(CopyWithData data) => EpisodeModel(
@@ -279,7 +287,8 @@ class _EpisodeModelCopyWithImpl<$R, $Out>
       mediaStreams: data.get(#mediaStreams, or: $value.mediaStreams),
       canDelete: data.get(#canDelete, or: $value.canDelete),
       canDownload: data.get(#canDownload, or: $value.canDownload),
-      jellyType: data.get(#jellyType, or: $value.jellyType));
+      jellyType: data.get(#jellyType, or: $value.jellyType),
+      partCount: data.get(#partCount, or: $value.partCount));
 
   @override
   EpisodeModelCopyWith<$R2, EpisodeModel, $Out2> $chain<$R2, $Out2>(

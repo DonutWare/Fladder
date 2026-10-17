@@ -64,6 +64,7 @@ class AudioModel extends ItemStreamModel with AudioModelMappable {
     super.canDelete,
     super.canDownload,
     super.jellyType,
+    super.partCount,
   });
 
   @override

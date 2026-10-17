@@ -17,6 +17,7 @@ part 'item_stream_model.mapper.dart';
 class ItemStreamModel extends ItemBaseModel with ItemStreamModelMappable {
   final ImagesData? parentImages;
   final MediaStreamsModel mediaStreams;
+  final int partCount;
   const ItemStreamModel({
     required this.parentImages,
     required this.mediaStreams,
@@ -32,7 +33,11 @@ class ItemStreamModel extends ItemBaseModel with ItemStreamModelMappable {
     required super.canDelete,
     required super.canDownload,
     super.jellyType,
+    this.partCount = 1,
   });
+
+  bool get hasMultipleParts => partCount > 1;
+
   factory ItemStreamModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return switch (item.type) {
       BaseItemKind.episode => EpisodeModel.fromBaseDto(item, ref),
@@ -58,6 +63,7 @@ class ItemStreamModel extends ItemBaseModel with ItemStreamModelMappable {
       mediaStreams: ref != null
           ? MediaStreamsModel.fromMediaStreamsList(item.mediaSources, ref)
           : MediaStreamsModel(versionStreams: []),
+      partCount: item.partCount ?? 1,
     );
   }
 

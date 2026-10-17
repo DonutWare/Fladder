@@ -102,6 +102,9 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
   static dto.BaseItemKind? _$jellyType(MovieModel v) => v.jellyType;
   static const Field<MovieModel, dto.BaseItemKind> _f$jellyType =
       Field('jellyType', _$jellyType, opt: true);
+  static int _$partCount(MovieModel v) => v.partCount;
+  static const Field<MovieModel, int> _f$partCount =
+      Field('partCount', _$partCount, opt: true, def: 1);
 
   @override
   final MappableFields<MovieModel> fields = const {
@@ -130,6 +133,7 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
     #canDownload: _f$canDownload,
     #canDelete: _f$canDelete,
     #jellyType: _f$jellyType,
+    #partCount: _f$partCount,
   };
   @override
   final bool ignoreNull = true;
@@ -168,7 +172,8 @@ class MovieModelMapper extends SubClassMapperBase<MovieModel> {
         mediaStreams: data.dec(_f$mediaStreams),
         canDownload: data.dec(_f$canDownload),
         canDelete: data.dec(_f$canDelete),
-        jellyType: data.dec(_f$jellyType));
+        jellyType: data.dec(_f$jellyType),
+        partCount: data.dec(_f$partCount));
   }
 
   @override
@@ -239,7 +244,8 @@ abstract class MovieModelCopyWith<$R, $In extends MovieModel, $Out>
       MediaStreamsModel? mediaStreams,
       bool? canDownload,
       bool? canDelete,
-      dto.BaseItemKind? jellyType});
+      dto.BaseItemKind? jellyType,
+      int? partCount});
   MovieModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -327,7 +333,8 @@ class _MovieModelCopyWithImpl<$R, $Out>
           MediaStreamsModel? mediaStreams,
           Object? canDownload = $none,
           Object? canDelete = $none,
-          Object? jellyType = $none}) =>
+          Object? jellyType = $none,
+          int? partCount}) =>
       $apply(FieldCopyWithData({
         if (originalTitle != null) #originalTitle: originalTitle,
         if (path != $none) #path: path,
@@ -353,7 +360,8 @@ class _MovieModelCopyWithImpl<$R, $Out>
         if (mediaStreams != null) #mediaStreams: mediaStreams,
         if (canDownload != $none) #canDownload: canDownload,
         if (canDelete != $none) #canDelete: canDelete,
-        if (jellyType != $none) #jellyType: jellyType
+        if (jellyType != $none) #jellyType: jellyType,
+        if (partCount != null) #partCount: partCount
       }));
   @override
   MovieModel $make(CopyWithData data) => MovieModel(
@@ -382,7 +390,8 @@ class _MovieModelCopyWithImpl<$R, $Out>
       mediaStreams: data.get(#mediaStreams, or: $value.mediaStreams),
       canDownload: data.get(#canDownload, or: $value.canDownload),
       canDelete: data.get(#canDelete, or: $value.canDelete),
-      jellyType: data.get(#jellyType, or: $value.jellyType));
+      jellyType: data.get(#jellyType, or: $value.jellyType),
+      partCount: data.get(#partCount, or: $value.partCount));
 
   @override
   MovieModelCopyWith<$R2, MovieModel, $Out2> $chain<$R2, $Out2>(

@@ -32,6 +32,7 @@ class SpecialFeatureModel extends ItemStreamModel with SpecialFeatureModelMappab
     super.canDelete,
     super.canDownload,
     super.jellyType,
+    super.partCount,
   });
 
   @override
