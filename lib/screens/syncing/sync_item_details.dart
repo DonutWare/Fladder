@@ -194,7 +194,7 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                           nestedChildren.when(
                             data: (data) => SyncOptionsButton(
                               syncedItem: syncedItem,
-                              children: data,
+                              children: data.where((child) => child.partOfId == null).toList(),
                             ),
                             error: (error, stackTrace) => const SizedBox.shrink(),
                             loading: () => const SizedBox.shrink(),
@@ -202,14 +202,14 @@ class _SyncItemDetailsState extends ConsumerState<SyncItemDetails> {
                         ],
                       ),
                     },
-                    if (children?.isNotEmpty == true) ...[
+                    if (children?.any((child) => child.partOfId == null) == true) ...[
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 16),
                         child: Divider(),
                       ),
-                      ...children!.map(
-                        (e) => ChildSyncWidget(syncedChild: e),
-                      ),
+                      ...children!.where((child) => child.partOfId == null).map(
+                            (e) => ChildSyncWidget(syncedChild: e),
+                          ),
                     ],
                   ],
                 ),

@@ -159,6 +159,57 @@ class MultipartGroup {
   static bool bypassesAutoResume(ItemBaseModel requested, Duration? startPosition) =>
       startPosition != null || requested is VideoPartModel;
 
+  /// User data for Part 1 after a progress or stop write.
+  ///
+  /// Part 1 always keeps its local position and never marks the logical item
+  /// played while additional parts remain.
+  static UserData? part1UserData(
+    UserData? current,
+    Duration position,
+    Duration partRuntime, {
+    DateTime? now,
+  }) {
+    if (current == null) return null;
+    final clamped = _clamp(position, partRuntime);
+    final progress = partRuntime.inMilliseconds <= 0
+        ? 0.0
+        : (clamped.inMilliseconds / partRuntime.inMilliseconds * 100).clamp(0.0, 100.0).toDouble();
+    return current.copyWith(
+      playbackPositionTicks: clamped.toRuntimeTicks,
+      progress: progress,
+      played: false,
+      lastPlayed: now ?? DateTime.now().toUtc(),
+    );
+  }
+
+  /// Parent user data for aggregated progress while a later part is playing.
+  static UserData? parentProgressUserData(
+    UserData? current,
+    int playbackPositionTicks,
+    double aggregateProgress, {
+    DateTime? now,
+  }) {
+    if (current == null) return null;
+    return current.copyWith(
+      playbackPositionTicks: playbackPositionTicks,
+      progress: aggregateProgress.clamp(0.0, 100.0).toDouble(),
+      played: false,
+      lastPlayed: now ?? DateTime.now().toUtc(),
+    );
+  }
+
+  /// Parent user data when the final part has been watched.
+  static UserData? completedParentUserData(UserData? current, {DateTime? now}) {
+    if (current == null) return null;
+    return current.copyWith(
+      played: true,
+      playbackPositionTicks: 0,
+      progress: 100,
+      playCount: current.playCount + 1,
+      lastPlayed: now ?? DateTime.now().toUtc(),
+    );
+  }
+
   /// Whether finishing [current] at [stopPosition] completes the logical item.
   bool shouldMarkCompleted(ItemBaseModel current, Duration stopPosition) {
     if (!isFinalPart(current)) return false;

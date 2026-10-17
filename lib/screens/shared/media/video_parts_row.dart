@@ -79,7 +79,8 @@ class VideoPartsRow extends ConsumerWidget {
           onTap: () => item.play(
             context,
             ref,
-            startPosition: item.userData.playBackPosition,
+            startPosition:
+                isFirstPart && group != null && group.part1Played ? Duration.zero : item.userData.playBackPosition,
           ),
         );
       },
@@ -111,9 +112,8 @@ class VideoPartPoster extends ConsumerWidget {
     final isOffline = ref.watch(offlineStateProvider);
     final syncedItem = ref.watch(syncedItemProvider(item)).valueOrNull;
 
-    // Additional parts are not downloaded until offline support lands, so an
-    // offline part without a synced file can only be shown as unavailable.
-    final unavailable = isOffline && syncedItem == null;
+    // A part is only playable offline once its file has finished downloading.
+    final unavailable = isOffline && (syncedItem == null || !syncedItem.videoFile.existsSync());
     final playable = item.playAble && !unavailable;
 
     final image = item.images?.primary ?? item.getPosters?.primary ?? fallbackImages?.primary;

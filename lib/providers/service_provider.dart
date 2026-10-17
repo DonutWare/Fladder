@@ -358,7 +358,9 @@ class JellyService {
         );
       }
 
-      final actualItems = syncedItems.nonNulls.toList();
+      final actualItems = syncedItems.nonNulls
+          .where((element) => element.partOfId == null || (ids?.contains(element.id) ?? false))
+          .toList();
 
       final filteredItems = actualItems.where((element) {
         final type = element.data?.type;
@@ -840,8 +842,9 @@ class JellyService {
     Future<Response<BaseItemDtoQueryResult>> fetchOfflineEpisodes() async {
       final seriesItem = await ref.read(syncProvider.notifier).getSyncedItem(seriesId);
       if (seriesItem != null) {
-        final episodes = await ref.read(syncProvider.notifier).getNestedChildren(seriesItem)
-          ..where((e) => e.itemModel is EpisodeModel);
+        final episodes = (await ref.read(syncProvider.notifier).getNestedChildren(seriesItem))
+            .where((e) => e.itemModel is EpisodeModel)
+            .toList();
         return Response<BaseItemDtoQueryResult>(
           http.Response("", 200),
           BaseItemDtoQueryResult(

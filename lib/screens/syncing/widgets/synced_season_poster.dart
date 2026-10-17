@@ -108,8 +108,11 @@ class _SyncedSeasonPosterState extends ConsumerState<SyncedSeasonPoster> {
                 ),
               ],
             ),
-            trailing: SyncOptionsButton(syncedItem: syncedItem, children: children),
-            children: children.map(
+            trailing: SyncOptionsButton(
+              syncedItem: syncedItem,
+              children: children.where((item) => item.partOfId == null).toList(),
+            ),
+            children: children.where((item) => item.itemModel is EpisodeModel).map(
               (item) {
                 final baseItem = item.itemModel;
                 return Padding(

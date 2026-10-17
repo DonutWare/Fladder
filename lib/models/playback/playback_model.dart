@@ -293,14 +293,26 @@ class PlaybackModelHelper {
     SyncedItem? syncedItem, {
     PlaybackModel? oldModel,
     PlaybackQueueSource? queueSource,
+    List<ItemBaseModel>? libraryQueue,
+    List<SyncedItem>? syncedQueue,
   }) async {
     final ItemBaseModel? syncedItemModel = syncedItem?.itemModel;
     if (syncedItemModel == null || syncedItem == null || !await syncedItem.videoFile.exists()) return null;
 
-    final children = await ref.read(syncProvider.notifier).getSiblings(syncedItem);
+    final syncNotifier = ref.read(syncProvider.notifier);
+    final isAudio = syncedItemModel is AudioModel;
 
-    final syncedItems = children.where((element) => element.videoFile.existsSync()).toList();
-    final itemQueue = syncedItems.map((e) => e.itemModel).nonNulls;
+    final List<SyncedItem> effectiveSyncedQueue;
+    if (syncedQueue != null) {
+      effectiveSyncedQueue = syncedQueue;
+    } else if (isAudio) {
+      final children = await syncNotifier.getSiblings(syncedItem);
+      effectiveSyncedQueue = children.where((element) => element.videoFile.existsSync()).toList();
+    } else {
+      effectiveSyncedQueue = await syncNotifier.getVideoPlaybackQueue(syncedItem);
+    }
+
+    final itemQueue = libraryQueue ?? effectiveSyncedQueue.map((element) => element.itemModel).nonNulls.toList();
 
     return OfflinePlaybackModel(
       item: syncedItemModel,
@@ -308,11 +320,11 @@ class PlaybackModelHelper {
       trickPlay: syncedItem.trickPlayModel,
       mediaSegments: syncedItem.mediaSegments,
       media: Media(url: syncedItem.videoFile.path),
-      queue: itemQueue.nonNulls.toList(),
+      queue: itemQueue,
       playbackQueue: oldModel?.playbackQueue,
       queueSource: queueSource ?? oldModel?.queueSource,
-      syncedQueue: children,
-      mediaStreams: item.streamModel ?? syncedItemModel.streamModel,
+      syncedQueue: effectiveSyncedQueue,
+      mediaStreams: streamModel ?? item.streamModel ?? syncedItemModel.streamModel,
     );
   }
 
@@ -427,9 +439,41 @@ class PlaybackModelHelper {
     }
   }
 
+  /// Builds the offline video queue for [item] from the sync database.
+  ///
+  /// Returns null for item types that do not use the video queue so the caller
+  /// can fall back to the regular queue collection.
+  Future<List<SyncedItem>?> _buildOfflineQueue(ItemBaseModel item) async {
+    final syncNotifier = ref.read(syncProvider.notifier);
+
+    SyncedItem? target;
+    if (item is VideoPartModel) {
+      target = await syncNotifier.getSyncedItem(item.id) ?? await syncNotifier.getSyncedItem(item.parentItemId);
+    } else if (item is MovieModel || item is EpisodeModel) {
+      target = await syncNotifier.getSyncedItem(item.id);
+    } else if (item is SeriesModel || item is SeasonModel) {
+      final episodes = (await collectQueue(item)).whereType<EpisodeModel>().toList();
+      final nextUp = episodes.nextUp;
+      if (nextUp != null) {
+        target = await syncNotifier.getSyncedItem(nextUp.id);
+      }
+    }
+
+    if (target == null) return null;
+    return syncNotifier.getVideoPlaybackQueue(target);
+  }
+
   /// Clears the aggregate and per-part progress before a rewatch.
   Future<void> _resetMultipartGroup(MultipartGroup group) async {
     if (ref.read(incognitoProvider)) return;
+
+    if (ref.read(offlineStateProvider)) {
+      await ref.read(syncProvider.notifier).resetMultipartProgress([
+        group.main.id,
+        ...group.additionalParts.map((part) => part.id),
+      ]);
+      return;
+    }
 
     for (final update in group.resetUpdates()) {
       try {
@@ -460,11 +504,17 @@ class PlaybackModelHelper {
       final userId = ref.read(userProvider)?.id;
       if (userId?.isEmpty == true) return null;
 
+      final isOffline = ref.read(offlineStateProvider);
+
       List<ItemBaseModel> queue;
+      List<SyncedItem>? offlineQueue;
       if (oldModel != null) {
         queue = oldModel.queue;
       } else if (libraryQueue != null) {
         queue = libraryQueue;
+      } else if (isOffline) {
+        offlineQueue = await _buildOfflineQueue(item);
+        queue = offlineQueue?.map((element) => element.itemModel).nonNulls.toList() ?? [];
       } else if (item is VideoPartModel) {
         queue = await _buildQueueForPart(item);
       } else {
@@ -478,7 +528,9 @@ class PlaybackModelHelper {
         queue = [item];
       }
 
-      queue = await expandQueueWithParts(queue);
+      if (!isOffline) {
+        queue = await expandQueueWithParts(queue);
+      }
 
       // The requested part must stay playable even when the server does not
       // return it as part of the logical parent's queue.
@@ -495,17 +547,14 @@ class PlaybackModelHelper {
 
       if (firstItemToPlay == null) return null;
 
-      final isOffline = ref.read(offlineStateProvider);
-
       var resolvedItem = firstItemToPlay;
       Duration? resolvedStartPosition = startPosition;
       MultipartGroup? multipartGroup;
       var resetMultipartGroup = false;
 
       // Part-aware resume selection (plan §4.5). An explicit start position or
-      // an explicitly selected part bypasses auto-selection. Offline parts and
-      // aggregate writes are handled in Phase 4, so keep offline resume as-is.
-      if (!isOffline && !restart && !MultipartGroup.bypassesAutoResume(firstItemToPlay, startPosition)) {
+      // an explicitly selected part bypasses auto-selection.
+      if (!restart && !MultipartGroup.bypassesAutoResume(firstItemToPlay, startPosition)) {
         final isMovieOrEpisode = firstItemToPlay is MovieModel || firstItemToPlay is EpisodeModel;
         final streamItem = isMovieOrEpisode ? firstItemToPlay as ItemStreamModel : null;
         if (streamItem != null) {
@@ -533,7 +582,7 @@ class PlaybackModelHelper {
         resolvedStartPosition = Duration.zero;
       }
 
-      if (!isOffline && resetMultipartGroup && multipartGroup != null) {
+      if (resetMultipartGroup && multipartGroup != null) {
         await _resetMultipartGroup(multipartGroup);
       }
 
@@ -590,6 +639,8 @@ class PlaybackModelHelper {
             syncedItem,
             oldModel: oldModel,
             queueSource: effectiveQueueSource,
+            libraryQueue: offlineQueue?.map((element) => element.itemModel).nonNulls.toList(),
+            syncedQueue: offlineQueue,
           );
 
       Future<PlaybackModel?> getServerModel(PlaybackType type) => _createServerPlaybackModel(

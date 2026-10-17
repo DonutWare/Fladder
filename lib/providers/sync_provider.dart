@@ -23,11 +23,13 @@ import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
+import 'package:fladder/models/items/video_part_model.dart';
 import 'package:fladder/models/syncing/database_item.dart';
 import 'package:fladder/models/syncing/download_stream.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
@@ -295,6 +297,8 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
   Stream<SyncedItem?> watchItem(String id) => _db.getItem(id).watchSingleOrNull();
 
+  Stream<List<SyncedItem>> watchChildren(String parentId) => _db.getChildren(parentId).watch();
+
   Future<SyncedItem?> getParentItem(String id) async => await _db.getParent(id).getSingleOrNull();
 
   Future<SyncedItem> refreshSyncItem(SyncedItem item) async {
@@ -312,19 +316,36 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         itemId: itemToSync.id,
       );
 
-      final itemModel = ItemBaseModel.fromBaseDto(itemResponse.bodyOrThrow, ref);
+      final itemDto = itemResponse.bodyOrThrow;
+      final isPart = itemToSync.partOfId != null;
+      final itemModel = isPart
+          ? VideoPartModel.fromBaseDto(
+              itemDto,
+              ref,
+              parentItemId: itemToSync.partOfId!,
+              partNumber: itemToSync.partNumber ?? 2,
+              totalParts: itemToSync.totalParts ?? 2,
+            )
+          : ItemBaseModel.fromBaseDto(itemDto, ref);
 
       final syncedParent = await _db.getItem(itemToSync.parentId ?? "").getSingleOrNull();
 
-      SyncedItem newSyncedItem = await _syncItemData(syncedParent, itemModel, itemResponse.bodyOrThrow);
+      SyncedItem newSyncedItem = await _syncItemData(
+        syncedParent,
+        itemModel,
+        itemDto,
+        partOfId: itemToSync.partOfId,
+        partNumber: itemToSync.partNumber,
+        totalParts: itemToSync.totalParts,
+      );
 
       final updatedItem = itemToSync.copyWith(
-        itemModel: newSyncedItem.createItemModel(ref),
+        itemModel: isPart ? itemModel : newSyncedItem.createItemModel(ref),
         sortName: newSyncedItem.sortName,
         syncing: false,
         fImages: newSyncedItem.fImages,
-        fTrickPlayModel: newSyncedItem.fTrickPlayModel,
-        subtitles: newSyncedItem.subtitles,
+        fTrickPlayModel: newSyncedItem.fTrickPlayModel ?? itemToSync.fTrickPlayModel,
+        subtitles: newSyncedItem.subtitles.isNotEmpty ? newSyncedItem.subtitles : itemToSync.subtitles,
         userData: UserData.determineLastUserData([item.userData, newSyncedItem.userData]),
       );
 
@@ -336,6 +357,12 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     }
 
     await _db.insertMultipleEntries(newItems);
+
+    for (final refreshedItem in newItems) {
+      if (refreshedItem.itemModel is MovieModel || refreshedItem.itemModel is EpisodeModel) {
+        await ensurePartsSynced(refreshedItem, download: refreshedItem.videoFile.existsSync());
+      }
+    }
 
     return parentItem;
   }
@@ -535,12 +562,17 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     }
   }
 
-  Future<int> updateItem(SyncedItem item) async {
-    SyncedItem syncedItem = item;
-    try {
-      await ref.read(jellyApiProvider).userItemsItemIdUserDataPost(itemId: syncedItem.id, body: syncedItem.userData);
-    } catch (e) {
-      log('Error updating item: ${syncedItem.id}');
+  Future<int> updateItem(SyncedItem item, {bool upload = true}) async {
+    var syncedItem = item;
+    if (upload) {
+      try {
+        await ref.read(jellyApiProvider).userItemsItemIdUserDataPost(itemId: syncedItem.id, body: syncedItem.userData);
+        syncedItem = syncedItem.copyWith(unSyncedData: false);
+      } catch (e) {
+        log('Error updating item: ${syncedItem.id}');
+        syncedItem = syncedItem.copyWith(unSyncedData: true);
+      }
+    } else {
       syncedItem = syncedItem.copyWith(unSyncedData: true);
     }
     return _db.insertItem(syncedItem);
@@ -563,6 +595,16 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         return;
       case ArtistModel artist:
         await syncArtist(artist, musicTranscodeModel: musicTranscodeModel);
+        return;
+      case MovieModel _:
+      case EpisodeModel _:
+        await syncFile(
+          syncedItem,
+          false,
+          transcodeModel: transcodeModel,
+          musicTranscodeModel: musicTranscodeModel,
+        );
+        await ensurePartsSynced(syncedItem, transcodeModel: transcodeModel);
         return;
       default:
         await syncFile(
@@ -614,6 +656,19 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     }
 
     await syncedItem.deleteDatFiles(ref);
+
+    final partChildren = (await getChildren(syncedItem.id)).where((child) => child.partOfId == syncedItem.id).toList();
+    for (final part in partChildren) {
+      await ref.read(backgroundDownloaderProvider).cancelTaskWithId(part.id);
+      ref.read(downloadTasksProvider(part.id).notifier).update((state) => DownloadStream.empty());
+      await part.deleteDatFiles(ref);
+      if (await part.directory.exists() && part.directory.path != syncedItem.directory.path) {
+        await part.directory.delete(recursive: true);
+      }
+    }
+    if (partChildren.isNotEmpty) {
+      await _db.deleteAllItems(partChildren);
+    }
 
     syncedItem = syncedItem.copyWith(
       transcodeDownloadModel: null,
@@ -824,6 +879,88 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     await _db.insertItem(updatedItem);
   }
 
+  /// Builds the offline video playback queue around [current].
+  ///
+  /// Parts are interleaved directly after their parent, and only downloaded
+  /// files are included. For an episode, downloaded siblings from the same
+  /// season are kept in the queue.
+  Future<List<SyncedItem>> getVideoPlaybackQueue(SyncedItem current) async {
+    final main = current.partOfId != null ? await getSyncedItem(current.partOfId) : current;
+    if (main == null) return [current];
+
+    List<SyncedItem> mainItems;
+    if (main.itemModel is EpisodeModel && main.parentId != null) {
+      mainItems = (await getChildren(main.parentId!))
+          .where((item) => item.itemModel is EpisodeModel && item.partOfId == null && item.videoFile.existsSync())
+          .toList();
+    } else {
+      mainItems = [if (main.videoFile.existsSync()) main];
+    }
+
+    if (!mainItems.any((item) => item.id == main.id)) {
+      mainItems.insert(0, main);
+    }
+
+    final partsByParentId = <String, List<SyncedItem>>{};
+    for (final item in mainItems) {
+      final parts = (await getChildren(item.id))
+          .where((part) => part.partOfId == item.id && part.videoFile.existsSync())
+          .toList()
+        ..sort((a, b) => (a.partNumber ?? 0).compareTo(b.partNumber ?? 0));
+      if (parts.isNotEmpty) {
+        partsByParentId[item.id] = parts;
+      }
+    }
+
+    return interleaveSyncedVideoQueue(mainItems, partsByParentId, current: current);
+  }
+
+  /// Pure offline queue ordering helper, exposed for tests.
+  static List<SyncedItem> interleaveSyncedVideoQueue(
+    List<SyncedItem> mainItems,
+    Map<String, List<SyncedItem>> partsByParentId, {
+    SyncedItem? current,
+  }) {
+    final queue = <SyncedItem>[];
+    for (final item in mainItems) {
+      queue.add(item);
+      queue.addAll(partsByParentId[item.id] ?? const []);
+    }
+
+    if (current != null && !queue.any((item) => item.id == current.id)) {
+      queue.add(current);
+    }
+    return queue;
+  }
+
+  /// Clears local progress and played state for [itemIds].
+  ///
+  /// Used by the offline rewatch flow; the changes are queued for the next
+  /// successful sync instead of being written to the server immediately.
+  Future<void> resetMultipartProgress(Iterable<String> itemIds) async {
+    final updates = <SyncedItem>[];
+    for (final id in itemIds) {
+      final synced = await _db.getItem(id).getSingleOrNull();
+      if (synced == null) continue;
+      updates.add(synced.copyWith(
+        userData: (synced.userData ?? const UserData()).copyWith(
+          playbackPositionTicks: 0,
+          progress: 0.0,
+          played: false,
+        ),
+        unSyncedData: true,
+      ));
+    }
+    if (updates.isEmpty) return;
+    await _db.insertMultipleEntries(updates);
+  }
+
+  Future<void> updateLocalItems(Iterable<SyncedItem> items, {bool upload = true}) async {
+    for (final item in items) {
+      await updateItem(item, upload: upload);
+    }
+  }
+
   Future<void> updatePlayedItem(String? itemId,
       {DateTime? datePlayed, required bool played, bool responseSuccessful = false}) async {
     if (itemId == null) return;
@@ -889,14 +1026,35 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 }
 
 extension SyncNotifierHelpers on SyncNotifier {
-  Future<SyncedItem> createSyncItem(BaseItemDto response, {SyncedItem? parent}) async {
-    final ItemBaseModel item = ItemBaseModel.fromBaseDto(response, ref);
+  Future<SyncedItem> createSyncItem(
+    BaseItemDto response, {
+    SyncedItem? parent,
+    String? partOfId,
+    int? partNumber,
+    int? totalParts,
+  }) async {
+    final ItemBaseModel item = partOfId != null
+        ? VideoPartModel.fromBaseDto(
+            response,
+            ref,
+            parentItemId: partOfId,
+            partNumber: partNumber ?? 2,
+            totalParts: totalParts ?? 2,
+          )
+        : ItemBaseModel.fromBaseDto(response, ref);
 
     final existingSyncedItem = await getSyncedItem(item.id);
 
     if (existingSyncedItem != null) return existingSyncedItem;
 
-    SyncedItem syncItem = await _syncItemData(parent, item, response);
+    SyncedItem syncItem = await _syncItemData(
+      parent,
+      item,
+      response,
+      partOfId: partOfId,
+      partNumber: partNumber,
+      totalParts: totalParts,
+    );
 
     if (parent == null) {
       await _db.insertItem(syncItem);
@@ -909,7 +1067,78 @@ extension SyncNotifierHelpers on SyncNotifier {
     );
   }
 
-  Future<SyncedItem> _syncItemData(SyncedItem? parent, ItemBaseModel item, BaseItemDto response) async {
+  /// Creates and downloads the additional parts of a multi-part movie or
+  /// episode when they are missing from the sync database.
+  ///
+  /// Returns the stored part items, including ones that already existed.
+  Future<List<SyncedItem>> ensurePartsSynced(
+    SyncedItem mainItem, {
+    TranscodeDownloadModel? transcodeModel,
+    bool download = true,
+  }) async {
+    if (mainItem.partOfId != null) return const [];
+    final model = mainItem.itemModel ?? mainItem.createItemModel(ref);
+    if (model is! MovieModel && model is! EpisodeModel) return const [];
+
+    final partCount = (model as ItemStreamModel).partCount;
+    if (partCount <= 1) return const [];
+
+    final canDownload = download && !ref.read(offlineStateProvider);
+
+    final existing = (await getChildren(mainItem.id)).where((child) => child.partOfId == mainItem.id).toList();
+    if (existing.length >= partCount - 1) {
+      if (canDownload) {
+        for (final part in existing) {
+          if (!part.videoFile.existsSync()) {
+            unawaited(syncFile(part, false, transcodeModel: transcodeModel));
+          }
+        }
+      }
+      return existing;
+    }
+
+    try {
+      final response = await api.getAdditionalParts(itemId: mainItem.id);
+      final dtos = response.body?.items ?? const <BaseItemDto>[];
+      if (dtos.isEmpty) return existing;
+
+      final parts = <SyncedItem>[];
+      for (var i = 0; i < dtos.length; i++) {
+        final part = await createSyncItem(
+          dtos[i],
+          parent: mainItem,
+          partOfId: mainItem.id,
+          partNumber: i + 2,
+          totalParts: dtos.length + 1,
+        );
+        parts.add(part);
+      }
+
+      await _db.insertMultipleEntries(parts);
+
+      if (canDownload) {
+        for (final part in parts) {
+          if (!part.videoFile.existsSync()) {
+            unawaited(syncFile(part, false, transcodeModel: transcodeModel));
+          }
+        }
+      }
+
+      return parts;
+    } catch (e) {
+      log('Failed to sync additional parts for ${mainItem.id}: $e');
+      return existing;
+    }
+  }
+
+  Future<SyncedItem> _syncItemData(
+    SyncedItem? parent,
+    ItemBaseModel item,
+    BaseItemDto response, {
+    String? partOfId,
+    int? partNumber,
+    int? totalParts,
+  }) async {
     final Directory? parentDirectory = parent?.directory;
 
     final directory = Directory(path.joinAll([(parentDirectory ?? saveDirectory)?.path ?? "", item.id]));
@@ -926,6 +1155,9 @@ extension SyncNotifierHelpers on SyncNotifier {
       syncing: true,
       id: item.id,
       parentId: parent?.id,
+      partOfId: partOfId,
+      partNumber: partNumber,
+      totalParts: totalParts,
       sortName: response.sortName,
       fImages: imageData,
       userId: ref.read(userProvider)?.id ?? "",
@@ -977,6 +1209,8 @@ extension SyncNotifierHelpers on SyncNotifier {
     await _db.insertItem(syncItem);
 
     await syncFile(syncItem, skipDownload, transcodeModel: transcodeModel);
+
+    await ensurePartsSynced(syncItem, transcodeModel: transcodeModel, download: !skipDownload);
 
     return syncItem;
   }
@@ -1324,6 +1558,7 @@ extension SyncNotifierHelpers on SyncNotifier {
       final item = itemsToDownload[i];
       //No need to await file sync happens in the background
       syncFile(item, false, transcodeModel: transcodeModel);
+      await ensurePartsSynced(item, transcodeModel: transcodeModel);
     }
 
     return seriesItem;

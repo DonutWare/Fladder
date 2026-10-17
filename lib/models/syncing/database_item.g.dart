@@ -49,6 +49,24 @@ class $DatabaseItemsTable extends DatabaseItems
   late final GeneratedColumn<String> parentId = GeneratedColumn<String>(
       'parent_id', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _partOfIdMeta =
+      const VerificationMeta('partOfId');
+  @override
+  late final GeneratedColumn<String> partOfId = GeneratedColumn<String>(
+      'part_of_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _partNumberMeta =
+      const VerificationMeta('partNumber');
+  @override
+  late final GeneratedColumn<int> partNumber = GeneratedColumn<int>(
+      'part_number', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _totalPartsMeta =
+      const VerificationMeta('totalParts');
+  @override
+  late final GeneratedColumn<int> totalParts = GeneratedColumn<int>(
+      'total_parts', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _pathMeta = const VerificationMeta('path');
   @override
   late final GeneratedColumn<String> path = GeneratedColumn<String>(
@@ -118,6 +136,9 @@ class $DatabaseItemsTable extends DatabaseItems
         syncing,
         sortName,
         parentId,
+        partOfId,
+        partNumber,
+        totalParts,
         path,
         fileSize,
         videoFileName,
@@ -161,6 +182,22 @@ class $DatabaseItemsTable extends DatabaseItems
     if (data.containsKey('parent_id')) {
       context.handle(_parentIdMeta,
           parentId.isAcceptableOrUnknown(data['parent_id']!, _parentIdMeta));
+    }
+    if (data.containsKey('part_of_id')) {
+      context.handle(_partOfIdMeta,
+          partOfId.isAcceptableOrUnknown(data['part_of_id']!, _partOfIdMeta));
+    }
+    if (data.containsKey('part_number')) {
+      context.handle(
+          _partNumberMeta,
+          partNumber.isAcceptableOrUnknown(
+              data['part_number']!, _partNumberMeta));
+    }
+    if (data.containsKey('total_parts')) {
+      context.handle(
+          _totalPartsMeta,
+          totalParts.isAcceptableOrUnknown(
+              data['total_parts']!, _totalPartsMeta));
     }
     if (data.containsKey('path')) {
       context.handle(
@@ -229,6 +266,12 @@ class $DatabaseItemsTable extends DatabaseItems
           .read(DriftSqlType.string, data['${effectivePrefix}sort_name']),
       parentId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}parent_id']),
+      partOfId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}part_of_id']),
+      partNumber: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}part_number']),
+      totalParts: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}total_parts']),
       path: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}path']),
       fileSize: attachedDatabase.typeMapping
@@ -264,6 +307,9 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
   final bool syncing;
   final String? sortName;
   final String? parentId;
+  final String? partOfId;
+  final int? partNumber;
+  final int? totalParts;
   final String? path;
   final int? fileSize;
   final String? videoFileName;
@@ -280,6 +326,9 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       required this.syncing,
       this.sortName,
       this.parentId,
+      this.partOfId,
+      this.partNumber,
+      this.totalParts,
       this.path,
       this.fileSize,
       this.videoFileName,
@@ -301,6 +350,15 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
     }
     if (!nullToAbsent || parentId != null) {
       map['parent_id'] = Variable<String>(parentId);
+    }
+    if (!nullToAbsent || partOfId != null) {
+      map['part_of_id'] = Variable<String>(partOfId);
+    }
+    if (!nullToAbsent || partNumber != null) {
+      map['part_number'] = Variable<int>(partNumber);
+    }
+    if (!nullToAbsent || totalParts != null) {
+      map['total_parts'] = Variable<int>(totalParts);
     }
     if (!nullToAbsent || path != null) {
       map['path'] = Variable<String>(path);
@@ -344,6 +402,15 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       parentId: parentId == null && nullToAbsent
           ? const Value.absent()
           : Value(parentId),
+      partOfId: partOfId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(partOfId),
+      partNumber: partNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(partNumber),
+      totalParts: totalParts == null && nullToAbsent
+          ? const Value.absent()
+          : Value(totalParts),
       path: path == null && nullToAbsent ? const Value.absent() : Value(path),
       fileSize: fileSize == null && nullToAbsent
           ? const Value.absent()
@@ -381,6 +448,9 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       syncing: serializer.fromJson<bool>(json['syncing']),
       sortName: serializer.fromJson<String?>(json['sortName']),
       parentId: serializer.fromJson<String?>(json['parentId']),
+      partOfId: serializer.fromJson<String?>(json['partOfId']),
+      partNumber: serializer.fromJson<int?>(json['partNumber']),
+      totalParts: serializer.fromJson<int?>(json['totalParts']),
       path: serializer.fromJson<String?>(json['path']),
       fileSize: serializer.fromJson<int?>(json['fileSize']),
       videoFileName: serializer.fromJson<String?>(json['videoFileName']),
@@ -402,6 +472,9 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       'syncing': serializer.toJson<bool>(syncing),
       'sortName': serializer.toJson<String?>(sortName),
       'parentId': serializer.toJson<String?>(parentId),
+      'partOfId': serializer.toJson<String?>(partOfId),
+      'partNumber': serializer.toJson<int?>(partNumber),
+      'totalParts': serializer.toJson<int?>(totalParts),
       'path': serializer.toJson<String?>(path),
       'fileSize': serializer.toJson<int?>(fileSize),
       'videoFileName': serializer.toJson<String?>(videoFileName),
@@ -421,6 +494,9 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
           bool? syncing,
           Value<String?> sortName = const Value.absent(),
           Value<String?> parentId = const Value.absent(),
+          Value<String?> partOfId = const Value.absent(),
+          Value<int?> partNumber = const Value.absent(),
+          Value<int?> totalParts = const Value.absent(),
           Value<String?> path = const Value.absent(),
           Value<int?> fileSize = const Value.absent(),
           Value<String?> videoFileName = const Value.absent(),
@@ -437,6 +513,9 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
         syncing: syncing ?? this.syncing,
         sortName: sortName.present ? sortName.value : this.sortName,
         parentId: parentId.present ? parentId.value : this.parentId,
+        partOfId: partOfId.present ? partOfId.value : this.partOfId,
+        partNumber: partNumber.present ? partNumber.value : this.partNumber,
+        totalParts: totalParts.present ? totalParts.value : this.totalParts,
         path: path.present ? path.value : this.path,
         fileSize: fileSize.present ? fileSize.value : this.fileSize,
         videoFileName:
@@ -458,6 +537,11 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       syncing: data.syncing.present ? data.syncing.value : this.syncing,
       sortName: data.sortName.present ? data.sortName.value : this.sortName,
       parentId: data.parentId.present ? data.parentId.value : this.parentId,
+      partOfId: data.partOfId.present ? data.partOfId.value : this.partOfId,
+      partNumber:
+          data.partNumber.present ? data.partNumber.value : this.partNumber,
+      totalParts:
+          data.totalParts.present ? data.totalParts.value : this.totalParts,
       path: data.path.present ? data.path.value : this.path,
       fileSize: data.fileSize.present ? data.fileSize.value : this.fileSize,
       videoFileName: data.videoFileName.present
@@ -487,6 +571,9 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
           ..write('syncing: $syncing, ')
           ..write('sortName: $sortName, ')
           ..write('parentId: $parentId, ')
+          ..write('partOfId: $partOfId, ')
+          ..write('partNumber: $partNumber, ')
+          ..write('totalParts: $totalParts, ')
           ..write('path: $path, ')
           ..write('fileSize: $fileSize, ')
           ..write('videoFileName: $videoFileName, ')
@@ -508,6 +595,9 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
       syncing,
       sortName,
       parentId,
+      partOfId,
+      partNumber,
+      totalParts,
       path,
       fileSize,
       videoFileName,
@@ -527,6 +617,9 @@ class DatabaseItem extends DataClass implements Insertable<DatabaseItem> {
           other.syncing == this.syncing &&
           other.sortName == this.sortName &&
           other.parentId == this.parentId &&
+          other.partOfId == this.partOfId &&
+          other.partNumber == this.partNumber &&
+          other.totalParts == this.totalParts &&
           other.path == this.path &&
           other.fileSize == this.fileSize &&
           other.videoFileName == this.videoFileName &&
@@ -545,6 +638,9 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
   final Value<bool> syncing;
   final Value<String?> sortName;
   final Value<String?> parentId;
+  final Value<String?> partOfId;
+  final Value<int?> partNumber;
+  final Value<int?> totalParts;
   final Value<String?> path;
   final Value<int?> fileSize;
   final Value<String?> videoFileName;
@@ -562,6 +658,9 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
     this.syncing = const Value.absent(),
     this.sortName = const Value.absent(),
     this.parentId = const Value.absent(),
+    this.partOfId = const Value.absent(),
+    this.partNumber = const Value.absent(),
+    this.totalParts = const Value.absent(),
     this.path = const Value.absent(),
     this.fileSize = const Value.absent(),
     this.videoFileName = const Value.absent(),
@@ -580,6 +679,9 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
     this.syncing = const Value.absent(),
     this.sortName = const Value.absent(),
     this.parentId = const Value.absent(),
+    this.partOfId = const Value.absent(),
+    this.partNumber = const Value.absent(),
+    this.totalParts = const Value.absent(),
     this.path = const Value.absent(),
     this.fileSize = const Value.absent(),
     this.videoFileName = const Value.absent(),
@@ -599,6 +701,9 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
     Expression<bool>? syncing,
     Expression<String>? sortName,
     Expression<String>? parentId,
+    Expression<String>? partOfId,
+    Expression<int>? partNumber,
+    Expression<int>? totalParts,
     Expression<String>? path,
     Expression<int>? fileSize,
     Expression<String>? videoFileName,
@@ -617,6 +722,9 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
       if (syncing != null) 'syncing': syncing,
       if (sortName != null) 'sort_name': sortName,
       if (parentId != null) 'parent_id': parentId,
+      if (partOfId != null) 'part_of_id': partOfId,
+      if (partNumber != null) 'part_number': partNumber,
+      if (totalParts != null) 'total_parts': totalParts,
       if (path != null) 'path': path,
       if (fileSize != null) 'file_size': fileSize,
       if (videoFileName != null) 'video_file_name': videoFileName,
@@ -637,6 +745,9 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
       Value<bool>? syncing,
       Value<String?>? sortName,
       Value<String?>? parentId,
+      Value<String?>? partOfId,
+      Value<int?>? partNumber,
+      Value<int?>? totalParts,
       Value<String?>? path,
       Value<int?>? fileSize,
       Value<String?>? videoFileName,
@@ -654,6 +765,9 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
       syncing: syncing ?? this.syncing,
       sortName: sortName ?? this.sortName,
       parentId: parentId ?? this.parentId,
+      partOfId: partOfId ?? this.partOfId,
+      partNumber: partNumber ?? this.partNumber,
+      totalParts: totalParts ?? this.totalParts,
       path: path ?? this.path,
       fileSize: fileSize ?? this.fileSize,
       videoFileName: videoFileName ?? this.videoFileName,
@@ -685,6 +799,15 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
     }
     if (parentId.present) {
       map['parent_id'] = Variable<String>(parentId.value);
+    }
+    if (partOfId.present) {
+      map['part_of_id'] = Variable<String>(partOfId.value);
+    }
+    if (partNumber.present) {
+      map['part_number'] = Variable<int>(partNumber.value);
+    }
+    if (totalParts.present) {
+      map['total_parts'] = Variable<int>(totalParts.value);
     }
     if (path.present) {
       map['path'] = Variable<String>(path.value);
@@ -730,6 +853,9 @@ class DatabaseItemsCompanion extends UpdateCompanion<DatabaseItem> {
           ..write('syncing: $syncing, ')
           ..write('sortName: $sortName, ')
           ..write('parentId: $parentId, ')
+          ..write('partOfId: $partOfId, ')
+          ..write('partNumber: $partNumber, ')
+          ..write('totalParts: $totalParts, ')
           ..write('path: $path, ')
           ..write('fileSize: $fileSize, ')
           ..write('videoFileName: $videoFileName, ')
@@ -767,6 +893,9 @@ typedef $$DatabaseItemsTableCreateCompanionBuilder = DatabaseItemsCompanion
   Value<bool> syncing,
   Value<String?> sortName,
   Value<String?> parentId,
+  Value<String?> partOfId,
+  Value<int?> partNumber,
+  Value<int?> totalParts,
   Value<String?> path,
   Value<int?> fileSize,
   Value<String?> videoFileName,
@@ -786,6 +915,9 @@ typedef $$DatabaseItemsTableUpdateCompanionBuilder = DatabaseItemsCompanion
   Value<bool> syncing,
   Value<String?> sortName,
   Value<String?> parentId,
+  Value<String?> partOfId,
+  Value<int?> partNumber,
+  Value<int?> totalParts,
   Value<String?> path,
   Value<int?> fileSize,
   Value<String?> videoFileName,
@@ -822,6 +954,15 @@ class $$DatabaseItemsTableFilterComposer
 
   ColumnFilters<String> get parentId => $composableBuilder(
       column: $table.parentId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get partOfId => $composableBuilder(
+      column: $table.partOfId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get partNumber => $composableBuilder(
+      column: $table.partNumber, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get totalParts => $composableBuilder(
+      column: $table.totalParts, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get path => $composableBuilder(
       column: $table.path, builder: (column) => ColumnFilters(column));
@@ -878,6 +1019,15 @@ class $$DatabaseItemsTableOrderingComposer
 
   ColumnOrderings<String> get parentId => $composableBuilder(
       column: $table.parentId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get partOfId => $composableBuilder(
+      column: $table.partOfId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get partNumber => $composableBuilder(
+      column: $table.partNumber, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get totalParts => $composableBuilder(
+      column: $table.totalParts, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get path => $composableBuilder(
       column: $table.path, builder: (column) => ColumnOrderings(column));
@@ -937,6 +1087,15 @@ class $$DatabaseItemsTableAnnotationComposer
 
   GeneratedColumn<String> get parentId =>
       $composableBuilder(column: $table.parentId, builder: (column) => column);
+
+  GeneratedColumn<String> get partOfId =>
+      $composableBuilder(column: $table.partOfId, builder: (column) => column);
+
+  GeneratedColumn<int> get partNumber => $composableBuilder(
+      column: $table.partNumber, builder: (column) => column);
+
+  GeneratedColumn<int> get totalParts => $composableBuilder(
+      column: $table.totalParts, builder: (column) => column);
 
   GeneratedColumn<String> get path =>
       $composableBuilder(column: $table.path, builder: (column) => column);
@@ -1000,6 +1159,9 @@ class $$DatabaseItemsTableTableManager extends RootTableManager<
             Value<bool> syncing = const Value.absent(),
             Value<String?> sortName = const Value.absent(),
             Value<String?> parentId = const Value.absent(),
+            Value<String?> partOfId = const Value.absent(),
+            Value<int?> partNumber = const Value.absent(),
+            Value<int?> totalParts = const Value.absent(),
             Value<String?> path = const Value.absent(),
             Value<int?> fileSize = const Value.absent(),
             Value<String?> videoFileName = const Value.absent(),
@@ -1018,6 +1180,9 @@ class $$DatabaseItemsTableTableManager extends RootTableManager<
             syncing: syncing,
             sortName: sortName,
             parentId: parentId,
+            partOfId: partOfId,
+            partNumber: partNumber,
+            totalParts: totalParts,
             path: path,
             fileSize: fileSize,
             videoFileName: videoFileName,
@@ -1036,6 +1201,9 @@ class $$DatabaseItemsTableTableManager extends RootTableManager<
             Value<bool> syncing = const Value.absent(),
             Value<String?> sortName = const Value.absent(),
             Value<String?> parentId = const Value.absent(),
+            Value<String?> partOfId = const Value.absent(),
+            Value<int?> partNumber = const Value.absent(),
+            Value<int?> totalParts = const Value.absent(),
             Value<String?> path = const Value.absent(),
             Value<int?> fileSize = const Value.absent(),
             Value<String?> videoFileName = const Value.absent(),
@@ -1054,6 +1222,9 @@ class $$DatabaseItemsTableTableManager extends RootTableManager<
             syncing: syncing,
             sortName: sortName,
             parentId: parentId,
+            partOfId: partOfId,
+            partNumber: partNumber,
+            totalParts: totalParts,
             path: path,
             fileSize: fileSize,
             videoFileName: videoFileName,

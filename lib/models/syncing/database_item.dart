@@ -28,6 +28,9 @@ class DatabaseItems extends Table {
   BoolColumn get syncing => boolean().withDefault(const Constant(false))();
   TextColumn get sortName => text().nullable()();
   TextColumn get parentId => text().nullable()();
+  TextColumn get partOfId => text().nullable()();
+  IntColumn get partNumber => integer().nullable()();
+  IntColumn get totalParts => integer().nullable()();
   TextColumn get path => text().nullable()();
   IntColumn get fileSize => integer().nullable()();
   TextColumn get videoFileName => text().nullable()();
@@ -52,7 +55,19 @@ class AppDatabase extends _$AppDatabase {
   String get userId => ref.read(userProvider.select((value) => value?.id ?? ""));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (m) => m.createAll(),
+        onUpgrade: (m, from, to) async {
+          if (from < 2) {
+            await m.addColumn(databaseItems, databaseItems.partOfId);
+            await m.addColumn(databaseItems, databaseItems.partNumber);
+            await m.addColumn(databaseItems, databaseItems.totalParts);
+          }
+        },
+      );
 
   Future<void> clearDatabase() async {
     final dbPath = await getApplicationSupportDirectory();
@@ -100,8 +115,10 @@ class AppDatabase extends _$AppDatabase {
     if (itemType == null) return [];
 
     final int maxDepth = switch (itemType) {
-      FladderItemType.season => 1,
-      FladderItemType.series => 2,
+      FladderItemType.movie => 1,
+      FladderItemType.episode => 1,
+      FladderItemType.season => 2,
+      FladderItemType.series => 3,
       FladderItemType.musicArtist => 2,
       FladderItemType.musicAlbum => 1,
       _ => 0,
@@ -149,6 +166,9 @@ class AppDatabase extends _$AppDatabase {
     return DatabaseItemsCompanion(
       id: Value(item.id),
       parentId: Value(item.parentId),
+      partOfId: Value(item.partOfId),
+      partNumber: Value(item.partNumber),
+      totalParts: Value(item.totalParts),
       syncing: Value(item.syncing),
       userId: Value(userId),
       path: Value(item.path),
@@ -170,6 +190,9 @@ class AppDatabase extends _$AppDatabase {
       id: dataItem.id,
       userId: dataItem.userId,
       parentId: dataItem.parentId,
+      partOfId: dataItem.partOfId,
+      partNumber: dataItem.partNumber,
+      totalParts: dataItem.totalParts,
       sortName: dataItem.sortName,
       syncing: dataItem.syncing,
       path: dataItem.path,
