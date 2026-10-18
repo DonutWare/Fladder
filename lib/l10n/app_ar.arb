@@ -2175,5 +2175,14 @@
     "localNetworkPermissionRequest": "السماح بالوصول إلى الشبكة المحلية لاكتشاف الخوادم.",
     "requestPermission": "طلب الإذن",
     "localNetworkPermissionDenied": "الوصول إلى الشبكة المحلية مطلوب. قم بتمكين إذن الأجهزة القريبة من إعدادات النظام.",
-    "openSettings": "فتح الإعدادات"
+    "openSettings": "فتح الإعدادات",
+    "sideBar": "الشريط الجانبي",
+    "musicSideBar": "الشريط الجانبي للموسيقى",
+    "showOnDashboard": "إظهار في لوحة التحكم",
+    "libraryFilters": "فلاتر المكتبة",
+    "editYourLibraryFilters": "تعديل فلاتر المكتبة الخاصة بك",
+    "libraryFiltersTitle": "فلاتر المكتبة",
+    "libraryFiltersDesc": "تتيح لك فلاتر المكتبة إنشاء طرق عرض مخصصة لمكتباتك",
+    "libraryNoFiltersSaved": "لم يتم حفظ أي فلاتر للمكتبة",
+    "addTo": "إضافة إلى"
 }

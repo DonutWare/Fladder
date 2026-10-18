@@ -46,6 +46,9 @@ class PhotoAlbumModel extends ItemBaseModel with PhotoAlbumModelMappable {
   @override
   ItemBaseModel get parentBaseModel => copyWith(id: parentId);
 
+  @override
+  bool get syncAble => true;
+
   factory PhotoAlbumModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return PhotoAlbumModel(
       name: item.name ?? "",
@@ -116,6 +119,9 @@ class PhotoModel extends ItemBaseModel with PhotoModelMappable {
 
   @override
   bool get unWatched => false;
+
+  @override
+  bool get syncAble => true;
 
   factory PhotoModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     return PhotoModel(

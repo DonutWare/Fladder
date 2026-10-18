@@ -9,14 +9,20 @@ import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/seerr/seerr_chopper_service.dart';
 import 'package:fladder/seerr/seerr_json_converter.dart';
 import 'package:fladder/seerr/seerr_models.dart';
+import 'package:fladder/util/deep_link_helper.dart';
 
 const String updateTaskName = 'nl.jknaapen.fladder.update_notifications_check';
 const String updateTaskNameDebug = 'nl.jknaapen.fladder.update_notifications_check_debug';
 
 class NotificationHelpers {
-  static String buildDetailsDeepLink(String id) => 'fladder:///details?id=${Uri.encodeComponent(id)}';
+  static String buildDetailsDeepLink(String id, {String? userId, String? serverId}) =>
+      buildDeepLink('details', {'id': id, 'userId': userId, 'serverId': serverId});
 
-  static String buildSeerrDeepLink(String mediaType, int tmdbId) => 'fladder:///seerr/$mediaType/$tmdbId';
+  static String buildSeerrDeepLink(String mediaType, int tmdbId, {String? userId, String? serverId}) =>
+      buildDeepLink('seerr/$mediaType/$tmdbId', {'userId': userId, 'serverId': serverId});
+
+  static String buildSeerrRootDeepLink({String? userId, String? serverId}) =>
+      buildDeepLink('seerr', {'userId': userId, 'serverId': serverId});
 
   static List<LastSeenModel> replaceOrAppendLastSeen(List<LastSeenModel> servers, LastSeenModel saved) {
     final exists = servers.any((s) => s.userId == saved.userId);
@@ -108,7 +114,8 @@ class NotificationHelpers {
           ],
           limit: take,
         );
-        return resp.isSuccessful && resp.body != null ? resp.body! : <dto.BaseItemDto>[];
+        final items = resp.isSuccessful && resp.body != null ? resp.body! : <dto.BaseItemDto>[];
+        return items.where((item) => !_isLiveTvItem(item)).toList();
       }
 
       if (!includeHiddenViews) {
@@ -133,6 +140,7 @@ class NotificationHelpers {
       }
 
       final parentIds = viewsResp.body!.items!
+          .where((v) => v.collectionType != dto.CollectionType.livetv)
           .map((v) => v.id)
           .whereType<String>()
           .where((id) => id.isNotEmpty)
@@ -183,9 +191,21 @@ class NotificationHelpers {
     } catch (e) {
       log('Error fetching latest items: $e');
       return [];
+    } finally {
+      api?.client.dispose();
     }
   }
 }
+
+const _liveTvItemKinds = {
+  dto.BaseItemKind.channel,
+  dto.BaseItemKind.livetvchannel,
+  dto.BaseItemKind.livetvprogram,
+  dto.BaseItemKind.program,
+  dto.BaseItemKind.recording,
+};
+
+bool _isLiveTvItem(dto.BaseItemDto item) => _liveTvItemKinds.contains(item.type) || item.channelId != null;
 
 class _WorkerAuthInterceptor implements Interceptor {
   _WorkerAuthInterceptor(this.token);

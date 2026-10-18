@@ -1887,7 +1887,7 @@
     "passwordNotRequired": "Niet verplicht, laat dit veld leeg om het wachtwoord niet in de link op te nemen",
     "authLinkButtonToolTip": "Open het dialoogvenster voor de authenticatielink",
     "connectWithAuthLink": "Verbinden via authenticatielink",
-    "pasteFladderAuthLink": "Plak fladder auth-link fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "Plak fladder auth-link fladder://login?authLink=...",
     "connect": "Verbinden",
     "authLinkDesc": "Vraag de serverbeheerder om de authenticatielink. De link bevat authenticatiegegevens, dus zorg ervoor dat u deze veilig bewaart.",
     "deletedItem": "Verwijderd {itemName}",

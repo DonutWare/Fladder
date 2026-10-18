@@ -7,6 +7,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   desktop_multi_window
   dynamic_color
   fvp
+  gtk
   media_kit_libs_linux
   media_kit_video
   screen_retriever_linux

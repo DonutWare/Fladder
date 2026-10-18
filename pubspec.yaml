@@ -100,6 +100,7 @@ dependencies:
 
   # Navigation
   auto_route: ^10.1.2
+  app_links: ^6.4.1
   url_launcher: ^6.3.2
   flutter_custom_tabs: ^2.4.0
 

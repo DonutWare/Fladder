@@ -8,6 +8,7 @@ import 'package:fladder/models/items/album_model.dart';
 import 'package:fladder/models/items/artist_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
@@ -224,6 +225,15 @@ class SyncSubtitle extends ConsumerWidget {
                       .length;
                   return Text(
                     '${context.localized.audio(2)}: $totalTracks | ${context.localized.syncStatusSynced}: $syncedTracks',
+                  );
+                },
+              ),
+            PhotoAlbumModel _ => Builder(
+                builder: (context) {
+                  final photos = children.where((element) => element.itemModel is PhotoModel).toList();
+                  final syncedPhotos = photos.where((element) => element.videoFile.existsSync()).length;
+                  return Text(
+                    '${context.localized.mediaTypePhoto(2)}: ${photos.length} | ${context.localized.syncStatusSynced}: $syncedPhotos',
                   );
                 },
               ),

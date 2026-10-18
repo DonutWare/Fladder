@@ -15,6 +15,9 @@ class _WebAppWrapperState extends BaseAppWrapperState<WebAppWrapper> {
   bool get enableNotifications => false;
 
   @override
+  bool get enableAppLinks => false;
+
+  @override
   Future<void> platformInit() async {
     html.document.onContextMenu.listen((event) => event.preventDefault());
   }

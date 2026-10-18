@@ -1863,7 +1863,7 @@
     "passwordNotRequired": "Nicht erforderlich, leer lassen damit dem Link kein Passwort beigefügt wird",
     "authLinkButtonToolTip": "Auth Link Dialog aufrufen",
     "connectWithAuthLink": "Mit Auth Link verbinden",
-    "pasteFladderAuthLink": "Fladder Auth Link einfügen fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "Fladder Auth Link einfügen fladder://login?authLink=...",
     "connect": "Verbinden",
     "authLinkDesc": "Frage den Server-Admin, um den Auth-Link zu erhalten. Der Link enthält Authentifizierungsinformationen, behandle diesen daher vertraulich.",
     "advancedVideoOptionsTitle": "Erweiterte Videooptionen",
