@@ -17,6 +17,7 @@ import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/items/video_part_model.dart';
 import 'package:fladder/models/syncing/transcode_download_model.dart';
@@ -135,7 +136,7 @@ abstract class SyncedItem with _$SyncedItem {
 
   double get totalProgress => 0.0;
 
-  bool get hasVideoFile => videoFileName?.isNotEmpty == true && (fileSize ?? 0) > 0;
+  bool get hasVideoFile => videoFileName?.isNotEmpty == true && ((fileSize ?? 0) > 0 || itemModel is PhotoModel);
 
   TaskStatus get anyStatus {
     return TaskStatus.notFound;

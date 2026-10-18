@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'arguments_model.freezed.dart';
@@ -9,6 +10,7 @@ class NotificationKeys {
   static const String skipNotifications = '--skipNotifications';
   static const String newWindow = '--newWindow';
   static const String htpcMode = '--htpc';
+  static const String newInstance = '--newInstance';
 }
 
 @Freezed(copyWith: true)
@@ -20,6 +22,7 @@ abstract class ArgumentsModel with _$ArgumentsModel {
     @Default(false) bool leanBackMode,
     @Default(false) bool newWindow,
     @Default(false) bool skipNotifications,
+    String? launchLink,
   }) = _ArgumentsModel;
 
   factory ArgumentsModel.fromArguments(List<String> arguments, String windowArguments, bool leanBackEnabled) {
@@ -34,6 +37,7 @@ abstract class ArgumentsModel with _$ArgumentsModel {
       leanBackMode: leanBackEnabled,
       newWindow: parsedWindowArgs.contains(NotificationKeys.newWindow),
       skipNotifications: shouldSkipNotifications,
+      launchLink: arguments.firstWhereOrNull((argument) => argument.toLowerCase().startsWith('fladder:')),
     );
   }
 }

@@ -26,6 +26,7 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
+import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
@@ -134,6 +135,8 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     state = state.copyWith(items: []);
 
     if (userId == null) return;
+
+    await cleanUpEmptyDatabaseEntries();
 
     final queryStream = _db.getAllItems.watch().map(_rootSyncItems);
     final initItems = _rootSyncItems(await _db.getAllItems.get());
@@ -265,7 +268,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     if (item.itemModel?.type == FladderItemType.playlist) {
       return _getPlaylistChildrenFromOverlay(item);
     }
-    return _db.getNestedChildren(item);
+    return _db.getNestedChildrenRecursive(item.id);
   }
 
   Future<List<SyncedItem>> getChildren(String parentId) async => await _db.getChildren(parentId).get();
@@ -394,6 +397,8 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         AlbumModel album => await syncAlbum(album),
         ArtistModel artist => await syncArtist(artist),
         PlaylistModel playlist => await syncPlaylist(playlist),
+        PhotoModel photo => await syncPhotoAlbum(photo.albumId ?? photo.parentId, photo: photo),
+        PhotoAlbumModel album => await syncPhotoAlbum(album.id),
         _ => null
       };
       if (context.mounted) {
@@ -1023,6 +1028,20 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       log('Error saving lyrics for item ${syncItem.id}: ${e.toString()}');
     }
   }
+
+  /// Removes database entries whose sync folder no longer exists on disk.
+  Future<void> cleanUpEmptyDatabaseEntries() async {
+    try {
+      if (kIsWeb) return;
+      if (!mainDirectory.existsSync()) return;
+      final entries = await _db.getAllItems.get();
+      final missingEntries = entries.where((entry) => !entry.directory.existsSync()).toList();
+      if (missingEntries.isEmpty) return;
+      await _db.deleteAllItems(missingEntries);
+    } catch (e) {
+      log('Error cleaning up empty database entries: ${e.toString()}');
+    }
+  }
 }
 
 extension SyncNotifierHelpers on SyncNotifier {
@@ -1147,9 +1166,11 @@ extension SyncNotifierHelpers on SyncNotifier {
 
     File dataFile = File(path.joinAll([directory.path, 'data.json']));
     await dataFile.writeAsString(jsonEncode(response.toJson()));
-    final imageData = item is AudioModel
-        ? _audioImageDataFromParent(parent: parent, directory: directory)
-        : await saveImageData(item.images, directory);
+    final imageData = switch (item) {
+      AudioModel _ => _audioImageDataFromParent(parent: parent, directory: directory),
+      PhotoModel photo => await saveImageData(photo.thumbnail, directory),
+      _ => await saveImageData(item.images, directory),
+    };
 
     SyncedItem syncItem = SyncedItem(
       syncing: true,
@@ -1562,5 +1583,104 @@ extension SyncNotifierHelpers on SyncNotifier {
     }
 
     return seriesItem;
+  }
+
+  Future<SyncedItem?> syncPhotoAlbum(String? albumId, {PhotoModel? photo}) async {
+    if (albumId == null || albumId.isEmpty) return null;
+
+    final albumResponse = await api.usersUserIdItemsItemIdGetBaseItem(itemId: albumId);
+    final albumDto = albumResponse.body;
+    if (albumDto == null) return null;
+
+    final albumSyncItem = await createSyncItem(albumDto);
+    if (!albumSyncItem.directory.existsSync()) return null;
+
+    final List<String> photoIds;
+    if (photo != null) {
+      photoIds = [photo.id];
+    } else {
+      final childrenResponse = await api.itemsGet(
+        parentId: albumId,
+        includeItemTypes: [
+          BaseItemKind.photo,
+          BaseItemKind.video,
+        ],
+        recursive: true,
+      );
+      photoIds = childrenResponse.body?.items.whereType<PhotoModel>().map((e) => e.id).toList() ?? [];
+    }
+
+    final Map<String, SyncedItem> newItems = {albumSyncItem.id: albumSyncItem};
+    final Map<String, SyncedItem> itemsToDownload = {};
+
+    for (final photoId in photoIds) {
+      final photoResponse = await api.usersUserIdItemsItemIdGetBaseItem(itemId: photoId);
+      final photoDto = photoResponse.body;
+      if (photoDto == null) continue;
+      final photoSyncItem = _withPhotoFileName(await createSyncItem(photoDto, parent: albumSyncItem), photoDto);
+      newItems[photoSyncItem.id] = photoSyncItem;
+      if (!await photoSyncItem.videoFile.exists()) {
+        itemsToDownload[photoSyncItem.id] = photoSyncItem;
+      }
+    }
+
+    await _db.insertMultipleEntries(newItems.values.toList());
+
+    for (final photoItem in itemsToDownload.values) {
+      syncPhotoFile(photoItem);
+    }
+
+    return albumSyncItem;
+  }
+
+  SyncedItem _withPhotoFileName(SyncedItem item, BaseItemDto dto) {
+    if (item.videoFileName?.isNotEmpty == true) return item;
+    final container = dto.container?.split(',').firstOrNull?.trim();
+    final extension = container?.isNotEmpty == true ? container! : (dto.type == BaseItemKind.video ? 'mp4' : 'jpg');
+    return item.copyWith(videoFileName: '${item.id}.$extension');
+  }
+
+  Future<bool?> syncPhotoFile(SyncedItem photoItem) async {
+    if (photoItem.videoFile.existsSync()) return true;
+
+    final user = ref.read(userProvider);
+    if (user == null) return null;
+
+    final fileName = photoItem.videoFileName;
+    if (fileName == null || fileName.isEmpty) return null;
+
+    try {
+      final currentTask = ref.read(downloadTasksProvider(photoItem.id));
+      if (currentTask.task != null) {
+        await ref.read(backgroundDownloaderProvider).cancelTaskWithId(currentTask.id);
+      }
+
+      await photoItem.directory.create(recursive: true);
+
+      final downloadTask = DownloadTask(
+        taskId: photoItem.id,
+        url: buildServerUrl(ref, pathSegments: ['Items', photoItem.id, 'Download']),
+        directory: photoItem.directory.path,
+        filename: fileName,
+        updates: Updates.statusAndProgress,
+        baseDirectory: BaseDirectory.root,
+        headers: user.credentials.header(ref),
+        requiresWiFi: ref.read(clientSettingsProvider.select((value) => value.requireWifi)),
+        retries: 3,
+        allowPause: true,
+      );
+
+      ref.read(activeDownloadTasksProvider.notifier).update((state) {
+        final existingTasks = state.where((element) => element.taskId != downloadTask.taskId).toList();
+        return [...existingTasks, downloadTask];
+      });
+
+      final defaultDownloadStream = DownloadStream(id: photoItem.id, task: downloadTask, status: TaskStatus.enqueued);
+      ref.read(downloadTasksProvider(photoItem.id).notifier).update((state) => defaultDownloadStream);
+      return await ref.read(backgroundDownloaderProvider).enqueue(downloadTask);
+    } catch (e) {
+      log('Error syncing photo ${photoItem.id}: ${e.toString()}');
+      return null;
+    }
   }
 }

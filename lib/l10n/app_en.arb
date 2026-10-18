@@ -2765,7 +2765,7 @@
   "passwordNotRequired": "Not required, leave empty to not include password in the link",
   "authLinkButtonToolTip": "Open auth link dialog",
   "connectWithAuthLink": "Connect with auth link",
-  "pasteFladderAuthLink": "Paste fladder auth link fladder:///login?authLink=...",
+  "pasteFladderAuthLink": "Paste fladder auth link fladder://login?authLink=...",
   "connect": "Connect",
   "authLinkDesc": "Ask the server admin to provide the auth link. The link contains authentication information, so be sure to keep it secure.",
   "deletedItem": "Deleted {itemName}",
@@ -2897,5 +2897,25 @@
   "libraryFiltersTitle": "Library filters",
   "libraryFiltersDesc": "Library filters allow you to create custom views of your libraries based",
   "libraryNoFiltersSaved": "No library filters saved",
-  "addTo": "Add to"
+  "addTo": "Add to",
+  "deepLinkSwitchUserTitle": "Switch user?",
+  "deepLinkSwitchUserDesc": "This item isn't available for {user}. Open it as:",
+  "@deepLinkSwitchUserDesc": {
+    "description": "Shown when a link points to an item the current user cannot access, followed by a list of accounts that can",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "deepLinkSwitchAccountDesc": "This link belongs to {user}. Switch to this account?",
+  "@deepLinkSwitchAccountDesc": {
+    "description": "Shown when a notification link was created for another saved account",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "deepLinkItemNotFound": "This item isn't available for any of your accounts"
 }

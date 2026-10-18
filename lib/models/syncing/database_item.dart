@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
@@ -76,6 +75,26 @@ class AppDatabase extends _$AppDatabase {
     if (await dbFile.exists()) {
       await dbFile.delete(recursive: true);
     }
+  }
+
+  Future<List<SyncedItem>> getNestedChildrenRecursive(String rootId) async {
+    final currentUserId = userId;
+    final allChildren = <SyncedItem>[];
+    var currentLevelIds = {rootId};
+
+    while (currentLevelIds.isNotEmpty) {
+      final nextLevel = await managers.databaseItems
+          .filter((f) => f.parentId.isIn(currentLevelIds) & f.userId.equals(currentUserId))
+          .get();
+
+      if (nextLevel.isEmpty) break;
+
+      final syncedItems = nextLevel.map(databaseConverter).toList();
+      allChildren.addAll(syncedItems);
+      currentLevelIds = syncedItems.map((e) => e.id).toSet();
+    }
+
+    return allChildren;
   }
 
   Selectable<SyncedItem> getItem(String id) =>

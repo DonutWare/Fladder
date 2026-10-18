@@ -22,6 +22,7 @@ import 'package:fladder/util/themes_data.dart';
 import 'package:fladder/widgets/media_query_scaler.dart';
 import 'package:fladder/widgets/pip_lifecycle_controller.dart';
 import 'package:fladder/widgets/shared/adaptive_color.dart';
+import 'package:fladder/widgets/shared/middle_mouse_autoscroll.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,7 +74,7 @@ class _FladderApp extends ConsumerWidget {
     final mouseDrag = ref.watch(clientSettingsProvider.select((value) => value.mouseDragSupport));
     final language = ref.watch(clientSettingsProvider
         .select((value) => value.selectedLocale ?? WidgetsBinding.instance.platformDispatcher.locale));
-    final scrollBehaviour = const MaterialScrollBehavior();
+    final scrollBehaviour = const FladderScrollBehavior();
     final amoledOverwrite = amoledBlack ? Colors.black : null;
 
     return AdaptiveColor(
