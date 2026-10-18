@@ -15,14 +15,15 @@ import 'package:fladder/util/seerr_http_client.dart'
 
 part 'seerr_api_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class SeerrApi extends _$SeerrApi {
   @override
   SeerrService build() {
     ref.watch(userProvider.select((u) => u?.seerrCredentials));
 
+    final httpClient = createSeerrHttpClient();
     final chopperClient = ChopperClient(
-      client: createSeerrHttpClient(),
+      client: httpClient,
       converter: const SeerrJsonConverter(),
       interceptors: [
         SeerrRequest(ref),
@@ -30,6 +31,11 @@ class SeerrApi extends _$SeerrApi {
         HttpLoggingInterceptor(level: Level.basic),
       ],
     );
+
+    ref.onDispose(() {
+      chopperClient.dispose();
+      httpClient.close();
+    });
 
     return SeerrService(
       ref,

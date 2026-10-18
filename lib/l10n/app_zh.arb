@@ -1858,7 +1858,7 @@
     "passwordNotRequired": "并非必填项，留空则链接中不包含密码",
     "authLinkButtonToolTip": "打开身份验证链接对话框",
     "connectWithAuthLink": "使用身份验证链接",
-    "pasteFladderAuthLink": "粘贴 fladder 身份验证链接 fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "粘贴 fladder 身份验证链接 fladder://login?authLink=...",
     "connect": "连接",
     "authLinkDesc": "请服务器管理员提供身份验证链接。该链接包含身份验证信息，请务必妥善保管。",
     "deletedItem": "删除 {itemName}",
@@ -2172,5 +2172,14 @@
     "localNetworkPermissionRequest": "允许本地网络访问以发现服务器。",
     "requestPermission": "请求权限",
     "localNetworkPermissionDenied": "需要本地网络访问权限。请在系统设置中启用附近设备权限。",
-    "openSettings": "打开设置"
+    "openSettings": "打开设置",
+    "sideBar": "侧边栏",
+    "musicSideBar": "音乐侧边栏",
+    "showOnDashboard": "在控制台上显示",
+    "libraryFilters": "媒体库筛选器",
+    "editYourLibraryFilters": "编辑您的媒体库筛选条件",
+    "libraryFiltersTitle": "媒体库筛选器",
+    "libraryFiltersDesc": "媒体库筛选器，允许您基于媒体库的内容创建自定义视图",
+    "libraryNoFiltersSaved": "未保存任何媒体库筛选器",
+    "addTo": "添加到"
 }

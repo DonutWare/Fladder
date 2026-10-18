@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
@@ -63,6 +62,26 @@ class AppDatabase extends _$AppDatabase {
     }
   }
 
+  Future<List<SyncedItem>> getNestedChildrenRecursive(String rootId) async {
+    final currentUserId = userId;
+    final allChildren = <SyncedItem>[];
+    var currentLevelIds = {rootId};
+
+    while (currentLevelIds.isNotEmpty) {
+      final nextLevel = await managers.databaseItems
+          .filter((f) => f.parentId.isIn(currentLevelIds) & f.userId.equals(currentUserId))
+          .get();
+
+      if (nextLevel.isEmpty) break;
+
+      final syncedItems = nextLevel.map(databaseConverter).toList();
+      allChildren.addAll(syncedItems);
+      currentLevelIds = syncedItems.map((e) => e.id).toSet();
+    }
+
+    return allChildren;
+  }
+
   Selectable<SyncedItem> getItem(String id) =>
       (select(databaseItems)..where((tbl) => tbl.id.equals(id) & tbl.userId.equals(userId))).map(databaseConverter);
 
@@ -92,41 +111,6 @@ class AppDatabase extends _$AppDatabase {
     } else {
       return into(databaseItems).insert(toDataBaseItem(item));
     }
-  }
-
-  Future<List<SyncedItem>> getNestedChildren(SyncedItem root) async {
-    final itemType = root.createItemModel(ref)?.type;
-
-    if (itemType == null) return [];
-
-    final int maxDepth = switch (itemType) {
-      FladderItemType.season => 1,
-      FladderItemType.series => 2,
-      FladderItemType.musicArtist => 2,
-      FladderItemType.musicAlbum => 1,
-      _ => 0,
-    };
-
-    final all = <SyncedItem>[];
-    List<SyncedItem> toProcess = [root];
-
-    if (maxDepth == 0) {
-      return [];
-    }
-
-    for (var i = 0; i < maxDepth; i++) {
-      final futures = toProcess.map((item) => getChildren(item.id).get());
-      final resultsList = await Future.wait(futures);
-
-      final children = resultsList.expand((r) => r).toList();
-
-      if (children.isEmpty) break;
-
-      all.addAll(children);
-      toProcess = children;
-    }
-
-    return all;
   }
 
   Future<void> insertMultipleEntries(List<SyncedItem> items) async {

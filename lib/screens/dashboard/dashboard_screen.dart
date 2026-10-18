@@ -10,10 +10,12 @@ import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/dashboard_mode_provider.dart';
 import 'package:fladder/providers/dashboard_provider.dart';
+import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -53,6 +55,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   final selectedPoster = ValueNotifier<ItemBaseModel?>(null);
 
+  bool _refreshing = false;
+
   @override
   void initState() {
     super.initState();
@@ -68,10 +72,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   Future<void> _refreshHome() async {
-    if (mounted) {
+    if (!mounted) return;
+    _refreshing = true;
+    try {
       await ref.read(userProvider.notifier).updateInformation();
-      await ref.read(viewsProvider.notifier).fetchViews();
-      await ref.read(dashboardProvider.notifier).fetchNextUpAndResume();
+      await ref.read(dashboardProvider.notifier).refreshDashboard();
+    } finally {
+      _refreshing = false;
     }
   }
 
@@ -80,6 +87,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     if (ref.watch(musicDashboardModeProvider)) {
       return const MusicDashboardScreen();
     }
+
+    ref.listen(libraryFiltersByKeyProvider(FilterSortKey.dashboard), (previous, next) {
+      if (_refreshing || const ListEquality<LibraryFiltersModel>().equals(previous, next)) return;
+      ref.read(dashboardProvider.notifier).fetchDashboardFilters();
+    });
 
     final padding = AdaptiveLayout.adaptivePadding(context);
     final bannerType = ref.watch(homeSettingsProvider.select((value) => value.homeBanner));
@@ -102,6 +114,17 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       HomeCarouselSettings.combined => [...allResume, ...dashboardData.nextUp],
       HomeCarouselSettings.cont => allResume,
     };
+
+    final showsBanner = homeBanner && homeCarouselItems.isNotEmpty;
+
+    final loadedSections = dashboardData.loadedSections;
+    final visibleSections = homeBanner && !loadedSections.contains(DashboardSorting.nextUp)
+        ? <DashboardSorting>[]
+        : dashboardSorting.entries
+            .where((entry) => entry.value)
+            .map((entry) => entry.key)
+            .takeWhile(loadedSections.contains)
+            .toList();
 
     final viewSize = AdaptiveLayout.viewSizeOf(context);
 
@@ -141,7 +164,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   route: LibrarySearchRoute(),
                   parent: context,
                 ),
-              if (homeBanner && homeCarouselItems.isNotEmpty) ...{
+              if (showsBanner) ...{
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: AdaptiveLayout.adaptivePadding(
@@ -165,125 +188,124 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   ),
                 ),
               ...[
-                for (final entry in dashboardSorting.entries)
-                  if (entry.value)
-                    ...switch (entry.key) {
-                      DashboardSorting.liveTV => [
-                          if (tvChannels.isNotEmpty)
-                            PosterRow(
-                              contentPadding: padding,
-                              tvMode: useTVExpandedLayout,
-                              label: context.localized.activeTvChannels,
-                              collectionAspectRatio: 0.55,
-                              onLabelClick: () {
-                                return LiveTvRoute().navigate(context);
-                              },
-                              posters: tvChannels,
-                            ),
-                        ],
-                      DashboardSorting.nextUp => [
-                          if (resumeVideo.isNotEmpty &&
-                              (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
-                            PosterRow(
-                              tvMode: useTVExpandedLayout,
-                              contentPadding: padding,
-                              label: context.localized.dashboardContinueWatching,
-                              posters: resumeVideo,
-                            ),
-                          if (resumeAudio.isNotEmpty &&
-                              (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
-                            PosterRow(
-                              tvMode: useTVExpandedLayout,
-                              contentPadding: padding,
-                              label: context.localized.dashboardContinueListening,
-                              posters: resumeAudio,
-                            ),
-                          if (resumeBooks.isNotEmpty &&
-                              (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
-                            PosterRow(
-                              tvMode: useTVExpandedLayout,
-                              contentPadding: padding,
-                              label: context.localized.dashboardContinueReading,
-                              posters: resumeBooks,
-                            ),
-                          if (dashboardData.nextUp.isNotEmpty &&
-                              (homeSettings.nextUp == HomeNextUp.nextUp || homeSettings.nextUp == HomeNextUp.separate))
-                            PosterRow(
-                              tvMode: useTVExpandedLayout,
-                              contentPadding: padding,
-                              label: context.localized.nextUp,
-                              posters: dashboardData.nextUp,
-                            ),
-                          if ([...allResume, ...dashboardData.nextUp].isNotEmpty &&
-                              homeSettings.nextUp == HomeNextUp.combined)
-                            PosterRow(
-                              tvMode: useTVExpandedLayout,
-                              contentPadding: padding,
-                              label: context.localized.dashboardContinue,
-                              posters: [...allResume, ...dashboardData.nextUp],
-                            ),
-                        ],
-                      DashboardSorting.recentlyAdded => [
-                          ...views.dashboardViews
-                              .where(
-                                (element) =>
-                                    element.recentlyAdded.isNotEmpty && element.collectionType != CollectionType.livetv,
-                              )
-                              .map(
-                                (view) => PosterRow(
-                                  tvMode: useTVExpandedLayout,
-                                  contentPadding: padding,
-                                  label: context.localized.dashboardRecentlyAdded(view.name),
-                                  collectionAspectRatio: view.collectionType.aspectRatio,
-                                  onLabelClick: () {
-                                    if (view.collectionType == CollectionType.livetv) {
-                                      return LiveTvRoute().navigate(context);
-                                    }
-                                    return context.router.push(
-                                      LibrarySearchRoute(
-                                        parentId: [view.id],
-                                        types: switch (view.collectionType) {
-                                          CollectionType.tvshows => {
-                                              FladderItemType.episode: true,
-                                            },
-                                          _ => {},
-                                        },
-                                        sortingOptions: switch (view.collectionType) {
-                                          CollectionType.books ||
-                                          CollectionType.boxsets ||
-                                          CollectionType.folders ||
-                                          CollectionType.music =>
-                                            SortingOptions.dateLastContentAdded,
-                                          _ => SortingOptions.dateAdded,
-                                        },
-                                        sortOrder: SortingOrder.descending,
-                                        recursive: true,
-                                      ),
-                                    );
-                                  },
-                                  posters: view.recentlyAdded,
-                                ),
-                              ),
-                        ],
-                      DashboardSorting.filters => [
-                          ...dashboardData.dashboardFilters.map(
-                            (dashboardFilter) => PosterRow(
-                              tvMode: useTVExpandedLayout,
-                              contentPadding: padding,
-                              label: dashboardFilter.filter.name,
-                              onLabelClick: () => dashboardFilter.filter.navigateTo(context),
-                              posters: dashboardFilter.items,
-                            ),
+                for (final section in visibleSections)
+                  ...switch (section) {
+                    DashboardSorting.liveTV => [
+                        if (tvChannels.isNotEmpty)
+                          PosterRow(
+                            contentPadding: padding,
+                            tvMode: useTVExpandedLayout,
+                            label: context.localized.activeTvChannels,
+                            collectionAspectRatio: 0.55,
+                            onLabelClick: () {
+                              return LiveTvRoute().navigate(context);
+                            },
+                            posters: tvChannels,
                           ),
-                        ],
-                    },
+                      ],
+                    DashboardSorting.nextUp => [
+                        if (resumeVideo.isNotEmpty &&
+                            (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
+                          PosterRow(
+                            tvMode: useTVExpandedLayout,
+                            contentPadding: padding,
+                            label: context.localized.dashboardContinueWatching,
+                            posters: resumeVideo,
+                          ),
+                        if (resumeAudio.isNotEmpty &&
+                            (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
+                          PosterRow(
+                            tvMode: useTVExpandedLayout,
+                            contentPadding: padding,
+                            label: context.localized.dashboardContinueListening,
+                            posters: resumeAudio,
+                          ),
+                        if (resumeBooks.isNotEmpty &&
+                            (homeSettings.nextUp == HomeNextUp.cont || homeSettings.nextUp == HomeNextUp.separate))
+                          PosterRow(
+                            tvMode: useTVExpandedLayout,
+                            contentPadding: padding,
+                            label: context.localized.dashboardContinueReading,
+                            posters: resumeBooks,
+                          ),
+                        if (dashboardData.nextUp.isNotEmpty &&
+                            (homeSettings.nextUp == HomeNextUp.nextUp || homeSettings.nextUp == HomeNextUp.separate))
+                          PosterRow(
+                            tvMode: useTVExpandedLayout,
+                            contentPadding: padding,
+                            label: context.localized.nextUp,
+                            posters: dashboardData.nextUp,
+                          ),
+                        if ([...allResume, ...dashboardData.nextUp].isNotEmpty &&
+                            homeSettings.nextUp == HomeNextUp.combined)
+                          PosterRow(
+                            tvMode: useTVExpandedLayout,
+                            contentPadding: padding,
+                            label: context.localized.dashboardContinue,
+                            posters: [...allResume, ...dashboardData.nextUp],
+                          ),
+                      ],
+                    DashboardSorting.recentlyAdded => [
+                        ...views.dashboardViews
+                            .where(
+                              (element) =>
+                                  element.recentlyAdded.isNotEmpty && element.collectionType != CollectionType.livetv,
+                            )
+                            .map(
+                              (view) => PosterRow(
+                                tvMode: useTVExpandedLayout,
+                                contentPadding: padding,
+                                label: context.localized.dashboardRecentlyAdded(view.name),
+                                collectionAspectRatio: view.collectionType.aspectRatio,
+                                onLabelClick: () {
+                                  if (view.collectionType == CollectionType.livetv) {
+                                    return LiveTvRoute().navigate(context);
+                                  }
+                                  return context.router.push(
+                                    LibrarySearchRoute(
+                                      parentId: [view.id],
+                                      types: switch (view.collectionType) {
+                                        CollectionType.tvshows => {
+                                            FladderItemType.episode: true,
+                                          },
+                                        _ => {},
+                                      },
+                                      sortingOptions: switch (view.collectionType) {
+                                        CollectionType.books ||
+                                        CollectionType.boxsets ||
+                                        CollectionType.folders ||
+                                        CollectionType.music =>
+                                          SortingOptions.dateLastContentAdded,
+                                        _ => SortingOptions.dateAdded,
+                                      },
+                                      sortOrder: SortingOrder.descending,
+                                      recursive: true,
+                                    ),
+                                  );
+                                },
+                                posters: view.recentlyAdded,
+                              ),
+                            ),
+                      ],
+                    DashboardSorting.filters => [
+                        ...dashboardData.dashboardFilters.map(
+                          (dashboardFilter) => PosterRow(
+                            tvMode: useTVExpandedLayout,
+                            contentPadding: padding,
+                            label: dashboardFilter.filter.name,
+                            onLabelClick: () => dashboardFilter.filter.navigateTo(context),
+                            posters: dashboardFilter.items,
+                          ),
+                        ),
+                      ],
+                  },
               ]
                   .nonNulls
                   .toList()
                   .mapIndexed(
                     (index, child) => SliverToBoxAdapter(
                       child: FocusProvider(
-                        autoFocus: homeCarouselItems.isEmpty ? index == 0 : false,
+                        autoFocus: !showsBanner && index == 0,
                         child: child,
                       ),
                     ),

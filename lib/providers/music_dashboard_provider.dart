@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
@@ -70,18 +69,7 @@ class MusicDashboardModel {
 }
 
 class MusicDashboardNotifier extends StateNotifier<MusicDashboardModel> {
-  MusicDashboardNotifier(this.ref) : super(const MusicDashboardModel()) {
-    ref.listen(
-      libraryFiltersByKeyProvider(FilterSortKey.musicDashboard),
-      (previous, next) {
-        const listEquality = ListEquality<LibraryFiltersModel>();
-        if (!listEquality.equals(previous, next)) {
-          fetchMusicHome();
-        }
-      },
-      fireImmediately: false,
-    );
-  }
+  MusicDashboardNotifier(this.ref) : super(const MusicDashboardModel());
 
   final Ref ref;
 
@@ -123,6 +111,11 @@ class MusicDashboardNotifier extends StateNotifier<MusicDashboardModel> {
         (e) => e.fetchDashboardFilter(ref, limit: _dashboardFilterLimit),
       ),
     );
+  }
+
+  Future<void> fetchDashboardFilters() async {
+    final dashboardFilters = await _fetchDashboardFilters();
+    state = state.copyWith(dashboardFilters: dashboardFilters);
   }
 
   Future<void> fetchMusicHome() async {

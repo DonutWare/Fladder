@@ -40,51 +40,62 @@ class ViewsNotifier extends StateNotifier<ViewsModel> {
     try {
       final showAllCollections = ref.read(clientSettingsProvider.select((value) => value.showAllCollectionTypes));
       final response = await api.usersUserIdViewsGet();
-      final createdViews = response.body?.items?.map((e) => ViewModel.fromBodyDto(e, ref)).where((element) {
-        return showAllCollections ? true : enableCollectionTypes.contains(element.collectionType);
-      });
-
-      List<ViewModel> newList = [];
-
-      if (createdViews != null) {
-        newList = await Future.wait(createdViews.map((e) async {
-          if (ref.read(userProvider)?.latestItemsExcludes.contains(e.id) == true) return e;
-          final recents = await api.usersUserIdItemsLatestGet(
-            parentId: e.id,
-            imageTypeLimit: 1,
-            limit: 16,
-            includeItemTypes:
-                (e.collectionType == CollectionType.books && !showAllCollections) ? [BaseItemKind.book] : null,
-            enableImageTypes: [
-              ImageType.primary,
-              ImageType.backdrop,
-              ImageType.thumb,
-            ],
-            fields: [
-              ItemFields.parentid,
-              ItemFields.mediastreams,
-              ItemFields.mediasources,
-              ItemFields.candelete,
-              ItemFields.candownload,
-              ItemFields.primaryimageaspectratio,
-              ItemFields.overview,
-            ],
-          );
-          return e.copyWith(recentlyAdded: recents.body?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList());
-        }));
-      }
+      final previousViews = {for (final view in state.views) view.id: view};
+      final newList = response.body?.items
+              ?.map((e) => ViewModel.fromBodyDto(e, ref))
+              .where((element) => showAllCollections ? true : enableCollectionTypes.contains(element.collectionType))
+              .map((e) => e.copyWith(recentlyAdded: previousViews[e.id]?.recentlyAdded))
+              .toList() ??
+          [];
 
       state = state.copyWith(
-          views: _applyLibraryOrdering(newList),
-          dashboardViews: _applyLibraryOrdering(newList
-              .where((element) => !(ref.read(userProvider)?.latestItemsExcludes.contains(element.id) ?? true))
-              .toList()),
-          loading: false);
+          views: _applyLibraryOrdering(newList), dashboardViews: _dashboardViews(newList), loading: false);
       return state;
     } catch (e) {
       return state.copyWith(loading: false);
     }
   }
+
+  Future<void> fetchRecentlyAdded() async {
+    final showAllCollections = ref.read(clientSettingsProvider.select((value) => value.showAllCollectionTypes));
+    final recentlyAdded = Map.fromEntries(await Future.wait(state.dashboardViews.map((e) async {
+      final recents = await api.usersUserIdItemsLatestGet(
+        parentId: e.id,
+        imageTypeLimit: 1,
+        limit: 16,
+        includeItemTypes:
+            (e.collectionType == CollectionType.books && !showAllCollections) ? [BaseItemKind.book] : null,
+        enableImageTypes: [
+          ImageType.primary,
+          ImageType.backdrop,
+          ImageType.thumb,
+        ],
+        fields: [
+          ItemFields.parentid,
+          ItemFields.mediastreams,
+          ItemFields.mediasources,
+          ItemFields.candelete,
+          ItemFields.candownload,
+          ItemFields.primaryimageaspectratio,
+          ItemFields.overview,
+        ],
+      );
+      return MapEntry(e.id, recents.body?.map((e) => ItemBaseModel.fromBaseDto(e, ref)).toList() ?? <ItemBaseModel>[]);
+    })));
+
+    ViewModel withRecents(ViewModel view) => recentlyAdded.containsKey(view.id)
+        ? view.copyWith(recentlyAdded: recentlyAdded[view.id])
+        : view;
+
+    state = state.copyWith(
+      views: state.views.map(withRecents).toList(),
+      dashboardViews: state.dashboardViews.map(withRecents).toList(),
+    );
+  }
+
+  List<ViewModel> _dashboardViews(List<ViewModel> views) => _applyLibraryOrdering(views
+      .where((element) => !(ref.read(userProvider)?.latestItemsExcludes.contains(element.id) ?? true))
+      .toList());
 
   List<ViewModel> _applyLibraryOrdering(List<ViewModel> views) {
     final orderedViews = ref.read(userProvider)?.userConfiguration?.orderedViews ?? [];

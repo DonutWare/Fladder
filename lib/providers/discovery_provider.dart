@@ -76,14 +76,14 @@ class ServerDiscovery extends _$ServerDiscovery {
       }
     });
 
-    yield* controller.stream;
-
     // Handle disposal when the provider is no longer needed
     ref.onDispose(() {
       timer.cancel();
       socket.close();
       controller.close();
     });
+
+    yield* controller.stream;
   }
 }
 

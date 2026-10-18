@@ -35,6 +35,7 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
     if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
+import 'package:fladder/wrappers/multi_window_media_session.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
 import 'package:fladder/wrappers/players/native_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
@@ -94,20 +95,24 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       if (!kIsWeb && Platform.isAndroid) {
         VideoPlayerControlsCallback.setUp(this);
       }
-      await AudioService.init(
-        builder: () => this,
-        config: const AudioServiceConfig(
-          androidNotificationChannelId: 'nl.jknaapen.fladder.channel.playback',
-          androidNotificationChannelName: 'Media playback',
-          androidNotificationIcon: 'drawable/ic_notification',
-          androidNotificationOngoing: true,
-          androidStopForegroundOnPause: true,
-          rewindInterval: Duration(seconds: 10),
-          fastForwardInterval: Duration(seconds: 15),
-          androidNotificationChannelDescription: "Playback",
-          androidShowNotificationBadge: true,
-        ),
-      );
+      if (MultiWindowMediaSession.supported) {
+        MultiWindowMediaSession.instance.attach(this);
+      } else {
+        await AudioService.init(
+          builder: () => this,
+          config: const AudioServiceConfig(
+            androidNotificationChannelId: 'nl.jknaapen.fladder.channel.playback',
+            androidNotificationChannelName: 'Media playback',
+            androidNotificationIcon: 'drawable/ic_notification',
+            androidNotificationOngoing: true,
+            androidStopForegroundOnPause: true,
+            rewindInterval: Duration(seconds: 10),
+            fastForwardInterval: Duration(seconds: 15),
+            androidNotificationChannelDescription: "Playback",
+            androidShowNotificationBadge: true,
+          ),
+        );
+      }
     }
 
     final player = switch (ref.read(videoPlayerSettingsProvider).wantedPlayer) {
@@ -214,7 +219,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   void _subscribePlayer() {
-    if (!kIsWeb && Platform.isWindows) {
+    if (!kIsWeb && Platform.isWindows && !MultiWindowMediaSession.supported) {
       smtc = SMTCWindows(
         config: const SMTCConfig(
           fastForwardEnabled: true,

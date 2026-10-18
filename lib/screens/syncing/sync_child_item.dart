@@ -5,10 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fladder/models/items/album_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/screens/syncing/widgets/synced_album_item.dart';
 import 'package:fladder/screens/syncing/widgets/synced_audio_item.dart';
+import 'package:fladder/screens/syncing/widgets/synced_photo_item.dart';
 import 'package:fladder/screens/syncing/widgets/synced_season_poster.dart';
 
 import 'widgets/synced_episode_item.dart';
@@ -56,6 +58,10 @@ class _ChildSyncWidgetState extends ConsumerState<ChildSyncWidget> {
                     ),
                   AudioModel audio => SyncedAudioItem(
                       audio: audio,
+                      syncedItem: syncedItem,
+                    ),
+                  PhotoModel photo => SyncedPhotoItem(
+                      photo: photo,
                       syncedItem: syncedItem,
                     ),
                   _ => const SizedBox.shrink(),
