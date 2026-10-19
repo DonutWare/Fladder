@@ -1,11 +1,11 @@
 {
     "dashboard": "대시보드",
-    "accept": "확인",
+    "accept": "수락",
     "name": "이름",
     "navigationFavorites": "즐겨찾기",
-    "noServersFound": "다른 서버를 찾지 못했어요",
+    "noServersFound": "새 서버를 찾지 못했습니다",
     "invalidUrl": "올바르지 않은 URL",
-    "logoutUserPopupContent": "{userName}에서 로그아웃하고 앱에서 해당 사용자를 삭제합니다.\n{serverName}에 다시 로그인해야 합니다.",
+    "logoutUserPopupContent": "{userName}을(를) 로그아웃하고 앱에서 해당 사용자를 삭제합니다.\n{serverName}에 다시 로그인해야 합니다.",
     "@logoutUserPopupContent": {
         "description": "Pop-up for logging out the user description",
         "placeholders": {
@@ -17,7 +17,7 @@
             }
         }
     },
-    "logoutUserPopupTitle": "사용자 {userName}을 로그아웃 할까요?",
+    "logoutUserPopupTitle": "{userName}을(를) 로그아웃할까요?",
     "@logoutUserPopupTitle": {
         "description": "Pop-up for logging out the user",
         "placeholders": {
@@ -37,7 +37,7 @@
             }
         }
     },
-    "deleteFileFromSystem": "이 아이템 {item}이 파일 시스템과 미디어 라이브러리 모두에서 삭제될 거예요. 계속할까요?",
+    "deleteFileFromSystem": "{item}을(를) 삭제하면 파일 시스템과 미디어 라이브러리에서 모두 삭제됩니다. 계속할까요?",
     "@deleteFileFromSystem": {
         "description": "Delete file from system",
         "placeholders": {
@@ -47,7 +47,7 @@
         }
     },
     "nativeName": "한국어",
-    "mediaTypePlaylist": "{count, plural, one{플레이리스트} other{플레이리스트}}",
+    "mediaTypePlaylist": "{count, plural, one{재생목록} other{재생목록}}",
     "chapter": "{count, plural, other{챕터} one{챕터}}",
     "@chapter": {
         "description": "chapter",
@@ -61,16 +61,16 @@
     "controls": "컨트롤",
     "cancel": "취소",
     "about": "정보",
-    "active": "활성화",
+    "active": "활성",
     "addAsFavorite": "즐겨찾기에 추가",
     "addToCollection": "컬렉션에 추가",
-    "addToPlaylist": "플레이리스트에 추가",
+    "addToPlaylist": "재생목록에 추가",
     "all": "전체",
     "amoledBlack": "AMOLED 블랙",
     "appLockAutoLogin": "자동 로그인",
-    "appLockBiometrics": "생체인증",
-    "appLockPasscode": "암호",
-    "appLockTitle": "{userName}의 로그인 방식 선택",
+    "appLockBiometrics": "생체 인증",
+    "appLockPasscode": "패스코드",
+    "appLockTitle": "{userName}의 로그인 방법 설정",
     "@appLockTitle": {
         "description": "Pop-up to pick a login method",
         "placeholders": {
@@ -81,10 +81,10 @@
     },
     "ascending": "오름차순",
     "autoPlay": "자동 재생",
-    "backgroundBlur": "배경 블러",
+    "backgroundBlur": "배경 흐림",
     "backgroundOpacity": "배경 투명도",
-    "biometricsFailedCheckAgain": "생체인증에 실패했어요. 설정을 확인한 뒤 다시 시도해주세요.",
-    "bold": "볼드",
+    "biometricsFailedCheckAgain": "생체 인증에 실패했습니다. 설정을 확인한 후 다시 시도하세요.",
+    "bold": "굵게",
     "actor": "{count, plural, other{배우} one{배우}}",
     "@actor": {
         "description": "actor",
@@ -97,13 +97,13 @@
     },
     "clear": "초기화",
     "clearAllSettings": "모든 설정 초기화",
-    "clearAllSettingsQuestion": "모든 설정을 초기화 할까요?",
-    "clearChanges": "변경사항 초기화",
+    "clearAllSettingsQuestion": "모든 설정을 초기화할까요?",
+    "clearChanges": "변경 사항 초기화",
     "clearSelection": "선택 초기화",
     "close": "닫기",
     "code": "코드",
     "collectionFolder": "{count, plural, one{컬렉션 폴더} other{컬렉션 폴더}}",
-    "color": "색",
+    "color": "색상",
     "communityRating": "커뮤니티 평가",
     "continuePage": "계속 - 페이지 {page}",
     "@continuePage": {
@@ -117,8 +117,8 @@
     "dashboardContinue": "이어보기",
     "dashboardContinueListening": "이어서 듣기",
     "dashboardContinueReading": "이어서 읽기",
-    "nextUp": "다음",
-    "dashboardRecentlyAdded": "최근 {name}에 추가된 작품",
+    "nextUp": "다음 볼 항목",
+    "dashboardRecentlyAdded": "{name}에 최근 추가된 항목",
     "@dashboardRecentlyAdded": {
         "description": "Recently added on home screen",
         "placeholders": {
@@ -129,19 +129,19 @@
     },
     "dateAdded": "추가된 날짜",
     "dateLastContentAdded": "마지막으로 콘텐츠가 추가된 날짜",
-    "datePlayed": "재생된 날짜",
+    "datePlayed": "재생한 날짜",
     "days": "{count, plural, one{일} other{일}}",
     "disabled": "꺼짐",
-    "discovered": "검색됨",
+    "discovered": "발견됨",
     "displayLanguage": "표시 언어",
-    "downloadsClearDesc": "모든 동기화 데이터를 삭제하여 동기화된 모든 사용자의 데이터를 지우시겠습니까?",
+    "downloadsClearDesc": "동기화된 모든 데이터를 삭제할까요? 동기화된 모든 사용자의 데이터가 지워집니다.",
     "downloadsClearTitle": "동기화된 데이터 삭제",
     "downloadsPath": "경로",
     "downloadsSyncedData": "동기화된 데이터",
     "downloadsTitle": "다운로드",
     "dynamicText": "자동",
-    "editMetadata": "메타데이터 수정",
-    "empty": "비어있음",
+    "editMetadata": "메타데이터 편집",
+    "empty": "비어 있음",
     "enabled": "켜짐",
     "endsAt": "{date}에 끝남",
     "@endsAt": {
@@ -164,7 +164,7 @@
         }
     },
     "error": "오류",
-    "failedToLoadImage": "이미지를 불러올 수 없어요",
+    "failedToLoadImage": "이미지를 불러올 수 없습니다",
     "favorite": "즐겨찾기",
     "filter": "{count, plural, other{필터} one{필터}}",
     "@filter": {
@@ -177,9 +177,9 @@
         }
     },
     "folders": "폴더",
-    "fontColor": "폰트 색",
-    "fontSize": "폰트 크기",
-    "forceRefresh": "폰트 새로고침",
+    "fontColor": "글꼴 색상",
+    "fontSize": "글꼴 크기",
+    "forceRefresh": "강제 새로 고침",
     "genre": "{count, plural, other{장르} one{장르}}",
     "@genre": {
         "description": "genre",
@@ -190,7 +190,7 @@
             }
         }
     },
-    "goTo": "이동하기",
+    "goTo": "이동",
     "group": "그룹",
     "groupBy": "그룹화",
     "heightOffset": "높이 오프셋",
@@ -198,10 +198,10 @@
     "home": "홈",
     "identify": "식별",
     "immediately": "즉시",
-    "incorrectPinTryAgain": "PIN코드가 올바르지 않아요. 다시 시도해주세요.",
+    "incorrectPinTryAgain": "PIN 코드가 올바르지 않습니다. 다시 시도하세요.",
     "info": "정보",
     "invalidUrlDesc": "URL은 http(s)://로 시작되어야 합니다",
-    "itemCount": "아이템 개수: {count}",
+    "itemCount": "항목 수: {count}",
     "@itemCount": {
         "description": "Item count",
         "placeholders": {
@@ -230,11 +230,11 @@
             }
         }
     },
-    "libraryFetchNoItemsFound": "아무것도 찾지 못했어요. 설정을 바꿔보세요.",
-    "libraryPageSizeTitle": "라이브러리 페이지의 크기",
+    "libraryFetchNoItemsFound": "항목을 찾지 못했습니다. 다른 설정을 사용해 보세요.",
+    "libraryPageSizeTitle": "라이브러리 페이지 크기",
     "light": "라이트",
-    "list": "리스트",
-    "lockscreen": "잠금화면",
+    "list": "목록",
+    "lockscreen": "잠금 화면",
     "loggedIn": "로그인됨",
     "login": "로그인",
     "loop": "반복",
@@ -249,7 +249,7 @@
     "mediaTypePhotoAlbum": "{count, plural, one{사진 앨범} other{사진 앨범}}",
     "mediaTypeSeason": "{count, plural, one{시즌} other{시즌}}",
     "mediaTypeSeries": "{count, plural, one{시리즈} other{시리즈}}",
-    "metaDataSavedFor": "{item}의 메타데이터가 저장되었어요",
+    "metaDataSavedFor": "{item}의 메타데이터를 저장했습니다",
     "@metaDataSavedFor": {
         "description": "metaDataSavedFor",
         "placeholders": {
@@ -259,7 +259,7 @@
         }
     },
     "metadataRefreshDefault": "새 파일 및 업데이트된 파일 스캔",
-    "metadataRefreshFull": "모든 메타데이터 대체",
+    "metadataRefreshFull": "모든 메타데이터 교체",
     "metadataRefreshValidation": "누락된 메타데이터 검색",
     "minutes": "{count, plural, other{분} one{분} }",
     "@minutes": {
@@ -286,19 +286,19 @@
     "navigation": "탐색",
     "navigationDashboard": "대시보드",
     "navigationSync": "동기화됨",
-    "never": "없음",
-    "noItemsSynced": "동기화된 항목이 없어요",
-    "noItemsToShow": "표시할 항목이 없어요",
-    "noRating": "평가가 없어요",
-    "noResults": "결과가 없어요",
-    "noSuggestionsFound": "제안을 찾지 못함",
+    "never": "안 함",
+    "noItemsSynced": "동기화된 항목이 없습니다",
+    "noItemsToShow": "표시할 항목이 없습니다",
+    "noRating": "평가 없음",
+    "noResults": "결과가 없습니다",
+    "noSuggestionsFound": "제안을 찾지 못했습니다",
     "none": "없음",
-    "fetchingLibrary": "라이브러리의 아이템을 가져오고 있어요…",
+    "fetchingLibrary": "라이브러리 항목을 가져오는 중…",
     "audio": "{count, plural, one{오디오} other{오디오}}",
     "change": "변경",
     "descending": "내림차순",
     "disableFilters": "필터 끄기",
-    "deleteItem": "{item}을 삭제하시겠어요?",
+    "deleteItem": "{item}을(를) 삭제할까요?",
     "@deleteItem": {
         "description": "deleteItem",
         "placeholders": {
@@ -313,20 +313,20 @@
     "homeBannerSlideshow": "슬라이드쇼",
     "grid": "그리드",
     "mediaTypeFolder": "{count, plural, one{폴더} other{폴더}}",
-    "libraryPageSizeDesc": "한 번에 불러올 양을 설정해요. 0으로 하면 페이징 없이 불러와요.",
+    "libraryPageSizeDesc": "한 번에 불러올 항목 수를 설정합니다. 0으로 설정하면 페이지를 나누지 않습니다.",
     "mode": "모드",
     "mediaTypeEpisode": "{count, plural, one{에피소드} other{에피소드}}",
     "logout": "로그아웃",
     "openParent": "상위 폴더 열기",
-    "openShow": "시리즈 보기",
+    "openShow": "시리즈 열기",
     "openWebLink": "웹 링크 열기",
     "options": "옵션",
-    "outlineColor": "윤곽선 색",
+    "outlineColor": "윤곽선 색상",
     "outlineSize": "윤곽선 크기",
     "replaceAllImages": "모든 이미지 교체",
     "hideEmpty": "빈 항목 숨기기",
     "homeBannerCarousel": "캐러셀",
-    "masonry": "격자형",
+    "masonry": "메이슨리",
     "normal": "보통",
     "notPartOfAlbum": "앨범에 포함되지 않음",
     "other": "기타",
@@ -340,12 +340,12 @@
             }
         }
     },
-    "password": "암호",
+    "password": "비밀번호",
     "pathClearTitle": "다운로드 경로 제거",
-    "pathEditDesc": "이 위치는 모든 사용자에게 설정되어 있어요. 동기화된 데이터에는 더 이상 접근할 수 없게 되지만, 저장소에는 그대로 유지돼요.",
+    "pathEditDesc": "이 위치는 모든 사용자에게 적용되며, 기존에 동기화된 데이터에는 더 이상 접근할 수 없습니다. 데이터는 저장소에 그대로 남아 있습니다.",
     "pathEditSelect": "다운로드 경로 선택",
     "pathEditTitle": "다운로드 경로 변경",
-    "play": "{item}을 재생",
+    "play": "{item} 재생",
     "@play": {
         "description": "Play with",
         "placeholders": {
@@ -354,7 +354,7 @@
             }
         }
     },
-    "playCount": "조회수",
+    "playCount": "재생 횟수",
     "playFrom": "{name}에서 재생",
     "@playFrom": {
         "description": "playFrom",
@@ -364,7 +364,7 @@
             }
         }
     },
-    "playFromStart": "{name}을 처음부터 재생",
+    "playFromStart": "{name} 처음부터 재생",
     "@playFromStart": {
         "description": "speel vanaf het begin",
         "placeholders": {
@@ -375,12 +375,12 @@
     },
     "playLabel": "재생",
     "playVideos": "영상 재생",
-    "played": "시청 완료",
+    "played": "시청함",
     "quickConnectAction": "Quick Connect 코드 입력",
     "quickConnectInputACode": "코드 입력",
     "quickConnectTitle": "Quick Connect",
-    "quickConnectWrongCode": "코드가 틀린 것 같아요",
-    "random": "랜덤",
+    "quickConnectWrongCode": "잘못된 코드",
+    "random": "무작위",
     "rating": "{count, plural, other{평가} one{평가}}",
     "@rating": {
         "description": "rating",
@@ -410,18 +410,18 @@
             }
         }
     },
-    "recursive": "결과 내 검색",
-    "refresh": "새로고침",
-    "refreshMetadata": "메타데이터 새로고침",
-    "refreshPopupContentMetadata": "메타데이터는 대시보드에서 사용하도록 설정된 설정과 인터넷 서비스를 기반으로 업데이트돼요.",
+    "recursive": "하위 폴더 포함",
+    "refresh": "새로 고침",
+    "refreshMetadata": "메타데이터 새로 고침",
+    "refreshPopupContentMetadata": "메타데이터는 대시보드에서 켜 둔 설정과 인터넷 서비스를 기준으로 새로 고침됩니다.",
     "related": "관련",
-    "removeAsFavorite": "즐겨찾기에서 삭제",
-    "removeFromCollection": "컬렉션에서 삭제",
-    "removeFromPlaylist": "플레이리스트에서 삭제",
+    "removeAsFavorite": "즐겨찾기에서 제거",
+    "removeFromCollection": "컬렉션에서 제거",
+    "removeFromPlaylist": "재생목록에서 제거",
     "replaceExistingImages": "기존 이미지 교체",
     "restart": "재시작",
     "result": "결과",
-    "releaseDate": "릴리즈 날짜",
+    "releaseDate": "출시일",
     "resume": "{item} 이어보기",
     "@resume": {
         "description": "resume",
@@ -436,7 +436,7 @@
     "runTime": "재생 시간",
     "save": "저장",
     "saved": "저장됨",
-    "scanBiometricHint": "인증",
+    "scanBiometricHint": "본인 확인",
     "scanLibrary": "라이브러리 스캔",
     "scanYourFingerprintToAuthenticate": "지문으로 {user} 인증",
     "@scanYourFingerprintToAuthenticate": {
@@ -506,53 +506,53 @@
         "description": "Use for setting a certain value",
         "context": "Set 'time'"
     },
-    "resumable": "시청중",
+    "resumable": "이어보기 가능",
     "settingSecurityApplockTitle": "앱 잠금",
     "settings": "설정",
-    "settingsBlurEpisodesDesc": "다음 에피소드를 모두 흐리게 보여줘요",
-    "settingsBlurEpisodesTitle": "다음 에피소드 블러 처리",
-    "settingsBlurredPlaceholderDesc": "포스터를 로딩할 때 흐린 배경을 표시해요",
-    "settingsClientDesc": "일반, 타임아웃, 레이아웃, 테마",
+    "settingsBlurEpisodesDesc": "다음 에피소드를 모두 흐리게 표시합니다",
+    "settingsBlurEpisodesTitle": "다음 에피소드 흐리게 표시",
+    "settingsBlurredPlaceholderDesc": "포스터를 불러오는 동안 흐린 배경을 표시합니다",
+    "settingsClientDesc": "일반, 시간 제한, 레이아웃, 테마",
     "settingsClientTitle": "Fladder",
     "settingsContinue": "이어보기",
     "settingsEnableOsMediaControls": "시스템 미디어 컨트롤 사용",
-    "settingsEnableOsMediaControlsDesc": "미디어 키를 사용하여 재생 제어를 가능하게 하고 시스템에 현재 재생 중인 미디어를 표시해요",
-    "similarToRecentlyPlayed": "최근 시청한 것과 유사한 콘텐츠",
+    "settingsEnableOsMediaControlsDesc": "미디어 키로 재생을 제어하고 시스템에 현재 재생 중인 미디어를 표시합니다",
+    "similarToRecentlyPlayed": "최근 시청한 콘텐츠와 비슷한 작품",
     "recommended": "추천",
     "settingsPlayerNativeLibassAccelDesc": "비디오 플레이어의 libass 자막 렌더러 사용",
     "settingsPlayerBufferSizeTitle": "비디오 버퍼 크기",
     "settingsPlayerBufferSizeDesc": "동영상 재생 시 버퍼 크기를 설정하여 캐시에 불러올 데이터의 양을 결정합니다.",
-    "settingsPlayerVideoHWAccelDesc": "GPU로 비디오 렌더링 하기 (권장)",
+    "settingsPlayerVideoHWAccelDesc": "GPU로 비디오 렌더링(권장)",
     "settingsPlayerVideoHWAccelTitle": "하드웨어 가속",
-    "shuffleVideos": "무작위 영상 재생",
-    "syncRemoveDataDesc": "동기화된 비디오 데이터를 할까요? 이 작업은 되돌릴 수 없고, 파일을 다시 동기화해야 해요",
+    "shuffleVideos": "비디오 셔플",
+    "syncRemoveDataDesc": "동기화된 비디오 데이터를 삭제할까요? 이 작업은 되돌릴 수 없으며 파일을 다시 동기화해야 합니다",
     "video": "{count, plural, one{비디오} other{비디오}}",
-    "blurred": "블러 처리",
+    "blurred": "흐리게",
     "exit": "종료",
-    "skipMediaSegment": "구간 건너뛰기",
+    "skipMediaSegment": "미디어 구간 건너뛰기",
     "fullScreen": "전체 화면",
     "prevChapter": "이전 챕터",
     "nextChapter": "다음 챕터",
-    "prevVideo": "이전 영상",
-    "nextVideo": "다음 영상",
-    "volumeDown": "볼륨 줄이기",
-    "volumeUp": "볼륨 키우기",
+    "prevVideo": "이전 비디오",
+    "nextVideo": "다음 비디오",
+    "volumeDown": "음량 낮추기",
+    "volumeUp": "음량 높이기",
     "mute": "음소거",
-    "seekBack": "뒤로 건너뛰기",
-    "seekForward": "앞으로 건너뛰기",
-    "playPause": "재생 / 일시정지",
+    "seekBack": "뒤로 탐색",
+    "seekForward": "앞으로 탐색",
+    "playPause": "재생/일시 정지",
     "skipBackLength": "뒤로 건너뛰기 간격",
     "skipForwardLength": "앞으로 건너뛰기 간격",
     "shortCuts": "단축키",
     "offline": "오프라인",
-    "usePostersForLibraryIconsDesc": "라이브러리 아이콘 대신 포스터 표시하기",
+    "usePostersForLibraryIconsDesc": "라이브러리에 아이콘 대신 포스터를 표시합니다",
     "usePostersForLibraryIconsTitle": "라이브러리 아이콘 대신 포스터 표시",
     "syncAllFiles": "모든 파일 동기화",
     "syncDeleteAll": "모든 파일 삭제",
     "syncStopAll": "모두 중지",
     "syncResumeAll": "모두 재개",
-    "syncPauseAll": "모두 일시정지",
-    "syncDeleteAllItemsDesc": "'{itemName}'에서 동기화된 모든 항목을 삭제해요. \n이 작업은 되돌릴 수 없고, ({itemCount})개의 파일을 다시 동기화해야 해요.",
+    "syncPauseAll": "모두 일시 정지",
+    "syncDeleteAllItemsDesc": "'{itemName}'에서 동기화된 모든 항목을 삭제합니다.\n이 작업은 되돌릴 수 없으며 파일 {itemCount}개를 다시 동기화해야 합니다.",
     "@syncDeleteAllItemsDesc": {
         "description": "syncDeleteAllitemsFromDesc",
         "placeholders": {
@@ -573,7 +573,7 @@
             }
         }
     },
-    "syncAllItemsDesc": "'{itemName}'의 항목 {itemCount}개가 기기에 동기화될 거예요. \n항목 개수에 따라 시간이 다소 걸릴 수 있어요.",
+    "syncAllItemsDesc": "'{itemName}'의 항목 {itemCount}개를 기기에 동기화합니다.\n항목 수에 따라 시간이 걸릴 수 있습니다.",
     "@syncAllItemsDesc": {
         "description": "syncAllitemsFromDesc",
         "placeholders": {
@@ -596,12 +596,12 @@
     },
     "notificationDownloadingError": "다운로드 오류",
     "notificationDownloadingFinished": "다운로드 완료",
-    "notificationDownloadingPaused": "다운로드 일시중지",
+    "notificationDownloadingPaused": "다운로드 일시 정지됨",
     "notificationDownloadingDownloading": "다운로드 중",
-    "enableBackgroundPostersDesc": "화면에서 랜덤 포스터 표시하기",
-    "enableBackgroundPostersTitle": "배경 포스터 활성화",
-    "newUpdateFoundOnGithub": "GitHub에서 새 업데이트를 찾았어요",
-    "newReleaseFoundTitle": "업데이트 {newRelease} 사용 가능!",
+    "enableBackgroundPostersDesc": "지원되는 화면에 무작위 포스터를 표시합니다",
+    "enableBackgroundPostersTitle": "배경 포스터 사용",
+    "newUpdateFoundOnGithub": "GitHub에서 새 업데이트를 찾았습니다",
+    "newReleaseFoundTitle": "{newRelease} 업데이트가 있습니다!",
     "@newReleaseFoundTitle": {
         "placeholders": {
             "newRelease": {
@@ -616,45 +616,45 @@
     "playbackTypeDirect": "다이렉트",
     "playbackType": "재생 유형",
     "latest": "최신",
-    "hasLikedActor": "좋아요한 배우",
-    "hasLikedDirector": "좋아요한 감독",
-    "hasActorFromRecentlyPlayed": "최근 시청한 콘텐츠의 배우의 작품",
-    "hasDirectorFromRecentlyPlayed": "최근 시청한 콘텐츠의 감독의 작품",
-    "similarToLikedItem": "좋아요한 콘텐츠와 비슷한 작품",
-    "rememberAudioSelectionsDesc": "마지막으로 시청한 영상과 가장 유사한 오디오 트랙을 설정해요.",
-    "rememberSubtitleSelectionsDesc": "마지막으로 시청한 영상과 가장 유사한 자막으로 설정해요.",
-    "rememberAudioSelections": "이전 항목을 기준으로 오디오 트랙을 설정해요",
-    "rememberSubtitleSelections": "이전 항목을 기준으로 자막 트랙을 설정해요",
+    "hasLikedActor": "좋아요 표시한 배우의 작품",
+    "hasLikedDirector": "좋아요 표시한 감독의 작품",
+    "hasActorFromRecentlyPlayed": "최근 시청한 콘텐츠의 출연 배우 작품",
+    "hasDirectorFromRecentlyPlayed": "최근 시청한 콘텐츠의 감독 작품",
+    "similarToLikedItem": "좋아요 표시한 항목과 비슷한 작품",
+    "rememberAudioSelectionsDesc": "마지막으로 본 비디오와 가장 비슷한 오디오 트랙으로 설정합니다.",
+    "rememberSubtitleSelectionsDesc": "마지막으로 본 비디오와 가장 비슷한 자막 트랙으로 설정합니다.",
+    "rememberAudioSelections": "이전 항목 기준으로 오디오 트랙 설정",
+    "rememberSubtitleSelections": "이전 항목 기준으로 자막 트랙 설정",
     "playbackTrackSelection": "재생 트랙 설정",
-    "maxConcurrentDownloadsDesc": "동시에 실행할 수 있는 최대 다운로드 개수를 지정해요. 0으로 설정하면 제한 없이 다운로드할 수 있어요.",
+    "maxConcurrentDownloadsDesc": "동시에 실행할 수 있는 최대 다운로드 수를 설정합니다. 0으로 설정하면 제한하지 않습니다.",
     "maxConcurrentDownloadsTitle": "최대 동시 다운로드 수",
     "castAndCrew": "출연진 및 제작진",
     "exitFladderTitle": "Fladder 종료",
-    "loading": "로딩 중",
+    "loading": "불러오는 중",
     "segmentActionSkip": "건너뛰기",
     "segmentActionAskToSkip": "건너뛰기 여부 묻기",
     "segmentActionNone": "없음",
-    "mediaSegmentActions": "미디어 세그먼트 동작",
+    "mediaSegmentActions": "미디어 구간 동작",
     "version": "버전",
     "qualityOptionsAuto": "자동",
     "qualityOptionsOriginal": "원본",
     "qualityOptionsTitle": "품질 옵션",
     "homeStreamingQualityDesc": "홈 네트워크 연결 시 최대 스트리밍 화질",
     "homeStreamingQualityTitle": "홈 화질",
-    "internetStreamingQualityDesc": "일반 네트워크 사용 시 최대 스트리밍 화질 (모바일)",
+    "internetStreamingQualityDesc": "인터넷 연결 시 최대 스트리밍 화질(모바일)",
     "internetStreamingQualityTitle": "인터넷 화질",
     "episodeMissing": "누락됨",
     "episodeUnaired": "미방영",
     "episodeAvailable": "이용 가능",
-    "copiedToClipboard": "클립보드에 복사했어요",
+    "copiedToClipboard": "클립보드에 복사했습니다",
     "layoutModeDual": "이중 패널",
     "layoutModeSingle": "단일 패널",
     "desktop": "데스크톱",
     "tablet": "태블릿",
     "phone": "휴대폰",
-    "settingsLayoutModesDesc": "앱에서 단일 패널 또는 이중 패널 레이아웃을 사용할 수 있는지 제어해요",
+    "settingsLayoutModesDesc": "앱에서 단일 패널 또는 이중 패널 레이아웃을 사용할 수 있는지 설정합니다",
     "settingsLayoutModesTitle": "레이아웃 모드",
-    "settingsLayoutSizesDesc": "창 크기에 따라 앱에서 사용할 레이아웃 크기를 선택해요",
+    "settingsLayoutSizesDesc": "창 크기에 따라 앱에서 사용할 레이아웃 크기를 선택합니다",
     "settingsLayoutSizesTitle": "레이아웃 크기",
     "copyStreamUrl": "스트림 URL 복사",
     "downloadFile": "{type} 다운로드",
@@ -681,23 +681,23 @@
             }
         }
     },
-    "mdkExperimental": "MDK는 아직 실험 단계에 있어요",
-    "noVideoPlayerOptions": "선택한 백엔드에는 옵션이 없어요",
+    "mdkExperimental": "MDK는 아직 실험 단계입니다",
+    "noVideoPlayerOptions": "선택한 백엔드에는 옵션이 없습니다",
     "defaultLabel": "기본값",
     "@defaultLabel": {
         "description": "To indicate a default value, default video player backend"
     },
     "playerSettingsBackendDesc": "최적의 재생 환경을 위해 선호하는 미디어 플레이어를 선택해 주세요",
     "playerSettingsBackendTitle": "미디어 플레이어 백엔드",
-    "playNextVideo": "다음 영상",
-    "closeVideo": "닫기",
-    "resumeVideo": "이어보기",
-    "stop": "정",
-    "clientSettingsShowAllCollectionsDesc": "이 옵션을 활성화하면 Fladder에서 지원하지 않는 유형을 포함해 모든 컬렉션 유형을 표시해요",
+    "playNextVideo": "다음 비디오 재생",
+    "closeVideo": "비디오 닫기",
+    "resumeVideo": "비디오 이어보기",
+    "stop": "정지",
+    "clientSettingsShowAllCollectionsDesc": "Fladder에서 지원하지 않는 유형을 포함해 모든 컬렉션 유형을 표시합니다",
     "clientSettingsShowAllCollectionsTitle": "모든 컬렉션 유형 표시",
     "libraryPlayItems": "항목 재생",
-    "libraryShuffleAndPlayItems": "무작위 재생",
-    "clientSettingsRequireWifiDesc": "Wi-Fi 네트워크에 연결된 경우에만 다운로드해요",
+    "libraryShuffleAndPlayItems": "항목 셔플 재생",
+    "clientSettingsRequireWifiDesc": "Wi-Fi 네트워크에 연결된 경우에만 다운로드합니다",
     "clientSettingsRequireWifiTitle": "Wi-Fi 필요",
     "schemeSettingsFruitSalad": "과일 샐러드",
     "schemeSettingsRainbow": "무지개",
@@ -708,18 +708,18 @@
     "schemeSettingsMonochrome": "흑백",
     "schemeSettingsFidelity": "색 강조",
     "schemeSettingsTonalSpot": "강조색 위주",
-    "clientSettingsSchemeVariantTitle": "테마",
+    "clientSettingsSchemeVariantTitle": "색 구성 방식",
     "deviceOrientationLandscapeRight": "가로 모드 (오른쪽)",
     "deviceOrientationLandscapeLeft": "가로 모드 (왼쪽)",
     "deviceOrientationPortraitDown": "세로 모드 (아래쪽)",
     "deviceOrientationPortraitUp": "세로 모드 (위쪽)",
-    "playerSettingsOrientationDesc": "비디오 플레이어를 특정 화면 방향으로 강제 고정해요",
+    "playerSettingsOrientationDesc": "비디오 플레이어를 특정 화면 방향으로 고정합니다",
     "playerSettingsOrientationTitle": "플레이어 방향",
-    "libraryFiltersRemoveAllConfirm": "이 작업을 실행하면 모든 라이브러리에 저장된 필터가 삭제돼요",
+    "libraryFiltersRemoveAllConfirm": "모든 라이브러리에 저장된 필터가 삭제됩니다",
     "libraryFiltersRemoveAll": "모든 필터 제거",
     "libraryFiltersLimitReached": "필터 한도(10개)에 도달했습니다. 일부 필터를 제거하세요",
-    "deleteFilterConfirmation": "이 필터를 삭제하시겠습니까?",
-    "removeFilterForLibrary": "{filter}를 제거하시겠습니까?",
+    "deleteFilterConfirmation": "이 필터를 삭제할까요?",
+    "removeFilterForLibrary": "{filter}을(를) 제거할까요?",
     "@removeFilterForLibrary": {
         "description": "removeFilterForLibrary",
         "placeholders": {
@@ -730,8 +730,8 @@
     },
     "updateFilterForLibrary": "필터 업데이트",
     "defaultFilterForLibrary": "라이브러리 기본 필터 설정",
-    "unableToPlayBooksOnWeb": "현재 웹에서는 도서를 볼 수 없어요",
-    "errorOpeningMedia": "이 미디어를 재생하는 중 문제가 발생했어요",
+    "unableToPlayBooksOnWeb": "현재 웹에서는 도서를 지원하지 않습니다",
+    "errorOpeningMedia": "이 미디어를 재생하는 중 문제가 발생했습니다",
     "mediaTypeTV": "{count, plural, one{TV 채널} other{TV 채널}}",
     "@mediaTypeTV": {
         "description": "TV Channel (plural)",
@@ -743,9 +743,9 @@
         }
     },
     "popularity": "인기도",
-    "contentRating": "심의",
-    "runtimeMinutesTitle": "상영 시간 (분)",
-    "runtimeRangeMinutes": "{min} ~ {max} 분",
+    "contentRating": "콘텐츠 등급",
+    "runtimeMinutesTitle": "재생 시간(분)",
+    "runtimeRangeMinutes": "{min}~{max}분",
     "@runtimeRangeMinutes": {
         "placeholders": {
             "min": {
@@ -756,7 +756,7 @@
             }
         }
     },
-    "setIdentityTo": "{name}로 식별했어요",
+    "setIdentityTo": "{name}(으)로 식별 정보 변경",
     "@setIdentityTo": {
         "description": "setIdentityTo",
         "placeholders": {
@@ -765,8 +765,8 @@
             }
         }
     },
-    "settingsBlurredPlaceholderTitle": "로딩시 블러 표시",
-    "minutesShort": "{count} 분",
+    "settingsBlurredPlaceholderTitle": "흐린 자리 표시자",
+    "minutesShort": "{count}분",
     "@minutesShort": {
         "placeholders": {
             "count": {
@@ -775,7 +775,7 @@
             }
         }
     },
-    "streamingServices": "공급자 ({count})",
+    "streamingServices": "제공자({count})",
     "@streamingServices": {
         "description": "Streaming providers (Netflix,HBO, etc.)",
         "placeholders": {
@@ -798,19 +798,19 @@
     "audioPlayerRepeatAll": "전체 반복",
     "controlPanel": "제어판",
     "controlPanelDesc": "서버, 활동, 사용자, 라이브러리",
-    "controlPanelServerDesc": "서버 이름, 퀵 커넥트, 성능",
+    "controlPanelServerDesc": "서버 이름, Quick Connect, 성능",
     "audioPlayerRepeatOff": "반복 끄기",
     "audioPlayerRepeatOne": "한 곡 반복",
     "audioPlayerShuffle": "셔플",
-    "settingsPlayerCustomSubtitlesDesc": "크기, 색상, 위치, 외곽선 사용자 지정",
+    "settingsPlayerCustomSubtitlesDesc": "크기, 색상, 위치, 윤곽선 사용자 지정",
     "settingsPlayerCustomSubtitlesTitle": "자막 사용자 지정",
     "settingsPlayerDesc": "화면 비율, 고급 설정",
     "settingsPlayerMobileWarning": "Android에서 하드웨어 가속과 네이티브 libass 자막을 활성화하면 일부 자막이 표시되지 않을 수 있습니다.",
     "settingsPlayerNativeLibassAccelTitle": "네이티브 libass 자막",
-    "settingsPlayerPlayPauseFadeTitle": "재생/일시정지 시 음량 페이드",
-    "settingsPlayerPlayPauseFadeDesc": "재생하거나 일시정지할 때 음량을 서서히 높이거나 낮춥니다",
+    "settingsPlayerPlayPauseFadeTitle": "재생/일시 정지 시 음량 페이드",
+    "settingsPlayerPlayPauseFadeDesc": "재생하거나 일시 정지할 때 음량을 서서히 높이거나 낮춥니다",
     "settingsPlayerTitle": "플레이어",
-    "pictureInPictureSubtitle": "플레이어를 나가면 자동으로 PIP(화면 속 화면) 모드로 전환합니다. 컨트롤의 PIP 버튼은 이 설정과 관계없이 항상 작동합니다.",
+    "pictureInPictureSubtitle": "플레이어를 나가면 자동으로 PiP(화면 속 화면) 모드로 전환합니다. 컨트롤의 PiP 버튼은 이 설정과 관계없이 항상 작동합니다.",
     "@pictureInPictureSubtitle": {
         "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
     },
@@ -884,7 +884,7 @@
         }
     },
     "playMusic": "음악 재생",
-    "authenticateWithBiometrics": "생체 인식으로 {user} 인증",
+    "authenticateWithBiometrics": "생체 인증으로 {user} 인증",
     "@authenticateWithBiometrics": {
         "description": "Prompt shown to the user when biometric authentication is requested",
         "placeholders": {
@@ -899,8 +899,8 @@
     "settingsHomeBannerInformationDesc": "홈 배너에 표시할 정보",
     "settingsHomeBannerInformationTitle": "배너 정보",
     "settingsHomeNextUpDesc": "대시보드 화면에 표시할 포스터 유형",
-    "settingsHomeNextUpTitle": "다음에 볼 포스터",
-    "settingsNextUpCutoffDays": "다음에 볼 항목의 기준 일수",
+    "settingsHomeNextUpTitle": "다음 볼 항목 포스터",
+    "settingsNextUpCutoffDays": "다음 볼 항목 기준 일수",
     "settingsPosterPinch": "핀치 줌으로 포스터 크기 조절",
     "settingsPosterSize": "포스터 크기",
     "settingsProfileDesc": "잠금 화면, 로컬 URL, Seerr",
@@ -913,11 +913,11 @@
     "subtitlePlaybackModeOnlyForced": "강제 자막만",
     "subtitlePlaybackModeNone": "없음",
     "subtitlePlaybackModeSmart": "스마트",
-    "settingsQuickConnectTitle": "퀵 커넥트",
-    "quickConnectPostFailed": "퀵 커넥트 코드를 가져오지 못했습니다",
-    "quickConnectLoginUsingCode": "퀵 커넥트 사용 중",
+    "settingsQuickConnectTitle": "Quick Connect",
+    "quickConnectPostFailed": "Quick Connect 코드를 가져오지 못했습니다",
+    "quickConnectLoginUsingCode": "Quick Connect 사용 중",
     "quickConnectEnterCodeDescription": "로그인하려면 아래 코드를 입력하세요",
-    "openJellyfinQuickConnect": "Jellyfin 퀵 커넥트 열기",
+    "openJellyfinQuickConnect": "Jellyfin Quick Connect 열기",
     "settingsSecurity": "보안",
     "settingsShowScaleSlider": "포스터 크기 슬라이더 표시",
     "settingsVisual": "시각 효과",
@@ -926,9 +926,9 @@
     "showAlbum": "앨범 표시",
     "perfectSubtitleMatchDescription": "완벽히 일치하는 자막만 허용하면 사용 중인 동영상 파일과 정확히 일치하는 것으로 테스트 및 검증된 자막만 표시됩니다. 이 옵션을 해제하면 자막을 다운로드할 가능성은 높아지지만, 자막의 싱크가 맞지 않거나 내용이 잘못될 가능성도 커집니다.",
     "maxConcurrentLibraryScanDesc": "라이브러리 스캔 중 동시에 실행할 수 있는 최대 작업 수입니다. 비워 두면 시스템의 코어 수에 따라 제한값이 자동으로 설정됩니다. 경고: 이 값을 너무 높게 설정하면 네트워크 파일 시스템에 문제가 발생할 수 있습니다. 문제가 발생하면 값을 낮추세요.",
-    "autoNextOffSmartDesc": "크레딧 이후 남은 시간이 10초 이하이면 크레딧이 시작될 때 다음에 볼 화면을 표시합니다. 그렇지 않으면 재생 시간이 30초 남았을 때 표시합니다.",
+    "autoNextOffSmartDesc": "크레딧 이후 남은 시간이 10초 이하이면 크레딧이 시작될 때 다음 볼 항목 화면을 표시합니다. 그렇지 않으면 재생 시간이 30초 남았을 때 표시합니다.",
     "maxImageDecodingThreadsDesc": "동시에 실행할 수 있는 이미지 인코딩 작업의 최대 개수입니다. 비워 두면 시스템의 코어 수에 따라 제한값이 자동으로 설정됩니다.",
-    "deleteSeerrDataConfirm": "Seerr에서 모든 파일을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.\n데이터가 {service}에 남아 있으면 다시 가져올 수 있습니다.",
+    "deleteSeerrDataConfirm": "Seerr에서 모든 파일을 삭제할까요? 이 작업은 되돌릴 수 없습니다.\n데이터가 {service}에 남아 있으면 다시 가져올 수 있습니다.",
     "@deleteSeerrDataConfirm": {
         "description": "Confirmation message for deleting Seerr data",
         "placeholders": {
@@ -948,7 +948,7 @@
     "leanBackModeInfo": "Android TV 기기에서는 린백 모드가 기본적으로 다시 활성화됩니다. Android TV가 아닌 기기에서 이 옵션을 켜거나 끄면 예기치 않은 동작이 발생할 수 있습니다.",
     "moviePrefixSubLabel": "영화 제목에 접두사가 적용되어 있다면 서버에서 올바르게 처리할 수 있도록 여기에 입력하세요.",
     "enableNewTVLayoutDesc": "대시보드에 더 큰 TV 스타일 배너를 표시합니다. 향후 릴리스에서는 이 레이아웃이 기본값으로 적용됩니다.",
-    "quitMultipleWindowsDesc": "현재 {count}개의 창이 열려 있습니다. Fladder를 종료하면 모든 창이 닫힙니다. 계속하시겠습니까?",
+    "quitMultipleWindowsDesc": "현재 창 {count}개가 열려 있습니다. Fladder를 종료하면 모든 창이 닫힙니다. 계속할까요?",
     "@quitMultipleWindowsDesc": {
         "placeholders": {
             "count": {
@@ -958,15 +958,15 @@
         }
     },
     "saveArtWorkNextToMediaDesc": "아트워크를 미디어 폴더에 저장하면 쉽게 편집할 수 있습니다.",
-    "playerSettingsAmbientBlurDesc": "플레이어에서 앰비언트 블러를 활성화합니다. 플레이어 뒤의 배경을 흐리게 처리하여 시각적 방해를 줄입니다.",
-    "seerrUrlSchemeWarning": "URL 스킴을 자동으로 감지하지 못했습니다. 기본값인 [https://를](https://를) 사용합니다. 서버에서 HTTPS를 사용하지 않는 경우 [http://를](http://를) 앞에 입력하세요.",
+    "playerSettingsAmbientBlurDesc": "플레이어에 앰비언트 흐림 효과를 사용합니다. 플레이어 뒤의 배경을 흐리게 처리해 시선을 분산시키는 요소를 줄입니다.",
+    "seerrUrlSchemeWarning": "URL 스킴을 자동으로 감지하지 못해 기본값 https://를 사용합니다. 서버에서 HTTPS를 사용하지 않으면 앞에 http://를 붙이세요.",
     "notificationTimerIOSWarning": " 업데이트의 실제 실행 여부와 시점은 iOS에서 결정하므로 알림이 지연되거나 전혀 표시되지 않을 수 있습니다.",
     "libraryOrderDescription": "홈 화면에서 라이브러리를 드래그하여 순서를 변경하세요. 선택 해제한 라이브러리의 최근 추가 항목은 표시되지 않습니다.",
     "enableEdgeGesturesDesc": "화면 가장자리를 위아래로 밀어 밝기와 음량을 조절합니다",
     "groupedFoldersDescription": "다음 라이브러리의 콘텐츠를 ‘영화’, ‘음악’, ‘TV’ 등의 보기로 자동 분류합니다.",
     "leanBackModeDesc": "기기에서 지원하지 않는 것으로 보고되더라도 Android 기기에서 린백 모드를 활성화합니다.",
-    "settingsBlurEffectsDesc": "UI에서 흐림 효과를 활성화합니다. 이 기능을 비활성화하면 저사양 기기에서 성능이 향상될 수 있습니다.",
-    "deleteLibraryConfirmMessage": "{libraryName}을(를) 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.",
+    "settingsBlurEffectsDesc": "UI에 흐림 효과를 사용합니다. 끄면 저사양 기기에서 성능이 향상될 수 있습니다.",
+    "deleteLibraryConfirmMessage": "{libraryName}을(를) 삭제할까요?\n이 작업은 되돌릴 수 없습니다.",
     "@deleteLibraryConfirmMessage": {
         "placeholders": {
             "libraryName": {
@@ -974,12 +974,12 @@
             }
         }
     },
-    "enableDoubleTapSeekDesc": "화면 왼쪽이나 오른쪽을 두 번 탭하여 뒤로 또는 앞으로 이동합니다. 화면 중앙을 두 번 탭하여 재생하거나 일시정지합니다.",
-    "settingsAutoNextDesc": "다음 항목이 대기열에 있으면 재생 종료 직전에 다음에 볼 항목의 미리보기를 표시합니다",
-    "removeSeriesFromSonarrConfirm": "Sonarr에서 이 시리즈를 삭제하시겠습니까? 파일을 포함한 모든 데이터가 삭제됩니다.",
+    "enableDoubleTapSeekDesc": "화면 왼쪽이나 오른쪽을 두 번 탭하면 뒤로 또는 앞으로 탐색합니다. 화면 가운데를 두 번 탭하면 재생하거나 일시 정지합니다.",
+    "settingsAutoNextDesc": "대기열에 다음 항목이 있으면 재생이 끝날 무렵 다음 볼 항목 미리보기를 표시합니다",
+    "removeSeriesFromSonarrConfirm": "Sonarr에서 이 시리즈를 제거할까요? 파일을 포함한 모든 데이터가 삭제됩니다.",
     "advancedVideoOptionsDesc": "HDR, 톤 매핑 및 고급 색상 처리를 활성화합니다. 일부 기기에서는 불안정할 수 있습니다.",
-    "syncPlaylistDeleteContent": "이 재생목록에서 동기화된 트랙도 삭제하시겠습니까?",
-    "removeMovieFromRadarrConfirm": "Radarr에서 이 영화를 삭제하시겠습니까? 파일을 포함한 모든 데이터가 삭제됩니다.",
+    "syncPlaylistDeleteContent": "이 재생목록에서 동기화된 트랙도 삭제할까요?",
+    "removeMovieFromRadarrConfirm": "Radarr에서 이 영화를 제거할까요? 파일을 포함한 모든 데이터가 삭제됩니다.",
     "pendingRequests": "{count, plural, other{대기 중인 요청 없음} one{대기 중인 요청 {count}건} two{대기 중인 요청 {count}건}}",
     "@pendingRequests": {
         "description": "pendingRequests",
@@ -990,12 +990,12 @@
             }
         }
     },
-    "enableAndRankMetadataFetchers": "선호하는 메타데이터 제공자를 활성화하고 우선순위에 따라 순서를 지정하세요.",
+    "enableAndRankMetadataFetchers": "사용할 메타데이터 수집기를 선택하고 우선순위에 따라 순서를 지정하세요.",
     "settingsPlayerCrossfadeDesc": "같은 앨범에서 연속되지 않은 트랙 사이에 페이드 효과를 적용합니다",
     "posterColorsDesc": "기본 색상 대신 포스터에서 생성된 색상을 사용",
     "passwordNotRequired": "필수 항목이 아닙니다. 링크에 비밀번호를 포함하지 않으려면 비워 두세요.",
     "unableToReverseAction": "이 작업은 되돌릴 수 없습니다. 모든 설정이 삭제됩니다.",
-    "deleteUserDesc": "사용자 {user}와 관련된 모든 설정이 영구적으로 삭제됩니다.",
+    "deleteUserDesc": "사용자 {user} 및 관련된 모든 설정이 영구적으로 삭제됩니다.",
     "@deleteUserDesc": {
         "description": "deleteUserDesc",
         "placeholders": {
@@ -1005,14 +1005,14 @@
         }
     },
     "playerSettingsScreensaverDesc": "플레이어를 조작하지 않을 때 표시할 화면 보호기를 선택하세요",
-    "enableAndRankImagesFetchers": "선호하는 이미지 제공자를 활성화하고 우선순위에 따라 순서를 지정하세요.",
+    "enableAndRankImagesFetchers": "사용할 이미지 수집기를 선택하고 우선순위에 따라 순서를 지정하세요.",
     "syncDeletePopupPermanent": "이 작업은 영구적이며 로컬로 동기화된 모든 파일이 삭제됩니다",
     "enableSpeedBoostDesc": "화면을 길게 누르거나(모바일) 스페이스바를 누르고 있으면(데스크톱) 재생 속도가 일시적으로 빨라집니다",
-    "enableAndRankMediaSegmentProviders": "선호하는 미디어 세그먼트 제공자를 활성화하고 우선순위에 따라 순서를 지정하세요.",
-    "skipSubtitlesIfAudioMatches": "기본 오디오 트랙이 다운로드 언어와 일치하면 건너뜁니다",
+    "enableAndRankMediaSegmentProviders": "사용할 미디어 구간 제공자를 선택하고 우선순위에 따라 순서를 지정하세요.",
+    "skipSubtitlesIfAudioMatches": "기본 오디오 트랙이 다운로드 언어와 일치하면 건너뛰기",
     "seerrPermissionDenied": "이 미디어 유형을 요청할 권한이 없습니다.",
-    "autoNextOffStaticDesc": "재생 시간이 30초 남았을 때 다음에 볼 화면을 표시합니다",
-    "playerSettingsAmbientBlurDescWarning": "앰비언트 블러는 저사양 기기에서 성능 문제를 일으킬 수 있습니다.",
+    "autoNextOffStaticDesc": "재생 시간이 30초 남았을 때 다음 볼 항목 화면을 표시합니다",
+    "playerSettingsAmbientBlurDescWarning": "앰비언트 흐림 효과는 저사양 기기에서 성능 문제를 일으킬 수 있습니다.",
     "incognitoModeDesc": "시크릿 모드를 사용하면 재생 상태가 서버로 전송되지 않습니다",
     "sportsCategoriesSubLabel": "스포츠 접두사와 일치하는 채널에 할당할 카테고리",
     "newsCategoriesSubLabel": "뉴스 접두사와 일치하는 채널에 할당할 카테고리",
@@ -1021,10 +1021,10 @@
     "kidsCategoriesSubLabel": "키즈 접두사와 일치하는 채널에 할당할 카테고리",
     "kidsCategories": "키즈 카테고리",
     "screensaverTime": "시간",
-    "screensaverBlack": "검정색",
+    "screensaverBlack": "검은 화면",
     "playerSettingsScreensaverTitle": "화면 보호기",
     "screensaverDvd": "DVD",
-    "screensaverLogo": "Logo",
+    "screensaverLogo": "로고",
     "showDetails": "상세 정보 표시",
     "showEmpty": "빈 항목 표시",
     "somethingWentWrong": "문제가 발생했습니다",
@@ -1048,7 +1048,7 @@
     "subtitles": "자막",
     "switchUser": "사용자 전환",
     "sync": "동기화",
-    "syncDeleteItemDesc": "{item}의 동기화된 데이터를 모두 삭제하시겠습니까?",
+    "syncDeleteItemDesc": "{item}의 동기화된 데이터를 모두 삭제할까요?",
     "@syncDeleteItemDesc": {
         "description": "Sync delete item pop-up window",
         "placeholders": {
@@ -1063,7 +1063,7 @@
     "syncPlaylistRemoveTracks": "트랙 삭제",
     "syncDetails": "동기화 상세 정보",
     "syncOpenParent": "상위 항목 열기",
-    "syncRemoveDataTitle": "동기화된 데이터를 삭제하시겠습니까?",
+    "syncRemoveDataTitle": "동기화된 데이터를 삭제할까요?",
     "syncedItems": "동기화된 항목",
     "tag": "{count, plural, one{태그} other{태그}}",
     "@tag": {
@@ -1092,7 +1092,7 @@
             }
         }
     },
-    "timeOut": "제한 시간 초과",
+    "timeOut": "시간 제한",
     "totalSize": "전체 크기: {size}",
     "@totalSize": {
         "placeholders": {
@@ -1111,7 +1111,7 @@
             }
         }
     },
-    "unPlayed": "재생되지 않음",
+    "unPlayed": "시청 안 함",
     "unableToConnectHost": "호스트에 연결할 수 없음",
     "unknown": "알 수 없음",
     "useDefaults": "기본값 사용",
@@ -1120,7 +1120,7 @@
     "videoScalingContain": "영역 맞춤",
     "videoScalingCover": "영역 채우기",
     "videoScalingFill": "화면에 맞춤",
-    "videoScalingFillScreenDesc": "네비게이션 바 및 상태 바 채우기",
+    "videoScalingFillScreenDesc": "탐색 바와 상태 표시줄까지 채우기",
     "videoScalingFillScreenNotif": "가로 회전 시 비디오 맞춤보다 전체 화면 채우기 우선 적용",
     "videoScalingFillScreenTitle": "전체 화면",
     "pictureInPictureTitle": "화면 속 화면 (PiP)",
@@ -1131,7 +1131,7 @@
     "@pictureInPictureAutoTitle": {
         "description": "Title of the auto-enter Picture-in-Picture setting toggle"
     },
-    "pictureInPictureNotSupported": "이 기기에서는 화면 속 화면을 사용할 수 없음",
+    "pictureInPictureNotSupported": "이 기기에서는 화면 속 화면을 사용할 수 없습니다",
     "@pictureInPictureNotSupported": {
         "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
     },
@@ -1222,7 +1222,7 @@
     "syncSelectDownloadsFolder": "다운로드 폴더 선택",
     "syncNoFolderSetup": "설정된 동기화 폴더 없음",
     "syncRemoveUnableToDeleteItem": "동기화된 항목을 제거할 수 없습니다. 오류가 발생했습니다",
-    "syncAddItemForSyncing": "{item} 항목이 동기화되도록 추가됨",
+    "syncAddItemForSyncing": "{item}을(를) 동기화 목록에 추가했습니다",
     "@syncAddItemForSyncing": {
         "placeholders": {
             "item": {
@@ -1230,7 +1230,7 @@
             }
         }
     },
-    "startedSyncingItem": "{item} 동기화를 시작함",
+    "startedSyncingItem": "{item} 동기화를 시작했습니다",
     "@startedSyncingItem": {
         "placeholders": {
             "item": {
@@ -1269,26 +1269,26 @@
     "subtitleConfiguration": "자막 설정",
     "off": "사용 안 함",
     "screenBrightness": "화면 밝기",
-    "enableEdgeGesturesTitle": "가장자리 제스처 활성화",
-    "reverseEdgeGesturesTitle": "가장자리 제스처 반전",
-    "reverseEdgeGesturesDesc": "밝기 및 볼륨 조절 위치 반전",
-    "scale": "화면 비율",
+    "enableEdgeGesturesTitle": "가장자리 제스처 사용",
+    "reverseEdgeGesturesTitle": "가장자리 제스처 좌우 바꾸기",
+    "reverseEdgeGesturesDesc": "밝기와 음량 조절 위치를 서로 바꿉니다",
+    "scale": "배율",
     "playBackSettings": "재생 설정",
-    "settingsAutoNextTitle": "다음 영상 미리보기",
+    "settingsAutoNextTitle": "다음 볼 항목 미리보기",
     "autoNextOffSmartTitle": "스마트",
     "autoNextOffStaticTitle": "고정",
     "playbackRate": "재생 속도",
     "speed": "속도",
-    "deleteRequestConfirmation": "이 요청을 삭제하시겠습니까?",
+    "deleteRequestConfirmation": "이 요청을 삭제할까요?",
     "settingsPlayerCrossfadeTitle": "크로스페이드",
-    "settingsPlayerCrossfadeDurationTitle": "크로스페이드 재생 시간",
-    "settingsPlayerCrossfadeDurationDesc": "크로스페이드 시간",
+    "settingsPlayerCrossfadeDurationTitle": "크로스페이드 길이",
+    "settingsPlayerCrossfadeDurationDesc": "크로스페이드가 지속되는 시간",
     "television": "텔레비전",
     "advancedVideoOptionsTitle": "고급 비디오 설정",
     "segmentActionSkipOnce": "한 번 건너뛰기",
-    "exitFladderDesc": "Fladder를 종료하시겠습니까?",
+    "exitFladderDesc": "Fladder를 종료할까요?",
     "closeWindow": "창 닫기",
-    "guestActor": "{count, plural, other{출연 게스트} one{출연 게스트}}",
+    "guestActor": "{count, plural, other{게스트 배우} one{게스트 배우}}",
     "@guestActor": {
         "description": "Guest actors",
         "placeholders": {
@@ -1300,13 +1300,13 @@
     },
     "playbackTypeTV": "TV",
     "keyboardShortCuts": "키보드 단축키",
-    "seekForwardInstant": "앞으로 이동 (즉시)",
-    "seekBackInstant": "뒤로 이동 (즉시)",
-    "stepForward": "다음 단계",
-    "stepBack": "이전 단계",
-    "speedUp": "빠르게",
-    "speedDown": "느리게",
-    "shortCutAlreadyAssigned": "단축키 '{hotKey}' 이미 할당됨",
+    "seekForwardInstant": "앞으로 탐색(즉시)",
+    "seekBackInstant": "뒤로 탐색(즉시)",
+    "stepForward": "한 프레임 앞으로",
+    "stepBack": "한 프레임 뒤로",
+    "speedUp": "속도 높이기",
+    "speedDown": "속도 낮추기",
+    "shortCutAlreadyAssigned": "단축키 '{hotKey}'은(는) 이미 할당되어 있습니다",
     "@shortCutAlreadyAssigned": {
         "placeholders": {
             "hotKey": {
@@ -1314,7 +1314,7 @@
             }
         }
     },
-    "volumeIndicator": "볼륨: {volume}",
+    "volumeIndicator": "음량: {volume}",
     "@volumeIndicator": {
         "placeholders": {
             "volume": {
@@ -1338,11 +1338,11 @@
             }
         }
     },
-    "enableSpeedBoostTitle": "속도 향상 활성화",
+    "enableSpeedBoostTitle": "배속 부스트 사용",
     "showInSideBarDesc": "빠른 접근을 위해 이 필터를 사이드바에 표시",
     "itemColorsDesc": "항목의 기본 색상을 상세 페이지 테마로 사용",
-    "deleteEpgProviderConfirm": "이 제공업체를 삭제하시겠습니까?",
-    "switchChannelDesc": "{channelName}에서 \"{programName}\"을(를) 시청하시겠습니까?",
+    "deleteEpgProviderConfirm": "이 제공자를 삭제할까요?",
+    "switchChannelDesc": "{channelName}에서 \"{programName}\"을(를) 시청할까요?",
     "@switchChannelDesc": {
         "placeholders": {
             "programName": {
@@ -1356,7 +1356,7 @@
     "skipSubtitlesIfEmbedded": "비디오에 이미 자막이 포함되어 있는 경우 건너뛰기",
     "onlyPerfectSubtitleMatch": "미디어와 정확히 일치하는 자막만 다운로드",
     "clientSettingsUseSystemIMEDesc": "시스템에서 제공하는 내장 키보드 사용",
-    "deleteTunerHostConfirm": "정말로 \"{name}\"을(를) 삭제하시겠습니까?",
+    "deleteTunerHostConfirm": "\"{name}\"을(를) 삭제할까요?",
     "@deleteTunerHostConfirm": {
         "placeholders": {
             "name": {
@@ -1373,18 +1373,18 @@
             }
         }
     },
-    "autoRefreshIntervalNote": "이 옵션을 활성화하면 라이브러리 새로고침 시간이 오래 걸릴 수 있습니다.",
-    "speedBoostRateTitle": "배속 증가율",
+    "autoRefreshIntervalNote": "이 옵션을 사용하면 라이브러리 새로 고침 시간이 길어질 수 있습니다.",
+    "speedBoostRateTitle": "배속 부스트 속도",
     "speedBoostRateDesc": "배속 부스트 활성화 시 재생 속도",
-    "enableDoubleTapSeekTitle": "화면 더블탭으로 탐색/재생/일시정지",
-    "showMore": "더보기",
+    "enableDoubleTapSeekTitle": "두 번 탭하여 탐색/재생/일시 정지",
+    "showMore": "더 보기",
     "showLess": "접기",
     "itemColorsTitle": "항목 색상",
     "posterColorsTitle": "생성된 포스터 색상",
     "mediaTunnelingTitle": "미디어 터널링",
     "mediaTunnelingDesc": "네이티브 플레이어의 미디어 터널링 사용",
     "clientSettingsUseSystemIMETitle": "시스템 키보드 사용",
-    "nextUpInCount": "{seconds}초 후 다음 콘텐츠 재생",
+    "nextUpInCount": "{seconds}초 후 다음 볼 항목 재생",
     "@nextUpInCount": {
         "placeholders": {
             "seconds": {
@@ -1411,12 +1411,12 @@
     "openImeKeyboard": "IME 키보드 열기",
     "settingsLocalUrlTitle": "로컬 Jellyfin URL",
     "settingsLocalUrlSetTitle": "로컬 Jellyfin URL 설정",
-    "regenerateTrickplayImages": "트릭플레이 이미지 재생성",
+    "regenerateTrickplayImages": "Trickplay 이미지 다시 생성",
     "controlDashboard": "제어 대시보드",
     "serverName": "서버 이름",
     "serverVersion": "서버 버전",
     "webVersion": "웹 버전",
-    "devices": "장치",
+    "devices": "기기",
     "used": "사용됨",
     "storagePaths": "저장소 경로",
     "programData": "프로그램 데이터",
@@ -1428,7 +1428,7 @@
     "scanAllLibraries": "모든 라이브러리 스캔",
     "restartServer": "서버 다시 시작",
     "shutDownServer": "서버 종료",
-    "dashboardDesc": "서버, 개수, 장치, 저장소",
+    "dashboardDesc": "서버, 개수, 기기, 저장소",
     "lastActivity": "최근 활동",
     "activeTasks": "실행 중인 작업",
     "hours": "{count, plural, one{시간} other{시간}}",
@@ -1451,7 +1451,7 @@
             }
         }
     },
-    "months": "{count, plural, one{월} other{월}}",
+    "months": "{count, plural, one{개월} other{개월}}",
     "@months": {
         "description": "Pluralization for months",
         "placeholders": {
@@ -1520,7 +1520,7 @@
     "time": "시간",
     "interval": "간격",
     "taskTimeLimitInHours": "시간 제한(시간)",
-    "taskTriggerIntervalDesc": "매 {time}마다",
+    "taskTriggerIntervalDesc": "{time}마다",
     "@taskTriggerIntervalDesc": {
         "description": "Task trigger interval desc",
         "placeholders": {
@@ -1565,7 +1565,7 @@
     "metadataPath": "메타데이터 경로",
     "maxConcurrentLibraryScanLabel": "최대 동시 라이브러리 스캔 수",
     "maxImageDecodingThreadsLabel": "최대 이미지 디코딩 스레드 수",
-    "deleteUserTitle": "사용자 {user}을(를) 삭제하시겠습니까?",
+    "deleteUserTitle": "사용자 {user}을(를) 삭제할까요?",
     "@deleteUserTitle": {
         "description": "deleteUserTitle",
         "placeholders": {
@@ -1573,5 +1573,608 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "sideBar": "사이드바",
+    "musicSideBar": "음악 사이드바",
+    "localNetworkPermissionRequest": "서버를 찾으려면 로컬 네트워크 액세스를 허용하세요.",
+    "requestPermission": "권한 요청",
+    "localNetworkPermissionDenied": "로컬 네트워크 액세스가 필요합니다. 시스템 설정에서 '근처 기기' 권한을 허용하세요.",
+    "openSettings": "설정 열기",
+    "userInformation": "사용자 정보",
+    "allowManageServer": "이 사용자의 서버 관리 허용",
+    "allowCollections": "이 사용자의 컬렉션 관리 허용",
+    "allowEditSubtitles": "이 사용자의 자막 편집 허용",
+    "featureAccess": "기능 액세스",
+    "allowLiveTVAccess": "라이브 TV 액세스 허용",
+    "allowLiveTVRecording": "라이브 TV 녹화 관리 허용",
+    "mediaPlayback": "미디어 재생",
+    "allowMediaPlayback": "미디어 재생 허용",
+    "allowVideoTranscoding": "트랜스코딩이 필요한 비디오 재생 허용",
+    "allowAudioTranscoding": "트랜스코딩이 필요한 오디오 재생 허용",
+    "allowMediaConversion": "미디어 변환이 필요한 비디오 재생 허용",
+    "forceRemoteTranscoding": "원격 소스 트랜스코딩 강제",
+    "syncplay": "SyncPlay",
+    "syncplayAccess": "SyncPlay 권한",
+    "syncplayAccessCreateAndJoinGroups": "그룹 생성 및 참여",
+    "syncplayAccessJoinGroups": "그룹 참여",
+    "syncplayAccessNone": "없음",
+    "allowMediaDeletion": "미디어 삭제 허용",
+    "allLibraries": "모든 라이브러리",
+    "libraryAccess": "라이브러리 액세스",
+    "enableAllLibraries": "모든 라이브러리에 대한 액세스 허용",
+    "enableAllDevices": "모든 기기에 대한 액세스 허용",
+    "parentalControl": "자녀 보호",
+    "blockedItemsNoRating": "등급 정보가 없거나 인식되지 않는 항목 차단",
+    "maxParentalRating": "최대 시청 등급",
+    "allowItemsTags": "다음 태그가 있는 항목 허용",
+    "blockItemsTags": "다음 태그가 있는 항목 차단",
+    "accessSchedules": "접속 시간 설정",
+    "addAccessSchedule": "접속 시간 추가",
+    "dayOfWeek": "요일",
+    "startTime": "시작 시간",
+    "endTime": "종료 시간",
+    "addTag": "태그 추가",
+    "createNewUser": "새 사용자 만들기",
+    "createUser": "사용자 만들기",
+    "users": "사용자",
+    "editUser": "사용자 편집",
+    "general": "일반",
+    "access": "액세스",
+    "endTimeMustBeAfter": "종료 시간은 시작 시간보다 늦어야 합니다",
+    "assignLibraries": "라이브러리 지정",
+    "enableAccessAllLibraries": "모든 라이브러리에 대한 액세스 허용",
+    "currentPassword": "현재 비밀번호",
+    "newPassword": "새 비밀번호",
+    "confirmPassword": "비밀번호 확인",
+    "resetPassword": "비밀번호 재설정",
+    "passwordResetSuccess": "비밀번호를 재설정했습니다",
+    "passwordResetFailed": "비밀번호를 재설정하지 못했습니다",
+    "passwordMismatch": "새 비밀번호와 비밀번호 확인이 일치하지 않습니다",
+    "passwordChangeSuccess": "비밀번호를 변경했습니다",
+    "savePassword": "비밀번호 저장",
+    "deleteLibraryConfirmTitle": "라이브러리를 삭제할까요?",
+    "noLibrarySelected": "선택한 라이브러리 없음",
+    "enabledPhotos": "사진 사용",
+    "enabledLUFSScan": "LUFS 분석 사용",
+    "enabledRealtimeMonitoring": "실시간 모니터링 사용",
+    "automaticallyAddToCollection": "컬렉션에 자동 추가",
+    "enabledEmbeddedTitles": "내장 제목 사용",
+    "enabledEmbeddedExtrasTitles": "부가 영상에 내장 제목 사용",
+    "automaticRefreshInterval": "자동 새로 고침 간격",
+    "preferredDownloadLanguage": "선호하는 다운로드 언어",
+    "countryRegion": "국가/지역",
+    "saveMetadata": "메타데이터 저장",
+    "metadataFetchers": "메타데이터 수집기({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "imageFetchers": "이미지 수집기({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentProviders": "미디어 구간 제공자",
+    "trickplay": "Trickplay",
+    "enableTrickplayImageExtraction": "Trickplay 이미지 추출 사용",
+    "extractTrickplayImagesDuringLibraryScan": "라이브러리 스캔 중 Trickplay 이미지 추출",
+    "saveTrickplayImagesNextToMedia": "Trickplay 이미지를 미디어 옆에 저장",
+    "chapterImages": "챕터 이미지",
+    "enableChapterImageExtraction": "챕터 이미지 추출 사용",
+    "extractChapterImagesDuringLibraryScan": "라이브러리 스캔 중 챕터 이미지 추출",
+    "subtitleDownloads": "자막 다운로드",
+    "downloadLanguages": "다운로드 언어",
+    "subtitleDownloaders": "자막 다운로더",
+    "saveSubtitlesNextToMedia": "자막을 미디어 옆에 저장",
+    "saveArtWorkNextToMedia": "아트워크를 미디어 파일 옆에 저장",
+    "select": "선택",
+    "newLibrary": "새 라이브러리",
+    "contentType": "콘텐츠 유형",
+    "metadataImageLongPressTouch": "길게 눌러 이미지 삭제",
+    "metadataImageLongPressClick": "마우스 오른쪽 버튼을 클릭해 이미지 삭제",
+    "primary": "기본",
+    "logo": "{count, plural, other{로고} one{로고}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, other{배경 이미지} one{배경 이미지}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "추가할 폴더 선택",
+    "systemRootFolder": "시스템 루트 폴더",
+    "selectedPath": "선택한 경로: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "recentlyAdded": "최근 추가됨",
+    "recentlyPlayed": "최근 재생함",
+    "recentlyFavorited": "최근 즐겨찾기에 추가함",
+    "mostPlayed": "가장 많이 재생함",
+    "recentRequests": "최근 요청",
+    "trending": "인기 급상승",
+    "popularMovies": "인기 영화",
+    "popularSeries": "인기 시리즈",
+    "expectedMovies": "개봉 예정 영화",
+    "expectedSeries": "방영 예정 시리즈",
+    "requestConfiguration": "요청 설정",
+    "qualityProfile": "품질 프로필",
+    "selectProfile": "프로필 선택",
+    "rootFolder": "루트 폴더",
+    "selectFolder": "폴더 선택",
+    "tags": "태그",
+    "noTags": "태그 없음",
+    "requestAs": "요청 사용자",
+    "requestQuotaStatus": "{limit}건 중 {remaining}건 남음({days}일마다 초기화)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "{mediaType} 요청 한도에 도달했습니다.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "요청 제출",
+    "noOverviewAvailable": "개요가 없습니다.",
+    "downloading": "다운로드 중",
+    "request": "요청",
+    "requestMore": "더 요청하기",
+    "viewRequest": "요청 보기",
+    "email": "이메일",
+    "username": "사용자 이름",
+    "ok": "확인",
+    "transcodeInfoTitle": "트랜스코딩 정보",
+    "transcodeInfoNoMetadata": "트랜스코딩 메타데이터가 없습니다.",
+    "transcodeDetailsTitle": "트랜스코딩 상세 정보",
+    "containerLabel": "컨테이너",
+    "videoCodecLabel": "비디오 코덱",
+    "audioCodecLabel": "오디오 코덱",
+    "bitrateLabel": "비트레이트",
+    "kbps": "kbps",
+    "resolutionLabel": "해상도",
+    "seerr": "Seerr",
+    "seerrNotConfigured": "설정되지 않음",
+    "seerrLoadingUser": "사용자 불러오는 중",
+    "seerrUnknownUser": "알 수 없는 사용자",
+    "loggedInAs": "{displayName}(으)로 로그인됨",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Seerr 서버",
+    "seerrAuthenticateLocal": "Seerr 인증(로컬)",
+    "rootFolderDefaultLabel": "{folder}(기본값)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* 이 시리즈는 애니메이션입니다.",
+    "seerrAutoApproveNotice": "제출한 요청은 자동으로 승인됩니다.",
+    "seerrRequestStatusPending": "대기 중",
+    "seerrRequestStatusApproved": "승인됨",
+    "seerrRequestStatusDeclined": "거절됨",
+    "seerrRequestStatusFailed": "실패",
+    "seerrRequestStatusCompleted": "완료됨",
+    "seerrMediaStatusProcessing": "처리 중",
+    "seerrMediaStatusPartiallyAvailable": "일부 이용 가능",
+    "seerrMediaStatusAvailable": "이용 가능",
+    "seerrMediaStatusBlacklisted": "차단됨",
+    "seerrMediaStatusDeleted": "삭제됨",
+    "seerrAuthApiKey": "API 키",
+    "seerrAuthLocal": "로컬",
+    "seerrAuthJellyfin": "Jellyfin",
+    "seerrUserFetchFailed": "Seerr에서 사용자 정보를 가져오지 못했습니다",
+    "seerrEnterServerUrlFirst": "먼저 Seerr 서버 URL을 입력하세요",
+    "seerrApiKeySaved": "API 키를 저장했습니다",
+    "seerrLoggedIn": "Seerr에 로그인했습니다",
+    "seerrConnectedToServer": "Seerr 서버에 연결됨: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrCustomHeaders": "사용자 지정 헤더",
+    "seerrHeader": "헤더",
+    "seerrHeaderValue": "값",
+    "emailUsername": "이메일/사용자 이름",
+    "discover": "둘러보기",
+    "sponsor": "후원",
+    "min": "최소",
+    "max": "최대",
+    "manageRequest": "요청 관리",
+    "requestAll": "모두 요청",
+    "openInSeerr": "Seerr에서 열기",
+    "openInSonarr": "Sonarr에서 열기",
+    "openInRadarr": "Radarr에서 열기",
+    "removeFromSonarr": "Sonarr에서 제거",
+    "removeFromRadarr": "Radarr에서 제거",
+    "markAllSeasonsAsAvailable": "모든 시즌을 이용 가능으로 표시",
+    "markAsAvailable": "이용 가능으로 표시",
+    "deleteData": "데이터 삭제",
+    "removedFromSonarr": "Sonarr에서 제거했습니다",
+    "removedFromRadarr": "Radarr에서 제거했습니다",
+    "markAllSeasonsAsAvailableConfirm": "모든 시즌을 이용 가능으로 표시할까요?",
+    "markAsAvailableConfirm": "이용 가능으로 표시할까요?",
+    "markedAsAvailable": "이용 가능으로 표시했습니다",
+    "dataDeleted": "데이터를 삭제했습니다",
+    "approve": "승인",
+    "decline": "거절",
+    "processing": "처리 중",
+    "seerrDetails": "Seerr 상세 정보",
+    "viewTrailer": "예고편 보기",
+    "watch": "시청",
+    "watchChannel": "{channel} 시청",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "지금",
+    "nowPlaying": "지금 재생 중",
+    "upNext": "다음 볼 항목",
+    "queue": "대기열",
+    "queueIsEmpty": "대기열이 비어 있습니다",
+    "queueItemCount": "항목 {count}개",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "대기열에서 제거",
+    "lyrics": "가사",
+    "returnToSyncedLyrics": "동기화된 가사로 돌아가기",
+    "noSyncedLyrics": "동기화된 가사가 없습니다",
+    "noPrograms": "프로그램이 없습니다",
+    "switchChannel": "채널 전환",
+    "specialFeature": "{count, plural, other{특별 영상} one{특별 영상} }",
+    "@specialFeature": {
+        "description": "special feature",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "activeTvChannels": "활성 TV 채널",
+    "enableNewTVLayout": "새 TV 레이아웃 사용",
+    "liveTV": "라이브 TV",
+    "liveTvManageTunersEpg": "튜너 장치 및 EPG 제공자 관리",
+    "tunerDevices": "튜너 장치",
+    "epgGuideProviders": "EPG 편성표 제공자",
+    "noTunerDevicesConfigured": "설정된 튜너 장치가 없습니다",
+    "noEpgProvidersConfigured": "설정된 EPG 제공자가 없습니다",
+    "addTunerDevice": "튜너 장치 추가",
+    "addProvider": "제공자 추가",
+    "tunerHostAddedSuccessfully": "튜너 호스트를 추가했습니다",
+    "failedToAddTunerHost": "튜너 호스트를 추가하지 못했습니다: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "튜너 호스트를 업데이트했습니다",
+    "failedToUpdateTunerHost": "튜너 호스트를 업데이트하지 못했습니다: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "튜너 호스트 삭제",
+    "tunerHostDeletedSuccessfully": "튜너 호스트를 삭제했습니다",
+    "failedToDeleteTunerHost": "튜너 호스트를 삭제하지 못했습니다: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "EPG 제공자를 추가했습니다",
+    "failedToAddEpgProvider": "EPG 제공자를 추가하지 못했습니다: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "EPG 제공자를 업데이트했습니다",
+    "failedToUpdateEpgProvider": "EPG 제공자를 업데이트하지 못했습니다: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "EPG 제공자 삭제",
+    "epgProviderDeletedSuccessfully": "EPG 제공자를 삭제했습니다",
+    "failedToDeleteEpgProvider": "EPG 제공자를 삭제하지 못했습니다: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "튜너 장치 편집",
+    "friendlyName": "표시 이름",
+    "url": "URL",
+    "userAgent": "사용자 에이전트",
+    "userAgentOptional": "사용자 에이전트(선택 사항)",
+    "maxConcurrentStreams": "최대 동시 스트림",
+    "addEpgProvider": "EPG 제공자 추가",
+    "editEpgProvider": "EPG 제공자 편집",
+    "xmltvPathUrl": "XMLTV 경로/URL",
+    "enableAllTuners": "모든 튜너에 사용",
+    "enabledTuners": "사용할 튜너",
+    "selectTuners": "튜너 선택",
+    "moviePrefix": "영화 접두사",
+    "movieCategories": "영화 카테고리",
+    "newsCategories": "뉴스 카테고리",
+    "sportsCategories": "스포츠 카테고리",
+    "fileOrUrl": "파일 또는 URL",
+    "tunerIpAddress": "튜너 IP 주소",
+    "fallbackMaxBitrate": "대체 최대 비트레이트(Mbps)",
+    "concurrentStreams": "최대 동시 스트림",
+    "concurrentStreamsHint": "0 = 무제한",
+    "allowFmp4Container": "fMP4 트랜스코딩 컨테이너 허용",
+    "allowStreamSharing": "스트림 공유 허용",
+    "enableStreamLooping": "스트림 반복 사용",
+    "ignoreDts": "DTS 타임스탬프 무시",
+    "readAtNativeFramerate": "원본 프레임레이트로 읽기",
+    "importFavoritesOnly": "즐겨찾는 채널만 가져오기",
+    "allowHWTranscoding": "하드웨어 트랜스코딩 허용",
+    "detectDevices": "장치 감지",
+    "discoveredDevices": "감지된 장치",
+    "noDevicesFound": "장치를 찾을 수 없습니다",
+    "failedToDiscoverDevices": "장치를 감지하지 못했습니다: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "경로",
+    "maxConcurrentStreamsLabel": "최대 동시 스트림",
+    "noCategories": "카테고리 없음",
+    "notifications": "알림",
+    "showNewItemNotificationTitle": "라이브러리 항목 알림",
+    "notificationChannelDescription": "새로 추가된 항목 알림",
+    "seerrRequestNotifications": "Seerr 요청 알림",
+    "notificationNewEpisodes": "새 에피소드가 추가되었습니다",
+    "notificationNewRequests": "{count, plural, one{새 요청 {count}건} other{새 요청 {count}건}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "updateCheckInterval": "업데이트 확인 간격",
+    "updateCheckIntervalDesc": "백그라운드 작업 실행 주기",
+    "notificationsIntervalClientReminder": "알림 간격은 모든 사용자에게 적용됩니다.",
+    "lastUpdateAt": "마지막 업데이트: {date} {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "숨겨진 라이브러리 포함",
+    "includeHiddenItemsDesc": "대시보드에서 숨긴 라이브러리도 포함합니다",
+    "settingsBlurEffectsTitle": "흐림 효과 사용",
+    "profileSettingsOpenAuthAtLaunch": "앱 잠금 시 인증 방법 표시",
+    "toggleSidebar": "사이드바 전환",
+    "requestedSuccessForItem": "{itemName}을(를) 요청했습니다",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "linkData": "데이터 연결",
+    "authLinkButtonToolTip": "인증 링크 창 열기",
+    "connectWithAuthLink": "인증 링크로 연결",
+    "pasteFladderAuthLink": "Fladder 인증 링크 붙여넣기 fladder://login?authLink=...",
+    "connect": "연결",
+    "deletedItem": "{itemName}을(를) 삭제했습니다",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "홈 화면 순서",
+    "hidePlayedInLatestTitle": "시청한 콘텐츠 숨기기",
+    "hidePlayedInLatestDescription": "'최근 추가된 미디어'에서 시청한 콘텐츠를 숨깁니다",
+    "groupedFoldersTitle": "그룹화된 라이브러리",
+    "downloadTranscoded": "트랜스코딩하여 다운로드",
+    "downloadOriginal": "원본 다운로드",
+    "personBirthday": "생일: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "나이: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "출생지: {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "영화 둘러보기",
+    "seerrSeries": "시리즈 둘러보기",
+    "today": "오늘",
+    "musicDashboard": "음악 대시보드",
+    "quiet": "조용하게",
+    "loud": "크게",
+    "share": "공유",
+    "setAs": "다음으로 설정",
+    "selectRandom": "무작위 선택",
+    "stopSelection": "선택 중지({count})",
+    "@stopSelection": {
+        "description": "stopSelection",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "playItems": "항목 재생",
+    "shuffleItems": "항목 셔플",
+    "disc": "디스크 {number}",
+    "@disc": {
+        "description": "disc",
+        "placeholders": {
+            "number": {
+                "type": "int"
+            }
+        }
+    },
+    "incognito": "시크릿",
+    "incognitoModeGlobal": "시크릿 모드(앱)",
+    "incognitoModeLocal": "시크릿 모드(프로필)",
+    "showInSideBar": "사이드바에 표시",
+    "showOnDashboard": "대시보드에 표시",
+    "hideInSideBar": "사이드바에서 숨기기",
+    "applyFilter": "필터 적용",
+    "playerSettingsAmbientBlurTitle": "앰비언트 흐림 효과 사용",
+    "openSelected": "선택한 항목 열기",
+    "discography": "디스코그래피",
+    "youLiked": "좋아요 표시한 항목",
+    "instantMixBy": "{artist} 인스턴트 믹스",
+    "@instantMixBy": {
+        "description": "Instant Mix of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "latestTracksBy": "{artist}의 최신 트랙",
+    "@latestTracksBy": {
+        "description": "Latest tracks by artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "favoritesOf": "{artist}의 즐겨찾기",
+    "@favoritesOf": {
+        "description": "Favorites of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "leanBackModeTitle": "린백 모드",
+    "libraryFilters": "라이브러리 필터",
+    "editYourLibraryFilters": "라이브러리 필터 편집",
+    "libraryFiltersTitle": "라이브러리 필터",
+    "libraryFiltersDesc": "라이브러리 필터를 사용하면 라이브러리를 원하는 기준으로 보여주는 사용자 지정 보기를 만들 수 있습니다",
+    "libraryNoFiltersSaved": "저장된 라이브러리 필터가 없습니다",
+    "addTo": "다음에 추가",
+    "deepLinkSwitchUserTitle": "사용자를 전환할까요?",
+    "deepLinkSwitchUserDesc": "{user} 계정에서는 이 항목을 이용할 수 없습니다. 다음 계정으로 열기:",
+    "@deepLinkSwitchUserDesc": {
+        "description": "Shown when a link points to an item the current user cannot access, followed by a list of accounts that can",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkSwitchAccountDesc": "이 링크는 {user} 계정의 링크입니다. 이 계정으로 전환할까요?",
+    "@deepLinkSwitchAccountDesc": {
+        "description": "Shown when a notification link was created for another saved account",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkItemNotFound": "어느 계정에서도 이 항목을 이용할 수 없습니다"
 }
