@@ -448,7 +448,7 @@ class FakeJellyfinOpenApi extends JellyfinOpenApi {
   }) async {
     return chopper.Response(
       FakeHelper.fakeCorrectResponse,
-      BaseItemDtoQueryResult(items: []),
+      const BaseItemDtoQueryResult(items: []),
     );
   }
 

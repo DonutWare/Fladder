@@ -218,7 +218,7 @@ void main() {
           name: 'Part 2',
           type: enums.BaseItemKind.video,
           mediaSources: [
-            dto.MediaSourceInfo(
+            const dto.MediaSourceInfo(
               id: 'source1',
               mediaStreams: [
                 dto.MediaStream(
