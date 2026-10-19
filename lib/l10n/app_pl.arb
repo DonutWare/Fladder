@@ -428,7 +428,7 @@
         }
     },
     "syncStatusComplete": "Zakończone",
-    "syncStatusRunning": "Działa",
+    "syncStatusRunning": "Pobieranie",
     "syncStatusEnqueued": "Zakolejkowane",
     "syncStatusCanceled": "Anulowane",
     "syncStatusNotFound": "Nie znaleziono",
@@ -2161,5 +2161,25 @@
     "addTo": "Dodaj do",
     "sideBar": "Panel boczny",
     "musicSideBar": "Panel z muzyką",
-    "showOnDashboard": "Pokaż w panelu głównym"
+    "showOnDashboard": "Pokaż w panelu głównym",
+    "deepLinkSwitchUserTitle": "Zmienić użytkownika?",
+    "deepLinkSwitchUserDesc": "Ten element nie jest dostępny dla {user}. Otwórz jako:",
+    "@deepLinkSwitchUserDesc": {
+        "description": "Shown when a link points to an item the current user cannot access, followed by a list of accounts that can",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkSwitchAccountDesc": "Ten link nie jest dostępny dla {user}. Zmienić konto?",
+    "@deepLinkSwitchAccountDesc": {
+        "description": "Shown when a notification link was created for another saved account",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkItemNotFound": "Ten element nie jest dostępny dla żadnego z kont"
 }
