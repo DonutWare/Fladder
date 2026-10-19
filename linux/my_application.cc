@@ -84,7 +84,7 @@ static gboolean my_application_local_command_line(GApplication *application, gch
 	if (!g_application_register(application, nullptr, &error))
 	{
 		g_warning("Failed to register: %s", error->message);
-		g_application_set_flags(application, g_application_get_flags(application) | G_APPLICATION_NON_UNIQUE);
+		g_application_set_flags(application, static_cast<GApplicationFlags>(g_application_get_flags(application) | G_APPLICATION_NON_UNIQUE));
 	}
 
 	return G_APPLICATION_CLASS(my_application_parent_class)->local_command_line(application, arguments, exit_status);
