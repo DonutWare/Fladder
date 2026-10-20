@@ -44,6 +44,12 @@ Source: "{#SourcePath}\build\windows\x64\runner\Release\*"; DestDir: "{app}"; Fl
 Name: "{autoprograms}\Fladder"; Filename: "{app}\fladder.exe"
 Name: "{autodesktop}\Fladder"; Filename: "{app}\fladder.exe"; Tasks: desktopicon
 
+[Registry]
+Root: HKA; Subkey: "Software\Classes\fladder"; ValueType: string; ValueName: ""; ValueData: "URL:Fladder"; Flags: uninsdeletekey
+Root: HKA; Subkey: "Software\Classes\fladder"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""
+Root: HKA; Subkey: "Software\Classes\fladder\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: """{app}\fladder.exe"",0"
+Root: HKA; Subkey: "Software\Classes\fladder\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\fladder.exe"" ""%1"""
+
 [Run]
 Filename: "{app}\fladder.exe"; Description: "{cm:LaunchProgram,Fladder}"; Flags: nowait postinstall skipifsilent
 

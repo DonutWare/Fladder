@@ -12,6 +12,7 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
@@ -94,13 +95,18 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
 
     player.init(ref.read(videoPlayerSettingsProvider));
 
+    final syncedVideo = (await ref.read(syncProvider.notifier).getSyncedItem(widget.video.id))?.videoFile;
+    if (!mounted) return;
+
     final baseUrl = ref.read(serverUrlProvider) ?? '';
-    videoUrl = buildServerUriFromBase(
-          baseUrl,
-          pathSegments: ['Videos', widget.video.id, 'stream'],
-          queryParameters: directOptions,
-        )?.toString() ??
-        '';
+    videoUrl = syncedVideo != null && syncedVideo.existsSync()
+        ? syncedVideo.path
+        : buildServerUriFromBase(
+              baseUrl,
+              pathSegments: ['Videos', widget.video.id, 'stream'],
+              queryParameters: directOptions,
+            )?.toString() ??
+            '';
 
     subscriptions.add(player.stateStream.listen((event) {
       setState(() {

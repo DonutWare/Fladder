@@ -6,10 +6,12 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
+import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/music_dashboard_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -51,6 +53,8 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
   final selectedPoster = ValueNotifier<ItemBaseModel?>(null);
   MusicTrackSection _selectedRecentTrackSection = MusicTrackSection.recentlyAdded;
 
+  bool _refreshing = false;
+
   @override
   void initState() {
     super.initState();
@@ -66,10 +70,14 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
   }
 
   Future<void> _refreshHome() async {
-    if (mounted) {
+    if (!mounted) return;
+    _refreshing = true;
+    try {
       await ref.read(userProvider.notifier).updateInformation();
       await ref.read(viewsProvider.notifier).fetchViews();
       await ref.read(musicDashboardProvider.notifier).fetchMusicHome();
+    } finally {
+      _refreshing = false;
     }
   }
 
@@ -77,6 +85,11 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
   Widget build(BuildContext context) {
     final padding = AdaptiveLayout.adaptivePadding(context);
     final musicDashboard = ref.watch(musicDashboardProvider);
+
+    ref.listen(libraryFiltersByKeyProvider(FilterSortKey.musicDashboard), (previous, next) {
+      if (_refreshing || const ListEquality<LibraryFiltersModel>().equals(previous, next)) return;
+      ref.read(musicDashboardProvider.notifier).fetchDashboardFilters();
+    });
     final useTVExpandedLayout = ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout));
     final viewSize = AdaptiveLayout.viewSizeOf(context);
     final layoutMode = AdaptiveLayout.of(context).layoutMode;

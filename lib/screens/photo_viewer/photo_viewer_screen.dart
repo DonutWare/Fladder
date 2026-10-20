@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -250,10 +251,9 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                     children: [
                       if (state.extendedImageLoadState != LoadState.completed)
                         Positioned.fill(
-                          child: CachedNetworkImage(
+                          child: Image(
                             fit: BoxFit.contain,
-                            cacheManager: CustomCacheManager.instance,
-                            imageUrl: photo.thumbnail?.primary?.path ?? "",
+                            image: _photoImageProvider(photo.thumbnail?.primary?.path),
                           ),
                         ),
                       switch (state.extendedImageLoadState) {
@@ -297,10 +297,7 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                     ],
                   );
                 },
-                image: CachedNetworkImageProvider(
-                  photo.images?.primary?.path ?? "",
-                  cacheManager: CustomCacheManager.instance,
-                ),
+                image: _photoImageProvider(photo.images?.primary?.path),
               );
             },
           ),
@@ -549,20 +546,21 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
     photos
         .getRange((index - range).clamp(0, photos.length - 1), (index + range).clamp(0, photos.length - 1))
         .forEach((element) {
-      precacheImage(
-          CachedNetworkImageProvider(
-            element.thumbnail?.primary?.path ?? "",
-            cacheManager: CustomCacheManager.instance,
-          ),
-          context);
+      precacheImage(_photoImageProvider(element.thumbnail?.primary?.path), context);
       if (AdaptiveLayout.of(context).isDesktop) {
-        precacheImage(
-            CachedNetworkImageProvider(
-              element.images?.primary?.path ?? "",
-              cacheManager: CustomCacheManager.instance,
-            ),
-            context);
+        precacheImage(_photoImageProvider(element.images?.primary?.path), context);
       }
     });
   }
+}
+
+ImageProvider _photoImageProvider(String? path) {
+  final imagePath = path ?? "";
+  if (imagePath.isNotEmpty && !imagePath.startsWith("http")) {
+    return FileImage(File(imagePath));
+  }
+  return CachedNetworkImageProvider(
+    imagePath,
+    cacheManager: CustomCacheManager.instance,
+  );
 }
