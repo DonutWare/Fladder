@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
@@ -214,6 +215,10 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
       );
     }
 
+    final trickPlayMap =
+        (item.trickplay != null && item.trickplay!.isNotEmpty) ? TrickPlayModel.toTrickPlayMap(item.trickplay!) : null;
+    final singleTrickPlayModel = trickPlayMap?.values.lastOrNull;
+
     return EpisodeModel(
       seriesName: item.seriesName,
       name: item.name ?? "",
@@ -224,7 +229,7 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
       parentId: item.seriesId,
       playlistId: item.playlistItemId,
       dateAired: item.premiereDate,
-      chapters: Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], ref),
+      chapters: Chapter.chaptersFromInfo(item.id ?? "", item.chapters ?? [], singleTrickPlayModel, ref),
       images: ImagesData.fromBaseItem(item, ref),
       primaryRatio: item.primaryImageAspectRatio,
       season: item.parentIndexNumber ?? 0,
