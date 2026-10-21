@@ -1712,6 +1712,8 @@
   "posterColorsDesc": "Use generated colors for posters in place of the default color",
   "mediaTunnelingTitle": "Media tunneling",
   "mediaTunnelingDesc": "Enable media tunneling for native player",
+  "refreshRateSwitchingTitle": "Refresh Rate Matching",
+  "refreshRateSwitchingDesc": "Match display refresh rate to video frame rate",
   "clientSettingsUseSystemIMETitle": "Use system keyboard",
   "clientSettingsUseSystemIMEDesc": "Use the built-in keyboard provided by your system",
   "nextUpInCount": "Next-up in {seconds}",

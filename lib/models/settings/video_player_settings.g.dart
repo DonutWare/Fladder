@@ -46,6 +46,7 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(Map<String, dynamic
       enablePlayPauseFade: json['enablePlayPauseFade'] as bool? ?? true,
       enableCrossfade: json['enableCrossfade'] as bool? ?? true,
       crossfadeDurationMs: (json['crossfadeDurationMs'] as num?)?.toInt() ?? 400,
+      refreshRateSwitching: json['refreshRateSwitching'] as bool? ?? false,
       ambientBlur: json['ambientBlur'] as bool? ?? false,
     );
 
@@ -80,6 +81,7 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(_VideoPlayerSettingsModel 
       'enablePlayPauseFade': instance.enablePlayPauseFade,
       'enableCrossfade': instance.enableCrossfade,
       'crossfadeDurationMs': instance.crossfadeDurationMs,
+      'refreshRateSwitching': instance.refreshRateSwitching,
       'ambientBlur': instance.ambientBlur,
     };
 
