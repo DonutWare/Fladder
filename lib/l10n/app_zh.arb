@@ -2201,5 +2201,6 @@
             }
         }
     },
-    "deepLinkItemNotFound": "此项目在您的任何账户中均不可用"
+    "deepLinkItemNotFound": "此项目在您的任何账户中均不可用",
+    "settingsServerUrlSetDesc": "更改用于连接至 Jellyfin 服务器的地址。新的 URL 必须指向同一台服务器。"
 }
