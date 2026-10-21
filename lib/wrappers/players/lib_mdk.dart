@@ -127,11 +127,17 @@ class LibMDK extends BasePlayer {
   }
 
   @override
-  Future<void> open(BuildContext context) async => Navigator.of(context, rootNavigator: true).push(
-        MaterialPageRoute(
-          builder: (context) => const video_screen.VideoPlayer(),
-        ),
-      );
+  Future<void> open(BuildContext context) async {
+    final route = MaterialPageRoute<void>(
+      settings: const RouteSettings(name: videoPlayerRouteName),
+      builder: (context) => const video_screen.VideoPlayer(),
+    );
+    playerRoute = route;
+    await Navigator.of(context, rootNavigator: true).push(route);
+    if (identical(playerRoute, route)) {
+      playerRoute = null;
+    }
+  }
 
   @override
   Future<void> pause() async {

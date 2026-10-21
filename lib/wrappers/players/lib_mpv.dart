@@ -16,6 +16,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/playback/transcode_playback_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
@@ -384,11 +385,17 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> open(BuildContext context) async => Navigator.of(context, rootNavigator: true).push(
-        MaterialPageRoute(
-          builder: (context) => const video_screen.VideoPlayer(),
-        ),
-      );
+  Future<void> open(BuildContext context) async {
+    final route = MaterialPageRoute<void>(
+      settings: const RouteSettings(name: videoPlayerRouteName),
+      builder: (context) => const video_screen.VideoPlayer(),
+    );
+    playerRoute = route;
+    await Navigator.of(context, rootNavigator: true).push(route);
+    if (identical(playerRoute, route)) {
+      playerRoute = null;
+    }
+  }
 
   List<mpv.SubtitleTrack> get subTracks => _player?.state.tracks.subtitle ?? [];
   mpv.SubtitleTrack get subtitleTrack => _player?.state.track.subtitle ?? mpv.SubtitleTrack.no();
@@ -466,6 +473,10 @@ class LibMPV extends BasePlayer {
   @override
   Future<void> seek(Duration position) async => _player?.seek(position);
 
+  /// media-kit's real state; [lastState] only mirrors [_musicPaused].
+  @override
+  bool get isPlaying => _player?.state.playing ?? lastState.playing;
+
   // mpv parses tracks asynchronously after open(); at playback start the list is still empty, so a
   // positional lookup would miss and leave mpv on its own default pick. Wait (capped) for [index].
   Future<void> _awaitTrack(int index, int Function(mpv.Tracks) count) async {
@@ -482,6 +493,9 @@ class LibMPV extends BasePlayer {
     if (wantedAudioStream == null) return -1;
     if (wantedAudioStream.index == AudioStreamModel.no().index) {
       await _player?.setAudioTrack(mpv.AudioTrack.no());
+    } else if (playbackModel is TranscodePlaybackModel) {
+      // The server picks the audio track for a transcode; the reload applies it.
+      return wantedAudioStream.index;
     } else {
       final index = (playbackModel.audioStreams?.indexOf(wantedAudioStream) ?? -1) - 1;
       await _awaitTrack(index, (tracks) => tracks.audio.length);
@@ -506,6 +520,11 @@ class LibMPV extends BasePlayer {
       return -1;
     }
     _currentSubtitleCodec = wantedSubtitle.codec;
+    // A non-external subtitle on a transcode is burned in by the server: there is no selectable track, and
+    // waiting for one only stalls the caller for the whole `_awaitTrack` timeout before the reload.
+    if (playbackModel is TranscodePlaybackModel && !wantedSubtitle.isExternal) {
+      return wantedSubtitle.index;
+    }
     final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id) ?? -1;
     if (!wantedSubtitle.isExternal) await _awaitTrack(index, (tracks) => tracks.subtitle.length);
     final internalTrack = subTracks.getRange(2, subTracks.length).toList();

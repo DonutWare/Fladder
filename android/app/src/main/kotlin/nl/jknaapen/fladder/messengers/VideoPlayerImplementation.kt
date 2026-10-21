@@ -1,7 +1,10 @@
 package nl.jknaapen.fladder.messengers
 
+import PlaybackChangeSource
+import PlaybackType
 import PlayableData
 import SubtitleSettings
+import SyncPlayCommandType
 import TVGuideModel
 import VideoPlayerApi
 import android.os.Handler
@@ -140,19 +143,29 @@ class VideoPlayerImplementation(
     }
 
     override fun play() {
+        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.SYNCPLAY)
         player?.play()
     }
 
     override fun pause() {
+        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.SYNCPLAY)
         player?.pause()
     }
 
     override fun seekTo(position: Long) {
+        VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.SYNCPLAY)
         player?.seekTo(position)
     }
 
     override fun stop() {
         player?.stop()
+    }
+
+    override fun setSyncPlayCommandState(processing: Boolean, commandType: SyncPlayCommandType) {
+        VideoPlayerObject.setSyncPlayCommandState(
+            processing = processing,
+            commandType = commandType
+        )
     }
 
     fun init(exoPlayer: ExoPlayer?) {

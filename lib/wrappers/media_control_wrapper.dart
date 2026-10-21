@@ -2,15 +2,8 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-
 import 'package:audio_service/audio_service.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
-import 'package:wakelock_plus/wakelock_plus.dart';
-
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
@@ -39,6 +32,11 @@ import 'package:fladder/wrappers/multi_window_media_session.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
 import 'package:fladder/wrappers/players/native_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 part 'audio_queue_handler.dart';
 
@@ -61,8 +59,12 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   Stream<PlayerState> get stateStream => _stateController.stream;
   PlayerState? get lastState => _player?.lastState;
 
+  /// The backend's real playing state, see [BasePlayer.isPlaying].
+  bool get isPlayerPlaying => _player?.isPlaying ?? false;
+
   Widget? subtitleWidget(bool showOverlay, {GlobalKey? controlsKey}) =>
       _player?.subtitles(showOverlay, controlsKey: controlsKey);
+
   Widget? videoWidget(Key key, BoxFit fit) => _player?.videoWidget(key, fit);
 
   final Ref ref;
@@ -130,6 +132,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       _playerStateSubscription?.cancel();
     } finally {
       _player?.dispose();
+    }
+    if (_player is NativePlayer) {
+      ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
     }
   }
 
@@ -202,7 +207,35 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     _previousPlayer = null;
   }
 
-  Future<void> openPlayer(BuildContext context) async => _player?.open(context);
+  bool get isNativePlayerActive => _player is NativePlayer;
+
+  Future<void> updateSyncPlayCommandState(
+    bool processing,
+    SyncPlayCommandType commandType,
+  ) async {
+    if (_player is NativePlayer) {
+      await (_player as NativePlayer).player.setSyncPlayCommandState(processing, commandType);
+    }
+  }
+
+  /// The native activity has no Flutter route, so its route-open flag is maintained here.
+  Future<void> openPlayer(BuildContext context) async {
+    if (_player is NativePlayer) {
+      ref.read(isVideoPlayerRouteOpenProvider.notifier).state = true;
+      ref.read(videoPlayerProvider.notifier).refreshNativeOverlay();
+    }
+    return _player?.open(context);
+  }
+
+  /// Removes the player route wherever it sits in the stack; no-op for the native player (closed by [stop]).
+  void closePlayerRoute() {
+    final player = _player;
+    final route = player?.playerRoute;
+    if (route != null && route.isActive) {
+      route.navigator?.removeRoute(route);
+    }
+    player?.playerRoute = null;
+  }
 
   Future<void> _updatePositionWithRetry(PlaybackModel model, Duration position, bool isPlaying) async {
     try {
@@ -532,6 +565,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     unawaited(_applyWakelock(false));
 
     _player?.stop();
+    if (_player is NativePlayer) {
+      ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
+    }
     ref.read(windowTitleProvider.notifier).setPlayTitle(null);
 
     final position = _player?.lastState.position;
@@ -649,8 +685,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     if (previousVideo != null && !buffering) ref.read(playbackModelHelper).loadNewVideo(previousVideo);
   }
 
+  /// The native activity was closed by the user: halt group playback on this device before teardown.
   @override
-  void onStop() => stop();
+  void onStop() => ref.read(videoPlayerProvider.notifier).userStop();
 
   @override
   void swapAudioTrack(int value) async {
@@ -659,7 +696,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
         playbackModel.audioStreams?.firstWhere((element) => element.index == value), this);
     ref.read(playBackModel.notifier).update((state) => newModel);
     if (newModel != null) {
-      await ref.read(playbackModelHelper).shouldReload(newModel);
+      await ref.read(playbackModelHelper).shouldReload(
+            newModel,
+            isLocalTrackSwitch: true,
+          );
     }
   }
 
@@ -670,7 +710,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
         playbackModel.subStreams?.firstWhere((element) => element.index == value), this);
     ref.read(playBackModel.notifier).update((state) => newModel);
     if (newModel != null) {
-      await ref.read(playbackModelHelper).shouldReload(newModel);
+      await ref.read(playbackModelHelper).shouldReload(
+            newModel,
+            isLocalTrackSwitch: true,
+          );
     }
   }
 
