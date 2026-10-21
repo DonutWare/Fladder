@@ -4,6 +4,9 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <application
+        android:networkSecurityConfig="@xml/network_security_config">
+    </application>
     
     <!-- Used for testing android tv on macos where impeller crashes the emulator -->
     <!-- <application>

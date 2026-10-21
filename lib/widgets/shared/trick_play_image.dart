@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/util/http_client.dart';
 
 class TrickPlayImage extends ConsumerStatefulWidget {
   final TrickPlayModel trickPlay;
@@ -81,7 +82,8 @@ class _TrickPlayImageState extends ConsumerState<TrickPlayImage> {
   }
 
   Future<void> loadNetworkImage(String url) async {
-    final http.Response response = await http.get(Uri.parse(url));
+    final client = createHttpClient();
+    final http.Response response = await client.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final Uint8List bytes = response.bodyBytes;
       final ui.Codec codec = await ui.instantiateImageCodec(bytes);
