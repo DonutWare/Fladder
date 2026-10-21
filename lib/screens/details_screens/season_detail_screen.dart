@@ -157,15 +157,22 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                       episodes: details.episodes,
                       padding: padding,
                     ),
-                  if (details.overview.people.mainCast.isNotEmpty)
+                  if (details.overview.people.actors.isNotEmpty)
                     PeopleRow(
-                      people: details.overview.people.mainCast,
+                      people: details.overview.people.actors,
                       contentPadding: padding,
+                      label: context.localized.actor(2),
                     ),
                   if (details.overview.people.guestActors.isNotEmpty)
                     PeopleRow(
                       people: details.overview.people.guestActors,
                       contentPadding: padding,
+                    ),
+                  if (details.overview.people.crew.isNotEmpty)
+                    PeopleRow(
+                      people: details.overview.people.crew,
+                      contentPadding: padding,
+                      label: context.localized.crew,
                     ),
                   if (details.specialFeatures.isNotEmpty)
                     SpecialFeaturesRow(
