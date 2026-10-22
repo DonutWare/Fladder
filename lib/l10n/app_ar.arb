@@ -2204,5 +2204,6 @@
             }
         }
     },
-    "deepLinkItemNotFound": "هذا العنصر غير متاح لأي من حساباتك"
+    "deepLinkItemNotFound": "هذا العنصر غير متاح لأي من حساباتك",
+    "settingsServerUrlSetDesc": "غيّر العنوان المستخدم للاتصال بخادم Jellyfin. يجب أن يشير الرابط الجديد إلى الخادم نفسه."
 }
