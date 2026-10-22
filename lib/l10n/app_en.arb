@@ -2894,5 +2894,6 @@
       }
     }
   },
-  "deepLinkItemNotFound": "This item isn't available for any of your accounts"
+  "deepLinkItemNotFound": "This item isn't available for any of your accounts",
+  "row": "Row"
 }

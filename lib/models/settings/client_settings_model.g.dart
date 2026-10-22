@@ -49,6 +49,7 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       forceLeanBackMode: json['forceLeanBackMode'] as bool? ?? false,
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
+      episodeViewType: $enumDecodeNullable(_$EpisodeDetailsViewTypeEnumMap, json['episodeViewType']),
       shortcuts: (json['shortcuts'] as Map<String, dynamic>?)?.map(
             (k, e) =>
                 MapEntry($enumDecode(_$GlobalHotKeysEnumMap, k), KeyCombination.fromJson(e as Map<String, dynamic>)),
@@ -91,6 +92,7 @@ Map<String, dynamic> _$ClientSettingsModelToJson(_ClientSettingsModel instance) 
       'forceLeanBackMode': instance.forceLeanBackMode,
       'lastViewedUpdate': instance.lastViewedUpdate,
       'libraryPageSize': instance.libraryPageSize,
+      'episodeViewType': _$EpisodeDetailsViewTypeEnumMap[instance.episodeViewType],
       'shortcuts': instance.shortcuts.map((k, e) => MapEntry(_$GlobalHotKeysEnumMap[k]!, e)),
     };
 
@@ -134,6 +136,11 @@ const _$BackgroundTypeEnumMap = {
   BackgroundType.disabled: 'disabled',
   BackgroundType.enabled: 'enabled',
   BackgroundType.blurred: 'blurred',
+};
+
+const _$EpisodeDetailsViewTypeEnumMap = {
+  EpisodeDetailsViewType.list: 'list',
+  EpisodeDetailsViewType.grid: 'grid',
 };
 
 const _$GlobalHotKeysEnumMap = {

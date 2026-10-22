@@ -5,7 +5,9 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/season_model.dart';
+import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/items/season_details_provider.dart';
+import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
@@ -19,8 +21,6 @@ import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/people_extension.dart';
-import 'package:fladder/util/string_extensions.dart';
-import 'package:fladder/util/theme_extensions.dart';
 import 'package:fladder/util/widget_extensions.dart';
 import 'package:fladder/widgets/shared/selectable_icon_button.dart';
 
@@ -33,13 +33,14 @@ class SeasonDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
-  Set<EpisodeDetailsViewType> viewOptions = {EpisodeDetailsViewType.grid};
   AutoDisposeStateNotifierProvider<SeasonDetailsNotifier, SeasonModel?> get providerId =>
       seasonDetailsProvider(widget.item.id);
 
   @override
   Widget build(BuildContext context) {
     final details = ref.watch(providerId);
+    final viewType =
+        ref.watch(clientSettingsProvider.select((value) => value.episodeViewType)) ?? EpisodeDetailsViewType.grid;
 
     return DetailScaffold(
       label: details?.localizedName(context.localized) ?? "",
@@ -101,40 +102,10 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                       ),
                       Row(
                         children: [
-                          SegmentedButton(
-                            style: ButtonStyle(
-                              backgroundColor: WidgetStateProperty.resolveWith((state) {
-                                if (state.contains(WidgetState.selected)) {
-                                  return context.colors.primaryContainer;
-                                }
-                                return context.colors.surfaceContainer;
-                              }),
-                              padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 8, horizontal: 16)),
-                              elevation: const WidgetStatePropertyAll(5),
-                              side: const WidgetStatePropertyAll(BorderSide.none),
-                            ),
-                            showSelectedIcon: true,
-                            segments: EpisodeDetailsViewType.values
-                                .map(
-                                  (e) => ButtonSegment(
-                                    value: e,
-                                    icon: Icon(e.icon),
-                                    label: SizedBox(
-                                        height: 40,
-                                        child: Center(
-                                          child: Text(
-                                            e.name.capitalize(),
-                                          ),
-                                        )),
-                                  ),
-                                )
-                                .toList(),
-                            selected: viewOptions,
-                            onSelectionChanged: (newOptions) {
-                              setState(() {
-                                viewOptions = newOptions;
-                              });
-                            },
+                          EpisodeViewTypeSelector(
+                            options: EpisodeDetailsViewType.values,
+                            selected: viewType,
+                            onChanged: (value) => ref.read(clientSettingsProvider.notifier).setEpisodeViewType(value),
                           ),
                         ],
                       ),
@@ -153,7 +124,7 @@ class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
                     PersonList(label: context.localized.writer(2), people: details.overview.writers).padding(padding),
                   if (details.episodes.isNotEmpty)
                     EpisodeDetailsList(
-                      viewType: viewOptions.first,
+                      viewType: viewType,
                       episodes: details.episodes,
                       padding: padding,
                     ),
