@@ -60,6 +60,7 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
     required super.canDownload,
     required super.canDelete,
     super.jellyType,
+    super.partCount,
   });
   @override
   String? detailedName(AppLocalizations l10n) => "$name${overview.yearAired != null ? " (${overview.yearAired})" : ""}";
@@ -123,6 +124,7 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
         seerrRelated: const [],
         seerrRecommended: const [],
         providerIds: item.providerIds,
+        partCount: item.partCount ?? 1,
       );
     }
 
@@ -148,6 +150,7 @@ class MovieModel extends ItemStreamModel with MovieModelMappable {
       seerrRelated: const [],
       seerrRecommended: const [],
       providerIds: item.providerIds,
+      partCount: item.partCount ?? 1,
     );
   }
 }

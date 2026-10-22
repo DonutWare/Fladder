@@ -140,6 +140,8 @@ class AudioModelMapper extends SubClassMapperBase<AudioModel> {
   static const Field<AudioModel, bool> _f$canDownload = Field('canDownload', _$canDownload, opt: true);
   static dto.BaseItemKind? _$jellyType(AudioModel v) => v.jellyType;
   static const Field<AudioModel, dto.BaseItemKind> _f$jellyType = Field('jellyType', _$jellyType, opt: true);
+  static int _$partCount(AudioModel v) => v.partCount;
+  static const Field<AudioModel, int> _f$partCount = Field('partCount', _$partCount, opt: true, def: 1);
 
   @override
   final MappableFields<AudioModel> fields = const {
@@ -165,6 +167,7 @@ class AudioModelMapper extends SubClassMapperBase<AudioModel> {
     #canDelete: _f$canDelete,
     #canDownload: _f$canDownload,
     #jellyType: _f$jellyType,
+    #partCount: _f$partCount,
   };
   @override
   final bool ignoreNull = true;
@@ -199,7 +202,8 @@ class AudioModelMapper extends SubClassMapperBase<AudioModel> {
         mediaStreams: data.dec(_f$mediaStreams),
         canDelete: data.dec(_f$canDelete),
         canDownload: data.dec(_f$canDownload),
-        jellyType: data.dec(_f$jellyType));
+        jellyType: data.dec(_f$jellyType),
+        partCount: data.dec(_f$partCount));
   }
 
   @override
@@ -247,7 +251,8 @@ abstract class AudioModelCopyWith<$R, $In extends AudioModel, $Out> implements I
       MediaStreamsModel? mediaStreams,
       bool? canDelete,
       bool? canDownload,
-      dto.BaseItemKind? jellyType});
+      dto.BaseItemKind? jellyType,
+      int? partCount});
   AudioModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -296,7 +301,8 @@ class _AudioModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AudioModel
           MediaStreamsModel? mediaStreams,
           Object? canDelete = $none,
           Object? canDownload = $none,
-          Object? jellyType = $none}) =>
+          Object? jellyType = $none,
+          int? partCount}) =>
       $apply(FieldCopyWithData({
         if (album != $none) #album: album,
         if (albumId != $none) #albumId: albumId,
@@ -319,7 +325,8 @@ class _AudioModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AudioModel
         if (mediaStreams != null) #mediaStreams: mediaStreams,
         if (canDelete != $none) #canDelete: canDelete,
         if (canDownload != $none) #canDownload: canDownload,
-        if (jellyType != $none) #jellyType: jellyType
+        if (jellyType != $none) #jellyType: jellyType,
+        if (partCount != null) #partCount: partCount
       }));
   @override
   AudioModel $make(CopyWithData data) => AudioModel(
@@ -344,7 +351,8 @@ class _AudioModelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, AudioModel
       mediaStreams: data.get(#mediaStreams, or: $value.mediaStreams),
       canDelete: data.get(#canDelete, or: $value.canDelete),
       canDownload: data.get(#canDownload, or: $value.canDownload),
-      jellyType: data.get(#jellyType, or: $value.jellyType));
+      jellyType: data.get(#jellyType, or: $value.jellyType),
+      partCount: data.get(#partCount, or: $value.partCount));
 
   @override
   AudioModelCopyWith<$R2, AudioModel, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

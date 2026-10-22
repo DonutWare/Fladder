@@ -198,6 +198,30 @@ class JellyService {
     );
   }
 
+  /// Narrow partial update used for aggregated multipart progress.
+  ///
+  /// Only sends the fields Jellyfin needs for progress/played updates so
+  /// favourites and play counts are never clobbered.
+  Future<Response> updateItemUserData({
+    required String itemId,
+    int? playbackPositionTicks,
+    bool? played,
+    DateTime? lastPlayed,
+  }) async {
+    if (ref.read(incognitoProvider)) return Response(http.Response("", 200), null);
+
+    return api.userItemsItemIdUserDataPost(
+      userId: account?.id,
+      itemId: itemId,
+      body: UpdateUserItemDataDto(
+        playbackPositionTicks: playbackPositionTicks,
+        played: played,
+        lastPlayedDate: lastPlayed,
+        itemId: itemId,
+      ),
+    );
+  }
+
   Future<Response<ServerQueryResult>> itemsGet({
     String? maxOfficialRating,
     bool? hasThemeSong,
@@ -334,7 +358,9 @@ class JellyService {
         );
       }
 
-      final actualItems = syncedItems.nonNulls.toList();
+      final actualItems = syncedItems.nonNulls
+          .where((element) => element.partOfId == null || (ids?.contains(element.id) ?? false))
+          .toList();
 
       final filteredItems = actualItems.where((element) {
         final type = element.data?.type;
@@ -816,8 +842,9 @@ class JellyService {
     Future<Response<BaseItemDtoQueryResult>> fetchOfflineEpisodes() async {
       final seriesItem = await ref.read(syncProvider.notifier).getSyncedItem(seriesId);
       if (seriesItem != null) {
-        final episodes = await ref.read(syncProvider.notifier).getNestedChildren(seriesItem)
-          ..where((e) => e.itemModel is EpisodeModel);
+        final episodes = (await ref.read(syncProvider.notifier).getNestedChildren(seriesItem))
+            .where((e) => e.itemModel is EpisodeModel)
+            .toList();
         return Response<BaseItemDtoQueryResult>(
           http.Response("", 200),
           BaseItemDtoQueryResult(
@@ -884,6 +911,13 @@ class JellyService {
       return Response<List<BaseItemDto>>(http.Response("", 400), []);
     }
     return api.itemsItemIdSpecialFeaturesGet(itemId: itemId, userId: account?.id);
+  }
+
+  Future<Response<BaseItemDtoQueryResult>> getAdditionalParts({required String itemId}) async {
+    if (ref.read(offlineStateProvider)) {
+      return Response<BaseItemDtoQueryResult>(http.Response("", 400), const BaseItemDtoQueryResult(items: []));
+    }
+    return api.videosItemIdAdditionalPartsGet(itemId: itemId, userId: account?.id);
   }
 
   Future<Response<BaseItemDtoQueryResult>> itemsItemIdSimilarGet({

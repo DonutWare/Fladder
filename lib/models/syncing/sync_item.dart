@@ -19,6 +19,7 @@ import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/items/video_part_model.dart';
 import 'package:fladder/models/syncing/transcode_download_model.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -32,6 +33,9 @@ abstract class SyncedItem with _$SyncedItem {
     required String id,
     @Default(false) bool syncing,
     String? parentId,
+    String? partOfId,
+    int? partNumber,
+    int? totalParts,
     required String userId,
     String? path,
     @Default(false) bool markedForDelete,
@@ -174,22 +178,15 @@ abstract class SyncedItem with _$SyncedItem {
       final overlay = jsonDecode(overlayFile.readAsStringSync()) as Map<String, dynamic>;
       itemDto = _applyOverlay(itemDto, overlay);
     }
-    final itemModel = ItemBaseModel.fromBaseDto(itemDto, ref);
-    if (itemModel is PhotoModel) {
-      final hasLocalFile = videoFile.existsSync();
-      final ImagesData? fullImages = switch (itemModel.internalType) {
-        FladderItemType.photo when hasLocalFile => (images ?? ImagesData()).copyWith(
-            primary: () => (images?.primary ?? ImageData(key: id)).copyWith(path: videoFile.path),
-          ),
-        _ when hasLocalFile => images,
-        _ => itemModel.images,
-      };
-      return itemModel.copyWith(
-        thumbnail: images ?? itemModel.thumbnail,
-        images: fullImages,
-        userData: userData,
-      );
-    }
+    final itemModel = partOfId != null
+        ? VideoPartModel.fromBaseDto(
+            itemDto,
+            ref,
+            parentItemId: partOfId!,
+            partNumber: partNumber ?? 2,
+            totalParts: totalParts ?? 2,
+          )
+        : ItemBaseModel.fromBaseDto(itemDto, ref);
     return itemModel.copyWith(
       images: images,
       userData: userData,

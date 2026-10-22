@@ -6,7 +6,10 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:intl/intl.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/video_part_model.dart';
+import 'package:fladder/models/playback/multipart_playback.dart';
 import 'package:fladder/providers/items/episode_details_provider.dart';
+import 'package:fladder/providers/items/video_parts_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
@@ -19,6 +22,7 @@ import 'package:fladder/screens/shared/media/episode_posters.dart';
 import 'package:fladder/screens/shared/media/expanding_text.dart';
 import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
+import 'package:fladder/screens/shared/media/video_parts_row.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
@@ -48,6 +52,21 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
     final details = ref.watch(providerInstance);
     final seasonDetails = details.series;
     final episodeDetails = details.episode;
+    final parts = (episodeDetails?.hasMultipleParts ?? false)
+        ? ref.watch(videoPartsProvider(widget.item.id)).valueOrNull ?? const <VideoPartModel>[]
+        : const <VideoPartModel>[];
+    final runTimes = [episodeDetails?.overview.runTime, ...parts.map((part) => part.overview.runTime)].nonNulls;
+    final totalRunTime = runTimes.isEmpty ? null : runTimes.fold(Duration.zero, (total, runtime) => total + runtime);
+    final multipartGroup =
+        episodeDetails != null && parts.isNotEmpty ? MultipartGroup.fromMain(episodeDetails, parts) : null;
+    final displayEpisode = episodeDetails == null || multipartGroup == null
+        ? episodeDetails
+        : episodeDetails.copyWith(
+            userData: episodeDetails.userData.copyWith(
+              progress: multipartGroup.aggregateProgressForDisplay,
+              played: multipartGroup.allPartsPlayed,
+            ),
+          );
     final wrapAlignment =
         AdaptiveLayout.viewSizeOf(context) != ViewSize.phone ? WrapAlignment.start : WrapAlignment.center;
 
@@ -70,7 +89,10 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
           }
         },
       ),
-      onRefresh: () async => await ref.read(providerInstance.notifier).fetchDetails(widget.item),
+      onRefresh: () async {
+        ref.invalidate(videoPartsProvider(widget.item.id));
+        await ref.read(providerInstance.notifier).fetchDetails(widget.item);
+      },
       backDrops: details.episode?.images ?? details.series?.images,
       content: (detailsContext, padding) => seasonDetails != null && episodeDetails != null
           ? Padding(
@@ -84,13 +106,15 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     image: seasonDetails.images,
                     mainButton: episodeDetails.playAble
                         ? MediaPlayButton(
-                            item: episodeDetails,
+                            item: displayEpisode,
                             onPressed: (restart) async {
                               await details.episode.play(
                                 detailsContext,
                                 ref,
                                 startPosition: restart ? Duration.zero : null,
+                                restart: restart,
                               );
+                              ref.invalidate(videoPartsProvider(widget.item.id));
                               ref.read(providerInstance.notifier).fetchDetails(widget.item);
                             },
                             onLongPressed: (restart) async {
@@ -99,7 +123,9 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                                 ref,
                                 showPlaybackOption: true,
                                 startPosition: restart ? Duration.zero : null,
+                                restart: restart,
                               );
+                              ref.invalidate(videoPartsProvider(widget.item.id));
                               ref.read(providerInstance.notifier).fetchDetails(widget.item);
                             },
                           )
@@ -126,7 +152,7 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                                 .read(userProvider.notifier)
                                 .markAsPlayed(!(episodeDetails.userData.played), episodeDetails.id);
                           },
-                          selected: episodeDetails.userData.played,
+                          selected: displayEpisode?.userData.played ?? episodeDetails.userData.played,
                           selectedIcon: IconsaxPlusBold.tick_circle,
                           icon: IconsaxPlusLinear.tick_circle,
                         ),
@@ -156,7 +182,14 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                     productionYear: details.episode?.dateAired != null
                         ? DateFormat.yMMMEd(context.localized.localeName).format(details.episode!.dateAired!)
                         : null,
-                    runTime: details.episode?.overview.runTime,
+                    runTime: totalRunTime,
+                    additionalLabels: [
+                      if (parts.isNotEmpty)
+                        SimpleLabel(
+                          icon: IconsaxPlusBold.video_horizontal,
+                          label: Text(context.localized.parts(parts.length + 1)),
+                        ),
+                    ],
                     studios: details.series?.overview.studios ?? [],
                     genres: details.series?.overview.genreItems ?? [],
                     onGenreClicked: (genre) {
@@ -180,6 +213,12 @@ class _ItemDetailScreenState extends ConsumerState<EpisodeDetailScreen> {
                           )
                         : null,
                   ),
+                  if (parts.isNotEmpty)
+                    VideoPartsRow(
+                      mainItem: episodeDetails,
+                      parts: parts,
+                      contentPadding: padding,
+                    ),
                   if (episodeDetails.overview.summary.isNotEmpty == true)
                     ExpandingText(
                       text: episodeDetails.overview.summary,

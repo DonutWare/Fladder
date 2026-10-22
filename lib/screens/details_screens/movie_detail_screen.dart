@@ -5,7 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/video_part_model.dart';
+import 'package:fladder/models/playback/multipart_playback.dart';
 import 'package:fladder/providers/items/movies_details_provider.dart';
+import 'package:fladder/providers/items/video_parts_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/details_screens/components/media_stream_information.dart';
@@ -19,6 +22,7 @@ import 'package:fladder/screens/shared/media/external_urls.dart';
 import 'package:fladder/screens/shared/media/people_row.dart';
 import 'package:fladder/screens/shared/media/poster_row.dart';
 import 'package:fladder/screens/shared/media/special_features_row.dart';
+import 'package:fladder/screens/shared/media/video_parts_row.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/item_base_model/play_item_helpers.dart';
@@ -44,6 +48,20 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final details = ref.watch(providerInstance);
+    final parts = (details?.hasMultipleParts ?? false)
+        ? ref.watch(videoPartsProvider(widget.item.id)).valueOrNull ?? const <VideoPartModel>[]
+        : const <VideoPartModel>[];
+    final runTimes = [details?.overview.runTime, ...parts.map((part) => part.overview.runTime)].nonNulls;
+    final totalRunTime = runTimes.isEmpty ? null : runTimes.fold(Duration.zero, (total, runtime) => total + runtime);
+    final multipartGroup = details != null && parts.isNotEmpty ? MultipartGroup.fromMain(details, parts) : null;
+    final displayDetails = details == null || multipartGroup == null
+        ? details
+        : details.copyWith(
+            userData: details.userData.copyWith(
+              progress: multipartGroup.aggregateProgressForDisplay,
+              played: multipartGroup.allPartsPlayed,
+            ),
+          );
     final wrapAlignment =
         AdaptiveLayout.viewSizeOf(context) != ViewSize.phone ? WrapAlignment.start : WrapAlignment.center;
 
@@ -64,7 +82,10 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
           }
         },
       ),
-      onRefresh: () async => await ref.read(providerInstance.notifier).fetchDetails(widget.item),
+      onRefresh: () async {
+        ref.invalidate(videoPartsProvider(widget.item.id));
+        await ref.read(providerInstance.notifier).fetchDetails(widget.item);
+      },
       backDrops: details?.images,
       content: (detailsContext, padding) => details != null
           ? Padding(
@@ -78,14 +99,16 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     image: details.images,
                     padding: padding,
                     mainButton: MediaPlayButton(
-                      item: details,
+                      item: displayDetails,
                       onLongPressed: (restart) async {
                         await details.play(
                           detailsContext,
                           ref,
                           showPlaybackOption: true,
                           startPosition: restart ? Duration.zero : null,
+                          restart: restart,
                         );
+                        ref.invalidate(videoPartsProvider(widget.item.id));
                         ref.read(providerInstance.notifier).fetchDetails(widget.item);
                       },
                       onPressed: (restart) async {
@@ -93,7 +116,9 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                           detailsContext,
                           ref,
                           startPosition: restart ? Duration.zero : null,
+                          restart: restart,
                         );
+                        ref.invalidate(videoPartsProvider(widget.item.id));
                         ref.read(providerInstance.notifier).fetchDetails(widget.item);
                       },
                     ),
@@ -117,7 +142,7 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                           onPressed: () async {
                             await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
                           },
-                          selected: details.userData.played,
+                          selected: displayDetails?.userData.played ?? details.userData.played,
                           selectedIcon: IconsaxPlusBold.tick_circle,
                           icon: IconsaxPlusLinear.tick_circle,
                         ),
@@ -141,7 +166,14 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     ),
                     originalTitle: details.originalTitle,
                     productionYear: details.premiereDate.year.toString(),
-                    runTime: details.overview.runTime,
+                    runTime: totalRunTime,
+                    additionalLabels: [
+                      if (parts.isNotEmpty)
+                        SimpleLabel(
+                          icon: IconsaxPlusBold.video_horizontal,
+                          label: Text(context.localized.parts(parts.length + 1)),
+                        ),
+                    ],
                     genres: details.overview.genreItems,
                     onGenreClicked: (genre) {
                       final itemViewId = details.parentId ?? "";
@@ -162,6 +194,12 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
                           )
                         : null,
                   ),
+                  if (parts.isNotEmpty)
+                    VideoPartsRow(
+                      mainItem: details,
+                      parts: parts,
+                      contentPadding: padding,
+                    ),
                   if (details.overview.summary.isNotEmpty == true)
                     ExpandingText(
                       text: details.overview.summary,

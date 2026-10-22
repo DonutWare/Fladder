@@ -17,6 +17,9 @@ mixin _$SyncedItem {
   String get id;
   bool get syncing;
   String? get parentId;
+  String? get partOfId;
+  int? get partNumber;
+  int? get totalParts;
   String get userId;
   String? get path;
   bool get markedForDelete;
@@ -45,7 +48,7 @@ mixin _$SyncedItem {
 
   @override
   String toString() {
-    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, unSyncedData: $unSyncedData, userData: $userData, transcodeDownloadModel: $transcodeDownloadModel, itemModel: $itemModel)';
+    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, partOfId: $partOfId, partNumber: $partNumber, totalParts: $totalParts, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, unSyncedData: $unSyncedData, userData: $userData, transcodeDownloadModel: $transcodeDownloadModel, itemModel: $itemModel)';
   }
 }
 
@@ -59,6 +62,9 @@ abstract mixin class $SyncedItemCopyWith<$Res> {
       {String id,
       bool syncing,
       String? parentId,
+      String? partOfId,
+      int? partNumber,
+      int? totalParts,
       String userId,
       String? path,
       bool markedForDelete,
@@ -95,6 +101,9 @@ class _$SyncedItemCopyWithImpl<$Res> implements $SyncedItemCopyWith<$Res> {
     Object? id = null,
     Object? syncing = null,
     Object? parentId = freezed,
+    Object? partOfId = freezed,
+    Object? partNumber = freezed,
+    Object? totalParts = freezed,
     Object? userId = null,
     Object? path = freezed,
     Object? markedForDelete = null,
@@ -124,6 +133,18 @@ class _$SyncedItemCopyWithImpl<$Res> implements $SyncedItemCopyWith<$Res> {
           ? _self.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
               as String?,
+      partOfId: freezed == partOfId
+          ? _self.partOfId
+          : partOfId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      partNumber: freezed == partNumber
+          ? _self.partNumber
+          : partNumber // ignore: cast_nullable_to_non_nullable
+              as int?,
+      totalParts: freezed == totalParts
+          ? _self.totalParts
+          : totalParts // ignore: cast_nullable_to_non_nullable
+              as int?,
       userId: null == userId
           ? _self.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -314,6 +335,9 @@ extension SyncedItemPatterns on SyncedItem {
             String id,
             bool syncing,
             String? parentId,
+            String? partOfId,
+            int? partNumber,
+            int? totalParts,
             String userId,
             String? path,
             bool markedForDelete,
@@ -340,6 +364,9 @@ extension SyncedItemPatterns on SyncedItem {
             _that.id,
             _that.syncing,
             _that.parentId,
+            _that.partOfId,
+            _that.partNumber,
+            _that.totalParts,
             _that.userId,
             _that.path,
             _that.markedForDelete,
@@ -379,6 +406,9 @@ extension SyncedItemPatterns on SyncedItem {
             String id,
             bool syncing,
             String? parentId,
+            String? partOfId,
+            int? partNumber,
+            int? totalParts,
             String userId,
             String? path,
             bool markedForDelete,
@@ -404,6 +434,9 @@ extension SyncedItemPatterns on SyncedItem {
             _that.id,
             _that.syncing,
             _that.parentId,
+            _that.partOfId,
+            _that.partNumber,
+            _that.totalParts,
             _that.userId,
             _that.path,
             _that.markedForDelete,
@@ -442,6 +475,9 @@ extension SyncedItemPatterns on SyncedItem {
             String id,
             bool syncing,
             String? parentId,
+            String? partOfId,
+            int? partNumber,
+            int? totalParts,
             String userId,
             String? path,
             bool markedForDelete,
@@ -467,6 +503,9 @@ extension SyncedItemPatterns on SyncedItem {
             _that.id,
             _that.syncing,
             _that.parentId,
+            _that.partOfId,
+            _that.partNumber,
+            _that.totalParts,
             _that.userId,
             _that.path,
             _that.markedForDelete,
@@ -495,6 +534,9 @@ class _SyncItem extends SyncedItem {
       {required this.id,
       this.syncing = false,
       this.parentId,
+      this.partOfId,
+      this.partNumber,
+      this.totalParts,
       required this.userId,
       this.path,
       this.markedForDelete = false,
@@ -521,6 +563,12 @@ class _SyncItem extends SyncedItem {
   final bool syncing;
   @override
   final String? parentId;
+  @override
+  final String? partOfId;
+  @override
+  final int? partNumber;
+  @override
+  final int? totalParts;
   @override
   final String userId;
   @override
@@ -581,7 +629,7 @@ class _SyncItem extends SyncedItem {
 
   @override
   String toString() {
-    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, unSyncedData: $unSyncedData, userData: $userData, transcodeDownloadModel: $transcodeDownloadModel, itemModel: $itemModel)';
+    return 'SyncedItem(id: $id, syncing: $syncing, parentId: $parentId, partOfId: $partOfId, partNumber: $partNumber, totalParts: $totalParts, userId: $userId, path: $path, markedForDelete: $markedForDelete, sortName: $sortName, fileSize: $fileSize, videoFileName: $videoFileName, mediaSegments: $mediaSegments, fTrickPlayModel: $fTrickPlayModel, fImages: $fImages, fChapters: $fChapters, subtitles: $subtitles, unSyncedData: $unSyncedData, userData: $userData, transcodeDownloadModel: $transcodeDownloadModel, itemModel: $itemModel)';
   }
 }
 
@@ -596,6 +644,9 @@ abstract mixin class _$SyncItemCopyWith<$Res>
       {String id,
       bool syncing,
       String? parentId,
+      String? partOfId,
+      int? partNumber,
+      int? totalParts,
       String userId,
       String? path,
       bool markedForDelete,
@@ -634,6 +685,9 @@ class __$SyncItemCopyWithImpl<$Res> implements _$SyncItemCopyWith<$Res> {
     Object? id = null,
     Object? syncing = null,
     Object? parentId = freezed,
+    Object? partOfId = freezed,
+    Object? partNumber = freezed,
+    Object? totalParts = freezed,
     Object? userId = null,
     Object? path = freezed,
     Object? markedForDelete = null,
@@ -663,6 +717,18 @@ class __$SyncItemCopyWithImpl<$Res> implements _$SyncItemCopyWith<$Res> {
           ? _self.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
               as String?,
+      partOfId: freezed == partOfId
+          ? _self.partOfId
+          : partOfId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      partNumber: freezed == partNumber
+          ? _self.partNumber
+          : partNumber // ignore: cast_nullable_to_non_nullable
+              as int?,
+      totalParts: freezed == totalParts
+          ? _self.totalParts
+          : totalParts // ignore: cast_nullable_to_non_nullable
+              as int?,
       userId: null == userId
           ? _self.userId
           : userId // ignore: cast_nullable_to_non_nullable

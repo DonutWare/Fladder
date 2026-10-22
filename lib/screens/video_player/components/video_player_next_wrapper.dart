@@ -7,6 +7,7 @@ import 'package:screen_brightness/screen_brightness.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
+import 'package:fladder/models/items/video_part_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
@@ -185,7 +186,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
                               children: [
                                 Expanded(
                                   child: Text(
-                                    context.localized.nextUp,
+                                    nextUp is VideoPartModel ? context.localized.nextPart : context.localized.nextUp,
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
                                     style: Theme.of(context)

@@ -14,12 +14,16 @@ import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/models/items/item_stream_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/items/season_model.dart';
 import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
+import 'package:fladder/models/items/video_part_model.dart';
 import 'package:fladder/models/playback/direct_playback_model.dart';
+import 'package:fladder/models/playback/multipart_playback.dart';
 import 'package:fladder/models/playback/offline_playback_model.dart';
 import 'package:fladder/models/playback/playback_options_dialogue.dart';
 import 'package:fladder/models/playback/playback_queue_source.dart';
@@ -33,6 +37,7 @@ import 'package:fladder/models/video_stream_model.dart';
 import 'package:fladder/profiles/default_profile.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
+import 'package:fladder/providers/incognito_mode_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
@@ -117,6 +122,73 @@ class PlaybackModel {
   }
 
   Future<Duration>? startDuration() async => isAudioPlayback ? Duration.zero : item.userData.playBackPosition;
+
+  MultipartGroup? get multipartGroup => MultipartGroup.fromQueue(queue, item);
+
+  /// Writes the aggregated parent progress for the current part.
+  ///
+  /// Part 1 keeps its local position: Jellyfin's session progress call already
+  /// stores it on the parent item.
+  Future<void> updateMultipartProgress(Duration position, Ref ref) async {
+    final group = multipartGroup;
+    if (group == null) return;
+
+    final update = group.progressUpdate(item, position);
+    if (update == null) return;
+
+    await _postMultipartUpdate(update, ref);
+  }
+
+  /// After the per-part session stop, writes the parent aggregate state and
+  /// completes the logical item when the final part finished.
+  Future<void> handleMultipartStopped(Duration stopPosition, Ref ref) async {
+    final group = multipartGroup;
+    if (group == null) return;
+
+    final update = group.stopUpdate(item, stopPosition);
+    if (update != null) {
+      await _postMultipartUpdate(update, ref);
+    }
+
+    if (group.shouldMarkCompleted(item, stopPosition)) {
+      await _completeMultipartGroup(group, ref);
+    }
+  }
+
+  Future<void> _postMultipartUpdate(MultipartUserDataUpdate update, Ref ref) async {
+    try {
+      await ref.read(jellyApiProvider).updateItemUserData(
+            itemId: update.itemId,
+            playbackPositionTicks: update.playbackPositionTicks,
+            played: update.played,
+            lastPlayed: update.lastPlayed,
+          );
+    } catch (e, st) {
+      log("Failed to update aggregate progress for ${update.itemId}: $e\n$st");
+    }
+  }
+
+  Future<void> _completeMultipartGroup(MultipartGroup group, Ref ref) async {
+    if (ref.read(incognitoProvider)) return;
+
+    try {
+      await ref.read(userProvider.notifier).markAsPlayed(true, group.main.id);
+    } catch (e, st) {
+      log("Failed to mark multipart parent ${group.main.id} as played: $e\n$st");
+    }
+
+    for (final part in group.additionalParts) {
+      try {
+        await ref.read(jellyApiProvider).updateItemUserData(
+              itemId: part.id,
+              playbackPositionTicks: 0,
+              played: true,
+            );
+      } catch (e, st) {
+        log("Failed to mark part ${part.id} as played: $e\n$st");
+      }
+    }
+  }
 
   PlaybackModel? updateUserData(UserData userData) => throw UnimplementedError();
 
@@ -221,14 +293,26 @@ class PlaybackModelHelper {
     SyncedItem? syncedItem, {
     PlaybackModel? oldModel,
     PlaybackQueueSource? queueSource,
+    List<ItemBaseModel>? libraryQueue,
+    List<SyncedItem>? syncedQueue,
   }) async {
     final ItemBaseModel? syncedItemModel = syncedItem?.itemModel;
     if (syncedItemModel == null || syncedItem == null || !await syncedItem.videoFile.exists()) return null;
 
-    final children = await ref.read(syncProvider.notifier).getSiblings(syncedItem);
+    final syncNotifier = ref.read(syncProvider.notifier);
+    final isAudio = syncedItemModel is AudioModel;
 
-    final syncedItems = children.where((element) => element.videoFile.existsSync()).toList();
-    final itemQueue = syncedItems.map((e) => e.itemModel).nonNulls;
+    final List<SyncedItem> effectiveSyncedQueue;
+    if (syncedQueue != null) {
+      effectiveSyncedQueue = syncedQueue;
+    } else if (isAudio) {
+      final children = await syncNotifier.getSiblings(syncedItem);
+      effectiveSyncedQueue = children.where((element) => element.videoFile.existsSync()).toList();
+    } else {
+      effectiveSyncedQueue = await syncNotifier.getVideoPlaybackQueue(syncedItem);
+    }
+
+    final itemQueue = libraryQueue ?? effectiveSyncedQueue.map((element) => element.itemModel).nonNulls.toList();
 
     return OfflinePlaybackModel(
       item: syncedItemModel,
@@ -236,12 +320,172 @@ class PlaybackModelHelper {
       trickPlay: syncedItem.trickPlayModel,
       mediaSegments: syncedItem.mediaSegments,
       media: Media(url: syncedItem.videoFile.path),
-      queue: itemQueue.nonNulls.toList(),
+      queue: itemQueue,
       playbackQueue: oldModel?.playbackQueue,
       queueSource: queueSource ?? oldModel?.queueSource,
-      syncedQueue: children,
-      mediaStreams: item.streamModel ?? syncedItemModel.streamModel,
+      syncedQueue: effectiveSyncedQueue,
+      mediaStreams: streamModel ?? item.streamModel ?? syncedItemModel.streamModel,
     );
+  }
+
+  /// Inserts the additional parts of multi-part movies and episodes directly
+  /// after their parent item, preserving the queue order.
+  ///
+  /// The method is idempotent: parents that already have parts in the queue are
+  /// not fetched again, and existing item IDs are never inserted twice.
+  Future<List<ItemBaseModel>> expandQueueWithParts(List<ItemBaseModel> queue) async {
+    if (queue.isEmpty) return queue;
+
+    final expandedParentIds = queue.whereType<VideoPartModel>().map((part) => part.parentItemId).toSet();
+
+    final parentsToExpand = queue
+        .whereType<ItemStreamModel>()
+        .where((item) => item is! VideoPartModel)
+        .where((item) => item.hasMultipleParts)
+        .where((item) => !expandedParentIds.contains(item.id))
+        .toList();
+
+    if (parentsToExpand.isEmpty) return queue;
+
+    final partsByParentId = <String, List<VideoPartModel>>{};
+    await Future.wait(
+      parentsToExpand.map((parent) async {
+        final parts = await _fetchAdditionalParts(parent.id);
+        if (parts.isNotEmpty) {
+          partsByParentId[parent.id] = parts;
+        }
+      }),
+    );
+
+    if (partsByParentId.isEmpty) return queue;
+    return interleaveParts(queue, partsByParentId);
+  }
+
+  /// Pure queue interleaving helper, exposed for tests.
+  ///
+  /// Parts are inserted after their parent and only when their ID is not already
+  /// present in the queue. Re-running this on an expanded queue is a no-op.
+  static List<ItemBaseModel> interleaveParts(
+    List<ItemBaseModel> queue,
+    Map<String, List<VideoPartModel>> partsByParentId,
+  ) {
+    final queueIds = queue.map((item) => item.id).toSet();
+
+    // Parts that are already in the queue but appear after their parent are
+    // re-inserted in the correct position instead of being duplicated.
+    final relocatablePartIds = <String>{
+      for (final entry in partsByParentId.entries)
+        if (queueIds.contains(entry.key))
+          for (final part in entry.value)
+            if (queueIds.contains(part.id)) part.id,
+    };
+
+    final addedIds = <String>{};
+    final result = <ItemBaseModel>[];
+
+    for (final item in queue) {
+      if (relocatablePartIds.contains(item.id)) continue;
+
+      if (addedIds.add(item.id)) {
+        result.add(item);
+      }
+
+      final parts = partsByParentId[item.id];
+      if (parts == null) continue;
+
+      for (final part in parts) {
+        if (addedIds.add(part.id)) {
+          result.add(part);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  Future<List<VideoPartModel>> _fetchAdditionalParts(String itemId) async {
+    try {
+      final response = await api.getAdditionalParts(itemId: itemId);
+      final items = response.body?.items ?? const [];
+      if (items.isEmpty) return const [];
+
+      return VideoPartModel.fromDtos(
+        items,
+        ref,
+        parentItemId: itemId,
+        totalParts: items.length + 1,
+      );
+    } catch (e) {
+      log("Failed to load additional parts for $itemId: $e");
+      return const [];
+    }
+  }
+
+  /// Builds the queue around the logical parent of [part].
+  ///
+  /// Starting a specific part should still allow previous/next to move across
+  /// the parent item and its siblings.
+  Future<List<ItemBaseModel>> _buildQueueForPart(VideoPartModel part) async {
+    try {
+      final parentResponse = await api.usersUserIdItemsItemIdGet(itemId: part.parentItemId);
+      final parent = parentResponse.body;
+      if (parent == null) return [part];
+
+      final parentQueue = await collectQueue(parent);
+      return parentQueue.isNotEmpty ? parentQueue : [parent];
+    } catch (e) {
+      log("Failed to build the queue for part ${part.id}: $e");
+      return [part];
+    }
+  }
+
+  /// Builds the offline video queue for [item] from the sync database.
+  ///
+  /// Returns null for item types that do not use the video queue so the caller
+  /// can fall back to the regular queue collection.
+  Future<List<SyncedItem>?> _buildOfflineQueue(ItemBaseModel item) async {
+    final syncNotifier = ref.read(syncProvider.notifier);
+
+    SyncedItem? target;
+    if (item is VideoPartModel) {
+      target = await syncNotifier.getSyncedItem(item.id) ?? await syncNotifier.getSyncedItem(item.parentItemId);
+    } else if (item is MovieModel || item is EpisodeModel) {
+      target = await syncNotifier.getSyncedItem(item.id);
+    } else if (item is SeriesModel || item is SeasonModel) {
+      final episodes = (await collectQueue(item)).whereType<EpisodeModel>().toList();
+      final nextUp = episodes.nextUp;
+      if (nextUp != null) {
+        target = await syncNotifier.getSyncedItem(nextUp.id);
+      }
+    }
+
+    if (target == null) return null;
+    return syncNotifier.getVideoPlaybackQueue(target);
+  }
+
+  /// Clears the aggregate and per-part progress before a rewatch.
+  Future<void> _resetMultipartGroup(MultipartGroup group) async {
+    if (ref.read(incognitoProvider)) return;
+
+    if (ref.read(offlineStateProvider)) {
+      await ref.read(syncProvider.notifier).resetMultipartProgress([
+        group.main.id,
+        ...group.additionalParts.map((part) => part.id),
+      ]);
+      return;
+    }
+
+    for (final update in group.resetUpdates()) {
+      try {
+        await ref.read(jellyApiProvider).updateItemUserData(
+              itemId: update.itemId,
+              playbackPositionTicks: update.playbackPositionTicks,
+              played: update.played,
+            );
+      } catch (e, st) {
+        log("Failed to reset multipart item ${update.itemId}: $e\n$st");
+      }
+    }
   }
 
   Future<PlaybackModel?> createPlaybackModel(
@@ -253,13 +497,47 @@ class PlaybackModelHelper {
     bool showPlaybackOptions = false,
     PlaybackType? forcedPlaybackType,
     Duration? startPosition,
+    bool restart = false,
   }) async {
     try {
       if (item == null) return null;
       final userId = ref.read(userProvider)?.id;
       if (userId?.isEmpty == true) return null;
 
-      final queue = oldModel?.queue ?? libraryQueue ?? await collectQueue(item);
+      final isOffline = ref.read(offlineStateProvider);
+
+      List<ItemBaseModel> queue;
+      List<SyncedItem>? offlineQueue;
+      if (oldModel != null) {
+        queue = oldModel.queue;
+      } else if (libraryQueue != null) {
+        queue = libraryQueue;
+      } else if (isOffline) {
+        offlineQueue = await _buildOfflineQueue(item);
+        queue = offlineQueue?.map((element) => element.itemModel).nonNulls.toList() ?? [];
+      } else if (item is VideoPartModel) {
+        queue = await _buildQueueForPart(item);
+      } else {
+        queue = await collectQueue(item);
+      }
+
+      // Movies have no collected queue; seed it so their parts can be expanded
+      // and next/previous keep working. Episodes fall back to themselves when
+      // their series queue could not be loaded.
+      if (queue.isEmpty && (item is MovieModel || item is EpisodeModel)) {
+        queue = [item];
+      }
+
+      if (!isOffline) {
+        queue = await expandQueueWithParts(queue);
+      }
+
+      // The requested part must stay playable even when the server does not
+      // return it as part of the logical parent's queue.
+      if (item is VideoPartModel && !queue.any((queueItem) => queueItem.id == item.id)) {
+        queue = [...queue, item];
+      }
+
       final effectiveQueueSource = oldModel?.queueSource ?? queueSource;
 
       final firstItemToPlay = switch (item) {
@@ -269,19 +547,65 @@ class PlaybackModelHelper {
 
       if (firstItemToPlay == null) return null;
 
-      final fullItemResponse = await api.usersUserIdItemsItemIdGet(itemId: firstItemToPlay.id);
+      var resolvedItem = firstItemToPlay;
+      Duration? resolvedStartPosition = startPosition;
+      MultipartGroup? multipartGroup;
+      var resetMultipartGroup = false;
 
-      final fullItem = fullItemResponse.body;
-
-      if (fullItem == null) {
-        return null;
+      // Part-aware resume selection (plan §4.5). An explicit start position or
+      // an explicitly selected part bypasses auto-selection.
+      if (!restart && !MultipartGroup.bypassesAutoResume(firstItemToPlay, startPosition)) {
+        final isMovieOrEpisode = firstItemToPlay is MovieModel || firstItemToPlay is EpisodeModel;
+        final streamItem = isMovieOrEpisode ? firstItemToPlay as ItemStreamModel : null;
+        if (streamItem != null) {
+          final group = MultipartGroup.fromQueue(queue, streamItem);
+          if (group != null) {
+            multipartGroup = group;
+            final decision = group.resumeDecision();
+            resolvedItem = decision.item;
+            resolvedStartPosition = decision.startPosition;
+            resetMultipartGroup = decision.resetGroup;
+          } else if (streamItem.hasMultipleParts) {
+            // The parts could not be loaded; do not trust a potentially
+            // scaled parent position.
+            resolvedStartPosition = Duration.zero;
+          }
+        }
       }
 
-      SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(fullItem.id);
+      if (restart) {
+        final group = multipartGroup ?? MultipartGroup.fromQueue(queue, firstItemToPlay);
+        if (group != null) {
+          multipartGroup = group;
+          resetMultipartGroup = true;
+        }
+        resolvedStartPosition = Duration.zero;
+      }
+
+      if (resetMultipartGroup && multipartGroup != null) {
+        await _resetMultipartGroup(multipartGroup);
+      }
+
+      // Additional parts are already fully populated by the AdditionalParts
+      // response. Refetching them would map the `video` item through
+      // `ItemBaseModel.fromBaseDto`, turning it into a PhotoModel.
+      final ItemBaseModel playableItem;
+      if (resolvedItem is VideoPartModel) {
+        playableItem = resolvedItem;
+      } else {
+        final fullItemResponse = await api.usersUserIdItemsItemIdGet(itemId: resolvedItem.id);
+        final fullItem = fullItemResponse.body;
+        if (fullItem == null) {
+          return null;
+        }
+        playableItem = fullItem;
+      }
+
+      SyncedItem? syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(playableItem.id);
 
       final firstItemIsSynced = syncedItem != null && syncedItem.status == TaskStatus.complete;
 
-      final actualStartPosition = startPosition ?? fullItem.userData.playBackPosition;
+      final actualStartPosition = resolvedStartPosition ?? playableItem.userData.playBackPosition;
 
       final options = {
         PlaybackType.directStream,
@@ -289,12 +613,16 @@ class PlaybackModelHelper {
         if (firstItemIsSynced) PlaybackType.offline,
       };
 
-      final isOffline = ref.read(offlineStateProvider);
+      // Explicit stream selections made on the details screen belong to the
+      // requested item. When resume selection redirects to a different part or
+      // episode, use that item's own streams instead of the original item's
+      // Part 1 streams.
+      final selectedStreamModel = resolvedItem.id == item.id ? item.streamModel : playableItem.streamModel;
 
       if (firstItemToPlay is AudioModel && firstItemIsSynced) {
         final offlinePlayback = await _createOfflinePlaybackModel(
-          fullItem,
-          item.streamModel,
+          playableItem,
+          selectedStreamModel,
           syncedItem,
           oldModel: oldModel,
           queueSource: effectiveQueueSource,
@@ -306,16 +634,18 @@ class PlaybackModelHelper {
       }
 
       Future<PlaybackModel?> getOfflineModel() => _createOfflinePlaybackModel(
-            fullItem,
-            item.streamModel,
+            playableItem,
+            selectedStreamModel,
             syncedItem,
             oldModel: oldModel,
             queueSource: effectiveQueueSource,
+            libraryQueue: offlineQueue?.map((element) => element.itemModel).nonNulls.toList(),
+            syncedQueue: offlineQueue,
           );
 
       Future<PlaybackModel?> getServerModel(PlaybackType type) => _createServerPlaybackModel(
-            fullItem,
-            item.streamModel,
+            playableItem,
+            selectedStreamModel,
             forcedPlaybackType ?? type,
             oldModel: oldModel,
             libraryQueue: queue,

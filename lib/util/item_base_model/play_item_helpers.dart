@@ -605,6 +605,7 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
     WidgetRef ref, {
     Duration? startPosition,
     bool showPlaybackOption = false,
+    bool restart = false,
   }) async =>
       switch (this) {
         PhotoAlbumModel album => album.play(context, ref),
@@ -619,7 +620,14 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
           ),
         BookModel book => book.play(context, ref),
         ChannelModel channel => channel.play(context, ref),
-        _ => _default(context, this, ref, startPosition: startPosition, showPlaybackOption: showPlaybackOption),
+        _ => _default(
+            context,
+            this,
+            ref,
+            startPosition: startPosition,
+            showPlaybackOption: showPlaybackOption,
+            restart: restart,
+          ),
       };
 
   Future<void> _default(
@@ -628,6 +636,7 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
     WidgetRef ref, {
     Duration? startPosition,
     bool showPlaybackOption = false,
+    bool restart = false,
   }) async {
     if (itemModel == null) return;
 
@@ -636,6 +645,7 @@ extension ItemBaseModelExtensions on ItemBaseModel? {
           itemModel,
           showPlaybackOptions: showPlaybackOption,
           startPosition: startPosition,
+          restart: restart,
         ));
 
     _showLoadingIndicator(context, itemModel, op);
