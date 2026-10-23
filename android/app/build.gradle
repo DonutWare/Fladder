@@ -98,6 +98,9 @@ android {
                 }
             }
         }
+        profile {
+            debuggable false
+        }
     }
 
     flavorDimensions "default"

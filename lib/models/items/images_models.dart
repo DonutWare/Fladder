@@ -12,6 +12,7 @@ import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as enums;
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart' as dto;
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/util/custom_cache_manager.dart';
+import 'package:fladder/util/image_sizing.dart';
 
 class ImagesData {
   final ImageData? primary;
@@ -34,7 +35,7 @@ class ImagesData {
     return primary ?? thumb ?? backDrop?.firstOrNull;
   }
 
-  ImageData? get randomBackDrop => (backDrop?..shuffle())?.firstOrNull ?? primary;
+  ImageData? get randomBackDrop => (backDrop?.toList()?..shuffle())?.firstOrNull ?? primary;
 
   static ImagesData? fromBaseItem(
     dto.BaseItemDto item,
@@ -300,6 +301,26 @@ class ImageData {
         File(path),
       ).image;
     }
+  }
+
+  ImageProvider sizedImageProvider(ImageRequestSize size, BoxFit fit) {
+    if (size.isEmpty || !path.startsWith("http")) return imageProvider;
+    final uri = Uri.parse(path);
+    final fillBox = switch (fit) {
+      BoxFit.contain || BoxFit.scaleDown || BoxFit.none => false,
+      _ => true,
+    };
+    final queryParameters = Map.of(uri.queryParameters)
+      ..removeWhere((key, _) => const {'fillWidth', 'fillHeight', 'maxWidth', 'maxHeight'}.contains(key))
+      ..addAll({
+        if (size.width != null) (fillBox ? 'fillWidth' : 'maxWidth'): size.width.toString(),
+        if (size.height != null) (fillBox ? 'fillHeight' : 'maxHeight'): size.height.toString(),
+      });
+    return CachedNetworkImageProvider(
+      cacheKey: '${key}_${fillBox ? 'fill' : 'max'}_${size.cacheSuffix}',
+      cacheManager: CustomCacheManager.instance,
+      uri.replace(queryParameters: queryParameters).toString(),
+    );
   }
 
   ImageProvider get nonCachedImageProvider {

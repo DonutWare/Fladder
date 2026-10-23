@@ -18,7 +18,7 @@ class LibMDK extends BasePlayer {
   Stream<PlayerState> get stateStream => _stateController.stream;
 
   @override
-  Future<void> init(VideoPlayerSettingsModel settings) async {}
+  Future<void> init(VideoPlayerSettingsModel settings, {bool lowResourceMode = false}) async {}
 
   @override
   Future<void> dispose() async {}

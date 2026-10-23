@@ -31,6 +31,8 @@ class FocusProvider extends InheritedWidget {
     return widget?.hasFocus ?? false;
   }
 
+  static bool canAutoFocus(BuildContext context) => TickerMode.of(context) && (ModalRoute.isCurrentOf(context) ?? true);
+
   static bool autoFocusOf(BuildContext context) {
     final widget = context.dependOnInheritedWidgetOfExactType<FocusProvider>();
     return widget?.autoFocus ?? false;
@@ -158,7 +160,7 @@ class FocusButtonState extends State<FocusButton> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      if (widget.autoFocus && !focusNode.hasFocus) {
+      if (widget.autoFocus && !focusNode.hasFocus && FocusProvider.canAutoFocus(context)) {
         focusNode.requestFocus();
       }
     });
@@ -181,7 +183,7 @@ class FocusButtonState extends State<FocusButton> {
       onHover: widget.onHover != null ? (event) => widget.onHover?.call(true) : null,
       child: Focus(
         focusNode: focusNode,
-        autofocus: widget.autoFocus,
+        autofocus: widget.autoFocus && FocusProvider.canAutoFocus(context),
         canRequestFocus: widget.onTap != null || widget.onLongPress != null || widget.onSecondaryTapDown != null,
         skipTraversal: widget.onTap == null && widget.onLongPress == null && widget.onSecondaryTapDown != null,
         onFocusChange: (value) {

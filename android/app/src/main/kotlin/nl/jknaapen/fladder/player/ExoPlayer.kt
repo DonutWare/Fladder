@@ -33,6 +33,7 @@ import androidx.media3.common.Tracks
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
@@ -58,6 +59,8 @@ import nl.jknaapen.fladder.utility.getSubtitleTracks
 import kotlin.time.Duration.Companion.seconds
 
 val LocalPlayer = compositionLocalOf<ExoPlayer?> { null }
+
+private const val LOW_RESOURCE_BUFFER_BYTES = 64 * 1024 * 1024
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -107,7 +110,15 @@ internal fun ExoPlayer(
     }
 
     val exoPlayer = remember {
-        ExoPlayer.Builder(context, renderersFactory)
+        val builder = ExoPlayer.Builder(context, renderersFactory)
+        if (PlayerSettingsObject.settings.value?.lowResourceMode == true) {
+            builder.setLoadControl(
+                DefaultLoadControl.Builder()
+                    .setTargetBufferBytes(LOW_RESOURCE_BUFFER_BYTES)
+                    .build()
+            )
+        }
+        builder
             .setTrackSelector(trackSelector)
             .setMediaSourceFactory(DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory))
             .setAudioAttributes(audioAttributes, true)
@@ -174,7 +185,14 @@ internal fun ExoPlayer(
 
             override fun onEvents(player: Player, events: Player.Events) {
                 super.onEvents(player, events)
-                updatePlaybackState()
+                if (events.containsAny(
+                        Player.EVENT_POSITION_DISCONTINUITY,
+                        Player.EVENT_IS_PLAYING_CHANGED,
+                        Player.EVENT_TIMELINE_CHANGED,
+                    )
+                ) {
+                    updatePlaybackState()
+                }
             }
 
             override fun onTracksChanged(tracks: Tracks) {

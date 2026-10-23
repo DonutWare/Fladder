@@ -6,6 +6,9 @@ part 'arguments_model.freezed.dart';
 /// Prefer using the arguments provider over this boolean
 bool leanBackMode = false;
 
+/// Prefer using the arguments provider over this boolean
+bool lowResourceDevice = false;
+
 class NotificationKeys {
   static const String skipNotifications = '--skipNotifications';
   static const String newWindow = '--newWindow';
@@ -20,14 +23,21 @@ abstract class ArgumentsModel with _$ArgumentsModel {
   factory ArgumentsModel({
     @Default(false) bool htpcMode,
     @Default(false) bool leanBackMode,
+    @Default(false) bool lowResourceDevice,
     @Default(false) bool newWindow,
     @Default(false) bool skipNotifications,
     String? launchLink,
   }) = _ArgumentsModel;
 
-  factory ArgumentsModel.fromArguments(List<String> arguments, String windowArguments, bool leanBackEnabled) {
+  factory ArgumentsModel.fromArguments(
+    List<String> arguments,
+    String windowArguments,
+    bool leanBackEnabled, {
+    bool lowResourceDetected = false,
+  }) {
     arguments = arguments.map((e) => e.trim()).toList();
     leanBackMode = leanBackEnabled;
+    lowResourceDevice = lowResourceDetected;
     final parsedWindowArgs = windowArguments.split(',');
     final shouldSkipNotifications = arguments.contains(NotificationKeys.skipNotifications) ||
         parsedWindowArgs.contains(NotificationKeys.skipNotifications) ||
@@ -35,6 +45,7 @@ abstract class ArgumentsModel with _$ArgumentsModel {
     return ArgumentsModel(
       htpcMode: arguments.contains(NotificationKeys.htpcMode) || leanBackEnabled,
       leanBackMode: leanBackEnabled,
+      lowResourceDevice: lowResourceDetected,
       newWindow: parsedWindowArgs.contains(NotificationKeys.newWindow),
       skipNotifications: shouldSkipNotifications,
       launchLink: arguments.firstWhereOrNull((argument) => argument.toLowerCase().startsWith('fladder:')),

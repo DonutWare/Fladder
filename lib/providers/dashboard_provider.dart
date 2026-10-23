@@ -166,6 +166,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
       fields: _fieldsToFetch,
       enableImageTypes: _imagesToFetch,
       imageTypeLimit: 1,
+      limit: _limit,
     );
 
     final next = nextResponse.body?.items

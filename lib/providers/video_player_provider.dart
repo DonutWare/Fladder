@@ -11,6 +11,7 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/low_resource_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
@@ -51,7 +52,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     for (final s in subscriptions) {
       s.cancel();
     }
+    subscriptions.clear();
 
+    settingsChanged?.close();
     settingsChanged = ref.listen(
       videoPlayerSettingsProvider,
       (previous, next) {
@@ -255,7 +258,10 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     await state.jumpToQueueItem(item);
   }
 
-  Future<void> openPlayer(BuildContext context) async => state.openPlayer(context);
+  Future<void> openPlayer(BuildContext context) async {
+    if (ref.read(lowResourceModeProvider)) PaintingBinding.instance.imageCache.clear();
+    return state.openPlayer(context);
+  }
 
   Future<bool> takeScreenshot() async {
     final syncPath = ref.read(clientSettingsProvider).syncPath;

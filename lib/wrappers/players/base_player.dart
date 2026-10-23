@@ -16,7 +16,7 @@ abstract class BasePlayer {
   Stream<PlayerState> get stateStream;
   PlayerState lastState = PlayerState();
 
-  Future<void> init(VideoPlayerSettingsModel settings);
+  Future<void> init(VideoPlayerSettingsModel settings, {bool lowResourceMode = false});
   Widget? videoWidget(Key key, BoxFit fit);
   Widget? subtitles(bool showOverlay, {GlobalKey? controlsKey});
   Future<void> dispose();

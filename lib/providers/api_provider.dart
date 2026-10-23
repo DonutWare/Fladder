@@ -112,7 +112,7 @@ class JellyRequest implements Interceptor {
             headers,
           ),
         );
-        unawaited(connectivityNotifier.checkConnectivity(immediate: true));
+        unawaited(connectivityNotifier.checkConnectivityThrottled());
         return response;
       } catch (e) {
         if (!_isConnectionError(e) || attempt == _maxRetries) {

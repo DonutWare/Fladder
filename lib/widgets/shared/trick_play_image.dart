@@ -83,26 +83,27 @@ class _TrickPlayImageState extends ConsumerState<TrickPlayImage> {
   Future<void> loadNetworkImage(String url) async {
     final http.Response response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      final Uint8List bytes = response.bodyBytes;
-      final ui.Codec codec = await ui.instantiateImageCodec(bytes);
-      final ui.FrameInfo frameInfo = await codec.getNextFrame();
-      if (!_isMounted) return;
-      setState(() {
-        image = frameInfo.image;
-      });
+      await _decodeImage(url, response.bodyBytes);
     } else {
       throw Exception('Failed to load network image');
     }
   }
 
-  Future<void> loadFileImage(String path) async {
-    final Uint8List bytes = await File(path).readAsBytes();
+  Future<void> loadFileImage(String path) async => _decodeImage(path, await File(path).readAsBytes());
+
+  Future<void> _decodeImage(String url, Uint8List bytes) async {
     final ui.Codec codec = await ui.instantiateImageCodec(bytes);
     final ui.FrameInfo frameInfo = await codec.getNextFrame();
-    if (!_isMounted) return;
+    codec.dispose();
+    if (!_isMounted || url != currentUrl) {
+      frameInfo.image.dispose();
+      return;
+    }
+    final oldImage = image;
     setState(() {
       image = frameInfo.image;
     });
+    oldImage?.dispose();
   }
 }
 

@@ -85,85 +85,59 @@ class RenderFadeEdges extends RenderProxyBox {
 
   bool get _needsFade => _topFade > 0 || _bottomFade > 0 || _leftFade > 0 || _rightFade > 0;
 
-  static final Paint _maskPaint = Paint();
+  final LayerHandle<ShaderMaskLayer> _maskLayer = LayerHandle();
+  final Paint _innerMaskPaint = Paint()..blendMode = BlendMode.dstIn;
 
   @override
   bool get alwaysNeedsCompositing => _needsFade;
 
   @override
+  void dispose() {
+    _maskLayer.layer = null;
+    super.dispose();
+  }
+
+  LinearGradient? _gradient(double start, double end, Alignment begin, Alignment finish) {
+    if (start <= 0 && end <= 0) return null;
+    return LinearGradient(
+      begin: begin,
+      end: finish,
+      colors: [
+        if (start > 0) Colors.transparent,
+        Colors.white,
+        Colors.white,
+        if (end > 0) Colors.transparent,
+      ],
+      stops: [
+        if (start > 0) 0.0,
+        start,
+        1.0 - end,
+        if (end > 0) 1.0,
+      ],
+    );
+  }
+
+  @override
   void paint(PaintingContext context, Offset offset) {
-    if (!_needsFade) {
+    final vertical = _gradient(_topFade, _bottomFade, Alignment.topCenter, Alignment.bottomCenter);
+    final horizontal = _gradient(_leftFade, _rightFade, Alignment.centerLeft, Alignment.centerRight);
+    final outer = vertical ?? horizontal;
+    if (outer == null) {
+      _maskLayer.layer = null;
       super.paint(context, offset);
       return;
     }
+    final inner = vertical != null ? horizontal : null;
 
-    final rect = offset & size;
-
-    context.canvas.saveLayer(rect, Paint());
-    super.paint(context, offset);
-
-    _maskPaint.blendMode = BlendMode.dstIn;
-
-    if (_topFade > 0 || _bottomFade > 0) {
-      final colors = <Color>[];
-      final stops = <double>[];
-
-      if (_topFade > 0) {
-        colors.addAll([Colors.transparent, Colors.white]);
-        stops.addAll([0.0, _topFade]);
-      } else {
-        colors.add(Colors.white);
-        stops.add(0.0);
-      }
-
-      if (_bottomFade > 0) {
-        colors.addAll([Colors.white, Colors.transparent]);
-        stops.addAll([1.0 - _bottomFade, 1.0]);
-      } else {
-        colors.add(Colors.white);
-        stops.add(1.0);
-      }
-
-      _maskPaint.shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: colors,
-        stops: stops,
-      ).createShader(rect);
-
-      context.canvas.drawRect(rect, _maskPaint);
-    }
-
-    if (_leftFade > 0 || _rightFade > 0) {
-      final colors = <Color>[];
-      final stops = <double>[];
-
-      if (_leftFade > 0) {
-        colors.addAll([Colors.transparent, Colors.white]);
-        stops.addAll([0.0, _leftFade]);
-      } else {
-        colors.add(Colors.white);
-        stops.add(0.0);
-      }
-
-      if (_rightFade > 0) {
-        colors.addAll([Colors.white, Colors.transparent]);
-        stops.addAll([1.0 - _rightFade, 1.0]);
-      } else {
-        colors.add(Colors.white);
-        stops.add(1.0);
-      }
-
-      _maskPaint.shader = LinearGradient(
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-        colors: colors,
-        stops: stops,
-      ).createShader(rect);
-
-      context.canvas.drawRect(rect, _maskPaint);
-    }
-
-    context.canvas.restore();
+    _maskLayer.layer = (_maskLayer.layer ?? ShaderMaskLayer())
+      ..shader = outer.createShader(Offset.zero & size)
+      ..maskRect = offset & size
+      ..blendMode = BlendMode.dstIn;
+    context.pushLayer(_maskLayer.layer!, (context, offset) {
+      super.paint(context, offset);
+      if (inner == null) return;
+      final rect = offset & size;
+      context.canvas.drawRect(rect, _innerMaskPaint..shader = inner.createShader(rect));
+    }, offset);
   }
 }

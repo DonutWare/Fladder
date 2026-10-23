@@ -16,9 +16,9 @@ T _$identity<T>(T value) => value;
 mixin _$ArgumentsModel {
   bool get htpcMode;
   bool get leanBackMode;
+  bool get lowResourceDevice;
   bool get newWindow;
   bool get skipNotifications;
-
   String? get launchLink;
 
   /// Create a copy of ArgumentsModel
@@ -30,7 +30,7 @@ mixin _$ArgumentsModel {
 
   @override
   String toString() {
-    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow, skipNotifications: $skipNotifications, launchLink: $launchLink)';
+    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, lowResourceDevice: $lowResourceDevice, newWindow: $newWindow, skipNotifications: $skipNotifications, launchLink: $launchLink)';
   }
 }
 
@@ -39,7 +39,13 @@ abstract mixin class $ArgumentsModelCopyWith<$Res> {
   factory $ArgumentsModelCopyWith(ArgumentsModel value, $Res Function(ArgumentsModel) _then) =
       _$ArgumentsModelCopyWithImpl;
   @useResult
-  $Res call({bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications, String? launchLink});
+  $Res call(
+      {bool htpcMode,
+      bool leanBackMode,
+      bool lowResourceDevice,
+      bool newWindow,
+      bool skipNotifications,
+      String? launchLink});
 }
 
 /// @nodoc
@@ -56,6 +62,7 @@ class _$ArgumentsModelCopyWithImpl<$Res> implements $ArgumentsModelCopyWith<$Res
   $Res call({
     Object? htpcMode = null,
     Object? leanBackMode = null,
+    Object? lowResourceDevice = null,
     Object? newWindow = null,
     Object? skipNotifications = null,
     Object? launchLink = freezed,
@@ -68,6 +75,10 @@ class _$ArgumentsModelCopyWithImpl<$Res> implements $ArgumentsModelCopyWith<$Res
       leanBackMode: null == leanBackMode
           ? _self.leanBackMode
           : leanBackMode // ignore: cast_nullable_to_non_nullable
+              as bool,
+      lowResourceDevice: null == lowResourceDevice
+          ? _self.lowResourceDevice
+          : lowResourceDevice // ignore: cast_nullable_to_non_nullable
               as bool,
       newWindow: null == newWindow
           ? _self.newWindow
@@ -178,14 +189,16 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications, String? launchLink)?
+    TResult Function(bool htpcMode, bool leanBackMode, bool lowResourceDevice, bool newWindow, bool skipNotifications,
+            String? launchLink)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel() when $default != null:
-        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications, _that.launchLink);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.lowResourceDevice, _that.newWindow,
+            _that.skipNotifications, _that.launchLink);
       case _:
         return orElse();
     }
@@ -206,13 +219,15 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications, String? launchLink)
+    TResult Function(bool htpcMode, bool leanBackMode, bool lowResourceDevice, bool newWindow, bool skipNotifications,
+            String? launchLink)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel():
-        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications, _that.launchLink);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.lowResourceDevice, _that.newWindow,
+            _that.skipNotifications, _that.launchLink);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -232,13 +247,15 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications, String? launchLink)?
+    TResult? Function(bool htpcMode, bool leanBackMode, bool lowResourceDevice, bool newWindow, bool skipNotifications,
+            String? launchLink)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel() when $default != null:
-        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications, _that.launchLink);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.lowResourceDevice, _that.newWindow,
+            _that.skipNotifications, _that.launchLink);
       case _:
         return null;
     }
@@ -251,6 +268,7 @@ class _ArgumentsModel extends ArgumentsModel {
   _ArgumentsModel(
       {this.htpcMode = false,
       this.leanBackMode = false,
+      this.lowResourceDevice = false,
       this.newWindow = false,
       this.skipNotifications = false,
       this.launchLink})
@@ -264,11 +282,13 @@ class _ArgumentsModel extends ArgumentsModel {
   final bool leanBackMode;
   @override
   @JsonKey()
+  final bool lowResourceDevice;
+  @override
+  @JsonKey()
   final bool newWindow;
   @override
   @JsonKey()
   final bool skipNotifications;
-
   @override
   final String? launchLink;
 
@@ -282,7 +302,7 @@ class _ArgumentsModel extends ArgumentsModel {
 
   @override
   String toString() {
-    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow, skipNotifications: $skipNotifications, launchLink: $launchLink)';
+    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, lowResourceDevice: $lowResourceDevice, newWindow: $newWindow, skipNotifications: $skipNotifications, launchLink: $launchLink)';
   }
 }
 
@@ -292,7 +312,13 @@ abstract mixin class _$ArgumentsModelCopyWith<$Res> implements $ArgumentsModelCo
       __$ArgumentsModelCopyWithImpl;
   @override
   @useResult
-  $Res call({bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications, String? launchLink});
+  $Res call(
+      {bool htpcMode,
+      bool leanBackMode,
+      bool lowResourceDevice,
+      bool newWindow,
+      bool skipNotifications,
+      String? launchLink});
 }
 
 /// @nodoc
@@ -309,6 +335,7 @@ class __$ArgumentsModelCopyWithImpl<$Res> implements _$ArgumentsModelCopyWith<$R
   $Res call({
     Object? htpcMode = null,
     Object? leanBackMode = null,
+    Object? lowResourceDevice = null,
     Object? newWindow = null,
     Object? skipNotifications = null,
     Object? launchLink = freezed,
@@ -321,6 +348,10 @@ class __$ArgumentsModelCopyWithImpl<$Res> implements _$ArgumentsModelCopyWith<$R
       leanBackMode: null == leanBackMode
           ? _self.leanBackMode
           : leanBackMode // ignore: cast_nullable_to_non_nullable
+              as bool,
+      lowResourceDevice: null == lowResourceDevice
+          ? _self.lowResourceDevice
+          : lowResourceDevice // ignore: cast_nullable_to_non_nullable
               as bool,
       newWindow: null == newWindow
           ? _self.newWindow

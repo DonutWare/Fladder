@@ -106,7 +106,8 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
       }
 
       if ((FocusProvider.autoFocusOf(context) || widget.autoFocus) &&
-          AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad) {
+          AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad &&
+          FocusProvider.canAutoFocus(context)) {
         final nodesOnSameRow = _nodesInRow(parentNode);
         final initialNode = _nodeForItemIndex(context, nodesOnSameRow, widget.startIndex ?? 0);
         initialNode?.requestFocus();

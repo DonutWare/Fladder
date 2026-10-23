@@ -38,6 +38,24 @@ enum GlobalHotKeys {
   }
 }
 
+enum LowResourceMode {
+  auto,
+  on,
+  off;
+
+  bool isActive(bool lowResourceDevice) => switch (this) {
+        LowResourceMode.auto => lowResourceDevice,
+        LowResourceMode.on => true,
+        LowResourceMode.off => false,
+      };
+
+  String label(BuildContext context) => switch (this) {
+        LowResourceMode.auto => context.localized.lowResourceModeAuto,
+        LowResourceMode.on => context.localized.enabled,
+        LowResourceMode.off => context.localized.disabled,
+      };
+}
+
 enum BackgroundType {
   disabled,
   enabled,
@@ -97,20 +115,22 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool useSystemIME,
     @Default(false) bool useTVExpandedLayout,
     @Default(false) bool forceLeanBackMode,
+    @Default(LowResourceMode.auto) LowResourceMode lowResourceMode,
     String? lastViewedUpdate,
     int? libraryPageSize,
     @Default({}) Map<GlobalHotKeys, KeyCombination> shortcuts,
   }) = _ClientSettingsModel;
 
   static ClientSettingsModel defaultModel() {
+    final lightweightDefaults = leanBackMode || lowResourceDevice;
     return ClientSettingsModel.internal(
       transcodeDownloadModel: TranscodeDownloadModel.fromDefaults(),
-      blurPlaceHolders: leanBackMode ? false : true,
-      backgroundImage: leanBackMode ? BackgroundType.disabled : BackgroundType.blurred,
+      blurPlaceHolders: !lightweightDefaults,
+      backgroundImage: lightweightDefaults ? BackgroundType.disabled : BackgroundType.blurred,
       themeMode: leanBackMode ? ThemeMode.dark : ThemeMode.system,
-      enableBlurEffects: leanBackMode ? false : true,
+      enableBlurEffects: !lightweightDefaults,
       useTVExpandedLayout: false,
-      dynamicPosterColors: leanBackMode ? false : true,
+      dynamicPosterColors: !lightweightDefaults,
     );
   }
 

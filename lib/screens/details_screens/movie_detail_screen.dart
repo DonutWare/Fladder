@@ -67,157 +67,147 @@ class _ItemDetailScreenState extends ConsumerState<MovieDetailScreen> {
       onRefresh: () async => await ref.read(providerInstance.notifier).fetchDetails(widget.item),
       backDrops: details?.images,
       content: (detailsContext, padding) => details != null
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: 64),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  OverviewHeader(
-                    name: details.name,
-                    image: details.images,
-                    padding: padding,
-                    mainButton: MediaPlayButton(
-                      item: details,
-                      onLongPressed: (restart) async {
-                        await details.play(
-                          detailsContext,
-                          ref,
-                          showPlaybackOption: true,
-                          startPosition: restart ? Duration.zero : null,
-                        );
-                        ref.read(providerInstance.notifier).fetchDetails(widget.item);
+          ? [
+              OverviewHeader(
+                name: details.name,
+                image: details.images,
+                padding: padding,
+                mainButton: MediaPlayButton(
+                  item: details,
+                  onLongPressed: (restart) async {
+                    await details.play(
+                      detailsContext,
+                      ref,
+                      showPlaybackOption: true,
+                      startPosition: restart ? Duration.zero : null,
+                    );
+                    ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                  },
+                  onPressed: (restart) async {
+                    await details.play(
+                      detailsContext,
+                      ref,
+                      startPosition: restart ? Duration.zero : null,
+                    );
+                    ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                  },
+                ),
+                centerButtons: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  alignment: wrapAlignment,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    SelectableIconButton(
+                      onPressed: () async {
+                        await ref.read(userProvider.notifier).setAsFavorite(!details.userData.isFavourite, details.id);
                       },
-                      onPressed: (restart) async {
-                        await details.play(
-                          detailsContext,
-                          ref,
-                          startPosition: restart ? Duration.zero : null,
-                        );
-                        ref.read(providerInstance.notifier).fetchDetails(widget.item);
+                      selected: details.userData.isFavourite,
+                      selectedIcon: IconsaxPlusBold.heart,
+                      icon: IconsaxPlusLinear.heart,
+                    ),
+                    SelectableIconButton(
+                      onPressed: () async {
+                        await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
                       },
+                      selected: details.userData.played,
+                      selectedIcon: IconsaxPlusBold.tick_circle,
+                      icon: IconsaxPlusLinear.tick_circle,
                     ),
-                    centerButtons: Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      alignment: wrapAlignment,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        SelectableIconButton(
-                          onPressed: () async {
-                            await ref
-                                .read(userProvider.notifier)
-                                .setAsFavorite(!details.userData.isFavourite, details.id);
-                          },
-                          selected: details.userData.isFavourite,
-                          selectedIcon: IconsaxPlusBold.heart,
-                          icon: IconsaxPlusLinear.heart,
-                        ),
-                        SelectableIconButton(
-                          onPressed: () async {
-                            await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
-                          },
-                          selected: details.userData.played,
-                          selectedIcon: IconsaxPlusBold.tick_circle,
-                          icon: IconsaxPlusLinear.tick_circle,
-                        ),
-                        SelectableIconButton(
-                          refreshOnEnd: false,
-                          onPressed: () async {
-                            await showBottomSheetPill(
-                              context: detailsContext,
-                              content: (context, scrollController) => ListView(
-                                controller: scrollController,
-                                shrinkWrap: true,
-                                children:
-                                    details.generateActions(detailsContext, ref).listTileItems(context, useIcons: true),
-                              ),
-                            );
-                          },
-                          selected: false,
-                          icon: IconsaxPlusLinear.more,
-                        ),
-                      ],
-                    ),
-                    originalTitle: details.originalTitle,
-                    productionYear: details.premiereDate.year.toString(),
-                    runTime: details.overview.runTime,
-                    genres: details.overview.genreItems,
-                    onGenreClicked: (genre) {
-                      final itemViewId = details.parentId ?? "";
-                      LibrarySearchRoute(
-                        parentId: [itemViewId],
-                        genres: {genre.name: true},
-                      ).push(context);
-                    },
-                    studios: details.overview.studios,
-                    officialRating: details.overview.parentalRating,
-                    communityRating: details.overview.communityRating,
-                    mediaStreamHelper: details.mediaStreams.isNotEmpty
-                        ? MediaStreamHelper(
-                            mediaStream: details.mediaStreams,
-                            onItemChanged: (changed) {
-                              ref.read(providerInstance.notifier).setMediaStreamHelper(changed);
-                            },
-                          )
-                        : null,
-                  ),
-                  if (details.overview.summary.isNotEmpty == true)
-                    ExpandingText(
-                      text: details.overview.summary,
-                    ).padding(padding),
-                  if (details.chapters.isNotEmpty)
-                    ChapterRow(
-                      chapters: details.chapters,
-                      contentPadding: padding,
-                      onPressed: (chapter) {
-                        details.play(
-                          detailsContext,
-                          ref,
-                          startPosition: chapter.startPosition,
+                    SelectableIconButton(
+                      refreshOnEnd: false,
+                      onPressed: () async {
+                        await showBottomSheetPill(
+                          context: detailsContext,
+                          content: (context, scrollController) => ListView(
+                            controller: scrollController,
+                            shrinkWrap: true,
+                            children:
+                                details.generateActions(detailsContext, ref).listTileItems(context, useIcons: true),
+                          ),
                         );
                       },
+                      selected: false,
+                      icon: IconsaxPlusLinear.more,
                     ),
-                  if (details.overview.people.isNotEmpty)
-                    PeopleRow(
-                      people: details.overview.people,
-                      contentPadding: padding,
-                    ),
-                  if (details.specialFeatures.isNotEmpty)
-                    SpecialFeaturesRow(
-                        contentPadding: padding,
-                        label: detailsContext.localized.specialFeature(details.specialFeatures.length),
-                        specialFeatures: details.specialFeatures),
-                  if (details.related.isNotEmpty)
-                    PosterRow(
-                      posters: details.related,
-                      contentPadding: padding,
-                      label: detailsContext.localized.related,
-                    ),
-                  if (details.seerrRecommended.isNotEmpty)
-                    SeerrPosterRow(
-                      posters: details.seerrRecommended,
-                      label:
-                          "${detailsContext.localized.discover} ${detailsContext.localized.recommended.toLowerCase()}",
-                      contentPadding: padding,
-                    ),
-                  if (details.seerrRelated.isNotEmpty)
-                    SeerrPosterRow(
-                      posters: details.seerrRelated,
-                      label: "${detailsContext.localized.discover} ${detailsContext.localized.related.toLowerCase()}",
-                      contentPadding: padding,
-                    ),
-                  if (details.overview.externalUrls?.isNotEmpty == true)
-                    Padding(
-                      padding: padding,
-                      child: ExternalUrlsRow(
-                        urls: details.overview.externalUrls,
-                      ),
-                    )
-                ].addPadding(const EdgeInsets.symmetric(vertical: 16)),
+                  ],
+                ),
+                originalTitle: details.originalTitle,
+                productionYear: details.premiereDate.year.toString(),
+                runTime: details.overview.runTime,
+                genres: details.overview.genreItems,
+                onGenreClicked: (genre) {
+                  final itemViewId = details.parentId ?? "";
+                  LibrarySearchRoute(
+                    parentId: [itemViewId],
+                    genres: {genre.name: true},
+                  ).push(context);
+                },
+                studios: details.overview.studios,
+                officialRating: details.overview.parentalRating,
+                communityRating: details.overview.communityRating,
+                mediaStreamHelper: details.mediaStreams.isNotEmpty
+                    ? MediaStreamHelper(
+                        mediaStream: details.mediaStreams,
+                        onItemChanged: (changed) {
+                          ref.read(providerInstance.notifier).setMediaStreamHelper(changed);
+                        },
+                      )
+                    : null,
               ),
-            )
-          : Container(),
+              if (details.overview.summary.isNotEmpty == true)
+                ExpandingText(
+                  text: details.overview.summary,
+                ).padding(padding),
+              if (details.chapters.isNotEmpty)
+                ChapterRow(
+                  chapters: details.chapters,
+                  contentPadding: padding,
+                  onPressed: (chapter) {
+                    details.play(
+                      detailsContext,
+                      ref,
+                      startPosition: chapter.startPosition,
+                    );
+                  },
+                ),
+              if (details.overview.people.isNotEmpty)
+                PeopleRow(
+                  people: details.overview.people,
+                  contentPadding: padding,
+                ),
+              if (details.specialFeatures.isNotEmpty)
+                SpecialFeaturesRow(
+                    contentPadding: padding,
+                    label: detailsContext.localized.specialFeature(details.specialFeatures.length),
+                    specialFeatures: details.specialFeatures),
+              if (details.related.isNotEmpty)
+                PosterRow(
+                  posters: details.related,
+                  contentPadding: padding,
+                  label: detailsContext.localized.related,
+                ),
+              if (details.seerrRecommended.isNotEmpty)
+                SeerrPosterRow(
+                  posters: details.seerrRecommended,
+                  label: "${detailsContext.localized.discover} ${detailsContext.localized.recommended.toLowerCase()}",
+                  contentPadding: padding,
+                ),
+              if (details.seerrRelated.isNotEmpty)
+                SeerrPosterRow(
+                  posters: details.seerrRelated,
+                  label: "${detailsContext.localized.discover} ${detailsContext.localized.related.toLowerCase()}",
+                  contentPadding: padding,
+                ),
+              if (details.overview.externalUrls?.isNotEmpty == true)
+                Padding(
+                  padding: padding,
+                  child: ExternalUrlsRow(
+                    urls: details.overview.externalUrls,
+                  ),
+                )
+            ].addPadding(const EdgeInsets.symmetric(vertical: 16))
+          : [],
     );
   }
 }

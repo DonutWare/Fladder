@@ -127,34 +127,36 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                 currentIndex: currentIndex,
               )
             : null,
-        bottomNavigationBar: AnimatedVisibility(
-          visible:
-              !showAudioFullScreen && (isHomeScreen && AdaptiveLayout.viewSizeOf(scaffoldContext) == ViewSize.phone),
-          hiddenHeight: calculatedBottomViewPadding,
-          duration: const Duration(milliseconds: 250),
-          child: HideOnScroll(
-            controller: AdaptiveLayout.scrollOf(scaffoldContext, currentTab),
-            forceHide: !homeRoutes.any((element) => element.name.contains(currentLocation)),
-            child: NestedBottomAppBar(
-              child: SizedBox(
-                height: 65,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: widget.destinations
-                      .map(
-                        (destination) => destination.toNavigationButton(
-                          widget.currentRouteName == destination.route?.routeName,
-                          false,
-                          false,
-                        ),
-                      )
-                      .toList(),
+        bottomNavigationBar: AdaptiveLayout.viewSizeOf(scaffoldContext) == ViewSize.television
+            ? SizedBox(height: calculatedBottomViewPadding)
+            : AnimatedVisibility(
+                visible: !showAudioFullScreen &&
+                    (isHomeScreen && AdaptiveLayout.viewSizeOf(scaffoldContext) == ViewSize.phone),
+                hiddenHeight: calculatedBottomViewPadding,
+                duration: const Duration(milliseconds: 250),
+                child: HideOnScroll(
+                  controller: AdaptiveLayout.scrollOf(scaffoldContext, currentTab),
+                  forceHide: !homeRoutes.any((element) => element.name.contains(currentLocation)),
+                  child: NestedBottomAppBar(
+                    child: SizedBox(
+                      height: 65,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: widget.destinations
+                            .map(
+                              (destination) => destination.toNavigationButton(
+                                widget.currentRouteName == destination.route?.routeName,
+                                false,
+                                false,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
         body: widget.nestedChild != null
             ? NavigationBody(
                 child: widget.nestedChild!,

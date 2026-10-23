@@ -88,6 +88,7 @@ class PlayerSettings {
     required this.videoFit,
     required this.screensaver,
     required this.refreshRateSwitching,
+    required this.lowResourceMode,
   });
 
   bool enableTunneling;
@@ -112,6 +113,8 @@ class PlayerSettings {
 
   bool refreshRateSwitching;
 
+  bool lowResourceMode;
+
   List<Object?> _toList() {
     return <Object?>[
       enableTunneling,
@@ -125,6 +128,7 @@ class PlayerSettings {
       videoFit,
       screensaver,
       refreshRateSwitching,
+      lowResourceMode,
     ];
   }
 
@@ -145,6 +149,7 @@ class PlayerSettings {
       videoFit: result[8]! as VideoPlayerFit,
       screensaver: result[9]! as Screensaver,
       refreshRateSwitching: result[10]! as bool,
+      lowResourceMode: result[11]! as bool,
     );
   }
 

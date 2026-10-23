@@ -39,99 +39,95 @@ class _PersonDetailScreenState extends ConsumerState<PersonDetailScreen> {
         await ref.read(providerID.notifier).fetchPerson(widget.person);
       },
       backDrops: [...?details?.movies, ...?details?.series].random().firstOrNull?.images,
-      content: (context, padding) => Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(height: MediaQuery.of(context).size.height / 6),
-          Padding(
-            padding: padding,
-            child: Wrap(
-              alignment: WrapAlignment.center,
-              runAlignment: WrapAlignment.spaceEvenly,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              runSpacing: 32,
-              spacing: 32,
-              children: [
-                Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  width: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
-                      ? MediaQuery.of(context).size.width
-                      : MediaQuery.of(context).size.width / 3.5,
-                  child: AspectRatio(
-                    aspectRatio: 0.70,
-                    child: FladderImage(
-                      fit: BoxFit.cover,
-                      placeHolder: placeHolder(details?.name ?? ""),
-                      image: details?.images?.primary,
-                    ),
+      content: (context, padding) => [
+        SizedBox(height: MediaQuery.of(context).size.height / 6),
+        Padding(
+          padding: padding,
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            runAlignment: WrapAlignment.spaceEvenly,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runSpacing: 32,
+            spacing: 32,
+            children: [
+              Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                width: AdaptiveLayout.viewSizeOf(context) == ViewSize.phone
+                    ? MediaQuery.of(context).size.width
+                    : MediaQuery.of(context).size.width / 3.5,
+                child: AspectRatio(
+                  aspectRatio: 0.70,
+                  child: FladderImage(
+                    fit: BoxFit.cover,
+                    placeHolder: placeHolder(details?.name ?? ""),
+                    image: details?.images?.primary,
                   ),
                 ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 32),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(child: Text(details?.name ?? "", style: Theme.of(context).textTheme.displaySmall)),
-                          const SizedBox(width: 15),
-                          SelectableIconButton(
-                            onPressed: () async => await ref
-                                .read(userProvider.notifier)
-                                .setAsFavorite(!(details?.userData.isFavourite ?? false), details?.id ?? ""),
-                            selected: (details?.userData.isFavourite ?? false),
-                            selectedIcon: Icons.favorite_rounded,
-                            icon: Icons.favorite_border_rounded,
-                          ),
-                        ],
-                      ),
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 32),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Flexible(child: Text(details?.name ?? "", style: Theme.of(context).textTheme.displaySmall)),
+                        const SizedBox(width: 15),
+                        SelectableIconButton(
+                          onPressed: () async => await ref
+                              .read(userProvider.notifier)
+                              .setAsFavorite(!(details?.userData.isFavourite ?? false), details?.id ?? ""),
+                          selected: (details?.userData.isFavourite ?? false),
+                          selectedIcon: Icons.favorite_rounded,
+                          icon: Icons.favorite_border_rounded,
+                        ),
+                      ],
                     ),
-                    if (details?.dateOfBirth != null)
-                      Text(context.localized.personBirthday(
-                          DateFormat.yMEd(context.localized.localeName).format(details!.dateOfBirth!).toString())),
-                    if (details?.age != null) Text(context.localized.personAge(details!.age!)),
-                    if (details?.birthPlace.isEmpty == false)
-                      Text(context.localized.personBirthPlace(details!.birthPlace.join(", "))),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  if (details?.dateOfBirth != null)
+                    Text(context.localized.personBirthday(
+                        DateFormat.yMEd(context.localized.localeName).format(details!.dateOfBirth!).toString())),
+                  if (details?.age != null) Text(context.localized.personAge(details!.age!)),
+                  if (details?.birthPlace.isEmpty == false)
+                    Text(context.localized.personBirthPlace(details!.birthPlace.join(", "))),
+                ],
+              ),
+            ],
           ),
-          const SizedBox(height: 32),
-          if (details?.movies.isNotEmpty ?? false)
-            PosterRow(
-              contentPadding: padding,
-              posters: details?.movies ?? [],
-              label: context.localized.mediaTypeMovie(details?.movies.length ?? 2),
-            ),
-          if (details?.series.isNotEmpty ?? false)
-            PosterRow(
-              contentPadding: padding,
-              posters: details?.series ?? [],
-              label: context.localized.mediaTypeSeries(details?.series.length ?? 2),
-            ),
-          if (details?.seerrMovies.isNotEmpty ?? false)
-            SeerrPosterRow(
-              contentPadding: padding,
-              posters: details?.seerrMovies ?? [],
-              label: context.localized.seerrMovies,
-            ),
-          if (details?.seerrSeries.isNotEmpty ?? false)
-            SeerrPosterRow(
-              contentPadding: padding,
-              posters: details?.seerrSeries ?? [],
-              label: context.localized.seerrSeries,
-            ),
-          if (details?.overview.externalUrls?.isNotEmpty ?? false)
-            ExternalUrlsRow(
-              urls: details?.overview.externalUrls,
-            ).padding(padding),
-        ],
-      ),
+        ),
+        const SizedBox(height: 32),
+        if (details?.movies.isNotEmpty ?? false)
+          PosterRow(
+            contentPadding: padding,
+            posters: details?.movies ?? [],
+            label: context.localized.mediaTypeMovie(details?.movies.length ?? 2),
+          ),
+        if (details?.series.isNotEmpty ?? false)
+          PosterRow(
+            contentPadding: padding,
+            posters: details?.series ?? [],
+            label: context.localized.mediaTypeSeries(details?.series.length ?? 2),
+          ),
+        if (details?.seerrMovies.isNotEmpty ?? false)
+          SeerrPosterRow(
+            contentPadding: padding,
+            posters: details?.seerrMovies ?? [],
+            label: context.localized.seerrMovies,
+          ),
+        if (details?.seerrSeries.isNotEmpty ?? false)
+          SeerrPosterRow(
+            contentPadding: padding,
+            posters: details?.seerrSeries ?? [],
+            label: context.localized.seerrSeries,
+          ),
+        if (details?.overview.externalUrls?.isNotEmpty ?? false)
+          ExternalUrlsRow(
+            urls: details?.overview.externalUrls,
+          ).padding(padding),
+      ],
     );
   }
 

@@ -7,6 +7,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/dashboard_mode_provider.dart';
+import 'package:fladder/providers/low_resource_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/window_title_provider.dart';
@@ -47,13 +48,19 @@ enum HomeTabs {
         HomeTabs.sync => IconsaxPlusBold.cloud,
       };
 
-  Future navigate(BuildContext context) => switch (this) {
-        HomeTabs.dashboard => context.router.navigate(const DashboardRoute()),
-        HomeTabs.library => context.router.navigate(const LibraryRoute()),
-        HomeTabs.favorites => context.router.navigate(const FavouritesRoute()),
-        HomeTabs.seerr => context.router.navigate(const SeerrRoute()),
-        HomeTabs.sync => context.router.navigate(const SyncedRoute()),
-      };
+  Future navigate(BuildContext context) {
+    final route = switch (this) {
+      HomeTabs.dashboard => const DashboardRoute(),
+      HomeTabs.library => const LibraryRoute(),
+      HomeTabs.favorites => const FavouritesRoute(),
+      HomeTabs.seerr => const SeerrRoute(),
+      HomeTabs.sync => const SyncedRoute(),
+    };
+    if (ProviderScope.containerOf(context, listen: false).read(lowResourceModeProvider)) {
+      context.router.innerRouterOf<StackRouter>(HomeRoute.name)?.popUntilRoot();
+    }
+    return context.router.navigate(route);
+  }
 
   String label(BuildContext context) => switch (this) {
         HomeTabs.dashboard => context.localized.dashboard,

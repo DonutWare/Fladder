@@ -68,10 +68,15 @@ class ChapterRow extends ConsumerWidget {
             foregroundDecoration: FladderTheme.defaultPosterDecoration,
             child: AspectRatio(
               aspectRatio: 1.75,
-              child: CachedNetworkImage(
-                imageUrl: chapter.imageUrl,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => const Icon(IconsaxPlusBold.image),
+              child: LayoutBuilder(
+                builder: (context, constraints) => CachedNetworkImage(
+                  imageUrl: chapter.imageUrl,
+                  fit: BoxFit.cover,
+                  memCacheHeight: constraints.maxHeight.isFinite
+                      ? (constraints.maxHeight * MediaQuery.devicePixelRatioOf(context)).ceil()
+                      : null,
+                  placeholder: (context, url) => const Icon(IconsaxPlusBold.image),
+                ),
               ),
             ),
           ),

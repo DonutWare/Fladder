@@ -135,6 +135,8 @@ class GlobalFallbackTraversalPolicy extends ReadingOrderTraversalPolicy {
     final isRtl = Directionality.of(currentNode.context!) == TextDirection.rtl;
     final towardsSidebar = isRtl ? TraversalDirection.right : TraversalDirection.left;
     lastMainFocus = null;
+    final scope = currentNode.nearestScope;
+    if (scope != null) invalidateScopeData(scope);
     final handled = super.inDirection(currentNode, direction);
     if (!handled && direction == towardsSidebar) {
       lastMainFocus = currentNode;

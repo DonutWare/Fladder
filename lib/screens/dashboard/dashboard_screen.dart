@@ -12,6 +12,7 @@ import 'package:fladder/models/collection_types.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/library_search/library_search_options.dart';
+import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/dashboard_mode_provider.dart';
 import 'package:fladder/providers/dashboard_provider.dart';
@@ -19,6 +20,7 @@ import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
+import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/dashboard/home_banner_widget.dart';
@@ -61,6 +63,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   void initState() {
     super.initState();
     _timer = Timer.periodic(const Duration(seconds: 120), (timer) {
+      final appInForeground = WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
+      final videoFullScreen = ref.read(mediaPlaybackProvider).state == VideoPlayerState.fullScreen;
+      if (!appInForeground || videoFullScreen) return;
       _refreshIndicatorKey.currentState?.show();
     });
   }

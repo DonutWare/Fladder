@@ -25,6 +25,7 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/audio_lyrics_provider.dart';
 import 'package:fladder/providers/live_tv_provider.dart';
+import 'package:fladder/providers/low_resource_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
@@ -140,7 +141,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     }
 
     _player = newPlayer;
-    await newPlayer.init(ref.read(videoPlayerSettingsProvider));
+    await newPlayer.init(
+      ref.read(videoPlayerSettingsProvider),
+      lowResourceMode: ref.read(lowResourceModeProvider),
+    );
     _initPlayer();
     _subscribePlayerState();
   }

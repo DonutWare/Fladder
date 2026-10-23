@@ -15,6 +15,7 @@ import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/src/video_player_helper.g.dart';
 import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/fladder_config.dart';
+import 'package:fladder/util/low_resource_detection.dart';
 import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/util/svg_utils.dart';
 
@@ -55,6 +56,7 @@ Future<AppBootstrapResult> bootstrapApplication(List<String> args) async {
 
   final sharedPreferences = await SharedPreferences.getInstance();
   final leanBackEnabled = await resolveLeanBackEnabled() || _storedLeanBackMode(sharedPreferences);
+  final lowResourceDevice = await resolveLowResourceDevice();
 
   var windowArguments = '';
   if (isDesktopPlatform) {
@@ -79,6 +81,7 @@ Future<AppBootstrapResult> bootstrapApplication(List<String> args) async {
     args,
     windowArguments,
     leanBackEnabled,
+    lowResourceDetected: lowResourceDevice,
   );
 
   return AppBootstrapResult(

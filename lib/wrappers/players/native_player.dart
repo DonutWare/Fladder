@@ -27,7 +27,8 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   }
 
   @override
-  Future<void> init(VideoPlayerSettingsModel settings) async => VideoPlayerListenerCallback.setUp(this);
+  Future<void> init(VideoPlayerSettingsModel settings, {bool lowResourceMode = false}) async =>
+      VideoPlayerListenerCallback.setUp(this);
 
   @override
   Future<void> loop(bool loop) {

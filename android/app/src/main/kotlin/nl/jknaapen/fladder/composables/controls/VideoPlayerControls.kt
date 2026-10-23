@@ -137,7 +137,6 @@ fun CustomVideoControls(
     val forwardSpeed by PlayerSettingsObject.forwardSpeed.collectAsState(30.seconds)
     val backwardSpeed by PlayerSettingsObject.backwardSpeed.collectAsState(15.seconds)
 
-    val position by VideoPlayerObject.position.collectAsState(0L)
     val player = VideoPlayerObject.implementation.player
     val lastSeekInteraction = remember { mutableLongStateOf(System.currentTimeMillis()) }
 
@@ -147,7 +146,7 @@ fun CustomVideoControls(
     LaunchedEffect(lastSeekInteraction.longValue) {
         delay(1.seconds)
         if (currentSkipTime == 0L) return@LaunchedEffect
-        player?.seekTo(position + currentSkipTime)
+        player?.let { it.seekTo(it.currentPosition + currentSkipTime) }
         currentSkipTime = 0L
     }
 

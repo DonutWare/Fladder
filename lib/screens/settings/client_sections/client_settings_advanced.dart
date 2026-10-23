@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
+import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/incognito_mode_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
@@ -14,6 +15,7 @@ import 'package:fladder/screens/settings/widgets/settings_message_box.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/option_dialogue.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 
 List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
   return settingsListGroup(
@@ -139,6 +141,19 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
           value: ref.watch(incognitoModeProvider),
           onChanged: (value) => ref.read(incognitoModeProvider.notifier).state = value,
         ),
+      ),
+      SettingsListTileEnum(
+        label: Text(context.localized.lowResourceModeTitle),
+        subLabel: Text(context.localized.lowResourceModeDesc),
+        current: ref.watch(clientSettingsProvider.select((value) => value.lowResourceMode)).label(context),
+        itemBuilder: (context) => LowResourceMode.values
+            .map(
+              (e) => ItemActionButton(
+                label: Text(e.label(context)),
+                action: () => ref.read(clientSettingsProvider.notifier).update((cb) => cb.copyWith(lowResourceMode: e)),
+              ),
+            )
+            .toList(),
       ),
       if (defaultTargetPlatform == TargetPlatform.android)
         Column(

@@ -40,6 +40,9 @@ class _ThemeOverwriteState extends ConsumerState<ThemeOverwrite> {
     }
   }
 
+  Object? _cachedThemeKey;
+  ThemeData? _cachedTheme;
+
   Future<void> _fetchColor(ImageProvider image) async {
     final color = await getDominantColor(image);
     if (!mounted || widget.image != image) return;
@@ -57,25 +60,28 @@ class _ThemeOverwriteState extends ConsumerState<ThemeOverwrite> {
     final effectiveColor = widget.image != null ? _dominantColor : widget.color;
     final amoledOverwrite = amoledBlack && isDarkTheme ? Colors.black : null;
 
-    final newColorScheme = effectiveColor != null
-        ? ColorScheme.fromSeed(
-            seedColor: effectiveColor,
-            brightness: Theme.brightnessOf(context),
-            dynamicSchemeVariant: schemeVariant,
-          )
-        : null;
+    final themeKey = (effectiveColor, Theme.brightnessOf(context), schemeVariant, amoledOverwrite);
+    if (effectiveColor != null && themeKey != _cachedThemeKey) {
+      final newColorScheme = ColorScheme.fromSeed(
+        seedColor: effectiveColor,
+        brightness: Theme.brightnessOf(context),
+        dynamicSchemeVariant: schemeVariant,
+      );
+      _cachedThemeKey = themeKey;
+      _cachedTheme = FladderTheme.theme(newColorScheme, schemeVariant).copyWith(
+        scaffoldBackgroundColor: amoledOverwrite,
+        cardColor: amoledOverwrite,
+        canvasColor: amoledOverwrite,
+        colorScheme: newColorScheme.copyWith(
+          surface: amoledOverwrite,
+          surfaceContainerHighest: amoledOverwrite,
+          surfaceContainerLow: amoledOverwrite,
+        ),
+      );
+    }
 
-    final themeData = newColorScheme != null
-        ? FladderTheme.theme(newColorScheme, schemeVariant).copyWith(
-            scaffoldBackgroundColor: amoledOverwrite,
-            cardColor: amoledOverwrite,
-            canvasColor: amoledOverwrite,
-            colorScheme: newColorScheme.copyWith(
-              surface: amoledOverwrite,
-              surfaceContainerHighest: amoledOverwrite,
-              surfaceContainerLow: amoledOverwrite,
-            ),
-          )
+    final themeData = effectiveColor != null
+        ? _cachedTheme!
         : Theme.of(context).copyWith(
             scaffoldBackgroundColor: amoledOverwrite,
             cardColor: amoledOverwrite,
