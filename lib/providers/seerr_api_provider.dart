@@ -21,8 +21,10 @@ class SeerrApi extends _$SeerrApi {
   SeerrService build() {
     ref.watch(userProvider.select((u) => u?.seerrCredentials));
 
+    final httpClient = createHttpClient();
+
     final chopperClient = ChopperClient(
-      client: createHttpClient(),
+      client: httpClient,
       converter: const SeerrJsonConverter(),
       interceptors: [
         SeerrRequest(ref),

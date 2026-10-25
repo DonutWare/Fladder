@@ -1,12 +1,4 @@
-import 'dart:io';
+import 'http_client_stub.dart' if (dart.library.io) 'http_client_io.dart' as impl;
 import 'package:http/http.dart' as http;
-import 'package:cronet_http/cronet_http.dart';
 
-http.Client createHttpClient() {
-  if (Platform.isAndroid) {
-    // Use Cronet on Android devices to trust user-installed root CA certificates
-    return CronetClient.defaultCronetEngine();
-  }
-
-  return http.Client();
-}
+http.Client createHttpClient() => impl.createHttpClient();

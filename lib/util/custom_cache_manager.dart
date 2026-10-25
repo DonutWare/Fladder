@@ -8,7 +8,7 @@ class CustomCacheManager {
       key,
       stalePeriod: const Duration(days: 30),
       maxNrOfCacheObjects: 1000,
-      fileService: HttpFileService(createHttpClient()),
+      fileService: HttpFileService(httpClient: createHttpClient()),
     ),
   );
 }
