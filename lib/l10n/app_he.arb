@@ -613,5 +613,6 @@
     "subtitles": "כתוביות",
     "switchUser": "החלף משתמש",
     "sync": "סנכרן",
-    "hideEmpty": "הסתר ריק"
+    "hideEmpty": "הסתר ריק",
+    "libraryPageSizeDesc": "הגדר את הסכום כדי לטעון בזמן. 0 ממריא."
 }
