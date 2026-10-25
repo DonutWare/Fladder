@@ -2202,5 +2202,13 @@
         }
     },
     "deepLinkItemNotFound": "此项目在您的任何账户中均不可用",
-    "settingsServerUrlSetDesc": "更改用于连接至 Jellyfin 服务器的地址。新的 URL 必须指向同一台服务器。"
+    "settingsServerUrlSetDesc": "更改用于连接至 Jellyfin 服务器的地址。新的 URL 必须指向同一台服务器。",
+    "refreshRateSwitchingTitle": "刷新率匹配",
+    "refreshRateSwitchingDesc": "使显示刷新率与视频帧率相匹配",
+    "subtitleOffsetBackward": "字幕后移",
+    "subtitleOffsetForward": "字幕前移",
+    "subtitleOffset": "字幕偏移",
+    "lowResourceModeTitle": "低资源模式",
+    "lowResourceModeDesc": "通过降低缓存与缓冲区并关闭复杂的视觉特效，在内存（RAM）有限的设备上减少内存占用。对于内存（RAM）在 3 GB 及以下的设备，此功能会自动启用。",
+    "lowResourceModeAuto": "自动"
 }
