@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
@@ -14,7 +12,10 @@ class PhotoQueueSource {
   final bool shuffle;
   final int limit;
 
-  const PhotoQueueSource({
+  List<int>? _libraryCountsCache;
+  int? _totalCountCache;
+
+  PhotoQueueSource({
     required this.libraryState,
     required this.parentIds,
     required this.recursive,
@@ -22,79 +23,88 @@ class PhotoQueueSource {
     required this.limit,
   });
 
+  List<int> _calculateDistribution(int targetItems, List<int> librarySizes) {
+    List<int> dist = List.filled(librarySizes.length, 0);
+    int remaining = targetItems;
+
+    while (remaining > 0) {
+      bool hasActive = false;
+      for (int i = 0; i < librarySizes.length && remaining > 0; i++) {
+        if (dist[i] < librarySizes[i]) {
+          dist[i]++;
+          remaining--;
+          hasActive = true;
+        }
+      }
+      if (!hasActive) break;
+    }
+    return dist;
+  }
+
   Future<({List<PhotoModel> items, int totalCount})> fetchPhotos(
     ProviderReader read, {
-    int? startIndex,
+    int startIndex = 0,
   }) async {
     final filters = libraryState.filters;
     final searchTerm = filters.searchQuery.isNotEmpty ? filters.searchQuery : null;
-    final effectiveParentIds = (parentIds == null || parentIds!.isEmpty) ? [null] : parentIds!;
+    final parents = (parentIds?.isNotEmpty == true) ? parentIds! : [null];
 
-    final countFutures = effectiveParentIds.map((id) => _fetchFromJellyfin(
-          read: read,
-          parentId: id,
-          searchTerm: searchTerm,
-          startIndex: 0,
-          localLimit: 0,
-        ));
+    if (_libraryCountsCache == null) {
+      final counts = await Future.wait(parents.map((id) async {
+        final res = await _fetchFromJellyfin(read, id, searchTerm, 0, 0);
+        return res.count;
+      }));
+      _libraryCountsCache = counts;
+      _totalCountCache = counts.fold<int>(0, (sum, count) => sum + count);
+    }
 
-    final countResponses = await Future.wait(countFutures);
+    final counts = _libraryCountsCache!;
+    final totalCount = _totalCountCache!;
 
-    int currentGlobalIndex = 0;
-    int itemsNeeded = limit;
-    int aggregatedTotalCount = 0;
+    final startDist = _calculateDistribution(startIndex, counts);
+    final endDist = _calculateDistribution(startIndex + limit, counts);
 
-    final targetStart = startIndex ?? 0;
-    final targetEnd = targetStart + limit;
-
-    final fetchFutures = <Future<({List<PhotoModel> items, int count})>>[];
-
-    for (int i = 0; i < effectiveParentIds.length; i++) {
-      final parentId = effectiveParentIds[i];
-      final parentTotal = countResponses[i].count;
-      aggregatedTotalCount += parentTotal;
-
-      if (itemsNeeded <= 0) continue;
-
-      final parentStart = currentGlobalIndex;
-      final parentEnd = currentGlobalIndex + parentTotal;
-
-      if (targetStart < parentEnd && targetEnd > parentStart) {
-        final localStartIndex = math.max(0, targetStart - parentStart);
-        final maxAvailable = parentTotal - localStartIndex;
-        final localLimit = math.min(itemsNeeded, maxAvailable);
-
+    final fetchFutures = <Future<List<PhotoModel>>>[];
+    for (int i = 0; i < parents.length; i++) {
+      final fetchCount = endDist[i] - startDist[i];
+      if (fetchCount > 0) {
         fetchFutures.add(_fetchFromJellyfin(
-          read: read,
-          parentId: parentId,
-          searchTerm: searchTerm,
-          startIndex: localStartIndex,
-          localLimit: localLimit,
-        ));
-
-        itemsNeeded -= localLimit;
+          read,
+          parents[i],
+          searchTerm,
+          startDist[i],
+          fetchCount,
+        ).then((res) => res.items));
+      } else {
+        fetchFutures.add(Future.value([]));
       }
-
-      currentGlobalIndex += parentTotal;
     }
 
-    final fetchResponses = await Future.wait(fetchFutures);
-    final finalItems = fetchResponses.expand((r) => r.items).toList();
+    final fetchedLists = await Future.wait(fetchFutures);
 
-    if (shuffle) {
-      finalItems.shuffle();
+    final finalItems = <PhotoModel>[];
+    final maxLen = fetchedLists.fold<int>(0, (max, list) => list.length > max ? list.length : max);
+
+    for (int i = 0; i < maxLen; i++) {
+      for (final list in fetchedLists) {
+        if (i < list.length) {
+          finalItems.add(list[i]);
+        }
+      }
     }
 
-    return (items: finalItems, totalCount: aggregatedTotalCount);
+    if (shuffle) finalItems.shuffle();
+
+    return (items: finalItems, totalCount: totalCount);
   }
 
-  Future<({List<PhotoModel> items, int count})> _fetchFromJellyfin({
-    required ProviderReader read,
-    required String? parentId,
-    required String? searchTerm,
-    required int startIndex,
-    required int localLimit,
-  }) async {
+  Future<({List<PhotoModel> items, int count})> _fetchFromJellyfin(
+    ProviderReader read,
+    String? parentId,
+    String? searchTerm,
+    int startIndex,
+    int localLimit,
+  ) async {
     final filters = libraryState.filters;
 
     final response = await read(jellyApiProvider).itemsGet(

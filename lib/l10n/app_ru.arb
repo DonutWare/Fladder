@@ -1863,7 +1863,7 @@
     "linkData": "Данные ссылки",
     "passwordNotRequired": "Не требуется, оставьте пустым, чтобы не включать пароль в ссылку",
     "connectWithAuthLink": "Подключиться с ссылкой для входа",
-    "pasteFladderAuthLink": "Вставьте ссылку для входа вида fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "Вставьте ссылку для входа вида fladder://login?authLink=...",
     "connect": "Подключиться",
     "deletedItem": "{itemName} удалено",
     "@deletedItem": {
@@ -2019,5 +2019,37 @@
     "audioPlayerRepeatAll": "Повторить все",
     "syncPlaylistDeleteTitle": "Удалить синхронизированный плейлист",
     "playerSettingsReplayGainLevelTitle": "Уровень ReplayGain",
-    "removeFromQueue": "Удалить из очереди"
+    "removeFromQueue": "Удалить из очереди",
+    "mediaTypeCollection": "{count, plural, one{Коллекция} two{Коллекции} other{Коллекций}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "authenticateWithBiometrics": "Использовать биометрию для аутентификации {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "pictureInPictureTitle": "Картинка в картинке",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "Включать \"картинку в картинке\" автоматически",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "Режим Picture-in-Picture недоступен на этом устройстве",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    }
 }

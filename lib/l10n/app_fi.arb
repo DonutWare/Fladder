@@ -2133,7 +2133,7 @@
     "passwordNotRequired": "Ei pakollinen, jätä tyhjäksi jos et halua sisällyttää salasanaa linkkiin",
     "authLinkButtonToolTip": "Avaa todennuslinkin valintaikkuna",
     "connectWithAuthLink": "Yhdistä todennuslinkillä",
-    "pasteFladderAuthLink": "Liitä Fladder-todennuslinkki fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "Liitä Fladder-todennuslinkki fladder://login?authLink=...",
     "connect": "Yhdistä",
     "authLinkDesc": "Pyydä palvelimen järjestelmänvalvojaa antamaan todennuslinkki. Linkki sisältää todennustiedot, joten pidä se turvassa.",
     "deletedItem": "Poistettiin {itemName}",

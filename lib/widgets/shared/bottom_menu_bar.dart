@@ -40,17 +40,19 @@ class BottomMenuBar extends ConsumerWidget {
     final calculatedBottomViewPadding =
         showPlayerBar ? floatingPlayerHeight(context) + bottomViewPadding : bottomViewPadding;
 
-    final actionButton = Theme(
-      data: theme.copyWith(
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: theme.colorScheme.primary,
-          foregroundColor: theme.colorScheme.onPrimary,
-          elevation: 0,
-          shape: FladderTheme.largeShape,
-        ),
-      ),
-      child: fabAction!,
-    );
+    final actionButton = fabAction != null
+        ? Theme(
+            data: theme.copyWith(
+              floatingActionButtonTheme: FloatingActionButtonThemeData(
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: theme.colorScheme.onPrimary,
+                elevation: 0,
+                shape: FladderTheme.largeShape,
+              ),
+            ),
+            child: fabAction!,
+          )
+        : null;
 
     return Padding(
       padding: const EdgeInsets.all(16).add(AdaptiveLayout.adaptivePadding(context)).add(
@@ -89,13 +91,13 @@ class BottomMenuBar extends ConsumerWidget {
                             alignment: Alignment.centerRight,
                             child: extended || sticky
                                 ? Row(
-                                    children: [const SizedBox(width: 8), ...actions.reversed.map((e) => e.toButton())],
+                                    children: [...actions.reversed.map((e) => e.toButton())],
                                   )
                                 : const SizedBox.shrink(key: ValueKey('empty')),
                           ),
                         ),
                       ),
-                      if (fabAction != null && combined)
+                      if (actionButton != null && combined)
                         SizedBox.square(
                           dimension: 48,
                           child: actionButton,
@@ -105,7 +107,7 @@ class BottomMenuBar extends ConsumerWidget {
                 ),
               ),
             ),
-            if (fabAction != null && !combined)
+            if (actionButton != null && !combined)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
                 child: actionButton,

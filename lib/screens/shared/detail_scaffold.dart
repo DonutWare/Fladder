@@ -135,8 +135,10 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
       });
       return;
     }
-    if (!ref.read(clientSettingsProvider.select((value) => value.deriveColorsFromItem))) return;
-    final newImage = widget.item?.getPosters?.logo;
+    if (!ref.read(clientSettingsProvider.select((value) => value.deriveColorsFromItem))) {
+      return;
+    }
+    final newImage = widget.item?.getPosters?.primary ?? widget.item?.getPosters?.logo;
     if (newImage == null || identical(newImage, _lastColorImage)) return;
     _lastColorImage = newImage;
 
@@ -145,7 +147,9 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
 
     final newColor = await getDominantColor(provider);
 
-    if (!mounted || !identical(_lastRequestedImage, provider)) return;
+    if (!mounted || !identical(_lastRequestedImage, provider)) {
+      return;
+    }
 
     setState(() {
       dominantColor = newColor;

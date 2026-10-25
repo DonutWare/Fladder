@@ -1,0 +1,77 @@
+{
+    "nativeName": "Filipino",
+    "accept": "Tanggapin",
+    "about": "Tungkol sa",
+    "active": "Aktibo",
+    "addAsFavorite": "Idagdag sa mga paborito",
+    "addToCollection": "Idagdag sa koleksyon",
+    "addToPlaylist": "Idagdag sa playlist",
+    "addToQueue": "idagdag sa pila",
+    "all": "Lahat",
+    "enableSpeedBoostDesc": "Hawakan ang screen (mobile) o spacebar (desktop) upang pansamantalang pabilisin ang playback",
+    "preferredDownloadLanguage": "Mas gustong wika sa pag-download",
+    "metadataImageLongPressClick": "I-right-click upang tanggalin ang larawan",
+    "enableAccessAllLibraries": "Pahintulutan ang pag-access sa lahat ng library",
+    "actor": "{count, plural, other{Aktor} one{Aktor}}",
+    "@actor": {
+        "description": "actor",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "instantMix": "Mabilisang mix",
+    "addedToQueue": "{count, plural, one{Naidagdag ang {count} track sa pila} other{Naidagdag ang {count} na mga track sa pila}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "advanced": "Advanced",
+    "amoledBlack": "AMOLED Black",
+    "appLockAutoLogin": "Awtomatikong Pag-login",
+    "appLockBiometrics": "Biyometrika",
+    "appLockPasscode": "Lihim na kodigo",
+    "appLockTitle": "Itakda ang paraan ng pag-login para kay {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "ascending": "Pataas",
+    "audio": "{count, plural, one{Audio} other{Audio}}",
+    "@audio": {
+        "description": "Audio (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "audioPlayerPlaybackOptionsTitle": "Mga opsyon sa playback",
+    "audioPlayerRepeatAll": "Ulitin lahat",
+    "audioPlayerRepeatOff": "Naka-off ang pag-ulit",
+    "audioPlayerRepeatOne": "Ulitin ang isa",
+    "audioPlayerShuffle": "I-shuffle",
+    "showArtist": "Ipakita ang artist",
+    "track": "{count, plural, one{Track} other{Mga Track}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "autoPlay": "Awtomatikong pag-play",
+    "backgroundBlur": "Blur ng background"
+}

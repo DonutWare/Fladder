@@ -17,6 +17,7 @@ import 'package:fladder/models/items/images_models.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
+import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/syncing/transcode_download_model.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -70,6 +71,7 @@ abstract class SyncedItem with _$SyncedItem {
 
   File get dataFile => File(joinAll(["$path", "data.json"]));
   File get overlayFile => File(joinAll(["$path", "overlay.json"]));
+  File get lyricsFile => File(joinAll(["$path", "lyrics.json"]));
 
   Future<List<String>> getPlaylistChildIdsAsync() async {
     if (!overlayFile.existsSync()) return [];
@@ -86,6 +88,15 @@ abstract class SyncedItem with _$SyncedItem {
     if (!overlayFile.existsSync()) return false;
     final overlay = jsonDecode(overlayFile.readAsStringSync()) as Map<String, dynamic>;
     return overlay['isTranscoded'] == true;
+  }
+
+  LyricDto? get lyrics {
+    if (!lyricsFile.existsSync()) return null;
+    try {
+      return LyricDto.fromJson(jsonDecode(lyricsFile.readAsStringSync()) as Map<String, dynamic>);
+    } catch (_) {
+      return null;
+    }
   }
 
   BaseItemDto? get data {
@@ -121,7 +132,7 @@ abstract class SyncedItem with _$SyncedItem {
 
   double get totalProgress => 0.0;
 
-  bool get hasVideoFile => videoFileName?.isNotEmpty == true && (fileSize ?? 0) > 0;
+  bool get hasVideoFile => videoFileName?.isNotEmpty == true && ((fileSize ?? 0) > 0 || itemModel is PhotoModel);
 
   TaskStatus get anyStatus {
     return TaskStatus.notFound;
@@ -132,6 +143,7 @@ abstract class SyncedItem with _$SyncedItem {
     for (final entity in [
       videoFile,
       overlayFile,
+      lyricsFile,
       Directory(joinAll([directory.path, trickPlayPath])),
       Directory(joinAll([directory.path, chaptersPath])),
     ]) {
@@ -163,6 +175,21 @@ abstract class SyncedItem with _$SyncedItem {
       itemDto = _applyOverlay(itemDto, overlay);
     }
     final itemModel = ItemBaseModel.fromBaseDto(itemDto, ref);
+    if (itemModel is PhotoModel) {
+      final hasLocalFile = videoFile.existsSync();
+      final ImagesData? fullImages = switch (itemModel.internalType) {
+        FladderItemType.photo when hasLocalFile => (images ?? ImagesData()).copyWith(
+            primary: () => (images?.primary ?? ImageData(key: id)).copyWith(path: videoFile.path),
+          ),
+        _ when hasLocalFile => images,
+        _ => itemModel.images,
+      };
+      return itemModel.copyWith(
+        thumbnail: images ?? itemModel.thumbnail,
+        images: fullImages,
+        userData: userData,
+      );
+    }
     return itemModel.copyWith(
       images: images,
       userData: userData,

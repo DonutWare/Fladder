@@ -8,6 +8,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/providers/service_provider.dart';
+import 'package:fladder/services/local_network_permission.dart';
 
 part 'discovery_provider.g.dart';
 part 'discovery_provider.mapper.dart';
@@ -24,6 +25,10 @@ class ServerDiscovery extends _$ServerDiscovery {
   Stream<List<DiscoveryInfo>> build() async* {
     final List<DiscoveryInfo> discoveredServers = [];
     final StreamController<List<DiscoveryInfo>> controller = StreamController<List<DiscoveryInfo>>();
+
+    if (await checkLocalNetworkPermission() == LocalNetworkPermissionStatus.denied) {
+      throw LocalNetworkPermissionDeniedException();
+    }
 
     // Bind the socket and start listening
     final RawDatagramSocket socket = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 0);
@@ -71,14 +76,14 @@ class ServerDiscovery extends _$ServerDiscovery {
       }
     });
 
-    yield* controller.stream;
-
     // Handle disposal when the provider is no longer needed
     ref.onDispose(() {
       timer.cancel();
       socket.close();
       controller.close();
     });
+
+    yield* controller.stream;
   }
 }
 

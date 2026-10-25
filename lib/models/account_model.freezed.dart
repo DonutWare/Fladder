@@ -969,6 +969,12 @@ class __$AccountModelCopyWithImpl<$Res> implements _$AccountModelCopyWith<$Res> 
 mixin _$UserSettings implements DiagnosticableTreeMixin {
   Duration get skipForwardDuration;
   Duration get skipBackDuration;
+  @LibraryFiltersConverter()
+  List<LibraryFiltersModel> get libraryFilters;
+  @FilterSortOrderConverter()
+  Map<FilterSortKey, List<String>> get filterSortOrder;
+  @DashboardSortingConverter()
+  Map<DashboardSorting, bool> get pDashboardSorting;
 
   /// Create a copy of UserSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -985,12 +991,15 @@ mixin _$UserSettings implements DiagnosticableTreeMixin {
     properties
       ..add(DiagnosticsProperty('type', 'UserSettings'))
       ..add(DiagnosticsProperty('skipForwardDuration', skipForwardDuration))
-      ..add(DiagnosticsProperty('skipBackDuration', skipBackDuration));
+      ..add(DiagnosticsProperty('skipBackDuration', skipBackDuration))
+      ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
+      ..add(DiagnosticsProperty('filterSortOrder', filterSortOrder))
+      ..add(DiagnosticsProperty('pDashboardSorting', pDashboardSorting));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration)';
+    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration, libraryFilters: $libraryFilters, filterSortOrder: $filterSortOrder, pDashboardSorting: $pDashboardSorting)';
   }
 }
 
@@ -998,7 +1007,12 @@ mixin _$UserSettings implements DiagnosticableTreeMixin {
 abstract mixin class $UserSettingsCopyWith<$Res> {
   factory $UserSettingsCopyWith(UserSettings value, $Res Function(UserSettings) _then) = _$UserSettingsCopyWithImpl;
   @useResult
-  $Res call({Duration skipForwardDuration, Duration skipBackDuration});
+  $Res call(
+      {Duration skipForwardDuration,
+      Duration skipBackDuration,
+      @LibraryFiltersConverter() List<LibraryFiltersModel> libraryFilters,
+      @FilterSortOrderConverter() Map<FilterSortKey, List<String>> filterSortOrder,
+      @DashboardSortingConverter() Map<DashboardSorting, bool> pDashboardSorting});
 }
 
 /// @nodoc
@@ -1015,6 +1029,9 @@ class _$UserSettingsCopyWithImpl<$Res> implements $UserSettingsCopyWith<$Res> {
   $Res call({
     Object? skipForwardDuration = null,
     Object? skipBackDuration = null,
+    Object? libraryFilters = null,
+    Object? filterSortOrder = null,
+    Object? pDashboardSorting = null,
   }) {
     return _then(_self.copyWith(
       skipForwardDuration: null == skipForwardDuration
@@ -1025,6 +1042,18 @@ class _$UserSettingsCopyWithImpl<$Res> implements $UserSettingsCopyWith<$Res> {
           ? _self.skipBackDuration
           : skipBackDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
+      libraryFilters: null == libraryFilters
+          ? _self.libraryFilters
+          : libraryFilters // ignore: cast_nullable_to_non_nullable
+              as List<LibraryFiltersModel>,
+      filterSortOrder: null == filterSortOrder
+          ? _self.filterSortOrder
+          : filterSortOrder // ignore: cast_nullable_to_non_nullable
+              as Map<FilterSortKey, List<String>>,
+      pDashboardSorting: null == pDashboardSorting
+          ? _self.pDashboardSorting
+          : pDashboardSorting // ignore: cast_nullable_to_non_nullable
+              as Map<DashboardSorting, bool>,
     ));
   }
 }
@@ -1122,13 +1151,20 @@ extension UserSettingsPatterns on UserSettings {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Duration skipForwardDuration, Duration skipBackDuration)? $default, {
+    TResult Function(
+            Duration skipForwardDuration,
+            Duration skipBackDuration,
+            @LibraryFiltersConverter() List<LibraryFiltersModel> libraryFilters,
+            @FilterSortOrderConverter() Map<FilterSortKey, List<String>> filterSortOrder,
+            @DashboardSortingConverter() Map<DashboardSorting, bool> pDashboardSorting)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UserSettings() when $default != null:
-        return $default(_that.skipForwardDuration, _that.skipBackDuration);
+        return $default(_that.skipForwardDuration, _that.skipBackDuration, _that.libraryFilters, _that.filterSortOrder,
+            _that.pDashboardSorting);
       case _:
         return orElse();
     }
@@ -1149,12 +1185,19 @@ extension UserSettingsPatterns on UserSettings {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Duration skipForwardDuration, Duration skipBackDuration) $default,
+    TResult Function(
+            Duration skipForwardDuration,
+            Duration skipBackDuration,
+            @LibraryFiltersConverter() List<LibraryFiltersModel> libraryFilters,
+            @FilterSortOrderConverter() Map<FilterSortKey, List<String>> filterSortOrder,
+            @DashboardSortingConverter() Map<DashboardSorting, bool> pDashboardSorting)
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserSettings():
-        return $default(_that.skipForwardDuration, _that.skipBackDuration);
+        return $default(_that.skipForwardDuration, _that.skipBackDuration, _that.libraryFilters, _that.filterSortOrder,
+            _that.pDashboardSorting);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -1174,12 +1217,19 @@ extension UserSettingsPatterns on UserSettings {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(Duration skipForwardDuration, Duration skipBackDuration)? $default,
+    TResult? Function(
+            Duration skipForwardDuration,
+            Duration skipBackDuration,
+            @LibraryFiltersConverter() List<LibraryFiltersModel> libraryFilters,
+            @FilterSortOrderConverter() Map<FilterSortKey, List<String>> filterSortOrder,
+            @DashboardSortingConverter() Map<DashboardSorting, bool> pDashboardSorting)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserSettings() when $default != null:
-        return $default(_that.skipForwardDuration, _that.skipBackDuration);
+        return $default(_that.skipForwardDuration, _that.skipBackDuration, _that.libraryFilters, _that.filterSortOrder,
+            _that.pDashboardSorting);
       case _:
         return null;
     }
@@ -1188,9 +1238,17 @@ extension UserSettingsPatterns on UserSettings {
 
 /// @nodoc
 @JsonSerializable()
-class _UserSettings with DiagnosticableTreeMixin implements UserSettings {
+class _UserSettings extends UserSettings with DiagnosticableTreeMixin {
   _UserSettings(
-      {this.skipForwardDuration = const Duration(seconds: 30), this.skipBackDuration = const Duration(seconds: 10)});
+      {this.skipForwardDuration = const Duration(seconds: 30),
+      this.skipBackDuration = const Duration(seconds: 10),
+      @LibraryFiltersConverter() final List<LibraryFiltersModel> libraryFilters = const [],
+      @FilterSortOrderConverter() final Map<FilterSortKey, List<String>> filterSortOrder = const {},
+      @DashboardSortingConverter() final Map<DashboardSorting, bool> pDashboardSorting = const {}})
+      : _libraryFilters = libraryFilters,
+        _filterSortOrder = filterSortOrder,
+        _pDashboardSorting = pDashboardSorting,
+        super._();
   factory _UserSettings.fromJson(Map<String, dynamic> json) => _$UserSettingsFromJson(json);
 
   @override
@@ -1199,6 +1257,35 @@ class _UserSettings with DiagnosticableTreeMixin implements UserSettings {
   @override
   @JsonKey()
   final Duration skipBackDuration;
+  final List<LibraryFiltersModel> _libraryFilters;
+  @override
+  @JsonKey()
+  @LibraryFiltersConverter()
+  List<LibraryFiltersModel> get libraryFilters {
+    if (_libraryFilters is EqualUnmodifiableListView) return _libraryFilters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_libraryFilters);
+  }
+
+  final Map<FilterSortKey, List<String>> _filterSortOrder;
+  @override
+  @JsonKey()
+  @FilterSortOrderConverter()
+  Map<FilterSortKey, List<String>> get filterSortOrder {
+    if (_filterSortOrder is EqualUnmodifiableMapView) return _filterSortOrder;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_filterSortOrder);
+  }
+
+  final Map<DashboardSorting, bool> _pDashboardSorting;
+  @override
+  @JsonKey()
+  @DashboardSortingConverter()
+  Map<DashboardSorting, bool> get pDashboardSorting {
+    if (_pDashboardSorting is EqualUnmodifiableMapView) return _pDashboardSorting;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_pDashboardSorting);
+  }
 
   /// Create a copy of UserSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -1219,12 +1306,15 @@ class _UserSettings with DiagnosticableTreeMixin implements UserSettings {
     properties
       ..add(DiagnosticsProperty('type', 'UserSettings'))
       ..add(DiagnosticsProperty('skipForwardDuration', skipForwardDuration))
-      ..add(DiagnosticsProperty('skipBackDuration', skipBackDuration));
+      ..add(DiagnosticsProperty('skipBackDuration', skipBackDuration))
+      ..add(DiagnosticsProperty('libraryFilters', libraryFilters))
+      ..add(DiagnosticsProperty('filterSortOrder', filterSortOrder))
+      ..add(DiagnosticsProperty('pDashboardSorting', pDashboardSorting));
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration)';
+    return 'UserSettings(skipForwardDuration: $skipForwardDuration, skipBackDuration: $skipBackDuration, libraryFilters: $libraryFilters, filterSortOrder: $filterSortOrder, pDashboardSorting: $pDashboardSorting)';
   }
 }
 
@@ -1233,7 +1323,12 @@ abstract mixin class _$UserSettingsCopyWith<$Res> implements $UserSettingsCopyWi
   factory _$UserSettingsCopyWith(_UserSettings value, $Res Function(_UserSettings) _then) = __$UserSettingsCopyWithImpl;
   @override
   @useResult
-  $Res call({Duration skipForwardDuration, Duration skipBackDuration});
+  $Res call(
+      {Duration skipForwardDuration,
+      Duration skipBackDuration,
+      @LibraryFiltersConverter() List<LibraryFiltersModel> libraryFilters,
+      @FilterSortOrderConverter() Map<FilterSortKey, List<String>> filterSortOrder,
+      @DashboardSortingConverter() Map<DashboardSorting, bool> pDashboardSorting});
 }
 
 /// @nodoc
@@ -1250,6 +1345,9 @@ class __$UserSettingsCopyWithImpl<$Res> implements _$UserSettingsCopyWith<$Res> 
   $Res call({
     Object? skipForwardDuration = null,
     Object? skipBackDuration = null,
+    Object? libraryFilters = null,
+    Object? filterSortOrder = null,
+    Object? pDashboardSorting = null,
   }) {
     return _then(_UserSettings(
       skipForwardDuration: null == skipForwardDuration
@@ -1260,6 +1358,18 @@ class __$UserSettingsCopyWithImpl<$Res> implements _$UserSettingsCopyWith<$Res> 
           ? _self.skipBackDuration
           : skipBackDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
+      libraryFilters: null == libraryFilters
+          ? _self._libraryFilters
+          : libraryFilters // ignore: cast_nullable_to_non_nullable
+              as List<LibraryFiltersModel>,
+      filterSortOrder: null == filterSortOrder
+          ? _self._filterSortOrder
+          : filterSortOrder // ignore: cast_nullable_to_non_nullable
+              as Map<FilterSortKey, List<String>>,
+      pDashboardSorting: null == pDashboardSorting
+          ? _self._pDashboardSorting
+          : pDashboardSorting // ignore: cast_nullable_to_non_nullable
+              as Map<DashboardSorting, bool>,
     ));
   }
 }

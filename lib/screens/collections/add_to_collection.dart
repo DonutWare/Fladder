@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:square_progress_indicator/square_progress_indicator.dart';
 
 import 'package:fladder/models/boxset_model.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -43,7 +44,7 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
 
   @override
   Widget build(BuildContext context) {
-    final collectonOptions = ref.watch(provider);
+    final collectionProvider = ref.watch(provider);
     return ActionContent(
       title: Column(
         children: [
@@ -93,12 +94,13 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
                   icon: const Icon(Icons.add_rounded)),
             ],
           ),
+          if (collectionProvider.isLoading && collectionProvider.collections.isEmpty) const CircularProgressIndicator(),
           Flexible(
             child: ListView(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(vertical: 12),
               children: [
-                ...collectonOptions.collections.entries.map(
+                ...collectionProvider.collections.entries.map(
                   (e) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -112,7 +114,7 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
                                 : Theme.of(context).colorScheme.surfaceContainer,
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(12),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -122,10 +124,14 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
                                     style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ),
-                                Checkbox(
-                                  value: e.value,
-                                  tristate: true,
-                                  onChanged: (value) async => toggleCollection(e.key, value ?? false),
+                                SquareProgressIndicator(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  value: e.value == null && collectionProvider.isLoading ? null : 0,
+                                  child: Checkbox(
+                                    value: e.value,
+                                    tristate: true,
+                                    onChanged: (value) async => toggleCollection(e.key, value ?? false),
+                                  ),
                                 ),
                               ],
                             ),
@@ -135,13 +141,6 @@ class _AddToCollectionState extends ConsumerState<AddToCollection> {
                     );
                   },
                 ),
-                if (collectonOptions.isLoading)
-                  const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
               ],
             ),
           ),

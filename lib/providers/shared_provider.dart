@@ -81,7 +81,7 @@ class SharedKeys {
   static final SharedKeys instance = SharedKeys._();
 
   static const String _loginCredentialsKey = 'loginCredentialsKey';
-  static const String _clientSettingsKey = 'clientSettings';
+  static const String clientSettingsKey = 'clientSettings';
   static const String _homeSettingsKey = 'homeSettings';
   static const String _videoPlayerSettingsKey = 'videoPlayerSettings';
   static const String _subtitleSettingsKey = 'subtitleSettings';
@@ -175,7 +175,7 @@ class SharedHelper {
 
   ClientSettingsModel get clientSettings {
     try {
-      return ClientSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(SharedKeys._clientSettingsKey) ?? ""));
+      return ClientSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(SharedKeys.clientSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
       return ClientSettingsModel.defaultModel();
@@ -183,7 +183,7 @@ class SharedHelper {
   }
 
   set clientSettings(ClientSettingsModel settings) =>
-      sharedPreferences.setString(SharedKeys._clientSettingsKey, jsonEncode(settings.toJson()));
+      sharedPreferences.setString(SharedKeys.clientSettingsKey, jsonEncode(settings.toJson()));
 
   HomeSettingsModel get homeSettings {
     try {

@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:flutter/material.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -18,7 +20,7 @@ abstract class HomeSettingsModel with _$HomeSettingsModel {
     @Default({...ViewSize.values}) Set<ViewSize> layoutStates,
     @Default(HomeBanner.carousel) HomeBanner homeBanner,
     @Default(HomeCarouselSettings.combined) HomeCarouselSettings carouselSettings,
-    @Default(HomeNextUp.separate) HomeNextUp nextUp,
+    @JsonKey(unknownEnumValue: HomeNextUp.separate) @Default(HomeNextUp.separate) HomeNextUp nextUp,
   }) = _HomeSettingsModel;
 
   static HomeSettingsModel defaultModel() {
@@ -80,7 +82,6 @@ enum HomeCarouselSettings {
 }
 
 enum HomeNextUp {
-  off,
   nextUp,
   cont,
   combined,
@@ -90,10 +91,29 @@ enum HomeNextUp {
   const HomeNextUp();
 
   String label(BuildContext context) => switch (this) {
-        HomeNextUp.off => context.localized.hide,
         HomeNextUp.nextUp => context.localized.nextUp,
         HomeNextUp.cont => context.localized.settingsContinue,
         HomeNextUp.combined => context.localized.combined,
         HomeNextUp.separate => context.localized.separate,
+      };
+}
+
+enum DashboardSorting {
+  liveTV,
+  nextUp,
+  recentlyAdded,
+  filters;
+
+  const DashboardSorting();
+
+  static Map<DashboardSorting, bool> get defaultSorting => {
+        for (final sorting in DashboardSorting.values) sorting: true,
+      };
+
+  String label(BuildContext context) => switch (this) {
+        DashboardSorting.liveTV => context.localized.liveTV,
+        DashboardSorting.nextUp => context.localized.nextUp,
+        DashboardSorting.recentlyAdded => context.localized.recentlyAdded,
+        DashboardSorting.filters => context.localized.filter(2),
       };
 }

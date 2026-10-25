@@ -14,7 +14,9 @@ import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/playlist_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
+import 'package:fladder/screens/settings/filters/filters_dialog_popup.dart';
 import 'package:fladder/theme.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/color_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
@@ -49,11 +51,24 @@ class SideNavigationButtons extends ConsumerWidget {
     final musicDashboard = ref.watch(musicDashboardModeProvider);
     final playLists = ref.watch(playlistProvider.select((value) => value.collections));
 
-    final filters =
-        ref.watch(userLibraryFilters.select((value) => value.where((element) => element.showInSideBar).toList()));
+    final filters = ref.watch(libraryFiltersByKeyProvider(
+      musicDashboard ? FilterSortKey.musicDashboard : FilterSortKey.sideBar,
+    ));
 
     final List<Widget> navItems = [
-      if (filters.isNotEmpty) LabelDivider(label: context.localized.filter(2), shouldExpand: shouldExpand),
+      if (filters.isNotEmpty)
+        LabelDivider(
+          label: context.localized.filter(2),
+          action: AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad
+              ? IconButton(
+                  onPressed: () => showFiltersDialogue(context),
+                  icon: const Icon(IconsaxPlusLinear.arrow_right_3, size: 16),
+                  tooltip: context.localized.applyFilter,
+                  visualDensity: VisualDensity.compact,
+                )
+              : null,
+          shouldExpand: shouldExpand,
+        ),
       ...filters.map(
         (filter) {
           final viewsInFilter = views.where((view) => filter.ids.contains(view.id)).toList();
@@ -258,10 +273,12 @@ class SideNavigationButtons extends ConsumerWidget {
 
 class LabelDivider extends StatelessWidget {
   final String label;
+  final Widget? action;
   final bool shouldExpand;
 
   const LabelDivider({
     required this.label,
+    this.action,
     required this.shouldExpand,
     super.key,
   });
@@ -269,7 +286,6 @@ class LabelDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: 16,
       children: [
         if (shouldExpand)
           Align(
@@ -284,12 +300,14 @@ class LabelDivider extends StatelessWidget {
               ),
             ),
           ),
+        const SizedBox(width: 8),
         Expanded(
           child: Divider(
             indent: shouldExpand ? 0 : 16,
-            endIndent: 16,
+            endIndent: action != null ? 0 : 16,
           ),
         ),
+        if (action != null && shouldExpand) action!,
       ],
     );
   }

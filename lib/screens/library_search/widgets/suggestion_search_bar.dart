@@ -65,7 +65,6 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerLow,
-        borderRadius: FladderTheme.smallShape.borderRadius,
       ),
       child: TypeAheadField<ItemBaseModel>(
         controller: textEditingController,

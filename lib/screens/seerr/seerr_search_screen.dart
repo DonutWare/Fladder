@@ -12,22 +12,26 @@ import 'package:fladder/screens/seerr/widgets/seerr_filter_chips.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_filter_dialogs.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_poster_card.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_request_popup.dart';
-import 'package:fladder/screens/shared/nested_bottom_appbar.dart';
+import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/position_provider.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/util/sliver_list_padding.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
+import 'package:fladder/widgets/shared/bottom_menu_bar.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/grid_focus_traveler.dart';
 import 'package:fladder/widgets/shared/hide_on_scroll.dart';
+import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
+import 'package:fladder/widgets/shared/scroll_position.dart';
 
 @RoutePage()
 class SeerrSearchScreen extends ConsumerStatefulWidget {
@@ -143,7 +147,6 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
   @override
   Widget build(BuildContext context) {
     final searchState = ref.watch(seerrSearchProvider);
-    final surfaceColor = Theme.of(context).colorScheme.surface;
 
     ref.listen(
       seerrSearchProvider.select((value) => value.query),
@@ -162,6 +165,27 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
 
     final floatingAppBar = AdaptiveLayout.layoutModeOf(context) != LayoutMode.single;
 
+    final additonalActions = [
+      if (searchState.hasFilters)
+        ItemActionButton(
+          label: Text(context.localized.clear),
+          icon: const Icon(IconsaxPlusLinear.filter_remove),
+          action: () async {
+            ref.read(seerrSearchProvider.notifier).clearFilters();
+            await context.refreshData();
+          },
+        ),
+      ItemActionButton(
+        label: Text(context.localized.sortBy),
+        icon: const Icon(IconsaxPlusLinear.sort),
+        action: searchState.isLoading
+            ? null
+            : () {
+                openSortDialog(context, ref.read(seerrSearchProvider.notifier), searchState.filters);
+              },
+      ),
+    ];
+
     return NestedScaffold(
       background: BackgroundImage(images: backgroundImages),
       body: Padding(
@@ -177,8 +201,7 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
                   child: IgnorePointer(
                     ignoring: searchState.isLoading,
                     child: _SeerrSearchBottomBar(
-                      searchState: searchState,
-                      notifier: ref.read(seerrSearchProvider.notifier),
+                      actions: additonalActions,
                     ),
                   ),
                 )
@@ -190,118 +213,40 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
               controller: scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
-                SliverAppBar(
-                  floating: !floatingAppBar,
-                  collapsedHeight: 80,
-                  automaticallyImplyLeading: false,
-                  primary: true,
-                  pinned: floatingAppBar,
-                  elevation: 5,
-                  surfaceTintColor: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                  backgroundColor: Colors.transparent,
-                  titleSpacing: 4,
-                  flexibleSpace: AdaptiveLayout.layoutModeOf(context) != LayoutMode.dual
-                      ? Container(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                            colors: [
-                              surfaceColor.withValues(alpha: 0.8),
-                              surfaceColor.withValues(alpha: 0.75),
-                              surfaceColor.withValues(alpha: 0.5),
-                              surfaceColor.withValues(alpha: 0),
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          )),
-                        )
-                      : null,
-                  title: SizedBox(
-                    height: 55,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        spacing: 8,
-                        children: [
-                          if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad)
-                            Center(
-                              child: SizedBox.square(
-                                dimension: 55,
-                                child: Card(
-                                  elevation: 0,
-                                  child: context.router.backButton(),
-                                ),
-                              ),
-                            ),
-                          Expanded(
-                            child: Card(
-                              elevation: 6,
-                              child: Row(
-                                spacing: 8,
-                                children: [
-                                  Expanded(
-                                    child: OutlinedTextField(
-                                      autoFocus: widget.mode == SeerrSearchMode.search,
-                                      controller: controller,
-                                      textInputAction: TextInputAction.search,
-                                      onSubmitted: (value) => _triggerSubmitViaRefresh(value: value),
-                                      onChanged: (value) {
-                                        ref.read(seerrSearchProvider.notifier).setQuery(value);
-                                        if (searchState.searchMode == SeerrSearchMode.search) {
-                                          debouncer.run(() {
-                                            _triggerSubmitViaRefresh();
-                                          });
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                        hintText: "${context.localized.search}...",
-                                        contentPadding: const EdgeInsets.only(top: 6),
-                                        icon: const Icon(IconsaxPlusLinear.search_status),
-                                        border: InputBorder.none,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                PinnedHeaderSliver(
+                  child: HideOnScroll(
+                    controller: scrollController,
+                    visibleBuilder: (visible) => Stack(
+                      children: [
+                        AnimatedSlide(
+                          duration: const Duration(milliseconds: 250),
+                          offset: visible || floatingAppBar ? Offset.zero : const Offset(0, -1),
+                          child: _SeerSearchScreenAppBar(
+                            menuActions: additonalActions,
+                            scrollController: scrollController,
+                            searchBar: OutlinedTextField(
+                              autoFocus: widget.mode == SeerrSearchMode.search,
+                              controller: controller,
+                              textInputAction: TextInputAction.search,
+                              onSubmitted: (value) => _triggerSubmitViaRefresh(value: value),
+                              onChanged: (value) {
+                                ref.read(seerrSearchProvider.notifier).setQuery(value);
+                                if (searchState.searchMode == SeerrSearchMode.search) {
+                                  debouncer.run(() {
+                                    _triggerSubmitViaRefresh();
+                                  });
+                                }
+                              },
+                              decoration: InputDecoration(
+                                hintText: "${context.localized.search}...",
+                                contentPadding: const EdgeInsets.only(top: 6),
+                                icon: const Icon(IconsaxPlusLinear.search_status),
+                                border: InputBorder.none,
                               ),
                             ),
                           ),
-                          if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single) ...[
-                            const SizedBox.square(dimension: 55.0 - 3.0, child: SettingsUserIcon()),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ),
-                  bottom: PreferredSize(
-                    preferredSize: Size(0, AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? 105 : 50),
-                    child: Transform.translate(
-                      offset: Offset(0, AdaptiveLayout.of(context).isDesktop ? -20 : -15),
-                      child: IgnorePointer(
-                        ignoring: searchState.isLoading,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            SizedBox(
-                              height: 50,
-                              child: Opacity(
-                                opacity: searchState.isLoading ? 0.5 : 1,
-                                child: const SingleChildScrollView(
-                                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                  scrollDirection: Axis.horizontal,
-                                  child: SeerrFilterChips(),
-                                ),
-                              ),
-                            ),
-                            if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad)
-                              _SeerrSearchBottomBar(
-                                searchState: searchState,
-                                notifier: ref.read(seerrSearchProvider.notifier),
-                                isDPadBar: true,
-                              ),
-                          ],
-                        ),
-                      ),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -360,54 +305,127 @@ class _SeerrSearchScreenState extends ConsumerState<SeerrSearchScreen> {
   }
 }
 
-class _SeerrSearchBottomBar extends StatelessWidget {
-  final SeerrSearchModel searchState;
-  final SeerrSearch notifier;
-  final bool isDPadBar;
-  const _SeerrSearchBottomBar({
-    required this.searchState,
-    required this.notifier,
-    this.isDPadBar = false,
+class _SeerSearchScreenAppBar extends StatelessWidget {
+  final List<ItemAction> menuActions;
+  final ScrollController scrollController;
+  final Widget searchBar;
+  const _SeerSearchScreenAppBar({
+    required this.menuActions,
+    required this.scrollController,
+    required this.searchBar,
   });
 
   @override
   Widget build(BuildContext context) {
-    final hasFilters = searchState.hasFilters;
-
-    final paddingOf = MediaQuery.paddingOf(context);
-    final barContent = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      child: Row(
+    return Padding(
+      padding: EdgeInsets.only(
+        top: MediaQuery.paddingOf(context).top,
+        left: 16,
+        bottom: 16,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
-          IconButton(
-            tooltip: context.localized.sortBy,
-            icon: const Icon(IconsaxPlusLinear.sort),
-            onPressed: () => openSortDialog(context, notifier, searchState.filters),
+          IntrinsicHeight(
+            child: Padding(
+              padding: EdgeInsets.only(
+                right: AdaptiveLayout.adaptivePadding(context).right,
+              ),
+              child: Row(
+                spacing: 4,
+                children: [
+                  if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad)
+                    PositionRoundedClip(
+                      child: Container(
+                        height: 55,
+                        width: 55,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surfaceContainerLow,
+                        ),
+                        child: context.router.backButton(),
+                      ),
+                    ),
+                  Expanded(
+                    child: PositionRoundedClip(
+                      child: Card(
+                        elevation: 6,
+                        child: Row(
+                          spacing: 8,
+                          children: [
+                            Expanded(
+                              child: searchBar,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single)
+                    const PositionRoundedClip(
+                      child: SettingsUserIcon(),
+                    ),
+                ].withPositionProvider(),
+              ),
+            ),
           ),
-          IconButton(
-            tooltip: context.localized.clear,
-            icon: const Icon(IconsaxPlusLinear.filter_remove),
-            onPressed: hasFilters
-                ? () async {
-                    notifier.clearFilters();
-                    await context.refreshData();
-                  }
-                : null,
+          Row(
+            spacing: 6,
+            children: [
+              if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad)
+                ScrollStatePosition(
+                  controller: scrollController,
+                  positionBuilder: (state) => AnimatedFadeSize(
+                    child: state != ScrollState.top
+                        ? Tooltip(
+                            message: context.localized.scrollToTop,
+                            child: IconButton.filled(
+                              onPressed: () => scrollController.animateTo(0,
+                                  duration: const Duration(milliseconds: 500), curve: Curves.easeInOutCubic),
+                              icon: const Icon(
+                                IconsaxPlusLinear.arrow_up,
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ),
+              Flexible(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(vertical: 8).add(EdgeInsets.only(
+                    right: AdaptiveLayout.adaptivePadding(context).right,
+                  )),
+                  scrollDirection: Axis.horizontal,
+                  child: const SeerrFilterChips(),
+                ),
+              ),
+            ],
           ),
-          const Spacer(),
+          if (AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad)
+            Container(
+              padding: EdgeInsets.only(
+                right: AdaptiveLayout.adaptivePadding(context).right,
+              ),
+              child: Row(
+                spacing: 4,
+                children: menuActions.map((e) => e.toButton()).toList(),
+              ),
+            )
         ],
       ),
     );
+  }
+}
 
-    if (isDPadBar) {
-      return barContent;
-    }
+class _SeerrSearchBottomBar extends StatelessWidget {
+  final List<ItemAction> actions;
+  const _SeerrSearchBottomBar({
+    required this.actions,
+  });
 
-    return NestedBottomAppBar(
-      child: Padding(
-        padding: EdgeInsets.only(left: paddingOf.left, right: paddingOf.right),
-        child: barContent,
-      ),
+  @override
+  Widget build(BuildContext context) {
+    return BottomMenuBar(
+      actions: actions,
     );
   }
 }

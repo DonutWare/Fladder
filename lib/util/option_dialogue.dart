@@ -6,7 +6,7 @@ Future<List<T>> openMultiSelectOptions<T>(
   BuildContext context, {
   required String label,
   bool allowMultiSelection = false,
-  bool forceAtleastOne = true,
+  bool forceAtLeastOne = true,
   required List<T> selected,
   required List<T> items,
   Function(List<T> values)? onChanged,
@@ -32,7 +32,7 @@ Future<List<T>> openMultiSelectOptions<T>(
                   setState(() {
                     if (allowMultiSelection) {
                       if (isSelected) {
-                        if (!forceAtleastOne || currentSelection.length > 1) {
+                        if (!forceAtLeastOne || currentSelection.length > 1) {
                           currentSelection.remove(item);
                         }
                       } else {

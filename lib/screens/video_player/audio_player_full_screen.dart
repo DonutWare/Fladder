@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:background_downloader/background_downloader.dart';
@@ -16,10 +18,12 @@ import 'package:fladder/models/playback/tv_playback_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/models/video_stream_model.dart';
+import 'package:fladder/providers/audio_lyrics_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/detail_scaffold.dart';
+import 'package:fladder/screens/video_player/components/audio_player_lyrics_panel.dart';
 import 'package:fladder/screens/video_player/components/audio_player_queue_dialog.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
 import 'package:fladder/theme.dart';
@@ -47,6 +51,8 @@ class AudioPlayerFullScreen extends ConsumerStatefulWidget {
 
 class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
   ItemBaseModel? lastItem;
+  bool _showLyricsPanel = false;
+  Timer? _lyricsPositionTimer;
 
   Color? dominantColor;
 
@@ -67,11 +73,50 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
   void initState() {
     super.initState();
     fetchAlbumDominantColor();
+    _lyricsPositionTimer = Timer.periodic(
+      const Duration(milliseconds: 120),
+      (_) {
+        final position = ref.read(videoPlayerProvider).lastState?.position;
+        if (position != null) {
+          ref.read(audioLyricsProvider.notifier).updatePosition(position);
+        }
+      },
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final playbackModel = ref.read(playBackModel);
+      if (playbackModel?.item is AudioModel) {
+        ref.read(audioLyricsProvider.notifier).loadForTrack(playbackModel?.item.id);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _lyricsPositionTimer?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<String?>(
+      playBackModel.select((value) => value?.item.id),
+      (_, next) {
+        final currentModel = ref.read(playBackModel);
+        if (currentModel?.item is AudioModel && next != null && next.isNotEmpty) {
+          ref.read(audioLyricsProvider.notifier).loadForTrack(next);
+        }
+      },
+    );
+
+    ref.listen<Duration>(
+      mediaPlaybackProvider.select((state) => state.position),
+      (_, next) {
+        ref.read(audioLyricsProvider.notifier).updatePosition(next);
+      },
+    );
+
     final playbackModel = ref.watch(playBackModel);
+    final lyricsState = ref.watch(audioLyricsProvider);
     final playbackInfo = ref.watch(mediaPlaybackProvider.select((state) => (
           shuffleEnabled: state.shuffleEnabled,
           repeatMode: state.repeatMode,
@@ -135,7 +180,6 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
     final isFavourite = currentItem.userData.isFavourite;
 
     final isSingleLayout = AdaptiveLayout.layoutModeOf(context) == LayoutMode.single;
-
     void closeFullScreen({bool force = false}) {
       if (isSingleLayout || force) {
         ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.minimized));
@@ -231,50 +275,67 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
     }
 
     Widget buildCollapsedMetadata(BuildContext context) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          spacing: 16,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: SizedBox(
-                width: 56,
-                height: 56,
-                child: FladderImage(
-                  image: artwork,
-                  fit: BoxFit.cover,
-                  placeHolder: const Center(child: Icon(Icons.music_note_rounded, size: 20)),
-                  imageErrorBuilder: (context, error, stack) =>
-                      const Center(child: Icon(Icons.music_note_rounded, size: 20)),
+      final canCollapseLyrics = _showLyricsPanel && lyricsState.hasLyrics;
+      return FocusButton(
+        onTap: canCollapseLyrics
+            ? () {
+                setState(() {
+                  _showLyricsPanel = false;
+                });
+              }
+            : null,
+        child: SizedBox.expand(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              spacing: 16,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: SizedBox(
+                    width: 56,
+                    height: 56,
+                    child: FladderImage(
+                      image: artwork,
+                      fit: BoxFit.cover,
+                      placeHolder: const Center(child: Icon(Icons.music_note_rounded, size: 20)),
+                      imageErrorBuilder: (context, error, stack) =>
+                          const Center(child: Icon(Icons.music_note_rounded, size: 20)),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    currentItem.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 2,
+                    children: [
+                      Text(
+                        currentItem.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        currentItem.album ?? currentItem.subTextShort(context.localized) ?? '',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    currentItem.album ?? currentItem.subTextShort(context.localized) ?? '',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                ),
+                if (canCollapseLyrics)
+                  Icon(
+                    Icons.expand_more_rounded,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                ],
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       );
     }
@@ -288,9 +349,9 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
         return Padding(
           padding: const EdgeInsets.only(top: 6, bottom: 4),
           child: Row(
+            spacing: 6,
             children: [
               Icon(icon, size: 16),
-              const SizedBox(width: 6),
               Expanded(
                 child: Text(
                   title,
@@ -409,6 +470,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 8,
               children: [
                 Row(
                   children: [
@@ -444,7 +506,6 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                       ),
                   ],
                 ),
-                const SizedBox(height: 8),
                 if (nowPlaying == null)
                   Text(
                     context.localized.queueIsEmpty,
@@ -663,74 +724,142 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
                         ),
                       ),
                       Expanded(
-                        child: CustomScrollView(
-                          slivers: [
-                            SliverPadding(
-                              padding: const EdgeInsets.all(8.0),
-                              sliver: SliverPersistentHeader(
-                                pinned: true,
-                                delegate: _AudioPlayerHeaderDelegate(
-                                  minHeight: 88,
-                                  maxHeight: 520,
-                                  builder: (context, transitionProgress) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .surface
-                                            .withAlpha(((transitionProgress * 255)).round()),
-                                        borderRadius: BorderRadius.circular(12),
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 240),
+                          switchInCurve: Curves.easeOutCubic,
+                          switchOutCurve: Curves.easeInCubic,
+                          transitionBuilder: (child, animation) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: ScaleTransition(
+                                scale: Tween<double>(begin: 0.98, end: 1.0).animate(animation),
+                                child: child,
+                              ),
+                            );
+                          },
+                          child: _showLyricsPanel
+                              ? KeyedSubtree(
+                                  key: const ValueKey('lyrics-mode'),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SizedBox(
+                                          height: 88,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context).colorScheme.surface.withAlpha(255),
+                                              borderRadius: BorderRadius.circular(12),
+                                            ),
+                                            child: buildCollapsedMetadata(context),
+                                          ),
+                                        ),
                                       ),
-                                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                                      child: Stack(
-                                        fit: StackFit.expand,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                                            child: IgnorePointer(
-                                              ignoring: transitionProgress > 0.15,
-                                              child: Opacity(
-                                                opacity: 1 - transitionProgress,
-                                                child: SingleChildScrollView(
-                                                  physics: const NeverScrollableScrollPhysics(),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      albumArt(context, size: 300),
-                                                      const SizedBox(height: 18),
-                                                      buildMetadata(context),
-                                                    ],
-                                                  ),
+                                      const Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                        child: Divider(),
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                          child: AudioPlayerLyricsPanel(
+                                            currentItem: currentItem,
+                                            state: lyricsState,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : KeyedSubtree(
+                                  key: const ValueKey('queue-mode'),
+                                  child: CustomScrollView(
+                                    slivers: [
+                                      SliverPadding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        sliver: SliverPersistentHeader(
+                                          pinned: true,
+                                          delegate: _AudioPlayerHeaderDelegate(
+                                            minHeight: 88,
+                                            maxHeight: 520,
+                                            forceCollapsed: false,
+                                            builder: (context, transitionProgress) {
+                                              return Container(
+                                                decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .surface
+                                                      .withAlpha(((transitionProgress * 255)).round()),
+                                                  borderRadius: BorderRadius.circular(12),
                                                 ),
-                                              ),
-                                            ),
+                                                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                                                child: Stack(
+                                                  fit: StackFit.expand,
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                                                      child: IgnorePointer(
+                                                        ignoring: transitionProgress > 0.15,
+                                                        child: Opacity(
+                                                          opacity: 1 - transitionProgress,
+                                                          child: SingleChildScrollView(
+                                                            physics: const NeverScrollableScrollPhysics(),
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              spacing: 18,
+                                                              children: [
+                                                                albumArt(context, size: 300),
+                                                                buildMetadata(context),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    IgnorePointer(
+                                                      ignoring: transitionProgress < 0.85,
+                                                      child: Opacity(
+                                                        opacity: transitionProgress,
+                                                        child: Align(
+                                                          alignment: Alignment.center,
+                                                          child: buildCollapsedMetadata(context),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
                                           ),
-                                          IgnorePointer(
-                                            ignoring: transitionProgress < 0.85,
-                                            child: Opacity(
-                                              opacity: transitionProgress,
-                                              child: Align(
-                                                alignment: Alignment.center,
-                                                child: buildCollapsedMetadata(context),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    );
-                                  },
+                                      const SliverPadding(
+                                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                        sliver: SliverToBoxAdapter(
+                                          child: Divider(),
+                                        ),
+                                      ),
+                                      if (lyricsState.hasLyrics)
+                                        SliverToBoxAdapter(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                            child: ClipRect(
+                                              child: AudioPlayerLyricsPreviewCard(
+                                                state: lyricsState,
+                                                onTap: () {
+                                                  setState(() {
+                                                    _showLyricsPanel = true;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ...queuePreview(context),
+                                      const SliverPadding(padding: EdgeInsets.only(bottom: 100))
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                            const SliverPadding(
-                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              sliver: SliverToBoxAdapter(
-                                child: Divider(),
-                              ),
-                            ),
-                            ...queuePreview(context),
-                            const SliverPadding(padding: EdgeInsets.only(bottom: 350 * 1.5))
-                          ],
                         ),
                       ),
                       Container(
@@ -776,11 +905,13 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
 class _AudioPlayerHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double minHeight;
   final double maxHeight;
+  final bool forceCollapsed;
   final Widget Function(BuildContext context, double collapseT) builder;
 
   _AudioPlayerHeaderDelegate({
     required this.minHeight,
     required this.maxHeight,
+    required this.forceCollapsed,
     required this.builder,
   });
 
@@ -788,18 +919,25 @@ class _AudioPlayerHeaderDelegate extends SliverPersistentHeaderDelegate {
   double get minExtent => minHeight;
 
   @override
-  double get maxExtent => maxHeight;
+  double get maxExtent => forceCollapsed ? minHeight : maxHeight;
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final totalCollapseRange = (maxExtent - minExtent).clamp(1, double.infinity);
-    final collapseT = (shrinkOffset / totalCollapseRange).clamp(0.0, 1.0);
+    final collapseT = forceCollapsed
+        ? 1.0
+        : (() {
+            final totalCollapseRange = (maxExtent - minExtent).clamp(1, double.infinity);
+            return (shrinkOffset / totalCollapseRange).clamp(0.0, 1.0);
+          })();
     return builder(context, collapseT);
   }
 
   @override
   bool shouldRebuild(covariant _AudioPlayerHeaderDelegate oldDelegate) {
-    return oldDelegate.minHeight != minHeight || oldDelegate.maxHeight != maxHeight || oldDelegate.builder != builder;
+    return oldDelegate.minHeight != minHeight ||
+        oldDelegate.maxHeight != maxHeight ||
+        oldDelegate.forceCollapsed != forceCollapsed ||
+        oldDelegate.builder != builder;
   }
 }
 
@@ -874,7 +1012,7 @@ class _AudioPlayerControlsState extends ConsumerState<_AudioPlayerControls> {
           children: [
             Tooltip(
               message: context.localized.audioPlayerShuffle,
-              child: IconButton(
+              child: IconButton.outlined(
                 icon: const Icon(IconsaxPlusBold.shuffle),
                 isSelected: playback.shuffleEnabled,
                 iconSize: 26,
@@ -912,7 +1050,7 @@ class _AudioPlayerControlsState extends ConsumerState<_AudioPlayerControls> {
                     : playback.repeatMode == AudioRepeatMode.one
                         ? context.localized.audioPlayerRepeatOne
                         : context.localized.audioPlayerRepeatAll,
-                child: IconButton(
+                child: IconButton.outlined(
                   icon: Icon(playback.repeatMode == AudioRepeatMode.one
                       ? IconsaxPlusBold.repeate_one
                       : IconsaxPlusBold.repeate_music),

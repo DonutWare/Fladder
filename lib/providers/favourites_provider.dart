@@ -21,12 +21,15 @@ class FavouritesNotifier extends StateNotifier<FavouritesModel> {
   late final api = ref.read(jellyApiProvider);
 
   Future<void> fetchFavourites() async {
-    if (state.loading) return;
+    try {
+      if (state.loading) return;
 
-    state = state.copyWith(loading: true);
-    await _fetchMoviesAndSeries();
-    await _fetchPeople();
-    state = state.copyWith(loading: false);
+      state = state.copyWith(loading: true);
+      await _fetchMoviesAndSeries();
+      await _fetchPeople();
+    } finally {
+      state = state.copyWith(loading: false);
+    }
   }
 
   Future<void> _fetchMoviesAndSeries() async {
@@ -69,6 +72,7 @@ class FavouritesNotifier extends StateNotifier<FavouritesModel> {
           fields: [
             ItemFields.overview,
             ItemFields.genres,
+            ItemFields.parentid,
           ],
           includeItemTypes: includeItemTypes,
           sortOrder: [SortOrder.ascending],

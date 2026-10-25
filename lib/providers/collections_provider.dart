@@ -47,7 +47,7 @@ class BoxSetNotifier extends StateNotifier<_CollectionSetModel> {
   Future<void> setItems(List<ItemBaseModel> items) async {
     final collections = ref.read(collectionStateProvider);
     state = state.copyWith(
-      collections: Map.fromIterables(collections, List.generate(collections.length, (index) => false)),
+      collections: Map.fromIterables(collections, List.generate(collections.length, (index) => null)),
       items: items,
       isLoading: true,
     );
@@ -62,24 +62,25 @@ class BoxSetNotifier extends StateNotifier<_CollectionSetModel> {
       ],
     );
 
-    final boxsets = collections.body?.items?.map((e) => BoxSetModel.fromBaseDto(e, ref)).toList();
+    final boxSets = collections.body?.items?.map((e) => BoxSetModel.fromBaseDto(e, ref)).toList();
 
-    ref.read(collectionStateProvider.notifier).state = boxsets ?? [];
+    ref.read(collectionStateProvider.notifier).state = boxSets ?? [];
 
-    final List<Future<bool>> itemChecks = boxsets?.map((element) async {
-          final itemList = await api.usersUserIdItemsGet(
-            parentId: element.id,
-          );
-          final List<String?> items = (itemList.body?.items ?? []).map((e) => e.id).toList();
-          return items.contains(state.items.firstOrNull?.id);
-        }).toList() ??
-        [];
+    state = state.copyWith(
+      collections: Map.fromIterables(boxSets ?? [], List.generate(boxSets?.length ?? 0, (index) => null)),
+    );
 
-    final List<bool> results = await Future.wait(itemChecks);
+    for (final boxSet in boxSets ?? []) {
+      final itemList = await api.usersUserIdItemsGet(
+        parentId: boxSet.id,
+      );
+      state = state.copyWith(
+        collections: state.collections
+            .setKey(boxSet, itemList.body?.items?.map((e) => e.id).contains(state.items.firstOrNull?.id) ?? false),
+      );
+    }
 
-    final Map<BoxSetModel, bool?> boxSetContainsItemMap = Map.fromIterables(boxsets ?? [], results);
-
-    state = state.copyWith(collections: boxSetContainsItemMap, isLoading: false);
+    state = state.copyWith(isLoading: false);
   }
 
   Future<Response> toggleCollection(

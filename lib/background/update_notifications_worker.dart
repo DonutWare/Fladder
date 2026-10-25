@@ -12,6 +12,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/last_seen_notifications_model.dart';
 import 'package:fladder/models/notification_model.dart';
 import 'package:fladder/providers/shared_provider.dart';
+import 'package:fladder/seerr/seerr_chopper_service.dart';
 import 'package:fladder/seerr/seerr_models.dart';
 import 'package:fladder/services/notification_service.dart';
 import 'package:fladder/util/notification_helpers.dart';
@@ -169,7 +170,12 @@ Future<List<NotificationModel>> _fetchAndNotifyLatestItemsForAccount(
     final items = dtoItems.map((d) => ItemBaseModel.fromBaseDto(d, null)).toList();
     if (items.isEmpty) return [];
 
-    final newNotifications = NotificationModel.createList(items, l10n);
+    final newNotifications = NotificationModel.createList(
+      items,
+      l10n,
+      userId: account.id,
+      serverId: account.credentials.serverId,
+    );
 
     final serverName =
         account.credentials.serverName.isNotEmpty ? account.credentials.serverName : account.credentials.serverId;
@@ -198,6 +204,7 @@ Future<List<NotificationModel>> _fetchAndNotifySeerrRequestsForAccount(
   bool debug,
   DateTime lastUpdateCheck,
 ) async {
+  SeerrChopperService? seerrApi;
   try {
     final seerrCredentials = account.seerrCredentials;
     if (seerrCredentials == null || !seerrCredentials.isConfigured) return [];
@@ -206,7 +213,7 @@ Future<List<NotificationModel>> _fetchAndNotifySeerrRequestsForAccount(
         ? seerrCredentials.serverUrl.substring(0, seerrCredentials.serverUrl.length - 1)
         : seerrCredentials.serverUrl;
 
-    final seerrApi = NotificationHelpers.createSeerrClient(seerrCredentials);
+    seerrApi = NotificationHelpers.createSeerrClient(seerrCredentials);
 
     final newRequests = await NotificationHelpers.fetchSeerrRequests(
       seerrApi,
@@ -236,7 +243,12 @@ Future<List<NotificationModel>> _fetchAndNotifySeerrRequestsForAccount(
               final SeerrTvDetails details = detailsResp.body!;
               title = details.name;
               image = details.posterUrl;
-              payload = NotificationHelpers.buildSeerrDeepLink('tvshow', tmdbId);
+              payload = NotificationHelpers.buildSeerrDeepLink(
+                'tvshow',
+                tmdbId,
+                userId: account.id,
+                serverId: account.credentials.serverId,
+              );
             }
           } else {
             final detailsResp = await seerrApi.getMovieDetails(tmdbId);
@@ -244,7 +256,12 @@ Future<List<NotificationModel>> _fetchAndNotifySeerrRequestsForAccount(
               final SeerrMovieDetails details = detailsResp.body!;
               title = details.title;
               image = details.posterUrl;
-              payload = NotificationHelpers.buildSeerrDeepLink('movie', tmdbId);
+              payload = NotificationHelpers.buildSeerrDeepLink(
+                'movie',
+                tmdbId,
+                userId: account.id,
+                serverId: account.credentials.serverId,
+              );
             }
           }
         }
@@ -255,11 +272,18 @@ Future<List<NotificationModel>> _fetchAndNotifySeerrRequestsForAccount(
           title: title,
           image: image,
           detailedPayload: payload,
+          userId: account.id,
+          serverId: account.credentials.serverId,
         );
         if (notif != null) seerrNotifications.add(notif);
       } catch (e) {
         log('Error fetching Seerr request parent items ${request.id}: $e');
-        final fallback = NotificationModel.fromSeerrRequest(request, l10n);
+        final fallback = NotificationModel.fromSeerrRequest(
+          request,
+          l10n,
+          userId: account.id,
+          serverId: account.credentials.serverId,
+        );
         if (fallback != null) seerrNotifications.add(fallback);
       }
     }
@@ -278,5 +302,7 @@ Future<List<NotificationModel>> _fetchAndNotifySeerrRequestsForAccount(
   } catch (e) {
     log('Error fetching Seerr requests for account ${account.id}: $e');
     return [];
+  } finally {
+    seerrApi?.client.dispose();
   }
 }

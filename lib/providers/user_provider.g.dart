@@ -21,7 +21,7 @@ final showSyncButtonProviderProvider = AutoDisposeProvider<bool>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ShowSyncButtonProviderRef = AutoDisposeProviderRef<bool>;
-String _$userHash() => r'0ebca311245d2b6c160fd9b336e62cc95143ba27';
+String _$userHash() => r'f48bf375f1d1ec9f75c3af0a70330909619cc367';
 
 /// See also [User].
 @ProviderFor(User)

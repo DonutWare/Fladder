@@ -28,12 +28,13 @@ import 'package:fladder/screens/library_search/widgets/suggestion_search_bar.dar
 import 'package:fladder/screens/playlists/add_to_playlists.dart';
 import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/nested_scaffold.dart';
-import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/debouncer.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/map_bool_helper.dart';
+import 'package:fladder/util/position_provider.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/router_extension.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/background_image.dart';
@@ -149,7 +150,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
     ref.listen(
       providerKey,
       (previous, next) {
-        if (previous?.filters != next.filters) {
+        if (previous?.shouldRefresh(next) == true) {
           refreshSearch();
         }
       },
@@ -163,7 +164,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
       (value) => value.backgroundImage == BackgroundType.blurred && value.enableBlurEffects,
     ));
 
-    List<ItemAction>? itemActions = librarySearchResults.folderOverwrite.firstOrNull?.generateActions(
+    List<ItemAction>? itemActions = librarySearchResults.folderOverwrite.included.firstOrNull?.generateActions(
       context,
       ref,
       exclude: {
@@ -399,7 +400,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
             label: Text(context.localized.markAsUnwatched),
             icon: const Icon(IconsaxPlusLinear.eye_slash),
           ),
-          if (librarySearchResults.folderOverwrite.firstOrNull is BoxSetModel)
+          if (librarySearchResults.folderOverwrite.included.firstOrNull is BoxSetModel)
             ItemActionButton(
                 action: hasSelection
                     ? () async {
@@ -416,7 +417,7 @@ class _LibrarySearchScreenState extends ConsumerState<LibrarySearchScreen> {
                     child: Icon(IconsaxPlusLinear.save_remove, size: 20),
                   ),
                 )),
-          if (librarySearchResults.folderOverwrite.firstOrNull is PlaylistModel)
+          if (librarySearchResults.folderOverwrite.included.firstOrNull is PlaylistModel)
             ItemActionButton(
               action: hasSelection
                   ? () async {
@@ -738,89 +739,98 @@ class LibraryAppBar extends ConsumerWidget {
                 right: AdaptiveLayout.adaptivePadding(context).right,
               ),
               child: Row(
-                spacing: 3,
+                spacing: 4,
                 children: [
                   if (AdaptiveLayout.inputDeviceOf(context) != InputDevice.dPad)
-                    Center(
-                      child: SizedBox.square(
-                        dimension: toolbarHeight,
+                    SizedBox.square(
+                      dimension: toolbarHeight,
+                      child: PositionRoundedClip(
                         child: Container(
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.surfaceContainerLow,
-                            borderRadius: FladderTheme.defaultShape.borderRadius,
                           ),
                           child: context.router.backButton(),
                         ),
                       ),
                     ),
-                  Flexible(
-                    child: SuggestionSearchBar(
-                      autoFocus: isEmptySearchScreen,
-                      key: uniqueKey,
-                      title: librarySearchResults.searchBarTitle(context),
-                      debounceDuration: const Duration(seconds: 1),
-                      onItem: (value) async {
-                        await value.navigateTo(context);
-                        refreshKey.currentState?.show();
-                      },
-                      onSubmited: (value) async {
-                        if (librarySearchResults.filters.searchQuery != value) {
-                          libraryProvider.setSearch(value);
+                  Expanded(
+                    child: PositionRoundedClip(
+                      child: SuggestionSearchBar(
+                        autoFocus: isEmptySearchScreen,
+                        key: uniqueKey,
+                        title: librarySearchResults.searchBarTitle(context),
+                        debounceDuration: const Duration(seconds: 1),
+                        onItem: (value) async {
+                          await value.navigateTo(context);
                           refreshKey.currentState?.show();
-                        }
-                      },
+                        },
+                        onSubmited: (value) async {
+                          if (librarySearchResults.filters.searchQuery != value) {
+                            libraryProvider.setSearch(value);
+                            refreshKey.currentState?.show();
+                          }
+                        },
+                      ),
                     ),
                   ),
                   SizedBox.square(
                     dimension: toolbarHeight,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainerLow,
-                        borderRadius: FladderTheme.defaultShape.borderRadius,
-                      ),
-                      child: Tooltip(
-                        message: librarySearchResults.folderOverwrite.firstOrNull?.type.label(context.localized) ??
-                            context.localized.library(1),
-                        child: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
-                            ? PopupMenuButton(
-                                tooltip: context.localized.library(1),
-                                icon: Icon(librarySearchResults.folderOverwrite.firstOrNull?.type.icon ??
-                                    IconsaxPlusLinear.document),
-                                itemBuilder: (context) => menuActions.toList().popupMenuItems(useIcons: true),
-                              )
-                            : IconButton(
-                                onPressed: () async {
-                                  await showBottomSheetPill(
-                                    context: context,
-                                    content: (context, scrollController) => ListView(
-                                      shrinkWrap: true,
-                                      controller: scrollController,
-                                      children: menuActions
-                                          .map(
-                                            (e) => e.toListItem(context, useIcons: true, shouldPop: true),
-                                          )
-                                          .toList(),
+                    child: PositionRoundedClip(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surfaceContainerLow,
+                        ),
+                        child: Tooltip(
+                          message: librarySearchResults.folderOverwrite.included.firstOrNull?.type
+                                  .label(context.localized) ??
+                              context.localized.library(1),
+                          child: AdaptiveLayout.inputDeviceOf(context) == InputDevice.pointer
+                              ? PopupMenuButton(
+                                  tooltip: context.localized.library(1),
+                                  icon: Icon(librarySearchResults.folderOverwrite.included.firstOrNull?.type.icon ??
+                                      IconsaxPlusLinear.document),
+                                  itemBuilder: (context) => menuActions.toList().popupMenuItems(useIcons: true),
+                                )
+                              : IconButton(
+                                  onPressed: () async {
+                                    await showBottomSheetPill(
+                                      context: context,
+                                      content: (context, scrollController) => ListView(
+                                        shrinkWrap: true,
+                                        controller: scrollController,
+                                        children: menuActions
+                                            .map(
+                                              (e) => e.toListItem(context, useIcons: true, shouldPop: true),
+                                            )
+                                            .toList(),
+                                      ),
+                                    );
+                                  },
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(6),
+                                    child: Icon(
+                                      librarySearchResults.folderOverwrite.included.firstOrNull?.type.icon ??
+                                          IconsaxPlusLinear.document,
+                                      color: librarySearchResults
+                                                  .folderOverwrite.included.firstOrNull?.userData.isFavourite ==
+                                              true
+                                          ? Theme.of(context).colorScheme.primary
+                                          : null,
                                     ),
-                                  );
-                                },
-                                icon: Padding(
-                                  padding: const EdgeInsets.all(6),
-                                  child: Icon(
-                                    librarySearchResults.folderOverwrite.firstOrNull?.type.icon ??
-                                        IconsaxPlusLinear.document,
-                                    color:
-                                        librarySearchResults.folderOverwrite.firstOrNull?.userData.isFavourite == true
-                                            ? Theme.of(context).colorScheme.primary
-                                            : null,
                                   ),
                                 ),
-                              ),
+                        ),
                       ),
                     ),
                   ),
                   if (AdaptiveLayout.layoutModeOf(context) == LayoutMode.single)
-                    SizedBox.square(dimension: toolbarHeight - 3.0, child: const SettingsUserIcon()),
-                ],
+                    SizedBox.square(
+                      dimension: toolbarHeight,
+                      child: const PositionRoundedClip(
+                        child: SettingsUserIcon(),
+                      ),
+                    ),
+                ].withPositionProvider(),
               ),
             ),
           ),

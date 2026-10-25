@@ -8,13 +8,9 @@
 // ignore_for_file: type=lint
 // coverage:ignore-file
 
-import 'package:flutter/foundation.dart' as _i34;
-import 'package:flutter/material.dart' as _i32;
-
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i31;
 import 'package:collection/collection.dart' as _i38;
-
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart' as _i37;
 import 'package:fladder/models/item_base_model.dart' as _i33;
 import 'package:fladder/models/items/item_shared_models.dart' as _i36;
@@ -53,6 +49,8 @@ import 'package:fladder/screens/settings/settings_selection_screen.dart' as _i28
 import 'package:fladder/screens/splash_screen.dart' as _i29;
 import 'package:fladder/screens/syncing/synced_screen.dart' as _i30;
 import 'package:fladder/seerr/seerr_models.dart' as _i42;
+import 'package:flutter/foundation.dart' as _i34;
+import 'package:flutter/material.dart' as _i32;
 
 /// generated route for
 /// [_i1.AboutSettingsPage]

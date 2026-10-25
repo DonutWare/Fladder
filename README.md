@@ -102,7 +102,8 @@ Web/Desktop [try out the web build!](https://DonutWare.github.io/Fladder)
 
 ## Planned Features
 
-* Music playback
+* Chromecast support
+* Improved dPad navigation for non-tv devices
 * [And more???](https://github.com/DonutWare/Fladder/discussions/categories/ideas)
 
 ## Download

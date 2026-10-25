@@ -24,6 +24,7 @@ import 'package:fladder/screens/shared/animated_fade_size.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
+import 'package:fladder/services/local_network_permission.dart';
 import 'package:fladder/util/auth_service.dart';
 import 'package:fladder/util/deep_link_helper.dart';
 import 'package:fladder/util/fladder_config.dart';
@@ -425,25 +426,34 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
   bool emptyFields() => usernameController.text.isEmpty;
 }
 
-Future<void> loggedInGoToHome(BuildContext context, WidgetRef ref) async {
+Future<void> loggedInGoToHome(BuildContext context, WidgetRef ref, {PageRouteInfo? redirect}) async {
   ref.read(lockScreenActiveProvider.notifier).update((state) => false);
   if (context.mounted) {
-    await context.router.replaceAll([const DashboardRoute()]);
+    final router = context.router;
+    await router.replaceAll([const DashboardRoute()]);
+    if (redirect != null) {
+      await router.push(redirect);
+    }
   }
 }
 
-Future<void> _handleLogin(BuildContext context, AccountModel user, WidgetRef ref) async {
+Future<void> _handleLogin(BuildContext context, AccountModel user, WidgetRef ref, {PageRouteInfo? redirect}) async {
   await ref.read(authProvider.notifier).switchUser();
   await ref.read(sharedUtilityProvider).updateAccountInfo(user.copyWith(
         lastUsed: DateTime.now(),
       ));
   ref.read(userProvider.notifier).updateUser(user.copyWith(lastUsed: DateTime.now()));
 
-  loggedInGoToHome(context, ref);
+  await ensureLocalNetworkPermissions(
+    [user.credentials.url, user.credentials.localUrl],
+    context,
+  );
+
+  loggedInGoToHome(context, ref, redirect: redirect);
 }
 
-void tapLoggedInAccount(BuildContext context, AccountModel user, WidgetRef ref) async {
-  Future<void> loginFunction() => _handleLogin(context, user, ref);
+void tapLoggedInAccount(BuildContext context, AccountModel user, WidgetRef ref, {PageRouteInfo? redirect}) async {
+  Future<void> loginFunction() => _handleLogin(context, user, ref, redirect: redirect);
   switch (user.authMethod) {
     case Authentication.autoLogin:
       loginFunction();

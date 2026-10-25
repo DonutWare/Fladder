@@ -262,12 +262,12 @@
     "markAsWatched": "Marcar com a vist",
     "masonry": "Maçoneria",
     "mediaTypeBase": "Tipus base",
-    "mediaTypeBook": "Llibre",
-    "mediaTypeBoxset": "Recopilatori",
-    "mediaTypeEpisode": "Capítol",
-    "mediaTypeFolder": "Carpeta",
-    "mediaTypeMovie": "Pel·lícula",
-    "mediaTypePerson": "Persona",
+    "mediaTypeBook": "{count, plural, one{Llibre} other{Llibres}}",
+    "mediaTypeBoxset": "{count, plural, one{Recopilatori} other{Recopilatoris}}",
+    "mediaTypeEpisode": "{count, plural, one{Capítol} other{Capítols}}",
+    "mediaTypeFolder": "{count, plural, one{Carpeta} other{Carpetes}}",
+    "mediaTypeMovie": "{count, plural, one{Pel·licula} other{Pel·licules}}",
+    "mediaTypePerson": "{count, plural, one{Persona} other{Persones}}",
     "mediaTypePhoto": "Foto",
     "mediaTypePhotoAlbum": "Album de fotos",
     "mediaTypePlaylist": "Llista de reproducció",
@@ -1094,5 +1094,32 @@
     "copyLoginLink": "Copiar enllaç",
     "includePassword": "Incloure contrasenya",
     "invalidAuthLink": "Enllaç d'inici de sessió no valid",
-    "homeBannerDetailed": "Detallat"
+    "homeBannerDetailed": "Detallat",
+    "addToQueue": "Afegir a la cua",
+    "instantMix": "Mix instantani",
+    "addedToQueue": "{count, plural, one{Afegida {count} pista a la cua} other{Afegides {count} pistes a la cua}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "audioPlayerPlaybackOptionsTitle": "Opcions de reproducció",
+    "audioPlayerRepeatAll": "Repeteix tot",
+    "audioPlayerRepeatOff": "Repeticio desactivada",
+    "audioPlayerRepeatOne": "Repetir una",
+    "audioPlayerShuffle": "Barreja",
+    "showArtist": "Mostra artista",
+    "track": "{count, plural, one{Pista} other{Pistes}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "gestures": "Gestos"
 }

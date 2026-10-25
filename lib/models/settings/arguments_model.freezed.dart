@@ -19,9 +19,69 @@ mixin _$ArgumentsModel {
   bool get newWindow;
   bool get skipNotifications;
 
+  String? get launchLink;
+
+  /// Create a copy of ArgumentsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ArgumentsModelCopyWith<ArgumentsModel> get copyWith =>
+      _$ArgumentsModelCopyWithImpl<ArgumentsModel>(this as ArgumentsModel, _$identity);
+
   @override
   String toString() {
-    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow, skipNotifications: $skipNotifications)';
+    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow, skipNotifications: $skipNotifications, launchLink: $launchLink)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ArgumentsModelCopyWith<$Res> {
+  factory $ArgumentsModelCopyWith(ArgumentsModel value, $Res Function(ArgumentsModel) _then) =
+      _$ArgumentsModelCopyWithImpl;
+  @useResult
+  $Res call({bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications, String? launchLink});
+}
+
+/// @nodoc
+class _$ArgumentsModelCopyWithImpl<$Res> implements $ArgumentsModelCopyWith<$Res> {
+  _$ArgumentsModelCopyWithImpl(this._self, this._then);
+
+  final ArgumentsModel _self;
+  final $Res Function(ArgumentsModel) _then;
+
+  /// Create a copy of ArgumentsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? htpcMode = null,
+    Object? leanBackMode = null,
+    Object? newWindow = null,
+    Object? skipNotifications = null,
+    Object? launchLink = freezed,
+  }) {
+    return _then(_self.copyWith(
+      htpcMode: null == htpcMode
+          ? _self.htpcMode
+          : htpcMode // ignore: cast_nullable_to_non_nullable
+              as bool,
+      leanBackMode: null == leanBackMode
+          ? _self.leanBackMode
+          : leanBackMode // ignore: cast_nullable_to_non_nullable
+              as bool,
+      newWindow: null == newWindow
+          ? _self.newWindow
+          : newWindow // ignore: cast_nullable_to_non_nullable
+              as bool,
+      skipNotifications: null == skipNotifications
+          ? _self.skipNotifications
+          : skipNotifications // ignore: cast_nullable_to_non_nullable
+              as bool,
+      launchLink: freezed == launchLink
+          ? _self.launchLink
+          : launchLink // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
@@ -118,13 +178,14 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications)? $default, {
+    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications, String? launchLink)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel() when $default != null:
-        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications, _that.launchLink);
       case _:
         return orElse();
     }
@@ -145,12 +206,13 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications) $default,
+    TResult Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications, String? launchLink)
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel():
-        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications, _that.launchLink);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -170,12 +232,13 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications)? $default,
+    TResult? Function(bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications, String? launchLink)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ArgumentsModel() when $default != null:
-        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications);
+        return $default(_that.htpcMode, _that.leanBackMode, _that.newWindow, _that.skipNotifications, _that.launchLink);
       case _:
         return null;
     }
@@ -186,7 +249,11 @@ extension ArgumentsModelPatterns on ArgumentsModel {
 
 class _ArgumentsModel extends ArgumentsModel {
   _ArgumentsModel(
-      {this.htpcMode = false, this.leanBackMode = false, this.newWindow = false, this.skipNotifications = false})
+      {this.htpcMode = false,
+      this.leanBackMode = false,
+      this.newWindow = false,
+      this.skipNotifications = false,
+      this.launchLink})
       : super._();
 
   @override
@@ -203,8 +270,71 @@ class _ArgumentsModel extends ArgumentsModel {
   final bool skipNotifications;
 
   @override
+  final String? launchLink;
+
+  /// Create a copy of ArgumentsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ArgumentsModelCopyWith<_ArgumentsModel> get copyWith =>
+      __$ArgumentsModelCopyWithImpl<_ArgumentsModel>(this, _$identity);
+
+  @override
   String toString() {
-    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow, skipNotifications: $skipNotifications)';
+    return 'ArgumentsModel(htpcMode: $htpcMode, leanBackMode: $leanBackMode, newWindow: $newWindow, skipNotifications: $skipNotifications, launchLink: $launchLink)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ArgumentsModelCopyWith<$Res> implements $ArgumentsModelCopyWith<$Res> {
+  factory _$ArgumentsModelCopyWith(_ArgumentsModel value, $Res Function(_ArgumentsModel) _then) =
+      __$ArgumentsModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call({bool htpcMode, bool leanBackMode, bool newWindow, bool skipNotifications, String? launchLink});
+}
+
+/// @nodoc
+class __$ArgumentsModelCopyWithImpl<$Res> implements _$ArgumentsModelCopyWith<$Res> {
+  __$ArgumentsModelCopyWithImpl(this._self, this._then);
+
+  final _ArgumentsModel _self;
+  final $Res Function(_ArgumentsModel) _then;
+
+  /// Create a copy of ArgumentsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? htpcMode = null,
+    Object? leanBackMode = null,
+    Object? newWindow = null,
+    Object? skipNotifications = null,
+    Object? launchLink = freezed,
+  }) {
+    return _then(_ArgumentsModel(
+      htpcMode: null == htpcMode
+          ? _self.htpcMode
+          : htpcMode // ignore: cast_nullable_to_non_nullable
+              as bool,
+      leanBackMode: null == leanBackMode
+          ? _self.leanBackMode
+          : leanBackMode // ignore: cast_nullable_to_non_nullable
+              as bool,
+      newWindow: null == newWindow
+          ? _self.newWindow
+          : newWindow // ignore: cast_nullable_to_non_nullable
+              as bool,
+      skipNotifications: null == skipNotifications
+          ? _self.skipNotifications
+          : skipNotifications // ignore: cast_nullable_to_non_nullable
+              as bool,
+      launchLink: freezed == launchLink
+          ? _self.launchLink
+          : launchLink // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 

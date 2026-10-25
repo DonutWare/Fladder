@@ -6,6 +6,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/providers/discovery_provider.dart';
+import 'package:fladder/services/local_network_permission.dart';
 import 'package:fladder/util/fladder_config.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -99,7 +100,11 @@ class DiscoverServersWidget extends ConsumerWidget {
                       ),
                     ));
             },
-            error: (error, stackTrace) => Text(context.localized.error),
+            error: (error, stackTrace) => error is LocalNetworkPermissionDeniedException
+                ? _LocalNetworkPermissionButton(
+                    onPermissionChanged: () => ref.invalidate(serverDiscoveryProvider),
+                  )
+                : Text(context.localized.error),
             loading: () => const Center(
               child: SizedBox.square(
                 dimension: 24.0,
@@ -109,6 +114,62 @@ class DiscoverServersWidget extends ConsumerWidget {
           ),
         ],
         const SizedBox(height: 32),
+      ],
+    );
+  }
+}
+
+class _LocalNetworkPermissionButton extends StatefulWidget {
+  const _LocalNetworkPermissionButton({required this.onPermissionChanged});
+
+  final VoidCallback onPermissionChanged;
+
+  @override
+  State<_LocalNetworkPermissionButton> createState() => _LocalNetworkPermissionButtonState();
+}
+
+class _LocalNetworkPermissionButtonState extends State<_LocalNetworkPermissionButton> {
+  bool _loading = false;
+  bool _permissionDenied = false;
+
+  Future<void> _handlePermission() async {
+    if (_loading) return;
+    setState(() => _loading = true);
+
+    var permissionStatus = await requestLocalNetworkPermission();
+    if (permissionStatus == LocalNetworkPermissionStatus.denied && mounted) {
+      setState(() => _permissionDenied = true);
+      permissionStatus = await openLocalNetworkPermissionSettings();
+    }
+
+    if (!mounted) return;
+    setState(() => _loading = false);
+    widget.onPermissionChanged();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          _permissionDenied
+              ? context.localized.localNetworkPermissionDenied
+              : context.localized.localNetworkPermissionRequest,
+        ),
+        const SizedBox(height: 8),
+        FilledButton.icon(
+          onPressed: _loading ? null : _handlePermission,
+          icon: _loading
+              ? const SizedBox.square(
+                  dimension: 18,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : Icon(_permissionDenied ? Icons.settings : Icons.lock_open),
+          label: Text(
+            _permissionDenied ? context.localized.openSettings : context.localized.requestPermission,
+          ),
+        ),
       ],
     );
   }

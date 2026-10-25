@@ -11,6 +11,7 @@ import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
+import 'package:fladder/providers/incognito_mode_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_extensions.dart';
@@ -71,6 +72,7 @@ class OfflinePlaybackModel extends PlaybackModel {
 
   @override
   Future<PlaybackModel?> playbackStopped(Duration position, Duration? totalDuration, Ref ref) async {
+    if (ref.read(incognitoModeProvider) == true) return null;
     final effectiveDuration = totalDuration ?? item.overview.runTime ?? Duration.zero;
     final effectivePosition = resolvedStopPosition(position, totalDuration);
     final progress = _progressFor(effectivePosition, effectiveDuration);
@@ -90,6 +92,7 @@ class OfflinePlaybackModel extends PlaybackModel {
 
   @override
   Future<PlaybackModel?> updatePlaybackPosition(Duration position, bool isPlaying, Ref ref) async {
+    if (ref.read(incognitoModeProvider) == true) return null;
     final effectiveDuration = item.overview.runTime ?? Duration.zero;
     final progress = _progressFor(position, effectiveDuration);
     final isPlayed = UserData.isPlayed(position, effectiveDuration);
