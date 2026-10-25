@@ -42,7 +42,10 @@ import androidx.media3.extractor.ts.TsExtractor
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.CaptionStyleCompat
 import androidx.media3.ui.PlayerView
-import io.github.peerless2012.ass.media.kt.buildWithAssSupport
+import io.github.peerless2012.ass.media.AssHandler
+import io.github.peerless2012.ass.media.kt.withAssMkvSupport
+import io.github.peerless2012.ass.media.kt.withAssSupport
+import io.github.peerless2012.ass.media.parser.AssSubtitleParserFactory
 import io.github.peerless2012.ass.media.type.AssRenderType
 import kotlinx.coroutines.delay
 
@@ -52,6 +55,7 @@ import nl.jknaapen.fladder.messengers.properlySetSubAndAudioTracks
 import nl.jknaapen.fladder.objects.PlayerSettingsObject
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.AllowedOrientations
+import nl.jknaapen.fladder.utility.AssFonts
 import nl.jknaapen.fladder.utility.conditional
 import nl.jknaapen.fladder.utility.getAudioTracks
 import nl.jknaapen.fladder.utility.getSubtitleTracks
@@ -106,20 +110,30 @@ internal fun ExoPlayer(
         })
     }
 
+    // libass has no font provider on Android and must be handed fonts explicitly,
+    // otherwise it renders nothing at all. See AssFonts.
+    val assHandler = remember { AssHandler(AssRenderType.LEGACY).also { AssFonts.install(context, it) } }
+
     val exoPlayer = remember {
-        ExoPlayer.Builder(context, renderersFactory)
+        // This is what buildWithAssSupport() does internally, inlined for two reasons:
+        // it creates the AssHandler itself and never exposes it (we need it to push
+        // fonts into libass, see AssFonts), and it discards the caller's
+        // dataSourceFactory in favour of a plain DefaultDataSource.Factory.
+        val assParserFactory = AssSubtitleParserFactory(assHandler)
+        val mediaSourceFactory = DefaultMediaSourceFactory(
+            dataSourceFactory,
+            extractorsFactory.withAssMkvSupport(assParserFactory, assHandler),
+        ).setSubtitleParserFactory(assParserFactory)
+
+        ExoPlayer.Builder(context, renderersFactory.withAssSupport(assHandler))
             .setTrackSelector(trackSelector)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory))
+            .setMediaSourceFactory(mediaSourceFactory)
             .setAudioAttributes(audioAttributes, true)
             .setHandleAudioBecomingNoisy(true)
             .setPauseAtEndOfMediaItems(true)
             .setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT)
-            .buildWithAssSupport(
-                context,
-                renderersFactory = renderersFactory,
-                extractorsFactory = extractorsFactory,
-                renderType = AssRenderType.LEGACY
-            )
+            .build()
+            .also { player -> assHandler.init(player) }
     }
 
     fun updatePlaybackState() {
