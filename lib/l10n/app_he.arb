@@ -706,5 +706,7 @@
         }
     },
     "refreshPopupContentMetadata": "רענון מטא-דאטא הוא בהתאם להגדרות ושירותי אינטרנט המופעלים בלוח הבקרה.",
-    "restart": "הפעלה מחדש"
+    "restart": "הפעלה מחדש",
+    "libraryPageSizeTitle": "גודל עמוד ספריה",
+    "loggedIn": "מחובר"
 }
