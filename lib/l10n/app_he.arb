@@ -614,5 +614,12 @@
     "switchUser": "החלף משתמש",
     "sync": "סנכרן",
     "hideEmpty": "הסתר ריק",
-    "libraryPageSizeDesc": "הגדר את הסכום כדי לטעון בזמן. 0 ממריא."
+    "libraryPageSizeDesc": "הגדר את הסכום כדי לטעון בזמן. 0 ממריא.",
+    "light": "אור",
+    "navigationDashboard": "לוח הבקרה",
+    "normal": "נורמלי",
+    "openParent": "הורה פתוח",
+    "overview": "סקירה",
+    "parentalRating": "דירוג הורים",
+    "removeFromCollection": "להסיר מאוסף"
 }
