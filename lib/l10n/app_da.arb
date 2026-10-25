@@ -1838,7 +1838,7 @@
     "passwordNotRequired": "Ikke påkrævet. Udfyld ikke for at udelade kodeordet fra linket",
     "authLinkButtonToolTip": "Åbn autentifikationslink",
     "connectWithAuthLink": "Forbind med autentifikationslink",
-    "pasteFladderAuthLink": "Indsæt Fladder autentifikationslink fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "Indsæt Fladder autentifikationslink fladder://login?authLink=...",
     "connect": "Forbind",
     "authLinkDesc": "Spørg serveradministratoren om et autentifikationslink. Linket indeholder autentifikationsinformation, så hold det hemmeligt.",
     "deletedItem": "Slettede {itemName}",

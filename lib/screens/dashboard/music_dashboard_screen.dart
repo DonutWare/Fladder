@@ -6,9 +6,12 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
+import 'package:fladder/providers/library_filters_provider.dart';
 import 'package:fladder/providers/music_dashboard_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -50,6 +53,8 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
   final selectedPoster = ValueNotifier<ItemBaseModel?>(null);
   MusicTrackSection _selectedRecentTrackSection = MusicTrackSection.recentlyAdded;
 
+  bool _refreshing = false;
+
   @override
   void initState() {
     super.initState();
@@ -65,10 +70,14 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
   }
 
   Future<void> _refreshHome() async {
-    if (mounted) {
+    if (!mounted) return;
+    _refreshing = true;
+    try {
       await ref.read(userProvider.notifier).updateInformation();
       await ref.read(viewsProvider.notifier).fetchViews();
       await ref.read(musicDashboardProvider.notifier).fetchMusicHome();
+    } finally {
+      _refreshing = false;
     }
   }
 
@@ -76,6 +85,11 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
   Widget build(BuildContext context) {
     final padding = AdaptiveLayout.adaptivePadding(context);
     final musicDashboard = ref.watch(musicDashboardProvider);
+
+    ref.listen(libraryFiltersByKeyProvider(FilterSortKey.musicDashboard), (previous, next) {
+      if (_refreshing || const ListEquality<LibraryFiltersModel>().equals(previous, next)) return;
+      ref.read(musicDashboardProvider.notifier).fetchDashboardFilters();
+    });
     final useTVExpandedLayout = ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout));
     final viewSize = AdaptiveLayout.viewSizeOf(context);
     final layoutMode = AdaptiveLayout.of(context).layoutMode;
@@ -115,6 +129,9 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
     final musicItems = MusicLibraryItem.fromViews(context, allViews, false, ref);
 
     final isOffline = ref.watch(offlineStateProvider);
+
+    final dashboardSorting = ref.watch(userProvider.select((value) => value?.userSettings?.dashboardSorting)) ??
+        DashboardSorting.defaultSorting;
 
     return NestedScaffold(
       background: ValueListenableBuilder<ItemBaseModel?>(
@@ -201,90 +218,111 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
                   ),
                 ),
               ...[
-                if (musicDashboard.playlists.isNotEmpty)
-                  MusicPlaylistRow(
-                    playlists:
-                        musicDashboard.playlists.map((playlist) => playlist.copyWith(canDownload: true)).toList(),
-                    contentPadding: padding,
-                    label: FladderItemType.playlist.label(context.localized, count: musicDashboard.playlists.length),
-                    onPlaylistPlayTap: (playlist) => playlist.play(context, ref),
-                  ),
-                if (musicDashboard.recentlyAddedAlbums.isNotEmpty)
-                  PosterRow(
-                    tvMode: useTVExpandedLayout,
-                    contentPadding: padding,
-                    label: context.localized.dashboardRecentlyAddedItems(
-                      FladderItemType.musicAlbum
-                          .label(context.localized, count: musicDashboard.recentlyAddedAlbums.length)
-                          .toLowerCase(),
-                    ),
-                    collectionAspectRatio: FladderItemType.musicAlbum.aspectRatio,
-                    posters: musicDashboard.recentlyAddedAlbums,
-                  ),
-                if (activeRecentTrackSection != null)
-                  Padding(
-                    padding: padding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 40,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              ExpressiveButtonGroup<MusicTrackSection>(
-                                options: availableRecentTrackSections
-                                    .map(
-                                      (section) => ButtonGroupOption(
-                                        value: section.section,
-                                        child: Text(section.label),
-                                      ),
-                                    )
-                                    .toList(growable: false),
-                                selectedValues: {activeRecentTrackSection.section},
-                                onSelected: (value) {
-                                  final section = value.firstOrNull;
-                                  if (section == null) return;
-                                  setState(() => _selectedRecentTrackSection = section);
-                                },
+                for (final entry in dashboardSorting.entries)
+                  if (entry.value)
+                    ...switch (entry.key) {
+                      DashboardSorting.liveTV => <Widget>[],
+                      DashboardSorting.nextUp => <Widget>[],
+                      DashboardSorting.recentlyAdded => [
+                          if (musicDashboard.playlists.isNotEmpty)
+                            MusicPlaylistRow(
+                              playlists: musicDashboard.playlists
+                                  .map((playlist) => playlist.copyWith(canDownload: true))
+                                  .toList(),
+                              contentPadding: padding,
+                              label: FladderItemType.playlist
+                                  .label(context.localized, count: musicDashboard.playlists.length),
+                              onPlaylistPlayTap: (playlist) => playlist.play(context, ref),
+                            ),
+                          if (musicDashboard.recentlyAddedAlbums.isNotEmpty)
+                            PosterRow(
+                              tvMode: useTVExpandedLayout,
+                              contentPadding: padding,
+                              label: context.localized.dashboardRecentlyAddedItems(
+                                FladderItemType.musicAlbum
+                                    .label(context.localized, count: musicDashboard.recentlyAddedAlbums.length)
+                                    .toLowerCase(),
                               ),
-                            ],
+                              collectionAspectRatio: FladderItemType.musicAlbum.aspectRatio,
+                              posters: musicDashboard.recentlyAddedAlbums,
+                            ),
+                          if (activeRecentTrackSection != null)
+                            Padding(
+                              padding: padding,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 40,
+                                    child: ListView(
+                                      scrollDirection: Axis.horizontal,
+                                      children: [
+                                        ExpressiveButtonGroup<MusicTrackSection>(
+                                          options: availableRecentTrackSections
+                                              .map(
+                                                (section) => ButtonGroupOption(
+                                                  value: section.section,
+                                                  child: Text(section.label),
+                                                ),
+                                              )
+                                              .toList(growable: false),
+                                          selectedValues: {activeRecentTrackSection.section},
+                                          onSelected: (value) {
+                                            final section = value.firstOrNull;
+                                            if (section == null) return;
+                                            setState(() => _selectedRecentTrackSection = section);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  TrackList(
+                                    title: '',
+                                    showHeader: false,
+                                    tracks: activeRecentTrackSection.tracks,
+                                    showAlbum: true,
+                                    maxTracks: 10,
+                                    onTrackTap: (track) => track.parentBaseModel.navigateTo(context),
+                                    onTrackPlayTap: (track) =>
+                                        _playTrackFromSection(track, section: activeRecentTrackSection.section),
+                                    onTrackSecondaryTap: (_, __) {},
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (musicDashboard.recentlyAddedArtists.isNotEmpty)
+                            PosterRow(
+                              tvMode: useTVExpandedLayout,
+                              contentPadding: padding,
+                              label: context.localized.dashboardRecentlyAddedItems(
+                                FladderItemType.musicArtist
+                                    .label(context.localized, count: musicDashboard.recentlyAddedArtists.length)
+                                    .toLowerCase(),
+                              ),
+                              collectionAspectRatio: FladderItemType.musicAlbum.aspectRatio,
+                              posters: musicDashboard.recentlyAddedArtists,
+                            ),
+                          if (musicDashboard.mostPlayed.isNotEmpty)
+                            PosterRow(
+                              tvMode: useTVExpandedLayout,
+                              contentPadding: padding,
+                              label: context.localized.mostPlayed,
+                              collectionAspectRatio: FladderItemType.musicAlbum.aspectRatio,
+                              posters: musicDashboard.mostPlayed,
+                            ),
+                        ],
+                      DashboardSorting.filters => [
+                          ...musicDashboard.dashboardFilters.map(
+                            (dashboardFilter) => PosterRow(
+                              tvMode: useTVExpandedLayout,
+                              contentPadding: padding,
+                              label: dashboardFilter.filter.name,
+                              onLabelClick: () => dashboardFilter.filter.navigateTo(context),
+                              posters: dashboardFilter.items,
+                            ),
                           ),
-                        ),
-                        TrackList(
-                          title: '',
-                          showHeader: false,
-                          tracks: activeRecentTrackSection.tracks,
-                          showAlbum: true,
-                          maxTracks: 10,
-                          onTrackTap: (track) => track.parentBaseModel.navigateTo(context),
-                          onTrackPlayTap: (track) =>
-                              _playTrackFromSection(track, section: activeRecentTrackSection.section),
-                          onTrackSecondaryTap: (_, __) {},
-                        ),
-                      ],
-                    ),
-                  ),
-                if (musicDashboard.recentlyAddedArtists.isNotEmpty)
-                  PosterRow(
-                    tvMode: useTVExpandedLayout,
-                    contentPadding: padding,
-                    label: context.localized.dashboardRecentlyAddedItems(
-                      FladderItemType.musicArtist
-                          .label(context.localized, count: musicDashboard.recentlyAddedArtists.length)
-                          .toLowerCase(),
-                    ),
-                    collectionAspectRatio: FladderItemType.musicAlbum.aspectRatio,
-                    posters: musicDashboard.recentlyAddedArtists,
-                  ),
-                if (musicDashboard.mostPlayed.isNotEmpty)
-                  PosterRow(
-                    tvMode: useTVExpandedLayout,
-                    contentPadding: padding,
-                    label: context.localized.mostPlayed,
-                    collectionAspectRatio: FladderItemType.musicAlbum.aspectRatio,
-                    posters: musicDashboard.mostPlayed,
-                  ),
+                        ],
+                    },
               ]
                   .nonNulls
                   .toList()

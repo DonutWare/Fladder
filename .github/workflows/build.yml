@@ -15,9 +15,6 @@ on:
     types:
       - opened
       - reopened
-  schedule:
-    # Run nightly at midnight UTC, but only if there were changes to develop
-    - cron: "0 0 * * *"
   workflow_dispatch:
     inputs:
       build_type:
@@ -37,19 +34,13 @@ env:
   NIGHTLY_TAG: nightly
 
 jobs:
-  # Check if workflow should run based on trigger conditions
+  # Determine build type based on trigger conditions
   check-trigger:
     runs-on: ubuntu-latest
     outputs:
-      should_run: ${{ steps.check.outputs.should_run }}
       build_type: ${{ steps.check.outputs.build_type }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: Check if should run and determine build type
+      - name: Determine build type
         id: check
         run: |
           # Determine build type based on trigger and input
@@ -57,33 +48,18 @@ jobs:
             BUILD_TYPE="${{ github.event.inputs.build_type }}"
           elif [[ "${{ startsWith(github.ref, 'refs/tags/v') }}" == "true" ]]; then
             BUILD_TYPE="release"
-          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]] || [[ "${{ github.event_name }}" == "schedule" ]]; then
-            if [[ "${{ github.event_name }}" == "schedule" ]]; then
-              # Check if there were commits to develop in the last 24 hours
-              git checkout develop
-              COMMITS_LAST_24H=$(git log --since="24 hours ago" --oneline | wc -l)
-              if [[ $COMMITS_LAST_24H -gt 0 ]]; then
-                BUILD_TYPE="nightly"
-              else
-                echo "No commits to develop in the last 24 hours, skipping nightly build"
-                echo "should_run=false" >> $GITHUB_OUTPUT
-                exit 0
-              fi
-            else
-              BUILD_TYPE="nightly"
-            fi
+          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            BUILD_TYPE="nightly"
           else
             # For PRs and other events, build but don't release
             BUILD_TYPE="development"
           fi
 
           echo "build_type=${BUILD_TYPE}" >> $GITHUB_OUTPUT
-          echo "should_run=true" >> $GITHUB_OUTPUT
           echo "Build type determined: ${BUILD_TYPE}"
 
   fetch-info:
     needs: [check-trigger]
-    if: needs.check-trigger.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     outputs:
       version_name: ${{ steps.fetch.outputs.version_name }}

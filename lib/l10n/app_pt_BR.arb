@@ -1779,7 +1779,7 @@
     },
     "linkData": "Dados do link",
     "connectWithAuthLink": "Conectar com link de autenticação",
-    "pasteFladderAuthLink": "Cole o link de autenticação fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "Cole o link de autenticação fladder://login?authLink=...",
     "groupedFoldersDescription": "Agrupe automaticamente o conteúdo das seguintes bibliotecas em visualizações como 'Filmes', 'Música' e 'TV'.",
     "epgGuideProviders": "Guia de Provedores EPG",
     "noEpgProvidersConfigured": "Nenhum provedor de EPG configurado",

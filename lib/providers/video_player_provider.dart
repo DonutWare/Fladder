@@ -138,7 +138,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
   Future<bool> loadPlaybackItem(PlaybackModel model, Duration startPosition) async {
     ref.read(playBackModel)?.dispose();
-    await state.stop();
+    await state.stop(keepMediaSession: true);
     ref.read(playbackRateProvider.notifier).state = 1.0;
     ref.read(subtitleTimingOffsetProvider.notifier).state = Duration.zero; //reset subtitle offset on new video
 
