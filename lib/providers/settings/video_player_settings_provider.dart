@@ -19,6 +19,8 @@ final videoPlayerSettingsProvider =
   return VideoPlayerSettingsProviderNotifier(ref);
 });
 
+final subtitleTimingOffsetProvider = StateProvider<Duration>((ref) => Duration.zero);
+
 final playbackRateProvider = StateProvider<double>((ref) => 1.0);
 
 class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {

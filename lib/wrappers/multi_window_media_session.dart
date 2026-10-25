@@ -194,7 +194,7 @@ class _OsMediaSession extends BaseAudioHandler {
 
   void show(MediaItem? item, PlaybackState? state) {
     mediaItem.add(item);
-    playbackState.add(state ?? PlaybackState(processingState: AudioProcessingState.completed));
+    playbackState.add(state ?? PlaybackState(processingState: AudioProcessingState.idle));
     _updateSmtc(item, state);
   }
 
