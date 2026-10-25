@@ -12,6 +12,7 @@ import 'package:screen_brightness/screen_brightness.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 import 'package:fladder/models/item_base_model.dart';
+import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
@@ -32,6 +33,7 @@ import 'package:fladder/screens/video_player/components/video_player_quality_con
 import 'package:fladder/screens/video_player/components/video_player_screenshot_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_seek_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_speed_indicator.dart';
+import 'package:fladder/screens/video_player/components/video_player_subtitle_offset_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_player_volume_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_progress_bar.dart';
 import 'package:fladder/screens/video_player/components/video_volume_slider.dart';
@@ -194,6 +196,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                           ),
                           VideoPlayerSeekIndicator(controller: _seekController),
                           const VideoPlayerVolumeIndicator(),
+                          const VideoPlayerSubtitleOffsetIndicator(),
                           const VideoPlayerBrightnessIndicator(),
                           const VideoPlayerSpeedIndicator(),
                           const VideoPlayerScreenshotIndicator(),
@@ -449,6 +452,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     ),
                   ),
                   previousButton,
+                  previousChapterButton(ref),
                   seekBackwardButton(ref),
                   IconButton.filledTonal(
                     iconSize: 38,
@@ -460,6 +464,7 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
                     ),
                   ),
                   seekForwardButton(ref),
+                  nextChapterButton(ref),
                   nextVideoButton,
                   Flexible(
                     flex: 2,
@@ -706,6 +711,51 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     );
   }
 
+  Widget nextChapterButton(WidgetRef ref) {
+    return Consumer(builder: (context, ref2, child) {
+      final chapters = ref.read(playBackModel.select((value) => value?.chapters)) ?? [];
+      final position = ref.read(mediaPlaybackProvider).position;
+      final enabled = chapters.nextChapter(position) != null;
+      return IconButton(
+        onPressed: enabled ? () => _nextChapter(ref) : null,
+        iconSize: 30,
+        tooltip: context.localized.nextChapter,
+        icon: const Icon(IconsaxPlusLinear.arrow_right_1),
+      );
+    });
+  }
+
+  Widget previousChapterButton(WidgetRef ref) {
+    return Consumer(builder: (context, ref2, child) {
+      final chapters = ref.read(playBackModel.select((value) => value?.chapters));
+      final enabled = chapters?.isNotEmpty == true;
+      return IconButton(
+        onPressed: enabled ? () => _previousChapter(ref) : null,
+        iconSize: 30,
+        tooltip: context.localized.prevChapter,
+        icon: const Icon(IconsaxPlusLinear.arrow_left_3),
+      );
+    });
+  }
+
+  void _previousChapter(WidgetRef ref) {
+    final chapters = ref.read(playBackModel.select((value) => value?.chapters)) ?? [];
+    final position = ref.read(mediaPlaybackProvider).position;
+    final target = chapters.previousChapter(position);
+    if (target == null) return;
+    ref.read(videoPlayerProvider).seek(target.startPosition);
+    resetTimer();
+  }
+
+  void _nextChapter(WidgetRef ref) {
+    final chapters = ref.read(playBackModel.select((value) => value?.chapters)) ?? [];
+    final position = ref.read(mediaPlaybackProvider).position;
+    final next = chapters.nextChapter(position);
+    if (next == null) return;
+    ref.read(videoPlayerProvider).seek(next.startPosition);
+    resetTimer();
+  }
+
   void skipToSegmentEnd(MediaSegment? mediaSegment, String? segmentId) {
     final end = mediaSegment?.end;
     if (end != null) {
@@ -798,7 +848,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   Future<void> closePlayer() async {
     clearOverlaySettings();
     ref.read(videoPlayerProvider).stop();
-    Navigator.of(context).pop();
+    await WidgetsBinding.instance.endOfFrame;
+    if (context.mounted) Navigator.of(context).pop();
   }
 
   Future<void> clearOverlaySettings() async {
@@ -1024,6 +1075,8 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
     final mediaSegments = ref.read(playBackModel.select((value) => value?.mediaSegments));
     final position = ref.read(mediaPlaybackProvider).position;
     final playing = ref.read(mediaPlaybackProvider.select((value) => value.playing));
+    final subtitlesEnabled = ref.read(playBackModel)?.mediaStreams?.defaultSubStreamIndex != null &&
+        ref.read(playBackModel)!.mediaStreams!.defaultSubStreamIndex != -1;
 
     MediaSegment? segment = mediaSegments?.atPosition(position);
 
@@ -1087,6 +1140,16 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
         return true;
       case VideoHotKeys.toggleSubtitles:
         _toggleSubtitles();
+        return true;
+      case VideoHotKeys.subtitleOffsetBackward:
+        if (!subtitlesEnabled) return false;
+        ref.read(subtitleTimingOffsetProvider.notifier).update((state) => state + const Duration(milliseconds: -250));
+        ref.read(videoPlayerProvider).shiftSubtitleOffset(const Duration(milliseconds: -250));
+        return true;
+      case VideoHotKeys.subtitleOffsetForward:
+        if (!subtitlesEnabled) return false;
+        ref.read(subtitleTimingOffsetProvider.notifier).update((state) => state + const Duration(milliseconds: 250));
+        ref.read(videoPlayerProvider).shiftSubtitleOffset(const Duration(milliseconds: 250));
         return true;
       case VideoHotKeys.seekForwardInstant:
         final seekForwardSeconds =

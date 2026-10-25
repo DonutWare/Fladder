@@ -384,6 +384,26 @@ class _UserSettingsPageState extends ConsumerState<ProfileSettingsPage> with Wid
           SettingsLabelDivider(label: context.localized.advanced),
           [
             SettingsListTile(
+              label: Text(context.localized.server),
+              subLabel: Text(user?.credentials.url.isNotEmpty == true ? user!.credentials.url : context.localized.none),
+              onTap: () {
+                openSimpleTextInput(
+                  context,
+                  user?.credentials.url,
+                  (value) async {
+                    final messenger = ScaffoldMessenger.of(context);
+                    final failedMessage = context.localized.unableToConnectHost;
+                    final success = await ref.read(userProvider.notifier).setServerURL(value);
+                    if (!success) {
+                      messenger.showSnackBar(SnackBar(content: Text(failedMessage)));
+                    }
+                  },
+                  context.localized.server,
+                  context.localized.settingsServerUrlSetDesc,
+                );
+              },
+            ),
+            SettingsListTile(
               label: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 spacing: 8,

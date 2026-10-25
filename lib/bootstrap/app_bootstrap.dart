@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/providers/crash_log_provider.dart';
+import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/src/video_player_helper.g.dart';
 import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/fladder_config.dart';
@@ -52,14 +53,14 @@ Future<AppBootstrapResult> bootstrapApplication(List<String> args) async {
 
   await SvgUtils.preCacheSVGs();
 
-  final leanBackEnabled = await resolveLeanBackEnabled();
+  final sharedPreferences = await SharedPreferences.getInstance();
+  final leanBackEnabled = await resolveLeanBackEnabled() || _storedLeanBackMode(sharedPreferences);
 
   var windowArguments = '';
   if (isDesktopPlatform) {
     windowArguments = await _resolveWindowArguments();
   }
 
-  final sharedPreferences = await SharedPreferences.getInstance();
   final packageInfo = await PackageInfo.fromPlatform();
 
   var applicationDirectory = Directory('');
@@ -98,6 +99,15 @@ Future<bool> resolveLeanBackEnabled() async {
     return await NativeVideoActivity().isLeanBackEnabled();
   } catch (e) {
     print('Leanback detection failed (non-TV Android device): $e');
+    return false;
+  }
+}
+
+bool _storedLeanBackMode(SharedPreferences sharedPreferences) {
+  try {
+    final clientSettings = jsonDecode(sharedPreferences.getString(SharedKeys.clientSettingsKey) ?? '{}');
+    return clientSettings['forceLeanBackMode'] == true;
+  } catch (_) {
     return false;
   }
 }

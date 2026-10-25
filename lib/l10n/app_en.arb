@@ -1712,6 +1712,8 @@
   "posterColorsDesc": "Use generated colors for posters in place of the default color",
   "mediaTunnelingTitle": "Media tunneling",
   "mediaTunnelingDesc": "Enable media tunneling for native player",
+  "refreshRateSwitchingTitle": "Refresh Rate Matching",
+  "refreshRateSwitchingDesc": "Match display refresh rate to video frame rate",
   "clientSettingsUseSystemIMETitle": "Use system keyboard",
   "clientSettingsUseSystemIMEDesc": "Use the built-in keyboard provided by your system",
   "nextUpInCount": "Next-up in {seconds}",
@@ -1735,6 +1737,9 @@
   "takeScreenshot": "Take screenshot",
   "takeScreenshotClean": "Take screenshot (without subtitles)",
   "toggleSubtitles": "Toggle subtitles",
+  "subtitleOffsetBackward": "Subtitle backward",
+  "subtitleOffsetForward": "Subtitle forward",
+  "subtitleOffset": "Subtitle offset",
   "screenshotTaken": "Screenshot saved!",
   "screenshotCleanTaken": "Screenshot without subtitles saved!",
   "errorTakingScreenshot": "There was an error taking the screenshot",
@@ -1745,6 +1750,7 @@
   "screensaverBlack": "Black",
   "playerSettingsScreensaverTitle": "Screensaver",
   "playerSettingsScreensaverDesc": "Select screen saver that will be shown after no player activity",
+  "settingsServerUrlSetDesc": "Change the address used to connect to your Jellyfin server. The new URL must point to the same server.",
   "settingsLocalUrlTitle": "Local Jellyfin URL",
   "settingsLocalUrlSetTitle": "Configure Local Jellyfin URL",
   "settingsLocalUrlSetDesc": "Specify the local Jellyfin address. Fladder will automatically use this URL when your device is on the same network.",
@@ -2741,7 +2747,7 @@
   "passwordNotRequired": "Not required, leave empty to not include password in the link",
   "authLinkButtonToolTip": "Open auth link dialog",
   "connectWithAuthLink": "Connect with auth link",
-  "pasteFladderAuthLink": "Paste fladder auth link fladder:///login?authLink=...",
+  "pasteFladderAuthLink": "Paste fladder auth link fladder://login?authLink=...",
   "connect": "Connect",
   "authLinkDesc": "Ask the server admin to provide the auth link. The link contains authentication information, so be sure to keep it secure.",
   "deletedItem": "Deleted {itemName}",
@@ -2873,5 +2879,25 @@
   "libraryFiltersTitle": "Library filters",
   "libraryFiltersDesc": "Library filters allow you to create custom views of your libraries based",
   "libraryNoFiltersSaved": "No library filters saved",
-  "addTo": "Add to"
+  "addTo": "Add to",
+  "deepLinkSwitchUserTitle": "Switch user?",
+  "deepLinkSwitchUserDesc": "This item isn't available for {user}. Open it as:",
+  "@deepLinkSwitchUserDesc": {
+    "description": "Shown when a link points to an item the current user cannot access, followed by a list of accounts that can",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "deepLinkSwitchAccountDesc": "This link belongs to {user}. Switch to this account?",
+  "@deepLinkSwitchAccountDesc": {
+    "description": "Shown when a notification link was created for another saved account",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "deepLinkItemNotFound": "This item isn't available for any of your accounts"
 }

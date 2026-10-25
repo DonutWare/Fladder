@@ -13,6 +13,12 @@ analyzer:
     - lib/**/**.freezed.dart
     - lib/**/**.mapped.dart
     - lib/l10n/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false

@@ -1863,7 +1863,7 @@
     "linkData": "Данные ссылки",
     "passwordNotRequired": "Не требуется, оставьте пустым, чтобы не включать пароль в ссылку",
     "connectWithAuthLink": "Подключиться с ссылкой для входа",
-    "pasteFladderAuthLink": "Вставьте ссылку для входа вида fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "Вставьте ссылку для входа вида fladder://login?authLink=...",
     "connect": "Подключиться",
     "deletedItem": "{itemName} удалено",
     "@deletedItem": {
@@ -2047,5 +2047,9 @@
     "pictureInPictureAutoTitle": "Включать \"картинку в картинке\" автоматически",
     "@pictureInPictureAutoTitle": {
         "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "Режим Picture-in-Picture недоступен на этом устройстве",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
     }
 }

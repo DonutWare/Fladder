@@ -11,7 +11,7 @@ String _$seerrApiHash() => r'57b39e9af4926a0b255b94ff257c738ffbd91d32';
 /// See also [SeerrApi].
 @ProviderFor(SeerrApi)
 final seerrApiProvider =
-    AutoDisposeNotifierProvider<SeerrApi, SeerrService>.internal(
+    NotifierProvider<SeerrApi, SeerrService>.internal(
   SeerrApi.new,
   name: r'seerrApiProvider',
   debugGetCreateSourceHash:
@@ -20,6 +20,6 @@ final seerrApiProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SeerrApi = AutoDisposeNotifier<SeerrService>;
+typedef _$SeerrApi = Notifier<SeerrService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

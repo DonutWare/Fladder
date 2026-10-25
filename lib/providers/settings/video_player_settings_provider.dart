@@ -19,6 +19,8 @@ final videoPlayerSettingsProvider =
   return VideoPlayerSettingsProviderNotifier(ref);
 });
 
+final subtitleTimingOffsetProvider = StateProvider<Duration>((ref) => Duration.zero);
+
 final playbackRateProvider = StateProvider<double>((ref) => 1.0);
 
 class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSettingsModel> {
@@ -170,6 +172,8 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   }
 
   void setCrossfadeDurationMs(int value) => state = state.copyWith(crossfadeDurationMs: value);
+
+  void setRefreshRateSwitching(bool value) => state = state.copyWith(refreshRateSwitching: value);
 
   static VideoPlayerSettingsModel _sanitizeCrossfade(VideoPlayerSettingsModel value) {
     if (!value.canUseCrossfade && value.enableCrossfade) {

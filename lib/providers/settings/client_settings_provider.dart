@@ -124,6 +124,9 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
     final newLeanBackMode = leanBackIsAvailable ? true : value;
     state = state.copyWith(forceLeanBackMode: newLeanBackMode);
     leanBackMode = newLeanBackMode;
-    ref.read(argumentsStateProvider.notifier).update((state) => state.copyWith(leanBackMode: newLeanBackMode));
+    ref.read(argumentsStateProvider.notifier).update((state) => state.copyWith(
+          leanBackMode: newLeanBackMode,
+          htpcMode: newLeanBackMode,
+        ));
   }
 }
