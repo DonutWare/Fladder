@@ -6,8 +6,10 @@ ENV BASE_URL=""
 ENV SEERR_BASE_URL=""
 ENV SEERR_HEADER="null"
 ENV FLADDER_WEBPATH="/"
+ENV PORT=8080
 
 USER root
+RUN apk add --no-cache jq
 COPY build/web /usr/share/nginx/html
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN mkdir -p /usr/share/nginx/html/assets/config && \
