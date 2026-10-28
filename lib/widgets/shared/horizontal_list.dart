@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -106,7 +107,8 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
       }
 
       if ((FocusProvider.autoFocusOf(context) || widget.autoFocus) &&
-          AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad) {
+          AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad &&
+          FocusProvider.canAutoFocus(context)) {
         final nodesOnSameRow = _nodesInRow(parentNode);
         final initialNode = _nodeForItemIndex(context, nodesOnSameRow, widget.startIndex ?? 0);
         initialNode?.requestFocus();
@@ -369,7 +371,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
                 clipBehavior: Clip.none,
                 scrollDirection: Axis.horizontal,
                 padding: widget.contentPadding,
-                cacheExtent: _firstItemWidth ?? 250,
+                scrollCacheExtent: ScrollCacheExtent.pixels(_firstItemWidth ?? 250),
                 itemBuilder: (context, index) => index == widget.items.length
                     ? PosterPlaceHolder(
                         onTap: widget.onLabelClick ?? () {},

@@ -251,7 +251,7 @@ class PlaybackQueueState {
 
   PlaybackQueueState reorderSection(AudioQueueSection section, int oldIndex, int newIndex) {
     if (section != AudioQueueSection.nextUp || nextUpQueue.length <= 1) return this;
-    final updated = List<ItemBaseModel>.from(nextUpQueue)..reorderInPlace(oldIndex, newIndex);
+    final updated = List<ItemBaseModel>.from(nextUpQueue)..moveInPlace(oldIndex, newIndex);
     return copyWith(nextUpQueue: updated);
   }
 

@@ -131,13 +131,19 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
       },
     );
 
-    final player = Padding(
-      padding: fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right),
-      child: playerController.videoWidget(
-        const Key("VideoPlayer"),
-        fillScreen ? (MediaQuery.of(context).orientation == Orientation.portrait ? videoFit : BoxFit.cover) : videoFit,
-      ),
-    );
+    final playerState = ref.watch(mediaPlaybackProvider.select((v) => v.state));
+
+    final player = playerState == VideoPlayerState.disposed
+        ? const SizedBox.shrink()
+        : Padding(
+            padding: fillScreen ? EdgeInsets.zero : EdgeInsets.only(left: padding.left, right: padding.right),
+            child: playerController.videoWidget(
+              const Key("VideoPlayer"),
+              fillScreen
+                  ? (MediaQuery.of(context).orientation == Orientation.portrait ? videoFit : BoxFit.cover)
+                  : videoFit,
+            ),
+          );
 
     return BackIntentDpad(
       child: Material(
@@ -174,7 +180,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
                     ),
                   _ => VideoPlayerNextWrapper(
                       video: player,
-                      controls: const DesktopControls(),
+                      controlsBuilder: (nextUpVisible) => DesktopControls(nextUpVisible: nextUpVisible),
                       overlays: [
                         if (errorPlaying) const _VideoErrorWidget(),
                       ],

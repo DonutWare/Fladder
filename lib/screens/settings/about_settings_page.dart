@@ -24,13 +24,13 @@ class _Socials {
   const _Socials(this.label, this.url, this.icon);
 }
 
-const socials = [
+final socials = [
   _Socials(
     'Github',
     'https://github.com/DonutWare/Fladder',
-    FontAwesomeIcons.githubAlt,
+    FontAwesomeIcons.githubAlt.data,
   ),
-  _Socials(
+  const _Socials(
     'Weblate',
     'https://hosted.weblate.org/projects/fladder/',
     IconsaxPlusLinear.global,

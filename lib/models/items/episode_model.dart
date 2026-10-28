@@ -180,7 +180,6 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
   @override
   bool get syncAble => playAble;
 
-  @override
   factory EpisodeModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     if (ref == null) {
       return EpisodeModel(

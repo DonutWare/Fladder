@@ -47,6 +47,7 @@ _ClientSettingsModel _$ClientSettingsModelFromJson(Map<String, dynamic> json) =>
       useSystemIME: json['useSystemIME'] as bool? ?? false,
       useTVExpandedLayout: json['useTVExpandedLayout'] as bool? ?? false,
       forceLeanBackMode: json['forceLeanBackMode'] as bool? ?? false,
+      lowResourceMode: $enumDecodeNullable(_$LowResourceModeEnumMap, json['lowResourceMode']) ?? LowResourceMode.auto,
       lastViewedUpdate: json['lastViewedUpdate'] as String?,
       libraryPageSize: (json['libraryPageSize'] as num?)?.toInt(),
       shortcuts: (json['shortcuts'] as Map<String, dynamic>?)?.map(
@@ -89,6 +90,7 @@ Map<String, dynamic> _$ClientSettingsModelToJson(_ClientSettingsModel instance) 
       'useSystemIME': instance.useSystemIME,
       'useTVExpandedLayout': instance.useTVExpandedLayout,
       'forceLeanBackMode': instance.forceLeanBackMode,
+      'lowResourceMode': _$LowResourceModeEnumMap[instance.lowResourceMode]!,
       'lastViewedUpdate': instance.lastViewedUpdate,
       'libraryPageSize': instance.libraryPageSize,
       'shortcuts': instance.shortcuts.map((k, e) => MapEntry(_$GlobalHotKeysEnumMap[k]!, e)),
@@ -134,6 +136,12 @@ const _$BackgroundTypeEnumMap = {
   BackgroundType.disabled: 'disabled',
   BackgroundType.enabled: 'enabled',
   BackgroundType.blurred: 'blurred',
+};
+
+const _$LowResourceModeEnumMap = {
+  LowResourceMode.auto: 'auto',
+  LowResourceMode.on: 'on',
+  LowResourceMode.off: 'off',
 };
 
 const _$GlobalHotKeysEnumMap = {

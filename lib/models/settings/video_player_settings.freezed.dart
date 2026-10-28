@@ -43,6 +43,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
   bool get enablePlayPauseFade;
   bool get enableCrossfade;
   int get crossfadeDurationMs;
+  bool get refreshRateSwitching;
   bool get ambientBlur;
 
   /// SyncPlay drift correction (SpeedToSync / SkipToSync). On by
@@ -96,6 +97,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('enablePlayPauseFade', enablePlayPauseFade))
       ..add(DiagnosticsProperty('enableCrossfade', enableCrossfade))
       ..add(DiagnosticsProperty('crossfadeDurationMs', crossfadeDurationMs))
+      ..add(DiagnosticsProperty('refreshRateSwitching', refreshRateSwitching))
       ..add(DiagnosticsProperty('ambientBlur', ambientBlur))
       ..add(DiagnosticsProperty(
           'enableSyncPlayCorrection', enableSyncPlayCorrection));
@@ -103,7 +105,7 @@ mixin _$VideoPlayerSettingsModel implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs, ambientBlur: $ambientBlur, enableSyncPlayCorrection: $enableSyncPlayCorrection)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs, refreshRateSwitching: $refreshRateSwitching, ambientBlur: $ambientBlur, enableSyncPlayCorrection: $enableSyncPlayCorrection)';
   }
 }
 
@@ -143,6 +145,7 @@ abstract mixin class $VideoPlayerSettingsModelCopyWith<$Res> {
       bool enablePlayPauseFade,
       bool enableCrossfade,
       int crossfadeDurationMs,
+      bool refreshRateSwitching,
       bool ambientBlur,
       bool enableSyncPlayCorrection});
 }
@@ -189,6 +192,7 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? enablePlayPauseFade = null,
     Object? enableCrossfade = null,
     Object? crossfadeDurationMs = null,
+    Object? refreshRateSwitching = null,
     Object? ambientBlur = null,
     Object? enableSyncPlayCorrection = null,
   }) {
@@ -309,6 +313,10 @@ class _$VideoPlayerSettingsModelCopyWithImpl<$Res>
           ? _self.crossfadeDurationMs
           : crossfadeDurationMs // ignore: cast_nullable_to_non_nullable
               as int,
+      refreshRateSwitching: null == refreshRateSwitching
+          ? _self.refreshRateSwitching
+          : refreshRateSwitching // ignore: cast_nullable_to_non_nullable
+              as bool,
       ambientBlur: null == ambientBlur
           ? _self.ambientBlur
           : ambientBlur // ignore: cast_nullable_to_non_nullable
@@ -444,6 +452,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enablePlayPauseFade,
             bool enableCrossfade,
             int crossfadeDurationMs,
+            bool refreshRateSwitching,
             bool ambientBlur,
             bool enableSyncPlayCorrection)?
         $default, {
@@ -482,6 +491,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enablePlayPauseFade,
             _that.enableCrossfade,
             _that.crossfadeDurationMs,
+            _that.refreshRateSwitching,
             _that.ambientBlur,
             _that.enableSyncPlayCorrection);
       case _:
@@ -534,6 +544,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enablePlayPauseFade,
             bool enableCrossfade,
             int crossfadeDurationMs,
+            bool refreshRateSwitching,
             bool ambientBlur,
             bool enableSyncPlayCorrection)
         $default,
@@ -571,6 +582,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enablePlayPauseFade,
             _that.enableCrossfade,
             _that.crossfadeDurationMs,
+            _that.refreshRateSwitching,
             _that.ambientBlur,
             _that.enableSyncPlayCorrection);
       case _:
@@ -622,6 +634,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             bool enablePlayPauseFade,
             bool enableCrossfade,
             int crossfadeDurationMs,
+            bool refreshRateSwitching,
             bool ambientBlur,
             bool enableSyncPlayCorrection)?
         $default,
@@ -659,6 +672,7 @@ extension VideoPlayerSettingsModelPatterns on VideoPlayerSettingsModel {
             _that.enablePlayPauseFade,
             _that.enableCrossfade,
             _that.crossfadeDurationMs,
+            _that.refreshRateSwitching,
             _that.ambientBlur,
             _that.enableSyncPlayCorrection);
       case _:
@@ -702,6 +716,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       this.enablePlayPauseFade = true,
       this.enableCrossfade = true,
       this.crossfadeDurationMs = 400,
+      this.refreshRateSwitching = false,
       this.ambientBlur = false,
       this.enableSyncPlayCorrection = true})
       : _allowedOrientations = allowedOrientations,
@@ -818,6 +833,9 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
   final int crossfadeDurationMs;
   @override
   @JsonKey()
+  final bool refreshRateSwitching;
+  @override
+  @JsonKey()
   final bool ambientBlur;
 
   /// SyncPlay drift correction (SpeedToSync / SkipToSync). On by
@@ -878,6 +896,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
       ..add(DiagnosticsProperty('enablePlayPauseFade', enablePlayPauseFade))
       ..add(DiagnosticsProperty('enableCrossfade', enableCrossfade))
       ..add(DiagnosticsProperty('crossfadeDurationMs', crossfadeDurationMs))
+      ..add(DiagnosticsProperty('refreshRateSwitching', refreshRateSwitching))
       ..add(DiagnosticsProperty('ambientBlur', ambientBlur))
       ..add(DiagnosticsProperty(
           'enableSyncPlayCorrection', enableSyncPlayCorrection));
@@ -885,7 +904,7 @@ class _VideoPlayerSettingsModel extends VideoPlayerSettingsModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs, ambientBlur: $ambientBlur, enableSyncPlayCorrection: $enableSyncPlayCorrection)';
+    return 'VideoPlayerSettingsModel(screenBrightness: $screenBrightness, videoFit: $videoFit, fillScreen: $fillScreen, hardwareAccel: $hardwareAccel, useLibass: $useLibass, enableTunneling: $enableTunneling, bufferSize: $bufferSize, playerOptions: $playerOptions, internalVolume: $internalVolume, allowedOrientations: $allowedOrientations, nextVideoType: $nextVideoType, maxHomeBitrate: $maxHomeBitrate, maxInternetBitrate: $maxInternetBitrate, audioDevice: $audioDevice, segmentSkipSettings: $segmentSkipSettings, hotKeys: $hotKeys, screensaver: $screensaver, enableSpeedBoost: $enableSpeedBoost, speedBoostRate: $speedBoostRate, enableDoubleTapSeek: $enableDoubleTapSeek, enableAdvancedVideoOptions: $enableAdvancedVideoOptions, enableEdgeGestures: $enableEdgeGestures, reverseEdgeGestures: $reverseEdgeGestures, enablePictureInPicture: $enablePictureInPicture, enableReplayGain: $enableReplayGain, replayGainVolumeLevel: $replayGainVolumeLevel, enablePlayPauseFade: $enablePlayPauseFade, enableCrossfade: $enableCrossfade, crossfadeDurationMs: $crossfadeDurationMs, refreshRateSwitching: $refreshRateSwitching, ambientBlur: $ambientBlur, enableSyncPlayCorrection: $enableSyncPlayCorrection)';
   }
 }
 
@@ -927,6 +946,7 @@ abstract mixin class _$VideoPlayerSettingsModelCopyWith<$Res>
       bool enablePlayPauseFade,
       bool enableCrossfade,
       int crossfadeDurationMs,
+      bool refreshRateSwitching,
       bool ambientBlur,
       bool enableSyncPlayCorrection});
 }
@@ -973,6 +993,7 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
     Object? enablePlayPauseFade = null,
     Object? enableCrossfade = null,
     Object? crossfadeDurationMs = null,
+    Object? refreshRateSwitching = null,
     Object? ambientBlur = null,
     Object? enableSyncPlayCorrection = null,
   }) {
@@ -1093,6 +1114,10 @@ class __$VideoPlayerSettingsModelCopyWithImpl<$Res>
           ? _self.crossfadeDurationMs
           : crossfadeDurationMs // ignore: cast_nullable_to_non_nullable
               as int,
+      refreshRateSwitching: null == refreshRateSwitching
+          ? _self.refreshRateSwitching
+          : refreshRateSwitching // ignore: cast_nullable_to_non_nullable
+              as bool,
       ambientBlur: null == ambientBlur
           ? _self.ambientBlur
           : ambientBlur // ignore: cast_nullable_to_non_nullable

@@ -148,26 +148,29 @@ class _FilePickerBarState extends ConsumerState<FilePickerBar> {
                       onPressed: dragStart
                           ? null
                           : () async {
-                              FilePickerResult? result = await FilePicker.platform.pickFiles(
-                                allowMultiple: widget.multipleFiles,
-                                allowedExtensions: widget.extensions.toList(),
-                                type: FileType.custom,
-                                withData: true,
-                              );
-                              if (result != null && result.count != 0) {
+                              final extensions = widget.extensions.toList();
+                              final List<PlatformFile> files = widget.multipleFiles
+                                  ? await FilePicker.pickFiles(allowedExtensions: extensions, type: FileType.custom)
+                                  : [
+                                      if (await FilePicker.pickFile(
+                                              allowedExtensions: extensions, type: FileType.custom)
+                                          case final file?)
+                                        file
+                                    ];
+                              if (files.isNotEmpty) {
                                 List<FladderFile> newFiles = [];
-                                await Future.forEach(result.files, (element) async {
+                                await Future.forEach(files, (element) async {
                                   newFiles.add(
                                     FladderFile(
                                       name: element.name,
                                       path: element.path,
-                                      data: element.bytes,
+                                      data: await element.readAsBytes(),
                                     ),
                                   );
                                 });
                                 widget.onFilesPicked?.call(newFiles);
                               }
-                              FilePicker.platform.clearTemporaryFiles();
+                              FilePicker.clearTemporaryFiles();
                             },
                       child: Text(
                         widget.multipleFiles ? "file(s) picker" : "file picker",

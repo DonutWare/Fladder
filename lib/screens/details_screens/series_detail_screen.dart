@@ -72,193 +72,183 @@ class _SeriesDetailScreenState extends ConsumerState<SeriesDetailScreen> {
       onRefresh: () => ref.read(providerId.notifier).fetchDetails(widget.item),
       backDrops: details?.images,
       content: (detailsContext, padding) => details != null
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: 64),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  OverviewHeader(
-                    name: details.name,
-                    image: details.images,
-                    mainButton: currentEpisode != null
-                        ? MediaPlayButton(
-                            item: currentEpisode,
-                            onPressed: (restart) async {
-                              await currentEpisode.play(
-                                detailsContext,
-                                ref,
-                                startPosition: restart ? Duration.zero : null,
-                              );
-                              ref.read(providerId.notifier).fetchDetails(widget.item);
-                            },
-                            onLongPressed: (restart) async {
-                              await currentEpisode.play(
-                                detailsContext,
-                                ref,
-                                showPlaybackOption: true,
-                                startPosition: restart ? Duration.zero : null,
-                              );
-                              ref.read(providerId.notifier).fetchDetails(widget.item);
-                            },
-                          )
-                        : null,
-                    centerButtons: Wrap(
-                      spacing: 4,
-                      runSpacing: 4,
-                      alignment: wrapAlignment,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        SelectableIconButton(
-                          onPressed: () async {
-                            await ref
-                                .read(userProvider.notifier)
-                                .setAsFavorite(!details.userData.isFavourite, details.id);
-                          },
-                          selected: details.userData.isFavourite,
-                          selectedIcon: IconsaxPlusBold.heart,
-                          icon: IconsaxPlusLinear.heart,
-                        ),
-                        SelectableIconButton(
-                          onPressed: () async {
-                            await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
-                          },
-                          selected: details.userData.played,
-                          selectedIcon: IconsaxPlusBold.tick_circle,
-                          icon: IconsaxPlusLinear.tick_circle,
-                        ),
-                        SelectableIconButton(
-                          onPressed: () {
-                            showBottomSheetPill(
-                              context: detailsContext,
-                              item: details,
-                              content: (context, scrollController) => ListView(
-                                controller: scrollController,
-                                shrinkWrap: true,
-                                children: details.generateActions(detailsContext, ref, exclude: {
-                                  ItemActions.openParent,
-                                  ItemActions.details
-                                }).listTileItems(context, useIcons: true),
-                              ),
-                            );
-                          },
-                          selected: false,
-                          refreshOnEnd: false,
-                          icon: IconsaxPlusLinear.more,
-                        ),
-                      ],
-                    ),
-                    padding: padding,
-                    originalTitle: details.originalTitle,
-                    productionYear: details.overview.yearAired.toString(),
-                    runTime: details.overview.runTime,
-                    studios: details.overview.studios,
-                    officialRating: details.overview.parentalRating,
-                    genres: details.overview.genreItems,
-                    onGenreClicked: (genre) {
-                      final itemViewId = details.parentId ?? "";
-                      LibrarySearchRoute(
-                        parentId: [itemViewId],
-                        genres: {genre.name: true},
-                      ).push(context);
-                    },
-                    mediaStreamHelper: currentEpisode?.mediaStreams != null
-                        ? MediaStreamHelper(
-                            mediaStream: currentEpisode!.mediaStreams,
-                            onItemChanged: (changed) {
-                              final updateEpisode = currentEpisode.copyWith(
-                                mediaStreams: changed,
-                              );
-                              ref.read(providerId.notifier).updateEpisodeInfo(updateEpisode);
-                            },
-                          )
-                        : null,
-                    communityRating: details.overview.communityRating,
-                  ),
-                  if (details.overview.summary.isNotEmpty)
-                    Padding(
-                      padding: padding,
-                      child: Builder(builder: (context) {
-                        return ExpandingText(
-                          text: details.overview.summary,
-                          onFocusChange: (onFocus) {
-                            if (onFocus) {
-                              context.ensureVisible(alignment: 1);
-                            }
-                          },
-                        );
-                      }),
-                    ),
-                  if (details.availableEpisodes?.isNotEmpty ?? false)
-                    Builder(builder: (context) {
-                      return EpisodePosters(
-                        contentPadding: padding,
-                        selectedEpisode: currentEpisode,
-                        seasons: details.seasons ?? [],
-                        titleActionsPosition:
-                            AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? null : VerticalDirection.down,
-                        label: context.localized.episode(details.availableEpisodes?.length ?? 2),
-                        onFocused: (episode) {
-                          context.ensureVisible(alignment: 0.8);
-                        },
-                        onEpisodeTap: (action, episode) async {
-                          action();
-                        },
-                        playEpisode: (episode) async {
-                          await episode.play(
-                            context,
+          ? [
+              OverviewHeader(
+                name: details.name,
+                image: details.images,
+                mainButton: currentEpisode != null
+                    ? MediaPlayButton(
+                        item: currentEpisode,
+                        onPressed: (restart) async {
+                          await currentEpisode.play(
+                            detailsContext,
                             ref,
+                            startPosition: restart ? Duration.zero : null,
                           );
                           ref.read(providerId.notifier).fetchDetails(widget.item);
                         },
-                        episodes: details.availableEpisodes ?? [],
-                      );
-                    }),
-                  if (details.seasons?.isNotEmpty ?? false)
-                    SeasonsRow(
-                      contentPadding: padding,
-                      seasons: details.seasons,
+                        onLongPressed: (restart) async {
+                          await currentEpisode.play(
+                            detailsContext,
+                            ref,
+                            showPlaybackOption: true,
+                            startPosition: restart ? Duration.zero : null,
+                          );
+                          ref.read(providerId.notifier).fetchDetails(widget.item);
+                        },
+                      )
+                    : null,
+                centerButtons: Wrap(
+                  spacing: 4,
+                  runSpacing: 4,
+                  alignment: wrapAlignment,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    SelectableIconButton(
+                      onPressed: () async {
+                        await ref.read(userProvider.notifier).setAsFavorite(!details.userData.isFavourite, details.id);
+                      },
+                      selected: details.userData.isFavourite,
+                      selectedIcon: IconsaxPlusBold.heart,
+                      icon: IconsaxPlusLinear.heart,
                     ),
-                  if (details.overview.people.isNotEmpty)
-                    PeopleRow(
-                      people: details.overview.people,
-                      contentPadding: padding,
+                    SelectableIconButton(
+                      onPressed: () async {
+                        await ref.read(userProvider.notifier).markAsPlayed(!details.userData.played, details.id);
+                      },
+                      selected: details.userData.played,
+                      selectedIcon: IconsaxPlusBold.tick_circle,
+                      icon: IconsaxPlusLinear.tick_circle,
                     ),
-                  if (details.specialFeatures?.isNotEmpty ?? false)
-                    SpecialFeaturesRow(
-                        contentPadding: padding,
-                        label: detailsContext.localized.specialFeature(details.specialFeatures?.length ?? 2),
-                        specialFeatures: details.specialFeatures ?? []),
-                  if (details.related.isNotEmpty)
-                    PosterRow(
-                      posters: details.related,
-                      contentPadding: padding,
-                      label: detailsContext.localized.related,
+                    SelectableIconButton(
+                      onPressed: () {
+                        showBottomSheetPill(
+                          context: detailsContext,
+                          item: details,
+                          content: (context, scrollController) => ListView(
+                            controller: scrollController,
+                            shrinkWrap: true,
+                            children: details.generateActions(detailsContext, ref, exclude: {
+                              ItemActions.openParent,
+                              ItemActions.details
+                            }).listTileItems(context, useIcons: true),
+                          ),
+                        );
+                      },
+                      selected: false,
+                      refreshOnEnd: false,
+                      icon: IconsaxPlusLinear.more,
                     ),
-                  if (details.seerrRecommended.isNotEmpty)
-                    SeerrPosterRow(
-                      posters: details.seerrRecommended,
-                      label:
-                          "${detailsContext.localized.discover} ${detailsContext.localized.recommended.toLowerCase()}",
-                      contentPadding: padding,
-                    ),
-                  if (details.seerrRelated.isNotEmpty)
-                    SeerrPosterRow(
-                      posters: details.seerrRelated,
-                      label: "${detailsContext.localized.discover} ${detailsContext.localized.related.toLowerCase()}",
-                      contentPadding: padding,
-                    ),
-                  if (details.overview.externalUrls?.isNotEmpty == true)
-                    Padding(
-                      padding: padding,
-                      child: ExternalUrlsRow(
-                        urls: details.overview.externalUrls,
-                      ),
-                    )
-                ].addPadding(const EdgeInsets.symmetric(vertical: 16)),
+                  ],
+                ),
+                padding: padding,
+                originalTitle: details.originalTitle,
+                productionYear: details.overview.yearAired.toString(),
+                runTime: details.overview.runTime,
+                studios: details.overview.studios,
+                officialRating: details.overview.parentalRating,
+                genres: details.overview.genreItems,
+                onGenreClicked: (genre) {
+                  final itemViewId = details.parentId ?? "";
+                  LibrarySearchRoute(
+                    parentId: [itemViewId],
+                    genres: {genre.name: true},
+                  ).push(context);
+                },
+                mediaStreamHelper: currentEpisode?.mediaStreams != null
+                    ? MediaStreamHelper(
+                        mediaStream: currentEpisode!.mediaStreams,
+                        onItemChanged: (changed) {
+                          final updateEpisode = currentEpisode.copyWith(
+                            mediaStreams: changed,
+                          );
+                          ref.read(providerId.notifier).updateEpisodeInfo(updateEpisode);
+                        },
+                      )
+                    : null,
+                communityRating: details.overview.communityRating,
               ),
-            )
-          : Container(),
+              if (details.overview.summary.isNotEmpty)
+                Padding(
+                  padding: padding,
+                  child: Builder(builder: (context) {
+                    return ExpandingText(
+                      text: details.overview.summary,
+                      onFocusChange: (onFocus) {
+                        if (onFocus) {
+                          context.ensureVisible(alignment: 1);
+                        }
+                      },
+                    );
+                  }),
+                ),
+              if (details.availableEpisodes?.isNotEmpty ?? false)
+                Builder(builder: (context) {
+                  return EpisodePosters(
+                    contentPadding: padding,
+                    selectedEpisode: currentEpisode,
+                    seasons: details.seasons ?? [],
+                    titleActionsPosition:
+                        AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad ? null : VerticalDirection.down,
+                    label: context.localized.episode(details.availableEpisodes?.length ?? 2),
+                    onFocused: (episode) {
+                      context.ensureVisible(alignment: 0.8);
+                    },
+                    onEpisodeTap: (action, episode) async {
+                      action();
+                    },
+                    playEpisode: (episode) async {
+                      await episode.play(
+                        context,
+                        ref,
+                      );
+                      ref.read(providerId.notifier).fetchDetails(widget.item);
+                    },
+                    episodes: details.availableEpisodes ?? [],
+                  );
+                }),
+              if (details.seasons?.isNotEmpty ?? false)
+                SeasonsRow(
+                  contentPadding: padding,
+                  seasons: details.seasons,
+                ),
+              if (details.overview.people.isNotEmpty)
+                PeopleRow(
+                  people: details.overview.people,
+                  contentPadding: padding,
+                ),
+              if (details.specialFeatures?.isNotEmpty ?? false)
+                SpecialFeaturesRow(
+                    contentPadding: padding,
+                    label: detailsContext.localized.specialFeature(details.specialFeatures?.length ?? 2),
+                    specialFeatures: details.specialFeatures ?? []),
+              if (details.related.isNotEmpty)
+                PosterRow(
+                  posters: details.related,
+                  contentPadding: padding,
+                  label: detailsContext.localized.related,
+                ),
+              if (details.seerrRecommended.isNotEmpty)
+                SeerrPosterRow(
+                  posters: details.seerrRecommended,
+                  label: "${detailsContext.localized.discover} ${detailsContext.localized.recommended.toLowerCase()}",
+                  contentPadding: padding,
+                ),
+              if (details.seerrRelated.isNotEmpty)
+                SeerrPosterRow(
+                  posters: details.seerrRelated,
+                  label: "${detailsContext.localized.discover} ${detailsContext.localized.related.toLowerCase()}",
+                  contentPadding: padding,
+                ),
+              if (details.overview.externalUrls?.isNotEmpty == true)
+                Padding(
+                  padding: padding,
+                  child: ExternalUrlsRow(
+                    urls: details.overview.externalUrls,
+                  ),
+                )
+            ].addPadding(const EdgeInsets.symmetric(vertical: 16))
+          : [],
     );
   }
 }

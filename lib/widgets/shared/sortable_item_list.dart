@@ -32,7 +32,7 @@ class SortableItemList<T> extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: items.length,
-      onReorder: (oldIndex, newIndex) {
+      onReorderItem: (oldIndex, newIndex) {
         onReorder?.call(items.reordered(oldIndex, newIndex));
       },
       buildDefaultDragHandles: false,

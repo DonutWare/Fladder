@@ -70,6 +70,9 @@ class PlayableData {
   final SimpleItemModel? nextVideo;
   final MediaInfo mediaInfo;
   final String url;
+  final int? videoWidth;
+  final int? videoHeight;
+  final double? videoFrameRate;
 
   PlayableData({
     required this.currentItem,
@@ -86,6 +89,9 @@ class PlayableData {
     this.nextVideo,
     required this.mediaInfo,
     required this.url,
+    this.videoWidth,
+    this.videoHeight,
+    this.videoFrameRate,
   });
 }
 

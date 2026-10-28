@@ -647,7 +647,8 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
     ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
     // Halts group playback on this device (SyncPlay) first; not awaited so the route pops immediately.
     ref.read(videoPlayerProvider.notifier).userStop();
-    Navigator.of(context).pop();
+    await WidgetsBinding.instance.endOfFrame;
+    if (context.mounted) Navigator.of(context).pop();
   }
 
   Future<void> clearOverlaySettings() async {

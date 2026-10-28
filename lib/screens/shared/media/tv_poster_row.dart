@@ -135,6 +135,7 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
                 width: _itemWidth(index, posterHeight),
                 selected: isSelected,
                 focused: isFocused,
+                showLarge: (index - _selectedIndex).abs() <= 2,
                 onFocusChanged: (focused) {
                   if (focused) {
                     setState(() => _selectedIndex = index);
@@ -168,6 +169,7 @@ class _TVPosterItem extends ConsumerWidget {
   final double height;
   final bool selected;
   final bool focused;
+  final bool showLarge;
   final Function(bool focused)? onFocusChanged;
   final VoidCallback onTap;
 
@@ -177,6 +179,7 @@ class _TVPosterItem extends ConsumerWidget {
     required this.height,
     required this.selected,
     required this.focused,
+    required this.showLarge,
     this.onFocusChanged,
     required this.onTap,
   });
@@ -209,11 +212,12 @@ class _TVPosterItem extends ConsumerWidget {
           clipBehavior: Clip.hardEdge,
           child: Stack(
             children: [
-              FladderImage(
-                key: ValueKey(poster.tvPosterLarge?.key ?? "${poster.id}_large"),
-                image: poster.tvPosterLarge,
-                placeHolder: const _TVPosterPlaceholder(),
-              ),
+              if (showLarge)
+                FladderImage(
+                  key: ValueKey(poster.tvPosterLarge?.key ?? "${poster.id}_large"),
+                  image: poster.tvPosterLarge,
+                  placeHolder: const _TVPosterPlaceholder(),
+                ),
               AnimatedOpacity(
                 duration: _kAnimationDuration,
                 opacity: focused ? 0 : 1,
@@ -223,39 +227,40 @@ class _TVPosterItem extends ConsumerWidget {
                   placeHolder: const _TVPosterPlaceholder(),
                 ),
               ),
-              AnimatedVisibility(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                      colors: [
-                        overlayColor.withAlpha(200),
-                        overlayColor.withAlpha(25),
-                        overlayColor.withAlpha(0),
-                      ],
+              if (showLarge)
+                AnimatedVisibility(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                          overlayColor.withAlpha(200),
+                          overlayColor.withAlpha(25),
+                          overlayColor.withAlpha(0),
+                        ],
+                      ),
                     ),
-                  ),
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: FractionallySizedBox(
-                      widthFactor: 0.6,
-                      child: FittedBox(
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          child: MediaHeader(
-                            name: poster.name,
-                            alignment: Alignment.bottomLeft,
-                            logo: poster.tvPosterLogo,
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: FractionallySizedBox(
+                        widthFactor: 0.6,
+                        child: FittedBox(
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            child: MediaHeader(
+                              name: poster.name,
+                              alignment: Alignment.bottomLeft,
+                              logo: poster.tvPosterLogo,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
+                  visible: focused,
                 ),
-                visible: focused,
-              ),
               if (focused) ...[
                 BottomOverlaysContainer(
                   showFavourite: false,

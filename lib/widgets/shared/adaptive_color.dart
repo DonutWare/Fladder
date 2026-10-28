@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// ignore: depend_on_referenced_packages
-import 'package:material_color_utilities/material_color_utilities.dart';
 
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/theme.dart';
@@ -22,8 +20,6 @@ class AdaptiveColor extends ConsumerStatefulWidget {
 class AdaptiveColorState extends ConsumerState<AdaptiveColor> with WidgetsBindingObserver {
   ColorScheme? _light;
   ColorScheme? _dark;
-
-  CorePalette? _corePalette;
 
   @override
   void initState() {
@@ -48,15 +44,16 @@ class AdaptiveColorState extends ConsumerState<AdaptiveColor> with WidgetsBindin
   Future<void> _fetchColors() async {
     try {
       final corePalette = await DynamicColorPlugin.getCorePalette();
-      if (corePalette == _corePalette) {
-        return;
-      }
-      _corePalette = corePalette;
-      if (corePalette != null && mounted) {
-        setState(() {
-          _light = corePalette.toColorScheme(brightness: Brightness.light);
-          _dark = corePalette.toColorScheme(brightness: Brightness.dark);
-        });
+      if (corePalette != null) {
+        final light = corePalette.toColorScheme(brightness: Brightness.light);
+        final dark = corePalette.toColorScheme(brightness: Brightness.dark);
+        if (light == _light && dark == _dark) return;
+        if (mounted) {
+          setState(() {
+            _light = light;
+            _dark = dark;
+          });
+        }
         return;
       }
     } on PlatformException {

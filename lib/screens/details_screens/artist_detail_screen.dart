@@ -72,158 +72,151 @@ class _ArtistDetailScreenState extends ConsumerState<ArtistDetailScreen> {
         final tracks = current.tracks;
         final albums = current.albums;
 
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 64),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height / 3),
-              Padding(
-                padding: padding.copyWith(bottom: 0, top: 0),
-                child: Container(
-                  height: 200,
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  child: FladderImage(
-                    image: artist?.getPosters?.logo,
-                    placeHolder: placeHolder,
-                    disableBlur: true,
-                    imageErrorBuilder: (context, error, stackTrace) => placeHolder,
-                    alignment: Alignment.bottomCenter,
-                    fit: BoxFit.contain,
-                  ),
-                ),
+        return [
+          SizedBox(height: MediaQuery.of(context).size.height / 3),
+          Padding(
+            padding: padding.copyWith(bottom: 0, top: 0),
+            child: Container(
+              height: 200,
+              width: double.infinity,
+              alignment: Alignment.center,
+              child: FladderImage(
+                image: artist?.getPosters?.logo,
+                placeHolder: placeHolder,
+                disableBlur: true,
+                imageErrorBuilder: (context, error, stackTrace) => placeHolder,
+                alignment: Alignment.bottomCenter,
+                fit: BoxFit.contain,
               ),
-              Padding(
-                padding: padding,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Wrap(
-                    alignment: smallSize ? WrapAlignment.center : WrapAlignment.start,
-                    runAlignment: smallSize ? WrapAlignment.center : WrapAlignment.start,
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    spacing: 16,
-                    runSpacing: 16,
-                    children: [
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await current.playLatestTracks(detailsContext, ref, shuffleEnabled: false);
-                        },
-                        selected: true,
-                        icon: IconsaxPlusBold.play,
+            ),
+          ),
+          Padding(
+            padding: padding,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Wrap(
+                alignment: smallSize ? WrapAlignment.center : WrapAlignment.start,
+                runAlignment: smallSize ? WrapAlignment.center : WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                spacing: 16,
+                runSpacing: 16,
+                children: [
+                  SelectableIconButton(
+                    onPressed: () async {
+                      await current.playLatestTracks(detailsContext, ref, shuffleEnabled: false);
+                    },
+                    selected: true,
+                    icon: IconsaxPlusBold.play,
+                  ),
+                  SelectableIconButton(
+                    onPressed: () async {
+                      await current.playLatestTracks(detailsContext, ref, shuffleEnabled: true);
+                    },
+                    icon: IconsaxPlusLinear.shuffle,
+                    label: context.localized.audioPlayerShuffle,
+                  ),
+                  SelectableIconButton(
+                    onPressed: () => showTracksDetailsScreen(
+                      context: detailsContext,
+                      item: current,
+                      ref: ref,
+                      queueSource: ArtistInstantMixQueueSource(
+                        artistId: current.id,
+                        limit: 200,
                       ),
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await current.playLatestTracks(detailsContext, ref, shuffleEnabled: true);
-                        },
-                        icon: IconsaxPlusLinear.shuffle,
-                        label: context.localized.audioPlayerShuffle,
-                      ),
-                      SelectableIconButton(
-                        onPressed: () => showTracksDetailsScreen(
-                          context: detailsContext,
-                          item: current,
-                          ref: ref,
-                          queueSource: ArtistInstantMixQueueSource(
-                            artistId: current.id,
-                            limit: 200,
+                    ),
+                    icon: IconsaxPlusLinear.blend_2,
+                    label: context.localized.instantMix,
+                  ),
+                  SelectableIconButton(
+                    onPressed: () async {
+                      await ref.read(userProvider.notifier).setAsFavorite(!isFavourite, artist?.id ?? "");
+                    },
+                    selected: isFavourite,
+                    selectedIcon: IconsaxPlusBold.heart,
+                    icon: IconsaxPlusLinear.heart,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            color: Theme.of(detailsContext).colorScheme.surface,
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.sizeOf(detailsContext).height,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 8,
+              children: [
+                const SizedBox(height: 16),
+                if (tracks.isNotEmpty) ...[
+                  Padding(
+                    padding: padding,
+                    child: Row(
+                      spacing: 16,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: TrackList(
+                            title: context.localized.latest,
+                            tracks: tracks.take(8).toList(),
+                            enableSorting: false,
+                            showSyncStatus: true,
+                            onTrackPlayTap: (track) => current.playLatestTracks(detailsContext, ref, startTrack: track),
+                            onTrackArtistTap: (_) => current.parentBaseModel.navigateTo(detailsContext),
+                            onPlaySelected: (selected) => selected.play(detailsContext, ref),
+                            onAddToQueueSelected: (selected) async {
+                              await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue(selected);
+                              if (detailsContext.mounted) {
+                                FladderSnack.show(
+                                  detailsContext.localized.addedToQueue(selected.length),
+                                  context: detailsContext,
+                                );
+                              }
+                            },
+                            onTrackSecondaryTap: (track, details) {
+                              track.showDetailsMenu(
+                                context,
+                                ref,
+                                details.globalPosition,
+                              );
+                            },
                           ),
                         ),
-                        icon: IconsaxPlusLinear.blend_2,
-                        label: context.localized.instantMix,
-                      ),
-                      SelectableIconButton(
-                        onPressed: () async {
-                          await ref.read(userProvider.notifier).setAsFavorite(!isFavourite, artist?.id ?? "");
-                        },
-                        selected: isFavourite,
-                        selectedIcon: IconsaxPlusBold.heart,
-                        icon: IconsaxPlusLinear.heart,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ),
-              Container(
-                color: Theme.of(detailsContext).colorScheme.surface,
-                constraints: BoxConstraints(
-                  minHeight: MediaQuery.sizeOf(detailsContext).height,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  spacing: 8,
-                  children: [
-                    const SizedBox(height: 16),
-                    if (tracks.isNotEmpty) ...[
-                      Padding(
-                        padding: padding,
-                        child: Row(
-                          spacing: 16,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: TrackList(
-                                title: context.localized.latest,
-                                tracks: tracks.take(8).toList(),
-                                enableSorting: false,
-                                showSyncStatus: true,
-                                onTrackPlayTap: (track) =>
-                                    current.playLatestTracks(detailsContext, ref, startTrack: track),
-                                onTrackArtistTap: (_) => current.parentBaseModel.navigateTo(detailsContext),
-                                onPlaySelected: (selected) => selected.play(detailsContext, ref),
-                                onAddToQueueSelected: (selected) async {
-                                  await ref.read(videoPlayerProvider.notifier).addToTemporaryQueue(selected);
-                                  if (detailsContext.mounted) {
-                                    FladderSnack.show(
-                                      detailsContext.localized.addedToQueue(selected.length),
-                                      context: detailsContext,
-                                    );
-                                  }
-                                },
-                                onTrackSecondaryTap: (track, details) {
-                                  track.showDetailsMenu(
-                                    context,
-                                    ref,
-                                    details.globalPosition,
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
+                ],
+                if (albums.isNotEmpty)
+                  PosterRow(
+                    posters: albums,
+                    label: context.localized.discography,
+                    contentPadding: padding,
+                    showSyncStatus: true,
+                  ),
+                if (favoriteTracks.isNotEmpty)
+                  PosterRow(
+                    posters: favoriteTracks,
+                    label: context.localized.youLiked,
+                    onLabelClick: () async {
+                      await showTracksDetailsScreen(
+                        context: detailsContext,
+                        item: current,
+                        ref: ref,
+                        queueSource: ArtistFavoriteQueueSource(
+                          artistId: current.id,
+                          limit: 300,
                         ),
-                      ),
-                    ],
-                    if (albums.isNotEmpty)
-                      PosterRow(
-                        posters: albums,
-                        label: context.localized.discography,
-                        contentPadding: padding,
-                        showSyncStatus: true,
-                      ),
-                    if (favoriteTracks.isNotEmpty)
-                      PosterRow(
-                        posters: favoriteTracks,
-                        label: context.localized.youLiked,
-                        onLabelClick: () async {
-                          await showTracksDetailsScreen(
-                            context: detailsContext,
-                            item: current,
-                            ref: ref,
-                            queueSource: ArtistFavoriteQueueSource(
-                              artistId: current.id,
-                              limit: 300,
-                            ),
-                          );
-                        },
-                        contentPadding: padding,
-                        showSyncStatus: true,
-                      ),
-                  ],
-                ),
-              ),
-            ],
+                      );
+                    },
+                    contentPadding: padding,
+                    showSyncStatus: true,
+                  ),
+              ],
+            ),
           ),
-        );
+        ];
       },
     );
   }

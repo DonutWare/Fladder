@@ -27,7 +27,8 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   }
 
   @override
-  Future<void> init(VideoPlayerSettingsModel settings) async => VideoPlayerListenerCallback.setUp(this);
+  Future<void> init(VideoPlayerSettingsModel settings, {bool lowResourceMode = false}) async =>
+      VideoPlayerListenerCallback.setUp(this);
 
   @override
   Future<void> loop(bool loop) {
@@ -226,6 +227,9 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
         videoInformation: model.item.streamModel?.mediaInfoTag ?? " ",
       ),
       url: model.media?.url ?? "",
+      videoWidth: model.mediaStreams?.videoStreams.firstOrNull?.width,
+      videoHeight: model.mediaStreams?.videoStreams.firstOrNull?.height,
+      videoFrameRate: model.mediaStreams?.videoStreams.firstOrNull?.frameRate,
     );
     await player.sendPlayableModel(playableData);
   }

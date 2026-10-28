@@ -23,7 +23,7 @@ class MediaQueryScaler extends StatelessWidget {
       padding: mediaQuery.padding * scale,
       viewInsets: mediaQuery.viewInsets * scale,
       viewPadding: mediaQuery.viewPadding * scale,
-      devicePixelRatio: mediaQuery.devicePixelRatio * scale,
+      devicePixelRatio: mediaQuery.devicePixelRatio / scale,
     );
 
     return FittedBox(

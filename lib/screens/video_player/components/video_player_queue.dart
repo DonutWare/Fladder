@@ -319,7 +319,7 @@ class _QueueSortList extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       buildDefaultDragHandles: false,
       itemCount: items.length,
-      onReorder: onReorder,
+      onReorderItem: onReorder,
       itemBuilder: (context, index) {
         return _QueueTile(
           key: ValueKey('${items[index].id}-$index'),

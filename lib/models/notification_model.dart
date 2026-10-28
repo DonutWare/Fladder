@@ -25,8 +25,13 @@ abstract class NotificationModel with _$NotificationModel {
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) => _$NotificationModelFromJson(json);
 
-  static List<NotificationModel> createList(List<ItemBaseModel> items, AppLocalizations l10n) =>
-      items.map((e) => _fromItem(e, l10n)).nonNulls.toList();
+  static List<NotificationModel> createList(
+    List<ItemBaseModel> items,
+    AppLocalizations l10n, {
+    String? userId,
+    String? serverId,
+  }) =>
+      items.map((e) => _fromItem(e, l10n, userId: userId, serverId: serverId)).nonNulls.toList();
 
   static NotificationModel? fromSeerrRequest(
     SeerrMediaRequest req,
@@ -34,13 +39,17 @@ abstract class NotificationModel with _$NotificationModel {
     String? title,
     String? image,
     String? detailedPayload,
+    String? userId,
+    String? serverId,
   }) {
     final media = req.media;
     final tmdbId = media?.tmdbId;
     final mediaTypeRaw = (media?.mediaType ?? '').toLowerCase();
     final mediaType = mediaTypeRaw.contains('tv') ? 'tvshow' : 'movie';
     final payload = detailedPayload ??
-        (tmdbId != null ? NotificationHelpers.buildSeerrDeepLink(mediaType, tmdbId) : 'fladder:///seerr');
+        (tmdbId != null
+            ? NotificationHelpers.buildSeerrDeepLink(mediaType, tmdbId, userId: userId, serverId: serverId)
+            : NotificationHelpers.buildSeerrRootDeepLink(userId: userId, serverId: serverId));
 
     String defaultTitle() {
       if (media?.tmdbId != null) {
@@ -71,7 +80,7 @@ abstract class NotificationModel with _$NotificationModel {
     );
   }
 
-  static NotificationModel? _fromItem(dynamic item, AppLocalizations l10n) {
+  static NotificationModel? _fromItem(dynamic item, AppLocalizations l10n, {String? userId, String? serverId}) {
     switch (item) {
       case ItemBaseModel it:
         return switch (it) {
@@ -82,7 +91,7 @@ abstract class NotificationModel with _$NotificationModel {
               image: episode.images?.primary?.path ?? episode.getPosters?.primary?.path,
               title: episode.title,
               subtitle: episode.episodeLabel(l10n),
-              payLoad: NotificationHelpers.buildDetailsDeepLink(episode.id),
+              payLoad: NotificationHelpers.buildDetailsDeepLink(episode.id, userId: userId, serverId: serverId),
             ),
           SeriesModel series => NotificationModel(
               key: series.childCount != null ? '${series.id}#c=${series.childCount}' : series.id,
@@ -91,7 +100,7 @@ abstract class NotificationModel with _$NotificationModel {
               image: series.images?.primary?.path ?? series.getPosters?.primary?.path,
               title: series.detailedName(l10n),
               subtitle: l10n.notificationNewEpisodes,
-              payLoad: NotificationHelpers.buildDetailsDeepLink(series.id),
+              payLoad: NotificationHelpers.buildDetailsDeepLink(series.id, userId: userId, serverId: serverId),
             ),
           _ => NotificationModel(
               key: it.id,
@@ -100,7 +109,7 @@ abstract class NotificationModel with _$NotificationModel {
               image: it.images?.primary?.path ?? it.getPosters?.primary?.path,
               title: it.title,
               subtitle: it.subText,
-              payLoad: NotificationHelpers.buildDetailsDeepLink(it.id),
+              payLoad: NotificationHelpers.buildDetailsDeepLink(it.id, userId: userId, serverId: serverId),
             )
         };
     }

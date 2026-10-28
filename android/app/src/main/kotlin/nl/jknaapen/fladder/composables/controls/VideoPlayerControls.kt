@@ -138,7 +138,6 @@ fun CustomVideoControls(
     val forwardSpeed by PlayerSettingsObject.forwardSpeed.collectAsState(30.seconds)
     val backwardSpeed by PlayerSettingsObject.backwardSpeed.collectAsState(15.seconds)
 
-    val position by VideoPlayerObject.position.collectAsState(0L)
     val player = VideoPlayerObject.implementation.player
     val lastSeekInteraction = remember { mutableLongStateOf(System.currentTimeMillis()) }
 
@@ -150,7 +149,7 @@ fun CustomVideoControls(
         if (currentSkipTime == 0L) return@LaunchedEffect
         // Tagged as a user action; Flutter infers the SyncPlay request from the state stream.
         VideoPlayerObject.setPendingPlaybackChangeSource(PlaybackChangeSource.USER_SEEK)
-        player?.seekTo(position + currentSkipTime)
+        player?.let { it.seekTo(it.currentPosition + currentSkipTime) }
         currentSkipTime = 0L
     }
 

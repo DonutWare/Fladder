@@ -596,14 +596,12 @@ jobs:
           zip -r ../Fladder-Linux-${{ steps.version.outputs.version }}.zip .
 
       - name: Download Artifacts Linux Flatpak
-        if: needs.fetch-info.outputs.build_type == 'release'
         uses: actions/download-artifact@v4
         with:
           name: fladder-linux-flatpak
           path: fladder-linux-flatpak
 
       - name: Move Linux Flatpak
-        if: needs.fetch-info.outputs.build_type == 'release'
         run: mv fladder-linux-flatpak/Fladder-Linux.flatpak Fladder-Linux-${{ steps.version.outputs.version }}.flatpak
 
       - name: Download Artifacts Linux AppImage
@@ -651,7 +649,7 @@ jobs:
             Fladder-Linux-${{ steps.version.outputs.version }}.zip
             Fladder-Linux-${{ steps.version.outputs.version }}.AppImage
             Fladder-Linux-${{ steps.version.outputs.version }}.AppImage.zsync
-            ${{ needs.fetch-info.outputs.build_type == 'release' && format('Fladder-Linux-{0}.flatpak', steps.version.outputs.version) || '' }}
+            Fladder-Linux-${{ steps.version.outputs.version }}.flatpak
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

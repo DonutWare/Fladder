@@ -86,7 +86,6 @@ class SpecialFeatureModel extends ItemStreamModel with SpecialFeatureModelMappab
   @override
   bool get playAble => true;
 
-  @override
   factory SpecialFeatureModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) => SpecialFeatureModel(
         name: item.name ?? "",
         id: item.id ?? "",

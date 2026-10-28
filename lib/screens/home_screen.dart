@@ -48,13 +48,19 @@ enum HomeTabs {
         HomeTabs.sync => IconsaxPlusBold.cloud,
       };
 
-  Future navigate(BuildContext context) => switch (this) {
-        HomeTabs.dashboard => context.router.navigate(const DashboardRoute()),
-        HomeTabs.library => context.router.navigate(const LibraryRoute()),
-        HomeTabs.favorites => context.router.navigate(const FavouritesRoute()),
-        HomeTabs.seerr => context.router.navigate(const SeerrRoute()),
-        HomeTabs.sync => context.router.navigate(const SyncedRoute()),
-      };
+  Future navigate(BuildContext context) {
+    final route = switch (this) {
+      HomeTabs.dashboard => const DashboardRoute(),
+      HomeTabs.library => const LibraryRoute(),
+      HomeTabs.favorites => const FavouritesRoute(),
+      HomeTabs.seerr => const SeerrRoute(),
+      HomeTabs.sync => const SyncedRoute(),
+    };
+    context.router
+        .innerRouterOf<StackRouter>(HomeRoute.name)
+        ?.popUntil((page) => page.settings.name == DashboardRoute.name || page.settings.name == route.routeName);
+    return context.router.navigate(route);
+  }
 
   String label(BuildContext context) => switch (this) {
         HomeTabs.dashboard => context.localized.dashboard,

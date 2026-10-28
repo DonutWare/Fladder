@@ -94,312 +94,304 @@ class SeerrDetailsScreen extends ConsumerWidget {
       onRefresh: notifier.fetch,
       posterFillsContent: true,
       content: (context, padding) => currentPoster == null
-          ? const SizedBox.shrink()
-          : Padding(
-              padding: const EdgeInsets.only(bottom: 64, top: 64),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.paddingOf(context).top + 16,
-                  ),
-                  OverviewHeader(
-                    minHeight: 50,
-                    name: currentPoster.title,
-                    logoAlignment: Alignment.center,
-                    poster: currentPoster.images.primary != null
-                        ? SizedBox(
-                            width: 175,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              spacing: 6,
-                              children: [
-                                if (hasKnownStatus) const SizedBox(height: 16),
-                                SizedBox(
-                                  width: 175,
-                                  child: AspectRatio(
-                                    aspectRatio: 2 / 3,
-                                    child: FocusButton(
-                                      onTap: itemBaseModel != null ? () => itemBaseModel.navigateTo(context) : null,
-                                      onFocusChanged: (focus) {
-                                        if (focus) {
-                                          context.ensureVisible();
-                                        }
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: FladderTheme.defaultPosterDecoration.borderRadius,
-                                        ),
-                                        foregroundDecoration: FladderTheme.defaultPosterDecoration,
-                                        clipBehavior: Clip.hardEdge,
-                                        child: FladderImage(
-                                          image: currentPoster.images.primary,
-                                          fit: BoxFit.cover,
-                                        ),
+          ? []
+          : [
+              SizedBox(
+                height: MediaQuery.paddingOf(context).top + 16 + 64,
+              ),
+              OverviewHeader(
+                minHeight: 50,
+                name: currentPoster.title,
+                logoAlignment: Alignment.center,
+                poster: currentPoster.images.primary != null
+                    ? SizedBox(
+                        width: 175,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          spacing: 6,
+                          children: [
+                            if (hasKnownStatus) const SizedBox(height: 16),
+                            SizedBox(
+                              width: 175,
+                              child: AspectRatio(
+                                aspectRatio: 2 / 3,
+                                child: FocusButton(
+                                  onTap: itemBaseModel != null ? () => itemBaseModel.navigateTo(context) : null,
+                                  onFocusChanged: (focus) {
+                                    if (focus) {
+                                      context.ensureVisible();
+                                    }
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: FladderTheme.defaultPosterDecoration.borderRadius,
+                                    ),
+                                    foregroundDecoration: FladderTheme.defaultPosterDecoration,
+                                    clipBehavior: Clip.hardEdge,
+                                    child: FladderImage(
+                                      image: currentPoster.images.primary,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            if (hasKnownStatus) DownloadStatusLabel(poster: currentPoster)
+                          ],
+                        ),
+                      )
+                    : null,
+                image: currentPoster.images,
+                padding: padding,
+                productionYear: currentPoster.releaseYear,
+                officialRating: state.contentRating,
+                communityRating: state.voteAverage,
+                additionalLabels: [
+                  if (rottenTomatoes != null)
+                    if (rottenTomatoes.criticsScore != null) ...[
+                      SimpleLabel(
+                        label: Text("${rottenTomatoes.criticsScore}%"),
+                        iconWidget: SvgPicture.asset(
+                          'icons/tomato.svg',
+                          width: 16,
+                          height: 16,
+                          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                        ),
+                        iconColor: Colors.white,
+                        color: Colors.redAccent.shade700,
+                      ),
+                      if (rottenTomatoes.audienceScore != null)
+                        SimpleLabel(
+                          label: Text("${rottenTomatoes.audienceScore}%"),
+                          iconWidget: SvgPicture.asset(
+                            'icons/popcorn_bucket.svg',
+                            width: 16,
+                            height: 16,
+                            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                          ),
+                          iconColor: Colors.white,
+                          color: Colors.orange.shade700,
+                        ),
+                    ],
+                ],
+                genres: state.genres.map((e) => GenreItems(id: e.id?.toString() ?? "", name: e.name ?? "")).toList(),
+                mainButton: Builder(
+                  builder: (context) {
+                    return FocusButton(
+                      autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
+                      onTap: canRequestMore ? () => openSeerrRequestPopup(context, currentPoster) : null,
+                      borderRadius: radius,
+                      onFocusChanged: (value) {
+                        if (value) {
+                          context.ensureVisible(
+                            alignment: 1.0,
+                          );
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer.withAlpha(canRequestMore ? 255 : 100),
+                          borderRadius: radius,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            spacing: 8,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  mainButtonLabel,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: theme.colorScheme.onPrimaryContainer.withAlpha(canRequestMore ? 255 : 100),
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                IconsaxPlusLinear.add,
+                                color: theme.colorScheme.onPrimaryContainer.withAlpha(canRequestMore ? 255 : 100),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                centerButtons: (hasVisibleRequests || state.hasTrailerAction)
+                    ? Builder(
+                        builder: (context) {
+                          return Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            alignment: wrapAlignment,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              if (hasVisibleRequests)
+                                FocusButton(
+                                  autoFocus: false,
+                                  onTap: () async {
+                                    await showSeerrRequestsSheet(
+                                      context: context,
+                                      poster: currentPoster,
+                                      requests: requests,
+                                      onApprove: notifier.approveRequest,
+                                      onDecline: notifier.declineRequest,
+                                    );
+                                  },
+                                  borderRadius: radius,
+                                  onFocusChanged: (value) {
+                                    if (value) {
+                                      context.ensureVisible(
+                                        alignment: 1.0,
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.tertiaryContainer,
+                                      borderRadius: radius,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        spacing: 8,
+                                        children: [
+                                          Text(
+                                            context.localized.pendingRequests(pendingRequests.length),
+                                            style: theme.textTheme.titleMedium?.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              color: theme.colorScheme.onTertiaryContainer,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ),
-                                if (hasKnownStatus) DownloadStatusLabel(poster: currentPoster)
-                              ],
-                            ),
-                          )
-                        : null,
-                    image: currentPoster.images,
-                    padding: padding,
-                    productionYear: currentPoster.releaseYear,
-                    officialRating: state.contentRating,
-                    communityRating: state.voteAverage,
-                    additionalLabels: [
-                      if (rottenTomatoes != null)
-                        if (rottenTomatoes.criticsScore != null) ...[
-                          SimpleLabel(
-                            label: Text("${rottenTomatoes.criticsScore}%"),
-                            iconWidget: SvgPicture.asset(
-                              'icons/tomato.svg',
-                              width: 16,
-                              height: 16,
-                              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                            ),
-                            iconColor: Colors.white,
-                            color: Colors.redAccent.shade700,
-                          ),
-                          if (rottenTomatoes.audienceScore != null)
-                            SimpleLabel(
-                              label: Text("${rottenTomatoes.audienceScore}%"),
-                              iconWidget: SvgPicture.asset(
-                                'icons/popcorn_bucket.svg',
-                                width: 16,
-                                height: 16,
-                                colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                              ),
-                              iconColor: Colors.white,
-                              color: Colors.orange.shade700,
-                            ),
-                        ],
-                    ],
-                    genres:
-                        state.genres.map((e) => GenreItems(id: e.id?.toString() ?? "", name: e.name ?? "")).toList(),
-                    mainButton: Builder(
-                      builder: (context) {
-                        return FocusButton(
-                          autoFocus: AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad,
-                          onTap: canRequestMore ? () => openSeerrRequestPopup(context, currentPoster) : null,
-                          borderRadius: radius,
-                          onFocusChanged: (value) {
-                            if (value) {
-                              context.ensureVisible(
-                                alignment: 1.0,
-                              );
-                            }
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primaryContainer.withAlpha(canRequestMore ? 255 : 100),
-                              borderRadius: radius,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                spacing: 8,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      mainButtonLabel,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.fade,
-                                      style: theme.textTheme.titleMedium?.copyWith(
-                                        fontWeight: FontWeight.w700,
-                                        color:
-                                            theme.colorScheme.onPrimaryContainer.withAlpha(canRequestMore ? 255 : 100),
-                                      ),
-                                    ),
-                                  ),
-                                  Icon(
-                                    IconsaxPlusLinear.add,
-                                    color: theme.colorScheme.onPrimaryContainer.withAlpha(canRequestMore ? 255 : 100),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    centerButtons: (hasVisibleRequests || state.hasTrailerAction)
-                        ? Builder(
-                            builder: (context) {
-                              return Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                alignment: wrapAlignment,
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: [
-                                  if (hasVisibleRequests)
-                                    FocusButton(
-                                      autoFocus: false,
-                                      onTap: () async {
-                                        await showSeerrRequestsSheet(
-                                          context: context,
-                                          poster: currentPoster,
-                                          requests: requests,
-                                          onApprove: notifier.approveRequest,
-                                          onDecline: notifier.declineRequest,
-                                        );
-                                      },
+                              if (state.hasTrailerAction)
+                                FocusButton(
+                                  autoFocus: false,
+                                  onTap: () async {
+                                    if (officialTrailerUrl == null) return;
+                                    await launchUrl(context, officialTrailerUrl);
+                                  },
+                                  borderRadius: radius,
+                                  onFocusChanged: (value) {
+                                    if (value) {
+                                      context.ensureVisible(
+                                        alignment: 1.0,
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.tertiaryContainer,
                                       borderRadius: radius,
-                                      onFocusChanged: (value) {
-                                        if (value) {
-                                          context.ensureVisible(
-                                            alignment: 1.0,
-                                          );
-                                        }
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: theme.colorScheme.tertiaryContainer,
-                                          borderRadius: radius,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            spacing: 8,
-                                            children: [
-                                              Text(
-                                                context.localized.pendingRequests(pendingRequests.length),
-                                                style: theme.textTheme.titleMedium?.copyWith(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: theme.colorScheme.onTertiaryContainer,
-                                                ),
-                                              ),
-                                            ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        spacing: 8,
+                                        children: [
+                                          Text(
+                                            context.localized.viewTrailer,
+                                            style: theme.textTheme.titleMedium?.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              color: theme.colorScheme.onTertiaryContainer,
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  if (state.hasTrailerAction)
-                                    FocusButton(
-                                      autoFocus: false,
-                                      onTap: () async {
-                                        if (officialTrailerUrl == null) return;
-                                        await launchUrl(context, officialTrailerUrl);
-                                      },
-                                      borderRadius: radius,
-                                      onFocusChanged: (value) {
-                                        if (value) {
-                                          context.ensureVisible(
-                                            alignment: 1.0,
-                                          );
-                                        }
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: theme.colorScheme.tertiaryContainer,
-                                          borderRadius: radius,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            spacing: 8,
-                                            children: [
-                                              Text(
-                                                context.localized.viewTrailer,
-                                                style: theme.textTheme.titleMedium?.copyWith(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: theme.colorScheme.onTertiaryContainer,
-                                                ),
-                                              ),
-                                              Icon(
-                                                IconsaxPlusLinear.video_play,
-                                                color: theme.colorScheme.onTertiaryContainer,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  if (hasVisibleRequests && currentPoster.mediaInfo != null)
-                                    FocusButton(
-                                      autoFocus: false,
-                                      onTap: () async {
-                                        await showMediaManagementSheet(
-                                          context: context,
-                                          mediaInfo: currentPoster,
-                                          onActionComplete: () => context.refreshData(),
-                                        );
-                                      },
-                                      borderRadius: radius,
-                                      onFocusChanged: (value) {
-                                        if (value) {
-                                          context.ensureVisible(
-                                            alignment: 1.0,
-                                          );
-                                        }
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: theme.colorScheme.tertiaryContainer,
-                                          borderRadius: radius,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: Icon(
-                                            IconsaxPlusLinear.setting_4,
+                                          Icon(
+                                            IconsaxPlusLinear.video_play,
                                             color: theme.colorScheme.onTertiaryContainer,
                                           ),
-                                        ),
+                                        ],
                                       ),
                                     ),
-                                ],
-                              );
-                            },
-                          )
-                        : null,
-                  ),
-                  ExpandingText(
-                    text: currentPoster.overview.trim().isEmpty
-                        ? context.localized.noOverviewAvailable
-                        : currentPoster.overview,
-                  ).padding(padding),
-                  if (currentPoster.type == SeerrMediaType.tvshow && (currentPoster.seasons?.isNotEmpty ?? false))
-                    _SeerrSeasonsSection(
-                      state: state,
-                      notifier: notifier,
-                      onToggle: (seasonNumber, enabled) {},
-                      seasons: currentPoster.seasons ?? const [],
-                      seasonStatuses: state.seasonStatuses,
-                    ).padding(padding),
-                  if (state.people.isNotEmpty)
-                    PeopleRow(
-                      people: state.people,
-                      contentPadding: padding,
-                      onTap: () {},
-                    ),
-                  if (state.recommended.isNotEmpty)
-                    SeerrPosterRow(
-                      posters: state.recommended,
-                      label: "${context.localized.discover} ${context.localized.recommended.toLowerCase()}",
-                      contentPadding: padding,
-                    ),
-                  if (state.similar.isNotEmpty)
-                    SeerrPosterRow(
-                      posters: state.similar,
-                      label: "${context.localized.discover} ${context.localized.related.toLowerCase()}",
-                      contentPadding: padding,
-                    ),
-                  if (externalUrls.isNotEmpty)
-                    ExternalUrlsRow(
-                      urls: externalUrls,
-                    ).padding(padding),
-                ].addPadding(const EdgeInsets.symmetric(vertical: 16)),
+                                  ),
+                                ),
+                              if (hasVisibleRequests && currentPoster.mediaInfo != null)
+                                FocusButton(
+                                  autoFocus: false,
+                                  onTap: () async {
+                                    await showMediaManagementSheet(
+                                      context: context,
+                                      mediaInfo: currentPoster,
+                                      onActionComplete: () => context.refreshData(),
+                                    );
+                                  },
+                                  borderRadius: radius,
+                                  onFocusChanged: (value) {
+                                    if (value) {
+                                      context.ensureVisible(
+                                        alignment: 1.0,
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.tertiaryContainer,
+                                      borderRadius: radius,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Icon(
+                                        IconsaxPlusLinear.setting_4,
+                                        color: theme.colorScheme.onTertiaryContainer,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          );
+                        },
+                      )
+                    : null,
               ),
-            ),
+              ExpandingText(
+                text: currentPoster.overview.trim().isEmpty
+                    ? context.localized.noOverviewAvailable
+                    : currentPoster.overview,
+              ).padding(padding),
+              if (currentPoster.type == SeerrMediaType.tvshow && (currentPoster.seasons?.isNotEmpty ?? false))
+                _SeerrSeasonsSection(
+                  state: state,
+                  notifier: notifier,
+                  onToggle: (seasonNumber, enabled) {},
+                  seasons: currentPoster.seasons ?? const [],
+                  seasonStatuses: state.seasonStatuses,
+                ).padding(padding),
+              if (state.people.isNotEmpty)
+                PeopleRow(
+                  people: state.people,
+                  contentPadding: padding,
+                  onTap: () {},
+                ),
+              if (state.recommended.isNotEmpty)
+                SeerrPosterRow(
+                  posters: state.recommended,
+                  label: "${context.localized.discover} ${context.localized.recommended.toLowerCase()}",
+                  contentPadding: padding,
+                ),
+              if (state.similar.isNotEmpty)
+                SeerrPosterRow(
+                  posters: state.similar,
+                  label: "${context.localized.discover} ${context.localized.related.toLowerCase()}",
+                  contentPadding: padding,
+                ),
+              if (externalUrls.isNotEmpty)
+                ExternalUrlsRow(
+                  urls: externalUrls,
+                ).padding(padding),
+            ].addPadding(const EdgeInsets.symmetric(vertical: 16)),
     );
   }
 }

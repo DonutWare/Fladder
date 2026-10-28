@@ -426,14 +426,18 @@ class _LoginScreenCredentialsState extends ConsumerState<LoginScreenCredentials>
   bool emptyFields() => usernameController.text.isEmpty;
 }
 
-Future<void> loggedInGoToHome(BuildContext context, WidgetRef ref) async {
+Future<void> loggedInGoToHome(BuildContext context, WidgetRef ref, {PageRouteInfo? redirect}) async {
   ref.read(lockScreenActiveProvider.notifier).update((state) => false);
   if (context.mounted) {
-    await context.router.replaceAll([const DashboardRoute()]);
+    final router = context.router;
+    await router.replaceAll([const DashboardRoute()]);
+    if (redirect != null) {
+      await router.push(redirect);
+    }
   }
 }
 
-Future<void> _handleLogin(BuildContext context, AccountModel user, WidgetRef ref) async {
+Future<void> _handleLogin(BuildContext context, AccountModel user, WidgetRef ref, {PageRouteInfo? redirect}) async {
   await ref.read(authProvider.notifier).switchUser();
   await ref.read(sharedUtilityProvider).updateAccountInfo(user.copyWith(
         lastUsed: DateTime.now(),
@@ -445,11 +449,11 @@ Future<void> _handleLogin(BuildContext context, AccountModel user, WidgetRef ref
     context,
   );
 
-  loggedInGoToHome(context, ref);
+  loggedInGoToHome(context, ref, redirect: redirect);
 }
 
-void tapLoggedInAccount(BuildContext context, AccountModel user, WidgetRef ref) async {
-  Future<void> loginFunction() => _handleLogin(context, user, ref);
+void tapLoggedInAccount(BuildContext context, AccountModel user, WidgetRef ref, {PageRouteInfo? redirect}) async {
+  Future<void> loginFunction() => _handleLogin(context, user, ref, redirect: redirect);
   switch (user.authMethod) {
     case Authentication.autoLogin:
       loginFunction();

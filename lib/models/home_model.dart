@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/library_filters_model.dart';
+import 'package:fladder/models/settings/home_settings_model.dart';
 
 class DashboardFilterModel {
   final LibraryFiltersModel filter;
@@ -20,6 +21,7 @@ class HomeModel {
   final List<ItemBaseModel> activePrograms;
   final List<ItemBaseModel> nextUp;
   final List<DashboardFilterModel> dashboardFilters;
+  final Set<DashboardSorting> loadedSections;
 
   HomeModel({
     this.loading = false,
@@ -29,6 +31,7 @@ class HomeModel {
     this.activePrograms = const [],
     this.nextUp = const [],
     this.dashboardFilters = const [],
+    this.loadedSections = const {},
   });
 
   HomeModel copyWith({
@@ -40,6 +43,7 @@ class HomeModel {
     List<ItemBaseModel>? nextUp,
     List<ItemBaseModel>? nextUpBooks,
     List<DashboardFilterModel>? dashboardFilters,
+    Set<DashboardSorting>? loadedSections,
   }) {
     return HomeModel(
       loading: loading ?? this.loading,
@@ -49,6 +53,7 @@ class HomeModel {
       activePrograms: activePrograms ?? this.activePrograms,
       nextUp: nextUp ?? this.nextUp,
       dashboardFilters: dashboardFilters ?? this.dashboardFilters,
+      loadedSections: loadedSections ?? this.loadedSections,
     );
   }
 }

@@ -61,8 +61,8 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
           ReplayGainVolumeLevel.quiet,
       enablePlayPauseFade: json['enablePlayPauseFade'] as bool? ?? true,
       enableCrossfade: json['enableCrossfade'] as bool? ?? true,
-      crossfadeDurationMs:
-          (json['crossfadeDurationMs'] as num?)?.toInt() ?? 400,
+      crossfadeDurationMs: (json['crossfadeDurationMs'] as num?)?.toInt() ?? 400,
+      refreshRateSwitching: json['refreshRateSwitching'] as bool? ?? false,
       ambientBlur: json['ambientBlur'] as bool? ?? false,
       enableSyncPlayCorrection:
           json['enableSyncPlayCorrection'] as bool? ?? true,
@@ -105,6 +105,7 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
       'enablePlayPauseFade': instance.enablePlayPauseFade,
       'enableCrossfade': instance.enableCrossfade,
       'crossfadeDurationMs': instance.crossfadeDurationMs,
+      'refreshRateSwitching': instance.refreshRateSwitching,
       'ambientBlur': instance.ambientBlur,
       'enableSyncPlayCorrection': instance.enableSyncPlayCorrection,
     };
@@ -195,6 +196,8 @@ const _$VideoHotKeysEnumMap = {
   VideoHotKeys.takeScreenshot: 'takeScreenshot',
   VideoHotKeys.takeScreenshotClean: 'takeScreenshotClean',
   VideoHotKeys.toggleSubtitles: 'toggleSubtitles',
+  VideoHotKeys.subtitleOffsetBackward: 'subtitleOffsetBackward',
+  VideoHotKeys.subtitleOffsetForward: 'subtitleOffsetForward',
   VideoHotKeys.exit: 'exit',
 };
 

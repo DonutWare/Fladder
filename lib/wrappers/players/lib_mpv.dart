@@ -29,6 +29,7 @@ class LibMPV extends BasePlayer {
   mpv.Player? _player;
   VideoController? _controller;
   String _currentSubtitleCodec = '';
+  Duration _subtitleOffset = Duration.zero;
 
   final StreamController<PlayerState> _stateController = StreamController.broadcast();
   @override
@@ -38,6 +39,7 @@ class LibMPV extends BasePlayer {
 
   bool _replayGainFallbackLogged = false;
   VideoPlayerSettingsModel _settings = VideoPlayerSettingsModel();
+  bool _lowResourceMode = false;
 
   RestartableTimer? _retryTimer;
   DateTime _firstLoadAttempt = DateTime.now();
@@ -70,8 +72,9 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> init(VideoPlayerSettingsModel settings) async {
+  Future<void> init(VideoPlayerSettingsModel settings, {bool lowResourceMode = false}) async {
     _settings = settings;
+    _lowResourceMode = lowResourceMode;
     dispose();
 
     mpv.MediaKit.ensureInitialized();
@@ -80,6 +83,7 @@ class LibMPV extends BasePlayer {
       configuration: mpv.PlayerConfiguration(
         title: "nl.jknaapen.fladder",
         libassAndroidFont: libassFallbackFont,
+        libassAndroidFontName: libassFallbackFontName,
         libass: !kIsWeb && settings.useLibass,
         bufferSize: settings.bufferSize * 1024 * 1024, // MPV uses buffer size in bytes
       ),
@@ -100,7 +104,7 @@ class LibMPV extends BasePlayer {
       await nativePlayer.setProperty('force-seekable', 'yes');
       await nativePlayer.setProperty('gapless-audio', 'yes');
       await nativePlayer.setProperty('cache', 'yes');
-      await nativePlayer.setProperty('demuxer-max-bytes', '150M');
+      await nativePlayer.setProperty('demuxer-max-bytes', _lowResourceMode ? '64M' : '150M');
       await nativePlayer.setProperty('network-timeout', '60');
       await nativePlayer.setProperty('stream-buffer-size', '4M');
       await nativePlayer.setProperty('prefetch-playlist', 'yes');
@@ -183,6 +187,7 @@ class LibMPV extends BasePlayer {
       configuration: mpv.PlayerConfiguration(
         title: "nl.jknaapen.fladder",
         libassAndroidFont: libassFallbackFont,
+        libassAndroidFontName: libassFallbackFontName,
         libass: !kIsWeb && _settings.useLibass,
         bufferSize: _settings.bufferSize * 1024 * 1024,
       ),
@@ -593,6 +598,15 @@ class LibMPV extends BasePlayer {
               currentSubtitleCodec: _currentSubtitleCodec,
             )
           : null;
+
+  @override
+  Future<void> shiftSubtitleOffset(Duration offset) async {
+    if (_player?.platform is! mpv.NativePlayer) return;
+
+    _subtitleOffset += offset;
+    final nativePlayer = _player!.platform as dynamic;
+    await nativePlayer.setProperty('sub-delay', (_subtitleOffset.inMilliseconds / 1000).toStringAsFixed(3));
+  }
 
   @override
   Future<void> setVolume(double volume) async {

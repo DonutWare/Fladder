@@ -11,6 +11,7 @@ import 'package:fladder/screens/settings/widgets/settings_label_divider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/theme_extensions.dart';
+import 'package:fladder/widgets/shared/tab_back_gesture.dart';
 
 @RoutePage()
 class ControlPanelScreen extends ConsumerStatefulWidget {
@@ -41,7 +42,14 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
               ? Card(
                   elevation: 0,
                   child: Stack(
-                    children: [_leftPane(context), content],
+                    children: [
+                      _leftPane(context),
+                      TabBackGesture(
+                        enabled: context.tabsRouter.activeIndex != 0,
+                        onBack: () => context.tabsRouter.setActiveIndex(0),
+                        child: content,
+                      ),
+                    ],
                   ),
                 )
               : Row(

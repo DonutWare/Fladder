@@ -60,164 +60,158 @@ class _BookDetailScreenState extends ConsumerState<BookDetailScreen> {
       onRefresh: () async => await ref.read(provider.notifier).fetchDetails(widget.item),
       backDrops: details.cover,
       content: (context, padding) => details.book != null
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: 64),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+          ? [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (details.nextUp != null)
-                              OverviewHeader(
-                                subTitle: details.book?.parentName ?? details.parentModel?.name,
-                                name: details.nextUp?.name ?? "",
-                                mainButton: Builder(
-                                  builder: (context) {
-                                    //Wrapped so the correct context is used for refreshing the pages
-                                    return MediaPlayButton(
-                                      item: details.nextUp!,
-                                      onPressed: (restart) async => details.nextUp.play(
-                                        context,
-                                        ref,
-                                        provider: provider,
-                                        currentPage: restart ? 0 : null,
-                                      ),
-                                    );
-                                  },
-                                ),
-                                image: ImagesData(
-                                  logo: details.book?.getPosters?.primary,
-                                ),
-                                productionYear: details.nextUp!.overview.productionYear.toString(),
-                                runTime: details.nextUp!.overview.runTime,
-                                genres: details.nextUp!.overview.genreItems,
-                                studios: details.nextUp!.overview.studios,
-                                officialRating: details.nextUp!.overview.parentalRating,
-                                communityRating: details.nextUp!.overview.communityRating,
-                              ),
-                            const SizedBox(height: 16),
-                            Wrap(
-                              spacing: 8,
-                              runSpacing: 8,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              children: [
-                                if (details.parentModel != null)
-                                  SelectableIconButton(
-                                    onPressed: () async => await details.parentModel?.navigateTo(context),
-                                    selected: false,
-                                    selectedIcon: IconsaxPlusBold.book,
-                                    icon: IconsaxPlusLinear.book,
-                                  ),
-                                if (details.parentModel != null)
-                                  SelectableIconButton(
-                                    onPressed: () async => await ref.read(userProvider.notifier).setAsFavorite(
-                                        !details.parentModel!.userData.isFavourite, details.parentModel!.id),
-                                    selected: details.parentModel!.userData.isFavourite,
-                                    selectedIcon: IconsaxPlusBold.heart,
-                                    icon: IconsaxPlusLinear.heart,
-                                  )
-                                else
-                                  SelectableIconButton(
-                                    onPressed: () async => await ref
-                                        .read(userProvider.notifier)
-                                        .setAsFavorite(!details.book!.userData.isFavourite, details.book!.id),
-                                    selected: details.book!.userData.isFavourite,
-                                    selectedIcon: IconsaxPlusBold.heart,
-                                    icon: IconsaxPlusLinear.heart,
-                                  ),
-
-                                //This one toggles all books in a collection
-                                Builder(builder: (context) {
-                                  return Tooltip(
-                                    message: "Mark all chapters as read",
-                                    child: SelectableIconButton(
-                                      onPressed: () async => await Future.forEach(
-                                          details.allBooks,
-                                          (element) async => await ref
-                                              .read(userProvider.notifier)
-                                              .markAsPlayed(!details.collectionPlayed, element.id)),
-                                      selected: details.collectionPlayed,
-                                      selectedIcon: Icons.check_circle_rounded,
-                                      icon: Icons.check_circle_outline_rounded,
-                                    ),
-                                  );
-                                }),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ).padding(padding),
-                  if (details.nextUp!.overview.summary.isNotEmpty == true)
-                    ExpandingText(
-                      text: details.nextUp!.overview.summary,
-                    ).padding(padding),
-                  if (details.chapters.length > 1)
-                    Builder(
-                      builder: (context) {
-                        final parentContext = context;
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(context.localized.chapter(details.chapters.length),
-                                style: Theme.of(context).textTheme.titleLarge),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 16),
-                              child: Divider(),
-                            ),
-                            ...details.chapters.map(
-                              (e) {
-                                final current = e == details.nextUp;
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 2),
-                                  child: Opacity(
-                                    opacity: e.userData.played ? 0.65 : 1,
-                                    child: Card(
-                                      color: current ? Theme.of(context).colorScheme.surfaceContainerHighest : null,
-                                      child: PosterListItem(
-                                        poster: e,
-                                        onPressed: (action, item) => showBottomSheetPill(
-                                          context: context,
-                                          item: item,
-                                          content: (context, scrollController) => ListView(
-                                            shrinkWrap: true,
-                                            controller: scrollController,
-                                            children: item
-                                                .generateActions(
-                                                  parentContext,
-                                                  ref,
-                                                )
-                                                .listTileItems(context, useIcons: true),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (details.nextUp != null)
+                          OverviewHeader(
+                            subTitle: details.book?.parentName ?? details.parentModel?.name,
+                            name: details.nextUp?.name ?? "",
+                            mainButton: Builder(
+                              builder: (context) {
+                                //Wrapped so the correct context is used for refreshing the pages
+                                return MediaPlayButton(
+                                  item: details.nextUp!,
+                                  onPressed: (restart) async => details.nextUp.play(
+                                    context,
+                                    ref,
+                                    provider: provider,
+                                    currentPage: restart ? 0 : null,
                                   ),
                                 );
                               },
-                            )
+                            ),
+                            image: ImagesData(
+                              logo: details.book?.getPosters?.primary,
+                            ),
+                            productionYear: details.nextUp!.overview.productionYear.toString(),
+                            runTime: details.nextUp!.overview.runTime,
+                            genres: details.nextUp!.overview.genreItems,
+                            studios: details.nextUp!.overview.studios,
+                            officialRating: details.nextUp!.overview.parentalRating,
+                            communityRating: details.nextUp!.overview.communityRating,
+                          ),
+                        const SizedBox(height: 16),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            if (details.parentModel != null)
+                              SelectableIconButton(
+                                onPressed: () async => await details.parentModel?.navigateTo(context),
+                                selected: false,
+                                selectedIcon: IconsaxPlusBold.book,
+                                icon: IconsaxPlusLinear.book,
+                              ),
+                            if (details.parentModel != null)
+                              SelectableIconButton(
+                                onPressed: () async => await ref
+                                    .read(userProvider.notifier)
+                                    .setAsFavorite(!details.parentModel!.userData.isFavourite, details.parentModel!.id),
+                                selected: details.parentModel!.userData.isFavourite,
+                                selectedIcon: IconsaxPlusBold.heart,
+                                icon: IconsaxPlusLinear.heart,
+                              )
+                            else
+                              SelectableIconButton(
+                                onPressed: () async => await ref
+                                    .read(userProvider.notifier)
+                                    .setAsFavorite(!details.book!.userData.isFavourite, details.book!.id),
+                                selected: details.book!.userData.isFavourite,
+                                selectedIcon: IconsaxPlusBold.heart,
+                                icon: IconsaxPlusLinear.heart,
+                              ),
+
+                            //This one toggles all books in a collection
+                            Builder(builder: (context) {
+                              return Tooltip(
+                                message: "Mark all chapters as read",
+                                child: SelectableIconButton(
+                                  onPressed: () async => await Future.forEach(
+                                      details.allBooks,
+                                      (element) async => await ref
+                                          .read(userProvider.notifier)
+                                          .markAsPlayed(!details.collectionPlayed, element.id)),
+                                  selected: details.collectionPlayed,
+                                  selectedIcon: Icons.check_circle_rounded,
+                                  icon: Icons.check_circle_outline_rounded,
+                                ),
+                              );
+                            }),
                           ],
-                        ).padding(padding);
-                      },
+                        )
+                      ],
                     ),
-                  if (details.nextUp?.overview.externalUrls?.isNotEmpty == true)
-                    Padding(
-                      padding: padding,
-                      child: ExternalUrlsRow(
-                        urls: details.nextUp?.overview.externalUrls,
-                      ),
-                    )
-                ].addPadding(const EdgeInsets.symmetric(vertical: 16)),
-              ),
-            )
-          : Container(),
+                  ),
+                ],
+              ).padding(padding),
+              if (details.nextUp!.overview.summary.isNotEmpty == true)
+                ExpandingText(
+                  text: details.nextUp!.overview.summary,
+                ).padding(padding),
+              if (details.chapters.length > 1)
+                Builder(
+                  builder: (context) {
+                    final parentContext = context;
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(context.localized.chapter(details.chapters.length),
+                            style: Theme.of(context).textTheme.titleLarge),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Divider(),
+                        ),
+                        ...details.chapters.map(
+                          (e) {
+                            final current = e == details.nextUp;
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 2),
+                              child: Opacity(
+                                opacity: e.userData.played ? 0.65 : 1,
+                                child: Card(
+                                  color: current ? Theme.of(context).colorScheme.surfaceContainerHighest : null,
+                                  child: PosterListItem(
+                                    poster: e,
+                                    onPressed: (action, item) => showBottomSheetPill(
+                                      context: context,
+                                      item: item,
+                                      content: (context, scrollController) => ListView(
+                                        shrinkWrap: true,
+                                        controller: scrollController,
+                                        children: item
+                                            .generateActions(
+                                              parentContext,
+                                              ref,
+                                            )
+                                            .listTileItems(context, useIcons: true),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      ],
+                    ).padding(padding);
+                  },
+                ),
+              if (details.nextUp?.overview.externalUrls?.isNotEmpty == true)
+                Padding(
+                  padding: padding,
+                  child: ExternalUrlsRow(
+                    urls: details.nextUp?.overview.externalUrls,
+                  ),
+                )
+            ].addPadding(const EdgeInsets.symmetric(vertical: 16))
+          : [],
     );
   }
 }

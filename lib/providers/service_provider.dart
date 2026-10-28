@@ -22,10 +22,12 @@ import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/incognito_mode_provider.dart';
+import 'package:fladder/providers/low_resource_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/jellyfin_extension.dart';
@@ -1493,7 +1495,10 @@ class JellyService {
       if (item.overview.trickPlayInfo?.isEmpty == true) {
         return null;
       }
-      final trickPlayModel = item.overview.trickPlayInfo?.values.lastOrNull;
+      final trickPlayModels = item.overview.trickPlayInfo?.values;
+      final preferSmallest = ref.read(lowResourceModeProvider) || ref.read(argumentsStateProvider).leanBackMode;
+      final trickPlayModel =
+          preferSmallest ? trickPlayModels?.sortedBy<num>((e) => e.width).firstOrNull : trickPlayModels?.lastOrNull;
       if (trickPlayModel == null) return null;
       final response = await api.videosItemIdTrickplayWidthTilesM3u8Get(
         itemId: item.id,

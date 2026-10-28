@@ -18,6 +18,7 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/audio_lyrics_provider.dart';
 import 'package:fladder/providers/live_tv_provider.dart';
+import 'package:fladder/providers/low_resource_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
@@ -28,6 +29,7 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
     if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
+import 'package:fladder/wrappers/multi_window_media_session.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
 import 'package:fladder/wrappers/players/native_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
@@ -96,20 +98,24 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       if (!kIsWeb && Platform.isAndroid) {
         VideoPlayerControlsCallback.setUp(this);
       }
-      await AudioService.init(
-        builder: () => this,
-        config: const AudioServiceConfig(
-          androidNotificationChannelId: 'nl.jknaapen.fladder.channel.playback',
-          androidNotificationChannelName: 'Media playback',
-          androidNotificationIcon: 'drawable/ic_notification',
-          androidNotificationOngoing: true,
-          androidStopForegroundOnPause: true,
-          rewindInterval: Duration(seconds: 10),
-          fastForwardInterval: Duration(seconds: 15),
-          androidNotificationChannelDescription: "Playback",
-          androidShowNotificationBadge: true,
-        ),
-      );
+      if (MultiWindowMediaSession.supported) {
+        MultiWindowMediaSession.instance.attach(this);
+      } else {
+        await AudioService.init(
+          builder: () => this,
+          config: const AudioServiceConfig(
+            androidNotificationChannelId: 'nl.jknaapen.fladder.channel.playback',
+            androidNotificationChannelName: 'Media playback',
+            androidNotificationIcon: 'drawable/ic_notification',
+            androidNotificationOngoing: true,
+            androidStopForegroundOnPause: true,
+            rewindInterval: Duration(seconds: 10),
+            fastForwardInterval: Duration(seconds: 15),
+            androidNotificationChannelDescription: "Playback",
+            androidShowNotificationBadge: true,
+          ),
+        );
+      }
     }
 
     final player = switch (ref.read(videoPlayerSettingsProvider).wantedPlayer) {
@@ -140,7 +146,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     }
 
     _player = newPlayer;
-    await newPlayer.init(ref.read(videoPlayerSettingsProvider));
+    await newPlayer.init(
+      ref.read(videoPlayerSettingsProvider),
+      lowResourceMode: ref.read(lowResourceModeProvider),
+    );
     _initPlayer();
     _subscribePlayerState();
   }
@@ -247,7 +256,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   void _subscribePlayer() {
-    if (!kIsWeb && Platform.isWindows) {
+    if (!kIsWeb && Platform.isWindows && !MultiWindowMediaSession.supported) {
       smtc = SMTCWindows(
         config: const SMTCConfig(
           fastForwardEnabled: true,
@@ -533,7 +542,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   @override
-  Future<void> stop() async {
+  Future<void> stop({bool keepMediaSession = false}) async {
     if (_isStopped) return;
     _isStopped = true;
 
@@ -541,17 +550,19 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       (_player as LibMPV).setMusicPlaybackMode(false);
     }
 
-    smtc?.setPlaybackStatus(PlaybackStatus.stopped);
-    smtc?.clearMetadata();
-    smtc?.disableSmtc();
-    mediaItem.value = null;
-    playbackState.add(
-      playbackState.value.copyWith(
-        playing: false,
-        processingState: AudioProcessingState.completed,
-        controls: [],
-      ),
-    );
+    if (!keepMediaSession) {
+      smtc?.setPlaybackStatus(PlaybackStatus.stopped);
+      smtc?.clearMetadata();
+      smtc?.disableSmtc();
+      mediaItem.value = null;
+      playbackState.add(
+        playbackState.value.copyWith(
+          playing: false,
+          processingState: AudioProcessingState.completed,
+          controls: [],
+        ),
+      );
+    }
 
     final playbackModel = ref.read(playBackModel);
     if (playbackModel == null) return;
@@ -640,6 +651,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async =>
       await _player?.setSubtitleTrack(model, playbackModel) ?? -1;
+
+  Future<void> shiftSubtitleOffset(Duration offset) async => _player?.shiftSubtitleOffset(offset);
 
   Future<void> setVolume(double volume) async {
     //Do not set volume on Android/iOS since we use the system volume for that.

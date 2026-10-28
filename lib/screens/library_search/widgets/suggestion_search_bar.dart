@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:page_transition/page_transition.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/providers/library_search_provider.dart';
@@ -140,8 +139,7 @@ class _SearchBarState extends ConsumerState<SuggestionSearchBar> {
               if (widget.onItem != null) {
                 widget.onItem?.call(suggestion);
               } else {
-                Navigator.of(context)
-                    .push(PageTransition(child: suggestion.detailScreenWidget, type: PageTransitionType.fade));
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => suggestion.detailScreenWidget));
               }
             },
             contentPadding: const EdgeInsets.symmetric(horizontal: 8),
