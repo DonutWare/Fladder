@@ -709,5 +709,28 @@
     "restart": "הפעלה מחדש",
     "libraryPageSizeTitle": "גודל עמוד ספריה",
     "loggedIn": "מחובר",
-    "separate": "בנפרד"
+    "separate": "מופרד",
+    "openShow": "פתח סדרה",
+    "related": "קשור",
+    "resumable": "ניתן להמשכה",
+    "resume": "להמשיך את {item}",
+    "@resume": {
+        "description": "resume",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "setIdentityTo": "שינוי זהות ל {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsBlurredPlaceholderTitle": "תמונה מטושטשת",
+    "settingsClientDesc": "כללי, תצוגה"
 }
