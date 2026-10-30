@@ -21,6 +21,23 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
+subprojects {
+    if (name == "cronet_http") {
+        // Always embed Cronet so no build (including F-Droid) depends on Play Services.
+        def defines = (findProperty("dart-defines") ?: "")
+            .split(',')
+            .findAll { !it.isBlank() }
+
+        def embedded = java.util.Base64.encoder
+            .encodeToString("cronetHttpNoPlay=true".getBytes("UTF-8"))
+
+        extensions.extraProperties.set(
+            "dart-defines",
+            (defines + embedded).join(",")
+        )
+    }
+}
+
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
