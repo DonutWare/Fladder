@@ -181,7 +181,7 @@ class SideNavigationRail extends ConsumerWidget {
                                   const EdgeInsets.symmetric(horizontal: 4).copyWith(bottom: expandedSideBar ? 10 : 0),
                               child: AnimatedFadeSize(
                                 duration: const Duration(milliseconds: 250),
-                                child: shouldExpand ? actionButton(context).extended : actionButton(context).normal,
+                                child: actionButtonWidget(context, shouldExpand),
                               ),
                             ),
                           ],
@@ -235,6 +235,23 @@ class SideNavigationRail extends ConsumerWidget {
           onPressed: () => context.router.navigate(LibrarySearchRoute()),
           child: const Icon(IconsaxPlusLinear.search_normal_1),
         );
+  }
+
+  Widget actionButtonWidget(BuildContext context, bool expanded) {
+    final destination = (currentIndex >= 0 && currentIndex < destinations.length) ? destinations[currentIndex] : null;
+
+    // If there's a custom FAB widget, use it (DashboardFabs already
+    // includes SyncPlay for the dashboard route).
+    if (destination?.customFab != null) {
+      return destination!.customFab!;
+    }
+
+    // For non-dashboard rails: show only the route's primary action FAB.
+    // SyncPlay access comes from the dashboard FAB and the SyncPlayBadge
+    // (a non-FAB indicator that opens the same sheet) — stacking two FABs
+    // here violates AGENTS.md rule 4.
+    final fab = actionButton(context);
+    return expanded ? fab.extended : fab.normal;
   }
 }
 
