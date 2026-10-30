@@ -613,5 +613,125 @@
     "subtitles": "כתוביות",
     "switchUser": "החלף משתמש",
     "sync": "סנכרן",
-    "hideEmpty": "הסתר ריק"
+    "hideEmpty": "הסתר ריק",
+    "libraryPageSizeDesc": "הגדר את מספר הפריטים להציג כל פעם. 0 משבית דפדוף.",
+    "light": "אור",
+    "navigationDashboard": "לוח הבקרה",
+    "normal": "נורמלי",
+    "openParent": "הורה פתוח",
+    "overview": "סקירה",
+    "parentalRating": "דירוג הורים",
+    "removeFromCollection": "להסיר מהאוסף",
+    "audioPlayerRepeatOff": "חזרה כבויה",
+    "heightOffset": "הפרש גובה",
+    "homeBannerSlideshow": "מצגת",
+    "homeBannerCarousel": "קרוסלה",
+    "itemCount": "מספר פריטים: {count}",
+    "@itemCount": {
+        "description": "Item count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "mediaTypePerson": "{count, plural, one{איש} other{אנשים}}",
+    "@mediaTypePerson": {
+        "description": "Person (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{אמן} other{אמנים}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeMusicVideo": "{count, plural, one{קליפ מוזיקה} other{קליפי מוזיקה}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeCollection": "{count, plural, one{אוסף} other{אוספים}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "metaDataSavedFor": "מטא-דאטא נשמרה ל{item}",
+    "@metaDataSavedFor": {
+        "description": "metaDataSavedFor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "metadataRefreshDefault": "לסרוק בשביל קבצים חדשים ומעודכנים",
+    "metadataRefreshFull": "להחליף את כל המטא-דאטא",
+    "metadataRefreshValidation": "חיפוש מטא-דאטא חסר",
+    "mode": "מצב",
+    "sideBar": "סרגל צד",
+    "pathClearTitle": "ניקוי תיקית ההורדות",
+    "pathEditDesc": "מיקום זה מוגדר עבור כל המשתמשים, כל מידע מסונכרן כבר לא יהיה נגיש. זה יישאר על האחסון שלך.",
+    "playCount": "מספר הפעלות",
+    "playVideos": "הפעל סרטונים",
+    "quickConnectAction": "הכנס קוד חיבור מהיר למשתמש",
+    "quickConnectInputACode": "הכנס קוד",
+    "recursive": "רקורסיבי",
+    "refreshMetadata": "רענון מטא-דאטא",
+    "refreshPopup": "רענון - {name}",
+    "@refreshPopup": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "refreshPopupContentMetadata": "רענון מטא-דאטא הוא בהתאם להגדרות ושירותי אינטרנט המופעלים בלוח הבקרה.",
+    "restart": "הפעלה מחדש",
+    "libraryPageSizeTitle": "גודל עמוד ספריה",
+    "loggedIn": "מחובר",
+    "separate": "מופרד",
+    "openShow": "פתח סדרה",
+    "related": "קשור",
+    "resumable": "ניתן להמשכה",
+    "resume": "להמשיך את {item}",
+    "@resume": {
+        "description": "resume",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "setIdentityTo": "שינוי זהות ל {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "settingsBlurredPlaceholderTitle": "תמונה מטושטשת",
+    "settingsClientDesc": "כללי, תצוגה",
+    "settingsClientTitle": "Fladder"
 }

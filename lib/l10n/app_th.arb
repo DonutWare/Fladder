@@ -1,1 +1,2320 @@
-{}
+{
+    "nativeName": "ไทย",
+    "about": "เกี่ยวกับ",
+    "accept": "ยอมรับ",
+    "active": "ใช้งานอยู่",
+    "actor": "{count, plural, other{นักแสดง}}",
+    "@actor": {
+        "description": "actor",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addAsFavorite": "เพิ่มเป็นรายการโปรด",
+    "addToCollection": "เพิ่มไปยังคอลเลกชัน",
+    "addToPlaylist": "เพิ่มไปยังเพลย์ลิสต์",
+    "addToQueue": "เพิ่มไปยังคิว",
+    "instantMix": "มิกซ์ทันที",
+    "addedToQueue": "{count, plural, other{เพิ่ม {count} แทร็กไปยังคิวแล้ว}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "advanced": "ขั้นสูง",
+    "all": "ทั้งหมด",
+    "amoledBlack": "ดำสนิท (AMOLED)",
+    "appLockAutoLogin": "เข้าสู่ระบบอัตโนมัติ",
+    "appLockBiometrics": "ชีวมาตร",
+    "appLockPasscode": "รหัสผ่าน",
+    "appLockTitle": "ตั้งค่าวิธีเข้าสู่ระบบสำหรับ {userName}",
+    "@appLockTitle": {
+        "description": "Pop-up to pick a login method",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "ascending": "น้อยไปมาก",
+    "audio": "{count, plural, other{เสียง}}",
+    "@audio": {
+        "description": "Audio (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "audioPlayerPlaybackOptionsTitle": "ตัวเลือกการเล่น",
+    "audioPlayerRepeatAll": "เล่นซ้ำทั้งหมด",
+    "audioPlayerRepeatOff": "ปิดการเล่นซ้ำ",
+    "audioPlayerRepeatOne": "เล่นซ้ำเพลงเดียว",
+    "audioPlayerShuffle": "สุ่มเล่น",
+    "showArtist": "แสดงศิลปิน",
+    "track": "{count, plural, other{แทร็ก}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "autoPlay": "เล่นอัตโนมัติ",
+    "backgroundBlur": "ความเบลอของพื้นหลัง",
+    "backgroundOpacity": "ความทึบของพื้นหลัง",
+    "biometricsFailedCheckAgain": "การยืนยันด้วยชีวมาตรล้มเหลว โปรดตรวจสอบการตั้งค่าแล้วลองอีกครั้ง",
+    "bold": "ตัวหนา",
+    "cancel": "ยกเลิก",
+    "change": "เปลี่ยน",
+    "chapter": "{count, plural, other{บท}}",
+    "@chapter": {
+        "description": "chapter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "clear": "ล้าง",
+    "clearAllSettings": "ล้างการตั้งค่าทั้งหมด",
+    "clearAllSettingsQuestion": "ล้างการตั้งค่าทั้งหมดหรือไม่?",
+    "clearChanges": "ล้างการเปลี่ยนแปลง",
+    "clearSelection": "ล้างการเลือก",
+    "close": "ปิด",
+    "generateLoginLink": "รหัสสำหรับ {userName}",
+    "@generateLoginLink": {
+        "description": "Code for a user to share",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "shareLoginLink": "แชร์ลิงก์เข้าสู่ระบบ",
+    "shareQRCode": "แชร์คิวอาร์โค้ด",
+    "copyLoginLink": "คัดลอกลิงก์",
+    "includePassword": "รวมรหัสผ่าน",
+    "invalidAuthLink": "ลิงก์เข้าสู่ระบบไม่ถูกต้อง",
+    "code": "รหัส",
+    "collectionFolder": "{count, plural, other{โฟลเดอร์คอลเลกชัน}}",
+    "@collectionFolder": {
+        "description": "Collection folder (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "color": "สี",
+    "combined": "รวมกัน",
+    "communityRating": "คะแนนจากชุมชน",
+    "continuePage": "ดูต่อ - หน้า {page}",
+    "@continuePage": {
+        "description": "Continue - page 1",
+        "placeholders": {
+            "page": {
+                "type": "int"
+            }
+        }
+    },
+    "controls": "การควบคุม",
+    "gestures": "ท่าทางสัมผัส",
+    "dashboard": "แดชบอร์ด",
+    "dashboardContinue": "ดูต่อ",
+    "dashboardContinueListening": "ฟังต่อ",
+    "dashboardContinueReading": "อ่านต่อ",
+    "dashboardContinueWatching": "ดูต่อ",
+    "nextUp": "ถัดไป",
+    "dashboardRecentlyAdded": "เพิ่มล่าสุดใน {name}",
+    "@dashboardRecentlyAdded": {
+        "description": "Recently added on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "{name} ที่เพิ่มล่าสุด",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "dateAdded": "วันที่เพิ่ม",
+    "dateLastContentAdded": "วันที่เพิ่มเนื้อหาล่าสุด",
+    "datePlayed": "วันที่เล่น",
+    "delete": "ลบ",
+    "deleteFileFromSystem": "การลบ {item} จะลบรายการนี้ออกจากทั้งระบบไฟล์และไลบรารีสื่อของคุณ แน่ใจหรือไม่ว่าต้องการดำเนินการต่อ?",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteItem": "ลบ {item} หรือไม่?",
+    "@deleteItem": {
+        "description": "deleteItem",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "descending": "มากไปน้อย",
+    "director": "{count, plural, other{ผู้กำกับ}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "disableFilters": "ปิดตัวกรอง",
+    "disabled": "ปิด",
+    "discovered": "ค้นพบแล้ว",
+    "displayLanguage": "ภาษาที่ใช้แสดงผล",
+    "downloadsClearDesc": "ลบข้อมูลที่ซิงค์ทั้งหมด โดยล้างข้อมูลของผู้ใช้ทุกคนที่ซิงค์ไว้ใช่หรือไม่?",
+    "downloadsClearTitle": "ล้างข้อมูลที่ซิงค์",
+    "downloadsPath": "เส้นทาง",
+    "downloadsSyncedData": "ข้อมูลที่ซิงค์",
+    "downloadsTitle": "ดาวน์โหลด",
+    "dynamicText": "ไดนามิก",
+    "editMetadata": "แก้ไขเมทาดาทา",
+    "empty": "ว่างเปล่า",
+    "enabled": "เปิด",
+    "endsAt": "จบเวลา {date}",
+    "@endsAt": {
+        "description": "endsAt",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "episode": "{count, plural, other{ตอน}}",
+    "@episode": {
+        "description": "episode",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "error": "ข้อผิดพลาด",
+    "failedToLoadImage": "ไม่สามารถโหลดรูปภาพได้",
+    "favorite": "รายการโปรด",
+    "favorites": "รายการโปรด",
+    "fetchingLibrary": "กำลังดึงรายการในไลบรารี…",
+    "filter": "{count, plural, other{ตัวกรอง}}",
+    "@filter": {
+        "description": "filter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "folders": "โฟลเดอร์",
+    "fontColor": "สีตัวอักษร",
+    "fontSize": "ขนาดตัวอักษร",
+    "forceRefresh": "บังคับรีเฟรช",
+    "genre": "{count, plural, other{ประเภท}}",
+    "@genre": {
+        "description": "genre",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "goTo": "ไปที่",
+    "grid": "ตาราง",
+    "group": "กลุ่ม",
+    "groupBy": "จัดกลุ่มตาม",
+    "heightOffset": "ระยะเยื้องความสูง",
+    "hide": "ซ่อน",
+    "hideEmpty": "ซ่อนรายการว่าง",
+    "home": "หน้าแรก",
+    "homeBannerSlideshow": "สไลด์โชว์",
+    "homeBannerCarousel": "แคโรเซล",
+    "homeBannerDetailed": "แบบละเอียด",
+    "homeBannerTV": "ทีวี",
+    "identify": "ระบุตัวตน",
+    "immediately": "ทันที",
+    "incorrectPinTryAgain": "PIN ไม่ถูกต้อง ลองอีกครั้ง",
+    "info": "ข้อมูล",
+    "invalidUrl": "URL ไม่ถูกต้อง",
+    "itemCount": "จำนวนรายการ: {count}",
+    "@itemCount": {
+        "description": "Item count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "label": "{count, plural, other{ป้ายกำกับ}}",
+    "@label": {
+        "description": "label",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "library": "{count, plural, other{ไลบรารี}}",
+    "@library": {
+        "description": "Plural",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "libraryFetchNoItemsFound": "ไม่พบรายการ ลองเปลี่ยนการตั้งค่า",
+    "libraryPageSizeDesc": "กำหนดจำนวนรายการที่โหลดในแต่ละครั้ง ตั้งเป็น 0 เพื่อปิดการแบ่งหน้า",
+    "libraryPageSizeTitle": "ขนาดหน้าของไลบรารี",
+    "light": "สว่าง",
+    "list": "รายการ",
+    "lockscreen": "หน้าจอล็อก",
+    "loggedIn": "เข้าสู่ระบบแล้ว",
+    "login": "เข้าสู่ระบบ",
+    "logout": "ออกจากระบบ",
+    "logoutUserPopupContent": "การดำเนินการนี้จะออกจากระบบ {userName} และลบผู้ใช้ออกจากแอป\nคุณจะต้องเข้าสู่ระบบอีกครั้งที่ {serverName}",
+    "@logoutUserPopupContent": {
+        "description": "Pop-up for logging out the user description",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "serverName": {
+                "type": "String"
+            }
+        }
+    },
+    "logoutUserPopupTitle": "ออกจากระบบ {userName} หรือไม่?",
+    "@logoutUserPopupTitle": {
+        "description": "Pop-up for logging out the user",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "loop": "วนซ้ำ",
+    "markAsUnwatched": "ทำเครื่องหมายว่ายังไม่ได้ดู",
+    "markAsWatched": "ทำเครื่องหมายว่าดูแล้ว",
+    "masonry": "แบบเมสันรี",
+    "mediaTypeBase": "ประเภทพื้นฐาน",
+    "mediaTypeBook": "{count, plural, other{หนังสือ}}",
+    "@mediaTypeBook": {
+        "description": "Book (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeBoxset": "{count, plural, other{บ็อกซ์เซ็ต}}",
+    "@mediaTypeBoxset": {
+        "description": "Boxset (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeEpisode": "{count, plural, other{ตอน}}",
+    "@mediaTypeEpisode": {
+        "description": "Episode (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeFolder": "{count, plural, other{โฟลเดอร์}}",
+    "@mediaTypeFolder": {
+        "description": "Folder (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeMovie": "{count, plural, other{ภาพยนตร์}}",
+    "@mediaTypeMovie": {
+        "description": "Movie (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePerson": "{count, plural, other{บุคคล}}",
+    "@mediaTypePerson": {
+        "description": "Person (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, other{ศิลปิน}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeMusicVideo": "{count, plural, other{มิวสิกวิดีโอ}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePhoto": "{count, plural, other{รูปภาพ}}",
+    "@mediaTypePhoto": {
+        "description": "Photo (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePhotoAlbum": "{count, plural, other{อัลบั้มรูปภาพ}}",
+    "@mediaTypePhotoAlbum": {
+        "description": "Photo Album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePlaylist": "{count, plural, other{เพลย์ลิสต์}}",
+    "@mediaTypePlaylist": {
+        "description": "Playlist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeSeason": "{count, plural, other{ซีซัน}}",
+    "@mediaTypeSeason": {
+        "description": "Season (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeSeries": "{count, plural, other{ซีรีส์}}",
+    "@mediaTypeSeries": {
+        "description": "Series (plural, same singular/plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeTV": "{count, plural, other{ช่องทีวี}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeCollection": "{count, plural, other{คอลเลกชัน}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "metaDataSavedFor": "บันทึกเมทาดาทาของ {item} แล้ว",
+    "@metaDataSavedFor": {
+        "description": "metaDataSavedFor",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "metadataRefreshDefault": "สแกนหาไฟล์ใหม่และไฟล์ที่อัปเดต",
+    "metadataRefreshFull": "แทนที่เมทาดาทาทั้งหมด",
+    "metadataRefreshValidation": "ค้นหาเมทาดาทาที่ขาดหายไป",
+    "minutes": "{count, plural, other{นาที}}",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mode": "โหมด",
+    "moreFrom": "เพิ่มเติมจาก {info}",
+    "@moreFrom": {
+        "description": "More from",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "moreOptions": "ตัวเลือกเพิ่มเติม",
+    "mouseDragSupport": "ลากด้วยเมาส์",
+    "musicAlbum": "{count, plural, other{อัลบั้ม}}",
+    "@musicAlbum": {
+        "description": "Music album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "name": "ชื่อ",
+    "navigation": "การนำทาง",
+    "sideBar": "แถบด้านข้าง",
+    "musicSideBar": "แถบด้านข้างของเพลง",
+    "navigationDashboard": "แดชบอร์ด",
+    "navigationFavorites": "รายการโปรด",
+    "navigationSync": "ซิงค์แล้ว",
+    "never": "ไม่เลย",
+    "noItemsSynced": "ไม่มีรายการที่ซิงค์",
+    "noItemsToShow": "ไม่มีรายการที่จะแสดง",
+    "noRating": "ไม่มีคะแนน",
+    "noResults": "ไม่พบผลลัพธ์",
+    "noServersFound": "ไม่พบเซิร์ฟเวอร์ใหม่",
+    "noSuggestionsFound": "ไม่พบข้อเสนอแนะ",
+    "none": "ไม่มี",
+    "normal": "ปกติ",
+    "notPartOfAlbum": "ไม่ได้อยู่ในอัลบั้มใด",
+    "openParent": "เปิดโฟลเดอร์หลัก",
+    "openShow": "เปิดรายการ",
+    "options": "ตัวเลือก",
+    "other": "อื่น ๆ",
+    "outlineColor": "สีเส้นขอบ",
+    "outlineSize": "ขนาดเส้นขอบ",
+    "overview": "ภาพรวม",
+    "page": "หน้า {index}",
+    "@page": {
+        "description": "page",
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
+    "parentalRating": "เรตติ้งผู้ปกครอง",
+    "password": "รหัสผ่าน",
+    "pathClearTitle": "ล้างเส้นทางดาวน์โหลด",
+    "pathEditDesc": "ตำแหน่งนี้ใช้กับผู้ใช้ทุกคน ข้อมูลที่ซิงค์ไว้จะไม่สามารถเข้าถึงได้อีก แต่ยังคงอยู่ในที่เก็บข้อมูลของคุณ",
+    "pathEditSelect": "เลือกปลายทางการดาวน์โหลด",
+    "pathEditTitle": "เปลี่ยนตำแหน่ง",
+    "play": "เล่น {item}",
+    "@play": {
+        "description": "Play with",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "playCount": "จำนวนครั้งที่เล่น",
+    "playFrom": "เล่นจาก {name}",
+    "@playFrom": {
+        "description": "playFrom",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playFromStart": "เล่น {name} ตั้งแต่ต้น",
+    "@playFromStart": {
+        "description": "speel vanaf het begin",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "playLabel": "เล่น",
+    "playVideos": "เล่นวิดีโอ",
+    "playMusic": "เล่นเพลง",
+    "played": "เล่นแล้ว",
+    "quickConnectAction": "ป้อนรหัสเชื่อมต่อด่วนสำหรับ",
+    "quickConnectInputACode": "ป้อนรหัส",
+    "quickConnectTitle": "เชื่อมต่อด่วน",
+    "quickConnectWrongCode": "รหัสไม่ถูกต้อง",
+    "random": "สุ่ม",
+    "rating": "{count, plural, other{คะแนน}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "popularity": "ความนิยม",
+    "reWatch": "ดูซ้ำ",
+    "read": "อ่าน {item}",
+    "@read": {
+        "description": "read",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "readFromStart": "อ่าน {item} ตั้งแต่ต้น",
+    "@readFromStart": {
+        "description": "Read book from start",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "recursive": "แบบเรียกซ้ำ",
+    "refresh": "รีเฟรช",
+    "refreshMetadata": "รีเฟรชเมทาดาทา",
+    "refreshPopup": "รีเฟรช - {name}",
+    "@refreshPopup": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "refreshPopupContentMetadata": "เมทาดาทาจะถูกรีเฟรชตามการตั้งค่าและบริการอินเทอร์เน็ตที่เปิดใช้งานในแดชบอร์ด",
+    "related": "ที่เกี่ยวข้อง",
+    "releaseDate": "วันที่วางจำหน่าย",
+    "contentRating": "เรตติ้งเนื้อหา",
+    "removeAsFavorite": "นำออกจากรายการโปรด",
+    "removeFromCollection": "นำออกจากคอลเลกชัน",
+    "removeFromPlaylist": "นำออกจากเพลย์ลิสต์",
+    "replaceAllImages": "แทนที่รูปภาพทั้งหมด",
+    "replaceExistingImages": "แทนที่รูปภาพที่มีอยู่",
+    "restart": "เริ่มใหม่",
+    "result": "ผลลัพธ์",
+    "resumable": "เล่นต่อได้",
+    "resume": "เล่น {item} ต่อ",
+    "@resume": {
+        "description": "resume",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "retrievePublicListOfUsers": "ดึงรายชื่อผู้ใช้สาธารณะ",
+    "retry": "ลองอีกครั้ง",
+    "runTime": "ความยาว",
+    "runtimeMinutesTitle": "ความยาว (นาที)",
+    "runtimeRangeMinutes": "{min} - {max} นาที",
+    "@runtimeRangeMinutes": {
+        "placeholders": {
+            "min": {
+                "type": "int"
+            },
+            "max": {
+                "type": "int"
+            }
+        }
+    },
+    "minutesShort": "{count} นาที",
+    "@minutesShort": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "streamingServices": "ผู้ให้บริการ ({count})",
+    "@streamingServices": {
+        "description": "Streaming providers (Netflix,HBO, etc.)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "save": "บันทึก",
+    "saved": "บันทึกแล้ว",
+    "scanBiometricHint": "ยืนยันตัวตน",
+    "scanLibrary": "สแกนไลบรารี",
+    "authenticateWithBiometrics": "ใช้ชีวมาตรเพื่อยืนยันตัวตนของ {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "scanningName": "กำลังสแกน - {name}…",
+    "@scanningName": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "scrollToTop": "เลื่อนขึ้นด้านบน",
+    "search": "ค้นหา",
+    "season": "{count, plural, other{ซีซัน}}",
+    "@season": {
+        "description": "season",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "seconds": "{count, plural, other{วินาที}}",
+    "@seconds": {
+        "description": "second",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectAll": "เลือกทั้งหมด",
+    "selectTime": "เลือกเวลา",
+    "selectViewType": "เลือกรูปแบบการแสดงผล",
+    "selected": "เลือกแล้ว",
+    "selectedWith": "เลือกแล้ว {info}",
+    "@selectedWith": {
+        "description": "selected",
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "separate": "แยกกัน",
+    "server": "เซิร์ฟเวอร์",
+    "set": "ตั้งค่า",
+    "@set": {
+        "description": "Use for setting a certain value",
+        "context": "Set 'time'"
+    },
+    "setIdentityTo": "เปลี่ยนตัวตนเป็น {name}",
+    "@setIdentityTo": {
+        "description": "setIdentityTo",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "settingSecurityApplockTitle": "ล็อกแอป",
+    "settings": "การตั้งค่า",
+    "settingsBlurEpisodesDesc": "เบลอตอนที่กำลังจะมาถึงทั้งหมด",
+    "settingsBlurEpisodesTitle": "เบลอตอนถัดไป",
+    "settingsBlurredPlaceholderDesc": "แสดงพื้นหลังเบลอขณะโหลดโปสเตอร์",
+    "settingsBlurredPlaceholderTitle": "ตัวแทนภาพแบบเบลอ",
+    "settingsClientDesc": "ทั่วไป, หมดเวลา, เลย์เอาต์, ธีม",
+    "settingsClientTitle": "Fladder",
+    "settingsContinue": "ดูต่อ",
+    "settingsEnableOsMediaControls": "เปิดใช้การควบคุมสื่อของระบบปฏิบัติการ",
+    "settingsEnableOsMediaControlsDesc": "อนุญาตให้ควบคุมการเล่นด้วยปุ่มมีเดียและแสดงสื่อที่กำลังเล่นอยู่ในระบบปฏิบัติการ",
+    "settingsHomeBannerDescription": "แสดงเป็นสไลด์โชว์ แคโรเซล หรือซ่อนแบนเนอร์",
+    "settingsHomeBannerTitle": "แบนเนอร์หน้าแรก",
+    "settingsHomeBannerInformationDesc": "ข้อมูลที่จะแสดงในแบนเนอร์หน้าแรก",
+    "settingsHomeBannerInformationTitle": "ข้อมูลแบนเนอร์",
+    "settingsHomeNextUpDesc": "ประเภทโปสเตอร์ที่แสดงในหน้าแดชบอร์ด",
+    "settingsHomeNextUpTitle": "โปสเตอร์ตอนถัดไป",
+    "settingsNextUpCutoffDays": "จำนวนวันตัดรายการถัดไป",
+    "settingsPlayerCustomSubtitlesDesc": "ปรับแต่งขนาด สี ตำแหน่ง เส้นขอบ",
+    "settingsPlayerCustomSubtitlesTitle": "ปรับแต่งคำบรรยาย",
+    "settingsPlayerDesc": "อัตราส่วนภาพ, ขั้นสูง",
+    "settingsPlayerMobileWarning": "การเปิดใช้การเร่งความเร็วด้วยฮาร์ดแวร์และคำบรรยาย libass แบบเนทีฟบน Android อาจทำให้คำบรรยายบางรายการแสดงผลไม่ได้",
+    "settingsPlayerNativeLibassAccelDesc": "ใช้ตัวแสดงผลคำบรรยาย libass ของเครื่องเล่นวิดีโอ",
+    "settingsPlayerNativeLibassAccelTitle": "คำบรรยาย libass แบบเนทีฟ",
+    "settingsPlayerBufferSizeTitle": "ขนาดบัฟเฟอร์วิดีโอ",
+    "settingsPlayerPlayPauseFadeTitle": "เฟดเสียงเมื่อเล่น/หยุดชั่วคราว",
+    "settingsPlayerPlayPauseFadeDesc": "ค่อย ๆ เพิ่มและลดระดับเสียงเมื่อเล่นหรือหยุดชั่วคราว",
+    "settingsPlayerBufferSizeDesc": "กำหนดขนาดบัฟเฟอร์สำหรับการเล่นวิดีโอ ซึ่งเป็นตัวกำหนดว่าจะโหลดข้อมูลลงแคชมากเพียงใด",
+    "settingsPlayerTitle": "เครื่องเล่น",
+    "settingsPlayerVideoHWAccelDesc": "ใช้ GPU ในการเรนเดอร์วิดีโอ (แนะนำ)",
+    "settingsPlayerVideoHWAccelTitle": "การเร่งความเร็วด้วยฮาร์ดแวร์",
+    "settingsPosterPinch": "ถ่างนิ้วเพื่อย่อ/ขยายโปสเตอร์",
+    "settingsPosterSize": "ขนาดโปสเตอร์",
+    "settingsProfileDesc": "หน้าจอล็อก, URL ภายในเครือข่าย, Seerr",
+    "settingsProfileTitle": "โปรไฟล์",
+    "settingsProfileSubtitleLanguage": "ภาษาคำบรรยายที่ต้องการ",
+    "anyLanguage": "ภาษาใดก็ได้",
+    "settingsProfileSubtitleMode": "โหมดคำบรรยาย",
+    "subtitlePlaybackModeDefault": "ค่าเริ่มต้น",
+    "subtitlePlaybackModeAlways": "เล่นเสมอ",
+    "subtitlePlaybackModeOnlyForced": "เฉพาะที่บังคับ",
+    "subtitlePlaybackModeNone": "ไม่มี",
+    "subtitlePlaybackModeSmart": "อัจฉริยะ",
+    "settingsQuickConnectTitle": "เชื่อมต่อด่วน",
+    "settingsSecurity": "ความปลอดภัย",
+    "settingsShowScaleSlider": "แสดงแถบเลื่อนปรับขนาดโปสเตอร์",
+    "settingsVisual": "การแสดงผล",
+    "shadow": "เงา",
+    "backgroundColor": "สีพื้นหลัง",
+    "showAlbum": "แสดงอัลบั้ม",
+    "showDetails": "แสดงรายละเอียด",
+    "showEmpty": "แสดงรายการว่าง",
+    "shuffleVideos": "สุ่มเล่นวิดีโอ",
+    "somethingWentWrong": "เกิดข้อผิดพลาดบางอย่าง",
+    "somethingWentWrongPasswordCheck": "เกิดข้อผิดพลาดบางอย่าง โปรดตรวจสอบรหัสผ่านของคุณ",
+    "sortBy": "เรียงตาม",
+    "sortName": "ชื่อ",
+    "sortOrder": "ลำดับการเรียง",
+    "start": "เริ่ม",
+    "studio": "{count, plural, other{สตูดิโอ}}",
+    "@studio": {
+        "description": "studio",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "subtitleConfigurator": "ตัวปรับแต่งคำบรรยาย",
+    "subtitleConfiguratorPlaceHolder": "นี่คือข้อความตัวอย่าง ไม่มีอะไรให้ดูที่นี่",
+    "subtitles": "คำบรรยาย",
+    "switchUser": "สลับผู้ใช้",
+    "sync": "ซิงค์",
+    "syncDeleteItemDesc": "ลบข้อมูลที่ซิงค์ทั้งหมดของ {item} หรือไม่?",
+    "@syncDeleteItemDesc": {
+        "description": "Sync delete item pop-up window",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteItemTitle": "ลบรายการที่ซิงค์",
+    "syncDeletePopupPermanent": "การกระทำนี้ไม่สามารถย้อนกลับได้ และจะลบไฟล์ที่ซิงค์ไว้ในเครื่องทั้งหมด",
+    "syncPlaylistDeleteTitle": "ลบเพลย์ลิสต์ที่ซิงค์",
+    "syncPlaylistDeleteContent": "คุณต้องการลบแทร็กที่ซิงค์จากเพลย์ลิสต์นี้ด้วยหรือไม่?",
+    "syncPlaylistKeepTracks": "เก็บแทร็กไว้",
+    "syncPlaylistRemoveTracks": "ลบแทร็ก",
+    "syncDetails": "รายละเอียดการซิงค์",
+    "syncOpenParent": "เปิดโฟลเดอร์หลัก",
+    "syncRemoveDataDesc": "ลบข้อมูลวิดีโอที่ซิงค์ไว้หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้ และคุณจะต้องซิงค์ไฟล์ใหม่อีกครั้ง",
+    "syncRemoveDataTitle": "ลบข้อมูลที่ซิงค์หรือไม่?",
+    "syncedItems": "รายการที่ซิงค์",
+    "tag": "{count, plural, other{แท็ก}}",
+    "@tag": {
+        "description": "tag",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "theme": "ธีม",
+    "themeColor": "สีธีม",
+    "themeModeDark": "มืด",
+    "themeModeLight": "สว่าง",
+    "themeModeSystem": "ตามระบบ",
+    "timeAndAnnotation": "{minutes} และ {seconds}",
+    "@timeAndAnnotation": {
+        "description": "timeAndAnnotation",
+        "placeholders": {
+            "minutes": {
+                "type": "String"
+            },
+            "seconds": {
+                "type": "String"
+            }
+        }
+    },
+    "timeOut": "หมดเวลา",
+    "totalSize": "ขนาดรวม: {size}",
+    "@totalSize": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "type": "{count, plural, other{ประเภท}}",
+    "@type": {
+        "description": "type",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "unPlayed": "ยังไม่ได้เล่น",
+    "unableToConnectHost": "ไม่สามารถเชื่อมต่อกับโฮสต์ได้",
+    "unableToReverseAction": "การกระทำนี้ไม่สามารถย้อนกลับได้ และจะลบการตั้งค่าทั้งหมด",
+    "unknown": "ไม่ทราบ",
+    "useDefaults": "ใช้ค่าเริ่มต้น",
+    "userName": "ชื่อผู้ใช้",
+    "video": "{count, plural, other{วิดีโอ}}",
+    "@video": {
+        "description": "Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "videoScaling": "การปรับขนาดวิดีโอ",
+    "videoScalingContain": "พอดีกรอบ",
+    "videoScalingCover": "เต็มกรอบ (ครอป)",
+    "videoScalingFill": "ยืดเต็มกรอบ",
+    "videoScalingFillScreenDesc": "ขยายเต็มพื้นที่แถบนำทางและแถบสถานะ",
+    "videoScalingFillScreenNotif": "โหมดเต็มหน้าจอจะแทนที่การปรับขนาดวิดีโอเมื่อหมุนจอแนวนอน",
+    "videoScalingFillScreenTitle": "เต็มหน้าจอ",
+    "pictureInPictureTitle": "ภาพซ้อนภาพ",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "ภาพซ้อนภาพอัตโนมัติ",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureSubtitle": "เข้าสู่โหมดภาพซ้อนภาพโดยอัตโนมัติเมื่อออกจากเครื่องเล่น ปุ่ม PiP ในแถบควบคุมใช้งานได้เสมอไม่ว่าจะตั้งค่านี้อย่างไร",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "อุปกรณ์นี้ไม่รองรับภาพซ้อนภาพ",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "videoScalingFitHeight": "พอดีความสูง",
+    "videoScalingFitWidth": "พอดีความกว้าง",
+    "videoScalingScaleDown": "ย่อขนาด",
+    "viewPhotos": "ดูรูปภาพ",
+    "writer": "{count, plural, other{ผู้เขียน}}",
+    "@writer": {
+        "description": "writer",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "year": "{count, plural, other{ปี}}",
+    "@year": {
+        "description": "year",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addToNewCollection": "คอลเลกชันใหม่",
+    "addItemsToCollection": "เพิ่ม {itemLength} รายการไปยังคอลเลกชัน",
+    "@addItemsToCollection": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addedToCollection": "เพิ่มไปยังคอลเลกชัน {collectionName} แล้ว",
+    "@addedToCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "removedFromCollection": "นำออกจากคอลเลกชัน {collectionName} แล้ว",
+    "@removedFromCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "addToNewPlaylist": "เพลย์ลิสต์ใหม่",
+    "addItemsToPlaylist": "เพิ่ม {itemLength} รายการไปยังเพลย์ลิสต์",
+    "@addItemsToPlaylist": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addedToPlaylist": "เพิ่มไปยังเพลย์ลิสต์ {playlistName} แล้ว",
+    "@addedToPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "removedFromPlaylist": "นำออกจากเพลย์ลิสต์ {playlistName} แล้ว",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncStatusEnqueued": "อยู่ในคิว",
+    "syncStatusRunning": "กำลังทำงาน",
+    "syncStatusNotFound": "ไม่พบ",
+    "syncStatusFailed": "ล้มเหลว",
+    "syncStatusCanceled": "ยกเลิกแล้ว",
+    "syncStatusWaitingToRetry": "รอลองใหม่",
+    "syncStatusPaused": "หยุดชั่วคราว",
+    "syncStatusSynced": "ซิงค์แล้ว",
+    "syncOverlayDeleting": "กำลังลบรายการที่ซิงค์",
+    "syncOverlaySyncing": "กำลังซิงค์รายละเอียดรายการ",
+    "syncSelectDownloadsFolder": "เลือกโฟลเดอร์ดาวน์โหลด",
+    "syncNoFolderSetup": "ยังไม่ได้ตั้งค่าโฟลเดอร์ซิงค์",
+    "syncRemoveUnableToDeleteItem": "ไม่สามารถลบรายการที่ซิงค์ได้ เกิดข้อผิดพลาดบางอย่าง",
+    "syncAddItemForSyncing": "เพิ่ม {item} เพื่อซิงค์แล้ว",
+    "@syncAddItemForSyncing": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "startedSyncingItem": "เริ่มซิงค์ {item} แล้ว",
+    "@startedSyncingItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "unableToSyncItem": "ไม่สามารถซิงค์ {item} ได้ เกิดข้อผิดพลาดบางอย่าง",
+    "@unableToSyncItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutVersion": "เวอร์ชัน: {version}",
+    "@aboutVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutBuild": "บิลด์: {buildNumber}",
+    "@aboutBuild": {
+        "placeholders": {
+            "buildNumber": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutCreatedBy": "สร้างโดย DonutWare",
+    "aboutSocials": "โซเชียลมีเดีย",
+    "aboutLicenses": "สัญญาอนุญาต",
+    "subtitle": "คำบรรยาย",
+    "subtitleConfiguration": "การตั้งค่าคำบรรยาย",
+    "off": "ปิด",
+    "screenBrightness": "ความสว่างหน้าจอ",
+    "enableEdgeGesturesTitle": "เปิดใช้ท่าทางที่ขอบจอ",
+    "enableEdgeGesturesDesc": "ควบคุมความสว่างและระดับเสียงโดยเลื่อนขึ้นลงที่ขอบหน้าจอ",
+    "reverseEdgeGesturesTitle": "สลับท่าทางที่ขอบจอ",
+    "reverseEdgeGesturesDesc": "สลับด้านที่ใช้ควบคุมความสว่างและระดับเสียง",
+    "scale": "สเกล",
+    "playBackSettings": "การตั้งค่าการเล่น",
+    "settingsAutoNextTitle": "ตัวอย่างตอนถัดไป",
+    "settingsAutoNextDesc": "แสดงตัวอย่างตอนถัดไปใกล้จบ หากมีรายการอื่นอยู่ในคิว",
+    "autoNextOffSmartTitle": "อัจฉริยะ",
+    "autoNextOffSmartDesc": "แสดงหน้าจอตอนถัดไปเมื่อเครดิตเริ่ม หากหลังเครดิตเหลือเวลาไม่เกิน 10 วินาที มิฉะนั้นจะแสดงหน้าจอตอนถัดไปเมื่อเหลือเวลาเล่น 30 วินาที",
+    "autoNextOffStaticTitle": "คงที่",
+    "autoNextOffStaticDesc": "แสดงหน้าจอตอนถัดไปเมื่อเหลือเวลาเล่น 30 วินาที",
+    "playbackRate": "อัตราการเล่น",
+    "speed": "ความเร็ว",
+    "unableToPlayMedia": "เกิดข้อผิดพลาดในการค้นหาประเภทสื่อที่เข้ากันได้",
+    "errorOpeningMedia": "เกิดข้อผิดพลาดบางอย่างขณะพยายามเล่นสื่อนี้",
+    "unableToPlayBooksOnWeb": "ขณะนี้ยังไม่รองรับหนังสือบนเว็บ",
+    "defaultFilterForLibrary": "ตั้งค่าตัวกรองเริ่มต้นสำหรับไลบรารี",
+    "updateFilterForLibrary": "อัปเดตตัวกรอง",
+    "removeFilterForLibrary": "นำ {filter} ออกหรือไม่?",
+    "@removeFilterForLibrary": {
+        "description": "removeFilterForLibrary",
+        "placeholders": {
+            "filter": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteFilterConfirmation": "แน่ใจหรือไม่ว่าต้องการลบตัวกรองนี้?",
+    "deleteRequestConfirmation": "แน่ใจหรือไม่ว่าต้องการลบคำขอนี้?",
+    "libraryFiltersLimitReached": "ถึงขีดจำกัดตัวกรองแล้ว (10) โปรดลบตัวกรองบางส่วนออก",
+    "libraryFiltersRemoveAll": "ลบตัวกรองทั้งหมด",
+    "libraryFiltersRemoveAllConfirm": "การดำเนินการนี้จะลบตัวกรองที่บันทึกไว้ทั้งหมดของทุกไลบรารี",
+    "playerSettingsOrientationTitle": "การวางแนวของเครื่องเล่น",
+    "playerSettingsOrientationDesc": "บังคับให้เครื่องเล่นวิดีโอใช้การวางแนวที่กำหนด",
+    "deviceOrientationPortraitUp": "แนวตั้ง (หัวขึ้น)",
+    "deviceOrientationPortraitDown": "แนวตั้ง (หัวลง)",
+    "deviceOrientationLandscapeLeft": "แนวนอน (เอียงซ้าย)",
+    "deviceOrientationLandscapeRight": "แนวนอน (เอียงขวา)",
+    "clientSettingsSchemeVariantTitle": "รูปแบบชุดสี",
+    "schemeSettingsTonalSpot": "โทนนุ่มนวล (Tonal spot)",
+    "schemeSettingsFidelity": "ตรงต้นฉบับ (Fidelity)",
+    "schemeSettingsMonochrome": "สีเดียว (Monochrome)",
+    "schemeSettingsNeutral": "เป็นกลาง (Neutral)",
+    "schemeSettingsVibrant": "สดใส (Vibrant)",
+    "schemeSettingsExpressive": "โดดเด่น (Expressive)",
+    "schemeSettingsContent": "ตามเนื้อหา (Content)",
+    "schemeSettingsRainbow": "สายรุ้ง (Rainbow)",
+    "schemeSettingsFruitSalad": "สลัดผลไม้ (Fruit salad)",
+    "clientSettingsRequireWifiTitle": "ต้องใช้ Wi-Fi",
+    "clientSettingsRequireWifiDesc": "ดาวน์โหลดเฉพาะเมื่อเชื่อมต่อเครือข่าย Wi-Fi",
+    "libraryShuffleAndPlayItems": "สุ่มและเล่นรายการ",
+    "libraryPlayItems": "เล่นรายการ",
+    "clientSettingsShowAllCollectionsTitle": "แสดงคอลเลกชันทุกประเภท",
+    "clientSettingsShowAllCollectionsDesc": "เมื่อเปิดใช้งาน จะแสดงคอลเลกชันทุกประเภท รวมถึงประเภทที่ Fladder ไม่รองรับ",
+    "stop": "หยุด",
+    "resumeVideo": "เล่นวิดีโอต่อ",
+    "closeVideo": "ปิดวิดีโอ",
+    "playNextVideo": "เล่นวิดีโอถัดไป",
+    "playerSettingsBackendTitle": "แบ็กเอนด์เครื่องเล่นสื่อ",
+    "playerSettingsBackendDesc": "เลือกเครื่องเล่นสื่อที่ต้องการเพื่อประสบการณ์การเล่นที่ดีที่สุด",
+    "playerSettingsReplayGainTitle": "ReplayGain",
+    "playerSettingsReplayGainDesc": "ปรับระดับความดังของเพลงให้เท่ากันโดยใช้แท็ก ReplayGain",
+    "playerSettingsReplayGainLevelTitle": "ระดับ ReplayGain",
+    "playerSettingsReplayGainLevelDesc": "กำหนดระดับความดังเป้าหมายสำหรับการปรับระดับด้วย ReplayGain ค่ามาตรฐานทั่วไปคือ -14 dB แต่คุณสามารถปรับตามความชอบได้",
+    "settingsPlayerCrossfadeTitle": "ครอสเฟด",
+    "settingsPlayerCrossfadeDesc": "เฟดเสียงระหว่างแทร็กที่ไม่ได้เรียงต่อกันในอัลบั้มเดียวกัน",
+    "settingsPlayerCrossfadeDurationTitle": "ระยะเวลาครอสเฟด",
+    "settingsPlayerCrossfadeDurationDesc": "ระยะเวลาของการครอสเฟด",
+    "defaultLabel": "ค่าเริ่มต้น",
+    "@defaultLabel": {
+        "description": "To indicate a default value, default media player backend"
+    },
+    "noVideoPlayerOptions": "แบ็กเอนด์ที่เลือกไม่มีตัวเลือก",
+    "mdkExperimental": "MDK ยังอยู่ในขั้นทดลอง",
+    "skipButtonLabel": "ข้าม{segment}",
+    "@skipButtonLabel": {
+        "placeholders": {
+            "segment": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentUnknown": "ไม่ทราบ",
+    "mediaSegmentCommercial": "โฆษณา",
+    "mediaSegmentPreview": "ตัวอย่าง",
+    "mediaSegmentRecap": "สรุปเรื่องย่อ",
+    "mediaSegmentOutro": "ช่วงท้าย",
+    "mediaSegmentIntro": "ช่วงเปิด",
+    "errorLogs": "บันทึกข้อผิดพลาด",
+    "external": "ภายนอก",
+    "downloadFile": "ดาวน์โหลด {type}",
+    "@downloadFile": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "copyStreamUrl": "คัดลอก URL สตรีม",
+    "settingsLayoutSizesTitle": "ขนาดเลย์เอาต์",
+    "settingsLayoutSizesDesc": "เลือกขนาดเลย์เอาต์ที่แอปสามารถใช้ได้ตามขนาดหน้าต่าง",
+    "settingsLayoutModesTitle": "โหมดเลย์เอาต์",
+    "settingsLayoutModesDesc": "ควบคุมว่าแอปจะใช้เลย์เอาต์แบบแผงเดียวหรือสองแผงได้หรือไม่",
+    "phone": "โทรศัพท์",
+    "tablet": "แท็บเล็ต",
+    "desktop": "เดสก์ท็อป",
+    "television": "โทรทัศน์",
+    "layoutModeSingle": "แผงเดียว",
+    "layoutModeDual": "สองแผง",
+    "copiedToClipboard": "คัดลอกไปยังคลิปบอร์ดแล้ว",
+    "episodeAvailable": "พร้อมให้ดู",
+    "episodeUnaired": "ยังไม่ออกอากาศ",
+    "episodeMissing": "ขาดหาย",
+    "internetStreamingQualityTitle": "คุณภาพผ่านอินเทอร์เน็ต",
+    "internetStreamingQualityDesc": "คุณภาพสตรีมสูงสุดผ่านอินเทอร์เน็ต (มือถือ)",
+    "homeStreamingQualityTitle": "คุณภาพที่บ้าน",
+    "homeStreamingQualityDesc": "คุณภาพสตรีมสูงสุดเมื่อเชื่อมต่อกับเครือข่ายที่บ้าน",
+    "qualityOptionsTitle": "ตัวเลือกคุณภาพ",
+    "qualityOptionsOriginal": "ต้นฉบับ",
+    "qualityOptionsAuto": "อัตโนมัติ",
+    "advancedVideoOptionsTitle": "ตัวเลือกวิดีโอขั้นสูง",
+    "advancedVideoOptionsDesc": "เปิดใช้ HDR, โทนแมปปิง และการจัดการสีขั้นสูง (อาจไม่เสถียรในบางอุปกรณ์)",
+    "version": "เวอร์ชัน",
+    "mediaSegmentActions": "การดำเนินการกับช่วงสื่อ",
+    "segmentActionNone": "ไม่มี",
+    "segmentActionAskToSkip": "ถามก่อนข้าม",
+    "segmentActionSkipOnce": "ข้ามครั้งเดียว",
+    "segmentActionSkip": "ข้าม",
+    "loading": "กำลังโหลด",
+    "exitFladderTitle": "ออกจาก Fladder",
+    "exitFladderDesc": "แน่ใจหรือไม่ว่าต้องการปิด Fladder?",
+    "quitMultipleWindowsDesc": "คุณเปิดอยู่ {count} หน้าต่าง การออกจาก Fladder จะปิดทุกหน้าต่าง ต้องการดำเนินการต่อหรือไม่?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "ปิดหน้าต่าง",
+    "castAndCrew": "นักแสดงและทีมงาน",
+    "guestActor": "{count, plural, other{นักแสดงรับเชิญ}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "maxConcurrentDownloadsTitle": "จำนวนดาวน์โหลดพร้อมกันสูงสุด",
+    "maxConcurrentDownloadsDesc": "กำหนดจำนวนดาวน์โหลดสูงสุดที่ทำงานพร้อมกันได้ ตั้งเป็น 0 เพื่อไม่จำกัด",
+    "playbackTrackSelection": "การเลือกแทร็กขณะเล่น",
+    "rememberSubtitleSelections": "ตั้งแทร็กคำบรรยายตามรายการก่อนหน้า",
+    "rememberAudioSelections": "ตั้งแทร็กเสียงตามรายการก่อนหน้า",
+    "rememberSubtitleSelectionsDesc": "พยายามตั้งแทร็กคำบรรยายให้ตรงกับวิดีโอล่าสุดมากที่สุด",
+    "rememberAudioSelectionsDesc": "พยายามตั้งแทร็กเสียงให้ตรงกับวิดีโอล่าสุดมากที่สุด",
+    "similarToRecentlyPlayed": "คล้ายกับที่เล่นล่าสุด",
+    "similarToLikedItem": "คล้ายกับรายการที่ถูกใจ",
+    "hasDirectorFromRecentlyPlayed": "มีผู้กำกับจากที่เล่นล่าสุด",
+    "hasActorFromRecentlyPlayed": "มีนักแสดงจากที่เล่นล่าสุด",
+    "hasLikedDirector": "มีผู้กำกับที่ถูกใจ",
+    "hasLikedActor": "มีนักแสดงที่ถูกใจ",
+    "latest": "ล่าสุด",
+    "recommended": "แนะนำ",
+    "playbackType": "ประเภทการเล่น",
+    "playbackTypeDirect": "โดยตรง",
+    "playbackTypeTranscode": "ทรานส์โค้ด",
+    "playbackTypeOffline": "ออฟไลน์",
+    "playbackTypeTV": "ทีวี",
+    "latestReleases": "เวอร์ชันล่าสุด",
+    "autoCheckForUpdates": "ตรวจสอบการอัปเดตเป็นระยะ",
+    "newReleaseFoundTitle": "มีการอัปเดต {newRelease} แล้ว!",
+    "@newReleaseFoundTitle": {
+        "placeholders": {
+            "newRelease": {
+                "type": "String"
+            }
+        }
+    },
+    "newUpdateFoundOnGithub": "พบการอัปเดตใหม่บน GitHub",
+    "enableBackgroundPostersTitle": "เปิดใช้โปสเตอร์พื้นหลัง",
+    "enableBackgroundPostersDesc": "แสดงโปสเตอร์แบบสุ่มในหน้าจอที่เหมาะสม",
+    "notificationDownloadingDownloading": "กำลังดาวน์โหลด",
+    "notificationDownloadingPaused": "หยุดดาวน์โหลดชั่วคราว",
+    "notificationDownloadingFinished": "ดาวน์โหลดเสร็จสิ้น",
+    "notificationDownloadingError": "ดาวน์โหลดผิดพลาด",
+    "syncAllItemsTitle": "ซิงค์รายการทั้งหมดจาก {itemName} หรือไม่?",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncAllItemsDesc": "การดำเนินการนี้จะซิงค์ ({itemCount}) รายการจาก '{itemName}' ไปยังอุปกรณ์ของคุณ\nอาจใช้เวลาสักครู่ขึ้นอยู่กับจำนวนรายการ",
+    "@syncAllItemsDesc": {
+        "description": "syncAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "ลบรายการที่ซิงค์ทั้งหมดจาก {itemName} หรือไม่?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsDesc": "การดำเนินการนี้จะลบรายการที่ซิงค์ทั้งหมดจาก '{itemName}'\nไม่สามารถย้อนกลับได้ และคุณจะต้องซิงค์ ({itemCount}) ไฟล์ใหม่อีกครั้ง",
+    "@syncDeleteAllItemsDesc": {
+        "description": "syncDeleteAllitemsFromDesc",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            },
+            "itemCount": {
+                "type": "int"
+            }
+        }
+    },
+    "syncPauseAll": "หยุดทั้งหมดชั่วคราว",
+    "syncResumeAll": "ทำต่อทั้งหมด",
+    "syncStopAll": "หยุดทั้งหมด",
+    "syncDeleteAll": "ลบไฟล์ทั้งหมด",
+    "syncAllFiles": "ซิงค์ไฟล์ทั้งหมด",
+    "usePostersForLibraryIconsTitle": "แสดงโปสเตอร์เป็นไอคอนไลบรารี",
+    "usePostersForLibraryIconsDesc": "แสดงโปสเตอร์แทนไอคอนสำหรับไลบรารี",
+    "offline": "ออฟไลน์",
+    "shortCuts": "ทางลัด",
+    "keyboardShortCuts": "ทางลัดแป้นพิมพ์",
+    "skipForwardLength": "ระยะเวลาข้ามไปข้างหน้า",
+    "skipBackLength": "ระยะเวลาข้ามย้อนกลับ",
+    "playPause": "เล่น/หยุดชั่วคราว",
+    "seekForward": "เลื่อนไปข้างหน้า",
+    "seekBack": "เลื่อนย้อนกลับ",
+    "seekForwardInstant": "เลื่อนไปข้างหน้า (ทันที)",
+    "seekBackInstant": "เลื่อนย้อนกลับ (ทันที)",
+    "stepForward": "ก้าวไปข้างหน้า",
+    "stepBack": "ก้าวถอยหลัง",
+    "mute": "ปิดเสียง",
+    "volumeUp": "เพิ่มเสียง",
+    "volumeDown": "ลดเสียง",
+    "speedUp": "เพิ่มความเร็ว",
+    "speedDown": "ลดความเร็ว",
+    "nextVideo": "วิดีโอถัดไป",
+    "prevVideo": "วิดีโอก่อนหน้า",
+    "nextChapter": "บทถัดไป",
+    "prevChapter": "บทก่อนหน้า",
+    "fullScreen": "เต็มหน้าจอ",
+    "skipMediaSegment": "ข้ามช่วงสื่อ",
+    "exit": "ออก",
+    "shortCutAlreadyAssigned": "ทางลัด '{hotKey}' ถูกกำหนดไว้แล้ว",
+    "@shortCutAlreadyAssigned": {
+        "placeholders": {
+            "hotKey": {
+                "type": "String"
+            }
+        }
+    },
+    "blurred": "เบลอ",
+    "volumeIndicator": "ระดับเสียง: {volume}",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    },
+    "brightnessIndicator": "ความสว่าง: {brightness}",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "speedIndicator": "อัตราการเล่น: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "enableSpeedBoostTitle": "เปิดใช้การเร่งความเร็ว",
+    "enableSpeedBoostDesc": "กดค้างที่หน้าจอ (มือถือ) หรือกดแป้นเว้นวรรค (เดสก์ท็อป) เพื่อเพิ่มความเร็วในการเล่นชั่วคราว",
+    "speedBoostRateTitle": "อัตราการเร่งความเร็ว",
+    "speedBoostRateDesc": "ความเร็วในการเล่นเมื่อเปิดใช้การเร่งความเร็ว",
+    "enableDoubleTapSeekTitle": "แตะสองครั้งเพื่อเลื่อน/เล่น/หยุดชั่วคราว",
+    "enableDoubleTapSeekDesc": "แตะสองครั้งที่ด้านซ้าย/ขวาของหน้าจอเพื่อเลื่อนย้อนกลับ/ไปข้างหน้า แตะสองครั้งตรงกลางเพื่อเล่น/หยุดชั่วคราว",
+    "quickConnectPostFailed": "ไม่สามารถรับรหัสเชื่อมต่อด่วนได้",
+    "quickConnectLoginUsingCode": "ใช้การเชื่อมต่อด่วน",
+    "quickConnectEnterCodeDescription": "ป้อนรหัสด้านล่างเพื่อเข้าสู่ระบบ",
+    "openJellyfinQuickConnect": "เปิด Jellyfin QuickConnect",
+    "showMore": "แสดงเพิ่มเติม",
+    "showLess": "แสดงน้อยลง",
+    "itemColorsTitle": "สีของรายการ",
+    "itemColorsDesc": "ใช้สีหลักของรายการเป็นธีมของหน้ารายละเอียด",
+    "posterColorsTitle": "สีโปสเตอร์ที่สร้างขึ้น",
+    "posterColorsDesc": "ใช้สีที่สร้างขึ้นสำหรับโปสเตอร์แทนสีเริ่มต้น",
+    "mediaTunnelingTitle": "มีเดียทันเนลลิง",
+    "mediaTunnelingDesc": "เปิดใช้มีเดียทันเนลลิงสำหรับเครื่องเล่นเนทีฟ",
+    "refreshRateSwitchingTitle": "ปรับอัตราการรีเฟรชให้ตรงกัน",
+    "refreshRateSwitchingDesc": "ปรับอัตราการรีเฟรชของจอให้ตรงกับเฟรมเรตของวิดีโอ",
+    "clientSettingsUseSystemIMETitle": "ใช้แป้นพิมพ์ของระบบ",
+    "clientSettingsUseSystemIMEDesc": "ใช้แป้นพิมพ์ในตัวที่ระบบของคุณมีให้",
+    "nextUpInCount": "ตอนถัดไปใน {seconds}",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "takeScreenshot": "ถ่ายภาพหน้าจอ",
+    "takeScreenshotClean": "ถ่ายภาพหน้าจอ (ไม่มีคำบรรยาย)",
+    "toggleSubtitles": "เปิด/ปิดคำบรรยาย",
+    "subtitleOffsetBackward": "คำบรรยายเร็วขึ้น",
+    "subtitleOffsetForward": "คำบรรยายช้าลง",
+    "subtitleOffset": "การหน่วงเวลาคำบรรยาย",
+    "screenshotTaken": "บันทึกภาพหน้าจอแล้ว!",
+    "screenshotCleanTaken": "บันทึกภาพหน้าจอแบบไม่มีคำบรรยายแล้ว!",
+    "errorTakingScreenshot": "เกิดข้อผิดพลาดในการถ่ายภาพหน้าจอ",
+    "openImeKeyboard": "เปิดแป้นพิมพ์ IME",
+    "screensaverDvd": "DVD",
+    "screensaverLogo": "โลโก้",
+    "screensaverTime": "เวลา",
+    "screensaverBlack": "สีดำ",
+    "playerSettingsScreensaverTitle": "ภาพพักหน้าจอ",
+    "playerSettingsScreensaverDesc": "เลือกภาพพักหน้าจอที่จะแสดงเมื่อไม่มีการใช้งานเครื่องเล่น",
+    "settingsServerUrlSetDesc": "เปลี่ยนที่อยู่ที่ใช้เชื่อมต่อกับเซิร์ฟเวอร์ Jellyfin ของคุณ URL ใหม่ต้องชี้ไปยังเซิร์ฟเวอร์เดียวกัน",
+    "settingsLocalUrlTitle": "URL Jellyfin ภายในเครือข่าย",
+    "settingsLocalUrlSetTitle": "ตั้งค่า URL Jellyfin ภายในเครือข่าย",
+    "settingsLocalUrlSetDesc": "ระบุที่อยู่ Jellyfin ภายในเครือข่าย Fladder จะใช้ URL นี้โดยอัตโนมัติเมื่ออุปกรณ์ของคุณอยู่ในเครือข่ายเดียวกัน",
+    "localNetworkPermissionRequest": "อนุญาตการเข้าถึงเครือข่ายภายในเพื่อค้นหาเซิร์ฟเวอร์",
+    "requestPermission": "ขอสิทธิ์",
+    "localNetworkPermissionDenied": "ต้องได้รับสิทธิ์เข้าถึงเครือข่ายภายใน โปรดเปิดสิทธิ์อุปกรณ์ใกล้เคียงในการตั้งค่าระบบ",
+    "openSettings": "เปิดการตั้งค่า",
+    "regenerateTrickplayImages": "สร้างภาพ Trickplay ใหม่",
+    "controlPanel": "แผงควบคุม",
+    "controlPanelDesc": "เซิร์ฟเวอร์, กิจกรรม, ผู้ใช้, ไลบรารี",
+    "controlDashboard": "แดชบอร์ดควบคุม",
+    "serverName": "ชื่อเซิร์ฟเวอร์",
+    "serverVersion": "เวอร์ชันเซิร์ฟเวอร์",
+    "webVersion": "เวอร์ชันเว็บ",
+    "devices": "อุปกรณ์",
+    "used": "ใช้ไปแล้ว",
+    "storagePaths": "เส้นทางจัดเก็บข้อมูล",
+    "programData": "ข้อมูลโปรแกรม",
+    "web": "เว็บ",
+    "cache": "แคช",
+    "logs": "บันทึก",
+    "transcodingTemp": "ไฟล์ชั่วคราวการทรานส์โค้ด",
+    "count": "จำนวน",
+    "scanAllLibraries": "สแกนทุกไลบรารี",
+    "restartServer": "รีสตาร์ตเซิร์ฟเวอร์",
+    "shutDownServer": "ปิดเซิร์ฟเวอร์",
+    "dashboardDesc": "เซิร์ฟเวอร์, จำนวน, อุปกรณ์, พื้นที่จัดเก็บ",
+    "lastActivity": "กิจกรรมล่าสุด",
+    "activeTasks": "งานที่กำลังทำงาน",
+    "hours": "{count, plural, other{ชั่วโมง}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, other{สัปดาห์}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, other{เดือน}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, other{ปี}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "days": "{count, plural, other{วัน}}",
+    "@days": {
+        "description": "Pluralization for days (keeps existing 'days' getter)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "4"
+            }
+        }
+    },
+    "timeAgo": "{time}ที่แล้ว",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "airsIn": "ออกอากาศใน {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "lastRunTaking": "ทำงานล่าสุด {date} ใช้เวลา {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "น้อยกว่าหนึ่งนาที",
+    "plannedTasks": "งานที่กำหนดไว้",
+    "taskTriggerTypeInterval": "ตามช่วงเวลา",
+    "taskTriggerTypeDaily": "รายวัน",
+    "taskTriggerTypeWeekly": "รายสัปดาห์",
+    "taskTriggerTypeStartup": "เมื่อเริ่มต้นระบบ",
+    "create": "สร้าง",
+    "taskTriggerTypeName": "ประเภททริกเกอร์",
+    "newTrigger": "ทริกเกอร์ใหม่",
+    "newTaskTrigger": "ทริกเกอร์งานใหม่",
+    "dayOfTheWeek": "วันในสัปดาห์",
+    "time": "เวลา",
+    "interval": "ช่วงเวลา",
+    "taskTimeLimitInHours": "เวลาสูงสุด (ชั่วโมง)",
+    "taskTriggerIntervalDesc": "ทุก {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "ทุกวันเวลา {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "ทุกสัปดาห์วัน{day} เวลา {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "เวลาสูงสุด: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "ประสิทธิภาพ",
+    "serverNameLabel": "ชื่อเซิร์ฟเวอร์",
+    "cachePath": "เส้นทางแคช",
+    "metadataPath": "เส้นทางเมทาดาทา",
+    "maxConcurrentLibraryScanLabel": "จำนวนการสแกนไลบรารีพร้อมกันสูงสุด",
+    "maxConcurrentLibraryScanDesc": "จำนวนงานแบบขนานสูงสุดระหว่างการสแกนไลบรารี หากเว้นว่างไว้ ระบบจะเลือกขีดจำกัดตามจำนวนคอร์ของเครื่อง คำเตือน: การตั้งค่าตัวเลขนี้สูงเกินไปอาจทำให้เกิดปัญหากับระบบไฟล์เครือข่าย หากพบปัญหาให้ลดตัวเลขนี้ลง",
+    "maxImageDecodingThreadsLabel": "จำนวนเธรดถอดรหัสภาพสูงสุด",
+    "maxImageDecodingThreadsDesc": "จำนวนการเข้ารหัสภาพสูงสุดที่อนุญาตให้ทำงานพร้อมกัน หากเว้นว่างไว้ ระบบจะเลือกขีดจำกัดตามจำนวนคอร์ของเครื่อง",
+    "controlPanelServerDesc": "ชื่อเซิร์ฟเวอร์, Quick Connect, ประสิทธิภาพ",
+    "deleteUserTitle": "ลบผู้ใช้ {user} หรือไม่?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "การดำเนินการนี้จะลบผู้ใช้ {user} และการตั้งค่าที่เกี่ยวข้องทั้งหมดอย่างถาวร",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "ข้อมูลผู้ใช้",
+    "allowManageServer": "อนุญาตให้ผู้ใช้นี้จัดการเซิร์ฟเวอร์",
+    "allowCollections": "อนุญาตให้ผู้ใช้นี้จัดการคอลเลกชัน",
+    "allowEditSubtitles": "อนุญาตให้ผู้ใช้นี้แก้ไขคำบรรยาย",
+    "featureAccess": "การเข้าถึงฟีเจอร์",
+    "allowLiveTVAccess": "อนุญาตการเข้าถึงทีวีสด",
+    "allowLiveTVRecording": "อนุญาตการจัดการการบันทึกทีวีสด",
+    "mediaPlayback": "การเล่นสื่อ",
+    "allowMediaPlayback": "อนุญาตการเล่นสื่อ",
+    "allowVideoTranscoding": "อนุญาตการเล่นวิดีโอที่ต้องทรานส์โค้ด",
+    "allowAudioTranscoding": "อนุญาตการเล่นเสียงที่ต้องทรานส์โค้ด",
+    "allowMediaConversion": "อนุญาตการเล่นวิดีโอที่ต้องแปลงสื่อ",
+    "forceRemoteTranscoding": "บังคับทรานส์โค้ดแหล่งที่มาระยะไกล",
+    "syncplay": "Syncplay",
+    "syncplayAccess": "การเข้าถึง Syncplay",
+    "syncplayAccessCreateAndJoinGroups": "สร้างและเข้าร่วมกลุ่ม",
+    "syncplayAccessJoinGroups": "เข้าร่วมกลุ่ม",
+    "syncplayAccessNone": "ไม่มี",
+    "allowMediaDeletion": "อนุญาตให้ลบสื่อ",
+    "allLibraries": "ทุกไลบรารี",
+    "libraryAccess": "การเข้าถึงไลบรารี",
+    "enableAllLibraries": "เปิดใช้การเข้าถึงทุกไลบรารี",
+    "enableAllDevices": "เปิดใช้การเข้าถึงทุกอุปกรณ์",
+    "parentalControl": "การควบคุมโดยผู้ปกครอง",
+    "blockedItemsNoRating": "บล็อกรายการที่ไม่มีเรตติ้งหรือเรตติ้งที่ไม่รู้จัก",
+    "maxParentalRating": "เรตติ้งผู้ปกครองสูงสุด",
+    "allowItemsTags": "อนุญาตรายการที่มีแท็ก",
+    "blockItemsTags": "บล็อกรายการที่มีแท็ก",
+    "accessSchedules": "ตารางเวลาเข้าถึง",
+    "addAccessSchedule": "เพิ่มตารางเวลาเข้าถึง",
+    "dayOfWeek": "วันในสัปดาห์",
+    "startTime": "เวลาเริ่มต้น",
+    "endTime": "เวลาสิ้นสุด",
+    "addTag": "เพิ่มแท็ก",
+    "createNewUser": "สร้างผู้ใช้ใหม่",
+    "createUser": "สร้างผู้ใช้",
+    "users": "ผู้ใช้",
+    "editUser": "แก้ไขผู้ใช้",
+    "general": "ทั่วไป",
+    "access": "การเข้าถึง",
+    "endTimeMustBeAfter": "เวลาสิ้นสุดต้องอยู่หลังเวลาเริ่มต้น",
+    "assignLibraries": "กำหนดไลบรารี",
+    "enableAccessAllLibraries": "เปิดใช้การเข้าถึงทุกไลบรารี",
+    "currentPassword": "รหัสผ่านปัจจุบัน",
+    "newPassword": "รหัสผ่านใหม่",
+    "confirmPassword": "ยืนยันรหัสผ่าน",
+    "resetPassword": "รีเซ็ตรหัสผ่าน",
+    "passwordResetSuccess": "รีเซ็ตรหัสผ่านสำเร็จ",
+    "passwordResetFailed": "รีเซ็ตรหัสผ่านไม่สำเร็จ",
+    "passwordMismatch": "รหัสผ่านใหม่และการยืนยันรหัสผ่านไม่ตรงกัน",
+    "passwordChangeSuccess": "เปลี่ยนรหัสผ่านสำเร็จ",
+    "savePassword": "บันทึกรหัสผ่าน",
+    "deleteLibraryConfirmTitle": "ลบไลบรารีหรือไม่?",
+    "deleteLibraryConfirmMessage": "แน่ใจหรือไม่ว่าต้องการลบ {libraryName}?\nการกระทำนี้ไม่สามารถย้อนกลับได้",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "ไม่ได้เลือกไลบรารี",
+    "enabledPhotos": "เปิดใช้รูปภาพ",
+    "enabledLUFSScan": "เปิดใช้การสแกน LUFS",
+    "enabledRealtimeMonitoring": "เปิดใช้การตรวจสอบแบบเรียลไทม์",
+    "automaticallyAddToCollection": "เพิ่มไปยังคอลเลกชันโดยอัตโนมัติ",
+    "enabledEmbeddedTitles": "เปิดใช้ชื่อเรื่องที่ฝังในไฟล์",
+    "enabledEmbeddedExtrasTitles": "เปิดใช้ชื่อเรื่องที่ฝังในไฟล์ของเนื้อหาพิเศษ",
+    "automaticRefreshInterval": "ช่วงเวลารีเฟรชอัตโนมัติ",
+    "autoRefreshIntervalNote": "การเปิดใช้ตัวเลือกนี้อาจทำให้การรีเฟรชไลบรารีใช้เวลานานขึ้น",
+    "preferredDownloadLanguage": "ภาษาที่ต้องการสำหรับการดาวน์โหลด",
+    "countryRegion": "ประเทศ/ภูมิภาค",
+    "saveMetadata": "บันทึกเมทาดาทา",
+    "metadataFetchers": "ตัวดึงเมทาดาทา ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "เปิดใช้และจัดอันดับตัวดึงเมทาดาทาที่คุณต้องการตามลำดับความสำคัญ",
+    "enableAndRankImagesFetchers": "เปิดใช้และจัดอันดับตัวดึงรูปภาพที่คุณต้องการตามลำดับความสำคัญ",
+    "imageFetchers": "ตัวดึงรูปภาพ ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentProviders": "ผู้ให้บริการช่วงสื่อ",
+    "enableAndRankMediaSegmentProviders": "เปิดใช้และจัดอันดับผู้ให้บริการช่วงสื่อที่คุณต้องการตามลำดับความสำคัญ",
+    "trickplay": "Trickplay",
+    "enableTrickplayImageExtraction": "เปิดใช้การแยกภาพ Trickplay",
+    "extractTrickplayImagesDuringLibraryScan": "แยกภาพ Trickplay ระหว่างการสแกนไลบรารี",
+    "saveTrickplayImagesNextToMedia": "บันทึกภาพ Trickplay ไว้ข้างไฟล์สื่อ",
+    "chapterImages": "ภาพบท",
+    "enableChapterImageExtraction": "เปิดใช้การแยกภาพบท",
+    "extractChapterImagesDuringLibraryScan": "แยกภาพบทระหว่างการสแกนไลบรารี",
+    "subtitleDownloads": "การดาวน์โหลดคำบรรยาย",
+    "downloadLanguages": "ภาษาที่ดาวน์โหลด",
+    "subtitleDownloaders": "ตัวดาวน์โหลดคำบรรยาย",
+    "onlyPerfectSubtitleMatch": "ดาวน์โหลดเฉพาะคำบรรยายที่ตรงกับสื่อพอดี",
+    "perfectSubtitleMatchDescription": "การกำหนดให้ตรงกันพอดีจะกรองคำบรรยายให้เหลือเฉพาะที่ผ่านการทดสอบและยืนยันกับไฟล์วิดีโอของคุณโดยเฉพาะ การยกเลิกตัวเลือกนี้จะเพิ่มโอกาสที่จะดาวน์โหลดคำบรรยายได้ แต่ก็เพิ่มโอกาสที่เวลาของคำบรรยายจะคลาดเคลื่อนหรือข้อความไม่ถูกต้องด้วย",
+    "skipSubtitlesIfAudioMatches": "ข้ามหากแทร็กเสียงเริ่มต้นตรงกับภาษาที่ดาวน์โหลด",
+    "skipSubtitlesIfEmbedded": "ข้ามหากวิดีโอมีคำบรรยายฝังอยู่แล้ว",
+    "saveSubtitlesNextToMedia": "บันทึกคำบรรยายไว้ข้างไฟล์สื่อ",
+    "saveArtWorkNextToMedia": "บันทึกภาพอาร์ตเวิร์กไว้ข้างไฟล์สื่อ",
+    "saveArtWorkNextToMediaDesc": "การบันทึกอาร์ตเวิร์กลงในโฟลเดอร์สื่อจะวางไว้ในที่ที่แก้ไขได้ง่าย",
+    "select": "เลือก",
+    "newLibrary": "ไลบรารีใหม่",
+    "contentType": "ประเภทเนื้อหา",
+    "metadataImageLongPressTouch": "กดค้างเพื่อลบรูปภาพ",
+    "metadataImageLongPressClick": "คลิกขวาเพื่อลบรูปภาพ",
+    "primary": "หลัก",
+    "logo": "{count, plural, other{โลโก้}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, other{ภาพพื้นหลัง}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "เลือกโฟลเดอร์ที่จะเพิ่ม",
+    "systemRootFolder": "โฟลเดอร์รากของระบบ",
+    "selectedPath": "เส้นทางที่เลือก: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "recentlyAdded": "เพิ่มล่าสุด",
+    "recentlyPlayed": "เล่นล่าสุด",
+    "recentlyFavorited": "เพิ่มในรายการโปรดล่าสุด",
+    "mostPlayed": "เล่นมากที่สุด",
+    "recentRequests": "คำขอล่าสุด",
+    "trending": "กำลังมาแรง",
+    "popularMovies": "ภาพยนตร์ยอดนิยม",
+    "popularSeries": "ซีรีส์ยอดนิยม",
+    "expectedMovies": "ภาพยนตร์ที่รอคอย",
+    "expectedSeries": "ซีรีส์ที่รอคอย",
+    "requestConfiguration": "การตั้งค่าคำขอ",
+    "qualityProfile": "โปรไฟล์คุณภาพ",
+    "selectProfile": "เลือกโปรไฟล์",
+    "rootFolder": "โฟลเดอร์ราก",
+    "selectFolder": "เลือกโฟลเดอร์",
+    "tags": "แท็ก",
+    "noTags": "ไม่มีแท็ก",
+    "requestAs": "ส่งคำขอในนาม",
+    "requestQuotaStatus": "เหลือ {remaining} จาก {limit} (รีเซ็ตทุก {days} วัน)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "ถึงขีดจำกัดคำขอสำหรับ {mediaType} แล้ว",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "ส่งคำขอ",
+    "noOverviewAvailable": "ไม่มีภาพรวมให้แสดง",
+    "downloading": "กำลังดาวน์โหลด",
+    "request": "ขอ",
+    "requestMore": "ขอเพิ่มเติม",
+    "viewRequest": "ดูคำขอ",
+    "email": "อีเมล",
+    "username": "ชื่อผู้ใช้",
+    "ok": "ตกลง",
+    "transcodeInfoTitle": "ข้อมูลการทรานส์โค้ด",
+    "transcodeInfoNoMetadata": "ไม่มีเมทาดาทาการทรานส์โค้ด",
+    "transcodeDetailsTitle": "รายละเอียดการทรานส์โค้ด",
+    "containerLabel": "คอนเทนเนอร์",
+    "videoCodecLabel": "ตัวแปลงรหัสวิดีโอ",
+    "audioCodecLabel": "ตัวแปลงรหัสเสียง",
+    "bitrateLabel": "บิตเรต",
+    "kbps": "kbps",
+    "resolutionLabel": "ความละเอียด",
+    "seerr": "Seerr",
+    "seerrNotConfigured": "ยังไม่ได้ตั้งค่า",
+    "seerrLoadingUser": "กำลังโหลดผู้ใช้",
+    "seerrUnknownUser": "ผู้ใช้ที่ไม่รู้จัก",
+    "loggedInAs": "เข้าสู่ระบบในชื่อ {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "เซิร์ฟเวอร์ Seerr",
+    "seerrAuthenticateLocal": "ยืนยันตัวตน Seerr (ภายในเครื่อง)",
+    "rootFolderDefaultLabel": "{folder} (ค่าเริ่มต้น)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* ซีรีส์นี้เป็นอนิเมะ",
+    "seerrAutoApproveNotice": "คำขอที่คุณส่งจะได้รับการอนุมัติโดยอัตโนมัติ",
+    "seerrPermissionDenied": "คุณไม่มีสิทธิ์ขอสื่อประเภทนี้",
+    "seerrRequestStatusPending": "รอดำเนินการ",
+    "seerrRequestStatusApproved": "อนุมัติแล้ว",
+    "seerrRequestStatusDeclined": "ปฏิเสธแล้ว",
+    "seerrRequestStatusFailed": "ล้มเหลว",
+    "seerrRequestStatusCompleted": "เสร็จสมบูรณ์",
+    "seerrMediaStatusProcessing": "กำลังประมวลผล",
+    "seerrMediaStatusPartiallyAvailable": "พร้อมให้ดูบางส่วน",
+    "seerrMediaStatusAvailable": "พร้อมให้ดู",
+    "seerrMediaStatusBlacklisted": "อยู่ในบัญชีดำ",
+    "seerrMediaStatusDeleted": "ลบแล้ว",
+    "seerrAuthApiKey": "คีย์ API",
+    "seerrAuthLocal": "ภายในเครื่อง",
+    "seerrAuthJellyfin": "Jellyfin",
+    "seerrUserFetchFailed": "ไม่สามารถดึงข้อมูลผู้ใช้จาก Seerr ได้",
+    "seerrEnterServerUrlFirst": "ป้อน URL เซิร์ฟเวอร์ Seerr ก่อน",
+    "seerrUrlSchemeWarning": "ตรวจไม่พบรูปแบบ URL โดยอัตโนมัติ จึงใช้ https:// เป็นค่าเริ่มต้น หากเซิร์ฟเวอร์ของคุณไม่ใช้ HTTPS ให้ใส่ http:// นำหน้า",
+    "seerrApiKeySaved": "บันทึกคีย์ API แล้ว",
+    "seerrLoggedIn": "เข้าสู่ระบบ Seerr แล้ว",
+    "seerrConnectedToServer": "เชื่อมต่อกับเซิร์ฟเวอร์ Seerr แล้ว: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrCustomHeaders": "เฮดเดอร์แบบกำหนดเอง",
+    "seerrHeader": "เฮดเดอร์",
+    "seerrHeaderValue": "ค่า",
+    "emailUsername": "อีเมล/ชื่อผู้ใช้",
+    "discover": "ค้นหาสิ่งใหม่",
+    "sponsor": "สปอนเซอร์",
+    "sponsorMessage": "หากคุณชอบใช้ Fladder โปรดพิจารณาสนับสนุนโครงการเพื่อให้การพัฒนาและปรับปรุงดำเนินต่อไปได้ ขอบคุณสำหรับการสนับสนุน!",
+    "min": "ต่ำสุด",
+    "max": "สูงสุด",
+    "manageRequest": "จัดการคำขอ",
+    "requestAll": "ขอทั้งหมด",
+    "openInSeerr": "เปิดใน Seerr",
+    "openInSonarr": "เปิดใน Sonarr",
+    "openInRadarr": "เปิดใน Radarr",
+    "removeFromSonarr": "ลบออกจาก Sonarr",
+    "removeFromRadarr": "ลบออกจาก Radarr",
+    "markAllSeasonsAsAvailable": "ทำเครื่องหมายทุกซีซันว่าพร้อมให้ดู",
+    "markAsAvailable": "ทำเครื่องหมายว่าพร้อมให้ดู",
+    "deleteData": "ลบข้อมูล",
+    "removeSeriesFromSonarrConfirm": "ลบซีรีส์นี้ออกจาก Sonarr หรือไม่? การดำเนินการนี้จะลบข้อมูลทั้งหมดรวมถึงไฟล์ด้วย",
+    "removeMovieFromRadarrConfirm": "ลบภาพยนตร์เรื่องนี้ออกจาก Radarr หรือไม่? การดำเนินการนี้จะลบข้อมูลทั้งหมดรวมถึงไฟล์ด้วย",
+    "removedFromSonarr": "ลบออกจาก Sonarr แล้ว",
+    "removedFromRadarr": "ลบออกจาก Radarr แล้ว",
+    "markAllSeasonsAsAvailableConfirm": "ทำเครื่องหมายทุกซีซันว่าพร้อมให้ดูหรือไม่?",
+    "markAsAvailableConfirm": "ทำเครื่องหมายว่าพร้อมให้ดูหรือไม่?",
+    "markedAsAvailable": "ทำเครื่องหมายว่าพร้อมให้ดูแล้ว",
+    "deleteSeerrDataConfirm": "ลบไฟล์ทั้งหมดจาก Seerr หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้\nหากข้อมูลยังมีอยู่ใน {service} อาจถูกนำเข้ามาใหม่",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "ลบข้อมูลแล้ว",
+    "approve": "อนุมัติ",
+    "decline": "ปฏิเสธ",
+    "pendingRequests": "{count, plural, =0{ไม่มีคำขอที่รอดำเนินการ} other{{count} คำขอที่รอดำเนินการ}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "กำลังประมวลผล",
+    "seerrDetails": "รายละเอียด Seerr",
+    "viewTrailer": "ดูตัวอย่างภาพยนตร์",
+    "watch": "ดู",
+    "watchChannel": "ดู {channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "ตอนนี้",
+    "nowPlaying": "กำลังเล่น",
+    "upNext": "ถัดไป",
+    "queue": "คิว",
+    "queueIsEmpty": "คิวว่างเปล่า",
+    "queueItemCount": "{count} รายการ",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "นำออกจากคิว",
+    "lyrics": "เนื้อเพลง",
+    "returnToSyncedLyrics": "กลับไปที่เนื้อเพลงที่ซิงค์",
+    "noSyncedLyrics": "ไม่มีเนื้อเพลงที่ซิงค์",
+    "noPrograms": "ไม่มีรายการ",
+    "switchChannel": "เปลี่ยนช่อง",
+    "switchChannelDesc": "คุณต้องการดู \"{programName}\" ทาง {channelName} หรือไม่?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "specialFeature": "{count, plural, other{เนื้อหาพิเศษ}}",
+    "@specialFeature": {
+        "description": "special feature",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "activeTvChannels": "ช่องทีวีที่ใช้งานอยู่",
+    "enableNewTVLayout": "เปิดใช้เลย์เอาต์ทีวีแบบใหม่",
+    "liveTV": "ทีวีสด",
+    "liveTvManageTunersEpg": "จัดการอุปกรณ์จูนเนอร์และผู้ให้บริการ EPG",
+    "tunerDevices": "อุปกรณ์จูนเนอร์",
+    "epgGuideProviders": "ผู้ให้บริการผังรายการ EPG",
+    "noTunerDevicesConfigured": "ยังไม่ได้ตั้งค่าอุปกรณ์จูนเนอร์",
+    "noEpgProvidersConfigured": "ยังไม่ได้ตั้งค่าผู้ให้บริการ EPG",
+    "addTunerDevice": "เพิ่มอุปกรณ์จูนเนอร์",
+    "addProvider": "เพิ่มผู้ให้บริการ",
+    "tunerHostAddedSuccessfully": "เพิ่มโฮสต์จูนเนอร์สำเร็จ",
+    "failedToAddTunerHost": "เพิ่มโฮสต์จูนเนอร์ไม่สำเร็จ: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "อัปเดตโฮสต์จูนเนอร์สำเร็จ",
+    "failedToUpdateTunerHost": "อัปเดตโฮสต์จูนเนอร์ไม่สำเร็จ: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "ลบโฮสต์จูนเนอร์",
+    "deleteTunerHostConfirm": "แน่ใจหรือไม่ว่าต้องการลบ \"{name}\"?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "ลบโฮสต์จูนเนอร์สำเร็จ",
+    "failedToDeleteTunerHost": "ลบโฮสต์จูนเนอร์ไม่สำเร็จ: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "เพิ่มผู้ให้บริการ EPG สำเร็จ",
+    "failedToAddEpgProvider": "เพิ่มผู้ให้บริการ EPG ไม่สำเร็จ: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "อัปเดตผู้ให้บริการ EPG สำเร็จ",
+    "failedToUpdateEpgProvider": "อัปเดตผู้ให้บริการ EPG ไม่สำเร็จ: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "ลบผู้ให้บริการ EPG",
+    "deleteEpgProviderConfirm": "แน่ใจหรือไม่ว่าต้องการลบผู้ให้บริการนี้?",
+    "epgProviderDeletedSuccessfully": "ลบผู้ให้บริการ EPG สำเร็จ",
+    "failedToDeleteEpgProvider": "ลบผู้ให้บริการ EPG ไม่สำเร็จ: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "แก้ไขอุปกรณ์จูนเนอร์",
+    "friendlyName": "ชื่อที่เรียกง่าย",
+    "url": "URL",
+    "userAgent": "User Agent",
+    "userAgentOptional": "User Agent (ไม่บังคับ)",
+    "maxConcurrentStreams": "จำนวนสตรีมพร้อมกันสูงสุด",
+    "addEpgProvider": "เพิ่มผู้ให้บริการ EPG",
+    "editEpgProvider": "แก้ไขผู้ให้บริการ EPG",
+    "xmltvPathUrl": "เส้นทาง/URL ของ XMLTV",
+    "enableAllTuners": "เปิดใช้สำหรับจูนเนอร์ทั้งหมด",
+    "enabledTuners": "จูนเนอร์ที่เปิดใช้",
+    "selectTuners": "เลือกจูนเนอร์",
+    "moviePrefix": "คำนำหน้าภาพยนตร์",
+    "movieCategories": "หมวดหมู่ภาพยนตร์",
+    "newsCategories": "หมวดหมู่ข่าว",
+    "sportsCategories": "หมวดหมู่กีฬา",
+    "kidsCategories": "หมวดหมู่เด็ก",
+    "fileOrUrl": "ไฟล์หรือ URL",
+    "tunerIpAddress": "ที่อยู่ IP ของจูนเนอร์",
+    "fallbackMaxBitrate": "บิตเรตสำรองสูงสุด (Mbps)",
+    "concurrentStreams": "จำนวนสตรีมพร้อมกันสูงสุด",
+    "concurrentStreamsHint": "0 = ไม่จำกัด",
+    "allowFmp4Container": "อนุญาตคอนเทนเนอร์ทรานส์โค้ด fMP4",
+    "allowStreamSharing": "อนุญาตการแชร์สตรีม",
+    "enableStreamLooping": "เปิดใช้การวนสตรีม",
+    "ignoreDts": "ละเว้นเวลา DTS",
+    "readAtNativeFramerate": "อ่านที่เฟรมเรตดั้งเดิม",
+    "importFavoritesOnly": "นำเข้าเฉพาะช่องโปรด",
+    "allowHWTranscoding": "อนุญาตการทรานส์โค้ดด้วยฮาร์ดแวร์",
+    "detectDevices": "ตรวจหาอุปกรณ์",
+    "discoveredDevices": "อุปกรณ์ที่พบ",
+    "noDevicesFound": "ไม่พบอุปกรณ์",
+    "failedToDiscoverDevices": "ค้นหาอุปกรณ์ไม่สำเร็จ: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "เส้นทาง",
+    "maxConcurrentStreamsLabel": "จำนวนสตรีมพร้อมกันสูงสุด",
+    "noCategories": "ไม่มีหมวดหมู่",
+    "moviePrefixSubLabel": "หากมีการใช้คำนำหน้ากับชื่อภาพยนตร์ ให้พิมพ์ที่นี่เพื่อให้เซิร์ฟเวอร์ประมวลผลได้อย่างถูกต้อง",
+    "movieCategoriesSubLabel": "หมวดหมู่ที่จะกำหนดให้ช่องที่ตรงกับคำนำหน้าภาพยนตร์",
+    "newsCategoriesSubLabel": "หมวดหมู่ที่จะกำหนดให้ช่องที่ตรงกับคำนำหน้าข่าว",
+    "sportsCategoriesSubLabel": "หมวดหมู่ที่จะกำหนดให้ช่องที่ตรงกับคำนำหน้ากีฬา",
+    "kidsCategoriesSubLabel": "หมวดหมู่ที่จะกำหนดให้ช่องที่ตรงกับคำนำหน้าเด็ก",
+    "enableNewTVLayoutDesc": "แสดงแบนเนอร์สไตล์ทีวีขนาดใหญ่ขึ้นบนแดชบอร์ด ซึ่งจะกลายเป็นเลย์เอาต์เริ่มต้นในเวอร์ชันถัดไป",
+    "notifications": "การแจ้งเตือน",
+    "showNewItemNotificationTitle": "การแจ้งเตือนรายการในไลบรารี",
+    "notificationChannelDescription": "การแจ้งเตือนเมื่อมีรายการที่เพิ่มใหม่",
+    "seerrRequestNotifications": "การแจ้งเตือนคำขอ Seerr",
+    "notificationNewEpisodes": "เพิ่มตอนใหม่แล้ว",
+    "notificationNewItems": "{count, plural, other{{count} รายการใหม่}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationNewRequests": "{count, plural, other{{count} คำขอใหม่}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " iOS จะเป็นผู้ตัดสินว่าจะรันการอัปเดตเมื่อใดหรือไม่ การแจ้งเตือนจึงอาจล่าช้าหรือไม่ปรากฏเลย",
+    "batteryOptimizationDesc": "การเพิ่มประสิทธิภาพแบตเตอรี่อาจทำให้การแจ้งเตือนเบื้องหลังของ Fladder ล่าช้า\nแตะเพื่อเปิดการตั้งค่าระบบและปิดการเพิ่มประสิทธิภาพสำหรับ Fladder เพื่อให้การแจ้งเตือนเชื่อถือได้มากขึ้น",
+    "updateCheckInterval": "ช่วงเวลาตรวจสอบการอัปเดต",
+    "updateCheckIntervalDesc": "ความถี่ในการรันงานเบื้องหลัง",
+    "notificationsIntervalClientReminder": "ช่วงเวลาการแจ้งเตือนถูกตั้งค่าไว้สำหรับผู้ใช้ทุกคน",
+    "lastUpdateAt": "อัปเดตล่าสุดเมื่อ {date} เวลา {time}",
+    "@lastUpdateAt": {
+        "description": "lastUpdateAt",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            },
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
+    "includeHiddenItems": "รวมไลบรารีที่ซ่อนไว้",
+    "includeHiddenItemsDesc": "รวมไลบรารีที่ซ่อนจากแดชบอร์ด",
+    "settingsBlurEffectsTitle": "เปิดใช้เอฟเฟกต์เบลอ",
+    "settingsBlurEffectsDesc": "เปิดใช้เอฟเฟกต์เบลอใน UI การปิดตัวเลือกนี้อาจช่วยเพิ่มประสิทธิภาพบนอุปกรณ์ระดับล่าง",
+    "profileSettingsOpenAuthAtLaunch": "แสดงวิธียืนยันตัวตนในการล็อกแอป",
+    "toggleSidebar": "สลับแถบด้านข้าง",
+    "requestedSuccessForItem": "ส่งคำขอ {itemName} สำเร็จ",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "linkData": "ข้อมูลลิงก์",
+    "passwordNotRequired": "ไม่บังคับ เว้นว่างไว้หากไม่ต้องการรวมรหัสผ่านในลิงก์",
+    "authLinkButtonToolTip": "เปิดกล่องโต้ตอบลิงก์ยืนยันตัวตน",
+    "connectWithAuthLink": "เชื่อมต่อด้วยลิงก์ยืนยันตัวตน",
+    "pasteFladderAuthLink": "วางลิงก์ยืนยันตัวตนของ Fladder fladder://login?authLink=...",
+    "connect": "เชื่อมต่อ",
+    "authLinkDesc": "ขอลิงก์ยืนยันตัวตนจากผู้ดูแลเซิร์ฟเวอร์ ลิงก์นี้มีข้อมูลการยืนยันตัวตน โปรดเก็บรักษาให้ปลอดภัย",
+    "deletedItem": "ลบ {itemName} แล้ว",
+    "@deletedItem": {
+        "description": "Message shown when a item is deleted",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryOrderTitle": "ลำดับในหน้าจอหลัก",
+    "libraryOrderDescription": "ลากเพื่อจัดลำดับไลบรารีในหน้าจอหลัก ไลบรารีที่ไม่ได้เลือกจะไม่แสดงรายการที่เพิ่มล่าสุด",
+    "hidePlayedInLatestTitle": "ซ่อนเนื้อหาที่ดูแล้ว",
+    "hidePlayedInLatestDescription": "ซ่อนเนื้อหาที่ดูแล้วจาก 'สื่อที่เพิ่มล่าสุด'",
+    "groupedFoldersTitle": "ไลบรารีที่จัดกลุ่ม",
+    "groupedFoldersDescription": "จัดกลุ่มเนื้อหาจากไลบรารีต่อไปนี้เป็นมุมมอง เช่น 'ภาพยนตร์' 'เพลง' และ 'ทีวี' โดยอัตโนมัติ",
+    "downloadTranscoded": "ดาวน์โหลดแบบทรานส์โค้ด",
+    "downloadOriginal": "ดาวน์โหลดไฟล์ต้นฉบับ",
+    "personBirthday": "วันเกิด: {date}",
+    "@personBirthday": {
+        "description": "Birthday label with formatted date",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "personAge": "อายุ: {age}",
+    "@personAge": {
+        "description": "Age label with age number",
+        "placeholders": {
+            "age": {
+                "type": "int",
+                "example": "30"
+            }
+        }
+    },
+    "personBirthPlace": "เกิดที่ {place}",
+    "@personBirthPlace": {
+        "placeholders": {
+            "place": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrMovies": "ค้นหาภาพยนตร์",
+    "seerrSeries": "ค้นหาซีรีส์",
+    "today": "วันนี้",
+    "musicDashboard": "แดชบอร์ดเพลง",
+    "quiet": "เบา",
+    "loud": "ดัง",
+    "share": "แชร์",
+    "setAs": "ตั้งเป็น",
+    "selectRandom": "เลือกแบบสุ่ม",
+    "stopSelection": "หยุดเลือก {count}",
+    "@stopSelection": {
+        "description": "stopSelection",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "playItems": "เล่นรายการ",
+    "shuffleItems": "สุ่มรายการ",
+    "disc": "แผ่นที่ {number}",
+    "@disc": {
+        "description": "disc",
+        "placeholders": {
+            "number": {
+                "type": "int"
+            }
+        }
+    },
+    "incognito": "ไม่ระบุตัวตน",
+    "incognitoModeGlobal": "โหมดไม่ระบุตัวตน (แอป)",
+    "incognitoModeLocal": "โหมดไม่ระบุตัวตน (โปรไฟล์)",
+    "incognitoModeDesc": "โหมดไม่ระบุตัวตนจะปิดการส่งสถานะการเล่นไปยังเซิร์ฟเวอร์",
+    "showInSideBar": "แสดงในแถบด้านข้าง",
+    "showOnDashboard": "แสดงบนแดชบอร์ด",
+    "hideInSideBar": "ซ่อนจากแถบด้านข้าง",
+    "showInSideBarDesc": "แสดงตัวกรองนี้ในแถบด้านข้างเพื่อการเข้าถึงอย่างรวดเร็ว",
+    "applyFilter": "ใช้ตัวกรอง",
+    "playerSettingsAmbientBlurTitle": "เปิดใช้การเบลอแบบแอมเบียนต์",
+    "playerSettingsAmbientBlurDesc": "เปิดใช้การเบลอแบบแอมเบียนต์ในเครื่องเล่น โดยจะเบลอพื้นหลังด้านหลังเครื่องเล่นเพื่อลดสิ่งรบกวนสายตา",
+    "playerSettingsAmbientBlurDescWarning": "การเบลอแบบแอมเบียนต์อาจทำให้เกิดปัญหาด้านประสิทธิภาพบนอุปกรณ์ระดับล่าง",
+    "openSelected": "เปิดรายการที่เลือก",
+    "discography": "ผลงานเพลง",
+    "youLiked": "คุณถูกใจ",
+    "instantMixBy": "มิกซ์ทันทีของ {artist}",
+    "@instantMixBy": {
+        "description": "Instant Mix of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "latestTracksBy": "แทร็กล่าสุดโดย {artist}",
+    "@latestTracksBy": {
+        "description": "Latest tracks by artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "favoritesOf": "รายการโปรดของ {artist}",
+    "@favoritesOf": {
+        "description": "Favorites of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "leanBackModeTitle": "โหมดนั่งผ่อนคลาย (Lean-back)",
+    "leanBackModeDesc": "เปิดใช้โหมด Lean-back บนอุปกรณ์ Android แม้ว่าอุปกรณ์จะรายงานกลับมาว่าไม่ใช่ก็ตาม",
+    "leanBackModeInfo": "โหมด Lean-back จะถูกเปิดใช้อีกครั้งตามค่าเริ่มต้นบนอุปกรณ์ AndroidTV การสลับตัวเลือกนี้บนอุปกรณ์ที่ไม่ใช่ AndroidTV อาจทำให้เกิดพฤติกรรมที่ไม่คาดคิด",
+    "libraryFilters": "ตัวกรองไลบรารี",
+    "editYourLibraryFilters": "แก้ไขตัวกรองไลบรารีของคุณ",
+    "libraryFiltersTitle": "ตัวกรองไลบรารี",
+    "libraryFiltersDesc": "ตัวกรองไลบรารีช่วยให้คุณสร้างมุมมองไลบรารีแบบกำหนดเองตาม",
+    "libraryNoFiltersSaved": "ไม่มีตัวกรองไลบรารีที่บันทึกไว้",
+    "addTo": "เพิ่มไปยัง",
+    "deepLinkSwitchUserTitle": "สลับผู้ใช้หรือไม่?",
+    "deepLinkSwitchUserDesc": "รายการนี้ไม่พร้อมใช้งานสำหรับ {user} เปิดในฐานะ:",
+    "@deepLinkSwitchUserDesc": {
+        "description": "Shown when a link points to an item the current user cannot access, followed by a list of accounts that can",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkSwitchAccountDesc": "ลิงก์นี้เป็นของ {user} สลับไปยังบัญชีนี้หรือไม่?",
+    "@deepLinkSwitchAccountDesc": {
+        "description": "Shown when a notification link was created for another saved account",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkItemNotFound": "รายการนี้ไม่พร้อมใช้งานสำหรับบัญชีใดของคุณเลย"
+}
