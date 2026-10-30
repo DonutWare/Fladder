@@ -666,6 +666,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
 
     return BackButtonListener(
       onBackButtonPressed: () async {
+        if (ModalRoute.of(context)?.isCurrent == false) return false;
         closeFullScreen();
         return true;
       },
