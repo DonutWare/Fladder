@@ -35,6 +35,7 @@ class HorizontalList<T> extends ConsumerStatefulWidget {
   final ValueChanged<bool>? onFocusChange;
   final BuildContext? revealContext;
   final double trailingSpace;
+  final double revealAlignment;
 
   const HorizontalList({
     this.autoFocus = false,
@@ -56,6 +57,7 @@ class HorizontalList<T> extends ConsumerStatefulWidget {
     this.onFocusChange,
     this.revealContext,
     this.trailingSpace = 0,
+    this.revealAlignment = 0.5,
     super.key,
   });
 
@@ -63,7 +65,7 @@ class HorizontalList<T> extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _HorizontalListState();
 }
 
-class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProviderStateMixin {
+class _HorizontalListState extends ConsumerState<HorizontalList> {
   final FocusNode parentNode = RailFocusNode();
   FocusNode? lastFocused;
   final GlobalKey _firstItemKey = GlobalKey();
@@ -73,13 +75,8 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
   double? _firstItemWidth;
   bool hasFocus = false;
 
-  AnimationController? _scrollAnimation;
-
-  AnimationController? _revealAnimation;
-
   static DateTime? _lastVerticalEntry;
-  static AnimationController? _activeReveal;
-  static const Duration _trackSettle = Duration(milliseconds: 250);
+  static _HorizontalListState? _lastRevealed;
 
   @override
   void initState() {
@@ -99,9 +96,7 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
 
   @override
   void dispose() {
-    _scrollAnimation?.dispose();
-    if (_activeReveal == _revealAnimation) _activeReveal = null;
-    _revealAnimation?.dispose();
+    if (_lastRevealed == this) _lastRevealed = null;
     parentNode.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -167,42 +162,17 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
     return _scrollController.offset + leading - startPadding;
   }
 
-  AnimationController _animateTracking(
-    Duration duration,
-    ScrollPosition? Function() position,
-    double? Function() measure,
-  ) {
-    final total = duration + _trackSettle;
-    final controller = AnimationController(vsync: this, duration: total);
-    final progress = CurvedAnimation(
-      parent: controller,
-      curve: Interval(0, duration.inMicroseconds / total.inMicroseconds, curve: Curves.fastOutSlowIn),
-    );
-
-    double? startDistance;
-    double? lastMeasured;
-    controller.addListener(() {
-      final pos = position();
-      final measured = measure();
-      if (pos == null || !pos.hasPixels || measured == null) return;
-      final target = (2 * measured - (lastMeasured ?? measured)).clamp(pos.minScrollExtent, pos.maxScrollExtent);
-      lastMeasured = measured;
-      startDistance ??= target - pos.pixels;
-      final next = (target - startDistance! * (1 - progress.value)).clamp(pos.minScrollExtent, pos.maxScrollExtent);
-      if ((next - pos.pixels).abs() > 0.1) pos.jumpTo(next);
-    });
-    controller.forward();
-    return controller;
-  }
-
   void _scrollToPosition(int index, {FocusNode? node, Duration? duration}) {
+    _firstItemWidth ??= (_firstItemKey.currentContext?.findRenderObject() as RenderBox?)?.size.width;
     if (_firstItemWidth == null || !_scrollController.hasClients) return;
-    final target = _cumulativeOffset(index);
-    _scrollAnimation?.dispose();
-    _scrollAnimation = _animateTracking(
-      duration ?? scrollMaxDuration,
-      () => _scrollController.hasClients ? _scrollController.position : null,
-      () => (node != null ? _liveOffsetFor(node) : null) ?? target,
+    final target = widget.itemWidthBuilder == null && node != null
+        ? _liveOffsetFor(node) ?? _cumulativeOffset(index)
+        : _cumulativeOffset(index);
+    final position = _scrollController.position;
+    _scrollController.animateTo(
+      target.clamp(position.minScrollExtent, position.maxScrollExtent),
+      duration: duration ?? scrollMaxDuration,
+      curve: Curves.fastOutSlowIn,
     );
   }
 
@@ -210,8 +180,6 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
     final index = _getCorrectIndexForNode(node);
     if (index <= 0) return false;
     final targetIndex = index - 1;
-    _scrollAnimation?.dispose();
-    _scrollAnimation = null;
     _scrollController.jumpTo(_cumulativeOffset(targetIndex).clamp(0, _scrollController.position.maxScrollExtent));
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -276,22 +244,33 @@ class _HorizontalListState extends ConsumerState<HorizontalList> with TickerProv
   }
 
   void _revealVertically(Duration duration) {
-    final revealContext = widget.revealContext ?? context;
-    final scrollable = Scrollable.maybeOf(revealContext, axis: Axis.vertical);
-    if (scrollable == null) return;
+    final previous = _lastRevealed;
+    _lastRevealed = this;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !hasFocus) return;
+      final revealContext = widget.revealContext ?? context;
+      final box = revealContext.findRenderObject();
+      if (box is! RenderBox || !box.attached) return;
+      final scrollable = Scrollable.maybeOf(revealContext, axis: Axis.vertical);
+      final viewport = RenderAbstractViewport.maybeOf(box);
+      if (scrollable == null || viewport == null) return;
+      final collapse = previous != null && previous != this && previous.mounted ? previous._pendingCollapse(box) : 0.0;
+      final position = scrollable.position;
+      final target = viewport.getOffsetToReveal(box, widget.revealAlignment).offset - collapse;
+      position.animateTo(
+        target.clamp(position.minScrollExtent, math.max(position.minScrollExtent, position.maxScrollExtent - collapse)),
+        duration: duration,
+        curve: Curves.fastOutSlowIn,
+      );
+    });
+  }
 
-    _activeReveal?.stop();
-    _revealAnimation?.dispose();
-    _revealAnimation = _animateTracking(
-      duration,
-      () => revealContext.mounted && scrollable.mounted ? scrollable.position : null,
-      () {
-        final box = revealContext.mounted ? revealContext.findRenderObject() : null;
-        if (box == null || !box.attached) return null;
-        return RenderAbstractViewport.maybeOf(box)?.getOffsetToReveal(box, 0.5).offset;
-      },
-    );
-    _activeReveal = _revealAnimation;
+  double _pendingCollapse(RenderBox below) {
+    final revealBox = widget.revealContext?.findRenderObject();
+    final railBox = context.findRenderObject();
+    if (revealBox is! RenderBox || railBox is! RenderBox || !revealBox.attached || !railBox.attached) return 0;
+    if (revealBox.localToGlobal(Offset.zero).dy >= below.localToGlobal(Offset.zero).dy) return 0;
+    return math.max(0, revealBox.size.height - railBox.size.height);
   }
 
   @override

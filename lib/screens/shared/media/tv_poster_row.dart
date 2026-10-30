@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -63,14 +62,6 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
   bool _expanded = true;
   bool _hasFocus = false;
   bool _repeating = false;
-  Timer? _expandTimer;
-  DateTime? _lastMove;
-
-  @override
-  void dispose() {
-    _expandTimer?.cancel();
-    super.dispose();
-  }
 
   @override
   void didUpdateWidget(covariant TVPosterRow oldWidget) {
@@ -84,27 +75,12 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
   }
 
   void _select(int index) {
-    if (index == _selectedIndex && _hasFocus && _expanded) return;
-    final now = DateTime.now();
-    final rapid = _repeating || (_lastMove != null && now.difference(_lastMove!) < _kAnimationDuration);
-    _lastMove = now;
-    rapid ? _scheduleExpand() : _expandTimer?.cancel();
+    if (index == _selectedIndex && _hasFocus && (_expanded || _repeating)) return;
     setState(() {
       _selectedIndex = index;
       _hasFocus = true;
-      _expanded = !rapid;
-      if (!rapid) _expandedIndex = index;
-    });
-  }
-
-  void _scheduleExpand() {
-    _expandTimer?.cancel();
-    _expandTimer = Timer(_kAnimationDuration, () {
-      if (!mounted || _repeating || _expanded) return;
-      setState(() {
-        _expanded = true;
-        _expandedIndex = _selectedIndex;
-      });
+      _expanded = !_repeating;
+      if (!_repeating) _expandedIndex = index;
     });
   }
 
@@ -113,7 +89,12 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
       return KeyEventResult.ignored;
     }
     _repeating = event is KeyRepeatEvent;
-    if (event is KeyUpEvent && !_expanded) _scheduleExpand();
+    if (event is KeyUpEvent && !_expanded) {
+      setState(() {
+        _expanded = true;
+        _expandedIndex = _selectedIndex;
+      });
+    }
     return KeyEventResult.ignored;
   }
 
@@ -185,7 +166,7 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
           ),
         ),
         AnimatedSize(
-          duration: ref.watch(lowResourceModeProvider) ? Duration.zero : _kAnimationDuration,
+          duration: ref.watch(lowResourceModeProvider) || _hasFocus ? Duration.zero : _kAnimationDuration,
           curve: Curves.easeInOut,
           alignment: AlignmentDirectional.topStart,
           child: _hasFocus

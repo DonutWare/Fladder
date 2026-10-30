@@ -21,6 +21,7 @@ class PosterRow extends ConsumerWidget {
   final List<jelly.ImageType>? imagePriority;
   final bool tvMode;
   final bool showSyncStatus;
+  final double revealAlignment;
   const PosterRow({
     required this.posters,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 16),
@@ -31,6 +32,7 @@ class PosterRow extends ConsumerWidget {
     this.imagePriority,
     this.tvMode = false,
     this.showSyncStatus = false,
+    this.revealAlignment = 0.5,
     super.key,
   });
 
@@ -55,6 +57,7 @@ class PosterRow extends ConsumerWidget {
       onLabelClick: onLabelClick,
       dominantRatio: dominantRatio,
       items: posters,
+      revealAlignment: revealAlignment,
       onFocused: (index) => onFocused?.call(posters[index]),
       itemBuilder: (context, index) {
         final poster = posters[index];

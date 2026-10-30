@@ -34,6 +34,7 @@ class EpisodePosters extends ConsumerStatefulWidget {
   final EpisodeModel? selectedEpisode;
   final Function(VoidCallback action, EpisodeModel episodeModel)? onEpisodeTap;
   final Function(EpisodeModel selected)? onFocused;
+  final double revealAlignment;
   const EpisodePosters({
     this.label,
     this.titleActionsPosition = VerticalDirection.up,
@@ -44,6 +45,7 @@ class EpisodePosters extends ConsumerStatefulWidget {
     this.onEpisodeTap,
     this.selectedEpisode,
     this.onFocused,
+    this.revealAlignment = 0.5,
     super.key,
   });
 
@@ -101,6 +103,7 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
         HorizontalList(
           label: widget.label,
           titleActionsPosition: widget.titleActionsPosition,
+          revealAlignment: widget.revealAlignment,
           onFocused: (index) {
             widget.onFocused?.call(episodes[index]);
           },
