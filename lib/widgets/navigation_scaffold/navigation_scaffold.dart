@@ -129,7 +129,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
         extendBody: true,
         floatingActionButton:
             !showAudioFullScreen && AdaptiveLayout.layoutModeOf(scaffoldContext) == LayoutMode.single && isHomeScreen
-                ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
+                ? widget.destinations.elementAtOrNull(currentIndex)?.fabWidget
                 : null,
         drawer: drawer != null ? DrawerBackGesture(child: drawer) : null,
         bottomNavigationBar: AdaptiveLayout.viewSizeOf(scaffoldContext) == ViewSize.television

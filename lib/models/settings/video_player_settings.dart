@@ -116,6 +116,11 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(400) int crossfadeDurationMs,
     @Default(false) bool refreshRateSwitching,
     @Default(false) bool ambientBlur,
+
+    /// SyncPlay drift correction (SpeedToSync / SkipToSync). On by
+    /// default: libmpv and ExoPlayer drift enough over a long film that
+    /// a group without it visibly desynchronises.
+    @Default(true) bool enableSyncPlayCorrection,
   }) = _VideoPlayerSettingsModel;
 
   double get volume {

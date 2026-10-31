@@ -45,17 +45,26 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
     return activity.launchActivity();
   }
 
+  // Synthetic frames come from Flutter, never a remote gesture, so they must not carry a stale user tag.
   @override
   Future<void> pause() async {
     await player.pause();
-    lastState = lastState.update(playing: false);
+    lastState = lastState.update(
+      playing: false,
+      changeSource: PlaybackChangeSource.none,
+      updateChangeSource: true,
+    );
     _stateController.add(lastState);
   }
 
   @override
   Future<void> play() async {
     await player.play();
-    lastState = lastState.update(playing: true);
+    lastState = lastState.update(
+      playing: true,
+      changeSource: PlaybackChangeSource.none,
+      updateChangeSource: true,
+    );
     _stateController.add(lastState);
   }
 
@@ -79,7 +88,9 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   }
 
   @override
-  Future<void> setSpeed(double speed) async {}
+  Future<void> setSpeed(double speed) async {
+    await player.setPlaybackSpeed(speed);
+  }
 
   @override
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
@@ -115,6 +126,8 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
       position: Duration(milliseconds: state.position),
       buffer: Duration(milliseconds: state.buffered),
       buffering: state.buffering,
+      changeSource: state.changeSource,
+      updateChangeSource: true,
     );
     _stateController.add(lastState);
   }

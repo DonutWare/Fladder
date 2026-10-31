@@ -45,6 +45,32 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
   }
 
   @override
+  void deactivate() {
+    // Capture the notifier synchronously while the consumer element is
+    // still alive, then defer the mutation to the next microtask to
+    // avoid "Tried to modify a provider while the widget tree was
+    // building" when deactivate runs inside a parent rebuild.
+    try {
+      final notifier = ref.read(mediaPlaybackProvider.notifier);
+      final currentPlaybackState = ref.read(mediaPlaybackProvider).state;
+      if (currentPlaybackState == VideoPlayerState.fullScreen) {
+        Future.microtask(() {
+          try {
+            notifier.update(
+              (state) => state.copyWith(state: VideoPlayerState.minimized),
+            );
+          } catch (_) {
+            // ProviderContainer may already be torn down.
+          }
+        });
+      }
+    } catch (_) {
+      // ProviderContainer may already be torn down (app shutdown).
+    }
+    super.deactivate();
+  }
+
+  @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     SystemChrome.setPreferredOrientations(DeviceOrientation.values);
@@ -56,6 +82,7 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     Future.microtask(() {
+      ref.read(isVideoPlayerRouteOpenProvider.notifier).state = true;
       ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
       final orientations = ref.read(videoPlayerSettingsProvider.select((value) => value.allowedOrientations));
       SystemChrome.setPreferredOrientations(
@@ -72,11 +99,17 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
 
     final playerController = ref.watch(videoPlayerProvider.select((value) => value));
 
-    //Watch playbackModel type changes to switch between normal players
+    // Watch playbackModel type changes to switch between normal
+    // players. Guard with `mounted`: this listener can fire from an
+    // async callback (e.g. media-kit's loadVideo Future) that resolves
+    // after the player route has been popped/disposed - calling
+    // setState then triggers a "_lifecycleState != defunct" assertion.
     ref.listen(
       playBackModel,
       (previous, next) {
-        if (next == null) return;
+        if (!mounted || next == null) {
+          return;
+        }
         if (previous.runtimeType != next.runtimeType) {
           setState(() {
             currentPlaybackModel = next;
@@ -89,9 +122,12 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
     ref.listen(
       videoPlayerSettingsProvider.select((value) => value.allowedOrientations),
       (previous, next) {
-        if (previous != next) {
-          SystemChrome.setPreferredOrientations(next?.isNotEmpty == true ? next!.toList() : DeviceOrientation.values);
+        if (!mounted || previous == next) {
+          return;
         }
+        SystemChrome.setPreferredOrientations(
+          next?.isNotEmpty == true ? next!.toList() : DeviceOrientation.values,
+        );
       },
     );
 
