@@ -719,6 +719,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   Widget nextChapterButton(WidgetRef ref) {
+    if (AdaptiveLayout.viewSizeOf(context) < ViewSize.tablet) {
+      return const SizedBox.shrink();
+    }
     return Consumer(builder: (context, ref2, child) {
       final chapters = ref.read(playBackModel.select((value) => value?.chapters)) ?? [];
       final position = ref.read(mediaPlaybackProvider).position;
@@ -733,6 +736,9 @@ class _DesktopControlsState extends ConsumerState<DesktopControls> {
   }
 
   Widget previousChapterButton(WidgetRef ref) {
+    if (AdaptiveLayout.viewSizeOf(context) < ViewSize.tablet) {
+      return const SizedBox.shrink();
+    }
     return Consumer(builder: (context, ref2, child) {
       final chapters = ref.read(playBackModel.select((value) => value?.chapters));
       final enabled = chapters?.isNotEmpty == true;

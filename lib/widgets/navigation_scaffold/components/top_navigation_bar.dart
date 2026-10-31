@@ -17,6 +17,7 @@ import 'package:fladder/widgets/navigation_scaffold/components/background_image.
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
+import 'package:fladder/widgets/shared/horizontal_list.dart';
 
 final topBarNode = FocusScopeNode(debugLabel: 'topBarScope');
 
@@ -290,7 +291,7 @@ bool _focusFirstInContent() {
 }
 
 class _TopBarTraversalPolicy extends ReadingOrderTraversalPolicy {
-  _TopBarTraversalPolicy();
+  _TopBarTraversalPolicy() : super(requestFocusCallback: railAwareRequestFocus);
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {

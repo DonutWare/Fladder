@@ -7,7 +7,6 @@ import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/screens/seerr/widgets/seerr_poster_card.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
-import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 
 class SeerrPosterRow extends ConsumerWidget {
@@ -38,13 +37,7 @@ class SeerrPosterRow extends ConsumerWidget {
       onLabelClick: onLabelClick,
       dominantRatio: dominantRatio,
       items: posters,
-      onFocused: (index) {
-        if (onFocused != null) {
-          onFocused?.call(posters[index]);
-        } else {
-          context.ensureVisible();
-        }
-      },
+      onFocused: (index) => onFocused?.call(posters[index]),
       itemBuilder: (context, index) {
         final poster = posters[index];
         return SeerrPosterCard(

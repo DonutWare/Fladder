@@ -12,6 +12,7 @@ import 'package:fladder/widgets/navigation_scaffold/components/destination_model
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/top_navigation_bar.dart';
 import 'package:fladder/widgets/shared/back_intent_dpad.dart';
+import 'package:fladder/widgets/shared/horizontal_list.dart';
 
 class NavigationBody extends ConsumerStatefulWidget {
   final BuildContext parentContext;
@@ -128,7 +129,7 @@ FocusNode? lastMainFocus;
 class GlobalFallbackTraversalPolicy extends ReadingOrderTraversalPolicy {
   final FocusNode fallbackNode;
 
-  GlobalFallbackTraversalPolicy({required this.fallbackNode}) : super();
+  GlobalFallbackTraversalPolicy({required this.fallbackNode}) : super(requestFocusCallback: railAwareRequestFocus);
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {

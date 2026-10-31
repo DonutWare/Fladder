@@ -17,7 +17,6 @@ import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
-import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/focus_row.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
@@ -35,6 +34,7 @@ class EpisodePosters extends ConsumerStatefulWidget {
   final EpisodeModel? selectedEpisode;
   final Function(VoidCallback action, EpisodeModel episodeModel)? onEpisodeTap;
   final Function(EpisodeModel selected)? onFocused;
+  final double revealAlignment;
   const EpisodePosters({
     this.label,
     this.titleActionsPosition = VerticalDirection.up,
@@ -45,6 +45,7 @@ class EpisodePosters extends ConsumerStatefulWidget {
     this.onEpisodeTap,
     this.selectedEpisode,
     this.onFocused,
+    this.revealAlignment = 0.5,
     super.key,
   });
 
@@ -102,13 +103,9 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
         HorizontalList(
           label: widget.label,
           titleActionsPosition: widget.titleActionsPosition,
+          revealAlignment: widget.revealAlignment,
           onFocused: (index) {
             widget.onFocused?.call(episodes[index]);
-          },
-          onFocusChange: (value) {
-            if (value) {
-              context.ensureVisible();
-            }
           },
           titleActions: [
             if (!isDPad && hasSeasons) ...{

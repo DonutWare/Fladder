@@ -157,37 +157,42 @@ dependency_overrides:
   media_kit:
     git:
       url: https://github.com/DonutWare/media-kit.git
-      ref: main
+      ref: fix/linux-impeller-egl
       path: ./media_kit
   media_kit_video:
     git:
       url: https://github.com/DonutWare/media-kit.git
-      ref: main
+      ref: fix/linux-impeller-egl
       path: ./media_kit_video
   media_kit_libs_video:
     git:
       url: https://github.com/DonutWare/media-kit.git
-      ref: main
+      ref: fix/linux-impeller-egl
       path: ./libs/universal/media_kit_libs_video
   media_kit_libs_android_video:
     git:
       url: https://github.com/DonutWare/media-kit.git
+      ref: fix/linux-impeller-egl
       path: libs/android/media_kit_libs_android_video
   media_kit_libs_ios_video:
     git:
       url: https://github.com/DonutWare/media-kit.git
+      ref: fix/linux-impeller-egl
       path: libs/ios/media_kit_libs_ios_video
   media_kit_libs_macos_video:
     git:
       url: https://github.com/DonutWare/media-kit.git
+      ref: fix/linux-impeller-egl
       path: libs/macos/media_kit_libs_macos_video
   media_kit_libs_windows_video:
     git:
       url: https://github.com/DonutWare/media-kit.git
+      ref: fix/linux-impeller-egl
       path: libs/windows/media_kit_libs_windows_video
   media_kit_libs_linux:
     git:
       url: https://github.com/DonutWare/media-kit.git
+      ref: fix/linux-impeller-egl
       path: libs/linux/media_kit_libs_linux
 
 dev_dependencies:
