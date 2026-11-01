@@ -37,11 +37,19 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
   MediaPlaybackModel get playbackState => ref.read(mediaPlaybackProvider);
 
-  ProviderSubscription<VideoPlayerSettingsModel>? settingsChanged;
   @override
   void dispose() {
-    settingsChanged?.close();
     super.dispose();
+  }
+
+  void applySettingsChanged(VideoPlayerSettingsModel settings) {
+    final currentItem = ref.read(playBackModel)?.item;
+    if (currentItem != null) {
+      state.applyReplayGain(
+        currentItem,
+        settings: settings,
+      );
+    }
   }
 
   Future<void> init() async {
@@ -53,20 +61,6 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       s.cancel();
     }
     subscriptions.clear();
-
-    settingsChanged?.close();
-    settingsChanged = ref.listen(
-      videoPlayerSettingsProvider,
-      (previous, next) {
-        final currentItem = ref.read(playBackModel)?.item;
-        if (currentItem != null) {
-          state.applyReplayGain(
-            currentItem,
-            settings: next,
-          );
-        }
-      },
-    );
 
     final subscription = state.stateStream.listen((value) {
       updateBuffering(value.buffering);
