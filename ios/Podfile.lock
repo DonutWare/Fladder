@@ -7,10 +7,6 @@ PODS:
     - FlutterMacOS
     - mdk (~> 0.35.1)
   - mdk (0.35.1)
-  - media_kit_libs_ios_video (1.0.4):
-    - Flutter
-  - media_kit_video (0.0.1):
-    - Flutter
   - pip (0.0.1):
     - Flutter
   - workmanager_apple (0.0.1):
@@ -20,8 +16,6 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - fvp (from `.symlinks/plugins/fvp/darwin`)
-  - media_kit_libs_ios_video (from `.symlinks/plugins/media_kit_libs_ios_video/ios`)
-  - media_kit_video (from `.symlinks/plugins/media_kit_video/ios`)
   - pip (from `.symlinks/plugins/pip/ios`)
   - workmanager_apple (from `.symlinks/plugins/workmanager_apple/ios`)
 
@@ -36,22 +30,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   fvp:
     :path: ".symlinks/plugins/fvp/darwin"
-  media_kit_libs_ios_video:
-    :path: ".symlinks/plugins/media_kit_libs_ios_video/ios"
-  media_kit_video:
-    :path: ".symlinks/plugins/media_kit_video/ios"
   pip:
     :path: ".symlinks/plugins/pip/ios"
   workmanager_apple:
     :path: ".symlinks/plugins/workmanager_apple/ios"
 
 SPEC CHECKSUMS:
-  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   fvp: 56f8d6682e0282ded5b0f9c485ab8d50123400b8
   mdk: 59bbe9e2ac2a052455ab1b076c245680d66cf6c0
-  media_kit_libs_ios_video: a5fe24bc7875ccd6378a0978c13185e1344651c1
-  media_kit_video: 5da63f157170e5bf303bf85453b7ef6971218a2e
   pip: 5101b81f04fb1b418bcdf6f15cb5cd0d08092cd7
   workmanager_apple: 7bac258335c310689a641e2d66e88d4845d372e9
 
