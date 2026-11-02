@@ -525,7 +525,7 @@ Future<void> showPlaybackSpeed(BuildContext context) {
                     ),
                     Flexible(
                       child: SizedBox(
-                        width: 250,
+                        width: 300,
                         child: FladderSlider(
                           min: minPlaybackRate,
                           max: maxPlaybackRate,
@@ -547,15 +547,18 @@ Future<void> showPlaybackSpeed(BuildContext context) {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24).copyWith(top: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 12),
                 child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: 6,
+                  runSpacing: 6,
                   alignment: WrapAlignment.center,
                   children: playbackRatePresets
                       .map(
                         (preset) => ChoiceChip(
                           label: Text(_rateLabel(preset)),
+                          labelPadding: const EdgeInsets.symmetric(horizontal: 4),
+                          visualDensity: VisualDensity.compact,
+                          showCheckmark: false,
                           selected: (lastSpeed - preset).abs() < 0.001,
                           onSelected: (_) => setSpeed(preset),
                         ),
