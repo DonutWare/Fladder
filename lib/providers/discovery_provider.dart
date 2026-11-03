@@ -9,6 +9,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/services/local_network_permission.dart';
+import 'package:fladder/util/http_client.dart';
 
 part 'discovery_provider.g.dart';
 part 'discovery_provider.mapper.dart';
@@ -19,7 +20,7 @@ class ServerDiscovery extends _$ServerDiscovery {
   final int discoveryPort = 7359;
   final int maxServerCount = 25;
   final Duration timeOut = const Duration(seconds: 5);
-  late final JellyService api = JellyService(ref, JellyfinOpenApi.create());
+  late final JellyService api = JellyService(ref, JellyfinOpenApi.create(httpClient: createHttpClient()));
 
   @override
   Stream<List<DiscoveryInfo>> build() async* {
