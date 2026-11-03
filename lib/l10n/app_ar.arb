@@ -1862,7 +1862,7 @@
     "passwordNotRequired": "غير مطلوب، اتركه فارغاً لعدم تضمين كلمة المرور في الرابط",
     "authLinkButtonToolTip": "فتح نافذة رابط المصادقة",
     "connectWithAuthLink": "الاتصال باستخدام رابط المصادقة",
-    "pasteFladderAuthLink": "لصق رابط مصادقة Fladder fladder://login?authLink=...",
+    "pasteFladderAuthLink": "الصق رابط مصادقة Fladder: fladder://login?authLink=...",
     "connect": "اتصال",
     "authLinkDesc": "اطلب من مدير الخادم تزويدك برابط المصادقة. يحتوي الرابط على معلومات المصادقة، لذا تأكد من الحفاظ على أمانه.",
     "deletedItem": "تم حذف {itemName}",
@@ -2184,5 +2184,26 @@
     "libraryFiltersTitle": "فلاتر المكتبة",
     "libraryFiltersDesc": "تتيح لك فلاتر المكتبة إنشاء طرق عرض مخصصة لمكتباتك",
     "libraryNoFiltersSaved": "لم يتم حفظ أي فلاتر للمكتبة",
-    "addTo": "إضافة إلى"
+    "addTo": "إضافة إلى",
+    "deepLinkSwitchUserTitle": "تبديل المستخدم؟",
+    "deepLinkSwitchUserDesc": "هذا العنصر غير متاح للمستخدم {user}. افتحه باستخدام:",
+    "@deepLinkSwitchUserDesc": {
+        "description": "Shown when a link points to an item the current user cannot access, followed by a list of accounts that can",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkSwitchAccountDesc": "هذا الرابط يخص {user}. هل تريد التبديل إلى هذا الحساب؟",
+    "@deepLinkSwitchAccountDesc": {
+        "description": "Shown when a notification link was created for another saved account",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkItemNotFound": "هذا العنصر غير متاح لأي من حساباتك",
+    "settingsServerUrlSetDesc": "غيّر العنوان المستخدم للاتصال بخادم Jellyfin. يجب أن يشير الرابط الجديد إلى الخادم نفسه."
 }
