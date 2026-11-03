@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:auto_route/annotations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -18,21 +15,18 @@ import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/window_title_provider.dart';
+import 'package:fladder/screens/photo_viewer/media_viewer/media_gesture_viewer.dart';
 import 'package:fladder/screens/photo_viewer/photo_viewer_controls.dart';
+import 'package:fladder/screens/photo_viewer/photo_viewer_info_panel.dart';
+import 'package:fladder/screens/photo_viewer/photo_viewer_page.dart';
 import 'package:fladder/screens/photo_viewer/simple_video_player.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/util/custom_cache_manager.dart';
-import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
-import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/themes_data.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/fladder_app_bar.dart';
 import 'package:fladder/widgets/shared/animated_icon.dart';
-import 'package:fladder/widgets/shared/elevated_icon.dart';
 import 'package:fladder/widgets/shared/hover_widget.dart';
-import 'package:fladder/widgets/shared/item_actions.dart';
-import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
 
 @RoutePage()
 class PhotoViewerScreen extends ConsumerStatefulWidget {
@@ -53,9 +47,8 @@ class PhotoViewerScreen extends ConsumerStatefulWidget {
 class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with WidgetsBindingObserver {
   late List<PhotoModel> photos = widget.items ?? [];
   late int currentPage = photos.indexWhere((value) => value.id == widget.selected).clamp(0, photos.length - 1);
-  late final ExtendedPageController controller = ExtendedPageController(initialPage: currentPage);
-  double currentScale = 1.0;
-  bool showInterface = true;
+  late final PhotoModel initialPhoto = photos[currentPage];
+  final viewer = MediaViewerController();
   bool toolbarHover = false;
 
   late final double topPadding = MediaQuery.of(context).viewPadding.top;
@@ -74,8 +67,6 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     switch (state) {
       case AppLifecycleState.resumed:
-        SystemChrome.setEnabledSystemUIMode(!showInterface ? SystemUiMode.leanBack : SystemUiMode.edgeToEdge,
-            overlays: []);
         SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           systemNavigationBarColor: Colors.transparent,
@@ -95,15 +86,14 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
     _loadedPhotoIds.addAll(photos.map((p) => p.id));
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       _windowTitleNotifier = ref.read(windowTitleProvider.notifier);
-      cacheNeighbors(currentPage, 2);
       await _fetchMorePhotos();
     });
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _windowTitleNotifier?.removeTitle(this);
-    controller.dispose();
     super.dispose();
   }
 
@@ -117,206 +107,139 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
     }
   }
 
-  void _showOverlay({bool? show}) {
-    setState(() {
-      showInterface = show ?? !showInterface;
-    });
-
-    SystemChrome.setEnabledSystemUIMode(
-      !showInterface ? SystemUiMode.leanBack : SystemUiMode.edgeToEdge,
-      overlays: [],
-    );
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarDividerColor: Colors.transparent,
-    ));
+  void _onPhotoChanged(PhotoModel photo) {
+    final index = photos.indexWhere((value) => value.id == photo.id);
+    if (index == -1) return;
+    setState(() => currentPage = index);
+    cacheNeighbors(index, 3);
+    if (photos.length - index <= _fetchThreshold) {
+      unawaited(_fetchMorePhotos());
+    }
+    _windowTitleNotifier?.updateTitle(this, "${context.localized.mediaTypePhoto(1)} - ${photo.title}");
   }
-
-  final gestureConfig = GestureConfig(
-    inertialSpeed: 300,
-    initialAlignment: InitialAlignment.center,
-    inPageView: true,
-    initialScale: 1.0,
-    maxScale: 6,
-    minScale: 1,
-    animationMinScale: 0.1,
-    animationMaxScale: 7,
-    cacheGesture: false,
-    reverseMousePointerScrollDirection: true,
-    hitTestBehavior: HitTestBehavior.translucent,
-  );
 
   @override
   Widget build(BuildContext context) {
+    final usesPointer = AdaptiveLayout.inputDeviceOf(context) != InputDevice.touch;
+    final theaterMode = ref.watch(photoViewSettingsProvider.select((value) => value.theaterMode));
+    final currentPhoto = photos.elementAtOrNull(currentPage);
+    final imageHash = currentPhoto?.images?.primary?.hash;
     return Theme(
       data: ThemesData.of(context).dark,
       child: PopScope(
-        onPopInvokedWithResult: (didPop, result) =>
-            SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []),
-        child: MouseRegion(
-          opaque: AdaptiveLayout.of(context).isDesktop,
-          onEnter: (event) => setState(() => _showOverlay(show: true)),
-          onExit: (event) => setState(() => _showOverlay(show: false)),
-          child: Scaffold(
-            appBar: photos.isEmpty
-                ? FladderAppBar(
-                    automaticallyImplyLeading: true,
-                    isDesktop: AdaptiveLayout.of(context).isDesktop,
-                  )
-                : null,
-            body: photos.isEmpty
-                ? Center(
-                    child: Text(context.localized.noItemsToShow),
-                  )
-                : buildViewer(context),
-          ),
+        onPopInvokedWithResult: (didPop, result) => SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge),
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          appBar: photos.isEmpty
+              ? FladderAppBar(
+                  automaticallyImplyLeading: true,
+                  isDesktop: AdaptiveLayout.of(context).isDesktop,
+                )
+              : null,
+          body: photos.isEmpty
+              ? Center(
+                  child: Text(context.localized.noItemsToShow),
+                )
+              : Stack(
+                  children: [
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      child: theaterMode && imageHash != null
+                          ? Opacity(
+                              key: Key(currentPhoto!.id),
+                              opacity: 0.7,
+                              child: SizedBox.expand(
+                                child: Image(
+                                  fit: BoxFit.cover,
+                                  image: BlurHashImage(imageHash),
+                                ),
+                              ),
+                            )
+                          : const SizedBox.expand(),
+                    ),
+                    MediaGestureViewer<PhotoModel>(
+                      items: photos,
+                      itemKey: (photo) => photo.id,
+                      initialItem: initialPhoto,
+                      controller: viewer,
+                      usesPointer: usesPointer,
+                      sideInfo: AdaptiveLayout.viewSizeOf(context) != ViewSize.phone,
+                      background: Colors.transparent,
+                      onItemChanged: _onPhotoChanged,
+                      pageBuilder: _page,
+                      overlayBuilder: _overlay,
+                      infoBuilder: _info,
+                    ),
+                  ],
+                ),
         ),
       ),
     );
   }
 
-  Widget buildViewer(BuildContext context) {
-    final currentPhoto = photos[currentPage];
-    final imageHash = currentPhoto.images?.primary?.hash;
+  Widget _page(BuildContext context, PhotoModel photo, MediaPage page) {
+    return GestureDetector(
+      onLongPress: () {
+        if (photo.userData.isFavourite == true) {
+          HapticFeedback.lightImpact();
+        } else {
+          markAsFavourite(photo, value: true);
+          HapticFeedback.heavyImpact();
+        }
+      },
+      child: switch (photo.internalType) {
+        FladderItemType.video => page.active
+            ? SimpleVideoPlayer(
+                onTapped: page.onTap,
+                showOverlay: page.overlayVisible,
+                video: photo,
+              )
+            : Image(
+                fit: BoxFit.contain,
+                image: photoImageProvider(photo.thumbnail?.primary?.path),
+              ),
+        _ => PhotoViewerPage(photo: photo, page: page),
+      },
+    );
+  }
+
+  Widget _info(BuildContext context, PhotoModel photo, MediaInfoPlacement placement) {
+    final panel = PhotoViewerInfoPanel(
+      photo: photo,
+      asSheet: placement == MediaInfoPlacement.sheet,
+      onClose: viewer.toggleInfo,
+      onRemove: removePhoto,
+    );
+    if (placement == MediaInfoPlacement.sheet) return panel;
+    return SafeArea(
+      left: false,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0, AdaptiveLayout.of(context).isDesktop ? 45 : 12, 12, 12),
+        child: panel,
+      ),
+    );
+  }
+
+  Widget _overlay(BuildContext context, PhotoModel currentPhoto, MediaOverlay overlay) {
     return Stack(
       children: [
-        AnimatedSwitcher(
-          duration: const Duration(milliseconds: 250),
-          child: ref.watch(photoViewSettingsProvider.select((value) => value.theaterMode)) && imageHash != null
-              ? Opacity(
-                  key: Key(currentPhoto.id),
-                  opacity: 0.7,
-                  child: SizedBox.expand(
-                    child: Image(
-                      fit: BoxFit.cover,
-                      image: BlurHashImage(imageHash),
-                    ),
-                  ),
-                )
-              : Container(
-                  color: Colors.black,
-                ),
-        ),
-        GestureDetector(
-          onTapUp: (details) => _showOverlay(),
-          onDoubleTapDown: AdaptiveLayout.of(context).isDesktop
-              ? null
-              : (details) async {
-                  await openOptions(
-                    context,
-                    currentPhoto,
-                    removePhoto,
-                  );
-                },
-          onLongPress: () {
-            if (currentPhoto.userData.isFavourite == true) {
-              HapticFeedback.lightImpact();
-            } else {
-              markAsFavourite(currentPhoto, value: true);
-              HapticFeedback.heavyImpact();
-            }
-          },
-          child: ExtendedImageGesturePageView.builder(
-            itemCount: photos.length,
-            controller: controller,
-            onPageChanged: (index) {
-              setState(() {
-                currentPage = index;
-                cacheNeighbors(index, 3);
-                SystemChrome.setEnabledSystemUIMode(!showInterface ? SystemUiMode.leanBack : SystemUiMode.edgeToEdge,
-                    overlays: []);
-              });
-              if (photos.length - index <= _fetchThreshold) {
-                unawaited(_fetchMorePhotos());
-              }
-              _windowTitleNotifier?.updateTitle(this, "${context.localized.mediaTypePhoto(1)} - ${currentPhoto.title}");
-            },
-            itemBuilder: (context, index) {
-              final photo = photos[index];
-              return ExtendedImage(
-                key: Key(photo.id),
-                fit: BoxFit.contain,
-                mode: ExtendedImageMode.gesture,
-                initGestureConfigHandler: (state) => gestureConfig,
-                handleLoadingProgress: true,
-                onDoubleTap: (state) {
-                  return;
-                },
-                gaplessPlayback: true,
-                loadStateChanged: (state) {
-                  return Stack(
-                    alignment: Alignment.center,
-                    fit: StackFit.expand,
-                    children: [
-                      if (state.extendedImageLoadState != LoadState.completed)
-                        Positioned.fill(
-                          child: Image(
-                            fit: BoxFit.contain,
-                            image: _photoImageProvider(photo.thumbnail?.primary?.path),
-                          ),
-                        ),
-                      switch (state.extendedImageLoadState) {
-                        LoadState.loading => const Center(
-                            child: CircularProgressIndicator(strokeCap: StrokeCap.round),
-                          ),
-                        LoadState.completed => switch (photo.internalType) {
-                            FladderItemType.video => SimpleVideoPlayer(
-                                onTapped: _showOverlay,
-                                showOverlay: showInterface,
-                                video: photos[index],
-                              ),
-                            _ => state.completedWidget,
-                          },
-                        LoadState.failed || _ => Align(
-                            alignment: Alignment.topRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(24).copyWith(top: topPadding + 85),
-                              child: Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(24),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        context.localized.failedToLoadImage,
-                                        style: Theme.of(context).textTheme.bodyLarge,
-                                      ),
-                                      const SizedBox(height: 6),
-                                      FilledButton.tonal(
-                                        onPressed: () => state.reLoadImage(),
-                                        child: Text(context.localized.retry),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                      }
-                    ],
-                  );
-                },
-                image: _photoImageProvider(photo.images?.primary?.path),
-              );
-            },
-          ),
-        ),
         IgnorePointer(
-          ignoring: !showInterface,
+          ignoring: !overlay.visible,
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 500),
-            opacity: showInterface ? 1 : 0,
+            opacity: overlay.visible ? 1 : 0,
             child: PhotoViewerControls(
               padding: EdgeInsets.only(top: topPadding, bottom: bottomPadding),
-              currentIndex: currentPage,
-              itemCount: photos.length,
+              currentIndex: overlay.index,
+              itemCount: overlay.count,
               loadingMoreItems: _isFetchingMore,
               totalPhotoCount: _totalPhotoCount,
-              pageController: controller,
+              onNext: viewer.next,
+              onPrevious: viewer.previous,
+              onAdvance: viewer.advance,
               photo: currentPhoto,
-              toggleOverlay: (value) => setState(() => showInterface = value ?? !showInterface),
-              openOptions: () => openOptions(context, currentPhoto, removePhoto),
+              toggleOverlay: (value) => viewer.showOverlay(visible: value ?? !overlay.visible),
+              openOptions: viewer.toggleInfo,
               onPhotoChanged: (photo) {
                 setState(() {
                   int index = photos.indexOf(currentPhoto);
@@ -327,7 +250,7 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
             ),
           ),
         ),
-        if (AdaptiveLayout.of(context).isDesktop) ...{
+        if (AdaptiveLayout.of(context).isDesktop && !overlay.infoOpen) ...{
           Align(
             alignment: Alignment.centerRight,
             child: HoverWidget(
@@ -343,8 +266,7 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                     child: IconButton.filledTonal(
                       style:
                           IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                      onPressed: () =>
-                          controller.nextPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut),
+                      onPressed: viewer.next,
                       icon: const Icon(IconsaxPlusBold.arrow_right_1),
                     ),
                   ),
@@ -367,8 +289,7 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
                     child: IconButton.filledTonal(
                       style:
                           IconButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                      onPressed: () =>
-                          controller.previousPage(duration: const Duration(milliseconds: 125), curve: Curves.easeInOut),
+                      onPressed: viewer.previous,
                       icon: const Icon(IconsaxPlusBold.arrow_left),
                     ),
                   ),
@@ -380,11 +301,7 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
         if (AdaptiveLayout.of(context).isDesktop)
           AnimatedOpacity(
             duration: const Duration(milliseconds: 500),
-            opacity: showInterface
-                ? 1
-                : toolbarHover
-                    ? 1
-                    : 0,
+            opacity: overlay.visible || toolbarHover ? 1 : 0,
             child: Align(
               alignment: Alignment.topCenter,
               widthFactor: 1,
@@ -414,96 +331,23 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
               ),
             ),
           ),
-        Align(
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 300),
-            opacity: showInterface ? 0 : 1,
-            child: AnimatedVisibilityIcon(
-              key: Key(currentPhoto.id),
-              isFilled: currentPhoto.userData.isFavourite,
-              filledIcon: IconsaxPlusBold.heart,
-              outlinedIcon: IconsaxPlusLinear.heart,
+        IgnorePointer(
+          child: Align(
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 300),
+              opacity: overlay.visible || overlay.infoOpen ? 0 : 1,
+              child: AnimatedVisibilityIcon(
+                key: Key(currentPhoto.id),
+                isFilled: currentPhoto.userData.isFavourite,
+                filledIcon: IconsaxPlusBold.heart,
+                outlinedIcon: IconsaxPlusLinear.heart,
+              ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
-
-  Future<void> openOptions(BuildContext context, PhotoModel currentPhoto, Function(ItemBaseModel item) onRemove) =>
-      showBottomSheetPill(
-        context: context,
-        content: (context, scrollController) {
-          return ListView(
-            shrinkWrap: true,
-            controller: scrollController,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Consumer(builder: (context, ref, child) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ElevatedIconButtonLabel(
-                          label: context.localized.loop,
-                          onPressed: () => ref
-                              .read(photoViewSettingsProvider.notifier)
-                              .update((state) => state.copyWith(repeat: !state.repeat)),
-                          icon: ref.watch(photoViewSettingsProvider.select((value) => value.repeat))
-                              ? IconsaxPlusLinear.repeat
-                              : IconsaxPlusLinear.repeate_one,
-                        ),
-                        ElevatedIconButtonLabel(
-                          label: context.localized.audio(1),
-                          onPressed: () => ref
-                              .read(photoViewSettingsProvider.notifier)
-                              .update((state) => state.copyWith(mute: !state.mute)),
-                          icon: ref.watch(photoViewSettingsProvider.select((value) => value.mute))
-                              ? IconsaxPlusLinear.volume_slash
-                              : IconsaxPlusLinear.volume_high,
-                        ),
-                        ElevatedIconButtonLabel(
-                          label: context.localized.autoPlay,
-                          onPressed: () => ref
-                              .read(photoViewSettingsProvider.notifier)
-                              .update((state) => state.copyWith(autoPlay: !state.autoPlay)),
-                          icon: ref.watch(photoViewSettingsProvider.select((value) => value.autoPlay))
-                              ? IconsaxPlusLinear.play_remove
-                              : IconsaxPlusLinear.play,
-                        ),
-                        ElevatedIconButtonLabel(
-                          label: context.localized.backgroundBlur,
-                          onPressed: () => ref
-                              .read(photoViewSettingsProvider.notifier)
-                              .update((state) => state.copyWith(theaterMode: !state.theaterMode)),
-                          icon: ref.watch(photoViewSettingsProvider.select((value) => value.theaterMode))
-                              ? IconsaxPlusLinear.filter_remove
-                              : IconsaxPlusLinear.filter,
-                        ),
-                      ].addInBetween(const SizedBox(width: 16)),
-                    );
-                  }),
-                ),
-              ),
-              const Divider(),
-              ...currentPhoto
-                  .generateActions(
-                    context,
-                    ref,
-                    exclude: {
-                      ItemActions.details,
-                      ItemActions.markPlayed,
-                      ItemActions.markUnplayed,
-                    },
-                    onDeleteSuccesFully: onRemove,
-                  )
-                  .listTileItems(context, useIcons: true),
-            ],
-          );
-        },
-      );
 
   Future<void> markAsFavourite(PhotoModel photo, {bool? value}) async {
     await ref.read(userProvider.notifier).setAsFavorite(value ?? !photo.userData.isFavourite, photo.id);
@@ -546,21 +390,10 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
     photos
         .getRange((index - range).clamp(0, photos.length - 1), (index + range).clamp(0, photos.length - 1))
         .forEach((element) {
-      precacheImage(_photoImageProvider(element.thumbnail?.primary?.path), context);
+      precacheImage(photoImageProvider(element.thumbnail?.primary?.path), context);
       if (AdaptiveLayout.of(context).isDesktop) {
-        precacheImage(_photoImageProvider(element.images?.primary?.path), context);
+        precacheImage(photoImageProvider(element.images?.primary?.path), context);
       }
     });
   }
-}
-
-ImageProvider _photoImageProvider(String? path) {
-  final imagePath = path ?? "";
-  if (imagePath.isNotEmpty && !imagePath.startsWith("http")) {
-    return FileImage(File(imagePath));
-  }
-  return CachedNetworkImageProvider(
-    imagePath,
-    cacheManager: CustomCacheManager.instance,
-  );
 }
