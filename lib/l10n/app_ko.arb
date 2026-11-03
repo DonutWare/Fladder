@@ -980,7 +980,7 @@
     "advancedVideoOptionsDesc": "HDR, 톤 매핑 및 고급 색상 처리를 활성화합니다. 일부 기기에서는 불안정할 수 있습니다.",
     "syncPlaylistDeleteContent": "이 재생목록에서 동기화된 트랙도 삭제할까요?",
     "removeMovieFromRadarrConfirm": "Radarr에서 이 영화를 제거할까요? 파일을 포함한 모든 데이터가 삭제됩니다.",
-    "pendingRequests": "{count, plural, other{대기 중인 요청 없음} one{대기 중인 요청 {count}건} two{대기 중인 요청 {count}건}}",
+    "pendingRequests": "{count, plural, =0{대기 중인 요청 없음} other{대기 중인 요청 {count}건}}",
     "@pendingRequests": {
         "description": "pendingRequests",
         "placeholders": {
@@ -1080,7 +1080,7 @@
     "themeModeDark": "다크",
     "themeModeLight": "라이트",
     "themeModeSystem": "시스템",
-    "timeAndAnnotation": "{minutes}분 {seconds}초",
+    "timeAndAnnotation": "{minutes} {seconds}",
     "@timeAndAnnotation": {
         "description": "timeAndAnnotation",
         "placeholders": {
@@ -2176,5 +2176,14 @@
             }
         }
     },
-    "deepLinkItemNotFound": "어느 계정에서도 이 항목을 이용할 수 없습니다"
+    "deepLinkItemNotFound": "어느 계정에서도 이 항목을 이용할 수 없습니다",
+    "refreshRateSwitchingTitle": "주사율 맞추기",
+    "refreshRateSwitchingDesc": "디스플레이 주사율을 비디오 프레임레이트에 맞춥니다",
+    "subtitleOffsetBackward": "자막 싱크 뒤로",
+    "subtitleOffsetForward": "자막 싱크 앞으로",
+    "subtitleOffset": "자막 싱크 조절",
+    "settingsServerUrlSetDesc": "Jellyfin 서버에 연결할 때 사용하는 주소를 변경합니다. 새 URL은 같은 서버를 가리켜야 합니다.",
+    "lowResourceModeTitle": "저사양 모드",
+    "lowResourceModeDesc": "RAM이 부족한 기기에서 캐시와 버퍼를 줄이고 무거운 시각 효과를 꺼서 메모리 사용량을 줄입니다. 자동으로 설정하면 RAM이 3GB 이하인 기기에서 켜집니다.",
+    "lowResourceModeAuto": "자동"
 }
