@@ -263,6 +263,7 @@ class LibMPV extends BasePlayer {
 
     _retryTimer?.cancel();
     _retryTimer = null;
+    if (_player == null) return;
 
     _retryTimer = RestartableTimer(
       _currentRetryDuration,

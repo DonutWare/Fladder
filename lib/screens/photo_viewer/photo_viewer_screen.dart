@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/photo_queue_source.dart';
 import 'package:fladder/models/items/photos_model.dart';
+import 'package:fladder/providers/low_resource_provider.dart';
 import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/window_title_provider.dart';
@@ -387,13 +389,12 @@ class _PhotoViewerScreenState extends ConsumerState<PhotoViewerScreen> with Widg
   }
 
   void cacheNeighbors(int index, int range) {
-    photos
-        .getRange((index - range).clamp(0, photos.length - 1), (index + range).clamp(0, photos.length - 1))
-        .forEach((element) {
-      precacheImage(photoImageProvider(element.thumbnail?.primary?.path), context);
-      if (AdaptiveLayout.of(context).isDesktop) {
-        precacheImage(photoImageProvider(element.images?.primary?.path), context);
+    final fullRange = AdaptiveLayout.of(context).isDesktop && !ref.read(lowResourceModeProvider) ? 2 : 0;
+    for (var i = math.max(0, index - range); i <= math.min(photos.length - 1, index + range); i++) {
+      precacheImage(photoImageProvider(photos[i].thumbnail?.primary?.path), context);
+      if ((i - index).abs() <= fullRange) {
+        precacheImage(photoImageProvider(photos[i].images?.primary?.path), context);
       }
-    });
+    }
   }
 }

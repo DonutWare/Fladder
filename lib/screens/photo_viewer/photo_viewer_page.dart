@@ -87,6 +87,13 @@ class _PhotoViewerPageState extends State<PhotoViewerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final thumbnail = Image(
+      key: const ValueKey(false),
+      image: photoImageProvider(widget.photo.thumbnail?.primary?.path),
+      fit: BoxFit.contain,
+      gaplessPlayback: true,
+      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+    );
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -95,30 +102,22 @@ class _PhotoViewerPageState extends State<PhotoViewerPage> {
           contentSize: _contentSize,
           onTap: widget.page.onTap,
           onZoomChanged: widget.page.onZoomChanged,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image(
-                image: photoImageProvider(widget.photo.thumbnail?.primary?.path),
-                fit: BoxFit.contain,
-                gaplessPlayback: true,
-                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+          child: Image(
+            key: ValueKey(_attempt),
+            image: _image,
+            fit: BoxFit.contain,
+            gaplessPlayback: true,
+            filterQuality: FilterQuality.medium,
+            frameBuilder: (context, child, frame, synchronous) => AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              switchInCurve: Curves.easeOut,
+              layoutBuilder: (current, previous) => Stack(
+                fit: StackFit.expand,
+                children: [...previous, if (current != null) current],
               ),
-              Image(
-                key: ValueKey(_attempt),
-                image: _image,
-                fit: BoxFit.contain,
-                gaplessPlayback: true,
-                filterQuality: FilterQuality.medium,
-                frameBuilder: (context, child, frame, synchronous) => AnimatedOpacity(
-                  opacity: synchronous || frame != null ? 1 : 0,
-                  duration: const Duration(milliseconds: 250),
-                  curve: Curves.easeOut,
-                  child: child,
-                ),
-                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-              ),
-            ],
+              child: synchronous || frame != null ? KeyedSubtree(key: const ValueKey(true), child: child) : thumbnail,
+            ),
+            errorBuilder: (_, __, ___) => thumbnail,
           ),
         ),
         if (_contentSize == null && !_failed)
