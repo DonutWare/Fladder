@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:chopper/chopper.dart';
@@ -12,7 +14,9 @@ import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/models/recommended_model.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/jellyfin_websocket_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/views_provider.dart';
 import 'package:fladder/util/localization_helper.dart';
 
@@ -61,8 +65,29 @@ abstract class LibraryScreenModel with _$LibraryScreenModel {
 class LibraryScreen extends _$LibraryScreen {
   late final JellyService api = ref.read(jellyApiProvider);
 
+  Timer? _refreshTimer;
+
   @override
-  LibraryScreenModel build() => LibraryScreenModel();
+  LibraryScreenModel build() {
+    ref.onDispose(() => _refreshTimer?.cancel());
+    ref.listen(jellyfinWebSocketProvider, (previous, next) {
+      next.whenData(_handleWebSocketEvent);
+    });
+    return LibraryScreenModel();
+  }
+
+  void _handleWebSocketEvent(JellyfinWebSocketEvent event) {
+    final selectedView = state.selectedViewModel;
+    if (selectedView == null) return;
+    final affected = switch (event) {
+      JellyfinUserDataChanged() => event.isForUser(ref.read(userProvider)?.id),
+      JellyfinLibraryChanged() => event.libraryIds.isEmpty || event.libraryIds.contains(selectedView.id),
+      JellyfinWebSocketReconnected() => true,
+    };
+    if (!affected) return;
+    _refreshTimer?.cancel();
+    _refreshTimer = Timer(const Duration(milliseconds: 750), () => unawaited(loadLibrary(selectedView)));
+  }
 
   Future<void> fetchAllLibraries() async {
     final views = await ref.read(viewsProvider.notifier).fetchViews();

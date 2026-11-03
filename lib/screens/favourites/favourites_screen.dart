@@ -33,6 +33,7 @@ class FavouritesScreen extends ConsumerWidget {
     final useTVExpandedLayout = ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout));
 
     return PullToRefresh(
+      contextRefresh: false,
       onRefresh: () async => await ref.read(favouritesProvider.notifier).fetchFavourites(),
       child: (context) => NestedScaffold(
         background: BackgroundImage(items: favourites.favourites.values.expand((element) => element).toList()),

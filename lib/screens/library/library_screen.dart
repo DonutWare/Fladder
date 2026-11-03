@@ -73,6 +73,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
       ),
       body: PullToRefresh(
         refreshOnStart: true,
+        contextRefresh: false,
         refreshKey: refreshKey,
         onRefresh: () async {
           if (refreshing) return;

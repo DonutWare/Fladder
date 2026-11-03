@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:fladder/providers/jellyfin_websocket_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/refresh_state.dart';
 
 class PullToRefresh extends ConsumerStatefulWidget {
@@ -11,6 +15,7 @@ class PullToRefresh extends ConsumerStatefulWidget {
   final bool refreshOnStart;
   final bool autoFocus;
   final bool contextRefresh;
+  final String? serverUpdateItemId;
   final Future<void> Function()? onRefresh;
   final Widget Function(BuildContext context) child;
   const PullToRefresh({
@@ -19,6 +24,7 @@ class PullToRefresh extends ConsumerStatefulWidget {
     this.autoFocus = true,
     this.refreshOnStart = true,
     this.contextRefresh = true,
+    this.serverUpdateItemId,
     required this.onRefresh,
     this.refreshKey,
     super.key,
@@ -31,6 +37,9 @@ class PullToRefresh extends ConsumerStatefulWidget {
 class _PullToRefreshState extends ConsumerState<PullToRefresh> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final FocusNode focusNode = FocusNode();
+  Timer? _serverUpdateTimer;
+  DateTime? _lastRefreshStart;
+  bool _refreshing = false;
 
   GlobalKey<RefreshIndicatorState> get refreshKey {
     return (widget.refreshKey ?? _refreshIndicatorKey);
@@ -47,7 +56,40 @@ class _PullToRefreshState extends ConsumerState<PullToRefresh> {
   }
 
   @override
+  void dispose() {
+    _serverUpdateTimer?.cancel();
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  void _handleWebSocketEvent(JellyfinWebSocketEvent event) {
+    final id = widget.serverUpdateItemId;
+    if (id == null) return;
+    final affected = switch (event) {
+      JellyfinUserDataChanged() =>
+        event.isForUser(ref.read(userProvider)?.id) && event.userDataByItemId.containsKey(id),
+      JellyfinLibraryChanged() => event.affectedIds.contains(id),
+      JellyfinWebSocketReconnected() => true,
+    };
+    if (!affected) return;
+    final eventTime = DateTime.now();
+    _serverUpdateTimer?.cancel();
+    _serverUpdateTimer = Timer(const Duration(milliseconds: 750), () {
+      final lastRefreshStart = _lastRefreshStart;
+      final recentlyRefreshed =
+          lastRefreshStart != null && eventTime.difference(lastRefreshStart) < const Duration(milliseconds: 1500);
+      if (_refreshing || recentlyRefreshed) return;
+      refreshKey.currentState?.show();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (widget.serverUpdateItemId != null) {
+      ref.listen(jellyfinWebSocketProvider, (previous, next) {
+        next.whenData(_handleWebSocketEvent);
+      });
+    }
     return RefreshState(
       refreshKey: refreshKey,
       refreshAble: widget.contextRefresh,
@@ -71,7 +113,11 @@ class _PullToRefreshState extends ConsumerState<PullToRefresh> {
             ? RefreshIndicator(
                 displacement: widget.displacement ?? 80 + MediaQuery.of(context).viewPadding.top,
                 key: refreshKey,
-                onRefresh: widget.onRefresh!,
+                onRefresh: () {
+                  _lastRefreshStart = DateTime.now();
+                  _refreshing = true;
+                  return widget.onRefresh!().whenComplete(() => _refreshing = false);
+                },
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 child: Builder(
