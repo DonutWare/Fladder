@@ -404,11 +404,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     await _player?.play();
     if (_isStopped) return;
 
-    final currentPosition = await ref.read(playBackModel.select((value) => value?.startDuration()));
-    if (_isStopped) return;
     if (_isNewPlayback || !playbackState.value.playing) {
       _isNewPlayback = false;
-      await ref.read(playBackModel)?.playbackStarted(currentPosition ?? Duration.zero, ref);
+      await ref.read(playBackModel)?.playbackStarted(ref.read(mediaPlaybackProvider).position, ref);
     }
     if (playBackItem == null) return;
 

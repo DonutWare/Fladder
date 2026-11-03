@@ -141,6 +141,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
     final useMinimizedPlayer =
         model.item.type == FladderItemType.audio || model.mediaStreams?.videoStreams.isEmpty == true;
+    final effectiveStartPosition = await model.resolvedStartPosition(startPosition);
 
     mediaState.update((state) => state.copyWith(
           state: useMinimizedPlayer ? VideoPlayerState.minimized : VideoPlayerState.fullScreen,
@@ -148,11 +149,12 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
           buffering: true,
           errorPlaying: false,
           skippedSegments: {},
+          position: effectiveStartPosition,
+          lastPosition: effectiveStartPosition,
         ));
 
     final media = model.media;
     PlaybackModel? newPlaybackModel = model;
-    final effectiveStartPosition = await model.resolvedStartPosition(startPosition);
 
     if (media != null) {
       ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
