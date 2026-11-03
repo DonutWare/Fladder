@@ -133,15 +133,15 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 
     // Media3 (ExoPlayer)
-    def media3_version = "1.8.0+1"
+    def media3_version = "1.11.1"
     implementation("androidx.media3:media3-exoplayer:$media3_version")
     implementation("androidx.media3:media3-session:$media3_version")
     implementation("androidx.media3:media3-ui:$media3_version")
 
     implementation("androidx.media3:media3-exoplayer-dash:$media3_version")
     implementation("androidx.media3:media3-exoplayer-hls:$media3_version")
-    implementation("org.jellyfin.media3:media3-ffmpeg-decoder:$media3_version")
-    implementation("io.github.peerless2012:ass-media:0.3.0")
+    implementation("org.jellyfin.media3:media3-ffmpeg-decoder:1.9.0+1")
+    implementation("io.github.peerless2012:ass-media:0.5.1")
 
     //UI
     implementation("io.github.rabehx:iconsax-compose:0.0.5")
