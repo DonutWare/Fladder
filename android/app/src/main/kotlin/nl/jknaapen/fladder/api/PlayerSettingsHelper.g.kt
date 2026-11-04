@@ -155,6 +155,7 @@ data class PlayerSettings (
   val skipForward: Long,
   val skipBackward: Long,
   val autoNextType: AutoNextType,
+  val nextUpCountdownSeconds: Long,
   val acceptedOrientations: List<PlayerOrientations>,
   val fillScreen: Boolean,
   val videoFit: VideoPlayerFit,
@@ -171,13 +172,14 @@ data class PlayerSettings (
       val skipForward = pigeonVar_list[3] as Long
       val skipBackward = pigeonVar_list[4] as Long
       val autoNextType = pigeonVar_list[5] as AutoNextType
-      val acceptedOrientations = pigeonVar_list[6] as List<PlayerOrientations>
-      val fillScreen = pigeonVar_list[7] as Boolean
-      val videoFit = pigeonVar_list[8] as VideoPlayerFit
-      val screensaver = pigeonVar_list[9] as Screensaver
-      val refreshRateSwitching = pigeonVar_list[10] as Boolean
-      val lowResourceMode = pigeonVar_list[11] as Boolean
-      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType, acceptedOrientations, fillScreen, videoFit, screensaver, refreshRateSwitching, lowResourceMode)
+      val nextUpCountdownSeconds = pigeonVar_list[6] as Long
+      val acceptedOrientations = pigeonVar_list[7] as List<PlayerOrientations>
+      val fillScreen = pigeonVar_list[8] as Boolean
+      val videoFit = pigeonVar_list[9] as VideoPlayerFit
+      val screensaver = pigeonVar_list[10] as Screensaver
+      val refreshRateSwitching = pigeonVar_list[11] as Boolean
+      val lowResourceMode = pigeonVar_list[12] as Boolean
+      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType, nextUpCountdownSeconds, acceptedOrientations, fillScreen, videoFit, screensaver, refreshRateSwitching, lowResourceMode)
     }
   }
   fun toList(): List<Any?> {
@@ -188,6 +190,7 @@ data class PlayerSettings (
       skipForward,
       skipBackward,
       autoNextType,
+      nextUpCountdownSeconds,
       acceptedOrientations,
       fillScreen,
       videoFit,
