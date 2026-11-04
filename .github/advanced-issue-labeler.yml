@@ -1,0 +1,19 @@
+policy:
+  - section:
+      - id: [platform]
+        block-list: []
+        label:
+          - name: 'android'
+            keys: ['Android']
+          - name: 'android-tv'
+            keys: ['Android TV']
+          - name: 'ios'
+            keys: ['iOS']
+          - name: 'linux'
+            keys: ['Linux']
+          - name: 'windows'
+            keys: ['Windows']
+          - name: 'macos'
+            keys: ['macOS']
+          - name: 'web'
+            keys: ['Web']
