@@ -11,8 +11,11 @@ import 'package:fladder/models/items/trick_play_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/playback/playback_queue_state.dart';
 import 'package:fladder/models/syncing/sync_item.dart';
+import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/incognito_mode_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
+import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
@@ -67,6 +70,25 @@ class OfflinePlaybackModel extends PlaybackModel {
 
   @override
   Future<PlaybackModel?> playbackStarted(Duration position, Ref ref) async {
+    if (ref.read(incognitoModeProvider) == true) return null;
+    final isOffline = ref.read(offlineStateProvider);
+    if (!isOffline) {
+      try {
+        await ref.read(jellyApiProvider).sessionsPlayingPost(
+              body: PlaybackStartInfo(
+                canSeek: true,
+                itemId: item.id,
+                mediaSourceId: item.id,
+                playbackStartTimeTicks: position.toRuntimeTicks,
+                playMethod: PlayMethod.directplay,
+                volumeLevel: 100,
+                isMuted: false,
+                isPaused: false,
+                repeatMode: RepeatMode.repeatall,
+              ),
+            );
+      } catch (_) {}
+    }
     return null;
   }
 
@@ -87,6 +109,19 @@ class OfflinePlaybackModel extends PlaybackModel {
       userData: userData,
     );
     await ref.read(syncProvider.notifier).updateItem(newItem);
+    // Report to server if online
+    final isOffline = ref.read(offlineStateProvider);
+    if (!isOffline) {
+      try {
+        await ref.read(jellyApiProvider).sessionsPlayingStoppedPost(
+              body: PlaybackStopInfo(
+                itemId: item.id,
+                mediaSourceId: item.id,
+                positionTicks: effectivePosition.toRuntimeTicks,
+              ),
+            );
+      } catch (_) {}
+    }
     return null;
   }
 
@@ -106,6 +141,25 @@ class OfflinePlaybackModel extends PlaybackModel {
       userData: userData,
     );
     await ref.read(syncProvider.notifier).updateItem(newItem);
+    // Report to server if online
+    final isOffline = ref.read(offlineStateProvider);
+    if (!isOffline) {
+      try {
+        await ref.read(jellyApiProvider).sessionsPlayingProgressPost(
+              body: PlaybackProgressInfo(
+                canSeek: true,
+                itemId: item.id,
+                mediaSourceId: item.id,
+                positionTicks: position.toRuntimeTicks,
+                playMethod: PlayMethod.directplay,
+                isPaused: !isPlaying,
+                volumeLevel: 100,
+                isMuted: false,
+                repeatMode: RepeatMode.repeatall,
+              ),
+            );
+      } catch (_) {}
+    }
     return null;
   }
 
