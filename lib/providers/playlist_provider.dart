@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,6 +9,11 @@ import 'package:fladder/models/items/playlist_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/util/map_bool_helper.dart';
+
+/// Playlist membership lookups kept in flight at once. Sending them all at
+/// once floods the connection on libraries holding hundreds of playlists, and
+/// every other request queues up behind them.
+const _membershipLookupConcurrency = 5;
 
 final playlistStateProvider = StateProvider<List<PlaylistModel>>((ref) => []);
 
@@ -62,30 +69,66 @@ class PlaylistNotifier extends StateNotifier<_PlaylistProviderModel> {
       ],
     );
 
-    final playlists = serverPlaylists.body?.items?.map((e) => PlaylistModel.fromBaseDto(e, ref)).toList();
+    final playlists = serverPlaylists.body?.items?.map((e) => PlaylistModel.fromBaseDto(e, ref)).toList() ?? [];
 
-    ref.read(playlistStateProvider.notifier).state = playlists ?? [];
+    ref.read(playlistStateProvider.notifier).state = playlists;
 
     state = state.copyWith(
-      collections: Map.fromIterables(playlists ?? [], List.generate(playlists?.length ?? 0, (index) => null)),
+      collections: Map.fromIterables(playlists, List.generate(playlists.length, (index) => null)),
     );
 
-    playlists?.forEach(
-      (playlist) async {
-        final itemList = await api.playlistsPlaylistIdItemsGet(
-          playlistId: playlist.id,
-          enableImages: false,
-          enableUserData: false,
-          fields: [],
-        );
-        final List<String?> items = (itemList.body?.items ?? []).map((e) => e.id).toList();
-        state = state.copyWith(
-          collections: state.collections.setKey(playlist, items.contains(state.items.firstOrNull?.id)),
-        );
-      },
-    );
+    await _markPlaylistsHoldingItem(playlists);
 
     state = state.copyWith(isLoading: false);
+  }
+
+  /// Marks the playlists that already hold the item being added.
+  ///
+  /// Jellyfin has no bulk endpoint for this, so it costs one request per
+  /// playlist and they are spread over [_membershipLookupConcurrency] workers.
+  Future<void> _markPlaylistsHoldingItem(List<PlaylistModel> playlists) async {
+    final itemId = state.items.firstOrNull?.id;
+
+    // The provider is built with an empty item list, so without this the
+    // lookups would run on startup with nothing to look for.
+    if (itemId == null || playlists.isEmpty) {
+      state = state.copyWith(collections: {for (final playlist in playlists) playlist: false});
+      return;
+    }
+
+    var next = 0;
+
+    Future<void> resolveNext() async {
+      while (mounted) {
+        final index = next++;
+        if (index >= playlists.length) return;
+
+        final playlist = playlists[index];
+        final holdsItem = await _playlistHoldsItem(playlist, itemId);
+        if (!mounted) return;
+
+        state = state.copyWith(collections: state.collections.setKey(playlist, holdsItem));
+      }
+    }
+
+    await Future.wait(List.generate(_membershipLookupConcurrency, (_) => resolveNext()));
+  }
+
+  /// Whether [playlist] contains [itemId], or null when it could not be read.
+  Future<bool?> _playlistHoldsItem(PlaylistModel playlist, String itemId) async {
+    try {
+      final itemList = await api.playlistsPlaylistIdItemsGet(
+        playlistId: playlist.id,
+        enableImages: false,
+        enableUserData: false,
+        fields: [],
+      );
+      return itemList.body?.items.any((item) => item.id == itemId) ?? false;
+    } catch (e) {
+      // One unreadable playlist should not take the whole sheet down with it.
+      log('Could not read the items of playlist ${playlist.id}: $e');
+      return null;
+    }
   }
 
   Future<Response> addToPlaylist({required PlaylistModel playlist}) async {
