@@ -485,54 +485,152 @@ Future<void> showAudioSelection(BuildContext context) {
   );
 }
 
+const double minPlaybackRate = 0.25;
+const double maxPlaybackRate = 3.0;
+const double playbackRateStep = 0.05;
+const List<double> playbackRatePresets = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
+
+String _rateLabel(double value) => "x${value.toStringAsFixed(2).replaceFirst(RegExp(r'\.?0+$'), '')}";
+
 Future<void> showPlaybackSpeed(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) {
-      return StatefulBuilder(builder: (context, setState) {
-        return Consumer(
-          builder: (context, ref, child) {
-            final player = ref.watch(videoPlayerProvider);
-            final lastSpeed = ref.watch(playbackRateProvider);
-            return SimpleDialog(
-              contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
-              title: Row(children: [Text(context.localized.playbackRate)]),
-              children: [
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 6),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("${context.localized.speed}: "),
-                      Flexible(
-                        child: SizedBox(
-                          width: 250,
-                          child: FladderSlider(
-                            min: 0.25,
-                            max: 3,
-                            value: lastSpeed,
-                            divisions: 55,
-                            onChanged: (value) {
-                              ref.read(playbackRateProvider.notifier).state = value;
-                              player.setSpeed(value);
-                            },
-                          ),
+      return Consumer(
+        builder: (context, ref, child) {
+          final player = ref.watch(videoPlayerProvider);
+          final lastSpeed = ref.watch(playbackRateProvider);
+
+          void setSpeed(double value) {
+            final rate = (value.clamp(minPlaybackRate, maxPlaybackRate) * 100).round() / 100;
+            ref.read(playbackRateProvider.notifier).state = rate;
+            player.setSpeed(rate);
+          }
+
+          return SimpleDialog(
+            contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
+            title: Row(children: [Text(context.localized.playbackRate)]),
+            children: [
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 6),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: lastSpeed > minPlaybackRate ? () => setSpeed(lastSpeed - playbackRateStep) : null,
+                      icon: const Icon(IconsaxPlusLinear.minus),
+                    ),
+                    Flexible(
+                      child: SizedBox(
+                        width: 300,
+                        child: FladderSlider(
+                          min: minPlaybackRate,
+                          max: maxPlaybackRate,
+                          value: lastSpeed,
+                          divisions: 55,
+                          onChanged: setSpeed,
                         ),
                       ),
-                      Text("x${lastSpeed.toStringAsFixed(2)}")
-                    ].addInBetween(const SizedBox(width: 8)),
-                  ),
-                )
-              ],
-            );
-          },
-        );
-      });
+                    ),
+                    IconButton(
+                      onPressed: lastSpeed < maxPlaybackRate ? () => setSpeed(lastSpeed + playbackRateStep) : null,
+                      icon: const Icon(IconsaxPlusLinear.add),
+                    ),
+                    if (AdaptiveLayout.of(context).isDesktop)
+                      _PlaybackRateField(value: lastSpeed, onSubmitted: setSpeed)
+                    else
+                      Text("x${lastSpeed.toStringAsFixed(2)}"),
+                  ].addInBetween(const SizedBox(width: 8)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 12),
+                child: Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  alignment: WrapAlignment.center,
+                  children: playbackRatePresets
+                      .map(
+                        (preset) => ChoiceChip(
+                          label: Text(_rateLabel(preset)),
+                          labelPadding: const EdgeInsets.symmetric(horizontal: 4),
+                          visualDensity: VisualDensity.compact,
+                          showCheckmark: false,
+                          selected: (lastSpeed - preset).abs() < 0.001,
+                          onSelected: (_) => setSpeed(preset),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ],
+          );
+        },
+      );
     },
   );
+}
+
+class _PlaybackRateField extends StatefulWidget {
+  final double value;
+  final ValueChanged<double> onSubmitted;
+
+  const _PlaybackRateField({required this.value, required this.onSubmitted});
+
+  @override
+  State<_PlaybackRateField> createState() => _PlaybackRateFieldState();
+}
+
+class _PlaybackRateFieldState extends State<_PlaybackRateField> {
+  late final TextEditingController _controller = TextEditingController(text: widget.value.toStringAsFixed(2));
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void didUpdateWidget(covariant _PlaybackRateField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value && !_focusNode.hasFocus) {
+      _controller.text = widget.value.toStringAsFixed(2);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _submit(String text) {
+    final parsed = double.tryParse(text.replaceAll(',', '.'));
+    final rate = (parsed ?? widget.value).clamp(minPlaybackRate, maxPlaybackRate);
+    _controller.text = rate.toStringAsFixed(2);
+    _focusNode.unfocus();
+    widget.onSubmitted(rate);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 84,
+      child: TextField(
+        controller: _controller,
+        focusNode: _focusNode,
+        textAlign: TextAlign.center,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+        decoration: const InputDecoration(
+          isDense: true,
+          prefixText: "x",
+          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+        ),
+        onSubmitted: _submit,
+        onTapOutside: (_) => _submit(_controller.text),
+      ),
+    );
+  }
 }
 
 Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
