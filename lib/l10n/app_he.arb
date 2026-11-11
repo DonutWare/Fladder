@@ -733,5 +733,26 @@
     },
     "settingsBlurredPlaceholderTitle": "תמונה מטושטשת",
     "settingsClientDesc": "כללי, תצוגה",
-    "settingsClientTitle": "Fladder"
+    "settingsClientTitle": "Fladder",
+    "instantMix": "תערובת מיידית",
+    "masonry": "בנאות",
+    "mediaTypeBase": "סוג בסיס",
+    "musicSideBar": "סרגל צד למוזיקה",
+    "retrievePublicListOfUsers": "הביא רשימה ציבורית של משתמשים",
+    "scanBiometricHint": "אמת זהות",
+    "selectTime": "בחר זמן",
+    "selectViewType": "סוג תצוגה",
+    "set": "בחר",
+    "@set": {
+        "description": "Use for setting a certain value",
+        "context": "Set 'time'"
+    },
+    "settingsEnableOsMediaControls": "הפעלת בקרת מדיה של מערכת ההפעלה",
+    "settingsEnableOsMediaControlsDesc": "אפשר שליטה בנגינה באמצעות מקשי מדיה והצגת המדיה המתנגנת במערכת ההפעלה",
+    "settingsHomeBannerDescription": "הצג כתערוכת שקופיות, קרזל, או הסתר את הדגל",
+    "settingsHomeBannerTitle": "דגל בית",
+    "settingsHomeBannerInformationDesc": "מידע בשביל להציג באנר ביתי",
+    "settingsHomeBannerInformationTitle": "דגלון מידע",
+    "settingsHomeNextUpDesc": "סוג פוסטרים המוצגים במסך המחוונים",
+    "settingsHomeNextUpTitle": "הפוסטרים הבאים בתור"
 }
