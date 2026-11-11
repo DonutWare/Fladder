@@ -2205,5 +2205,13 @@
         }
     },
     "deepLinkItemNotFound": "هذا العنصر غير متاح لأي من حساباتك",
-    "settingsServerUrlSetDesc": "غيّر العنوان المستخدم للاتصال بخادم Jellyfin. يجب أن يشير الرابط الجديد إلى الخادم نفسه."
+    "settingsServerUrlSetDesc": "غيّر العنوان المستخدم للاتصال بخادم Jellyfin. يجب أن يشير الرابط الجديد إلى الخادم نفسه.",
+    "refreshRateSwitchingTitle": "مطابقة معدل التحديث",
+    "refreshRateSwitchingDesc": "مطابقة معدل تحديث الشاشة مع معدل إطارات الفيديو",
+    "subtitleOffsetBackward": "تأخير الترجمة",
+    "subtitleOffsetForward": "تقديم الترجمة",
+    "subtitleOffset": "إزاحة الترجمة",
+    "lowResourceModeTitle": "وضع الموارد المنخفضة",
+    "lowResourceModeDesc": "يستهلك ذاكرة أقل على الأجهزة ذات الذاكرة العشوائية المحدودة من خلال تقليل حجم التخزين المؤقت والمخازن وتعطيل التأثيرات البصرية الثقيلة. يُفعَّل تلقائياً على الأجهزة التي تحتوي على 3 جيجابايت من الذاكرة العشوائية أو أقل.",
+    "lowResourceModeAuto": "تلقائي"
 }
