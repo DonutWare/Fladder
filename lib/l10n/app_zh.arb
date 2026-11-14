@@ -2210,5 +2210,14 @@
     "subtitleOffset": "字幕偏移",
     "lowResourceModeTitle": "低资源模式",
     "lowResourceModeDesc": "通过降低缓存与缓冲区并关闭复杂的视觉特效，在内存（RAM）有限的设备上减少内存占用。对于内存（RAM）在 3 GB 及以下的设备，此功能会自动启用。",
-    "lowResourceModeAuto": "自动"
+    "lowResourceModeAuto": "自动",
+    "appLockPattern": "图案",
+    "enterPin": "输入 PIN 码",
+    "confirmPin": "确认 PIN 码",
+    "drawPattern": "绘制图案",
+    "confirmPattern": "再次绘制图案",
+    "incorrectPatternTryAgain": "图案不正确。请重试。",
+    "patternTooShort": "连接至少 4 个点",
+    "codeMismatch": "不匹配。请重试。",
+    "unreadableAccountsLogInAgain": "部分已保存的账户无法加载。请重新登录以恢复这些账户。"
 }
