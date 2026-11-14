@@ -1,16 +1,21 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer' as developer;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
+import 'package:fladder/models/credentials_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/auth_provider.dart';
 import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/pending_items_provider.dart';
-import 'package:fladder/providers/websocket/jellyfin_websocket.dart';
-import 'package:fladder/providers/websocket/jellyfin_websocket_provider.dart';
+import 'package:fladder/providers/user_provider.dart';
 
 sealed class JellyfinWebSocketEvent {}
 
@@ -52,52 +57,119 @@ class JellyfinWebSocketReconnected extends JellyfinWebSocketEvent {}
 
 String _normalizeId(String id) => id.replaceAll('-', '').toLowerCase();
 
-final jellyfinWebSocketConnectedProvider = Provider<bool>(
-  (ref) => ref.watch(jellyfinWebSocketControllerProvider) == WebSocketConnectionState.connected,
-);
+final jellyfinWebSocketConnectedProvider = StateProvider<bool>((ref) => false);
 
-/// Typed events from the app-wide socket owned by [JellyfinWebSocketController], so the client keeps a
-/// single connection to the server.
 final jellyfinWebSocketProvider = StreamProvider<JellyfinWebSocketEvent>((ref) {
   if (ref.watch(offlineStateProvider)) return const Stream.empty();
-  final socket = ref.watch(jellyfinWebSocketControllerProvider.notifier);
-  final events = StreamController<JellyfinWebSocketEvent>();
-  var wasConnected = socket.currentState == WebSocketConnectionState.connected;
-  final subscriptions = [
-    socket.connectionState.listen((state) {
-      if (state != WebSocketConnectionState.connected) return;
-      if (wasConnected) events.add(JellyfinWebSocketReconnected());
-      wasConnected = true;
-    }),
-    socket.messages.listen((message) {
-      final event = _parseEvent(message);
-      if (event != null) events.add(event);
-    }),
-  ];
-  ref.onDispose(() {
-    for (final subscription in subscriptions) {
-      subscription.cancel();
-    }
-    events.close();
-  });
-  return events.stream;
+  final serverUrl = ref.watch(serverUrlProvider);
+  final credentials = ref.watch(userProvider.select((account) => account?.credentials)) ??
+      ref.watch(authProvider.select((state) => state.serverLoginModel?.tempCredentials));
+  final uri = _webSocketUri(serverUrl, credentials);
+  if (uri == null || credentials == null) return const Stream.empty();
+  final connected = ref.read(jellyfinWebSocketConnectedProvider.notifier);
+  final socket = _JellyfinWebSocket(uri, credentials.header(ref), (value) => connected.state = value);
+  ref.onDispose(socket.close);
+  return socket.events;
 });
 
-JellyfinWebSocketEvent? _parseEvent(Map<String, dynamic> json) {
-  try {
-    switch (sessionMessageTypeNullableFromJson(json['MessageType'])) {
-      case SessionMessageType.librarychanged:
-        final data = LibraryChangedMessage.fromJson(json).data;
-        return data != null ? _libraryChanged(data) : null;
-      case SessionMessageType.userdatachanged:
-        final data = UserDataChangedMessage.fromJson(json).data;
-        return data != null ? _userDataChanged(data) : null;
-      default:
-        return null;
+Uri? _webSocketUri(String? serverUrl, CredentialsModel? credentials) {
+  if (serverUrl == null || credentials == null || credentials.token.isEmpty) return null;
+  final uri = buildServerUriFromBase(
+    serverUrl,
+    pathSegments: const ['socket'],
+    queryParameters: {
+      // `api_key` is the legacy name, honoured only while EnableLegacyAuthorization is on (off by default
+      // since Jellyfin 12); web sends no auth header, so it has nothing else to fall back on.
+      'ApiKey': credentials.token,
+      'deviceId': credentials.deviceId,
+    },
+  );
+  return uri?.replace(scheme: uri.scheme == 'https' ? 'wss' : 'ws');
+}
+
+class _JellyfinWebSocket {
+  _JellyfinWebSocket(this.uri, this.headers, this.onConnectionChanged) {
+    _connect();
+  }
+
+  final Uri uri;
+  final Map<String, String> headers;
+  final void Function(bool connected) onConnectionChanged;
+  final _events = StreamController<JellyfinWebSocketEvent>();
+
+  WebSocketChannel? _channel;
+  StreamSubscription? _subscription;
+  Timer? _keepAliveTimer;
+  Timer? _reconnectTimer;
+  int _retryDelay = 1;
+  bool _connected = false;
+  bool _closed = false;
+
+  Stream<JellyfinWebSocketEvent> get events => _events.stream;
+
+  Future<void> _connect() async {
+    final channel = kIsWeb ? WebSocketChannel.connect(uri) : IOWebSocketChannel.connect(uri, headers: headers);
+    _channel = channel;
+    try {
+      await channel.ready;
+    } catch (error) {
+      developer.log('Jellyfin websocket failed: ${error.runtimeType}');
+      _reconnect();
+      return;
     }
-  } catch (error) {
-    developer.log('Jellyfin websocket: unreadable ${json['MessageType']} message: ${error.runtimeType}');
-    return null;
+    if (_closed) return;
+    _retryDelay = 1;
+    if (_connected) _events.add(JellyfinWebSocketReconnected());
+    _connected = true;
+    onConnectionChanged(true);
+    _subscription = channel.stream.listen(_handleMessage, onDone: _reconnect, onError: (_) {});
+  }
+
+  void _reconnect() {
+    _keepAliveTimer?.cancel();
+    if (_closed) return;
+    onConnectionChanged(false);
+    _reconnectTimer = Timer(Duration(seconds: _retryDelay), _connect);
+    _retryDelay = (_retryDelay * 2).clamp(1, 30);
+  }
+
+  void _handleMessage(dynamic message) {
+    try {
+      final json = jsonDecode(message is String ? message : utf8.decode(message as List<int>));
+      if (json is! Map<String, dynamic>) return;
+      switch (sessionMessageTypeNullableFromJson(json['MessageType'])) {
+        case SessionMessageType.forcekeepalive:
+          _startKeepAlive(ForceKeepAliveMessage.fromJson(json).data);
+        case SessionMessageType.librarychanged:
+          final data = LibraryChangedMessage.fromJson(json).data;
+          if (data != null) _events.add(_libraryChanged(data));
+        case SessionMessageType.userdatachanged:
+          final data = UserDataChangedMessage.fromJson(json).data;
+          if (data != null) _events.add(_userDataChanged(data));
+        default:
+      }
+    } catch (_) {}
+  }
+
+  void _startKeepAlive(int? timeout) {
+    final seconds = timeout != null && timeout > 0 ? timeout : 60;
+    _keepAliveTimer?.cancel();
+    _sendKeepAlive();
+    _keepAliveTimer = Timer.periodic(Duration(milliseconds: seconds * 500), (_) => _sendKeepAlive());
+  }
+
+  void _sendKeepAlive() => _channel?.sink.add(
+        jsonEncode(const InboundKeepAliveMessage(messageType: SessionMessageType.keepalive).toJson()),
+      );
+
+  void close() {
+    _closed = true;
+    onConnectionChanged(false);
+    _keepAliveTimer?.cancel();
+    _reconnectTimer?.cancel();
+    _subscription?.cancel();
+    _channel?.sink.close();
+    _events.close();
   }
 }
 
