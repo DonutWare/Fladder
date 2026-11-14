@@ -48,26 +48,11 @@ class MusicDashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
-  late final Timer _timer;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final selectedPoster = ValueNotifier<ItemBaseModel?>(null);
   MusicTrackSection _selectedRecentTrackSection = MusicTrackSection.recentlyAdded;
 
   bool _refreshing = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 120), (timer) {
-      _refreshIndicatorKey.currentState?.show();
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
 
   Future<void> _refreshHome() async {
     if (!mounted) return;
@@ -144,6 +129,7 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
       ),
       body: PullToRefresh(
         refreshKey: _refreshIndicatorKey,
+        contextRefresh: false,
         displacement: 80 + MediaQuery.of(context).viewPadding.top,
         onRefresh: () async => await _refreshHome(),
         child: (context) => PinchPosterZoom(

@@ -37,6 +37,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
     if (!oldState.playerSame(value)) {
       ref.read(videoPlayerProvider.notifier).init();
     }
+    ref.read(videoPlayerProvider.notifier).applySettingsChanged(value);
   }
 
   void setScreenBrightness(double? value) async {

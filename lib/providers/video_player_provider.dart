@@ -82,10 +82,8 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   /// The backend's real playing state: on media-kit the wrapper's `playing` flag is only the requested one.
   bool get _livePlaying => state.isPlayerPlaying;
 
-  ProviderSubscription<VideoPlayerSettingsModel>? settingsChanged;
   @override
   void dispose() {
-    settingsChanged?.close();
     _syncPlayStateSubscription?.cancel();
     _bufferingDebouncer?.dispose();
     super.dispose();
@@ -106,6 +104,16 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     developer.log('SyncPlay: player still not playing after repeated play() calls');
   }
 
+  void applySettingsChanged(VideoPlayerSettingsModel settings) {
+    final currentItem = ref.read(playBackModel)?.item;
+    if (currentItem != null) {
+      state.applyReplayGain(
+        currentItem,
+        settings: settings,
+      );
+    }
+  }
+
   Future<void> init() async {
     _playGeneration++;
     await state.stop();
@@ -121,20 +129,6 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     _bufferingDebouncer = BufferingReportDebouncer(
       onBuffering: () => ref.read(syncPlayProvider.notifier).reportBuffering(),
       onReady: () => ref.read(syncPlayProvider.notifier).reportReady(isPlaying: _livePlaying),
-    );
-
-    settingsChanged?.close();
-    settingsChanged = ref.listen(
-      videoPlayerSettingsProvider,
-      (previous, next) {
-        final currentItem = ref.read(playBackModel)?.item;
-        if (currentItem != null) {
-          state.applyReplayGain(
-            currentItem,
-            settings: next,
-          );
-        }
-      },
     );
 
     final subscription = state.stateStream.listen((value) {
@@ -414,17 +408,19 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       await state.stop(keepMediaSession: true);
       ref.read(playbackRateProvider.notifier).state = 1.0;
       ref.read(subtitleTimingOffsetProvider.notifier).state = Duration.zero; //reset subtitle offset on new video
+      final effectiveStartPosition = await model.resolvedStartPosition(startPosition);
       mediaState.update((state) => state.copyWith(
             state: useMinimizedPlayer ? VideoPlayerState.minimized : VideoPlayerState.fullScreen,
             fullScreen: !useMinimizedPlayer,
             buffering: true,
             errorPlaying: false,
             skippedSegments: {},
+            position: effectiveStartPosition,
+            lastPosition: effectiveStartPosition,
           ));
 
       final media = model.media;
       PlaybackModel? newPlaybackModel = model;
-      final effectiveStartPosition = await model.resolvedStartPosition(startPosition);
 
       if (media == null) {
         ref.read(syncPlayProvider.notifier).setPlayerBufferingState(false);

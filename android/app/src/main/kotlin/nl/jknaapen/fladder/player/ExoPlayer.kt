@@ -130,7 +130,7 @@ internal fun ExoPlayer(
                 context,
                 renderersFactory = renderersFactory,
                 extractorsFactory = extractorsFactory,
-                renderType = AssRenderType.LEGACY
+                renderType = AssRenderType.CUES
             )
     }
 

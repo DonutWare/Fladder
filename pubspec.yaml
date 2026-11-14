@@ -46,7 +46,6 @@ dependencies:
   flutter_cache_manager: ^3.4.1
   connectivity_plus: ^7.0.0
   punycoder: ^0.2.2
-  web_socket_channel: ^3.0.3
 
   # State Management
   flutter_riverpod: ^2.6.1
@@ -145,6 +144,7 @@ dependencies:
   dart_mappable: ^4.6.0
   flutter_native_splash: ^2.4.7
   macos_window_utils: ^1.9.0
+  web_socket_channel: ^3.0.3
 
   # Fix cjk font rendering issue on Windows
   chinese_font_library: ^1.2.0
@@ -172,22 +172,27 @@ dependency_overrides:
   media_kit_libs_android_video:
     git:
       url: https://github.com/DonutWare/media-kit.git
+      ref: main
       path: libs/android/media_kit_libs_android_video
   media_kit_libs_ios_video:
     git:
       url: https://github.com/DonutWare/media-kit.git
+      ref: main
       path: libs/ios/media_kit_libs_ios_video
   media_kit_libs_macos_video:
     git:
       url: https://github.com/DonutWare/media-kit.git
+      ref: main
       path: libs/macos/media_kit_libs_macos_video
   media_kit_libs_windows_video:
     git:
       url: https://github.com/DonutWare/media-kit.git
+      ref: main
       path: libs/windows/media_kit_libs_windows_video
   media_kit_libs_linux:
     git:
       url: https://github.com/DonutWare/media-kit.git
+      ref: main
       path: libs/linux/media_kit_libs_linux
 
 dev_dependencies:

@@ -6,6 +6,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
+import 'package:fladder/widgets/shared/horizontal_list.dart';
 
 class GridFocusTraveler extends ConsumerStatefulWidget {
   final int currentIndex;
@@ -91,7 +92,7 @@ class GridFocusTravelerPolicy extends WidgetOrderTraversalPolicy {
     required this.crossAxisCount,
     required this.onChanged,
     required this.navBarNode,
-  });
+  }) : super(requestFocusCallback: railAwareRequestFocus);
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {

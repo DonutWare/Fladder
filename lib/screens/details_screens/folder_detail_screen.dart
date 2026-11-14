@@ -20,6 +20,7 @@ class FolderDetailScreen extends ConsumerWidget {
     final details = ref.watch(providerInstance);
 
     return PullToRefresh(
+      serverUpdateItemId: item.id,
       child: (context) => Scaffold(
         appBar: AppBar(
             title: Text(

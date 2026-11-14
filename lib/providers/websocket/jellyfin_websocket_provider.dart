@@ -97,6 +97,13 @@ class JellyfinWebSocketController extends _$JellyfinWebSocketController {
       fireImmediately: true,
     );
 
+    // The URL flips between the local and remote address; the socket must follow it.
+    ref.listen<String?>(serverUrlProvider, (previous, next) {
+      if (previous != next) {
+        _handleUserChange(null, ref.read(userProvider));
+      }
+    });
+
     if (_isPhone) {
       _observer = _WebSocketLifecycleObserver(this)..register();
     }

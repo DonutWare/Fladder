@@ -11,6 +11,7 @@ import 'package:fladder/models/home_model.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/library_filter_model.dart';
 import 'package:fladder/models/library_search/library_search_model.dart';
+import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/models/view_model.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
@@ -108,6 +109,20 @@ abstract class LibraryFiltersModel with _$LibraryFiltersModel {
 
   IconData get icon => IconsaxPlusLinear.document_filter;
   IconData get selectedIcon => IconsaxPlusBold.document_filter;
+
+  bool includesLibrary(Set<String> libraryIds) => ids.isEmpty || libraryIds.isEmpty || ids.any(libraryIds.contains);
+
+  bool get usesUserData =>
+      filter.favourites != null ||
+      filter.itemFilters.included.any(const {
+        ItemFilter.isplayed,
+        ItemFilter.isunplayed,
+        ItemFilter.isresumable,
+        ItemFilter.isfavorite,
+        ItemFilter.isfavoriteorlikes,
+      }.contains) ||
+      const {SortingOptions.favorite, SortingOptions.datePlayed, SortingOptions.playCount}
+          .contains(filter.sortingOption);
 
   Future<DashboardFilterModel> fetchDashboardFilter(Ref ref, {int limit = 10}) async {
     final filter = this;

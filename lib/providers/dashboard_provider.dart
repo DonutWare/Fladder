@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.enums.swagger.dart';
@@ -7,7 +9,8 @@ import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/api_provider.dart';
-import 'package:fladder/providers/library_filters_provider.dart';
+import 'package:fladder/providers/dashboard_filters_mixin.dart';
+import 'package:fladder/providers/jellyfin_websocket_provider.dart';
 import 'package:fladder/providers/live_tv_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
@@ -20,28 +23,136 @@ final dashboardProvider = StateNotifierProvider<DashboardNotifier, HomeModel>((r
   return DashboardNotifier(ref);
 });
 
-class DashboardNotifier extends StateNotifier<HomeModel> {
-  DashboardNotifier(this.ref) : super(HomeModel());
+class DashboardNotifier extends StateNotifier<HomeModel> with DashboardFiltersMixin<HomeModel> {
+  DashboardNotifier(this.ref) : super(HomeModel()) {
+    ref.listen(jellyfinWebSocketProvider, (previous, next) {
+      next.whenData(_handleWebSocketEvent);
+    });
+  }
 
+  @override
   final Ref ref;
   bool _refreshRequested = false;
 
   late final JellyService api = ref.read(jellyApiProvider);
 
-  static const _dashboardFilterLimit = 15;
+  Timer? _userDataTimer;
 
-  Future<List<DashboardFilterModel>> _fetchDashboardFilters() async {
-    final filters = ref.read(libraryFiltersByKeyProvider(FilterSortKey.dashboard));
-    return Future.wait(
-      filters.map(
-        (e) => e.fetchDashboardFilter(ref, limit: _dashboardFilterLimit),
-      ),
-    );
+  @override
+  FilterSortKey get filterSortKey => FilterSortKey.dashboard;
+
+  @override
+  List<DashboardFilterModel> get dashboardFilters => state.dashboardFilters;
+
+  @override
+  set dashboardFilters(List<DashboardFilterModel> filters) => state = state.copyWith(dashboardFilters: filters);
+
+  void _handleWebSocketEvent(JellyfinWebSocketEvent event) {
+    switch (event) {
+      case JellyfinUserDataChanged():
+        if (!event.isForUser(ref.read(userProvider)?.id)) return;
+        final userData = event.userDataByItemId;
+        requests.invalidate(userData.keys);
+        _updateDashboardItems(
+          (item) => userData[item.id] == null ? item : item.copyWith(userData: userData[item.id]!),
+        );
+        _userDataTimer?.cancel();
+        _userDataTimer = Timer(const Duration(seconds: 1), () {
+          refreshNextUpAndResume();
+          refreshDashboardFilters((filter) => filter.usesUserData);
+        });
+      case JellyfinLibraryChanged():
+        _removeDashboardItems(event.removedIds);
+        final loadedIds = _dashboardItems().map((item) => item.id).toSet();
+        for (final id in event.updatedIds.intersection(loadedIds)) {
+          unawaited(_fetchChangedItem(id));
+        }
+        if (event.addedIds.isNotEmpty) {
+          if (state.loadedSections.contains(DashboardSorting.recentlyAdded)) {
+            unawaited(ref.read(viewsProvider.notifier).fetchRecentlyAdded(libraryIds: event.libraryIds));
+          }
+          final libraryIds = {...event.libraryIds, ...event.folderIds};
+          unawaited(refreshDashboardFilters((filter) => filter.includesLibrary(libraryIds)));
+        }
+      case JellyfinWebSocketReconnected():
+        unawaited(refreshLoadedSections());
+    }
   }
 
-  Future<void> fetchDashboardFilters() async {
-    final dashboardFilters = await _fetchDashboardFilters();
-    state = state.copyWith(dashboardFilters: dashboardFilters);
+  List<ItemBaseModel> _dashboardItems() => [
+        ...state.resumeVideo,
+        ...state.resumeAudio,
+        ...state.resumeBooks,
+        ...state.activePrograms,
+        ...state.nextUp,
+        ...state.dashboardFilters.expand((filter) => filter.items),
+        ...ref.read(viewsProvider).dashboardViews.expand((view) => view.recentlyAdded),
+      ];
+
+  void _updateDashboardItems(ItemBaseModel Function(ItemBaseModel) update) {
+    List<ItemBaseModel> updateList(List<ItemBaseModel> items) => items.map(update).toList();
+
+    state = state.copyWith(
+      resumeVideo: updateList(state.resumeVideo),
+      resumeAudio: updateList(state.resumeAudio),
+      resumeBooks: updateList(state.resumeBooks),
+      activePrograms: updateList(state.activePrograms),
+      nextUp: updateList(state.nextUp),
+      dashboardFilters: state.dashboardFilters
+          .map((filter) => DashboardFilterModel(filter: filter.filter, items: updateList(filter.items)))
+          .toList(),
+    );
+    ref.read(viewsProvider.notifier).updateRecentlyAddedItems(update);
+  }
+
+  void _removeDashboardItems(Set<String> ids) {
+    if (ids.isEmpty) return;
+    requests.invalidate(ids);
+    List<ItemBaseModel> removeFrom(List<ItemBaseModel> items) => items.where((item) => !ids.contains(item.id)).toList();
+
+    state = state.copyWith(
+      resumeVideo: removeFrom(state.resumeVideo),
+      resumeAudio: removeFrom(state.resumeAudio),
+      resumeBooks: removeFrom(state.resumeBooks),
+      activePrograms: removeFrom(state.activePrograms),
+      nextUp: removeFrom(state.nextUp),
+      dashboardFilters: state.dashboardFilters
+          .map((filter) => DashboardFilterModel(filter: filter.filter, items: removeFrom(filter.items)))
+          .toList(),
+    );
+    ref.read(viewsProvider.notifier).removeRecentlyAddedItems(ids);
+  }
+
+  Future<void> refreshItem(String id) async {
+    await Future.wait([
+      if (_dashboardItems().any((item) => item.id == id)) _fetchChangedItem(id),
+      refreshNextUpAndResume(),
+    ]);
+  }
+
+  Future<void> refreshNextUpAndResume() async {
+    if (state.loading || !state.loadedSections.contains(DashboardSorting.nextUp)) return;
+    try {
+      await _fetchNextUpAndResume();
+    } catch (_) {}
+  }
+
+  Future<void> _fetchChangedItem(String id) async {
+    final item = await requests.fetchItem(ref, id);
+    if (item != null) _updateDashboardItems((current) => current.id == id ? item : current);
+  }
+
+  Future<void> refreshLoadedSections() async {
+    if (state.loading) return;
+    final sections = state.loadedSections;
+    try {
+      await Future.wait([
+        if (sections.contains(DashboardSorting.liveTV)) _fetchLiveTV(),
+        if (sections.contains(DashboardSorting.nextUp)) _fetchNextUpAndResume(),
+        if (sections.contains(DashboardSorting.recentlyAdded)) ref.read(viewsProvider.notifier).fetchRecentlyAdded(),
+        if (sections.contains(DashboardSorting.filters)) fetchDashboardFilters(),
+      ]);
+    } catch (_) {}
   }
 
   Future<void> refreshDashboard() async {
@@ -110,6 +221,13 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
     ItemFields.airtime,
   }.toList();
 
+  Future<void> refreshLiveTV() async {
+    if (state.loading || !state.loadedSections.contains(DashboardSorting.liveTV)) return;
+    try {
+      await _fetchLiveTV();
+    } catch (_) {}
+  }
+
   Future<void> _fetchLiveTV() async {
     if (!_viewTypes.containsAny([CollectionType.livetv])) {
       state = state.copyWith(activePrograms: []);
@@ -149,6 +267,7 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
   }
 
   Future<void> _fetchNextUpAndResume() async {
+    final revision = requests.start(DashboardSorting.nextUp);
     final viewTypes = _viewTypes;
 
     // Fetched together and applied in one update so the banner and rows don't pop in one by one
@@ -176,6 +295,8 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
             .toList() ??
         [];
 
+    if (!requests.isLatest(DashboardSorting.nextUp, revision)) return;
+
     state = state.copyWith(
       resumeVideo: resumeVideo,
       resumeAudio: resumeAudio,
@@ -185,6 +306,14 @@ class DashboardNotifier extends StateNotifier<HomeModel> {
   }
 
   void clear() {
+    _userDataTimer?.cancel();
+    requests.clear();
     state = HomeModel();
+  }
+
+  @override
+  void dispose() {
+    _userDataTimer?.cancel();
+    super.dispose();
   }
 }

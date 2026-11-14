@@ -8,6 +8,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/item_shared_models.dart';
+import 'package:fladder/providers/pending_items_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/sync/sync_provider_helpers.dart';
 import 'package:fladder/screens/shared/media/components/poster_overlays.dart';
@@ -84,6 +85,7 @@ class PosterImage extends ConsumerWidget {
     final radius = FladderTheme.smallShape.borderRadius;
     final padding = const EdgeInsets.all(5);
     final myKey = key ?? UniqueKey();
+    final isPending = ref.watch(pendingItemsProvider.select((items) => items.contains(poster.id)));
 
     final derivePosterColor = ref.watch(clientSettingsProvider.select((value) => value.dynamicPosterColors));
     final backgroundColor = derivePosterColor
@@ -163,6 +165,36 @@ class PosterImage extends ConsumerWidget {
           VideoDurationOverlay(
             poster: poster,
             padding: padding,
+          ),
+          IgnorePointer(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              child: isPending
+                  ? DecoratedBox(
+                      key: const ValueKey('pending'),
+                      decoration: BoxDecoration(borderRadius: radius, color: Colors.black54),
+                      child: Center(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.9),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: SizedBox.square(
+                              dimension: 24,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 4,
+                                strokeCap: StrokeCap.round,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(key: ValueKey('idle')),
+            ),
           ),
         ],
         focusedOverlays: [

@@ -184,6 +184,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     return ThemeOverwrite(
       color: dominantColor,
       child: (context) => PullToRefresh(
+        serverUpdateItemId: widget.item?.id,
         onRefresh: () async {
           await widget.onRefresh?.call();
           if (mounted) {

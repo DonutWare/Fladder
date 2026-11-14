@@ -200,7 +200,7 @@ class FocusButtonState extends State<FocusButton> {
             builder: (context, value, child) {
               final hasFocus = widget.forceFocusOutline ? true : value;
               return AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
+                duration: hasFocus ? Duration.zero : const Duration(milliseconds: 200),
                 curve: Curves.easeInOut,
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(

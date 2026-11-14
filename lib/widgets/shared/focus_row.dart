@@ -4,6 +4,7 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_body.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/side_navigation_bar.dart';
 import 'package:fladder/widgets/shared/ensure_visible.dart';
+import 'package:fladder/widgets/shared/horizontal_list.dart';
 
 class FocusRow extends StatefulWidget {
   final Widget child;
@@ -131,7 +132,8 @@ class _RowFocusPolicy extends WidgetOrderTraversalPolicy {
   final FocusNode groupNode;
   final bool escapeToNavBar;
 
-  _RowFocusPolicy({this.onVertical, required this.groupNode, required this.escapeToNavBar});
+  _RowFocusPolicy({this.onVertical, required this.groupNode, required this.escapeToNavBar})
+      : super(requestFocusCallback: railAwareRequestFocus);
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {

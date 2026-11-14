@@ -19,6 +19,9 @@ import 'package:fladder/models/items/series_model.dart';
 import 'package:fladder/models/playback/playback_queue_source.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/audio_lyrics_provider.dart';
+import 'package:fladder/providers/dashboard_provider.dart';
+import 'package:fladder/providers/music_dashboard_provider.dart';
+import 'package:fladder/providers/pending_items_provider.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
@@ -43,6 +46,20 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/pop_up/delete_file.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
+
+Future<T> _trackPending<T>(WidgetRef ref, String id, Future<T> Function() action) async {
+  final pendingItems = ref.read(pendingItemsProvider.notifier)..add(id);
+  try {
+    final result = await action();
+    await Future.wait([
+      ref.read(dashboardProvider.notifier).refreshItem(id),
+      ref.read(musicDashboardProvider.notifier).refreshItem(id),
+    ]);
+    return result;
+  } finally {
+    pendingItems.remove(id);
+  }
+}
 
 extension ItemBaseModelsBooleans on List<ItemBaseModel> {
   Map<FladderItemType, List<ItemBaseModel>> get groupedItems {
@@ -297,7 +314,8 @@ extension ItemBaseModelExtensions on ItemBaseModel {
             icon: const Icon(IconsaxPlusLinear.eye),
             action: () async {
               try {
-                final userData = await ref.read(userProvider.notifier).markAsPlayed(true, id);
+                final userData =
+                    await _trackPending(ref, id, () => ref.read(userProvider.notifier).markAsPlayed(true, id));
                 onUserDataChanged?.call(userData?.bodyOrThrow);
               } finally {
                 context.refreshData();
@@ -311,7 +329,8 @@ extension ItemBaseModelExtensions on ItemBaseModel {
             label: Text(context.localized.markAsUnwatched),
             action: () async {
               try {
-                final userData = await ref.read(userProvider.notifier).markAsPlayed(false, id);
+                final userData =
+                    await _trackPending(ref, id, () => ref.read(userProvider.notifier).markAsPlayed(false, id));
                 onUserDataChanged?.call(userData?.bodyOrThrow);
               } finally {
                 context.refreshData();
@@ -324,7 +343,11 @@ extension ItemBaseModelExtensions on ItemBaseModel {
           icon: Icon(userData.isFavourite ? IconsaxPlusLinear.heart_remove : IconsaxPlusLinear.heart_add),
           action: () async {
             try {
-              final newData = await ref.read(userProvider.notifier).setAsFavorite(!userData.isFavourite, id);
+              final newData = await _trackPending(
+                ref,
+                id,
+                () => ref.read(userProvider.notifier).setAsFavorite(!userData.isFavourite, id),
+              );
               onUserDataChanged?.call(newData?.bodyOrThrow);
             } finally {
               context.refreshData();
@@ -341,6 +364,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
             final newItem = await showEditItemPopup(context, id);
             if (newItem != null) {
               onItemUpdated?.call(newItem);
+              await _trackPending(ref, id, () async => newItem);
             }
           },
           label: Text(context.localized.editMetadata),

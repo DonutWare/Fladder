@@ -9,7 +9,6 @@ import 'package:fladder/screens/shared/media/poster_widget.dart';
 import 'package:fladder/screens/shared/media/tv_poster_row.dart';
 import 'package:fladder/util/focus_provider.dart';
 import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
-import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 
 class PosterRow extends ConsumerWidget {
@@ -22,6 +21,7 @@ class PosterRow extends ConsumerWidget {
   final List<jelly.ImageType>? imagePriority;
   final bool tvMode;
   final bool showSyncStatus;
+  final double revealAlignment;
   const PosterRow({
     required this.posters,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 16),
@@ -32,6 +32,7 @@ class PosterRow extends ConsumerWidget {
     this.imagePriority,
     this.tvMode = false,
     this.showSyncStatus = false,
+    this.revealAlignment = 0.5,
     super.key,
   });
 
@@ -56,13 +57,8 @@ class PosterRow extends ConsumerWidget {
       onLabelClick: onLabelClick,
       dominantRatio: dominantRatio,
       items: posters,
-      onFocused: (index) {
-        if (onFocused != null) {
-          onFocused?.call(posters[index]);
-        } else {
-          context.ensureVisible();
-        }
-      },
+      revealAlignment: revealAlignment,
+      onFocused: (index) => onFocused?.call(posters[index]),
       itemBuilder: (context, index) {
         final poster = posters[index];
         return PosterWidget(
