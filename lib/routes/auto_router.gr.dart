@@ -59,7 +59,7 @@ import 'package:fladder/screens/splash_screen.dart' as _i29;
 import 'package:fladder/screens/syncing/synced_screen.dart' as _i30;
 import 'package:fladder/seerr/seerr_models.dart' as _i42;
 import 'package:flutter/foundation.dart' as _i34;
-import 'package:flutter/material.dart' as _i32;
+import 'package:material_ui/material_ui.dart' as _i32;
 
 /// generated route for
 /// [_i1.AboutSettingsPage]

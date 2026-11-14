@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:web_socket_channel/io.dart';
@@ -47,9 +48,9 @@ class JellyfinUserDataChanged extends JellyfinWebSocketEvent {
   final List<UserItemDataDto> items;
 
   Map<String, UserData> get userDataByItemId => {
-        for (final item in items)
-          if (item.itemId?.isNotEmpty == true) item.itemId!: UserData.fromDto(item),
-      };
+    for (final item in items)
+      if (item.itemId?.isNotEmpty == true) item.itemId!: UserData.fromDto(item),
+  };
 
   bool isForUser(String? currentUserId) => userId == null || _normalizeId(userId!) == _normalizeId(currentUserId ?? '');
 }
@@ -60,26 +61,49 @@ String _normalizeId(String id) => id.replaceAll('-', '').toLowerCase();
 
 final jellyfinWebSocketConnectedProvider = StateProvider<bool>((ref) => false);
 
+/// Raw SyncPlay messages, decoded by the SyncPlay controller. Lives apart from the socket so the controller
+/// keeps receiving across account and server-URL rebuilds.
+final jellyfinSyncPlayMessagesProvider = Provider<StreamController<Map<String, dynamic>>>((ref) {
+  final messages = StreamController<Map<String, dynamic>>.broadcast();
+  ref.onDispose(messages.close);
+  return messages;
+});
+
 final jellyfinWebSocketProvider = StreamProvider<JellyfinWebSocketEvent>((ref) {
   if (ref.watch(offlineStateProvider)) return const Stream.empty();
   final serverUrl = ref.watch(serverUrlProvider);
-  final credentials = ref.watch(userProvider.select((account) => account?.credentials)) ??
+  final credentials =
+      ref.watch(userProvider.select((account) => account?.credentials)) ??
       ref.watch(authProvider.select((state) => state.serverLoginModel?.tempCredentials));
-  final uri = _webSocketUri(serverUrl, credentials);
+  final uri = jellyfinWebSocketUri(serverUrl, credentials);
   if (uri == null || credentials == null) return const Stream.empty();
   final connected = ref.read(jellyfinWebSocketConnectedProvider.notifier);
-  final socket = _JellyfinWebSocket(uri, credentials.header(ref), (value) => connected.state = value);
-  ref.onDispose(socket.close);
+  final syncPlayMessages = ref.read(jellyfinSyncPlayMessagesProvider);
+  final socket = _JellyfinWebSocket(
+    uri,
+    credentials.header(ref),
+    (value) => connected.state = value,
+    syncPlayMessages.add,
+  );
+  // A phone's socket often dies in the background; don't wait out the backoff when the app comes back.
+  final lifecycle = AppLifecycleListener(onResume: socket.ensureConnected);
+  ref.onDispose(() {
+    lifecycle.dispose();
+    socket.close();
+  });
   return socket.events;
 });
 
-Uri? _webSocketUri(String? serverUrl, CredentialsModel? credentials) {
+@visibleForTesting
+Uri? jellyfinWebSocketUri(String? serverUrl, CredentialsModel? credentials) {
   if (serverUrl == null || credentials == null || credentials.token.isEmpty) return null;
   final uri = buildServerUriFromBase(
     serverUrl,
     pathSegments: const ['socket'],
     queryParameters: {
-      'api_key': credentials.token,
+      // `api_key` is the legacy name, honoured only while EnableLegacyAuthorization is on (off by default
+      // since Jellyfin 12); web sends no auth header, so it has nothing else to fall back on.
+      'ApiKey': credentials.token,
       'deviceId': credentials.deviceId,
     },
   );
@@ -87,13 +111,14 @@ Uri? _webSocketUri(String? serverUrl, CredentialsModel? credentials) {
 }
 
 class _JellyfinWebSocket {
-  _JellyfinWebSocket(this.uri, this.headers, this.onConnectionChanged) {
+  _JellyfinWebSocket(this.uri, this.headers, this.onConnectionChanged, this.onSyncPlayMessage) {
     _connect();
   }
 
   final Uri uri;
   final Map<String, String> headers;
   final void Function(bool connected) onConnectionChanged;
+  final void Function(Map<String, dynamic> message) onSyncPlayMessage;
   final _events = StreamController<JellyfinWebSocketEvent>();
 
   WebSocketChannel? _channel;
@@ -125,6 +150,16 @@ class _JellyfinWebSocket {
     _subscription = channel.stream.listen(_handleMessage, onDone: _reconnect, onError: (_) {});
   }
 
+  /// A socket waiting on its backoff reconnects now; any other gets a KeepAlive, so the server refreshes its
+  /// liveness timer and a connection that died in the background errors out and reconnects.
+  void ensureConnected() {
+    if (_closed) return;
+    if (_reconnectTimer?.isActive != true) return _sendKeepAlive();
+    _reconnectTimer!.cancel();
+    _retryDelay = 1;
+    _connect();
+  }
+
   void _reconnect() {
     _keepAliveTimer?.cancel();
     if (_closed) return;
@@ -146,6 +181,8 @@ class _JellyfinWebSocket {
         case SessionMessageType.userdatachanged:
           final data = UserDataChangedMessage.fromJson(json).data;
           if (data != null) _events.add(_userDataChanged(data));
+        case SessionMessageType.syncplaycommand || SessionMessageType.syncplaygroupupdate:
+          onSyncPlayMessage(json);
         default:
       }
     } catch (_) {}
@@ -158,9 +195,8 @@ class _JellyfinWebSocket {
     _keepAliveTimer = Timer.periodic(Duration(milliseconds: seconds * 500), (_) => _sendKeepAlive());
   }
 
-  void _sendKeepAlive() => _channel?.sink.add(
-        jsonEncode(const InboundKeepAliveMessage(messageType: SessionMessageType.keepalive).toJson()),
-      );
+  void _sendKeepAlive() =>
+      _channel?.sink.add(jsonEncode(const InboundKeepAliveMessage(messageType: SessionMessageType.keepalive).toJson()));
 
   void close() {
     _closed = true;
@@ -222,8 +258,5 @@ JellyfinLibraryChanged _libraryChanged(LibraryUpdateInfo data) {
 }
 
 JellyfinUserDataChanged _userDataChanged(UserDataChangeInfo data) {
-  return JellyfinUserDataChanged(
-    userId: data.userId,
-    items: data.userDataList ?? const [],
-  );
+  return JellyfinUserDataChanged(userId: data.userId, items: data.userDataList ?? const []);
 }

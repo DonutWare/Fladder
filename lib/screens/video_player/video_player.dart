@@ -45,6 +45,30 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
   }
 
   @override
+  void deactivate() {
+    // Capture the notifier synchronously while the consumer element is
+    // still alive, then defer the mutation to the next microtask to
+    // avoid "Tried to modify a provider while the widget tree was
+    // building" when deactivate runs inside a parent rebuild.
+    try {
+      final notifier = ref.read(mediaPlaybackProvider.notifier);
+      final currentPlaybackState = ref.read(mediaPlaybackProvider).state;
+      if (currentPlaybackState == VideoPlayerState.fullScreen) {
+        Future.microtask(() {
+          try {
+            notifier.update((state) => state.copyWith(state: VideoPlayerState.minimized));
+          } catch (_) {
+            // ProviderContainer may already be torn down.
+          }
+        });
+      }
+    } catch (_) {
+      // ProviderContainer may already be torn down (app shutdown).
+    }
+    super.deactivate();
+  }
+
+  @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     SystemChrome.setPreferredOrientations(DeviceOrientation.values);
@@ -56,10 +80,12 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     Future.microtask(() {
+      ref.read(isVideoPlayerRouteOpenProvider.notifier).state = true;
       ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
       final orientations = ref.read(videoPlayerSettingsProvider.select((value) => value.allowedOrientations));
       SystemChrome.setPreferredOrientations(
-          orientations?.isNotEmpty == true ? orientations!.toList() : DeviceOrientation.values);
+        orientations?.isNotEmpty == true ? orientations!.toList() : DeviceOrientation.values,
+      );
       return ref.read(videoPlayerSettingsProvider.notifier).setSavedBrightness();
     });
   }
@@ -72,28 +98,29 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
 
     final playerController = ref.watch(videoPlayerProvider.select((value) => value));
 
-    //Watch playbackModel type changes to switch between normal players
-    ref.listen(
-      playBackModel,
-      (previous, next) {
-        if (next == null) return;
-        if (previous.runtimeType != next.runtimeType) {
-          setState(() {
-            currentPlaybackModel = next;
-            errorPlaying = false;
-          });
-        }
-      },
-    );
+    // Watch playbackModel type changes to switch between normal
+    // players. Guard with `mounted`: this listener can fire from an
+    // async callback (e.g. media-kit's loadVideo Future) that resolves
+    // after the player route has been popped/disposed - calling
+    // setState then triggers a "_lifecycleState != defunct" assertion.
+    ref.listen(playBackModel, (previous, next) {
+      if (!mounted || next == null) {
+        return;
+      }
+      if (previous.runtimeType != next.runtimeType) {
+        setState(() {
+          currentPlaybackModel = next;
+          errorPlaying = false;
+        });
+      }
+    });
 
-    ref.listen(
-      videoPlayerSettingsProvider.select((value) => value.allowedOrientations),
-      (previous, next) {
-        if (previous != next) {
-          SystemChrome.setPreferredOrientations(next?.isNotEmpty == true ? next!.toList() : DeviceOrientation.values);
-        }
-      },
-    );
+    ref.listen(videoPlayerSettingsProvider.select((value) => value.allowedOrientations), (previous, next) {
+      if (!mounted || previous == next) {
+        return;
+      }
+      SystemChrome.setPreferredOrientations(next?.isNotEmpty == true ? next!.toList() : DeviceOrientation.values);
+    });
 
     final playerState = ref.watch(mediaPlaybackProvider.select((v) => v.state));
 
@@ -128,29 +155,27 @@ class _VideoPlayerState extends ConsumerState<VideoPlayer> with WidgetsBindingOb
                 }
                 lastScale = 0.0;
               },
-              child: Stack(children: [
-                if (!kIsWeb && ref.watch(videoPlayerSettingsProvider.select((value) => value.ambientBlur)))
-                  AmbientBlur(
-                    child: playerController.videoWidget(
-                          const Key("VideoPlayerBlur"),
-                          BoxFit.cover,
-                        ) ??
-                        const SizedBox.shrink(),
-                  ),
-                switch (currentPlaybackModel) {
-                  TvPlaybackModel _ => VideoPlayerGuideWrapper(
+              child: Stack(
+                children: [
+                  if (!kIsWeb && ref.watch(videoPlayerSettingsProvider.select((value) => value.ambientBlur)))
+                    AmbientBlur(
+                      child:
+                          playerController.videoWidget(const Key("VideoPlayerBlur"), BoxFit.cover) ??
+                          const SizedBox.shrink(),
+                    ),
+                  switch (currentPlaybackModel) {
+                    TvPlaybackModel _ => VideoPlayerGuideWrapper(
                       key: const Key("VideoPlayerGuideWrapper"),
                       child: player,
                     ),
-                  _ => VideoPlayerNextWrapper(
+                    _ => VideoPlayerNextWrapper(
                       video: player,
                       controlsBuilder: (nextUpVisible) => DesktopControls(nextUpVisible: nextUpVisible),
-                      overlays: [
-                        if (errorPlaying) const _VideoErrorWidget(),
-                      ],
+                      overlays: [if (errorPlaying) const _VideoErrorWidget()],
                     ),
-                }
-              ]),
+                  },
+                ],
+              ),
             ),
           ),
         ),
@@ -169,16 +194,9 @@ class _VideoErrorWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.error_rounded,
-            size: 46,
-            color: Theme.of(context).colorScheme.error,
-          ),
+          Icon(Icons.error_rounded, size: 46, color: Theme.of(context).colorScheme.error),
           const SizedBox(width: 8),
-          Text(
-            "Error playing file",
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
+          Text("Error playing file", style: Theme.of(context).textTheme.headlineMedium),
         ],
       ),
     );

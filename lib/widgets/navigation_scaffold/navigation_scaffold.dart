@@ -96,8 +96,9 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     final bottomViewPadding = isDesktop ? 12.0 : viewPaddingOf.bottom;
     final isHomeScreen = currentIndex != -1;
 
-    final calculatedBottomViewPadding =
-        showPlayerBar ? floatingPlayerHeight(context) + bottomViewPadding : bottomViewPadding;
+    final calculatedBottomViewPadding = showPlayerBar
+        ? floatingPlayerHeight(context) + bottomViewPadding
+        : bottomViewPadding;
 
     final currentTab =
         HomeTabs.values.elementAtOrNull(currentIndex.clamp(0, HomeTabs.values.length - 1)) ?? HomeTabs.dashboard;
@@ -117,25 +118,24 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
     Widget buildMainScaffold(BuildContext scaffoldContext) {
       final scaffold = Scaffold(
         key: _key,
-        appBar: fullScreenChildRoute ||
+        appBar:
+            fullScreenChildRoute ||
                 (showAudioFullScreen && AdaptiveLayout.layoutModeOf(scaffoldContext) == LayoutMode.single)
             ? null
-            : FladderAppBar(
-                isDesktop: isDesktop,
-                label: currentIndex == -1 ? "" : null,
-              ),
+            : FladderAppBar(isDesktop: isDesktop, label: currentIndex == -1 ? "" : null),
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
         extendBody: true,
         floatingActionButton:
             !showAudioFullScreen && AdaptiveLayout.layoutModeOf(scaffoldContext) == LayoutMode.single && isHomeScreen
-                ? widget.destinations.elementAtOrNull(currentIndex)?.floatingActionButton?.normal
-                : null,
+            ? widget.destinations.elementAtOrNull(currentIndex)?.fabWidget
+            : null,
         drawer: drawer != null ? DrawerBackGesture(child: drawer) : null,
         bottomNavigationBar: AdaptiveLayout.viewSizeOf(scaffoldContext) == ViewSize.television
             ? SizedBox(height: calculatedBottomViewPadding)
             : AnimatedVisibility(
-                visible: !showAudioFullScreen &&
+                visible:
+                    !showAudioFullScreen &&
                     (isHomeScreen && AdaptiveLayout.viewSizeOf(scaffoldContext) == ViewSize.phone),
                 hiddenHeight: calculatedBottomViewPadding,
                 duration: const Duration(milliseconds: 250),
@@ -185,17 +185,11 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
             : null,
       );
       if (drawer == null) return scaffold;
-      return DrawerPeek(
-        drawer: drawer,
-        canPeek: () => _key.currentState?.isDrawerOpen == false,
-        child: scaffold,
-      );
+      return DrawerPeek(drawer: drawer, canPeek: () => _key.currentState?.isDrawerOpen == false, child: scaffold);
     }
 
     final Widget audioOverlay = showAudioFullScreen
-        ? const AudioPlayerFullScreen(
-            key: ValueKey("audio_full_screen"),
-          )
+        ? const AudioPlayerFullScreen(key: ValueKey("audio_full_screen"))
         : const SizedBox.shrink();
 
     return PopScope(
@@ -226,9 +220,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
               child: SplitArea(
                 axis: Axis.horizontal,
                 areas: [
-                  Area(
-                    initialArea: 0.7,
-                  ),
+                  Area(initialArea: 0.7),
                   Area(
                     initialArea: 0.3,
                     minArea: 0.2,
@@ -238,11 +230,7 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                 ],
                 children: [
                   buildMainScaffold(context),
-                  if (showAudioSidePanel)
-                    SizedBox(
-                      width: double.infinity,
-                      child: audioOverlay,
-                    ),
+                  if (showAudioSidePanel) SizedBox(width: double.infinity, child: audioOverlay),
                 ],
               ),
             ),
@@ -264,7 +252,8 @@ class _NavigationScaffoldState extends ConsumerState<NavigationScaffold> {
                   .update((state) => state.copyWith(state: VideoPlayerState.minimized)),
               child: audioOverlay,
             ),
-          if (!AdaptiveLayout.of(context).isDesktop) const Align(alignment: Alignment.topCenter, child: StatusBanners())
+          if (!AdaptiveLayout.of(context).isDesktop)
+            const Align(alignment: Alignment.topCenter, child: StatusBanners()),
         ],
       ),
     );

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
+import 'package:fladder/providers/syncplay/syncplay_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/list_padding.dart';
@@ -101,16 +102,17 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                       animation: Duration.zero,
                       thumbWidth: 10.0,
                       showThumb: false,
-                      value: (position.inMilliseconds).toDouble().clamp(
-                            0,
-                            widget.duration.inMilliseconds.toDouble(),
-                          ),
+                      value: (position.inMilliseconds).toDouble().clamp(0, widget.duration.inMilliseconds.toDouble()),
                       onChangeEnd: (e) async {
                         currentDuration = Duration(milliseconds: e.toInt());
-                        widget.onPositionChanged.call(Duration(milliseconds: e.toInt()));
-                        await Future.delayed(const Duration(milliseconds: 250));
-                        if (widget.wasPlaying) {
-                          player.play();
+                        final inSyncPlay = ref.read(isSyncPlayActiveProvider);
+                        // One seek per release; in a group the server's Seek and the following Unpause resume everyone.
+                        widget.onPositionChanged(Duration(milliseconds: e.toInt()));
+                        if (!inSyncPlay) {
+                          await Future.delayed(const Duration(milliseconds: 250));
+                          if (widget.wasPlaying) {
+                            ref.read(videoPlayerProvider.notifier).userPlay();
+                          }
                         }
                         widget.timerReset.call();
                         setState(() {
@@ -122,7 +124,10 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                           onHoverStart = true;
                         });
                         widget.wasPlayingChanged.call(player.lastState?.playing ?? false);
-                        player.pause();
+                        // In a group the player keeps running while dragging: pausing here would pause everyone.
+                        if (!ref.read(isSyncPlayActiveProvider)) {
+                          ref.read(videoPlayerProvider.notifier).userPause();
+                        }
                       },
                       onChanged: (e) {
                         currentDuration = Duration(milliseconds: e.toInt());
@@ -144,12 +149,7 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                       bottom: 0,
                       child: Container(
                         height: 6,
-                        decoration: BoxDecoration(
-                          color: segment.type.color,
-                          borderRadius: BorderRadius.circular(
-                            100,
-                          ),
-                        ),
+                        decoration: BoxDecoration(color: segment.type.color, borderRadius: BorderRadius.circular(100)),
                       ),
                     ),
                   ),
@@ -173,37 +173,35 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                       alignment: Alignment.center,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: LinearProgressIndicator(
-                          backgroundColor: Colors.transparent,
-                          minHeight: sliderHeight,
-                        ),
+                        child: LinearProgressIndicator(backgroundColor: Colors.transparent, minHeight: sliderHeight),
                       ),
                     ),
                   if (chapters.isNotEmpty && !widget.buffering) ...{
-                    ...chapters.map(
-                      (chapter) {
-                        final offset = constraints.maxWidth /
-                            (widget.duration.inMilliseconds / chapter.startPosition.inMilliseconds)
-                                .clamp(1, constraints.maxWidth);
-                        final activePosition = chapter.startPosition < widget.position;
-                        if (chapter.startPosition.inSeconds == 0) return null;
-                        return Positioned(
-                          left: offset,
-                          child: IgnorePointer(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: activePosition
-                                    ? Theme.of(context).colorScheme.onPrimary
-                                    : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
-                              ),
-                              height: constraints.maxHeight,
-                              width: sliderHeight - (activePosition ? 2 : 4),
+                    ...chapters.map((chapter) {
+                      final offset =
+                          constraints.maxWidth /
+                          (widget.duration.inMilliseconds / chapter.startPosition.inMilliseconds).clamp(
+                            1,
+                            constraints.maxWidth,
+                          );
+                      final activePosition = chapter.startPosition < widget.position;
+                      if (chapter.startPosition.inSeconds == 0) return null;
+                      return Positioned(
+                        left: offset,
+                        child: IgnorePointer(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: activePosition
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
                             ),
+                            height: constraints.maxHeight,
+                            width: sliderHeight - (activePosition ? 2 : 4),
                           ),
-                        );
-                      },
-                    ).nonNulls,
+                        ),
+                      );
+                    }).nonNulls,
                   },
                 ],
               ),
@@ -211,8 +209,10 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
             if (!widget.buffering) ...[
               chapterCard(context, position, isVisible),
               Positioned(
-                left: (constraints.maxWidth / (widget.duration.inMilliseconds / position.inMilliseconds))
-                    .clamp(1, constraints.maxWidth),
+                left: (constraints.maxWidth / (widget.duration.inMilliseconds / position.inMilliseconds)).clamp(
+                  1,
+                  constraints.maxWidth,
+                ),
                 child: Transform.translate(
                   offset: Offset(-(constraints.maxHeight / 2), 0),
                   child: IgnorePointer(
@@ -298,17 +298,11 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                               borderRadius: const BorderRadius.all(Radius.circular(8)),
                               child: trickPlay == null || trickPlay.images.isEmpty
                                   ? chapter != null
-                                      ? Image(
-                                          image: chapter.imageProvider,
-                                          fit: BoxFit.contain,
-                                        )
-                                      : const SizedBox.shrink()
+                                        ? Image(image: chapter.imageProvider, fit: BoxFit.contain)
+                                        : const SizedBox.shrink()
                                   : AspectRatio(
                                       aspectRatio: trickPlay.width.toDouble() / trickPlay.height.toDouble(),
-                                      child: TrickPlayImage(
-                                        trickPlay,
-                                        position: currentDuration,
-                                      ),
+                                      child: TrickPlayImage(trickPlay, position: currentDuration),
                                     ),
                             ),
                           ),
@@ -345,18 +339,18 @@ class _ChapterProgressSliderState extends ConsumerState<VideoProgressBar> {
                                       Flexible(
                                         child: Text(
                                           chapter?.name.capitalize() ?? "",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleSmall
-                                              ?.copyWith(fontWeight: FontWeight.bold),
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                                         ),
                                       ),
                                     Text(
                                       currentDuration.readAbleDuration,
                                       textAlign: TextAlign.center,
-                                      style:
-                                          Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-                                    )
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                                    ),
                                   ],
                                 ),
                               ),

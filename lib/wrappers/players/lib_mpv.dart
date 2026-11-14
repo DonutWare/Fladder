@@ -16,6 +16,7 @@ import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
+import 'package:fladder/models/playback/transcode_playback_model.dart';
 import 'package:fladder/models/settings/subtitle_settings_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
@@ -91,9 +92,7 @@ class LibMPV extends BasePlayer {
     if (_player != null) {
       _controller = VideoController(
         _player!,
-        configuration: VideoControllerConfiguration(
-          enableHardwareAcceleration: settings.hardwareAccel,
-        ),
+        configuration: VideoControllerConfiguration(enableHardwareAcceleration: settings.hardwareAccel),
       );
       _setupPlayerStreams(_player!);
     }
@@ -142,9 +141,7 @@ class LibMPV extends BasePlayer {
   }
 
   void setState(PlayerState state) {
-    final newState = state.update(
-      playing: _musicPlaybackMode ? !_musicPaused : state.playing,
-    );
+    final newState = state.update(playing: _musicPlaybackMode ? !_musicPaused : state.playing);
     lastState = newState;
     _stateController.add(newState);
   }
@@ -248,15 +245,17 @@ class LibMPV extends BasePlayer {
     oldPlayer.stop();
     oldPlayer.dispose();
 
-    setState(lastState.update(
-      playing: incomingPlayer.state.playing,
-      buffering: incomingPlayer.state.buffering,
-      position: incomingPlayer.state.position,
-      duration: incomingPlayer.state.duration,
-      volume: _preferredVolume,
-      buffer: incomingPlayer.state.buffer,
-      completed: false,
-    ));
+    setState(
+      lastState.update(
+        playing: incomingPlayer.state.playing,
+        buffering: incomingPlayer.state.buffering,
+        position: incomingPlayer.state.position,
+        duration: incomingPlayer.state.duration,
+        volume: _preferredVolume,
+        buffer: incomingPlayer.state.buffer,
+        completed: false,
+      ),
+    );
   }
 
   @override
@@ -272,22 +271,19 @@ class LibMPV extends BasePlayer {
     _retryTimer = null;
     if (_player == null) return;
 
-    _retryTimer = RestartableTimer(
-      _currentRetryDuration,
-      () async {
-        await Future.delayed(const Duration(milliseconds: 150));
-        if (DateTime.now().isAfter(_firstLoadAttempt.add(_maxRetryDuration))) {
-          log("Max retry duration reached, stopping retries.");
-          _retryTimer?.cancel();
-          _retryTimer = null;
-        } else {
-          log("Retrying to load video $url");
-          await setStartPosition(startPosition);
-          await _player?.open(mpv.Media(url), play: play);
-          _retryTimer?.reset();
-        }
-      },
-    );
+    _retryTimer = RestartableTimer(_currentRetryDuration, () async {
+      await Future.delayed(const Duration(milliseconds: 150));
+      if (DateTime.now().isAfter(_firstLoadAttempt.add(_maxRetryDuration))) {
+        log("Max retry duration reached, stopping retries.");
+        _retryTimer?.cancel();
+        _retryTimer = null;
+      } else {
+        log("Retrying to load video $url");
+        await setStartPosition(startPosition);
+        await _player?.open(mpv.Media(url), play: play);
+        _retryTimer?.reset();
+      }
+    });
 
     // Wait for the player to be ready
     if (_loadCompleter?.isCompleted == false) {
@@ -311,14 +307,12 @@ class LibMPV extends BasePlayer {
       });
     }
 
-    _loadCompleter?.future.then(
-      (value) async {
-        // Backup seek in case property didn't work
-        if (startPosition != Duration.zero && (_player?.state.position.inSeconds ?? 0) < startPosition.inSeconds - 5) {
-          await _player?.seek(startPosition);
-        }
-      },
-    );
+    _loadCompleter?.future.then((value) async {
+      // Backup seek in case property didn't work
+      if (startPosition != Duration.zero && (_player?.state.position.inSeconds ?? 0) < startPosition.inSeconds - 5) {
+        await _player?.seek(startPosition);
+      }
+    });
     return setState(lastState.update(buffering: true));
   }
 
@@ -383,10 +377,7 @@ class LibMPV extends BasePlayer {
 
   Future<void> setStartPosition(Duration position) async {
     if (_player?.platform is mpv.NativePlayer) {
-      await (_player?.platform as dynamic).setProperty(
-        'start',
-        '${position.inMilliseconds / 1000}',
-      );
+      await (_player?.platform as dynamic).setProperty('start', '${position.inMilliseconds / 1000}');
     }
   }
 
@@ -397,11 +388,17 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> open(BuildContext context) async => Navigator.of(context, rootNavigator: true).push(
-        MaterialPageRoute(
-          builder: (context) => const video_screen.VideoPlayer(),
-        ),
-      );
+  Future<void> open(BuildContext context) async {
+    final route = MaterialPageRoute<void>(
+      settings: const RouteSettings(name: videoPlayerRouteName),
+      builder: (context) => const video_screen.VideoPlayer(),
+    );
+    playerRoute = route;
+    await Navigator.of(context, rootNavigator: true).push(route);
+    if (identical(playerRoute, route)) {
+      playerRoute = null;
+    }
+  }
 
   List<mpv.SubtitleTrack> get subTracks => _player?.state.tracks.subtitle ?? [];
   mpv.SubtitleTrack get subtitleTrack => _player?.state.track.subtitle ?? mpv.SubtitleTrack.no();
@@ -479,6 +476,10 @@ class LibMPV extends BasePlayer {
   @override
   Future<void> seek(Duration position) async => _player?.seek(position);
 
+  /// media-kit's real state; [lastState] only mirrors [_musicPaused].
+  @override
+  bool get isPlaying => _player?.state.playing ?? lastState.playing;
+
   // mpv parses tracks asynchronously after open(); at playback start the list is still empty, so a
   // positional lookup would miss and leave mpv on its own default pick. Wait (capped) for [index].
   Future<void> _awaitTrack(int index, int Function(mpv.Tracks) count) async {
@@ -495,6 +496,9 @@ class LibMPV extends BasePlayer {
     if (wantedAudioStream == null) return -1;
     if (wantedAudioStream.index == AudioStreamModel.no().index) {
       await _player?.setAudioTrack(mpv.AudioTrack.no());
+    } else if (playbackModel is TranscodePlaybackModel) {
+      // The server picks the audio track for a transcode; the reload applies it.
+      return wantedAudioStream.index;
     } else {
       final index = (playbackModel.audioStreams?.indexOf(wantedAudioStream) ?? -1) - 1;
       await _awaitTrack(index, (tracks) => tracks.audio.length);
@@ -517,6 +521,11 @@ class LibMPV extends BasePlayer {
     if (wantedSubtitle == null || wantedSubtitle.index == SubStreamModel.no().index) {
       await _player?.setSubtitleTrack(mpv.SubtitleTrack.no());
       return -1;
+    }
+    // A non-external subtitle on a transcode is burned in by the server: there is no selectable track, and
+    // waiting for one only stalls the caller for the whole `_awaitTrack` timeout before the reload.
+    if (playbackModel is TranscodePlaybackModel && !wantedSubtitle.isExternal) {
+      return wantedSubtitle.index;
     }
     final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id) ?? -1;
     if (!wantedSubtitle.isExternal) await _awaitTrack(index, (tracks) => tracks.subtitle.length);
@@ -557,35 +566,27 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Widget? videoWidget(
-    Key key,
-    BoxFit fit,
-  ) =>
-      _controller == null
-          ? null
-          : Video(
-              key: key,
-              controller: _controller!,
-              wakelock: false,
-              fill: Colors.transparent,
-              fit: fit,
-              subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
-              controls: NoVideoControls,
-            );
+  Widget? videoWidget(Key key, BoxFit fit) => _controller == null
+      ? null
+      : Video(
+          key: key,
+          controller: _controller!,
+          wakelock: false,
+          fill: Colors.transparent,
+          fit: fit,
+          subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
+          controls: NoVideoControls,
+        );
 
   @override
-  Widget? subtitles(
-    bool showOverlay, {
-    GlobalKey? controlsKey,
-  }) =>
-      _controller != null
-          ? _VideoSubtitles(
-              controller: _controller!,
-              showOverlay: showOverlay,
-              controlsKey: controlsKey,
-              internalRenderer: _internalSubtitleRenderer,
-            )
-          : null;
+  Widget? subtitles(bool showOverlay, {GlobalKey? controlsKey}) => _controller != null
+      ? _VideoSubtitles(
+          controller: _controller!,
+          showOverlay: showOverlay,
+          controlsKey: controlsKey,
+          internalRenderer: _internalSubtitleRenderer,
+        )
+      : null;
 
   static bool _needsInternalRenderer(String codec) {
     final value = codec.toLowerCase();
@@ -700,12 +701,7 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
       menuHeight: _cachedMenuHeight,
     );
 
-    return SubtitleText(
-      subModel: settings,
-      padding: padding,
-      offset: offset,
-      text: text,
-    );
+    return SubtitleText(subModel: settings, padding: padding, offset: offset, text: text);
   }
 
   void _measureMenuHeight() {

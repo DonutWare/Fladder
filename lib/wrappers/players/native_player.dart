@@ -45,17 +45,18 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
     return activity.launchActivity();
   }
 
+  // Synthetic frames come from Flutter, never a remote gesture, so they must not carry a stale user tag.
   @override
   Future<void> pause() async {
     await player.pause();
-    lastState = lastState.update(playing: false);
+    lastState = lastState.update(playing: false, changeSource: PlaybackChangeSource.none, updateChangeSource: true);
     _stateController.add(lastState);
   }
 
   @override
   Future<void> play() async {
     await player.play();
-    lastState = lastState.update(playing: true);
+    lastState = lastState.update(playing: true, changeSource: PlaybackChangeSource.none, updateChangeSource: true);
     _stateController.add(lastState);
   }
 
@@ -79,7 +80,9 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   }
 
   @override
-  Future<void> setSpeed(double speed) async {}
+  Future<void> setSpeed(double speed) async {
+    await player.setPlaybackSpeed(speed);
+  }
 
   @override
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async {
@@ -115,6 +118,8 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
       position: Duration(milliseconds: state.position),
       buffer: Duration(milliseconds: state.buffered),
       buffering: state.buffering,
+      changeSource: state.changeSource,
+      updateChangeSource: true,
     );
     _stateController.add(lastState);
   }
@@ -128,20 +133,16 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
     await player.sendTVGuideModel(guide);
   }
 
-  Future<void> sendPlaybackDataToNative(
-    BuildContext? context,
-    PlaybackModel model,
-    Duration startPosition,
-  ) async {
+  Future<void> sendPlaybackDataToNative(BuildContext? context, PlaybackModel model, Duration startPosition) async {
     final nativeCurrentItem = switch (model) {
       TvPlaybackModel tvModel => SimpleItemModel(
-          id: tvModel.channel.id,
-          title: tvModel.channel.name,
-          subTitle: tvModel.playingProgram?.name,
-          overview: tvModel.playingProgram?.overview ?? tvModel.channel.overview.summary,
-          logoUrl: tvModel.channel.getPosters?.logo?.path ?? tvModel.channel.images?.logo?.path,
-          primaryPoster: tvModel.playingProgram?.images?.primary?.path ?? tvModel.channel.images?.primary?.path ?? "",
-        ),
+        id: tvModel.channel.id,
+        title: tvModel.channel.name,
+        subTitle: tvModel.playingProgram?.name,
+        overview: tvModel.playingProgram?.overview ?? tvModel.channel.overview.summary,
+        logoUrl: tvModel.channel.getPosters?.logo?.path ?? tvModel.channel.images?.logo?.path,
+        primaryPoster: tvModel.playingProgram?.images?.primary?.path ?? tvModel.channel.images?.primary?.path ?? "",
+      ),
       _ => model.item.toSimpleItem(context),
     };
 
@@ -152,7 +153,8 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
       defaultAudioTrack: model.mediaStreams?.defaultAudioStreamIndex ?? 1,
       nextVideo: model.nextVideo?.toSimpleItem(context),
       previousVideo: model.previousVideo?.toSimpleItem(context),
-      audioTracks: model.audioStreams
+      audioTracks:
+          model.audioStreams
               ?.map(
                 (audio) => AudioTrack(
                   name: audio.displayTitle,
@@ -165,7 +167,8 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
               .toList() ??
           [],
       defaultSubtrack: model.mediaStreams?.defaultSubStreamIndex ?? 1,
-      subtitleTracks: model.subStreams
+      subtitleTracks:
+          model.subStreams
               ?.map(
                 (sub) => SubtitleTrack(
                   name: sub.displayTitle,
@@ -178,7 +181,8 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
               )
               .toList() ??
           [],
-      segments: model.mediaSegments?.segments
+      segments:
+          model.mediaSegments?.segments
               .map(
                 (e) => MediaSegment(
                   type: MediaSegmentType.values.firstWhere((element) => element.name == e.type.name),
@@ -197,9 +201,11 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
               tileHeight: model.trickPlay!.tileHeight,
               thumbnailCount: model.trickPlay!.thumbnailCount,
               interval: model.trickPlay!.interval.inMilliseconds,
-              images: model.trickPlay?.images ?? [])
+              images: model.trickPlay?.images ?? [],
+            )
           : null,
-      chapters: model.chapters
+      chapters:
+          model.chapters
               ?.map((e) => Chapter(name: e.name, url: e.imageUrl, time: e.startPosition.inMilliseconds))
               .toList() ??
           [],

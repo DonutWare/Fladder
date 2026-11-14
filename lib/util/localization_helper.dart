@@ -17,11 +17,7 @@ extension BuildContextExtension on BuildContext {
 class LocalizationContextWrapper extends ConsumerStatefulWidget {
   final Widget child;
   final Locale currentLocale;
-  const LocalizationContextWrapper({
-    required this.child,
-    required this.currentLocale,
-    super.key,
-  });
+  const LocalizationContextWrapper({required this.child, required this.currentLocale, super.key});
 
   @override
   ConsumerState<LocalizationContextWrapper> createState() => _LocalizationContextWrapperState();
@@ -130,4 +126,26 @@ class _TranslationsMessgener extends messenger.TranslationsPigeon {
 
   @override
   Future<String> watch() async => context.localized.watch;
+
+  // SyncPlay overlay strings
+  @override
+  Future<String> syncPlaySyncingWithGroup() async => context.localized.syncPlaySyncingWithGroup;
+
+  @override
+  Future<String> syncPlayCommandPausing() async => context.localized.syncPlayCommandPausing;
+
+  @override
+  Future<String> syncPlayCommandPlaying() async => context.localized.syncPlayCommandPlaying;
+
+  @override
+  Future<String> syncPlayCommandSeeking() async => context.localized.syncPlayCommandSeeking;
+
+  @override
+  Future<String> syncPlayCommandStopping() async => context.localized.syncPlayCommandStopping;
+
+  @override
+  Future<String> syncPlayCommandSyncing() async => context.localized.syncPlayCommandSyncing;
+
+  @override
+  Future<String> syncPlayStateWaiting() async => context.localized.syncPlayStateWaiting;
 }

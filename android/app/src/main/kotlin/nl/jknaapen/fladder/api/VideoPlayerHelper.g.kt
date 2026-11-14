@@ -209,6 +209,24 @@ enum class PlaybackType(val raw: Int) {
   }
 }
 
+enum class SyncPlayCommandType(val raw: Int) {
+  NONE(0),
+  PAUSE(1),
+  UNPAUSE(2),
+  SEEK(3),
+  STOP(4),
+  /** The group is waiting for a participant to buffer; shown so every device reports the same state. */
+  WAITING(5);
+
+  companion object {
+    private val pigeonValues = values()
+
+    fun ofRaw(raw: Int): SyncPlayCommandType? {
+      return pigeonValues.getOrNull(raw)
+    }
+  }
+}
+
 enum class MediaSegmentType(val raw: Int) {
   COMMERCIAL(0),
   PREVIEW(1),
@@ -220,6 +238,29 @@ enum class MediaSegmentType(val raw: Int) {
     private val pigeonValues = values()
 
     fun ofRaw(raw: Int): MediaSegmentType? {
+      return pigeonValues.getOrNull(raw)
+    }
+  }
+}
+
+/** Who caused the last playback state change; Flutter infers SyncPlay requests from it. */
+enum class PlaybackChangeSource(val raw: Int) {
+  /** No specific source (e.g. periodic update, buffering). */
+  NONE(0),
+  /** User pressed play or pause on native; Flutter turns it into the SyncPlay request. */
+  USER_PLAY_PAUSE(1),
+  /**
+   * User seeked on native; the frame carries the new position even when the seek drops the player into
+   * buffering. Kept apart from [userPlayPause] so a paused-while-buffering frame is never ambiguous.
+   */
+  USER_SEEK(2),
+  /** Change was caused by applying a SyncPlay command; do not send again. */
+  SYNCPLAY(3);
+
+  companion object {
+    private val pigeonValues = values()
+
+    fun ofRaw(raw: Int): PlaybackChangeSource? {
       return pigeonValues.getOrNull(raw)
     }
   }
@@ -738,7 +779,9 @@ data class PlaybackState (
   val playing: Boolean,
   val buffering: Boolean,
   val completed: Boolean,
-  val failed: Boolean
+  val failed: Boolean,
+  /** When set, indicates who caused this state update (for SyncPlay inference). */
+  val changeSource: PlaybackChangeSource? = null
 )
  {
   companion object {
@@ -750,7 +793,8 @@ data class PlaybackState (
       val buffering = pigeonVar_list[4] as Boolean
       val completed = pigeonVar_list[5] as Boolean
       val failed = pigeonVar_list[6] as Boolean
-      return PlaybackState(position, buffered, duration, playing, buffering, completed, failed)
+      val changeSource = pigeonVar_list[7] as PlaybackChangeSource?
+      return PlaybackState(position, buffered, duration, playing, buffering, completed, failed, changeSource)
     }
   }
   fun toList(): List<Any?> {
@@ -762,6 +806,7 @@ data class PlaybackState (
       buffering,
       completed,
       failed,
+      changeSource,
     )
   }
   override fun equals(other: Any?): Boolean {
@@ -772,7 +817,7 @@ data class PlaybackState (
       return true
     }
     val other = other as PlaybackState
-    return VideoPlayerHelperPigeonUtils.deepEquals(this.position, other.position) && VideoPlayerHelperPigeonUtils.deepEquals(this.buffered, other.buffered) && VideoPlayerHelperPigeonUtils.deepEquals(this.duration, other.duration) && VideoPlayerHelperPigeonUtils.deepEquals(this.playing, other.playing) && VideoPlayerHelperPigeonUtils.deepEquals(this.buffering, other.buffering) && VideoPlayerHelperPigeonUtils.deepEquals(this.completed, other.completed) && VideoPlayerHelperPigeonUtils.deepEquals(this.failed, other.failed)
+    return VideoPlayerHelperPigeonUtils.deepEquals(this.position, other.position) && VideoPlayerHelperPigeonUtils.deepEquals(this.buffered, other.buffered) && VideoPlayerHelperPigeonUtils.deepEquals(this.duration, other.duration) && VideoPlayerHelperPigeonUtils.deepEquals(this.playing, other.playing) && VideoPlayerHelperPigeonUtils.deepEquals(this.buffering, other.buffering) && VideoPlayerHelperPigeonUtils.deepEquals(this.completed, other.completed) && VideoPlayerHelperPigeonUtils.deepEquals(this.failed, other.failed) && VideoPlayerHelperPigeonUtils.deepEquals(this.changeSource, other.changeSource)
   }
 
   override fun hashCode(): Int {
@@ -784,10 +829,11 @@ data class PlaybackState (
     result = 31 * result + VideoPlayerHelperPigeonUtils.deepHash(this.buffering)
     result = 31 * result + VideoPlayerHelperPigeonUtils.deepHash(this.completed)
     result = 31 * result + VideoPlayerHelperPigeonUtils.deepHash(this.failed)
+    result = 31 * result + VideoPlayerHelperPigeonUtils.deepHash(this.changeSource)
     return result
   }
   override fun toString(): String {
-    return "PlaybackState(position=$position, buffered=$buffered, duration=$duration, playing=$playing, buffering=$buffering, completed=$completed, failed=$failed)"
+    return "PlaybackState(position=$position, buffered=$buffered, duration=$duration, playing=$playing, buffering=$buffering, completed=$completed, failed=$failed, changeSource=$changeSource)"
   }
 }
 
@@ -1032,75 +1078,85 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
       }
       130.toByte() -> {
         (readValue(buffer) as Long?)?.let {
-          MediaSegmentType.ofRaw(it.toInt())
+          SyncPlayCommandType.ofRaw(it.toInt())
         }
       }
       131.toByte() -> {
-        (readValue(buffer) as? List<Any?>)?.let {
-          SimpleItemModel.fromList(it)
+        (readValue(buffer) as Long?)?.let {
+          MediaSegmentType.ofRaw(it.toInt())
         }
       }
       132.toByte() -> {
-        (readValue(buffer) as? List<Any?>)?.let {
-          MediaInfo.fromList(it)
+        (readValue(buffer) as Long?)?.let {
+          PlaybackChangeSource.ofRaw(it.toInt())
         }
       }
       133.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          PlayableData.fromList(it)
+          SimpleItemModel.fromList(it)
         }
       }
       134.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          MediaSegment.fromList(it)
+          MediaInfo.fromList(it)
         }
       }
       135.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          AudioTrack.fromList(it)
+          PlayableData.fromList(it)
         }
       }
       136.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          SubtitleTrack.fromList(it)
+          MediaSegment.fromList(it)
         }
       }
       137.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          Chapter.fromList(it)
+          AudioTrack.fromList(it)
         }
       }
       138.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          TrickPlayModel.fromList(it)
+          SubtitleTrack.fromList(it)
         }
       }
       139.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          StartResult.fromList(it)
+          Chapter.fromList(it)
         }
       }
       140.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          PlaybackState.fromList(it)
+          TrickPlayModel.fromList(it)
         }
       }
       141.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          SubtitleSettings.fromList(it)
+          StartResult.fromList(it)
         }
       }
       142.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          TVGuideModel.fromList(it)
+          PlaybackState.fromList(it)
         }
       }
       143.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
-          GuideChannel.fromList(it)
+          SubtitleSettings.fromList(it)
         }
       }
       144.toByte() -> {
+        (readValue(buffer) as? List<Any?>)?.let {
+          TVGuideModel.fromList(it)
+        }
+      }
+      145.toByte() -> {
+        (readValue(buffer) as? List<Any?>)?.let {
+          GuideChannel.fromList(it)
+        }
+      }
+      146.toByte() -> {
         (readValue(buffer) as? List<Any?>)?.let {
           GuideProgram.fromList(it)
         }
@@ -1114,64 +1170,72 @@ private open class VideoPlayerHelperPigeonCodec : StandardMessageCodec() {
         stream.write(129)
         writeValue(stream, value.raw.toLong())
       }
-      is MediaSegmentType -> {
+      is SyncPlayCommandType -> {
         stream.write(130)
         writeValue(stream, value.raw.toLong())
       }
-      is SimpleItemModel -> {
+      is MediaSegmentType -> {
         stream.write(131)
-        writeValue(stream, value.toList())
+        writeValue(stream, value.raw.toLong())
       }
-      is MediaInfo -> {
+      is PlaybackChangeSource -> {
         stream.write(132)
-        writeValue(stream, value.toList())
+        writeValue(stream, value.raw.toLong())
       }
-      is PlayableData -> {
+      is SimpleItemModel -> {
         stream.write(133)
         writeValue(stream, value.toList())
       }
-      is MediaSegment -> {
+      is MediaInfo -> {
         stream.write(134)
         writeValue(stream, value.toList())
       }
-      is AudioTrack -> {
+      is PlayableData -> {
         stream.write(135)
         writeValue(stream, value.toList())
       }
-      is SubtitleTrack -> {
+      is MediaSegment -> {
         stream.write(136)
         writeValue(stream, value.toList())
       }
-      is Chapter -> {
+      is AudioTrack -> {
         stream.write(137)
         writeValue(stream, value.toList())
       }
-      is TrickPlayModel -> {
+      is SubtitleTrack -> {
         stream.write(138)
         writeValue(stream, value.toList())
       }
-      is StartResult -> {
+      is Chapter -> {
         stream.write(139)
         writeValue(stream, value.toList())
       }
-      is PlaybackState -> {
+      is TrickPlayModel -> {
         stream.write(140)
         writeValue(stream, value.toList())
       }
-      is SubtitleSettings -> {
+      is StartResult -> {
         stream.write(141)
         writeValue(stream, value.toList())
       }
-      is TVGuideModel -> {
+      is PlaybackState -> {
         stream.write(142)
         writeValue(stream, value.toList())
       }
-      is GuideChannel -> {
+      is SubtitleSettings -> {
         stream.write(143)
         writeValue(stream, value.toList())
       }
-      is GuideProgram -> {
+      is TVGuideModel -> {
         stream.write(144)
+        writeValue(stream, value.toList())
+      }
+      is GuideChannel -> {
+        stream.write(145)
+        writeValue(stream, value.toList())
+      }
+      is GuideProgram -> {
+        stream.write(146)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -1264,6 +1328,8 @@ interface VideoPlayerApi {
   fun seekTo(position: Long)
   fun stop()
   fun setSubtitleSettings(settings: SubtitleSettings)
+  /** Drives the native player's SyncPlay overlay. */
+  fun setSyncPlayCommandState(processing: Boolean, commandType: SyncPlayCommandType)
 
   companion object {
     /** The codec used by VideoPlayerApi. */
@@ -1463,6 +1529,25 @@ interface VideoPlayerApi {
             val settingsArg = args[0] as SubtitleSettings
             val wrapped: List<Any?> = try {
               api.setSubtitleSettings(settingsArg)
+              listOf(null)
+            } catch (exception: Throwable) {
+              VideoPlayerHelperPigeonUtils.wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.nl_jknaapen_fladder.video.VideoPlayerApi.setSyncPlayCommandState$separatedMessageChannelSuffix", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val processingArg = args[0] as Boolean
+            val commandTypeArg = args[1] as SyncPlayCommandType
+            val wrapped: List<Any?> = try {
+              api.setSyncPlayCommandState(processingArg, commandTypeArg)
               listOf(null)
             } catch (exception: Throwable) {
               VideoPlayerHelperPigeonUtils.wrapError(exception)

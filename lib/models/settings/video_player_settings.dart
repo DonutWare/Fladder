@@ -116,6 +116,11 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(400) int crossfadeDurationMs,
     @Default(false) bool refreshRateSwitching,
     @Default(false) bool ambientBlur,
+
+    /// SyncPlay drift correction (SpeedToSync / SkipToSync). On by
+    /// default: libmpv and ExoPlayer drift enough over a long film that
+    /// a group without it visibly desynchronises.
+    @Default(true) bool enableSyncPlayCorrection,
   }) = _VideoPlayerSettingsModel;
 
   double get volume {
@@ -186,11 +191,11 @@ enum PlayerOptions {
   static Iterable<PlayerOptions> get available => leanBackMode
       ? {PlayerOptions.nativePlayer}
       : kIsWeb
-          ? {PlayerOptions.libMPV}
-          : switch (defaultTargetPlatform) {
-              TargetPlatform.android => PlayerOptions.values,
-              _ => {PlayerOptions.libMDK, PlayerOptions.libMPV},
-            };
+      ? {PlayerOptions.libMPV}
+      : switch (defaultTargetPlatform) {
+          TargetPlatform.android => PlayerOptions.values,
+          _ => {PlayerOptions.libMDK, PlayerOptions.libMPV},
+        };
 
   static PlayerOptions get platformDefaults {
     if (leanBackMode) return PlayerOptions.nativePlayer;
@@ -201,10 +206,10 @@ enum PlayerOptions {
   }
 
   String label(BuildContext context) => switch (this) {
-        PlayerOptions.libMDK => "MDK",
-        PlayerOptions.libMPV => "MPV",
-        PlayerOptions.nativePlayer => "Native",
-      };
+    PlayerOptions.libMDK => "MDK",
+    PlayerOptions.libMPV => "MPV",
+    PlayerOptions.nativePlayer => "Native",
+  };
 }
 
 double clampReplayGainDb(double gainDb) {
@@ -220,16 +225,16 @@ enum ReplayGainVolumeLevel {
   const ReplayGainVolumeLevel();
 
   String label(BuildContext context) => switch (this) {
-        ReplayGainVolumeLevel.quiet => context.localized.quiet,
-        ReplayGainVolumeLevel.normal => context.localized.normal,
-        ReplayGainVolumeLevel.loud => context.localized.loud,
-      };
+    ReplayGainVolumeLevel.quiet => context.localized.quiet,
+    ReplayGainVolumeLevel.normal => context.localized.normal,
+    ReplayGainVolumeLevel.loud => context.localized.loud,
+  };
 
   double get replayGainOffsetDb => switch (this) {
-        ReplayGainVolumeLevel.quiet => 0.0,
-        ReplayGainVolumeLevel.normal => 6.0,
-        ReplayGainVolumeLevel.loud => 8.0,
-      };
+    ReplayGainVolumeLevel.quiet => 0.0,
+    ReplayGainVolumeLevel.normal => 6.0,
+    ReplayGainVolumeLevel.loud => 8.0,
+  };
 
   double adjustedReplayGainDb(double? trackGainDb) {
     return clampReplayGainDb((trackGainDb ?? 0) + replayGainOffsetDb);
@@ -246,12 +251,12 @@ enum Screensaver {
   const Screensaver();
 
   String label(BuildContext context) => switch (this) {
-        Screensaver.disabled => context.localized.disabled,
-        Screensaver.dvd => context.localized.screensaverDvd,
-        Screensaver.logo => context.localized.screensaverLogo,
-        Screensaver.time => context.localized.screensaverTime,
-        Screensaver.black => context.localized.screensaverBlack,
-      };
+    Screensaver.disabled => context.localized.disabled,
+    Screensaver.dvd => context.localized.screensaverDvd,
+    Screensaver.logo => context.localized.screensaverLogo,
+    Screensaver.time => context.localized.screensaverTime,
+    Screensaver.black => context.localized.screensaverBlack,
+  };
 }
 
 enum AutoNextType {
@@ -262,70 +267,66 @@ enum AutoNextType {
   const AutoNextType();
 
   String label(BuildContext context) => switch (this) {
-        AutoNextType.off => context.localized.off,
-        AutoNextType.smart => context.localized.autoNextOffSmartTitle,
-        AutoNextType.static => context.localized.autoNextOffStaticTitle,
-      };
+    AutoNextType.off => context.localized.off,
+    AutoNextType.smart => context.localized.autoNextOffSmartTitle,
+    AutoNextType.static => context.localized.autoNextOffStaticTitle,
+  };
 
   String desc(BuildContext context) => switch (this) {
-        AutoNextType.off => context.localized.off,
-        AutoNextType.smart => context.localized.autoNextOffSmartDesc,
-        AutoNextType.static => context.localized.autoNextOffStaticDesc,
-      };
+    AutoNextType.off => context.localized.off,
+    AutoNextType.smart => context.localized.autoNextOffSmartDesc,
+    AutoNextType.static => context.localized.autoNextOffStaticDesc,
+  };
 }
 
 Map<VideoHotKeys, KeyCombination> get _defaultVideoHotKeys => {
-      for (var hotKey in VideoHotKeys.values)
-        hotKey: switch (hotKey) {
-          VideoHotKeys.playPause => KeyCombination(
-              key: LogicalKeyboardKey.space,
-              altKey: LogicalKeyboardKey.keyK,
-            ),
-          VideoHotKeys.seekForward => KeyCombination(
-              key: LogicalKeyboardKey.arrowRight,
-              altKey: LogicalKeyboardKey.keyL,
-            ),
-          VideoHotKeys.seekBack => KeyCombination(
-              key: LogicalKeyboardKey.arrowLeft,
-              altKey: LogicalKeyboardKey.keyJ,
-            ),
-          VideoHotKeys.seekForwardInstant => KeyCombination(
-              key: LogicalKeyboardKey.arrowRight,
-              modifier: LogicalKeyboardKey.shiftLeft,
-              altKey: LogicalKeyboardKey.keyL,
-              altModifier: LogicalKeyboardKey.shiftLeft,
-            ),
-          VideoHotKeys.seekBackInstant => KeyCombination(
-              key: LogicalKeyboardKey.arrowLeft,
-              modifier: LogicalKeyboardKey.shiftLeft,
-              altKey: LogicalKeyboardKey.keyJ,
-              altModifier: LogicalKeyboardKey.shiftLeft,
-            ),
-          VideoHotKeys.stepForward => KeyCombination(key: LogicalKeyboardKey.period),
-          VideoHotKeys.stepBack => KeyCombination(key: LogicalKeyboardKey.comma),
-          VideoHotKeys.mute => KeyCombination(key: LogicalKeyboardKey.keyM),
-          VideoHotKeys.volumeUp => KeyCombination(key: LogicalKeyboardKey.arrowUp),
-          VideoHotKeys.volumeDown => KeyCombination(key: LogicalKeyboardKey.arrowDown),
-          VideoHotKeys.speedUp =>
-            KeyCombination(key: LogicalKeyboardKey.arrowUp, modifier: LogicalKeyboardKey.controlLeft),
-          VideoHotKeys.speedDown =>
-            KeyCombination(key: LogicalKeyboardKey.arrowDown, modifier: LogicalKeyboardKey.controlLeft),
-          VideoHotKeys.prevVideo =>
-            KeyCombination(key: LogicalKeyboardKey.keyP, modifier: LogicalKeyboardKey.shiftLeft),
-          VideoHotKeys.nextVideo =>
-            KeyCombination(key: LogicalKeyboardKey.keyN, modifier: LogicalKeyboardKey.shiftLeft),
-          VideoHotKeys.nextChapter => KeyCombination(key: LogicalKeyboardKey.pageUp),
-          VideoHotKeys.prevChapter => KeyCombination(key: LogicalKeyboardKey.pageDown),
-          VideoHotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
-          VideoHotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
-          VideoHotKeys.takeScreenshot => KeyCombination(key: LogicalKeyboardKey.keyG),
-          VideoHotKeys.takeScreenshotClean =>
-            KeyCombination(key: LogicalKeyboardKey.keyG, modifier: LogicalKeyboardKey.controlLeft),
-          VideoHotKeys.toggleSubtitles => KeyCombination(key: LogicalKeyboardKey.keyT),
-          VideoHotKeys.subtitleOffsetBackward =>
-            KeyCombination(key: LogicalKeyboardKey.arrowLeft, modifier: LogicalKeyboardKey.controlLeft),
-          VideoHotKeys.subtitleOffsetForward =>
-            KeyCombination(key: LogicalKeyboardKey.arrowRight, modifier: LogicalKeyboardKey.controlLeft),
-          VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
-        },
-    };
+  for (var hotKey in VideoHotKeys.values)
+    hotKey: switch (hotKey) {
+      VideoHotKeys.playPause => KeyCombination(key: LogicalKeyboardKey.space, altKey: LogicalKeyboardKey.keyK),
+      VideoHotKeys.seekForward => KeyCombination(key: LogicalKeyboardKey.arrowRight, altKey: LogicalKeyboardKey.keyL),
+      VideoHotKeys.seekBack => KeyCombination(key: LogicalKeyboardKey.arrowLeft, altKey: LogicalKeyboardKey.keyJ),
+      VideoHotKeys.seekForwardInstant => KeyCombination(
+        key: LogicalKeyboardKey.arrowRight,
+        modifier: LogicalKeyboardKey.shiftLeft,
+        altKey: LogicalKeyboardKey.keyL,
+        altModifier: LogicalKeyboardKey.shiftLeft,
+      ),
+      VideoHotKeys.seekBackInstant => KeyCombination(
+        key: LogicalKeyboardKey.arrowLeft,
+        modifier: LogicalKeyboardKey.shiftLeft,
+        altKey: LogicalKeyboardKey.keyJ,
+        altModifier: LogicalKeyboardKey.shiftLeft,
+      ),
+      VideoHotKeys.stepForward => KeyCombination(key: LogicalKeyboardKey.period),
+      VideoHotKeys.stepBack => KeyCombination(key: LogicalKeyboardKey.comma),
+      VideoHotKeys.mute => KeyCombination(key: LogicalKeyboardKey.keyM),
+      VideoHotKeys.volumeUp => KeyCombination(key: LogicalKeyboardKey.arrowUp),
+      VideoHotKeys.volumeDown => KeyCombination(key: LogicalKeyboardKey.arrowDown),
+      VideoHotKeys.speedUp => KeyCombination(key: LogicalKeyboardKey.arrowUp, modifier: LogicalKeyboardKey.controlLeft),
+      VideoHotKeys.speedDown => KeyCombination(
+        key: LogicalKeyboardKey.arrowDown,
+        modifier: LogicalKeyboardKey.controlLeft,
+      ),
+      VideoHotKeys.prevVideo => KeyCombination(key: LogicalKeyboardKey.keyP, modifier: LogicalKeyboardKey.shiftLeft),
+      VideoHotKeys.nextVideo => KeyCombination(key: LogicalKeyboardKey.keyN, modifier: LogicalKeyboardKey.shiftLeft),
+      VideoHotKeys.nextChapter => KeyCombination(key: LogicalKeyboardKey.pageUp),
+      VideoHotKeys.prevChapter => KeyCombination(key: LogicalKeyboardKey.pageDown),
+      VideoHotKeys.fullScreen => KeyCombination(key: LogicalKeyboardKey.keyF),
+      VideoHotKeys.skipMediaSegment => KeyCombination(key: LogicalKeyboardKey.keyS),
+      VideoHotKeys.takeScreenshot => KeyCombination(key: LogicalKeyboardKey.keyG),
+      VideoHotKeys.takeScreenshotClean => KeyCombination(
+        key: LogicalKeyboardKey.keyG,
+        modifier: LogicalKeyboardKey.controlLeft,
+      ),
+      VideoHotKeys.toggleSubtitles => KeyCombination(key: LogicalKeyboardKey.keyT),
+      VideoHotKeys.subtitleOffsetBackward => KeyCombination(
+        key: LogicalKeyboardKey.arrowLeft,
+        modifier: LogicalKeyboardKey.controlLeft,
+      ),
+      VideoHotKeys.subtitleOffsetForward => KeyCombination(
+        key: LogicalKeyboardKey.arrowRight,
+        modifier: LogicalKeyboardKey.controlLeft,
+      ),
+      VideoHotKeys.exit => KeyCombination(key: LogicalKeyboardKey.escape),
+    },
+};

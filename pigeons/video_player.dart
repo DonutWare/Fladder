@@ -27,21 +27,24 @@ class SimpleItemModel {
   });
 }
 
-enum PlaybackType {
-  direct,
-  transcoded,
-  offline,
-  tv,
+enum PlaybackType { direct, transcoded, offline, tv }
+
+enum SyncPlayCommandType {
+  none,
+  pause,
+  unpause,
+  seek,
+  stop,
+
+  /// The group is waiting for a participant to buffer; shown so every device reports the same state.
+  waiting,
 }
 
 class MediaInfo {
   final PlaybackType playbackType;
   final String videoInformation;
 
-  const MediaInfo({
-    required this.playbackType,
-    required this.videoInformation,
-  });
+  const MediaInfo({required this.playbackType, required this.videoInformation});
 }
 
 class PlayableData {
@@ -84,13 +87,7 @@ class PlayableData {
   });
 }
 
-enum MediaSegmentType {
-  commercial,
-  preview,
-  recap,
-  intro,
-  outro,
-}
+enum MediaSegmentType { commercial, preview, recap, intro, outro }
 
 class MediaSegment {
   final MediaSegmentType type;
@@ -98,12 +95,7 @@ class MediaSegment {
   final int start;
   final int end;
 
-  const MediaSegment({
-    required this.type,
-    required this.name,
-    required this.start,
-    required this.end,
-  });
+  const MediaSegment({required this.type, required this.name, required this.start, required this.end});
 }
 
 class AudioTrack {
@@ -145,14 +137,11 @@ class SubtitleTrack {
 class Chapter {
   final String name;
   final String url;
+
   // Duration in milliseconds
   final int time;
 
-  const Chapter({
-    required this.name,
-    required this.url,
-    required this.time,
-  });
+  const Chapter({required this.name, required this.url, required this.time});
 }
 
 class TrickPlayModel {
@@ -161,6 +150,7 @@ class TrickPlayModel {
   final int tileWidth;
   final int tileHeight;
   final int thumbnailCount;
+
   //Duration in milliseconds
   final int interval;
   final List<String> images;
@@ -184,6 +174,7 @@ class StartResult {
 abstract class NativeVideoActivity {
   @asyncCallback
   StartResult launchActivity();
+
   void disposeActivity();
 
   bool isLeanBackEnabled();
@@ -219,19 +210,43 @@ abstract class VideoPlayerApi {
   void stop();
 
   void setSubtitleSettings(SubtitleSettings settings);
+
+  /// Drives the native player's SyncPlay overlay.
+  void setSyncPlayCommandState(bool processing, SyncPlayCommandType commandType);
+}
+
+/// Who caused the last playback state change; Flutter infers SyncPlay requests from it.
+enum PlaybackChangeSource {
+  /// No specific source (e.g. periodic update, buffering).
+  none,
+
+  /// User pressed play or pause on native; Flutter turns it into the SyncPlay request.
+  userPlayPause,
+
+  /// User seeked on native; the frame carries the new position even when the seek drops the player into
+  /// buffering. Kept apart from [userPlayPause] so a paused-while-buffering frame is never ambiguous.
+  userSeek,
+
+  /// Change was caused by applying a SyncPlay command; do not send again.
+  syncplay,
 }
 
 class PlaybackState {
   //Milliseconds
   final int position;
+
   //Milliseconds
   final int buffered;
+
   //Milliseconds
   final int duration;
   final bool playing;
   final bool buffering;
   final bool completed;
   final bool failed;
+
+  /// When set, indicates who caused this state update (for SyncPlay inference).
+  final PlaybackChangeSource? changeSource;
 
   const PlaybackState({
     required this.position,
@@ -241,6 +256,7 @@ class PlaybackState {
     required this.buffering,
     required this.completed,
     required this.failed,
+    this.changeSource,
   });
 }
 
@@ -328,16 +344,22 @@ abstract class VideoPlayerListenerCallback {
 abstract class VideoPlayerControlsCallback {
   @asyncCallback
   void loadNextVideo();
+
   @asyncCallback
   void loadPreviousVideo();
+
   @asyncCallback
   void onStop();
+
   @asyncCallback
   void swapSubtitleTrack(int value);
+
   @asyncCallback
   void swapAudioTrack(int value);
+
   @asyncCallback
   void loadProgram(GuideChannel selection);
+
   @asyncCallback
   List<GuideProgram> fetchProgramsForChannel(String channelId);
 }

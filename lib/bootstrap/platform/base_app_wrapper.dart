@@ -20,16 +20,15 @@ import 'package:fladder/providers/shared_provider.dart';
 import 'package:fladder/providers/update_notifications_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
+import 'package:fladder/providers/jellyfin_websocket_provider.dart';
 import 'package:fladder/routes/auto_router.dart';
+import 'package:fladder/providers/router_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/lock_screen.dart';
 import 'package:fladder/services/notification_service.dart';
 import 'package:fladder/wrappers/players/native_player.dart';
 
-typedef PlatformAppBuilder = Widget Function(
-  BuildContext context,
-  AutoRouter autoRouter,
-);
+typedef PlatformAppBuilder = Widget Function(BuildContext context, AutoRouter autoRouter);
 
 const _defaultImageCacheBytes = 100 << 20;
 const _lowResourceImageCacheBytes = 48 << 20;
@@ -58,13 +57,20 @@ abstract class BaseAppWrapperState<T extends BaseAppWrapper> extends ConsumerSta
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      ref.read(routerProvider.notifier).state = autoRouter;
+    });
     WidgetsBinding.instance.addObserver(this);
     _deepLinks.attach(autoRouter, ref);
     _initializeAppLinks();
     ref.listenManual(
       lowResourceModeProvider,
-      (_, lowResourceMode) => PaintingBinding.instance.imageCache.maximumSizeBytes =
-          lowResourceMode ? _lowResourceImageCacheBytes : _defaultImageCacheBytes,
+      (_, lowResourceMode) => PaintingBinding.instance.imageCache.maximumSizeBytes = lowResourceMode
+          ? _lowResourceImageCacheBytes
+          : _defaultImageCacheBytes,
       fireImmediately: true,
     );
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -82,13 +88,10 @@ abstract class BaseAppWrapperState<T extends BaseAppWrapper> extends ConsumerSta
   void _initializeAppLinks() {
     if (!enableAppLinks) return;
     try {
-      _appLinkSub = AppLinks().uriLinkStream.listen(
-        (uri) {
-          if (_platformReady) onAppLinkReceived();
-          _deepLinks.handle(uri);
-        },
-        onError: (Object e) => log('App link error: $e'),
-      );
+      _appLinkSub = AppLinks().uriLinkStream.listen((uri) {
+        if (_platformReady) onAppLinkReceived();
+        _deepLinks.handle(uri);
+      }, onError: (Object e) => log('App link error: $e'));
       final launchLink = ref.read(argumentsStateProvider).launchLink;
       if (!kIsWeb && Platform.isLinux && launchLink != null) {
         _deepLinks.handleLink(launchLink);
@@ -126,7 +129,8 @@ abstract class BaseAppWrapperState<T extends BaseAppWrapper> extends ConsumerSta
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    final ignoreLifeCycle = ref.read(lockScreenActiveProvider) ||
+    final ignoreLifeCycle =
+        ref.read(lockScreenActiveProvider) ||
         ref.read(userProvider) == null ||
         ref.read(videoPlayerProvider).lastState?.playing == true ||
         nativeActivityStarted;
@@ -179,9 +183,9 @@ abstract class BaseAppWrapperState<T extends BaseAppWrapper> extends ConsumerSta
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(
-      context,
-      autoRouter,
-    );
+    // Open the socket for the whole session, not just while a screen listens; `listen` so events don't
+    // rebuild the app.
+    ref.listen(jellyfinWebSocketProvider, (_, _) {});
+    return widget.builder(context, autoRouter);
   }
 }

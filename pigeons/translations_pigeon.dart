@@ -5,9 +5,7 @@ import 'package:pigeon/pigeon.dart';
     dartOut: 'lib/src/translations_pigeon.g.dart',
     dartOptions: DartOptions(),
     kotlinOut: 'android/app/src/main/kotlin/nl/jknaapen/fladder/api/TranslationsPigeon.g.kt',
-    kotlinOptions: KotlinOptions(
-      includeErrorClass: false,
-    ),
+    kotlinOptions: KotlinOptions(includeErrorClass: false),
     dartPackageName: 'nl_jknaapen_fladder.settings',
   ),
 )
@@ -49,4 +47,20 @@ abstract class TranslationsPigeon {
   String now();
   @asyncCallback
   String decline();
+
+  // SyncPlay overlay strings
+  @asyncCallback
+  String syncPlaySyncingWithGroup();
+  @asyncCallback
+  String syncPlayCommandPausing();
+  @asyncCallback
+  String syncPlayCommandPlaying();
+  @asyncCallback
+  String syncPlayCommandSeeking();
+  @asyncCallback
+  String syncPlayCommandStopping();
+  @asyncCallback
+  String syncPlayCommandSyncing();
+  @asyncCallback
+  String syncPlayStateWaiting();
 }

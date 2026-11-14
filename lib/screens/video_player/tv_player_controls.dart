@@ -6,10 +6,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import 'package:async/async.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:screen_brightness/screen_brightness.dart';
-
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
@@ -22,6 +18,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/default_title_bar.dart';
 import 'package:fladder/screens/shared/media/components/item_logo.dart';
+import 'package:fladder/screens/video_player/components/syncplay_command_indicator.dart';
 import 'package:fladder/screens/video_player/components/video_playback_information.dart';
 import 'package:fladder/screens/video_player/components/video_player_options_sheet.dart';
 import 'package:fladder/screens/video_player/components/video_player_quality_controls.dart';
@@ -35,13 +32,15 @@ import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
+import 'package:fladder/widgets/syncplay/syncplay_badge.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 
 class TvPlayerControls extends ConsumerStatefulWidget {
   final Function(bool value) showGuide;
-  const TvPlayerControls({
-    required this.showGuide,
-    super.key,
-  });
+
+  const TvPlayerControls({required this.showGuide, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _TvPlayerControlsState();
@@ -75,7 +74,6 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
 
   @override
   Widget build(BuildContext context) {
-    final player = ref.watch(videoPlayerProvider);
     return Listener(
       onPointerSignal: setVolume,
       child: InputHandler(
@@ -98,34 +96,34 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
               children: [
                 Positioned.fill(
                   child: GestureDetector(
-                    onTap: initInputDevice == InputDevice.pointer ? () => player.playOrPause() : () => toggleOverlay(),
-                    onDoubleTap:
-                        initInputDevice == InputDevice.pointer ? () => fullScreenHelper.toggleFullScreen(ref) : null,
+                    onTap: initInputDevice == InputDevice.pointer
+                        ? () => ref.read(videoPlayerProvider.notifier).userPlayOrPause()
+                        : () => toggleOverlay(),
+                    onDoubleTap: initInputDevice == InputDevice.pointer
+                        ? () => fullScreenHelper.toggleFullScreen(ref)
+                        : null,
                   ),
                 ),
                 if (AdaptiveLayout.of(context).isDesktop)
-                  Consumer(builder: (context, ref, child) {
-                    final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
-                    final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
-                    return playButton(playing, buffering);
-                  }),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final playing = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
+                      final buffering = ref.watch(mediaPlaybackProvider.select((value) => value.buffering));
+                      return playButton(playing, buffering);
+                    },
+                  ),
                 IgnorePointer(
                   ignoring: !showOverlay,
                   child: AnimatedOpacity(
                     duration: fadeDuration,
                     opacity: showOverlay ? 1 : 0,
-                    child: Column(
-                      children: [
-                        topButtons(context),
-                        const Spacer(),
-                        bottomButtons(context),
-                      ],
-                    ),
+                    child: Column(children: [topButtons(context), const Spacer(), bottomButtons(context)]),
                   ),
                 ),
                 const VideoPlayerSeekIndicator(),
                 const VideoPlayerVolumeIndicator(),
                 const VideoPlayerScreenshotIndicator(),
+                const SyncPlayCommandIndicator(),
               ],
             ),
           ),
@@ -142,8 +140,8 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
         scale: playing
             ? 0
             : buffering
-                ? 0
-                : 1,
+            ? 0
+            : 1,
         duration: const Duration(milliseconds: 250),
         child: IconButton.outlined(
           onPressed: () => ref.read(videoPlayerProvider).play(),
@@ -161,24 +159,19 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
     final maxHeight = 150.clamp(50, (MediaQuery.sizeOf(context).height * 0.25).clamp(51, double.maxFinite)).toDouble();
     return Container(
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Colors.black.withValues(alpha: 0.8),
-          Colors.black.withValues(alpha: 0),
-        ],
-      )),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.black.withValues(alpha: 0.8), Colors.black.withValues(alpha: 0)],
+        ),
+      ),
       child: Padding(
         padding: MediaQuery.paddingOf(context).copyWith(bottom: 0, top: 0),
         child: Container(
           alignment: Alignment.topCenter,
           child: Column(
             children: [
-              const Align(
-                alignment: Alignment.topRight,
-                child: DefaultTitleBar(),
-              ),
+              const Align(alignment: Alignment.topRight, child: DefaultTitleBar()),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
@@ -192,9 +185,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                           children: [
                             Flexible(
                               child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  maxHeight: maxHeight,
-                                ),
+                                constraints: BoxConstraints(maxHeight: maxHeight),
                                 child: ItemLogo(
                                   item: channel,
                                   imageAlignment: Alignment.topLeft,
@@ -205,13 +196,17 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                           ],
                         ),
                       ),
+                    const SyncPlayBadge(),
                     if (initInputDevice == InputDevice.touch)
                       Align(
                         alignment: Alignment.centerRight,
                         child: Tooltip(
-                            message: context.localized.stop,
-                            child: IconButton(
-                                onPressed: () => closePlayer(), icon: const Icon(IconsaxPlusLinear.close_square))),
+                          message: context.localized.stop,
+                          child: IconButton(
+                            onPressed: () => closePlayer(),
+                            icon: const Icon(IconsaxPlusLinear.close_square),
+                          ),
+                        ),
                       ),
                   ],
                 ),
@@ -224,112 +219,97 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
   }
 
   Widget bottomButtons(BuildContext context) {
-    return Consumer(builder: (context, ref, child) {
-      final mediaPlayback = ref.watch(mediaPlaybackProvider);
-      final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
-      final isTvModel = ref.watch(playBackModel.select((value) => value.runtimeType == TvPlaybackModel));
-      return Container(
-        key: _bottomControlsKey, // Add key to measure height
-        decoration: BoxDecoration(
+    return Consumer(
+      builder: (context, ref, child) {
+        final mediaPlayback = ref.watch(mediaPlaybackProvider);
+        final bitRateOptions = ref.watch(playBackModel.select((value) => value?.bitRateOptions));
+        final isTvModel = ref.watch(playBackModel.select((value) => value.runtimeType == TvPlaybackModel));
+        return Container(
+          key: _bottomControlsKey, // Add key to measure height
+          decoration: BoxDecoration(
             gradient: LinearGradient(
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
-          colors: [
-            Colors.black.withValues(alpha: 0.8),
-            Colors.black.withValues(alpha: 0),
-          ],
-        )),
-        child: Padding(
-          padding: MediaQuery.paddingOf(context).add(
-            const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 12),
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [Colors.black.withValues(alpha: 0.8), Colors.black.withValues(alpha: 0)],
+            ),
           ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: progressBar(mediaPlayback),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 6,
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: Row(
-                      spacing: 4,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () => showVideoPlayerOptions(context, () => minimizePlayer(context)),
-                          icon: const Icon(IconsaxPlusLinear.more),
-                        ),
-                        IconButton(
-                          onPressed: () => widget.showGuide(true),
-                          icon: const Icon(IconsaxPlusBold.slider_vertical),
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (!isTvModel) ...[
-                    previousButton,
-                    seekBackwardButton(ref),
-                  ],
-                  IconButton.filledTonal(
-                    iconSize: 38,
-                    onPressed: () {
-                      ref.read(videoPlayerProvider).playOrPause();
-                    },
-                    icon: Icon(
-                      mediaPlayback.playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play,
-                    ),
-                  ),
-                  if (!isTvModel) ...[
-                    seekForwardButton(ref),
-                    nextVideoButton,
-                  ],
-                  Flexible(
-                    flex: 2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      spacing: 8,
-                      children: [
-                        if (initInputDevice == InputDevice.pointer || AdaptiveLayout.of(context).isDesktop)
-                          Tooltip(
-                            message: context.localized.stop,
-                            child: IconButton(
-                              onPressed: () => closePlayer(),
-                              icon: const Icon(IconsaxPlusLinear.close_square),
-                            ),
+          child: Padding(
+            padding: MediaQuery.paddingOf(context).add(const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 12)),
+            child: Column(
+              children: [
+                Padding(padding: const EdgeInsets.symmetric(horizontal: 12), child: progressBar(mediaPlayback)),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 6,
+                  children: [
+                    Flexible(
+                      flex: 2,
+                      child: Row(
+                        spacing: 4,
+                        children: <Widget>[
+                          IconButton(
+                            onPressed: () => showVideoPlayerOptions(context, () => minimizePlayer(context)),
+                            icon: const Icon(IconsaxPlusLinear.more),
                           ),
-                        const Spacer(),
-                        if (AdaptiveLayout.viewSizeOf(context) >= ViewSize.tablet &&
-                            ref.read(videoPlayerProvider).hasPlayer) ...{
-                          if (bitRateOptions?.isNotEmpty == true)
+                          IconButton(
+                            onPressed: () => widget.showGuide(true),
+                            icon: const Icon(IconsaxPlusBold.slider_vertical),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (!isTvModel) ...[previousButton, seekBackwardButton(ref)],
+                    IconButton.filledTonal(
+                      iconSize: 38,
+                      onPressed: () {
+                        ref.read(videoPlayerProvider.notifier).userPlayOrPause();
+                      },
+                      icon: Icon(mediaPlayback.playing ? IconsaxPlusBold.pause : IconsaxPlusBold.play),
+                    ),
+                    if (!isTvModel) ...[seekForwardButton(ref), nextVideoButton],
+                    Flexible(
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        spacing: 8,
+                        children: [
+                          if (initInputDevice == InputDevice.pointer || AdaptiveLayout.of(context).isDesktop)
                             Tooltip(
-                              message: context.localized.qualityOptionsTitle,
+                              message: context.localized.stop,
                               child: IconButton(
-                                onPressed: () => openQualityOptions(context),
-                                icon: const Icon(IconsaxPlusLinear.speedometer),
+                                onPressed: () => closePlayer(),
+                                icon: const Icon(IconsaxPlusLinear.close_square),
                               ),
                             ),
-                        },
-                        if ((initInputDevice == InputDevice.pointer || AdaptiveLayout.of(context).isDesktop) &&
-                            AdaptiveLayout.viewSizeOf(context) > ViewSize.phone) ...[
-                          VideoVolumeSlider(
-                            onChanged: () => resetTimer(),
-                          ),
-                          const FullScreenButton(),
-                        ]
-                      ],
+                          const Spacer(),
+                          if (AdaptiveLayout.viewSizeOf(context) >= ViewSize.tablet &&
+                              ref.read(videoPlayerProvider).hasPlayer) ...{
+                            if (bitRateOptions?.isNotEmpty == true)
+                              Tooltip(
+                                message: context.localized.qualityOptionsTitle,
+                                child: IconButton(
+                                  onPressed: () => openQualityOptions(context),
+                                  icon: const Icon(IconsaxPlusLinear.speedometer),
+                                ),
+                              ),
+                          },
+                          if ((initInputDevice == InputDevice.pointer || AdaptiveLayout.of(context).isDesktop) &&
+                              AdaptiveLayout.viewSizeOf(context) > ViewSize.phone) ...[
+                            VideoVolumeSlider(onChanged: () => resetTimer()),
+                            const FullScreenButton(),
+                          ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   Widget progressBar(MediaPlaybackModel mediaPlayback) {
@@ -366,11 +346,16 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
             : [
                 if (AdaptiveLayout.of(context).isDesktop) item?.label(context.localized),
                 displayDuration.inMinutes < displayPosition.inMinutes
-                    ? context.localized.endsAt(DateTime.now().add(Duration(
-                        milliseconds: (displayDuration.inMilliseconds - displayPosition.inMilliseconds) ~/
-                            ref.read(playbackRateProvider),
-                      )))
-                    : null
+                    ? context.localized.endsAt(
+                        DateTime.now().add(
+                          Duration(
+                            milliseconds:
+                                (displayDuration.inMilliseconds - displayPosition.inMilliseconds) ~/
+                                ref.read(playbackRateProvider),
+                          ),
+                        ),
+                      )
+                    : null,
               ];
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -394,9 +379,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                     child: Card(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        child: Text(
-                          playbackModel.label(context) ?? "",
-                        ),
+                        child: Text(playbackModel.label(context) ?? ""),
                       ),
                     ),
                   ),
@@ -404,9 +387,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                   Card(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      child: Text(
-                        item?.streamModel?.mediaInfoTag ?? "",
-                      ),
+                      child: Text(item?.streamModel?.mediaInfoTag ?? ""),
                     ),
                   ),
                 },
@@ -443,16 +424,13 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    displayPosition.readAbleDuration,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+                  Text(displayPosition.readAbleDuration, style: Theme.of(context).textTheme.bodyMedium),
                   Text(
                     "-${(displayDuration - displayPosition).readAbleDuration}",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
-              )
+              ),
           ],
         );
       },
@@ -474,9 +452,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
           child: IconButton(
             onPressed: loadPreviousVideo(ref, video: previousVideo),
             iconSize: 30,
-            icon: const Icon(
-              IconsaxPlusLinear.backward,
-            ),
+            icon: const Icon(IconsaxPlusLinear.backward),
           ),
         );
       },
@@ -504,9 +480,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
           child: IconButton(
             onPressed: loadNextVideo(ref, video: nextVideo),
             iconSize: 30,
-            icon: const Icon(
-              IconsaxPlusLinear.forward,
-            ),
+            icon: const Icon(IconsaxPlusLinear.forward),
           ),
         );
       },
@@ -520,8 +494,9 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
   }
 
   Widget seekBackwardButton(WidgetRef ref) {
-    final backwardSpeed =
-        ref.read(userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30));
+    final backwardSpeed = ref.read(
+      userProvider.select((value) => value?.userSettings?.skipBackDuration.inSeconds ?? 30),
+    );
     return IconButton(
       onPressed: () => seekBack(ref, seconds: backwardSpeed),
       tooltip: "-$backwardSpeed",
@@ -529,16 +504,10 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
       icon: Stack(
         alignment: Alignment.center,
         children: [
-          const Icon(
-            IconsaxPlusBroken.refresh,
-            size: 45,
-          ),
+          const Icon(IconsaxPlusBroken.refresh, size: 45),
           Transform.translate(
             offset: const Offset(0, 1),
-            child: Text(
-              "-$backwardSpeed",
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            child: Text("-$backwardSpeed", style: Theme.of(context).textTheme.bodySmall),
           ),
         ],
       ),
@@ -546,8 +515,9 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
   }
 
   Widget seekForwardButton(WidgetRef ref) {
-    final forwardSpeed =
-        ref.read(userProvider.select((value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30));
+    final forwardSpeed = ref.read(
+      userProvider.select((value) => value?.userSettings?.skipForwardDuration.inSeconds ?? 30),
+    );
     return IconButton(
       onPressed: () => seekForward(ref, seconds: forwardSpeed),
       tooltip: forwardSpeed.toString(),
@@ -555,19 +525,10 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
       icon: Stack(
         alignment: Alignment.center,
         children: [
-          Transform.flip(
-            flipX: true,
-            child: const Icon(
-              IconsaxPlusBroken.refresh,
-              size: 45,
-            ),
-          ),
+          Transform.flip(flipX: true, child: const Icon(IconsaxPlusBroken.refresh, size: 45)),
           Transform.translate(
             offset: const Offset(0, 1),
-            child: Text(
-              forwardSpeed.toString(),
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
+            child: Text(forwardSpeed.toString(), style: Theme.of(context).textTheme.bodySmall),
           ),
         ],
       ),
@@ -583,11 +544,9 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
       if (segmentId != null) {
         Future(() {
           final currentSkipped = ref.read(mediaPlaybackProvider).skippedSegments;
-          ref.read(mediaPlaybackProvider.notifier).update(
-                (state) => state.copyWith(
-                  skippedSegments: {...currentSkipped, segmentId},
-                ),
-              );
+          ref
+              .read(mediaPlaybackProvider.notifier)
+              .update((state) => state.copyWith(skippedSegments: {...currentSkipped, segmentId}));
         });
       }
     }
@@ -619,16 +578,19 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
       SystemChrome.setEnabledSystemUIMode(desiredMode, overlays: []);
     }
 
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarDividerColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarDividerColor: Colors.transparent,
+      ),
+    );
   }
 
   void minimizePlayer(BuildContext context) {
     clearOverlaySettings();
+    ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.minimized));
     Navigator.of(context).pop();
   }
@@ -637,7 +599,9 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
 
   Future<void> closePlayer() async {
     clearOverlaySettings();
-    ref.read(videoPlayerProvider).stop();
+    ref.read(isVideoPlayerRouteOpenProvider.notifier).state = false;
+    // Halts group playback on this device (SyncPlay) first; not awaited so the route pops immediately.
+    ref.read(videoPlayerProvider.notifier).userStop();
     await WidgetsBinding.instance.endOfFrame;
     if (context.mounted) Navigator.of(context).pop();
   }
@@ -650,9 +614,11 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
       disableFullScreen();
     }
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarIconBrightness: ref.read(clientSettingsProvider.select((value) => value.statusBarBrightness(context))),
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarIconBrightness: ref.read(clientSettingsProvider.select((value) => value.statusBarBrightness(context))),
+      ),
+    );
 
     timer.cancel();
   }
@@ -684,7 +650,7 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
 
     switch (value) {
       case VideoHotKeys.playPause:
-        ref.read(videoPlayerProvider).playOrPause();
+        ref.read(videoPlayerProvider.notifier).userPlayOrPause();
         return true;
       case VideoHotKeys.volumeUp:
         resetTimer();

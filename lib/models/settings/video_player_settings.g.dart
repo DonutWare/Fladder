@@ -74,6 +74,7 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
   crossfadeDurationMs: (json['crossfadeDurationMs'] as num?)?.toInt() ?? 400,
   refreshRateSwitching: json['refreshRateSwitching'] as bool? ?? false,
   ambientBlur: json['ambientBlur'] as bool? ?? false,
+  enableSyncPlayCorrection: json['enableSyncPlayCorrection'] as bool? ?? true,
 );
 
 Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
@@ -117,6 +118,7 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
   'crossfadeDurationMs': instance.crossfadeDurationMs,
   'refreshRateSwitching': instance.refreshRateSwitching,
   'ambientBlur': instance.ambientBlur,
+  'enableSyncPlayCorrection': instance.enableSyncPlayCorrection,
 };
 
 const _$BoxFitEnumMap = {

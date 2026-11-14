@@ -21,6 +21,7 @@ import 'package:fladder/widgets/navigation_scaffold/components/adaptive_fab.dart
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/navigation_scaffold.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
+import 'package:fladder/widgets/syncplay/dashboard_fabs.dart';
 
 enum HomeTabs {
   dashboard,
@@ -32,20 +33,20 @@ enum HomeTabs {
   const HomeTabs();
 
   IconData get icon => switch (this) {
-        HomeTabs.dashboard => IconsaxPlusLinear.home_1,
-        HomeTabs.library => IconsaxPlusLinear.book,
-        HomeTabs.favorites => IconsaxPlusLinear.heart,
-        HomeTabs.seerr => IconsaxPlusLinear.discover_1,
-        HomeTabs.sync => IconsaxPlusLinear.cloud,
-      };
+    HomeTabs.dashboard => IconsaxPlusLinear.home_1,
+    HomeTabs.library => IconsaxPlusLinear.book,
+    HomeTabs.favorites => IconsaxPlusLinear.heart,
+    HomeTabs.seerr => IconsaxPlusLinear.discover_1,
+    HomeTabs.sync => IconsaxPlusLinear.cloud,
+  };
 
   IconData get selectedIcon => switch (this) {
-        HomeTabs.dashboard => IconsaxPlusBold.home_1,
-        HomeTabs.library => IconsaxPlusBold.book,
-        HomeTabs.favorites => IconsaxPlusBold.heart,
-        HomeTabs.seerr => IconsaxPlusBold.discover,
-        HomeTabs.sync => IconsaxPlusBold.cloud,
-      };
+    HomeTabs.dashboard => IconsaxPlusBold.home_1,
+    HomeTabs.library => IconsaxPlusBold.book,
+    HomeTabs.favorites => IconsaxPlusBold.heart,
+    HomeTabs.seerr => IconsaxPlusBold.discover,
+    HomeTabs.sync => IconsaxPlusBold.cloud,
+  };
 
   Future navigate(BuildContext context) {
     final route = switch (this) {
@@ -62,12 +63,12 @@ enum HomeTabs {
   }
 
   String label(BuildContext context) => switch (this) {
-        HomeTabs.dashboard => context.localized.dashboard,
-        HomeTabs.library => context.localized.library(0),
-        HomeTabs.favorites => context.localized.favorites,
-        HomeTabs.seerr => 'Seerr',
-        HomeTabs.sync => context.localized.sync,
-      };
+    HomeTabs.dashboard => context.localized.dashboard,
+    HomeTabs.library => context.localized.library(0),
+    HomeTabs.favorites => context.localized.favorites,
+    HomeTabs.seerr => 'Seerr',
+    HomeTabs.sync => context.localized.sync,
+  };
 }
 
 @RoutePage()
@@ -119,32 +120,20 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final canDownload = ref.watch(showSyncButtonProviderProvider);
     final isMusicDashboardMode = ref.watch(musicDashboardModeProvider);
-    final seerrAuthenticated = ref.watch(
-      userProvider.select((user) => user?.seerrCredentials?.isConfigured ?? false),
-    );
+    final seerrAuthenticated = ref.watch(userProvider.select((user) => user?.seerrCredentials?.isConfigured ?? false));
     final destinations = HomeTabs.values
         .map((e) {
           switch (e) {
             case HomeTabs.dashboard:
               return DestinationModel(
                 label: context.localized.navigationDashboard,
-                icon: Icon(
-                  isMusicDashboardMode ? IconsaxPlusLinear.music_square : IconsaxPlusLinear.home_1,
-                ),
-                selectedIcon: Icon(
-                  isMusicDashboardMode ? IconsaxPlusBold.music_square : IconsaxPlusBold.home_1,
-                ),
+                icon: Icon(isMusicDashboardMode ? IconsaxPlusLinear.music_square : IconsaxPlusLinear.home_1),
+                selectedIcon: Icon(isMusicDashboardMode ? IconsaxPlusBold.music_square : IconsaxPlusBold.home_1),
                 route: const DashboardRoute(),
                 action: () => e.navigate(context),
                 onLongPress: () => _showDashboardSwitcher(context, ref),
                 onSecondaryTapDown: (_) => _showDashboardSwitcher(context, ref),
-                floatingActionButton: AdaptiveFab(
-                  context: context,
-                  title: context.localized.search,
-                  key: Key(e.name.capitalize()),
-                  onPressed: () => context.router.navigate(LibrarySearchRoute()),
-                  child: const Icon(IconsaxPlusLinear.search_normal_1),
-                ),
+                customFab: const DashboardFabs(),
               );
             case HomeTabs.favorites:
               return DestinationModel(
@@ -172,9 +161,7 @@ class HomeScreen extends ConsumerWidget {
                     context: context,
                     title: context.localized.search,
                     key: Key(e.name.capitalize()),
-                    onPressed: () => context.router.navigate(SeerrSearchRoute(
-                      mode: SeerrSearchMode.search,
-                    )),
+                    onPressed: () => context.router.navigate(SeerrSearchRoute(mode: SeerrSearchMode.search)),
                     child: const Icon(IconsaxPlusLinear.search_status),
                   ),
                   action: () => e.navigate(context),
@@ -189,12 +176,7 @@ class HomeScreen extends ConsumerWidget {
                     builder: (context, ref, child) {
                       final length = ref.watch(activeDownloadTasksProvider.select((value) => value.length));
                       return length != 0
-                          ? CircleAvatar(
-                              radius: 10,
-                              child: FittedBox(
-                                child: Text(length.toString()),
-                              ),
-                            )
+                          ? CircleAvatar(radius: 10, child: FittedBox(child: Text(length.toString())))
                           : const SizedBox.shrink();
                     },
                   ),
