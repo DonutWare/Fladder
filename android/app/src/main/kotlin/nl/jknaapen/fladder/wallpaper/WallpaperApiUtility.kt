@@ -1,6 +1,5 @@
 package nl.jknaapen.fladder.wallpaper
 
-import FlutterError
 import android.content.Intent
 import androidx.core.content.FileProvider
 import java.io.File
@@ -34,7 +33,7 @@ class WallpaperApiUtility(
             launcher.launch(android.content.Intent.createChooser(intent, "Set wallpaper as:"))
         } catch (e: Exception) {
             // Pigeon handles exceptions gracefully and passes them back to Dart
-            throw FlutterError("INTENT_ERROR", "Failed to launch intent: ${e.message}", null)
+            throw WallpaperError("INTENT_ERROR", "Failed to launch intent: ${e.message}", null)
         }
     }
 

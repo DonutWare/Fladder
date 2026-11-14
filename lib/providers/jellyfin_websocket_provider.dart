@@ -5,6 +5,7 @@ import 'dart:developer' as developer;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -124,8 +125,9 @@ class _JellyfinWebSocket {
   Timer? _keepAliveTimer;
   Timer? _reconnectTimer;
   int _retryDelay = 1;
-  bool _connected = false;
   bool _closed = false;
+
+  static bool _connectedBefore = false;
 
   Stream<JellyfinWebSocketEvent> get events => _events.stream;
 
@@ -141,8 +143,8 @@ class _JellyfinWebSocket {
     }
     if (_closed) return;
     _retryDelay = 1;
-    if (_connected) _events.add(JellyfinWebSocketReconnected());
-    _connected = true;
+    if (_connectedBefore) _events.add(JellyfinWebSocketReconnected());
+    _connectedBefore = true;
     onConnectionChanged(true);
     _subscription = channel.stream.listen(_handleMessage, onDone: _reconnect, onError: (_) {});
   }

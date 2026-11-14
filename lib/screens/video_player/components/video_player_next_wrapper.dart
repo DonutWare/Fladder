@@ -1,3 +1,10 @@
+import 'package:material_ui/material_ui.dart';
+import 'package:flutter/services.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:screen_brightness/screen_brightness.dart';
+
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/movie_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
@@ -16,11 +23,6 @@ import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/shared/player_bar_shared.dart';
 import 'package:fladder/widgets/shared/progress_floating_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:screen_brightness/screen_brightness.dart';
 
 class VideoPlayerNextWrapper extends ConsumerStatefulWidget {
   final Widget video;

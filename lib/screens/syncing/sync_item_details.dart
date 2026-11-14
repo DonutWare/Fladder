@@ -1,3 +1,5 @@
+import 'package:material_ui/material_ui.dart';
+
 import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -24,7 +26,6 @@ import 'package:fladder/util/size_formatting.dart';
 import 'package:fladder/widgets/shared/alert_content.dart';
 import 'package:fladder/widgets/shared/icon_button_await.dart';
 import 'package:fladder/widgets/shared/pull_to_refresh.dart';
-import 'package:flutter/material.dart';
 
 Future<void> showSyncItemDetails(
   BuildContext context,

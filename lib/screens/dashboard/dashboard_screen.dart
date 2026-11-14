@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
@@ -53,6 +53,7 @@ class DashboardScreen extends ConsumerStatefulWidget {
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   late final Timer _refreshTimer;
+  late final AppLifecycleListener _lifecycleListener;
   bool _visible = true;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
@@ -65,17 +66,25 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   void initState() {
     super.initState();
+    _lifecycleListener = AppLifecycleListener(onResume: _refreshOnReturn);
     _refreshTimer = Timer.periodic(const Duration(minutes: 2), (timer) {
       if (!_canRefresh) return;
-      final musicMode = ref.read(musicDashboardModeProvider);
       if (!ref.read(jellyfinWebSocketConnectedProvider)) {
-        musicMode
-            ? ref.read(musicDashboardProvider.notifier).fetchMusicHome(silent: true)
-            : ref.read(dashboardProvider.notifier).refreshLoadedSections();
-      } else if (!musicMode) {
+        _refresh();
+      } else if (!ref.read(musicDashboardModeProvider)) {
         ref.read(dashboardProvider.notifier).refreshLiveTV();
       }
     });
+  }
+
+  void _refresh() {
+    ref.read(musicDashboardModeProvider)
+        ? ref.read(musicDashboardProvider.notifier).fetchMusicHome(silent: true)
+        : ref.read(dashboardProvider.notifier).refreshLoadedSections();
+  }
+
+  void _refreshOnReturn() {
+    if (_canRefresh) _refresh();
   }
 
   bool get _canRefresh {
@@ -84,22 +93,19 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return _visible && appInForeground && !videoFullScreen;
   }
 
-  void _refreshLiveTV() {
-    if (_canRefresh && !ref.read(musicDashboardModeProvider)) ref.read(dashboardProvider.notifier).refreshLiveTV();
-  }
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final visible = context.watchRouter.topRoute.name == DashboardRoute.name;
     final entered = visible && !_visible;
     _visible = visible;
-    if (entered) Future.microtask(_refreshLiveTV);
+    if (entered) Future.microtask(_refreshOnReturn);
   }
 
   @override
   void dispose() {
     _refreshTimer.cancel();
+    _lifecycleListener.dispose();
     super.dispose();
   }
 
@@ -165,7 +171,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return NestedScaffold(
       background: ValueListenableBuilder<ItemBaseModel?>(
         valueListenable: selectedPoster,
-        builder: (_, value, __) {
+        builder: (_, value, _) {
           return BackgroundImage(
             images: (value != null
                     ? [value]

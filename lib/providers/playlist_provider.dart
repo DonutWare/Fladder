@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -61,6 +62,7 @@ class PlaylistNotifier extends StateNotifier<_PlaylistProviderModel> {
         BaseItemKind.playlist,
       ],
     );
+    if (!mounted) return;
 
     final playlists = serverPlaylists.body?.items?.map((e) => PlaylistModel.fromBaseDto(e, ref)).toList();
 

@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/dashboard_mode_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:fladder/util/native_window.dart';
 
 /// Manages the context-aware window title.
 final windowTitleProvider = StateNotifierProvider<WindowTitleNotifier, String>((ref) {
@@ -15,8 +16,8 @@ class WindowTitleNotifier extends StateNotifier<String> {
   final Ref ref;
   WindowTitleNotifier(this.ref) : super('Fladder') {
     // Listen to player state changes to handle minimized <-> maximized transitions
-    ref.listen(mediaPlaybackProvider.select((v) => v.state), (_, __) => _update());
-    ref.listen(musicDashboardModeProvider, (_, __) => _update());
+    ref.listen(mediaPlaybackProvider.select((v) => v.state), (_, _) => _update());
+    ref.listen(musicDashboardModeProvider, (_, _) => _update());
   }
 
   final Map<Object, String> _titles = {};
@@ -74,7 +75,7 @@ class WindowTitleNotifier extends StateNotifier<String> {
     });
 
     if (!kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows)) {
-      windowManager.setTitle(newState);
+      currentWindow?.title = newState;
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -42,7 +42,7 @@ class _PhotoViewerPageState extends State<PhotoViewerPage> {
       info.dispose();
       if (mounted) setState(() => _contentSize = size);
     },
-    onError: (_, __) {
+    onError: (_, _) {
       if (mounted) setState(() => _failed = true);
     },
   );
@@ -92,7 +92,7 @@ class _PhotoViewerPageState extends State<PhotoViewerPage> {
       image: photoImageProvider(widget.photo.thumbnail?.primary?.path),
       fit: BoxFit.contain,
       gaplessPlayback: true,
-      errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+      errorBuilder: (_, _, _) => const SizedBox.shrink(),
     );
     return Stack(
       fit: StackFit.expand,
@@ -113,11 +113,11 @@ class _PhotoViewerPageState extends State<PhotoViewerPage> {
               switchInCurve: Curves.easeOut,
               layoutBuilder: (current, previous) => Stack(
                 fit: StackFit.expand,
-                children: [...previous, if (current != null) current],
+                children: [...previous, ?current],
               ),
               child: synchronous || frame != null ? KeyedSubtree(key: const ValueKey(true), child: child) : thumbnail,
             ),
-            errorBuilder: (_, __, ___) => thumbnail,
+            errorBuilder: (_, _, _) => thumbnail,
           ),
         ),
         if (_contentSize == null && !_failed)

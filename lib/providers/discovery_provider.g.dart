@@ -6,18 +6,50 @@ part of 'discovery_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$serverDiscoveryHash() => r'f99ee026323bf92e13a87fd1e47e03760ad0ff78';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [ServerDiscovery].
 @ProviderFor(ServerDiscovery)
-final serverDiscoveryProvider = AutoDisposeStreamNotifierProvider<ServerDiscovery, List<DiscoveryInfo>>.internal(
-  ServerDiscovery.new,
-  name: r'serverDiscoveryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$serverDiscoveryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final serverDiscoveryProvider = ServerDiscoveryProvider._();
 
-typedef _$ServerDiscovery = AutoDisposeStreamNotifier<List<DiscoveryInfo>>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class ServerDiscoveryProvider
+    extends $StreamNotifierProvider<ServerDiscovery, List<DiscoveryInfo>> {
+  ServerDiscoveryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'serverDiscoveryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$serverDiscoveryHash();
+
+  @$internal
+  @override
+  ServerDiscovery create() => ServerDiscovery();
+}
+
+String _$serverDiscoveryHash() => r'32adec73b66b518a22b33469aad55ed903cbe06a';
+
+abstract class _$ServerDiscovery extends $StreamNotifier<List<DiscoveryInfo>> {
+  Stream<List<DiscoveryInfo>> build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<List<DiscoveryInfo>>, List<DiscoveryInfo>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<List<DiscoveryInfo>>, List<DiscoveryInfo>>,
+              AsyncValue<List<DiscoveryInfo>>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/boxset_model.dart';
@@ -61,6 +62,7 @@ class BoxSetNotifier extends StateNotifier<_CollectionSetModel> {
         BaseItemKind.boxset,
       ],
     );
+    if (!mounted) return;
 
     final boxSets = collections.body?.items?.map((e) => BoxSetModel.fromBaseDto(e, ref)).toList();
 

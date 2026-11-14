@@ -1,6 +1,5 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
     id "org.jetbrains.kotlin.plugin.compose"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
@@ -51,8 +50,8 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
         // Required for java 8+ library desugaring (flutter_local_notifications and others)
         coreLibraryDesugaringEnabled true
     }
@@ -61,20 +60,12 @@ android {
         compose = true
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
     defaultConfig {
         applicationId = "nl.jknaapen.fladder"
         minSdkVersion flutter.minSdkVersion
         targetSdk = 37
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.6.4'
     }
 
     signingConfigs {
@@ -89,7 +80,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
 
             packagingOptions {
@@ -113,6 +104,12 @@ android {
             dimension "default"
             applicationIdSuffix ""
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 

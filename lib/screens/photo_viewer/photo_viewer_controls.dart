@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +15,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/list_padding.dart';
+import 'package:fladder/util/native_window.dart';
 import 'package:fladder/util/throttler.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 import 'package:fladder/widgets/shared/elevated_icon.dart';
@@ -54,7 +55,8 @@ class PhotoViewerControls extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _PhotoViewerControllsState();
 }
 
-class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with WindowListener {
+class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> {
+  ListenerId? _windowListener;
   final Throttler throttler = Throttler(duration: const Duration(milliseconds: 130));
 
   final controller = TextEditingController();
@@ -65,7 +67,9 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
   @override
   void initState() {
     super.initState();
-    windowManager.addListener(this);
+    _windowListener = currentWindow?.addListener((event) {
+      if (event is WindowMinimizedEvent) timerController.cancel();
+    });
   }
 
   @override
@@ -75,18 +79,12 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with
   }
 
   @override
-  void onWindowMinimize() {
-    timerController.cancel();
-    super.onWindowMinimize();
-  }
-
-  @override
   void dispose() {
     timerController.dispose();
     if (context.mounted) {
       fullScreenHelper.closeFullScreen(ref);
     }
-    windowManager.removeListener(this);
+    if (_windowListener != null) currentWindow?.removeListener(_windowListener!);
     super.dispose();
   }
 

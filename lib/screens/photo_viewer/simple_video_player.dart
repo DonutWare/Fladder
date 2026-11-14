@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -18,10 +18,11 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
+import 'package:fladder/util/native_window.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
-    if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
+    if (dart.library.js_interop) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
 
 class SimpleVideoPlayer extends ConsumerStatefulWidget {
@@ -34,7 +35,8 @@ class SimpleVideoPlayer extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _SimpleVideoPlayerState();
 }
 
-class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with WindowListener, WidgetsBindingObserver {
+class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with WidgetsBindingObserver {
+  ListenerId? _windowListener;
   late final BasePlayer player = switch (ref.read(videoPlayerSettingsProvider).wantedPlayer) {
     PlayerOptions.libMDK => LibMDK(),
     PlayerOptions.libMPV => LibMPV(),
@@ -71,7 +73,9 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
   @override
   void initState() {
     super.initState();
-    windowManager.addListener(this);
+    _windowListener = currentWindow?.addListener((event) {
+      if (event is WindowMinimizedEvent && playing) player.pause();
+    });
     WidgetsBinding.instance.addObserver(this);
     playing = player.lastState.playing;
     position = player.lastState.position;
@@ -80,12 +84,6 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
       await Future.delayed(const Duration(milliseconds: 500));
       if (mounted) _init();
     });
-  }
-
-  @override
-  void onWindowMinimize() {
-    if (playing) player.pause();
-    super.onWindowMinimize();
   }
 
   void _init() async {
@@ -132,7 +130,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
       s.cancel();
     }
     WidgetsBinding.instance.removeObserver(this);
-    windowManager.removeListener(this);
+    if (_windowListener != null) currentWindow?.removeListener(_windowListener!);
     super.dispose();
   }
 

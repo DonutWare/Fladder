@@ -195,7 +195,7 @@ class StartResult {
 
 @HostApi()
 abstract class NativeVideoActivity {
-  @async
+  @asyncCallback
   StartResult launchActivity();
 
   void disposeActivity();
@@ -205,13 +205,13 @@ abstract class NativeVideoActivity {
 
 @HostApi()
 abstract class VideoPlayerApi {
-  @async
+  @asyncCallback
   bool sendPlayableModel(PlayableData playableData);
 
-  @async
+  @asyncCallback
   bool sendTVGuideModel(TVGuideModel guide);
 
-  @async
+  @asyncCallback
   bool open(String url, bool play);
 
   void setLooping(bool looping);
@@ -359,23 +359,30 @@ class GuideProgram {
 
 @FlutterApi()
 abstract class VideoPlayerListenerCallback {
+  @asyncCallback
   void onPlaybackStateChanged(PlaybackState state);
 }
 
 @FlutterApi()
 abstract class VideoPlayerControlsCallback {
+  @asyncCallback
   void loadNextVideo();
 
+  @asyncCallback
   void loadPreviousVideo();
 
+  @asyncCallback
   void onStop();
 
+  @asyncCallback
   void swapSubtitleTrack(int value);
 
+  @asyncCallback
   void swapAudioTrack(int value);
 
+  @asyncCallback
   void loadProgram(GuideChannel selection);
 
-  @async
+  @asyncCallback
   List<GuideProgram> fetchProgramsForChannel(String channelId);
 }

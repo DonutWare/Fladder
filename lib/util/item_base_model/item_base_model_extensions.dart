@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -245,7 +245,7 @@ extension ItemBaseModelExtensions on ItemBaseModel {
             icon: const Icon(IconsaxPlusLinear.blend_2),
             label: Text(context.localized.instantMix),
           ),
-      if (parentAction != null) parentAction,
+      ?parentAction,
       if (!galleryItem && !exclude.contains(ItemActions.details))
         ItemActionButton(
           action: () async => await navigateTo(context),

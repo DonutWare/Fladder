@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FladderFile {
@@ -152,10 +152,8 @@ class _FilePickerBarState extends ConsumerState<FilePickerBar> {
                               final List<PlatformFile> files = widget.multipleFiles
                                   ? await FilePicker.pickFiles(allowedExtensions: extensions, type: FileType.custom)
                                   : [
-                                      if (await FilePicker.pickFile(
+                                      ?await FilePicker.pickFile(
                                               allowedExtensions: extensions, type: FileType.custom)
-                                          case final file?)
-                                        file
                                     ];
                               if (files.isNotEmpty) {
                                 List<FladderFile> newFiles = [];

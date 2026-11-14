@@ -89,10 +89,10 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
     }
   }
 
-  ref.listen(userProvider, (_, __) => sendSettings());
-  ref.listen(clientSettingsProvider, (_, __) => sendSettings());
-  ref.listen(videoPlayerSettingsProvider, (_, __) => sendSettings());
-  ref.listen(lowResourceModeProvider, (_, __) => sendSettings());
+  ref.listen(userProvider, (_, _) => sendSettings());
+  ref.listen(clientSettingsProvider, (_, _) => sendSettings());
+  ref.listen(videoPlayerSettingsProvider, (_, _) => sendSettings());
+  ref.listen(lowResourceModeProvider, (_, _) => sendSettings());
 
   sendSettings();
 });

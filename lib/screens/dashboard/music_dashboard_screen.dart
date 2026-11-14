@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -121,7 +121,7 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
     return NestedScaffold(
       background: ValueListenableBuilder<ItemBaseModel?>(
         valueListenable: selectedPoster,
-        builder: (_, value, __) {
+        builder: (_, value, _) {
           return BackgroundImage(
             images: (value != null ? [value] : backgroundItems).map((e) => e.images).nonNulls.toList(),
           );
@@ -271,7 +271,7 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
                                     onTrackTap: (track) => track.parentBaseModel.navigateTo(context),
                                     onTrackPlayTap: (track) =>
                                         _playTrackFromSection(track, section: activeRecentTrackSection.section),
-                                    onTrackSecondaryTap: (_, __) {},
+                                    onTrackSecondaryTap: (_, _) {},
                                   ),
                                 ],
                               ),

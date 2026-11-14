@@ -1,5 +1,9 @@
 import 'dart:math' as math;
 
+import 'package:material_ui/material_ui.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:fladder/models/items/chapters_model.dart';
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/providers/syncplay/syncplay_provider.dart';
@@ -10,8 +14,6 @@ import 'package:fladder/util/string_extensions.dart';
 import 'package:fladder/widgets/gapped_container_shape.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/widgets/shared/trick_play_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class VideoProgressBar extends ConsumerStatefulWidget {
   final Function(bool value) wasPlayingChanged;

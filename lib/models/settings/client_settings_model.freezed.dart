@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'client_settings_model.dart';
@@ -9,1206 +9,399 @@ part of 'client_settings_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ClientSettingsModel implements DiagnosticableTreeMixin {
-  String? get syncPath;
-  TranscodeDownloadModel get transcodeDownloadModel;
-  TranscodeMusicDownloadModel get transcodeMusicDownloadModel;
-  Vector2 get position;
-  Vector2 get size;
-  Duration? get timeOut;
-  Duration? get nextUpDateCutoff;
-  Duration get updateNotificationsInterval;
-  ThemeMode get themeMode;
-  ColorThemes? get themeColor;
-  bool get deriveColorsFromItem;
-  bool get dynamicPosterColors;
-  bool get amoledBlack;
-  bool get blurPlaceHolders;
-  bool get blurUpcomingEpisodes;
-  @LocaleConvert()
-  Locale? get selectedLocale;
-  bool get enableMediaKeys;
-  double get posterSize;
-  bool get pinchPosterZoom;
-  bool get mouseDragSupport;
-  bool get requireWifi;
-  bool get expandSideBar;
-  bool get showAllCollectionTypes;
-  int get maxConcurrentDownloads;
-  DynamicSchemeVariant get schemeVariant;
-  BackgroundType get backgroundImage;
-  bool get enableBlurEffects;
-  bool get checkForUpdates;
-  bool get usePosterForLibrary;
-  bool get useSystemIME;
-  bool get useTVExpandedLayout;
-  bool get forceLeanBackMode;
-  LowResourceMode get lowResourceMode;
-  String? get lastViewedUpdate;
-  int? get libraryPageSize;
-  Map<GlobalHotKeys, KeyCombination> get shortcuts;
 
-  /// Create a copy of ClientSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $ClientSettingsModelCopyWith<ClientSettingsModel> get copyWith =>
-      _$ClientSettingsModelCopyWithImpl<ClientSettingsModel>(this as ClientSettingsModel, _$identity);
+ String? get syncPath; TranscodeDownloadModel get transcodeDownloadModel; TranscodeMusicDownloadModel get transcodeMusicDownloadModel; Vector2 get position; Vector2 get size; Duration? get timeOut; Duration? get nextUpDateCutoff; Duration get updateNotificationsInterval; ThemeMode get themeMode; ColorThemes? get themeColor; bool get deriveColorsFromItem; bool get dynamicPosterColors; bool get amoledBlack; bool get blurPlaceHolders; bool get blurUpcomingEpisodes;@LocaleConvert() Locale? get selectedLocale; bool get enableMediaKeys; double get posterSize; bool get pinchPosterZoom; bool get mouseDragSupport; bool get requireWifi; bool get expandSideBar; bool get showAllCollectionTypes; int get maxConcurrentDownloads; DynamicSchemeVariant get schemeVariant; BackgroundType get backgroundImage; bool get enableBlurEffects; bool get checkForUpdates; bool get usePosterForLibrary; bool get useSystemIME; bool get useTVExpandedLayout; bool get forceLeanBackMode; LowResourceMode get lowResourceMode; String? get lastViewedUpdate; int? get libraryPageSize; Map<GlobalHotKeys, KeyCombination> get shortcuts;
+/// Create a copy of ClientSettingsModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ClientSettingsModelCopyWith<ClientSettingsModel> get copyWith => _$ClientSettingsModelCopyWithImpl<ClientSettingsModel>(this as ClientSettingsModel, _$identity);
 
   /// Serializes this ClientSettingsModel to a JSON map.
   Map<String, dynamic> toJson();
 
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'ClientSettingsModel'))
-      ..add(DiagnosticsProperty('syncPath', syncPath))
-      ..add(DiagnosticsProperty('transcodeDownloadModel', transcodeDownloadModel))
-      ..add(DiagnosticsProperty('transcodeMusicDownloadModel', transcodeMusicDownloadModel))
-      ..add(DiagnosticsProperty('position', position))
-      ..add(DiagnosticsProperty('size', size))
-      ..add(DiagnosticsProperty('timeOut', timeOut))
-      ..add(DiagnosticsProperty('nextUpDateCutoff', nextUpDateCutoff))
-      ..add(DiagnosticsProperty('updateNotificationsInterval', updateNotificationsInterval))
-      ..add(DiagnosticsProperty('themeMode', themeMode))
-      ..add(DiagnosticsProperty('themeColor', themeColor))
-      ..add(DiagnosticsProperty('deriveColorsFromItem', deriveColorsFromItem))
-      ..add(DiagnosticsProperty('dynamicPosterColors', dynamicPosterColors))
-      ..add(DiagnosticsProperty('amoledBlack', amoledBlack))
-      ..add(DiagnosticsProperty('blurPlaceHolders', blurPlaceHolders))
-      ..add(DiagnosticsProperty('blurUpcomingEpisodes', blurUpcomingEpisodes))
-      ..add(DiagnosticsProperty('selectedLocale', selectedLocale))
-      ..add(DiagnosticsProperty('enableMediaKeys', enableMediaKeys))
-      ..add(DiagnosticsProperty('posterSize', posterSize))
-      ..add(DiagnosticsProperty('pinchPosterZoom', pinchPosterZoom))
-      ..add(DiagnosticsProperty('mouseDragSupport', mouseDragSupport))
-      ..add(DiagnosticsProperty('requireWifi', requireWifi))
-      ..add(DiagnosticsProperty('expandSideBar', expandSideBar))
-      ..add(DiagnosticsProperty('showAllCollectionTypes', showAllCollectionTypes))
-      ..add(DiagnosticsProperty('maxConcurrentDownloads', maxConcurrentDownloads))
-      ..add(DiagnosticsProperty('schemeVariant', schemeVariant))
-      ..add(DiagnosticsProperty('backgroundImage', backgroundImage))
-      ..add(DiagnosticsProperty('enableBlurEffects', enableBlurEffects))
-      ..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))
-      ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
-      ..add(DiagnosticsProperty('useSystemIME', useSystemIME))
-      ..add(DiagnosticsProperty('useTVExpandedLayout', useTVExpandedLayout))
-      ..add(DiagnosticsProperty('forceLeanBackMode', forceLeanBackMode))
-      ..add(DiagnosticsProperty('lowResourceMode', lowResourceMode))
-      ..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))
-      ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize))
-      ..add(DiagnosticsProperty('shortcuts', shortcuts));
-  }
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as ClientSettingsModel;
+  properties
+    ..add(DiagnosticsProperty('type', 'ClientSettingsModel'))
+    ..add(DiagnosticsProperty('syncPath', _this.syncPath))..add(DiagnosticsProperty('transcodeDownloadModel', _this.transcodeDownloadModel))..add(DiagnosticsProperty('transcodeMusicDownloadModel', _this.transcodeMusicDownloadModel))..add(DiagnosticsProperty('position', _this.position))..add(DiagnosticsProperty('size', _this.size))..add(DiagnosticsProperty('timeOut', _this.timeOut))..add(DiagnosticsProperty('nextUpDateCutoff', _this.nextUpDateCutoff))..add(DiagnosticsProperty('updateNotificationsInterval', _this.updateNotificationsInterval))..add(DiagnosticsProperty('themeMode', _this.themeMode))..add(DiagnosticsProperty('themeColor', _this.themeColor))..add(DiagnosticsProperty('deriveColorsFromItem', _this.deriveColorsFromItem))..add(DiagnosticsProperty('dynamicPosterColors', _this.dynamicPosterColors))..add(DiagnosticsProperty('amoledBlack', _this.amoledBlack))..add(DiagnosticsProperty('blurPlaceHolders', _this.blurPlaceHolders))..add(DiagnosticsProperty('blurUpcomingEpisodes', _this.blurUpcomingEpisodes))..add(DiagnosticsProperty('selectedLocale', _this.selectedLocale))..add(DiagnosticsProperty('enableMediaKeys', _this.enableMediaKeys))..add(DiagnosticsProperty('posterSize', _this.posterSize))..add(DiagnosticsProperty('pinchPosterZoom', _this.pinchPosterZoom))..add(DiagnosticsProperty('mouseDragSupport', _this.mouseDragSupport))..add(DiagnosticsProperty('requireWifi', _this.requireWifi))..add(DiagnosticsProperty('expandSideBar', _this.expandSideBar))..add(DiagnosticsProperty('showAllCollectionTypes', _this.showAllCollectionTypes))..add(DiagnosticsProperty('maxConcurrentDownloads', _this.maxConcurrentDownloads))..add(DiagnosticsProperty('schemeVariant', _this.schemeVariant))..add(DiagnosticsProperty('backgroundImage', _this.backgroundImage))..add(DiagnosticsProperty('enableBlurEffects', _this.enableBlurEffects))..add(DiagnosticsProperty('checkForUpdates', _this.checkForUpdates))..add(DiagnosticsProperty('usePosterForLibrary', _this.usePosterForLibrary))..add(DiagnosticsProperty('useSystemIME', _this.useSystemIME))..add(DiagnosticsProperty('useTVExpandedLayout', _this.useTVExpandedLayout))..add(DiagnosticsProperty('forceLeanBackMode', _this.forceLeanBackMode))..add(DiagnosticsProperty('lowResourceMode', _this.lowResourceMode))..add(DiagnosticsProperty('lastViewedUpdate', _this.lastViewedUpdate))..add(DiagnosticsProperty('libraryPageSize', _this.libraryPageSize))..add(DiagnosticsProperty('shortcuts', _this.shortcuts));
+}
 
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel(syncPath: $syncPath, transcodeDownloadModel: $transcodeDownloadModel, transcodeMusicDownloadModel: $transcodeMusicDownloadModel, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, dynamicPosterColors: $dynamicPosterColors, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, forceLeanBackMode: $forceLeanBackMode, lowResourceMode: $lowResourceMode, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
-  }
+
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  final _this = this as ClientSettingsModel;
+  return 'ClientSettingsModel(syncPath: ${_this.syncPath}, transcodeDownloadModel: ${_this.transcodeDownloadModel}, transcodeMusicDownloadModel: ${_this.transcodeMusicDownloadModel}, position: ${_this.position}, size: ${_this.size}, timeOut: ${_this.timeOut}, nextUpDateCutoff: ${_this.nextUpDateCutoff}, updateNotificationsInterval: ${_this.updateNotificationsInterval}, themeMode: ${_this.themeMode}, themeColor: ${_this.themeColor}, deriveColorsFromItem: ${_this.deriveColorsFromItem}, dynamicPosterColors: ${_this.dynamicPosterColors}, amoledBlack: ${_this.amoledBlack}, blurPlaceHolders: ${_this.blurPlaceHolders}, blurUpcomingEpisodes: ${_this.blurUpcomingEpisodes}, selectedLocale: ${_this.selectedLocale}, enableMediaKeys: ${_this.enableMediaKeys}, posterSize: ${_this.posterSize}, pinchPosterZoom: ${_this.pinchPosterZoom}, mouseDragSupport: ${_this.mouseDragSupport}, requireWifi: ${_this.requireWifi}, expandSideBar: ${_this.expandSideBar}, showAllCollectionTypes: ${_this.showAllCollectionTypes}, maxConcurrentDownloads: ${_this.maxConcurrentDownloads}, schemeVariant: ${_this.schemeVariant}, backgroundImage: ${_this.backgroundImage}, enableBlurEffects: ${_this.enableBlurEffects}, checkForUpdates: ${_this.checkForUpdates}, usePosterForLibrary: ${_this.usePosterForLibrary}, useSystemIME: ${_this.useSystemIME}, useTVExpandedLayout: ${_this.useTVExpandedLayout}, forceLeanBackMode: ${_this.forceLeanBackMode}, lowResourceMode: ${_this.lowResourceMode}, lastViewedUpdate: ${_this.lastViewedUpdate}, libraryPageSize: ${_this.libraryPageSize}, shortcuts: ${_this.shortcuts})';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class $ClientSettingsModelCopyWith<$Res> {
-  factory $ClientSettingsModelCopyWith(ClientSettingsModel value, $Res Function(ClientSettingsModel) _then) =
-      _$ClientSettingsModelCopyWithImpl;
-  @useResult
-  $Res call(
-      {String? syncPath,
-      TranscodeDownloadModel transcodeDownloadModel,
-      TranscodeMusicDownloadModel transcodeMusicDownloadModel,
-      Vector2 position,
-      Vector2 size,
-      Duration? timeOut,
-      Duration? nextUpDateCutoff,
-      Duration updateNotificationsInterval,
-      ThemeMode themeMode,
-      ColorThemes? themeColor,
-      bool deriveColorsFromItem,
-      bool dynamicPosterColors,
-      bool amoledBlack,
-      bool blurPlaceHolders,
-      bool blurUpcomingEpisodes,
-      @LocaleConvert() Locale? selectedLocale,
-      bool enableMediaKeys,
-      double posterSize,
-      bool pinchPosterZoom,
-      bool mouseDragSupport,
-      bool requireWifi,
-      bool expandSideBar,
-      bool showAllCollectionTypes,
-      int maxConcurrentDownloads,
-      DynamicSchemeVariant schemeVariant,
-      BackgroundType backgroundImage,
-      bool enableBlurEffects,
-      bool checkForUpdates,
-      bool usePosterForLibrary,
-      bool useSystemIME,
-      bool useTVExpandedLayout,
-      bool forceLeanBackMode,
-      LowResourceMode lowResourceMode,
-      String? lastViewedUpdate,
-      int? libraryPageSize,
-      Map<GlobalHotKeys, KeyCombination> shortcuts});
+abstract mixin class $ClientSettingsModelCopyWith<$Res>  {
+  factory $ClientSettingsModelCopyWith(ClientSettingsModel value, $Res Function(ClientSettingsModel) _then) = _$ClientSettingsModelCopyWithImpl;
+@useResult
+$Res call({
+ String? syncPath, TranscodeDownloadModel transcodeDownloadModel, TranscodeMusicDownloadModel transcodeMusicDownloadModel, Vector2 position, Vector2 size, Duration? timeOut, Duration? nextUpDateCutoff, Duration updateNotificationsInterval, ThemeMode themeMode, ColorThemes? themeColor, bool deriveColorsFromItem, bool dynamicPosterColors, bool amoledBlack, bool blurPlaceHolders, bool blurUpcomingEpisodes,@LocaleConvert() Locale? selectedLocale, bool enableMediaKeys, double posterSize, bool pinchPosterZoom, bool mouseDragSupport, bool requireWifi, bool expandSideBar, bool showAllCollectionTypes, int maxConcurrentDownloads, DynamicSchemeVariant schemeVariant, BackgroundType backgroundImage, bool enableBlurEffects, bool checkForUpdates, bool usePosterForLibrary, bool useSystemIME, bool useTVExpandedLayout, bool forceLeanBackMode, LowResourceMode lowResourceMode, String? lastViewedUpdate, int? libraryPageSize, Map<GlobalHotKeys, KeyCombination> shortcuts
+});
 
-  $TranscodeDownloadModelCopyWith<$Res> get transcodeDownloadModel;
+
+$TranscodeDownloadModelCopyWith<$Res> get transcodeDownloadModel;
+
 }
-
 /// @nodoc
-class _$ClientSettingsModelCopyWithImpl<$Res> implements $ClientSettingsModelCopyWith<$Res> {
+class _$ClientSettingsModelCopyWithImpl<$Res>
+    implements $ClientSettingsModelCopyWith<$Res> {
   _$ClientSettingsModelCopyWithImpl(this._self, this._then);
 
   final ClientSettingsModel _self;
   final $Res Function(ClientSettingsModel) _then;
 
-  /// Create a copy of ClientSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? syncPath = freezed,
-    Object? transcodeDownloadModel = null,
-    Object? transcodeMusicDownloadModel = null,
-    Object? position = null,
-    Object? size = null,
-    Object? timeOut = freezed,
-    Object? nextUpDateCutoff = freezed,
-    Object? updateNotificationsInterval = null,
-    Object? themeMode = null,
-    Object? themeColor = freezed,
-    Object? deriveColorsFromItem = null,
-    Object? dynamicPosterColors = null,
-    Object? amoledBlack = null,
-    Object? blurPlaceHolders = null,
-    Object? blurUpcomingEpisodes = null,
-    Object? selectedLocale = freezed,
-    Object? enableMediaKeys = null,
-    Object? posterSize = null,
-    Object? pinchPosterZoom = null,
-    Object? mouseDragSupport = null,
-    Object? requireWifi = null,
-    Object? expandSideBar = null,
-    Object? showAllCollectionTypes = null,
-    Object? maxConcurrentDownloads = null,
-    Object? schemeVariant = null,
-    Object? backgroundImage = null,
-    Object? enableBlurEffects = null,
-    Object? checkForUpdates = null,
-    Object? usePosterForLibrary = null,
-    Object? useSystemIME = null,
-    Object? useTVExpandedLayout = null,
-    Object? forceLeanBackMode = null,
-    Object? lowResourceMode = null,
-    Object? lastViewedUpdate = freezed,
-    Object? libraryPageSize = freezed,
-    Object? shortcuts = null,
-  }) {
-    return _then(_self.copyWith(
-      syncPath: freezed == syncPath
-          ? _self.syncPath
-          : syncPath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      transcodeDownloadModel: null == transcodeDownloadModel
-          ? _self.transcodeDownloadModel
-          : transcodeDownloadModel // ignore: cast_nullable_to_non_nullable
-              as TranscodeDownloadModel,
-      transcodeMusicDownloadModel: null == transcodeMusicDownloadModel
-          ? _self.transcodeMusicDownloadModel
-          : transcodeMusicDownloadModel // ignore: cast_nullable_to_non_nullable
-              as TranscodeMusicDownloadModel,
-      position: null == position
-          ? _self.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as Vector2,
-      size: null == size
-          ? _self.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as Vector2,
-      timeOut: freezed == timeOut
-          ? _self.timeOut
-          : timeOut // ignore: cast_nullable_to_non_nullable
-              as Duration?,
-      nextUpDateCutoff: freezed == nextUpDateCutoff
-          ? _self.nextUpDateCutoff
-          : nextUpDateCutoff // ignore: cast_nullable_to_non_nullable
-              as Duration?,
-      updateNotificationsInterval: null == updateNotificationsInterval
-          ? _self.updateNotificationsInterval
-          : updateNotificationsInterval // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      themeMode: null == themeMode
-          ? _self.themeMode
-          : themeMode // ignore: cast_nullable_to_non_nullable
-              as ThemeMode,
-      themeColor: freezed == themeColor
-          ? _self.themeColor
-          : themeColor // ignore: cast_nullable_to_non_nullable
-              as ColorThemes?,
-      deriveColorsFromItem: null == deriveColorsFromItem
-          ? _self.deriveColorsFromItem
-          : deriveColorsFromItem // ignore: cast_nullable_to_non_nullable
-              as bool,
-      dynamicPosterColors: null == dynamicPosterColors
-          ? _self.dynamicPosterColors
-          : dynamicPosterColors // ignore: cast_nullable_to_non_nullable
-              as bool,
-      amoledBlack: null == amoledBlack
-          ? _self.amoledBlack
-          : amoledBlack // ignore: cast_nullable_to_non_nullable
-              as bool,
-      blurPlaceHolders: null == blurPlaceHolders
-          ? _self.blurPlaceHolders
-          : blurPlaceHolders // ignore: cast_nullable_to_non_nullable
-              as bool,
-      blurUpcomingEpisodes: null == blurUpcomingEpisodes
-          ? _self.blurUpcomingEpisodes
-          : blurUpcomingEpisodes // ignore: cast_nullable_to_non_nullable
-              as bool,
-      selectedLocale: freezed == selectedLocale
-          ? _self.selectedLocale
-          : selectedLocale // ignore: cast_nullable_to_non_nullable
-              as Locale?,
-      enableMediaKeys: null == enableMediaKeys
-          ? _self.enableMediaKeys
-          : enableMediaKeys // ignore: cast_nullable_to_non_nullable
-              as bool,
-      posterSize: null == posterSize
-          ? _self.posterSize
-          : posterSize // ignore: cast_nullable_to_non_nullable
-              as double,
-      pinchPosterZoom: null == pinchPosterZoom
-          ? _self.pinchPosterZoom
-          : pinchPosterZoom // ignore: cast_nullable_to_non_nullable
-              as bool,
-      mouseDragSupport: null == mouseDragSupport
-          ? _self.mouseDragSupport
-          : mouseDragSupport // ignore: cast_nullable_to_non_nullable
-              as bool,
-      requireWifi: null == requireWifi
-          ? _self.requireWifi
-          : requireWifi // ignore: cast_nullable_to_non_nullable
-              as bool,
-      expandSideBar: null == expandSideBar
-          ? _self.expandSideBar
-          : expandSideBar // ignore: cast_nullable_to_non_nullable
-              as bool,
-      showAllCollectionTypes: null == showAllCollectionTypes
-          ? _self.showAllCollectionTypes
-          : showAllCollectionTypes // ignore: cast_nullable_to_non_nullable
-              as bool,
-      maxConcurrentDownloads: null == maxConcurrentDownloads
-          ? _self.maxConcurrentDownloads
-          : maxConcurrentDownloads // ignore: cast_nullable_to_non_nullable
-              as int,
-      schemeVariant: null == schemeVariant
-          ? _self.schemeVariant
-          : schemeVariant // ignore: cast_nullable_to_non_nullable
-              as DynamicSchemeVariant,
-      backgroundImage: null == backgroundImage
-          ? _self.backgroundImage
-          : backgroundImage // ignore: cast_nullable_to_non_nullable
-              as BackgroundType,
-      enableBlurEffects: null == enableBlurEffects
-          ? _self.enableBlurEffects
-          : enableBlurEffects // ignore: cast_nullable_to_non_nullable
-              as bool,
-      checkForUpdates: null == checkForUpdates
-          ? _self.checkForUpdates
-          : checkForUpdates // ignore: cast_nullable_to_non_nullable
-              as bool,
-      usePosterForLibrary: null == usePosterForLibrary
-          ? _self.usePosterForLibrary
-          : usePosterForLibrary // ignore: cast_nullable_to_non_nullable
-              as bool,
-      useSystemIME: null == useSystemIME
-          ? _self.useSystemIME
-          : useSystemIME // ignore: cast_nullable_to_non_nullable
-              as bool,
-      useTVExpandedLayout: null == useTVExpandedLayout
-          ? _self.useTVExpandedLayout
-          : useTVExpandedLayout // ignore: cast_nullable_to_non_nullable
-              as bool,
-      forceLeanBackMode: null == forceLeanBackMode
-          ? _self.forceLeanBackMode
-          : forceLeanBackMode // ignore: cast_nullable_to_non_nullable
-              as bool,
-      lowResourceMode: null == lowResourceMode
-          ? _self.lowResourceMode
-          : lowResourceMode // ignore: cast_nullable_to_non_nullable
-              as LowResourceMode,
-      lastViewedUpdate: freezed == lastViewedUpdate
-          ? _self.lastViewedUpdate
-          : lastViewedUpdate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      libraryPageSize: freezed == libraryPageSize
-          ? _self.libraryPageSize
-          : libraryPageSize // ignore: cast_nullable_to_non_nullable
-              as int?,
-      shortcuts: null == shortcuts
-          ? _self.shortcuts
-          : shortcuts // ignore: cast_nullable_to_non_nullable
-              as Map<GlobalHotKeys, KeyCombination>,
-    ));
-  }
-
-  /// Create a copy of ClientSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TranscodeDownloadModelCopyWith<$Res> get transcodeDownloadModel {
-    return $TranscodeDownloadModelCopyWith<$Res>(_self.transcodeDownloadModel, (value) {
-      return _then(_self.copyWith(transcodeDownloadModel: value));
-    });
-  }
+/// Create a copy of ClientSettingsModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? syncPath = freezed,Object? transcodeDownloadModel = null,Object? transcodeMusicDownloadModel = null,Object? position = null,Object? size = null,Object? timeOut = freezed,Object? nextUpDateCutoff = freezed,Object? updateNotificationsInterval = null,Object? themeMode = null,Object? themeColor = freezed,Object? deriveColorsFromItem = null,Object? dynamicPosterColors = null,Object? amoledBlack = null,Object? blurPlaceHolders = null,Object? blurUpcomingEpisodes = null,Object? selectedLocale = freezed,Object? enableMediaKeys = null,Object? posterSize = null,Object? pinchPosterZoom = null,Object? mouseDragSupport = null,Object? requireWifi = null,Object? expandSideBar = null,Object? showAllCollectionTypes = null,Object? maxConcurrentDownloads = null,Object? schemeVariant = null,Object? backgroundImage = null,Object? enableBlurEffects = null,Object? checkForUpdates = null,Object? usePosterForLibrary = null,Object? useSystemIME = null,Object? useTVExpandedLayout = null,Object? forceLeanBackMode = null,Object? lowResourceMode = null,Object? lastViewedUpdate = freezed,Object? libraryPageSize = freezed,Object? shortcuts = null,}) {
+  return _then(ClientSettingsModel(
+syncPath: freezed == syncPath ? _self.syncPath : syncPath // ignore: cast_nullable_to_non_nullable
+as String?,transcodeDownloadModel: null == transcodeDownloadModel ? _self.transcodeDownloadModel : transcodeDownloadModel // ignore: cast_nullable_to_non_nullable
+as TranscodeDownloadModel,transcodeMusicDownloadModel: null == transcodeMusicDownloadModel ? _self.transcodeMusicDownloadModel : transcodeMusicDownloadModel // ignore: cast_nullable_to_non_nullable
+as TranscodeMusicDownloadModel,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
+as Vector2,size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
+as Vector2,timeOut: freezed == timeOut ? _self.timeOut : timeOut // ignore: cast_nullable_to_non_nullable
+as Duration?,nextUpDateCutoff: freezed == nextUpDateCutoff ? _self.nextUpDateCutoff : nextUpDateCutoff // ignore: cast_nullable_to_non_nullable
+as Duration?,updateNotificationsInterval: null == updateNotificationsInterval ? _self.updateNotificationsInterval : updateNotificationsInterval // ignore: cast_nullable_to_non_nullable
+as Duration,themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
+as ThemeMode,themeColor: freezed == themeColor ? _self.themeColor : themeColor // ignore: cast_nullable_to_non_nullable
+as ColorThemes?,deriveColorsFromItem: null == deriveColorsFromItem ? _self.deriveColorsFromItem : deriveColorsFromItem // ignore: cast_nullable_to_non_nullable
+as bool,dynamicPosterColors: null == dynamicPosterColors ? _self.dynamicPosterColors : dynamicPosterColors // ignore: cast_nullable_to_non_nullable
+as bool,amoledBlack: null == amoledBlack ? _self.amoledBlack : amoledBlack // ignore: cast_nullable_to_non_nullable
+as bool,blurPlaceHolders: null == blurPlaceHolders ? _self.blurPlaceHolders : blurPlaceHolders // ignore: cast_nullable_to_non_nullable
+as bool,blurUpcomingEpisodes: null == blurUpcomingEpisodes ? _self.blurUpcomingEpisodes : blurUpcomingEpisodes // ignore: cast_nullable_to_non_nullable
+as bool,selectedLocale: freezed == selectedLocale ? _self.selectedLocale : selectedLocale // ignore: cast_nullable_to_non_nullable
+as Locale?,enableMediaKeys: null == enableMediaKeys ? _self.enableMediaKeys : enableMediaKeys // ignore: cast_nullable_to_non_nullable
+as bool,posterSize: null == posterSize ? _self.posterSize : posterSize // ignore: cast_nullable_to_non_nullable
+as double,pinchPosterZoom: null == pinchPosterZoom ? _self.pinchPosterZoom : pinchPosterZoom // ignore: cast_nullable_to_non_nullable
+as bool,mouseDragSupport: null == mouseDragSupport ? _self.mouseDragSupport : mouseDragSupport // ignore: cast_nullable_to_non_nullable
+as bool,requireWifi: null == requireWifi ? _self.requireWifi : requireWifi // ignore: cast_nullable_to_non_nullable
+as bool,expandSideBar: null == expandSideBar ? _self.expandSideBar : expandSideBar // ignore: cast_nullable_to_non_nullable
+as bool,showAllCollectionTypes: null == showAllCollectionTypes ? _self.showAllCollectionTypes : showAllCollectionTypes // ignore: cast_nullable_to_non_nullable
+as bool,maxConcurrentDownloads: null == maxConcurrentDownloads ? _self.maxConcurrentDownloads : maxConcurrentDownloads // ignore: cast_nullable_to_non_nullable
+as int,schemeVariant: null == schemeVariant ? _self.schemeVariant : schemeVariant // ignore: cast_nullable_to_non_nullable
+as DynamicSchemeVariant,backgroundImage: null == backgroundImage ? _self.backgroundImage : backgroundImage // ignore: cast_nullable_to_non_nullable
+as BackgroundType,enableBlurEffects: null == enableBlurEffects ? _self.enableBlurEffects : enableBlurEffects // ignore: cast_nullable_to_non_nullable
+as bool,checkForUpdates: null == checkForUpdates ? _self.checkForUpdates : checkForUpdates // ignore: cast_nullable_to_non_nullable
+as bool,usePosterForLibrary: null == usePosterForLibrary ? _self.usePosterForLibrary : usePosterForLibrary // ignore: cast_nullable_to_non_nullable
+as bool,useSystemIME: null == useSystemIME ? _self.useSystemIME : useSystemIME // ignore: cast_nullable_to_non_nullable
+as bool,useTVExpandedLayout: null == useTVExpandedLayout ? _self.useTVExpandedLayout : useTVExpandedLayout // ignore: cast_nullable_to_non_nullable
+as bool,forceLeanBackMode: null == forceLeanBackMode ? _self.forceLeanBackMode : forceLeanBackMode // ignore: cast_nullable_to_non_nullable
+as bool,lowResourceMode: null == lowResourceMode ? _self.lowResourceMode : lowResourceMode // ignore: cast_nullable_to_non_nullable
+as LowResourceMode,lastViewedUpdate: freezed == lastViewedUpdate ? _self.lastViewedUpdate : lastViewedUpdate // ignore: cast_nullable_to_non_nullable
+as String?,libraryPageSize: freezed == libraryPageSize ? _self.libraryPageSize : libraryPageSize // ignore: cast_nullable_to_non_nullable
+as int?,shortcuts: null == shortcuts ? _self.shortcuts : shortcuts // ignore: cast_nullable_to_non_nullable
+as Map<GlobalHotKeys, KeyCombination>,
+  ));
 }
+/// Create a copy of ClientSettingsModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TranscodeDownloadModelCopyWith<$Res> get transcodeDownloadModel {
+  
+  return $TranscodeDownloadModelCopyWith<$Res>(_self.transcodeDownloadModel, (value) {
+    return _then(_self.copyWith(transcodeDownloadModel: value));
+  });
+}
+}
+
 
 /// Adds pattern-matching-related methods to [ClientSettingsModel].
 extension ClientSettingsModelPatterns on ClientSettingsModel {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_ClientSettingsModel value)? internal,
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _ClientSettingsModel() when internal != null:
-        return internal(_that);
-      case _:
-        return orElse();
-    }
-  }
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ClientSettingsModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ClientSettingsModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_ClientSettingsModel value) internal,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _ClientSettingsModel():
-        return internal(_that);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ClientSettingsModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _ClientSettingsModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
 
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_ClientSettingsModel value)? internal,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _ClientSettingsModel() when internal != null:
-        return internal(_that);
-      case _:
-        return null;
-    }
-  }
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ClientSettingsModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ClientSettingsModel() when $default != null:
+return $default(_that);case _:
+  return null;
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            String? syncPath,
-            TranscodeDownloadModel transcodeDownloadModel,
-            TranscodeMusicDownloadModel transcodeMusicDownloadModel,
-            Vector2 position,
-            Vector2 size,
-            Duration? timeOut,
-            Duration? nextUpDateCutoff,
-            Duration updateNotificationsInterval,
-            ThemeMode themeMode,
-            ColorThemes? themeColor,
-            bool deriveColorsFromItem,
-            bool dynamicPosterColors,
-            bool amoledBlack,
-            bool blurPlaceHolders,
-            bool blurUpcomingEpisodes,
-            @LocaleConvert() Locale? selectedLocale,
-            bool enableMediaKeys,
-            double posterSize,
-            bool pinchPosterZoom,
-            bool mouseDragSupport,
-            bool requireWifi,
-            bool expandSideBar,
-            bool showAllCollectionTypes,
-            int maxConcurrentDownloads,
-            DynamicSchemeVariant schemeVariant,
-            BackgroundType backgroundImage,
-            bool enableBlurEffects,
-            bool checkForUpdates,
-            bool usePosterForLibrary,
-            bool useSystemIME,
-            bool useTVExpandedLayout,
-            bool forceLeanBackMode,
-            LowResourceMode lowResourceMode,
-            String? lastViewedUpdate,
-            int? libraryPageSize,
-            Map<GlobalHotKeys, KeyCombination> shortcuts)?
-        internal,
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _ClientSettingsModel() when internal != null:
-        return internal(
-            _that.syncPath,
-            _that.transcodeDownloadModel,
-            _that.transcodeMusicDownloadModel,
-            _that.position,
-            _that.size,
-            _that.timeOut,
-            _that.nextUpDateCutoff,
-            _that.updateNotificationsInterval,
-            _that.themeMode,
-            _that.themeColor,
-            _that.deriveColorsFromItem,
-            _that.dynamicPosterColors,
-            _that.amoledBlack,
-            _that.blurPlaceHolders,
-            _that.blurUpcomingEpisodes,
-            _that.selectedLocale,
-            _that.enableMediaKeys,
-            _that.posterSize,
-            _that.pinchPosterZoom,
-            _that.mouseDragSupport,
-            _that.requireWifi,
-            _that.expandSideBar,
-            _that.showAllCollectionTypes,
-            _that.maxConcurrentDownloads,
-            _that.schemeVariant,
-            _that.backgroundImage,
-            _that.enableBlurEffects,
-            _that.checkForUpdates,
-            _that.usePosterForLibrary,
-            _that.useSystemIME,
-            _that.useTVExpandedLayout,
-            _that.forceLeanBackMode,
-            _that.lowResourceMode,
-            _that.lastViewedUpdate,
-            _that.libraryPageSize,
-            _that.shortcuts);
-      case _:
-        return orElse();
-    }
-  }
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? syncPath,  TranscodeDownloadModel transcodeDownloadModel,  TranscodeMusicDownloadModel transcodeMusicDownloadModel,  Vector2 position,  Vector2 size,  Duration? timeOut,  Duration? nextUpDateCutoff,  Duration updateNotificationsInterval,  ThemeMode themeMode,  ColorThemes? themeColor,  bool deriveColorsFromItem,  bool dynamicPosterColors,  bool amoledBlack,  bool blurPlaceHolders,  bool blurUpcomingEpisodes, @LocaleConvert()  Locale? selectedLocale,  bool enableMediaKeys,  double posterSize,  bool pinchPosterZoom,  bool mouseDragSupport,  bool requireWifi,  bool expandSideBar,  bool showAllCollectionTypes,  int maxConcurrentDownloads,  DynamicSchemeVariant schemeVariant,  BackgroundType backgroundImage,  bool enableBlurEffects,  bool checkForUpdates,  bool usePosterForLibrary,  bool useSystemIME,  bool useTVExpandedLayout,  bool forceLeanBackMode,  LowResourceMode lowResourceMode,  String? lastViewedUpdate,  int? libraryPageSize,  Map<GlobalHotKeys, KeyCombination> shortcuts)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ClientSettingsModel() when $default != null:
+return $default(_that.syncPath,_that.transcodeDownloadModel,_that.transcodeMusicDownloadModel,_that.position,_that.size,_that.timeOut,_that.nextUpDateCutoff,_that.updateNotificationsInterval,_that.themeMode,_that.themeColor,_that.deriveColorsFromItem,_that.dynamicPosterColors,_that.amoledBlack,_that.blurPlaceHolders,_that.blurUpcomingEpisodes,_that.selectedLocale,_that.enableMediaKeys,_that.posterSize,_that.pinchPosterZoom,_that.mouseDragSupport,_that.requireWifi,_that.expandSideBar,_that.showAllCollectionTypes,_that.maxConcurrentDownloads,_that.schemeVariant,_that.backgroundImage,_that.enableBlurEffects,_that.checkForUpdates,_that.usePosterForLibrary,_that.useSystemIME,_that.useTVExpandedLayout,_that.forceLeanBackMode,_that.lowResourceMode,_that.lastViewedUpdate,_that.libraryPageSize,_that.shortcuts);case _:
+  return orElse();
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            String? syncPath,
-            TranscodeDownloadModel transcodeDownloadModel,
-            TranscodeMusicDownloadModel transcodeMusicDownloadModel,
-            Vector2 position,
-            Vector2 size,
-            Duration? timeOut,
-            Duration? nextUpDateCutoff,
-            Duration updateNotificationsInterval,
-            ThemeMode themeMode,
-            ColorThemes? themeColor,
-            bool deriveColorsFromItem,
-            bool dynamicPosterColors,
-            bool amoledBlack,
-            bool blurPlaceHolders,
-            bool blurUpcomingEpisodes,
-            @LocaleConvert() Locale? selectedLocale,
-            bool enableMediaKeys,
-            double posterSize,
-            bool pinchPosterZoom,
-            bool mouseDragSupport,
-            bool requireWifi,
-            bool expandSideBar,
-            bool showAllCollectionTypes,
-            int maxConcurrentDownloads,
-            DynamicSchemeVariant schemeVariant,
-            BackgroundType backgroundImage,
-            bool enableBlurEffects,
-            bool checkForUpdates,
-            bool usePosterForLibrary,
-            bool useSystemIME,
-            bool useTVExpandedLayout,
-            bool forceLeanBackMode,
-            LowResourceMode lowResourceMode,
-            String? lastViewedUpdate,
-            int? libraryPageSize,
-            Map<GlobalHotKeys, KeyCombination> shortcuts)
-        internal,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _ClientSettingsModel():
-        return internal(
-            _that.syncPath,
-            _that.transcodeDownloadModel,
-            _that.transcodeMusicDownloadModel,
-            _that.position,
-            _that.size,
-            _that.timeOut,
-            _that.nextUpDateCutoff,
-            _that.updateNotificationsInterval,
-            _that.themeMode,
-            _that.themeColor,
-            _that.deriveColorsFromItem,
-            _that.dynamicPosterColors,
-            _that.amoledBlack,
-            _that.blurPlaceHolders,
-            _that.blurUpcomingEpisodes,
-            _that.selectedLocale,
-            _that.enableMediaKeys,
-            _that.posterSize,
-            _that.pinchPosterZoom,
-            _that.mouseDragSupport,
-            _that.requireWifi,
-            _that.expandSideBar,
-            _that.showAllCollectionTypes,
-            _that.maxConcurrentDownloads,
-            _that.schemeVariant,
-            _that.backgroundImage,
-            _that.enableBlurEffects,
-            _that.checkForUpdates,
-            _that.usePosterForLibrary,
-            _that.useSystemIME,
-            _that.useTVExpandedLayout,
-            _that.forceLeanBackMode,
-            _that.lowResourceMode,
-            _that.lastViewedUpdate,
-            _that.libraryPageSize,
-            _that.shortcuts);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? syncPath,  TranscodeDownloadModel transcodeDownloadModel,  TranscodeMusicDownloadModel transcodeMusicDownloadModel,  Vector2 position,  Vector2 size,  Duration? timeOut,  Duration? nextUpDateCutoff,  Duration updateNotificationsInterval,  ThemeMode themeMode,  ColorThemes? themeColor,  bool deriveColorsFromItem,  bool dynamicPosterColors,  bool amoledBlack,  bool blurPlaceHolders,  bool blurUpcomingEpisodes, @LocaleConvert()  Locale? selectedLocale,  bool enableMediaKeys,  double posterSize,  bool pinchPosterZoom,  bool mouseDragSupport,  bool requireWifi,  bool expandSideBar,  bool showAllCollectionTypes,  int maxConcurrentDownloads,  DynamicSchemeVariant schemeVariant,  BackgroundType backgroundImage,  bool enableBlurEffects,  bool checkForUpdates,  bool usePosterForLibrary,  bool useSystemIME,  bool useTVExpandedLayout,  bool forceLeanBackMode,  LowResourceMode lowResourceMode,  String? lastViewedUpdate,  int? libraryPageSize,  Map<GlobalHotKeys, KeyCombination> shortcuts)  $default,) {final _that = this;
+switch (_that) {
+case _ClientSettingsModel():
+return $default(_that.syncPath,_that.transcodeDownloadModel,_that.transcodeMusicDownloadModel,_that.position,_that.size,_that.timeOut,_that.nextUpDateCutoff,_that.updateNotificationsInterval,_that.themeMode,_that.themeColor,_that.deriveColorsFromItem,_that.dynamicPosterColors,_that.amoledBlack,_that.blurPlaceHolders,_that.blurUpcomingEpisodes,_that.selectedLocale,_that.enableMediaKeys,_that.posterSize,_that.pinchPosterZoom,_that.mouseDragSupport,_that.requireWifi,_that.expandSideBar,_that.showAllCollectionTypes,_that.maxConcurrentDownloads,_that.schemeVariant,_that.backgroundImage,_that.enableBlurEffects,_that.checkForUpdates,_that.usePosterForLibrary,_that.useSystemIME,_that.useTVExpandedLayout,_that.forceLeanBackMode,_that.lowResourceMode,_that.lastViewedUpdate,_that.libraryPageSize,_that.shortcuts);case _:
+  throw StateError('Unexpected subclass');
 
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            String? syncPath,
-            TranscodeDownloadModel transcodeDownloadModel,
-            TranscodeMusicDownloadModel transcodeMusicDownloadModel,
-            Vector2 position,
-            Vector2 size,
-            Duration? timeOut,
-            Duration? nextUpDateCutoff,
-            Duration updateNotificationsInterval,
-            ThemeMode themeMode,
-            ColorThemes? themeColor,
-            bool deriveColorsFromItem,
-            bool dynamicPosterColors,
-            bool amoledBlack,
-            bool blurPlaceHolders,
-            bool blurUpcomingEpisodes,
-            @LocaleConvert() Locale? selectedLocale,
-            bool enableMediaKeys,
-            double posterSize,
-            bool pinchPosterZoom,
-            bool mouseDragSupport,
-            bool requireWifi,
-            bool expandSideBar,
-            bool showAllCollectionTypes,
-            int maxConcurrentDownloads,
-            DynamicSchemeVariant schemeVariant,
-            BackgroundType backgroundImage,
-            bool enableBlurEffects,
-            bool checkForUpdates,
-            bool usePosterForLibrary,
-            bool useSystemIME,
-            bool useTVExpandedLayout,
-            bool forceLeanBackMode,
-            LowResourceMode lowResourceMode,
-            String? lastViewedUpdate,
-            int? libraryPageSize,
-            Map<GlobalHotKeys, KeyCombination> shortcuts)?
-        internal,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _ClientSettingsModel() when internal != null:
-        return internal(
-            _that.syncPath,
-            _that.transcodeDownloadModel,
-            _that.transcodeMusicDownloadModel,
-            _that.position,
-            _that.size,
-            _that.timeOut,
-            _that.nextUpDateCutoff,
-            _that.updateNotificationsInterval,
-            _that.themeMode,
-            _that.themeColor,
-            _that.deriveColorsFromItem,
-            _that.dynamicPosterColors,
-            _that.amoledBlack,
-            _that.blurPlaceHolders,
-            _that.blurUpcomingEpisodes,
-            _that.selectedLocale,
-            _that.enableMediaKeys,
-            _that.posterSize,
-            _that.pinchPosterZoom,
-            _that.mouseDragSupport,
-            _that.requireWifi,
-            _that.expandSideBar,
-            _that.showAllCollectionTypes,
-            _that.maxConcurrentDownloads,
-            _that.schemeVariant,
-            _that.backgroundImage,
-            _that.enableBlurEffects,
-            _that.checkForUpdates,
-            _that.usePosterForLibrary,
-            _that.useSystemIME,
-            _that.useTVExpandedLayout,
-            _that.forceLeanBackMode,
-            _that.lowResourceMode,
-            _that.lastViewedUpdate,
-            _that.libraryPageSize,
-            _that.shortcuts);
-      case _:
-        return null;
-    }
-  }
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? syncPath,  TranscodeDownloadModel transcodeDownloadModel,  TranscodeMusicDownloadModel transcodeMusicDownloadModel,  Vector2 position,  Vector2 size,  Duration? timeOut,  Duration? nextUpDateCutoff,  Duration updateNotificationsInterval,  ThemeMode themeMode,  ColorThemes? themeColor,  bool deriveColorsFromItem,  bool dynamicPosterColors,  bool amoledBlack,  bool blurPlaceHolders,  bool blurUpcomingEpisodes, @LocaleConvert()  Locale? selectedLocale,  bool enableMediaKeys,  double posterSize,  bool pinchPosterZoom,  bool mouseDragSupport,  bool requireWifi,  bool expandSideBar,  bool showAllCollectionTypes,  int maxConcurrentDownloads,  DynamicSchemeVariant schemeVariant,  BackgroundType backgroundImage,  bool enableBlurEffects,  bool checkForUpdates,  bool usePosterForLibrary,  bool useSystemIME,  bool useTVExpandedLayout,  bool forceLeanBackMode,  LowResourceMode lowResourceMode,  String? lastViewedUpdate,  int? libraryPageSize,  Map<GlobalHotKeys, KeyCombination> shortcuts)?  $default,) {final _that = this;
+switch (_that) {
+case _ClientSettingsModel() when $default != null:
+return $default(_that.syncPath,_that.transcodeDownloadModel,_that.transcodeMusicDownloadModel,_that.position,_that.size,_that.timeOut,_that.nextUpDateCutoff,_that.updateNotificationsInterval,_that.themeMode,_that.themeColor,_that.deriveColorsFromItem,_that.dynamicPosterColors,_that.amoledBlack,_that.blurPlaceHolders,_that.blurUpcomingEpisodes,_that.selectedLocale,_that.enableMediaKeys,_that.posterSize,_that.pinchPosterZoom,_that.mouseDragSupport,_that.requireWifi,_that.expandSideBar,_that.showAllCollectionTypes,_that.maxConcurrentDownloads,_that.schemeVariant,_that.backgroundImage,_that.enableBlurEffects,_that.checkForUpdates,_that.usePosterForLibrary,_that.useSystemIME,_that.useTVExpandedLayout,_that.forceLeanBackMode,_that.lowResourceMode,_that.lastViewedUpdate,_that.libraryPageSize,_that.shortcuts);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
+
 class _ClientSettingsModel extends ClientSettingsModel with DiagnosticableTreeMixin {
-  _ClientSettingsModel(
-      {this.syncPath,
-      required this.transcodeDownloadModel,
-      this.transcodeMusicDownloadModel = const TranscodeMusicDownloadModel(),
-      this.position = const Vector2(x: 0, y: 0),
-      this.size = const Vector2(x: 1280, y: 720),
-      this.timeOut = const Duration(seconds: 30),
-      this.nextUpDateCutoff,
-      this.updateNotificationsInterval = const Duration(hours: 1),
-      this.themeMode = ThemeMode.system,
-      this.themeColor,
-      this.deriveColorsFromItem = true,
-      this.dynamicPosterColors = true,
-      this.amoledBlack = false,
-      this.blurPlaceHolders = true,
-      this.blurUpcomingEpisodes = false,
-      @LocaleConvert() this.selectedLocale,
-      this.enableMediaKeys = true,
-      this.posterSize = 1.0,
-      this.pinchPosterZoom = false,
-      this.mouseDragSupport = false,
-      this.requireWifi = true,
-      this.expandSideBar = false,
-      this.showAllCollectionTypes = false,
-      this.maxConcurrentDownloads = 2,
-      this.schemeVariant = DynamicSchemeVariant.rainbow,
-      this.backgroundImage = BackgroundType.blurred,
-      this.enableBlurEffects = false,
-      this.checkForUpdates = true,
-      this.usePosterForLibrary = false,
-      this.useSystemIME = false,
-      this.useTVExpandedLayout = false,
-      this.forceLeanBackMode = false,
-      this.lowResourceMode = LowResourceMode.auto,
-      this.lastViewedUpdate,
-      this.libraryPageSize,
-      final Map<GlobalHotKeys, KeyCombination> shortcuts = const {}})
-      : _shortcuts = shortcuts,
-        super._();
+   _ClientSettingsModel({this.syncPath, required this.transcodeDownloadModel, this.transcodeMusicDownloadModel = const TranscodeMusicDownloadModel(), this.position = const Vector2(x: 0, y: 0), this.size = const Vector2(x: 1280, y: 720), this.timeOut = const Duration(seconds: 30), this.nextUpDateCutoff, this.updateNotificationsInterval = const Duration(hours: 1), this.themeMode = ThemeMode.system, this.themeColor, this.deriveColorsFromItem = true, this.dynamicPosterColors = true, this.amoledBlack = false, this.blurPlaceHolders = true, this.blurUpcomingEpisodes = false, @LocaleConvert() this.selectedLocale, this.enableMediaKeys = true, this.posterSize = 1.0, this.pinchPosterZoom = false, this.mouseDragSupport = false, this.requireWifi = true, this.expandSideBar = false, this.showAllCollectionTypes = false, this.maxConcurrentDownloads = 2, this.schemeVariant = DynamicSchemeVariant.rainbow, this.backgroundImage = BackgroundType.blurred, this.enableBlurEffects = false, this.checkForUpdates = true, this.usePosterForLibrary = false, this.useSystemIME = false, this.useTVExpandedLayout = false, this.forceLeanBackMode = false, this.lowResourceMode = LowResourceMode.auto, this.lastViewedUpdate, this.libraryPageSize,  Map<GlobalHotKeys, KeyCombination> shortcuts = const {}}): _shortcuts = shortcuts,super._();
   factory _ClientSettingsModel.fromJson(Map<String, dynamic> json) => _$ClientSettingsModelFromJson(json);
 
-  @override
-  final String? syncPath;
-  @override
-  final TranscodeDownloadModel transcodeDownloadModel;
-  @override
-  @JsonKey()
-  final TranscodeMusicDownloadModel transcodeMusicDownloadModel;
-  @override
-  @JsonKey()
-  final Vector2 position;
-  @override
-  @JsonKey()
-  final Vector2 size;
-  @override
-  @JsonKey()
-  final Duration? timeOut;
-  @override
-  final Duration? nextUpDateCutoff;
-  @override
-  @JsonKey()
-  final Duration updateNotificationsInterval;
-  @override
-  @JsonKey()
-  final ThemeMode themeMode;
-  @override
-  final ColorThemes? themeColor;
-  @override
-  @JsonKey()
-  final bool deriveColorsFromItem;
-  @override
-  @JsonKey()
-  final bool dynamicPosterColors;
-  @override
-  @JsonKey()
-  final bool amoledBlack;
-  @override
-  @JsonKey()
-  final bool blurPlaceHolders;
-  @override
-  @JsonKey()
-  final bool blurUpcomingEpisodes;
-  @override
-  @LocaleConvert()
-  final Locale? selectedLocale;
-  @override
-  @JsonKey()
-  final bool enableMediaKeys;
-  @override
-  @JsonKey()
-  final double posterSize;
-  @override
-  @JsonKey()
-  final bool pinchPosterZoom;
-  @override
-  @JsonKey()
-  final bool mouseDragSupport;
-  @override
-  @JsonKey()
-  final bool requireWifi;
-  @override
-  @JsonKey()
-  final bool expandSideBar;
-  @override
-  @JsonKey()
-  final bool showAllCollectionTypes;
-  @override
-  @JsonKey()
-  final int maxConcurrentDownloads;
-  @override
-  @JsonKey()
-  final DynamicSchemeVariant schemeVariant;
-  @override
-  @JsonKey()
-  final BackgroundType backgroundImage;
-  @override
-  @JsonKey()
-  final bool enableBlurEffects;
-  @override
-  @JsonKey()
-  final bool checkForUpdates;
-  @override
-  @JsonKey()
-  final bool usePosterForLibrary;
-  @override
-  @JsonKey()
-  final bool useSystemIME;
-  @override
-  @JsonKey()
-  final bool useTVExpandedLayout;
-  @override
-  @JsonKey()
-  final bool forceLeanBackMode;
-  @override
-  @JsonKey()
-  final LowResourceMode lowResourceMode;
-  @override
-  final String? lastViewedUpdate;
-  @override
-  final int? libraryPageSize;
-  final Map<GlobalHotKeys, KeyCombination> _shortcuts;
-  @override
-  @JsonKey()
-  Map<GlobalHotKeys, KeyCombination> get shortcuts {
-    if (_shortcuts is EqualUnmodifiableMapView) return _shortcuts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_shortcuts);
-  }
+@override final  String? syncPath;
+@override final  TranscodeDownloadModel transcodeDownloadModel;
+@override@JsonKey() final  TranscodeMusicDownloadModel transcodeMusicDownloadModel;
+@override@JsonKey() final  Vector2 position;
+@override@JsonKey() final  Vector2 size;
+@override@JsonKey() final  Duration? timeOut;
+@override final  Duration? nextUpDateCutoff;
+@override@JsonKey() final  Duration updateNotificationsInterval;
+@override@JsonKey() final  ThemeMode themeMode;
+@override final  ColorThemes? themeColor;
+@override@JsonKey() final  bool deriveColorsFromItem;
+@override@JsonKey() final  bool dynamicPosterColors;
+@override@JsonKey() final  bool amoledBlack;
+@override@JsonKey() final  bool blurPlaceHolders;
+@override@JsonKey() final  bool blurUpcomingEpisodes;
+@override@LocaleConvert() final  Locale? selectedLocale;
+@override@JsonKey() final  bool enableMediaKeys;
+@override@JsonKey() final  double posterSize;
+@override@JsonKey() final  bool pinchPosterZoom;
+@override@JsonKey() final  bool mouseDragSupport;
+@override@JsonKey() final  bool requireWifi;
+@override@JsonKey() final  bool expandSideBar;
+@override@JsonKey() final  bool showAllCollectionTypes;
+@override@JsonKey() final  int maxConcurrentDownloads;
+@override@JsonKey() final  DynamicSchemeVariant schemeVariant;
+@override@JsonKey() final  BackgroundType backgroundImage;
+@override@JsonKey() final  bool enableBlurEffects;
+@override@JsonKey() final  bool checkForUpdates;
+@override@JsonKey() final  bool usePosterForLibrary;
+@override@JsonKey() final  bool useSystemIME;
+@override@JsonKey() final  bool useTVExpandedLayout;
+@override@JsonKey() final  bool forceLeanBackMode;
+@override@JsonKey() final  LowResourceMode lowResourceMode;
+@override final  String? lastViewedUpdate;
+@override final  int? libraryPageSize;
+ final  Map<GlobalHotKeys, KeyCombination> _shortcuts;
+@override@JsonKey() Map<GlobalHotKeys, KeyCombination> get shortcuts {
+  if (_shortcuts is EqualUnmodifiableMapView) return _shortcuts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_shortcuts);
+}
 
-  /// Create a copy of ClientSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$ClientSettingsModelCopyWith<_ClientSettingsModel> get copyWith =>
-      __$ClientSettingsModelCopyWithImpl<_ClientSettingsModel>(this, _$identity);
 
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ClientSettingsModelToJson(
-      this,
-    );
-  }
+/// Create a copy of ClientSettingsModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ClientSettingsModelCopyWith<_ClientSettingsModel> get copyWith => __$ClientSettingsModelCopyWithImpl<_ClientSettingsModel>(this, _$identity);
 
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+@override
+Map<String, dynamic> toJson() {
+  return _$ClientSettingsModelToJson(this, );
+}
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
-      ..add(DiagnosticsProperty('type', 'ClientSettingsModel.internal'))
-      ..add(DiagnosticsProperty('syncPath', syncPath))
-      ..add(DiagnosticsProperty('transcodeDownloadModel', transcodeDownloadModel))
-      ..add(DiagnosticsProperty('transcodeMusicDownloadModel', transcodeMusicDownloadModel))
-      ..add(DiagnosticsProperty('position', position))
-      ..add(DiagnosticsProperty('size', size))
-      ..add(DiagnosticsProperty('timeOut', timeOut))
-      ..add(DiagnosticsProperty('nextUpDateCutoff', nextUpDateCutoff))
-      ..add(DiagnosticsProperty('updateNotificationsInterval', updateNotificationsInterval))
-      ..add(DiagnosticsProperty('themeMode', themeMode))
-      ..add(DiagnosticsProperty('themeColor', themeColor))
-      ..add(DiagnosticsProperty('deriveColorsFromItem', deriveColorsFromItem))
-      ..add(DiagnosticsProperty('dynamicPosterColors', dynamicPosterColors))
-      ..add(DiagnosticsProperty('amoledBlack', amoledBlack))
-      ..add(DiagnosticsProperty('blurPlaceHolders', blurPlaceHolders))
-      ..add(DiagnosticsProperty('blurUpcomingEpisodes', blurUpcomingEpisodes))
-      ..add(DiagnosticsProperty('selectedLocale', selectedLocale))
-      ..add(DiagnosticsProperty('enableMediaKeys', enableMediaKeys))
-      ..add(DiagnosticsProperty('posterSize', posterSize))
-      ..add(DiagnosticsProperty('pinchPosterZoom', pinchPosterZoom))
-      ..add(DiagnosticsProperty('mouseDragSupport', mouseDragSupport))
-      ..add(DiagnosticsProperty('requireWifi', requireWifi))
-      ..add(DiagnosticsProperty('expandSideBar', expandSideBar))
-      ..add(DiagnosticsProperty('showAllCollectionTypes', showAllCollectionTypes))
-      ..add(DiagnosticsProperty('maxConcurrentDownloads', maxConcurrentDownloads))
-      ..add(DiagnosticsProperty('schemeVariant', schemeVariant))
-      ..add(DiagnosticsProperty('backgroundImage', backgroundImage))
-      ..add(DiagnosticsProperty('enableBlurEffects', enableBlurEffects))
-      ..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))
-      ..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))
-      ..add(DiagnosticsProperty('useSystemIME', useSystemIME))
-      ..add(DiagnosticsProperty('useTVExpandedLayout', useTVExpandedLayout))
-      ..add(DiagnosticsProperty('forceLeanBackMode', forceLeanBackMode))
-      ..add(DiagnosticsProperty('lowResourceMode', lowResourceMode))
-      ..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))
-      ..add(DiagnosticsProperty('libraryPageSize', libraryPageSize))
-      ..add(DiagnosticsProperty('shortcuts', shortcuts));
-  }
+    ..add(DiagnosticsProperty('type', 'ClientSettingsModel'))
+    ..add(DiagnosticsProperty('syncPath', syncPath))..add(DiagnosticsProperty('transcodeDownloadModel', transcodeDownloadModel))..add(DiagnosticsProperty('transcodeMusicDownloadModel', transcodeMusicDownloadModel))..add(DiagnosticsProperty('position', position))..add(DiagnosticsProperty('size', size))..add(DiagnosticsProperty('timeOut', timeOut))..add(DiagnosticsProperty('nextUpDateCutoff', nextUpDateCutoff))..add(DiagnosticsProperty('updateNotificationsInterval', updateNotificationsInterval))..add(DiagnosticsProperty('themeMode', themeMode))..add(DiagnosticsProperty('themeColor', themeColor))..add(DiagnosticsProperty('deriveColorsFromItem', deriveColorsFromItem))..add(DiagnosticsProperty('dynamicPosterColors', dynamicPosterColors))..add(DiagnosticsProperty('amoledBlack', amoledBlack))..add(DiagnosticsProperty('blurPlaceHolders', blurPlaceHolders))..add(DiagnosticsProperty('blurUpcomingEpisodes', blurUpcomingEpisodes))..add(DiagnosticsProperty('selectedLocale', selectedLocale))..add(DiagnosticsProperty('enableMediaKeys', enableMediaKeys))..add(DiagnosticsProperty('posterSize', posterSize))..add(DiagnosticsProperty('pinchPosterZoom', pinchPosterZoom))..add(DiagnosticsProperty('mouseDragSupport', mouseDragSupport))..add(DiagnosticsProperty('requireWifi', requireWifi))..add(DiagnosticsProperty('expandSideBar', expandSideBar))..add(DiagnosticsProperty('showAllCollectionTypes', showAllCollectionTypes))..add(DiagnosticsProperty('maxConcurrentDownloads', maxConcurrentDownloads))..add(DiagnosticsProperty('schemeVariant', schemeVariant))..add(DiagnosticsProperty('backgroundImage', backgroundImage))..add(DiagnosticsProperty('enableBlurEffects', enableBlurEffects))..add(DiagnosticsProperty('checkForUpdates', checkForUpdates))..add(DiagnosticsProperty('usePosterForLibrary', usePosterForLibrary))..add(DiagnosticsProperty('useSystemIME', useSystemIME))..add(DiagnosticsProperty('useTVExpandedLayout', useTVExpandedLayout))..add(DiagnosticsProperty('forceLeanBackMode', forceLeanBackMode))..add(DiagnosticsProperty('lowResourceMode', lowResourceMode))..add(DiagnosticsProperty('lastViewedUpdate', lastViewedUpdate))..add(DiagnosticsProperty('libraryPageSize', libraryPageSize))..add(DiagnosticsProperty('shortcuts', shortcuts));
+}
 
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientSettingsModel.internal(syncPath: $syncPath, transcodeDownloadModel: $transcodeDownloadModel, transcodeMusicDownloadModel: $transcodeMusicDownloadModel, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, dynamicPosterColors: $dynamicPosterColors, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, forceLeanBackMode: $forceLeanBackMode, lowResourceMode: $lowResourceMode, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
-  }
+
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+    return 'ClientSettingsModel(syncPath: $syncPath, transcodeDownloadModel: $transcodeDownloadModel, transcodeMusicDownloadModel: $transcodeMusicDownloadModel, position: $position, size: $size, timeOut: $timeOut, nextUpDateCutoff: $nextUpDateCutoff, updateNotificationsInterval: $updateNotificationsInterval, themeMode: $themeMode, themeColor: $themeColor, deriveColorsFromItem: $deriveColorsFromItem, dynamicPosterColors: $dynamicPosterColors, amoledBlack: $amoledBlack, blurPlaceHolders: $blurPlaceHolders, blurUpcomingEpisodes: $blurUpcomingEpisodes, selectedLocale: $selectedLocale, enableMediaKeys: $enableMediaKeys, posterSize: $posterSize, pinchPosterZoom: $pinchPosterZoom, mouseDragSupport: $mouseDragSupport, requireWifi: $requireWifi, expandSideBar: $expandSideBar, showAllCollectionTypes: $showAllCollectionTypes, maxConcurrentDownloads: $maxConcurrentDownloads, schemeVariant: $schemeVariant, backgroundImage: $backgroundImage, enableBlurEffects: $enableBlurEffects, checkForUpdates: $checkForUpdates, usePosterForLibrary: $usePosterForLibrary, useSystemIME: $useSystemIME, useTVExpandedLayout: $useTVExpandedLayout, forceLeanBackMode: $forceLeanBackMode, lowResourceMode: $lowResourceMode, lastViewedUpdate: $lastViewedUpdate, libraryPageSize: $libraryPageSize, shortcuts: $shortcuts)';
+}
+
+
 }
 
 /// @nodoc
 abstract mixin class _$ClientSettingsModelCopyWith<$Res> implements $ClientSettingsModelCopyWith<$Res> {
-  factory _$ClientSettingsModelCopyWith(_ClientSettingsModel value, $Res Function(_ClientSettingsModel) _then) =
-      __$ClientSettingsModelCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String? syncPath,
-      TranscodeDownloadModel transcodeDownloadModel,
-      TranscodeMusicDownloadModel transcodeMusicDownloadModel,
-      Vector2 position,
-      Vector2 size,
-      Duration? timeOut,
-      Duration? nextUpDateCutoff,
-      Duration updateNotificationsInterval,
-      ThemeMode themeMode,
-      ColorThemes? themeColor,
-      bool deriveColorsFromItem,
-      bool dynamicPosterColors,
-      bool amoledBlack,
-      bool blurPlaceHolders,
-      bool blurUpcomingEpisodes,
-      @LocaleConvert() Locale? selectedLocale,
-      bool enableMediaKeys,
-      double posterSize,
-      bool pinchPosterZoom,
-      bool mouseDragSupport,
-      bool requireWifi,
-      bool expandSideBar,
-      bool showAllCollectionTypes,
-      int maxConcurrentDownloads,
-      DynamicSchemeVariant schemeVariant,
-      BackgroundType backgroundImage,
-      bool enableBlurEffects,
-      bool checkForUpdates,
-      bool usePosterForLibrary,
-      bool useSystemIME,
-      bool useTVExpandedLayout,
-      bool forceLeanBackMode,
-      LowResourceMode lowResourceMode,
-      String? lastViewedUpdate,
-      int? libraryPageSize,
-      Map<GlobalHotKeys, KeyCombination> shortcuts});
+  factory _$ClientSettingsModelCopyWith(_ClientSettingsModel value, $Res Function(_ClientSettingsModel) _then) = __$ClientSettingsModelCopyWithImpl;
+@override @useResult
+$Res call({
+ String? syncPath, TranscodeDownloadModel transcodeDownloadModel, TranscodeMusicDownloadModel transcodeMusicDownloadModel, Vector2 position, Vector2 size, Duration? timeOut, Duration? nextUpDateCutoff, Duration updateNotificationsInterval, ThemeMode themeMode, ColorThemes? themeColor, bool deriveColorsFromItem, bool dynamicPosterColors, bool amoledBlack, bool blurPlaceHolders, bool blurUpcomingEpisodes,@LocaleConvert() Locale? selectedLocale, bool enableMediaKeys, double posterSize, bool pinchPosterZoom, bool mouseDragSupport, bool requireWifi, bool expandSideBar, bool showAllCollectionTypes, int maxConcurrentDownloads, DynamicSchemeVariant schemeVariant, BackgroundType backgroundImage, bool enableBlurEffects, bool checkForUpdates, bool usePosterForLibrary, bool useSystemIME, bool useTVExpandedLayout, bool forceLeanBackMode, LowResourceMode lowResourceMode, String? lastViewedUpdate, int? libraryPageSize, Map<GlobalHotKeys, KeyCombination> shortcuts
+});
 
-  @override
-  $TranscodeDownloadModelCopyWith<$Res> get transcodeDownloadModel;
+
+@override $TranscodeDownloadModelCopyWith<$Res> get transcodeDownloadModel;
+
 }
-
 /// @nodoc
-class __$ClientSettingsModelCopyWithImpl<$Res> implements _$ClientSettingsModelCopyWith<$Res> {
+class __$ClientSettingsModelCopyWithImpl<$Res>
+    implements _$ClientSettingsModelCopyWith<$Res> {
   __$ClientSettingsModelCopyWithImpl(this._self, this._then);
 
   final _ClientSettingsModel _self;
   final $Res Function(_ClientSettingsModel) _then;
 
-  /// Create a copy of ClientSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? syncPath = freezed,
-    Object? transcodeDownloadModel = null,
-    Object? transcodeMusicDownloadModel = null,
-    Object? position = null,
-    Object? size = null,
-    Object? timeOut = freezed,
-    Object? nextUpDateCutoff = freezed,
-    Object? updateNotificationsInterval = null,
-    Object? themeMode = null,
-    Object? themeColor = freezed,
-    Object? deriveColorsFromItem = null,
-    Object? dynamicPosterColors = null,
-    Object? amoledBlack = null,
-    Object? blurPlaceHolders = null,
-    Object? blurUpcomingEpisodes = null,
-    Object? selectedLocale = freezed,
-    Object? enableMediaKeys = null,
-    Object? posterSize = null,
-    Object? pinchPosterZoom = null,
-    Object? mouseDragSupport = null,
-    Object? requireWifi = null,
-    Object? expandSideBar = null,
-    Object? showAllCollectionTypes = null,
-    Object? maxConcurrentDownloads = null,
-    Object? schemeVariant = null,
-    Object? backgroundImage = null,
-    Object? enableBlurEffects = null,
-    Object? checkForUpdates = null,
-    Object? usePosterForLibrary = null,
-    Object? useSystemIME = null,
-    Object? useTVExpandedLayout = null,
-    Object? forceLeanBackMode = null,
-    Object? lowResourceMode = null,
-    Object? lastViewedUpdate = freezed,
-    Object? libraryPageSize = freezed,
-    Object? shortcuts = null,
-  }) {
-    return _then(_ClientSettingsModel(
-      syncPath: freezed == syncPath
-          ? _self.syncPath
-          : syncPath // ignore: cast_nullable_to_non_nullable
-              as String?,
-      transcodeDownloadModel: null == transcodeDownloadModel
-          ? _self.transcodeDownloadModel
-          : transcodeDownloadModel // ignore: cast_nullable_to_non_nullable
-              as TranscodeDownloadModel,
-      transcodeMusicDownloadModel: null == transcodeMusicDownloadModel
-          ? _self.transcodeMusicDownloadModel
-          : transcodeMusicDownloadModel // ignore: cast_nullable_to_non_nullable
-              as TranscodeMusicDownloadModel,
-      position: null == position
-          ? _self.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as Vector2,
-      size: null == size
-          ? _self.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as Vector2,
-      timeOut: freezed == timeOut
-          ? _self.timeOut
-          : timeOut // ignore: cast_nullable_to_non_nullable
-              as Duration?,
-      nextUpDateCutoff: freezed == nextUpDateCutoff
-          ? _self.nextUpDateCutoff
-          : nextUpDateCutoff // ignore: cast_nullable_to_non_nullable
-              as Duration?,
-      updateNotificationsInterval: null == updateNotificationsInterval
-          ? _self.updateNotificationsInterval
-          : updateNotificationsInterval // ignore: cast_nullable_to_non_nullable
-              as Duration,
-      themeMode: null == themeMode
-          ? _self.themeMode
-          : themeMode // ignore: cast_nullable_to_non_nullable
-              as ThemeMode,
-      themeColor: freezed == themeColor
-          ? _self.themeColor
-          : themeColor // ignore: cast_nullable_to_non_nullable
-              as ColorThemes?,
-      deriveColorsFromItem: null == deriveColorsFromItem
-          ? _self.deriveColorsFromItem
-          : deriveColorsFromItem // ignore: cast_nullable_to_non_nullable
-              as bool,
-      dynamicPosterColors: null == dynamicPosterColors
-          ? _self.dynamicPosterColors
-          : dynamicPosterColors // ignore: cast_nullable_to_non_nullable
-              as bool,
-      amoledBlack: null == amoledBlack
-          ? _self.amoledBlack
-          : amoledBlack // ignore: cast_nullable_to_non_nullable
-              as bool,
-      blurPlaceHolders: null == blurPlaceHolders
-          ? _self.blurPlaceHolders
-          : blurPlaceHolders // ignore: cast_nullable_to_non_nullable
-              as bool,
-      blurUpcomingEpisodes: null == blurUpcomingEpisodes
-          ? _self.blurUpcomingEpisodes
-          : blurUpcomingEpisodes // ignore: cast_nullable_to_non_nullable
-              as bool,
-      selectedLocale: freezed == selectedLocale
-          ? _self.selectedLocale
-          : selectedLocale // ignore: cast_nullable_to_non_nullable
-              as Locale?,
-      enableMediaKeys: null == enableMediaKeys
-          ? _self.enableMediaKeys
-          : enableMediaKeys // ignore: cast_nullable_to_non_nullable
-              as bool,
-      posterSize: null == posterSize
-          ? _self.posterSize
-          : posterSize // ignore: cast_nullable_to_non_nullable
-              as double,
-      pinchPosterZoom: null == pinchPosterZoom
-          ? _self.pinchPosterZoom
-          : pinchPosterZoom // ignore: cast_nullable_to_non_nullable
-              as bool,
-      mouseDragSupport: null == mouseDragSupport
-          ? _self.mouseDragSupport
-          : mouseDragSupport // ignore: cast_nullable_to_non_nullable
-              as bool,
-      requireWifi: null == requireWifi
-          ? _self.requireWifi
-          : requireWifi // ignore: cast_nullable_to_non_nullable
-              as bool,
-      expandSideBar: null == expandSideBar
-          ? _self.expandSideBar
-          : expandSideBar // ignore: cast_nullable_to_non_nullable
-              as bool,
-      showAllCollectionTypes: null == showAllCollectionTypes
-          ? _self.showAllCollectionTypes
-          : showAllCollectionTypes // ignore: cast_nullable_to_non_nullable
-              as bool,
-      maxConcurrentDownloads: null == maxConcurrentDownloads
-          ? _self.maxConcurrentDownloads
-          : maxConcurrentDownloads // ignore: cast_nullable_to_non_nullable
-              as int,
-      schemeVariant: null == schemeVariant
-          ? _self.schemeVariant
-          : schemeVariant // ignore: cast_nullable_to_non_nullable
-              as DynamicSchemeVariant,
-      backgroundImage: null == backgroundImage
-          ? _self.backgroundImage
-          : backgroundImage // ignore: cast_nullable_to_non_nullable
-              as BackgroundType,
-      enableBlurEffects: null == enableBlurEffects
-          ? _self.enableBlurEffects
-          : enableBlurEffects // ignore: cast_nullable_to_non_nullable
-              as bool,
-      checkForUpdates: null == checkForUpdates
-          ? _self.checkForUpdates
-          : checkForUpdates // ignore: cast_nullable_to_non_nullable
-              as bool,
-      usePosterForLibrary: null == usePosterForLibrary
-          ? _self.usePosterForLibrary
-          : usePosterForLibrary // ignore: cast_nullable_to_non_nullable
-              as bool,
-      useSystemIME: null == useSystemIME
-          ? _self.useSystemIME
-          : useSystemIME // ignore: cast_nullable_to_non_nullable
-              as bool,
-      useTVExpandedLayout: null == useTVExpandedLayout
-          ? _self.useTVExpandedLayout
-          : useTVExpandedLayout // ignore: cast_nullable_to_non_nullable
-              as bool,
-      forceLeanBackMode: null == forceLeanBackMode
-          ? _self.forceLeanBackMode
-          : forceLeanBackMode // ignore: cast_nullable_to_non_nullable
-              as bool,
-      lowResourceMode: null == lowResourceMode
-          ? _self.lowResourceMode
-          : lowResourceMode // ignore: cast_nullable_to_non_nullable
-              as LowResourceMode,
-      lastViewedUpdate: freezed == lastViewedUpdate
-          ? _self.lastViewedUpdate
-          : lastViewedUpdate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      libraryPageSize: freezed == libraryPageSize
-          ? _self.libraryPageSize
-          : libraryPageSize // ignore: cast_nullable_to_non_nullable
-              as int?,
-      shortcuts: null == shortcuts
-          ? _self._shortcuts
-          : shortcuts // ignore: cast_nullable_to_non_nullable
-              as Map<GlobalHotKeys, KeyCombination>,
-    ));
-  }
+/// Create a copy of ClientSettingsModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? syncPath = freezed,Object? transcodeDownloadModel = null,Object? transcodeMusicDownloadModel = null,Object? position = null,Object? size = null,Object? timeOut = freezed,Object? nextUpDateCutoff = freezed,Object? updateNotificationsInterval = null,Object? themeMode = null,Object? themeColor = freezed,Object? deriveColorsFromItem = null,Object? dynamicPosterColors = null,Object? amoledBlack = null,Object? blurPlaceHolders = null,Object? blurUpcomingEpisodes = null,Object? selectedLocale = freezed,Object? enableMediaKeys = null,Object? posterSize = null,Object? pinchPosterZoom = null,Object? mouseDragSupport = null,Object? requireWifi = null,Object? expandSideBar = null,Object? showAllCollectionTypes = null,Object? maxConcurrentDownloads = null,Object? schemeVariant = null,Object? backgroundImage = null,Object? enableBlurEffects = null,Object? checkForUpdates = null,Object? usePosterForLibrary = null,Object? useSystemIME = null,Object? useTVExpandedLayout = null,Object? forceLeanBackMode = null,Object? lowResourceMode = null,Object? lastViewedUpdate = freezed,Object? libraryPageSize = freezed,Object? shortcuts = null,}) {
+  return _then(_ClientSettingsModel(
+syncPath: freezed == syncPath ? _self.syncPath : syncPath // ignore: cast_nullable_to_non_nullable
+as String?,transcodeDownloadModel: null == transcodeDownloadModel ? _self.transcodeDownloadModel : transcodeDownloadModel // ignore: cast_nullable_to_non_nullable
+as TranscodeDownloadModel,transcodeMusicDownloadModel: null == transcodeMusicDownloadModel ? _self.transcodeMusicDownloadModel : transcodeMusicDownloadModel // ignore: cast_nullable_to_non_nullable
+as TranscodeMusicDownloadModel,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
+as Vector2,size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
+as Vector2,timeOut: freezed == timeOut ? _self.timeOut : timeOut // ignore: cast_nullable_to_non_nullable
+as Duration?,nextUpDateCutoff: freezed == nextUpDateCutoff ? _self.nextUpDateCutoff : nextUpDateCutoff // ignore: cast_nullable_to_non_nullable
+as Duration?,updateNotificationsInterval: null == updateNotificationsInterval ? _self.updateNotificationsInterval : updateNotificationsInterval // ignore: cast_nullable_to_non_nullable
+as Duration,themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
+as ThemeMode,themeColor: freezed == themeColor ? _self.themeColor : themeColor // ignore: cast_nullable_to_non_nullable
+as ColorThemes?,deriveColorsFromItem: null == deriveColorsFromItem ? _self.deriveColorsFromItem : deriveColorsFromItem // ignore: cast_nullable_to_non_nullable
+as bool,dynamicPosterColors: null == dynamicPosterColors ? _self.dynamicPosterColors : dynamicPosterColors // ignore: cast_nullable_to_non_nullable
+as bool,amoledBlack: null == amoledBlack ? _self.amoledBlack : amoledBlack // ignore: cast_nullable_to_non_nullable
+as bool,blurPlaceHolders: null == blurPlaceHolders ? _self.blurPlaceHolders : blurPlaceHolders // ignore: cast_nullable_to_non_nullable
+as bool,blurUpcomingEpisodes: null == blurUpcomingEpisodes ? _self.blurUpcomingEpisodes : blurUpcomingEpisodes // ignore: cast_nullable_to_non_nullable
+as bool,selectedLocale: freezed == selectedLocale ? _self.selectedLocale : selectedLocale // ignore: cast_nullable_to_non_nullable
+as Locale?,enableMediaKeys: null == enableMediaKeys ? _self.enableMediaKeys : enableMediaKeys // ignore: cast_nullable_to_non_nullable
+as bool,posterSize: null == posterSize ? _self.posterSize : posterSize // ignore: cast_nullable_to_non_nullable
+as double,pinchPosterZoom: null == pinchPosterZoom ? _self.pinchPosterZoom : pinchPosterZoom // ignore: cast_nullable_to_non_nullable
+as bool,mouseDragSupport: null == mouseDragSupport ? _self.mouseDragSupport : mouseDragSupport // ignore: cast_nullable_to_non_nullable
+as bool,requireWifi: null == requireWifi ? _self.requireWifi : requireWifi // ignore: cast_nullable_to_non_nullable
+as bool,expandSideBar: null == expandSideBar ? _self.expandSideBar : expandSideBar // ignore: cast_nullable_to_non_nullable
+as bool,showAllCollectionTypes: null == showAllCollectionTypes ? _self.showAllCollectionTypes : showAllCollectionTypes // ignore: cast_nullable_to_non_nullable
+as bool,maxConcurrentDownloads: null == maxConcurrentDownloads ? _self.maxConcurrentDownloads : maxConcurrentDownloads // ignore: cast_nullable_to_non_nullable
+as int,schemeVariant: null == schemeVariant ? _self.schemeVariant : schemeVariant // ignore: cast_nullable_to_non_nullable
+as DynamicSchemeVariant,backgroundImage: null == backgroundImage ? _self.backgroundImage : backgroundImage // ignore: cast_nullable_to_non_nullable
+as BackgroundType,enableBlurEffects: null == enableBlurEffects ? _self.enableBlurEffects : enableBlurEffects // ignore: cast_nullable_to_non_nullable
+as bool,checkForUpdates: null == checkForUpdates ? _self.checkForUpdates : checkForUpdates // ignore: cast_nullable_to_non_nullable
+as bool,usePosterForLibrary: null == usePosterForLibrary ? _self.usePosterForLibrary : usePosterForLibrary // ignore: cast_nullable_to_non_nullable
+as bool,useSystemIME: null == useSystemIME ? _self.useSystemIME : useSystemIME // ignore: cast_nullable_to_non_nullable
+as bool,useTVExpandedLayout: null == useTVExpandedLayout ? _self.useTVExpandedLayout : useTVExpandedLayout // ignore: cast_nullable_to_non_nullable
+as bool,forceLeanBackMode: null == forceLeanBackMode ? _self.forceLeanBackMode : forceLeanBackMode // ignore: cast_nullable_to_non_nullable
+as bool,lowResourceMode: null == lowResourceMode ? _self.lowResourceMode : lowResourceMode // ignore: cast_nullable_to_non_nullable
+as LowResourceMode,lastViewedUpdate: freezed == lastViewedUpdate ? _self.lastViewedUpdate : lastViewedUpdate // ignore: cast_nullable_to_non_nullable
+as String?,libraryPageSize: freezed == libraryPageSize ? _self.libraryPageSize : libraryPageSize // ignore: cast_nullable_to_non_nullable
+as int?,shortcuts: null == shortcuts ? _self._shortcuts : shortcuts // ignore: cast_nullable_to_non_nullable
+as Map<GlobalHotKeys, KeyCombination>,
+  ));
+}
 
-  /// Create a copy of ClientSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TranscodeDownloadModelCopyWith<$Res> get transcodeDownloadModel {
-    return $TranscodeDownloadModelCopyWith<$Res>(_self.transcodeDownloadModel, (value) {
-      return _then(_self.copyWith(transcodeDownloadModel: value));
-    });
-  }
+/// Create a copy of ClientSettingsModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TranscodeDownloadModelCopyWith<$Res> get transcodeDownloadModel {
+  
+  return $TranscodeDownloadModelCopyWith<$Res>(_self.transcodeDownloadModel, (value) {
+    return _then(_self.copyWith(transcodeDownloadModel: value));
+  });
+}
 }
 
 // dart format on

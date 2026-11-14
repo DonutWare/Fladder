@@ -12,7 +12,8 @@ _SessionInfoModel _$SessionInfoModelFromJson(Map<String, dynamic> json) =>
       transCodeInfo: json['transCodeInfo'] == null
           ? null
           : TranscodingInfo.fromJson(
-              json['transCodeInfo'] as Map<String, dynamic>),
+              json['transCodeInfo'] as Map<String, dynamic>,
+            ),
     );
 
 Map<String, dynamic> _$SessionInfoModelToJson(_SessionInfoModel instance) =>
@@ -25,20 +26,57 @@ Map<String, dynamic> _$SessionInfoModelToJson(_SessionInfoModel instance) =>
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sessionInfoHash() => r'024da7f8d05fb98f6e2e5395ed06c1cc9d003f79';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [SessionInfo].
 @ProviderFor(SessionInfo)
-final sessionInfoProvider =
-    AutoDisposeNotifierProvider<SessionInfo, SessionInfoModel>.internal(
-  SessionInfo.new,
-  name: r'sessionInfoProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$sessionInfoHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final sessionInfoProvider = SessionInfoProvider._();
 
-typedef _$SessionInfo = AutoDisposeNotifier<SessionInfoModel>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class SessionInfoProvider
+    extends $NotifierProvider<SessionInfo, SessionInfoModel> {
+  SessionInfoProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sessionInfoProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$sessionInfoHash();
+
+  @$internal
+  @override
+  SessionInfo create() => SessionInfo();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SessionInfoModel value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SessionInfoModel>(value),
+    );
+  }
+}
+
+String _$sessionInfoHash() => r'930c82b5a0bc97d983f816388d1b436477a73bec';
+
+abstract class _$SessionInfo extends $Notifier<SessionInfoModel> {
+  SessionInfoModel build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<SessionInfoModel, SessionInfoModel>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SessionInfoModel, SessionInfoModel>,
+              SessionInfoModel,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

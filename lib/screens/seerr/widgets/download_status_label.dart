@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:fladder/models/seerr/seerr_dashboard_model.dart';
 import 'package:fladder/seerr/seerr_models.dart';

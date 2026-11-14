@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
@@ -194,7 +194,7 @@ class TopNavigationBar extends ConsumerWidget {
                                                 child: Row(
                                                   spacing: 8,
                                                   children: [
-                                                    if (icon != null) icon,
+                                                    ?icon,
                                                     Text(
                                                       destination.label,
                                                       style: Theme.of(context).textTheme.titleMedium!.copyWith(

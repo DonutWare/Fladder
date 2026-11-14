@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:app_links/app_links.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -189,7 +189,7 @@ abstract class BaseAppWrapperState<T extends BaseAppWrapper> extends ConsumerSta
   Widget build(BuildContext context) {
     // Open the socket for the whole session, not just while a screen listens; `listen` so events don't
     // rebuild the app.
-    ref.listen(jellyfinWebSocketProvider, (_, __) {});
+    ref.listen(jellyfinWebSocketProvider, (_, _) {});
     return widget.builder(
       context,
       autoRouter,

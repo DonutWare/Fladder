@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/providers/arguments_provider.dart';
+import 'package:fladder/util/native_window.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 
 class FullScreenHelper implements FullScreenWrapper {
@@ -10,17 +10,17 @@ class FullScreenHelper implements FullScreenWrapper {
   @override
   Future<void> closeFullScreen(WidgetRef ref) async {
     if (ref.watch(argumentsStateProvider.select((value) => value.htpcMode))) return;
-    final isFullScreen = await windowManager.isFullScreen();
-    if (isFullScreen) {
-      await windowManager.setFullScreen(false);
+    final window = currentWindow;
+    if (window != null && window.isFullScreen) {
+      window.isFullScreen = false;
     }
   }
 
   @override
   Future<void> toggleFullScreen(WidgetRef ref) async {
     if (ref.watch(argumentsStateProvider.select((value) => value.htpcMode))) return;
-    final isFullScreen = await windowManager.isFullScreen();
-
-    await windowManager.setFullScreen(!isFullScreen);
+    final window = currentWindow;
+    if (window == null) return;
+    window.isFullScreen = !window.isFullScreen;
   }
 }

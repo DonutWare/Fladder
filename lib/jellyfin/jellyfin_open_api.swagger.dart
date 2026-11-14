@@ -1,18 +1,25 @@
+// coverage:ignore-file
 // ignore_for_file: type=lint
+// ignore_for_file: unused_element_parameter
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
+
 import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
 
 import 'client_mapping.dart';
+
 import 'dart:async';
+
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
+
 import 'jellyfin_open_api.enums.swagger.dart' as enums;
+import 'jellyfin_open_api.metadata.swagger.dart';
 export 'jellyfin_open_api.enums.swagger.dart';
 
 part 'jellyfin_open_api.swagger.chopper.dart';
@@ -86,6 +93,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('limit') int? limit,
     @Query('minDate') DateTime? minDate,
     @Query('hasUserId') bool? hasUserId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets activity log entries.',
+      operationId: 'GetLogEntries',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ActivityLog"],
+      deprecated: false,
+    ),
   });
 
   ///Get all keys.
@@ -100,7 +118,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Get all keys.
   @GET(path: '/Auth/Keys')
-  Future<chopper.Response<AuthenticationInfoQueryResult>> _authKeysGet();
+  Future<chopper.Response<AuthenticationInfoQueryResult>> _authKeysGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get all keys.',
+      operationId: 'GetKeys',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ApiKey"],
+      deprecated: false,
+    ),
+  });
 
   ///Create a new api key.
   ///@param app Name of the app using the authentication key.
@@ -111,7 +141,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Create a new api key.
   ///@param app Name of the app using the authentication key.
   @POST(path: '/Auth/Keys', optionalBody: true)
-  Future<chopper.Response> _authKeysPost({@Query('app') required String? app});
+  Future<chopper.Response> _authKeysPost({
+    @Query('app') required String? app,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Create a new api key.',
+      operationId: 'CreateKey',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ApiKey"],
+      deprecated: false,
+    ),
+  });
 
   ///Remove an api key.
   ///@param key The access token to delete.
@@ -124,6 +167,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/Auth/Keys/{key}')
   Future<chopper.Response> _authKeysKeyDelete({
     @Path('key') required String? key,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Remove an api key.',
+      operationId: 'RevokeKey',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ApiKey"],
+      deprecated: false,
+    ),
   });
 
   ///Gets all artists from a given item, folder, or the entire library.
@@ -301,6 +355,18 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('sortOrder') List<Object?>? sortOrder,
     @Query('enableImages') bool? enableImages,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary:
+          'Gets all artists from a given item, folder, or the entire library.',
+      operationId: 'GetArtists',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Artists"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an artist by name.
@@ -325,6 +391,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDto>> _artistsNameGet({
     @Path('name') required String? name,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an artist by name.',
+      operationId: 'GetArtistByName',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Artists"],
+      deprecated: false,
+    ),
   });
 
   ///Gets all album artists from a given item, folder, or the entire library.
@@ -502,6 +579,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('sortOrder') List<Object?>? sortOrder,
     @Query('enableImages') bool? enableImages,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets all album artists from a given item, folder, or the entire library.',
+      operationId: 'GetAlbumArtists',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Artists"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an audio stream.
@@ -764,6 +852,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an audio stream.',
+      operationId: 'GetAudioStream',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Audio"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an audio stream.
@@ -1026,6 +1125,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an audio stream.',
+      operationId: 'HeadAudioStream',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Audio"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an audio stream.
@@ -1288,6 +1398,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an audio stream.',
+      operationId: 'GetAudioStreamByContainer',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Audio"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an audio stream.
@@ -1550,6 +1671,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an audio stream.',
+      operationId: 'HeadAudioStreamByContainer',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Audio"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a list of all currently present backups in the backup directory.
@@ -1564,7 +1696,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets a list of all currently present backups in the backup directory.
   @GET(path: '/Backup')
-  Future<chopper.Response<List<BackupManifestDto>>> _backupGet();
+  Future<chopper.Response<List<BackupManifestDto>>> _backupGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a list of all currently present backups in the backup directory.',
+      operationId: 'ListBackups',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Backup"],
+      deprecated: false,
+    ),
+  });
 
   ///Creates a new Backup.
   Future<chopper.Response<BackupManifestDto>> backupCreatePost({
@@ -1582,6 +1726,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Backup/Create', optionalBody: true)
   Future<chopper.Response<BackupManifestDto>> _backupCreatePost({
     @Body() required BackupOptionsDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates a new Backup.',
+      operationId: 'CreateBackup',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Backup"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the descriptor from an existing archive is present.
@@ -1602,6 +1757,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Backup/Manifest')
   Future<chopper.Response<BackupManifestDto>> _backupManifestGet({
     @Query('path') required String? path,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the descriptor from an existing archive is present.',
+      operationId: 'GetBackup',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Backup"],
+      deprecated: false,
+    ),
   });
 
   ///Restores to a backup by restarting the server and applying the backup.
@@ -1615,6 +1781,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Backup/Restore', optionalBody: true)
   Future<chopper.Response> _backupRestorePost({
     @Body() required BackupRestoreRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Restores to a backup by restarting the server and applying the backup.',
+      operationId: 'StartRestoreBackup',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Backup"],
+      deprecated: false,
+    ),
   });
 
   ///Gets branding configuration.
@@ -1629,7 +1806,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets branding configuration.
   @GET(path: '/Branding/Configuration')
-  Future<chopper.Response<BrandingOptionsDto>> _brandingConfigurationGet();
+  Future<chopper.Response<BrandingOptionsDto>> _brandingConfigurationGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets branding configuration.',
+      operationId: 'GetBrandingOptions',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Branding"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets branding css.
   Future<chopper.Response<String>> brandingCssGet() {
@@ -1638,7 +1827,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets branding css.
   @GET(path: '/Branding/Css')
-  Future<chopper.Response<String>> _brandingCssGet();
+  Future<chopper.Response<String>> _brandingCssGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets branding css.',
+      operationId: 'GetBrandingCss',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Branding"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets branding css.
   Future<chopper.Response<String>> brandingCssCssGet() {
@@ -1647,7 +1848,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets branding css.
   @GET(path: '/Branding/Css.css')
-  Future<chopper.Response<String>> _brandingCssCssGet();
+  Future<chopper.Response<String>> _brandingCssCssGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets branding css.',
+      operationId: 'GetBrandingCss_2',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Branding"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets available channels.
   ///@param userId User Id to filter by. Use System.Guid.Empty to not filter by user.
@@ -1694,6 +1907,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('supportsLatestItems') bool? supportsLatestItems,
     @Query('supportsMediaDeletion') bool? supportsMediaDeletion,
     @Query('isFavorite') bool? isFavorite,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets available channels.',
+      operationId: 'GetChannels',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Channels"],
+      deprecated: false,
+    ),
   });
 
   ///Get channel features.
@@ -1714,6 +1938,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Channels/{channelId}/Features')
   Future<chopper.Response<ChannelFeatures>> _channelsChannelIdFeaturesGet({
     @Path('channelId') required String? channelId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get channel features.',
+      operationId: 'GetChannelFeatures',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Channels"],
+      deprecated: false,
+    ),
   });
 
   ///Get channel items.
@@ -1776,6 +2011,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('filters') List<Object?>? filters,
     @Query('sortBy') List<Object?>? sortBy,
     @Query('fields') List<Object?>? fields,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get channel items.',
+      operationId: 'GetChannelItems',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Channels"],
+      deprecated: false,
+    ),
   });
 
   ///Get all channel features.
@@ -1790,7 +2036,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Get all channel features.
   @GET(path: '/Channels/Features')
-  Future<chopper.Response<List<ChannelFeatures>>> _channelsFeaturesGet();
+  Future<chopper.Response<List<ChannelFeatures>>> _channelsFeaturesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get all channel features.',
+      operationId: 'GetAllChannelFeatures',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Channels"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets latest channel items.
   ///@param userId Optional. User Id.
@@ -1837,6 +2095,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('filters') List<Object?>? filters,
     @Query('fields') List<Object?>? fields,
     @Query('channelIds') List<String>? channelIds,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets latest channel items.',
+      operationId: 'GetLatestChannelItems',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Channels"],
+      deprecated: false,
+    ),
   });
 
   ///Upload a document.
@@ -1854,7 +2123,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Upload a document.
   @POST(path: '/ClientLog/Document', optionalBody: true)
   Future<chopper.Response<ClientLogDocumentResponseDto>>
-  _clientLogDocumentPost({@Body() required Object? body});
+  _clientLogDocumentPost({
+    @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Upload a document.',
+      operationId: 'LogFile',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ClientLog"],
+      deprecated: false,
+    ),
+  });
 
   ///Creates a new collection.
   ///@param name The name of the collection.
@@ -1891,6 +2173,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('ids') List<String>? ids,
     @Query('parentId') String? parentId,
     @Query('isLocked') bool? isLocked,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates a new collection.',
+      operationId: 'CreateCollection',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Collection"],
+      deprecated: false,
+    ),
   });
 
   ///Adds items to a collection.
@@ -1913,6 +2206,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _collectionsCollectionIdItemsPost({
     @Path('collectionId') required String? collectionId,
     @Query('ids') required List<String>? ids,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Adds items to a collection.',
+      operationId: 'AddToCollection',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Collection"],
+      deprecated: false,
+    ),
   });
 
   ///Removes items from a collection.
@@ -1935,6 +2239,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _collectionsCollectionIdItemsDelete({
     @Path('collectionId') required String? collectionId,
     @Query('ids') required List<String>? ids,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Removes items from a collection.',
+      operationId: 'RemoveFromCollection',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Collection"],
+      deprecated: false,
+    ),
   });
 
   ///Gets application configuration.
@@ -1949,7 +2264,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets application configuration.
   @GET(path: '/System/Configuration')
-  Future<chopper.Response<ServerConfiguration>> _systemConfigurationGet();
+  Future<chopper.Response<ServerConfiguration>> _systemConfigurationGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets application configuration.',
+      operationId: 'GetConfiguration',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Configuration"],
+      deprecated: false,
+    ),
+  });
 
   ///Updates application configuration.
   Future<chopper.Response> systemConfigurationPost({
@@ -1962,6 +2289,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/System/Configuration', optionalBody: true)
   Future<chopper.Response> _systemConfigurationPost({
     @Body() required ServerConfiguration? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates application configuration.',
+      operationId: 'UpdateConfiguration',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Configuration"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a named configuration.
@@ -1977,6 +2315,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/System/Configuration/{key}')
   Future<chopper.Response<String>> _systemConfigurationKeyGet({
     @Path('key') required String? key,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a named configuration.',
+      operationId: 'GetNamedConfiguration',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Configuration"],
+      deprecated: false,
+    ),
   });
 
   ///Updates named configuration.
@@ -1994,6 +2343,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _systemConfigurationKeyPost({
     @Path('key') required String? key,
     @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates named configuration.',
+      operationId: 'UpdateNamedConfiguration',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Configuration"],
+      deprecated: false,
+    ),
   });
 
   ///Updates branding configuration.
@@ -2007,6 +2367,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/System/Configuration/Branding', optionalBody: true)
   Future<chopper.Response> _systemConfigurationBrandingPost({
     @Body() required BrandingOptionsDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates branding configuration.',
+      operationId: 'UpdateBrandingConfiguration',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Configuration"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a default MetadataOptions object.
@@ -2023,7 +2394,19 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Gets a default MetadataOptions object.
   @GET(path: '/System/Configuration/MetadataOptions/Default')
   Future<chopper.Response<MetadataOptions>>
-  _systemConfigurationMetadataOptionsDefaultGet();
+  _systemConfigurationMetadataOptionsDefaultGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a default MetadataOptions object.',
+      operationId: 'GetDefaultMetadataOptions',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Configuration"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets a dashboard configuration page.
   ///@param name The name of the page.
@@ -2036,6 +2419,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/web/ConfigurationPage')
   Future<chopper.Response<String>> _webConfigurationPageGet({
     @Query('name') String? name,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a dashboard configuration page.',
+      operationId: 'GetDashboardConfigurationPage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Dashboard"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the configuration pages.
@@ -2056,6 +2450,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<ConfigurationPageInfo>>>
   _webConfigurationPagesGet({
     @Query('enableInMainMenu') bool? enableInMainMenu,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the configuration pages.',
+      operationId: 'GetConfigurationPages',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Dashboard"],
+      deprecated: false,
+    ),
   });
 
   ///Get Devices.
@@ -2076,6 +2481,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Devices')
   Future<chopper.Response<DeviceInfoDtoQueryResult>> _devicesGet({
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Devices.',
+      operationId: 'GetDevices',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Devices"],
+      deprecated: false,
+    ),
   });
 
   ///Deletes a device.
@@ -2087,7 +2503,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Deletes a device.
   ///@param id Device Id.
   @DELETE(path: '/Devices')
-  Future<chopper.Response> _devicesDelete({@Query('id') required String? id});
+  Future<chopper.Response> _devicesDelete({
+    @Query('id') required String? id,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Deletes a device.',
+      operationId: 'DeleteDevice',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Devices"],
+      deprecated: false,
+    ),
+  });
 
   ///Get info for a device.
   ///@param id Device Id.
@@ -2107,6 +2536,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Devices/Info')
   Future<chopper.Response<DeviceInfoDto>> _devicesInfoGet({
     @Query('id') required String? id,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get info for a device.',
+      operationId: 'GetDeviceInfo',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Devices"],
+      deprecated: false,
+    ),
   });
 
   ///Get options for a device.
@@ -2127,6 +2567,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Devices/Options')
   Future<chopper.Response<DeviceOptionsDto>> _devicesOptionsGet({
     @Query('id') required String? id,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get options for a device.',
+      operationId: 'GetDeviceOptions',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Devices"],
+      deprecated: false,
+    ),
   });
 
   ///Update device options.
@@ -2144,6 +2595,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _devicesOptionsPost({
     @Query('id') required String? id,
     @Body() required DeviceOptionsDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Update device options.',
+      operationId: 'UpdateDeviceOptions',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Devices"],
+      deprecated: false,
+    ),
   });
 
   ///Get Display Preferences.
@@ -2178,6 +2640,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('displayPreferencesId') required String? displayPreferencesId,
     @Query('userId') String? userId,
     @Query('client') required String? $client,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Display Preferences.',
+      operationId: 'GetDisplayPreferences',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["DisplayPreferences"],
+      deprecated: false,
+    ),
   });
 
   ///Update Display Preferences.
@@ -2208,6 +2681,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Query('client') required String? $client,
     @Body() required DisplayPreferencesDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Update Display Preferences.',
+      operationId: 'UpdateDisplayPreferences',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["DisplayPreferences"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a video stream using HTTP live streaming.
@@ -2498,6 +2982,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a video stream using HTTP live streaming.',
+      operationId: 'GetHlsAudioSegment',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["DynamicHls"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an audio stream using HTTP live streaming.
@@ -2760,6 +3255,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an audio stream using HTTP live streaming.',
+      operationId: 'GetVariantHlsAudioPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["DynamicHls"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an audio hls playlist stream.
@@ -3028,6 +3534,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAdaptiveBitrateStreaming')
     bool? enableAdaptiveBitrateStreaming,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an audio hls playlist stream.',
+      operationId: 'GetMasterHlsAudioPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["DynamicHls"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an audio hls playlist stream.
@@ -3296,6 +3813,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAdaptiveBitrateStreaming')
     bool? enableAdaptiveBitrateStreaming,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an audio hls playlist stream.',
+      operationId: 'HeadMasterHlsAudioPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["DynamicHls"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a video stream using HTTP live streaming.
@@ -3597,6 +4125,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
     @Query('alwaysBurnInSubtitleWhenTranscoding')
     bool? alwaysBurnInSubtitleWhenTranscoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a video stream using HTTP live streaming.',
+      operationId: 'GetHlsVideoSegment',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["DynamicHls"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a hls live stream.
@@ -3880,6 +4419,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
     @Query('alwaysBurnInSubtitleWhenTranscoding')
     bool? alwaysBurnInSubtitleWhenTranscoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a hls live stream.',
+      operationId: 'GetLiveHlsStream',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["DynamicHls"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a video stream using HTTP live streaming.
@@ -4153,6 +4703,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
     @Query('alwaysBurnInSubtitleWhenTranscoding')
     bool? alwaysBurnInSubtitleWhenTranscoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a video stream using HTTP live streaming.',
+      operationId: 'GetVariantHlsVideoPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["DynamicHls"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a video hls playlist stream.
@@ -4437,6 +4998,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
     @Query('alwaysBurnInSubtitleWhenTranscoding')
     bool? alwaysBurnInSubtitleWhenTranscoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a video hls playlist stream.',
+      operationId: 'GetMasterHlsVideoPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["DynamicHls"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a video hls playlist stream.
@@ -4721,6 +5293,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
     @Query('alwaysBurnInSubtitleWhenTranscoding')
     bool? alwaysBurnInSubtitleWhenTranscoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a video hls playlist stream.',
+      operationId: 'HeadMasterHlsVideoPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["DynamicHls"],
+      deprecated: false,
+    ),
   });
 
   ///Get Default directory browser.
@@ -4737,7 +5320,19 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Get Default directory browser.
   @GET(path: '/Environment/DefaultDirectoryBrowser')
   Future<chopper.Response<DefaultDirectoryBrowserInfoDto>>
-  _environmentDefaultDirectoryBrowserGet();
+  _environmentDefaultDirectoryBrowserGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Default directory browser.',
+      operationId: 'GetDefaultDirectoryBrowser',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Environment"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets the contents of a given directory in the file system.
   ///@param path The path.
@@ -4771,6 +5366,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('path') required String? path,
     @Query('includeFiles') bool? includeFiles,
     @Query('includeDirectories') bool? includeDirectories,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the contents of a given directory in the file system.',
+      operationId: 'GetDirectoryContents',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Environment"],
+      deprecated: false,
+    ),
   });
 
   ///Gets available drives from the server's file system.
@@ -4785,7 +5391,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets available drives from the server's file system.
   @GET(path: '/Environment/Drives')
-  Future<chopper.Response<List<FileSystemEntryInfo>>> _environmentDrivesGet();
+  Future<chopper.Response<List<FileSystemEntryInfo>>> _environmentDrivesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets available drives from the server\'s file system.',
+      operationId: 'GetDrives',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Environment"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets network paths.
   @deprecated
@@ -4803,7 +5421,19 @@ abstract class JellyfinOpenApi extends ChopperService {
   @deprecated
   @GET(path: '/Environment/NetworkShares')
   Future<chopper.Response<List<FileSystemEntryInfo>>>
-  _environmentNetworkSharesGet();
+  _environmentNetworkSharesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets network paths.',
+      operationId: 'GetNetworkShares',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Environment"],
+      deprecated: true,
+    ),
+  });
 
   ///Gets the parent path of a given path.
   ///@param path The path.
@@ -4818,6 +5448,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Environment/ParentPath')
   Future<chopper.Response<String>> _environmentParentPathGet({
     @Query('path') required String? path,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the parent path of a given path.',
+      operationId: 'GetParentPath',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Environment"],
+      deprecated: false,
+    ),
   });
 
   ///Validates path.
@@ -4831,6 +5472,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Environment/ValidatePath', optionalBody: true)
   Future<chopper.Response> _environmentValidatePathPost({
     @Body() required ValidatePathDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Validates path.',
+      operationId: 'ValidatePath',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Environment"],
+      deprecated: false,
+    ),
   });
 
   ///Gets legacy query filters.
@@ -4868,6 +5520,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('parentId') String? parentId,
     @Query('includeItemTypes') List<Object?>? includeItemTypes,
     @Query('mediaTypes') List<Object?>? mediaTypes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets legacy query filters.',
+      operationId: 'GetQueryFiltersLegacy',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Filter"],
+      deprecated: false,
+    ),
   });
 
   ///Gets query filters.
@@ -4935,6 +5598,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('isNews') bool? isNews,
     @Query('isSeries') bool? isSeries,
     @Query('recursive') bool? recursive,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets query filters.',
+      operationId: 'GetQueryFilters',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Filter"],
+      deprecated: false,
+    ),
   });
 
   ///Gets all genres from a given item, folder, or the entire library.
@@ -5042,6 +5716,18 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('sortOrder') List<Object?>? sortOrder,
     @Query('enableImages') bool? enableImages,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary:
+          'Gets all genres from a given item, folder, or the entire library.',
+      operationId: 'GetGenres',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Genres"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a genre, by name.
@@ -5066,6 +5752,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDto>> _genresGenreNameGet({
     @Path('genreName') required String? genreName,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a genre, by name.',
+      operationId: 'GetGenre',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Genres"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the specified audio segment for an audio item.
@@ -5088,6 +5785,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<String>> _audioItemIdHlsSegmentIdStreamAacGet({
     @Path('itemId') required String? itemId,
     @Path('segmentId') required String? segmentId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the specified audio segment for an audio item.',
+      operationId: 'GetHlsAudioSegmentLegacyAac',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["HlsSegment"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the specified audio segment for an audio item.
@@ -5110,6 +5818,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<String>> _audioItemIdHlsSegmentIdStreamMp3Get({
     @Path('itemId') required String? itemId,
     @Path('segmentId') required String? segmentId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the specified audio segment for an audio item.',
+      operationId: 'GetHlsAudioSegmentLegacyMp3',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["HlsSegment"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a hls video segment.
@@ -5144,6 +5863,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('playlistId') required String? playlistId,
     @Path('segmentId') required String? segmentId,
     @Path('segmentContainer') required String? segmentContainer,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a hls video segment.',
+      operationId: 'GetHlsVideoSegmentLegacy',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["HlsSegment"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a hls video playlist.
@@ -5166,6 +5896,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<String>> _videosItemIdHlsPlaylistIdStreamM3u8Get({
     @Path('itemId') required String? itemId,
     @Path('playlistId') required String? playlistId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a hls video playlist.',
+      operationId: 'GetHlsPlaylistLegacy',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["HlsSegment"],
+      deprecated: false,
+    ),
   });
 
   ///Stops an active encoding.
@@ -5188,6 +5929,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _videosActiveEncodingsDelete({
     @Query('deviceId') required String? deviceId,
     @Query('playSessionId') required String? playSessionId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Stops an active encoding.',
+      operationId: 'StopEncodingProcess',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["HlsSegment"],
+      deprecated: false,
+    ),
   });
 
   ///Get artist image by name.
@@ -5285,6 +6037,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Path('imageIndex') required int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get artist image by name.',
+      operationId: 'GetArtistImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get artist image by name.
@@ -5382,6 +6145,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Path('imageIndex') required int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get artist image by name.',
+      operationId: 'HeadArtistImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Generates or gets the splashscreen.
@@ -5404,6 +6178,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<String>> _brandingSplashscreenGet({
     @Query('tag') String? tag,
     @Query('format') String? format,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Generates or gets the splashscreen.',
+      operationId: 'GetSplashscreen',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Uploads a custom splashscreen.
@@ -5417,6 +6202,18 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Branding/Splashscreen', optionalBody: true)
   Future<chopper.Response> _brandingSplashscreenPost({
     @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '''Uploads a custom splashscreen.
+The body is expected to the image contents base64 encoded.''',
+      operationId: 'UploadCustomSplashscreen',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Delete a custom splashscreen.
@@ -5426,7 +6223,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Delete a custom splashscreen.
   @DELETE(path: '/Branding/Splashscreen')
-  Future<chopper.Response> _brandingSplashscreenDelete();
+  Future<chopper.Response> _brandingSplashscreenDelete({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Delete a custom splashscreen.',
+      operationId: 'DeleteCustomSplashscreen',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Image"],
+      deprecated: false,
+    ),
+  });
 
   ///Get genre image by name.
   ///@param name Genre name.
@@ -5523,6 +6332,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Query('imageIndex') int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get genre image by name.',
+      operationId: 'GetGenreImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get genre image by name.
@@ -5620,6 +6440,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Query('imageIndex') int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get genre image by name.',
+      operationId: 'HeadGenreImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get genre image by name.
@@ -5717,6 +6548,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('blur') int? blur,
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get genre image by name.',
+      operationId: 'GetGenreImageByIndex',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get genre image by name.
@@ -5814,6 +6656,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('blur') int? blur,
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get genre image by name.',
+      operationId: 'HeadGenreImageByIndex',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get item image infos.
@@ -5831,6 +6684,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Items/{itemId}/Images')
   Future<chopper.Response<List<ImageInfo>>> _itemsItemIdImagesGet({
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get item image infos.',
+      operationId: 'GetItemImageInfos',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Delete an item's image.
@@ -5858,6 +6722,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('itemId') required String? itemId,
     @Path('imageType') required String? imageType,
     @Query('imageIndex') int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Delete an item\'s image.',
+      operationId: 'DeleteItemImage',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Set item image.
@@ -5883,6 +6758,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('itemId') required String? itemId,
     @Path('imageType') required String? imageType,
     @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Set item image.',
+      operationId: 'SetItemImage',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the item's image.
@@ -5980,6 +6866,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Query('imageIndex') int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the item\'s image.',
+      operationId: 'GetItemImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the item's image.
@@ -6077,6 +6974,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Query('imageIndex') int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the item\'s image.',
+      operationId: 'HeadItemImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Delete an item's image.
@@ -6105,6 +7013,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('itemId') required String? itemId,
     @Path('imageType') required String? imageType,
     @Path('imageIndex') required int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Delete an item\'s image.',
+      operationId: 'DeleteItemImageByIndex',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Set item image.
@@ -6138,6 +7057,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('imageType') required String? imageType,
     @Path('imageIndex') required int? imageIndex,
     @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Set item image.',
+      operationId: 'SetItemImageByIndex',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the item's image.
@@ -6235,6 +7165,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('blur') int? blur,
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the item\'s image.',
+      operationId: 'GetItemImageByIndex',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the item's image.
@@ -6332,6 +7273,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('blur') int? blur,
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the item\'s image.',
+      operationId: 'HeadItemImageByIndex',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the item's image.
@@ -6414,8 +7366,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param foregroundLayer Optional. Apply a foreground layer on top of the image.
   ///@param imageIndex Image index.
   @GET(
-    path:
-        '/Items/{itemId}/Images/{imageType}/{imageIndex}/{tag}/{format}/{maxWidth}/{maxHeight}/{percentPlayed}/{unplayedCount}',
+    path: '/Items/{itemId}/Images/{imageType}/{imageIndex}/{tag}/{format}/{maxWidth}/{maxHeight}/{percentPlayed}/{unplayedCount}',
   )
   Future<chopper.Response<String>>
   _itemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayedUnplayedCountGet({
@@ -6436,6 +7387,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Path('imageIndex') required int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the item\'s image.',
+      operationId: 'GetItemImage2',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the item's image.
@@ -6518,8 +7480,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param foregroundLayer Optional. Apply a foreground layer on top of the image.
   ///@param imageIndex Image index.
   @HEAD(
-    path:
-        '/Items/{itemId}/Images/{imageType}/{imageIndex}/{tag}/{format}/{maxWidth}/{maxHeight}/{percentPlayed}/{unplayedCount}',
+    path: '/Items/{itemId}/Images/{imageType}/{imageIndex}/{tag}/{format}/{maxWidth}/{maxHeight}/{percentPlayed}/{unplayedCount}',
   )
   Future<chopper.Response<String>>
   _itemsItemIdImagesImageTypeImageIndexTagFormatMaxWidthMaxHeightPercentPlayedUnplayedCountHead({
@@ -6540,6 +7501,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Path('imageIndex') required int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the item\'s image.',
+      operationId: 'HeadItemImage2',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Updates the index for an item image.
@@ -6576,6 +7548,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('imageType') required String? imageType,
     @Path('imageIndex') required int? imageIndex,
     @Query('newIndex') required int? newIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates the index for an item image.',
+      operationId: 'UpdateItemImageIndex',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get music genre image by name.
@@ -6673,6 +7656,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Query('imageIndex') int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get music genre image by name.',
+      operationId: 'GetMusicGenreImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get music genre image by name.
@@ -6770,6 +7764,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Query('imageIndex') int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get music genre image by name.',
+      operationId: 'HeadMusicGenreImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get music genre image by name.
@@ -6869,6 +7874,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('blur') int? blur,
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get music genre image by name.',
+      operationId: 'GetMusicGenreImageByIndex',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get music genre image by name.
@@ -6969,6 +7985,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('blur') int? blur,
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get music genre image by name.',
+      operationId: 'HeadMusicGenreImageByIndex',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get person image by name.
@@ -7066,6 +8093,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Query('imageIndex') int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get person image by name.',
+      operationId: 'GetPersonImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get person image by name.
@@ -7163,6 +8201,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Query('imageIndex') int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get person image by name.',
+      operationId: 'HeadPersonImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get person image by name.
@@ -7260,6 +8309,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('blur') int? blur,
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get person image by name.',
+      operationId: 'GetPersonImageByIndex',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get person image by name.
@@ -7357,6 +8417,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('blur') int? blur,
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get person image by name.',
+      operationId: 'HeadPersonImageByIndex',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get studio image by name.
@@ -7454,6 +8525,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Query('imageIndex') int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get studio image by name.',
+      operationId: 'GetStudioImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get studio image by name.
@@ -7551,6 +8633,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
     @Query('imageIndex') int? imageIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get studio image by name.',
+      operationId: 'HeadStudioImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get studio image by name.
@@ -7648,6 +8741,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('blur') int? blur,
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get studio image by name.',
+      operationId: 'GetStudioImageByIndex',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get studio image by name.
@@ -7745,6 +8849,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('blur') int? blur,
     @Query('backgroundColor') String? backgroundColor,
     @Query('foregroundLayer') String? foregroundLayer,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get studio image by name.',
+      operationId: 'HeadStudioImageByIndex',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Sets the user image.
@@ -7762,6 +8877,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _userImagePost({
     @Query('userId') String? userId,
     @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Sets the user image.',
+      operationId: 'PostUserImage',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Delete the user's image.
@@ -7773,7 +8899,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Delete the user's image.
   ///@param userId User Id.
   @DELETE(path: '/UserImage')
-  Future<chopper.Response> _userImageDelete({@Query('userId') String? userId});
+  Future<chopper.Response> _userImageDelete({
+    @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Delete the user\'s image.',
+      operationId: 'DeleteUserImage',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Image"],
+      deprecated: false,
+    ),
+  });
 
   ///Get user profile image.
   ///@param userId User id.
@@ -7800,6 +8939,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Query('tag') String? tag,
     @Query('format') String? format,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get user profile image.',
+      operationId: 'GetUserImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Get user profile image.
@@ -7827,6 +8977,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Query('tag') String? tag,
     @Query('format') String? format,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get user profile image.',
+      operationId: 'HeadUserImage',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Image"],
+      deprecated: false,
+    ),
   });
 
   ///Creates an instant playlist based on a given album.
@@ -7884,6 +9045,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableUserData') bool? enableUserData,
     @Query('imageTypeLimit') int? imageTypeLimit,
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates an instant playlist based on a given album.',
+      operationId: 'GetInstantMixFromAlbum',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["InstantMix"],
+      deprecated: false,
+    ),
   });
 
   ///Creates an instant playlist based on a given artist.
@@ -7941,6 +9113,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableUserData') bool? enableUserData,
     @Query('imageTypeLimit') int? imageTypeLimit,
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates an instant playlist based on a given artist.',
+      operationId: 'GetInstantMixFromArtists',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["InstantMix"],
+      deprecated: false,
+    ),
   });
 
   ///Creates an instant playlist based on a given artist.
@@ -8000,6 +9183,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableUserData') bool? enableUserData,
     @Query('imageTypeLimit') int? imageTypeLimit,
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates an instant playlist based on a given artist.',
+      operationId: 'GetInstantMixFromArtists2',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["InstantMix"],
+      deprecated: true,
+    ),
   });
 
   ///Creates an instant playlist based on a given item.
@@ -8057,6 +9251,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableUserData') bool? enableUserData,
     @Query('imageTypeLimit') int? imageTypeLimit,
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates an instant playlist based on a given item.',
+      operationId: 'GetInstantMixFromItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["InstantMix"],
+      deprecated: false,
+    ),
   });
 
   ///Creates an instant playlist based on a given genre.
@@ -8116,6 +9321,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableUserData') bool? enableUserData,
     @Query('imageTypeLimit') int? imageTypeLimit,
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates an instant playlist based on a given genre.',
+      operationId: 'GetInstantMixFromMusicGenreByName',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["InstantMix"],
+      deprecated: false,
+    ),
   });
 
   ///Creates an instant playlist based on a given genre.
@@ -8173,6 +9389,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableUserData') bool? enableUserData,
     @Query('imageTypeLimit') int? imageTypeLimit,
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates an instant playlist based on a given genre.',
+      operationId: 'GetInstantMixFromMusicGenreById',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["InstantMix"],
+      deprecated: false,
+    ),
   });
 
   ///Creates an instant playlist based on a given playlist.
@@ -8232,6 +9459,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableUserData') bool? enableUserData,
     @Query('imageTypeLimit') int? imageTypeLimit,
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates an instant playlist based on a given playlist.',
+      operationId: 'GetInstantMixFromPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["InstantMix"],
+      deprecated: false,
+    ),
   });
 
   ///Creates an instant playlist based on a given song.
@@ -8289,6 +9527,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableUserData') bool? enableUserData,
     @Query('imageTypeLimit') int? imageTypeLimit,
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates an instant playlist based on a given song.',
+      operationId: 'GetInstantMixFromSong',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["InstantMix"],
+      deprecated: false,
+    ),
   });
 
   ///Get the item's external id info.
@@ -8308,7 +9557,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param itemId Item id.
   @GET(path: '/Items/{itemId}/ExternalIdInfos')
   Future<chopper.Response<List<ExternalIdInfo>>>
-  _itemsItemIdExternalIdInfosGet({@Path('itemId') required String? itemId});
+  _itemsItemIdExternalIdInfosGet({
+    @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get the item\'s external id info.',
+      operationId: 'GetExternalIdInfos',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemLookup"],
+      deprecated: false,
+    ),
+  });
 
   ///Applies search criteria to an item and refreshes metadata.
   ///@param itemId Item id.
@@ -8333,6 +9595,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('itemId') required String? itemId,
     @Query('replaceAllImages') bool? replaceAllImages,
     @Body() required RemoteSearchResult? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Applies search criteria to an item and refreshes metadata.',
+      operationId: 'ApplySearchCriteria',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemLookup"],
+      deprecated: false,
+    ),
   });
 
   ///Get book remote search.
@@ -8352,6 +9625,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<RemoteSearchResult>>>
   _itemsRemoteSearchBookPost({
     @Body() required BookInfoRemoteSearchQuery? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get book remote search.',
+      operationId: 'GetBookRemoteSearchResults',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemLookup"],
+      deprecated: false,
+    ),
   });
 
   ///Get box set remote search.
@@ -8370,6 +9654,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<RemoteSearchResult>>>
   _itemsRemoteSearchBoxSetPost({
     @Body() required BoxSetInfoRemoteSearchQuery? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get box set remote search.',
+      operationId: 'GetBoxSetRemoteSearchResults',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemLookup"],
+      deprecated: false,
+    ),
   });
 
   ///Get movie remote search.
@@ -8388,6 +9683,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<RemoteSearchResult>>>
   _itemsRemoteSearchMoviePost({
     @Body() required MovieInfoRemoteSearchQuery? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get movie remote search.',
+      operationId: 'GetMovieRemoteSearchResults',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemLookup"],
+      deprecated: false,
+    ),
   });
 
   ///Get music album remote search.
@@ -8406,6 +9712,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<RemoteSearchResult>>>
   _itemsRemoteSearchMusicAlbumPost({
     @Body() required AlbumInfoRemoteSearchQuery? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get music album remote search.',
+      operationId: 'GetMusicAlbumRemoteSearchResults',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemLookup"],
+      deprecated: false,
+    ),
   });
 
   ///Get music artist remote search.
@@ -8426,6 +9743,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<RemoteSearchResult>>>
   _itemsRemoteSearchMusicArtistPost({
     @Body() required ArtistInfoRemoteSearchQuery? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get music artist remote search.',
+      operationId: 'GetMusicArtistRemoteSearchResults',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemLookup"],
+      deprecated: false,
+    ),
   });
 
   ///Get music video remote search.
@@ -8446,6 +9774,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<RemoteSearchResult>>>
   _itemsRemoteSearchMusicVideoPost({
     @Body() required MusicVideoInfoRemoteSearchQuery? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get music video remote search.',
+      operationId: 'GetMusicVideoRemoteSearchResults',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemLookup"],
+      deprecated: false,
+    ),
   });
 
   ///Get person remote search.
@@ -8466,6 +9805,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<RemoteSearchResult>>>
   _itemsRemoteSearchPersonPost({
     @Body() required PersonLookupInfoRemoteSearchQuery? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get person remote search.',
+      operationId: 'GetPersonRemoteSearchResults',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemLookup"],
+      deprecated: false,
+    ),
   });
 
   ///Get series remote search.
@@ -8484,6 +9834,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<RemoteSearchResult>>>
   _itemsRemoteSearchSeriesPost({
     @Body() required SeriesInfoRemoteSearchQuery? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get series remote search.',
+      operationId: 'GetSeriesRemoteSearchResults',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemLookup"],
+      deprecated: false,
+    ),
   });
 
   ///Get trailer remote search.
@@ -8502,6 +9863,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<RemoteSearchResult>>>
   _itemsRemoteSearchTrailerPost({
     @Body() required TrailerInfoRemoteSearchQuery? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get trailer remote search.',
+      operationId: 'GetTrailerRemoteSearchResults',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemLookup"],
+      deprecated: false,
+    ),
   });
 
   ///Refreshes metadata for an item.
@@ -8544,6 +9916,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('replaceAllMetadata') bool? replaceAllMetadata,
     @Query('replaceAllImages') bool? replaceAllImages,
     @Query('regenerateTrickplay') bool? regenerateTrickplay,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Refreshes metadata for an item.',
+      operationId: 'RefreshItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemRefresh"],
+      deprecated: false,
+    ),
   });
 
   ///Gets items based on a query.
@@ -8991,6 +10374,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('genreIds') List<String>? genreIds,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
     @Query('enableImages') bool? enableImages,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets items based on a query.',
+      operationId: 'GetItems',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Items"],
+      deprecated: false,
+    ),
   });
 
   ///Deletes items from the library and filesystem.
@@ -9004,6 +10398,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/Users/{userId}/Items')
   Future<chopper.Response> _usersUserIdItemsDelete({
     @Query('ids') List<String>? ids,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Deletes items from the library and filesystem.',
+      operationId: 'DeleteItems',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Get Item User Data.
@@ -9028,6 +10433,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<UserItemDataDto>> _userItemsItemIdUserDataGet({
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get Item User Data.',
+      operationId: 'GetItemUserData',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Items"],
+      deprecated: false,
+    ),
   });
 
   ///Update Item User Data.
@@ -9058,6 +10474,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
     @Body() required UpdateUserItemDataDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Update Item User Data.',
+      operationId: 'UpdateItemUserData',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Items"],
+      deprecated: false,
+    ),
   });
 
   ///Gets items based on a query.
@@ -9150,6 +10577,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
     @Query('enableImages') bool? enableImages,
     @Query('excludeActiveSessions') bool? excludeActiveSessions,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets items based on a query.',
+      operationId: 'GetResumeItems',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Items"],
+      deprecated: false,
+    ),
   });
 
   ///Updates an item.
@@ -9167,6 +10605,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _itemsItemIdPost({
     @Path('itemId') required String? itemId,
     @Body() required BaseItemDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates an item.',
+      operationId: 'UpdateItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemUpdate"],
+      deprecated: false,
+    ),
   });
 
   ///Deletes an item from the library and filesystem.
@@ -9180,6 +10629,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/Items/{itemId}')
   Future<chopper.Response> _itemsItemIdDelete({
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Deletes an item from the library and filesystem.',
+      operationId: 'DeleteItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an item from a user's library.
@@ -9204,6 +10664,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDto>> _itemsItemIdGet({
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an item from a user\'s library.',
+      operationId: 'GetItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserLibrary"],
+      deprecated: false,
+    ),
   });
 
   ///Updates an item's content type.
@@ -9226,6 +10697,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _itemsItemIdContentTypePost({
     @Path('itemId') required String? itemId,
     @Query('contentType') String? contentType,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates an item\'s content type.',
+      operationId: 'UpdateItemContentType',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemUpdate"],
+      deprecated: false,
+    ),
   });
 
   ///Gets metadata editor info for an item.
@@ -9246,6 +10728,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Items/{itemId}/MetadataEditor')
   Future<chopper.Response<MetadataEditorInfo>> _itemsItemIdMetadataEditorGet({
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets metadata editor info for an item.',
+      operationId: 'GetMetadataEditorInfo',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ItemUpdate"],
+      deprecated: false,
+    ),
   });
 
   ///Gets similar items.
@@ -9288,6 +10781,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Query('limit') int? limit,
     @Query('fields') List<Object?>? fields,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets similar items.',
+      operationId: 'GetSimilarAlbums',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets similar items.
@@ -9330,6 +10834,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Query('limit') int? limit,
     @Query('fields') List<Object?>? fields,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets similar items.',
+      operationId: 'GetSimilarArtists',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets all parents of an item.
@@ -9354,6 +10869,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<BaseItemDto>>> _itemsItemIdAncestorsGet({
     @Path('itemId') required String? itemId,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets all parents of an item.',
+      operationId: 'GetAncestors',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets critic review for an item.
@@ -9375,7 +10901,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   @deprecated
   @GET(path: '/Items/{itemId}/CriticReviews')
   Future<chopper.Response<BaseItemDtoQueryResult>>
-  _itemsItemIdCriticReviewsGet({@Path('itemId') required String? itemId});
+  _itemsItemIdCriticReviewsGet({
+    @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets critic review for an item.',
+      operationId: 'GetCriticReviews',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: true,
+    ),
+  });
 
   ///Downloads item media.
   ///@param itemId The item id.
@@ -9390,6 +10929,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Items/{itemId}/Download')
   Future<chopper.Response<String>> _itemsItemIdDownloadGet({
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Downloads item media.',
+      operationId: 'GetDownload',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Get the original file of an item.
@@ -9405,6 +10955,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Items/{itemId}/File')
   Future<chopper.Response<String>> _itemsItemIdFileGet({
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get the original file of an item.',
+      operationId: 'GetFile',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets similar items.
@@ -9447,6 +11008,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Query('limit') int? limit,
     @Query('fields') List<Object?>? fields,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets similar items.',
+      operationId: 'GetSimilarItems',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Get theme songs and videos for an item.
@@ -9489,6 +11061,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('inheritFromParent') bool? inheritFromParent,
     @Query('sortBy') List<Object?>? sortBy,
     @Query('sortOrder') List<Object?>? sortOrder,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get theme songs and videos for an item.',
+      operationId: 'GetThemeMedia',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Get theme songs for an item.
@@ -9531,6 +11114,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('inheritFromParent') bool? inheritFromParent,
     @Query('sortBy') List<Object?>? sortBy,
     @Query('sortOrder') List<Object?>? sortOrder,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get theme songs for an item.',
+      operationId: 'GetThemeSongs',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Get theme videos for an item.
@@ -9573,6 +11167,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('inheritFromParent') bool? inheritFromParent,
     @Query('sortBy') List<Object?>? sortBy,
     @Query('sortOrder') List<Object?>? sortOrder,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get theme videos for an item.',
+      operationId: 'GetThemeVideos',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Get item counts.
@@ -9594,6 +11199,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<ItemCounts>> _itemsCountsGet({
     @Query('userId') String? userId,
     @Query('isFavorite') bool? isFavorite,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get item counts.',
+      operationId: 'GetItemCounts',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the library options info.
@@ -9623,6 +11239,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   _librariesAvailableOptionsGet({
     @Query('libraryContentType') String? libraryContentType,
     @Query('isNewLibrary') bool? isNewLibrary,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the library options info.',
+      operationId: 'GetLibraryOptionsInfo',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Reports that new movies have been added by an external source.
@@ -9636,6 +11263,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Library/Media/Updated', optionalBody: true)
   Future<chopper.Response> _libraryMediaUpdatedPost({
     @Body() required MediaUpdateInfoDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports that new movies have been added by an external source.',
+      operationId: 'PostUpdatedMedia',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets all user media folders.
@@ -9656,6 +11294,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Library/MediaFolders')
   Future<chopper.Response<BaseItemDtoQueryResult>> _libraryMediaFoldersGet({
     @Query('isHidden') bool? isHidden,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets all user media folders.',
+      operationId: 'GetMediaFolders',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Reports that new movies have been added by an external source.
@@ -9675,6 +11324,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _libraryMoviesAddedPost({
     @Query('tmdbId') String? tmdbId,
     @Query('imdbId') String? imdbId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports that new movies have been added by an external source.',
+      operationId: 'PostAddedMovies',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Reports that new movies have been added by an external source.
@@ -9694,6 +11354,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _libraryMoviesUpdatedPost({
     @Query('tmdbId') String? tmdbId,
     @Query('imdbId') String? imdbId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports that new movies have been added by an external source.',
+      operationId: 'PostUpdatedMovies',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a list of physical paths from virtual folders.
@@ -9703,7 +11374,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets a list of physical paths from virtual folders.
   @GET(path: '/Library/PhysicalPaths')
-  Future<chopper.Response<List<String>>> _libraryPhysicalPathsGet();
+  Future<chopper.Response<List<String>>> _libraryPhysicalPathsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a list of physical paths from virtual folders.',
+      operationId: 'GetPhysicalPaths',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
+  });
 
   ///Starts a library scan.
   Future<chopper.Response> libraryRefreshPost() {
@@ -9712,7 +11395,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Starts a library scan.
   @POST(path: '/Library/Refresh', optionalBody: true)
-  Future<chopper.Response> _libraryRefreshPost();
+  Future<chopper.Response> _libraryRefreshPost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Starts a library scan.',
+      operationId: 'RefreshLibrary',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
+  });
 
   ///Reports that new episodes of a series have been added by an external source.
   ///@param tvdbId The tvdbId.
@@ -9725,6 +11420,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Library/Series/Added', optionalBody: true)
   Future<chopper.Response> _librarySeriesAddedPost({
     @Query('tvdbId') String? tvdbId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports that new episodes of a series have been added by an external source.',
+      operationId: 'PostAddedSeries',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Reports that new episodes of a series have been added by an external source.
@@ -9738,6 +11444,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Library/Series/Updated', optionalBody: true)
   Future<chopper.Response> _librarySeriesUpdatedPost({
     @Query('tvdbId') String? tvdbId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports that new episodes of a series have been added by an external source.',
+      operationId: 'PostUpdatedSeries',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets similar items.
@@ -9780,6 +11497,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Query('limit') int? limit,
     @Query('fields') List<Object?>? fields,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets similar items.',
+      operationId: 'GetSimilarMovies',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets similar items.
@@ -9822,6 +11550,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Query('limit') int? limit,
     @Query('fields') List<Object?>? fields,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets similar items.',
+      operationId: 'GetSimilarShows',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets similar items.
@@ -9864,6 +11603,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Query('limit') int? limit,
     @Query('fields') List<Object?>? fields,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets similar items.',
+      operationId: 'GetSimilarTrailers',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Library"],
+      deprecated: false,
+    ),
   });
 
   ///Gets all virtual folders.
@@ -9878,7 +11628,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets all virtual folders.
   @GET(path: '/Library/VirtualFolders')
-  Future<chopper.Response<List<VirtualFolderInfo>>> _libraryVirtualFoldersGet();
+  Future<chopper.Response<List<VirtualFolderInfo>>> _libraryVirtualFoldersGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets all virtual folders.',
+      operationId: 'GetVirtualFolders',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LibraryStructure"],
+      deprecated: false,
+    ),
+  });
 
   ///Adds a virtual folder.
   ///@param name The name of the virtual folder.
@@ -9913,6 +11675,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('paths') List<String>? paths,
     @Query('refreshLibrary') bool? refreshLibrary,
     @Body() required AddVirtualFolderDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Adds a virtual folder.',
+      operationId: 'AddVirtualFolder',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LibraryStructure"],
+      deprecated: false,
+    ),
   });
 
   ///Removes a virtual folder.
@@ -9935,6 +11708,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _libraryVirtualFoldersDelete({
     @Query('name') String? name,
     @Query('refreshLibrary') bool? refreshLibrary,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Removes a virtual folder.',
+      operationId: 'RemoveVirtualFolder',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LibraryStructure"],
+      deprecated: false,
+    ),
   });
 
   ///Update library options.
@@ -9948,6 +11732,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Library/VirtualFolders/LibraryOptions', optionalBody: true)
   Future<chopper.Response> _libraryVirtualFoldersLibraryOptionsPost({
     @Body() required UpdateLibraryOptionsDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Update library options.',
+      operationId: 'UpdateLibraryOptions',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LibraryStructure"],
+      deprecated: false,
+    ),
   });
 
   ///Renames a virtual folder.
@@ -9975,6 +11770,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('name') String? name,
     @Query('newName') String? newName,
     @Query('refreshLibrary') bool? refreshLibrary,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Renames a virtual folder.',
+      operationId: 'RenameVirtualFolder',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LibraryStructure"],
+      deprecated: false,
+    ),
   });
 
   ///Add a media path to a library.
@@ -9995,6 +11801,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _libraryVirtualFoldersPathsPost({
     @Query('refreshLibrary') bool? refreshLibrary,
     @Body() required MediaPathDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Add a media path to a library.',
+      operationId: 'AddMediaPath',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LibraryStructure"],
+      deprecated: false,
+    ),
   });
 
   ///Remove a media path.
@@ -10022,6 +11839,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('name') String? name,
     @Query('path') String? path,
     @Query('refreshLibrary') bool? refreshLibrary,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Remove a media path.',
+      operationId: 'RemoveMediaPath',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LibraryStructure"],
+      deprecated: false,
+    ),
   });
 
   ///Updates a media path.
@@ -10035,6 +11863,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Library/VirtualFolders/Paths/Update', optionalBody: true)
   Future<chopper.Response> _libraryVirtualFoldersPathsUpdatePost({
     @Body() required UpdateMediaPathRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates a media path.',
+      operationId: 'UpdateMediaPath',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LibraryStructure"],
+      deprecated: false,
+    ),
   });
 
   ///Get channel mapping options.
@@ -10053,7 +11892,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param providerId Provider id.
   @GET(path: '/LiveTv/ChannelMappingOptions')
   Future<chopper.Response<ChannelMappingOptionsDto>>
-  _liveTvChannelMappingOptionsGet({@Query('providerId') String? providerId});
+  _liveTvChannelMappingOptionsGet({
+    @Query('providerId') String? providerId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get channel mapping options.',
+      operationId: 'GetChannelMappingOptions',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
+  });
 
   ///Set channel mappings.
   Future<chopper.Response<TunerChannelMapping>> liveTvChannelMappingsPost({
@@ -10071,6 +11923,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/LiveTv/ChannelMappings', optionalBody: true)
   Future<chopper.Response<TunerChannelMapping>> _liveTvChannelMappingsPost({
     @Body() required SetChannelMappingDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Set channel mappings.',
+      operationId: 'SetChannelMapping',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets available live tv channels.
@@ -10193,6 +12056,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('sortOrder') String? sortOrder,
     @Query('enableFavoriteSorting') bool? enableFavoriteSorting,
     @Query('addCurrentProgram') bool? addCurrentProgram,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets available live tv channels.',
+      operationId: 'GetLiveTvChannels',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a live tv channel.
@@ -10217,6 +12091,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDto>> _liveTvChannelsChannelIdGet({
     @Path('channelId') required String? channelId,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a live tv channel.',
+      operationId: 'GetChannel',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Get guide info.
@@ -10228,7 +12113,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Get guide info.
   @GET(path: '/LiveTv/GuideInfo')
-  Future<chopper.Response<GuideInfo>> _liveTvGuideInfoGet();
+  Future<chopper.Response<GuideInfo>> _liveTvGuideInfoGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get guide info.',
+      operationId: 'GetGuideInfo',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets available live tv services.
   Future<chopper.Response<LiveTvInfo>> liveTvInfoGet() {
@@ -10239,7 +12136,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets available live tv services.
   @GET(path: '/LiveTv/Info')
-  Future<chopper.Response<LiveTvInfo>> _liveTvInfoGet();
+  Future<chopper.Response<LiveTvInfo>> _liveTvInfoGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets available live tv services.',
+      operationId: 'GetLiveTvInfo',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
+  });
 
   ///Adds a listings provider.
   ///@param pw Password.
@@ -10274,6 +12183,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('validateListings') bool? validateListings,
     @Query('validateLogin') bool? validateLogin,
     @Body() required ListingsProviderInfo? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Adds a listings provider.',
+      operationId: 'AddListingProvider',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Delete listing provider.
@@ -10287,6 +12207,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/LiveTv/ListingProviders')
   Future<chopper.Response> _liveTvListingProvidersDelete({
     @Query('id') String? id,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Delete listing provider.',
+      operationId: 'DeleteListingProvider',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets default listings provider info.
@@ -10303,7 +12234,19 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Gets default listings provider info.
   @GET(path: '/LiveTv/ListingProviders/Default')
   Future<chopper.Response<ListingsProviderInfo>>
-  _liveTvListingProvidersDefaultGet();
+  _liveTvListingProvidersDefaultGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets default listings provider info.',
+      operationId: 'GetDefaultListingProvider',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets available lineups.
   ///@param id Provider id.
@@ -10337,6 +12280,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('type') String? type,
     @Query('location') String? location,
     @Query('country') String? country,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets available lineups.',
+      operationId: 'GetLineups',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets available countries.
@@ -10348,7 +12302,19 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Gets available countries.
   @GET(path: '/LiveTv/ListingProviders/SchedulesDirect/Countries')
   Future<chopper.Response<String>>
-  _liveTvListingProvidersSchedulesDirectCountriesGet();
+  _liveTvListingProvidersSchedulesDirectCountriesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets available countries.',
+      operationId: 'GetSchedulesDirectCountries',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets a live tv recording stream.
   ///@param recordingId Recording id.
@@ -10363,6 +12329,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/LiveTv/LiveRecordings/{recordingId}/stream')
   Future<chopper.Response<String>> _liveTvLiveRecordingsRecordingIdStreamGet({
     @Path('recordingId') required String? recordingId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a live tv recording stream.',
+      operationId: 'GetLiveRecordingFile',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a live tv channel stream.
@@ -10387,6 +12364,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   _liveTvLiveStreamFilesStreamIdStreamContainerGet({
     @Path('streamId') required String? streamId,
     @Path('container') required String? container,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a live tv channel stream.',
+      operationId: 'GetLiveStreamFile',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets available live tv epgs.
@@ -10539,6 +12527,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('librarySeriesId') String? librarySeriesId,
     @Query('fields') List<Object?>? fields,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets available live tv epgs.',
+      operationId: 'GetLiveTvPrograms',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets available live tv epgs.
@@ -10557,6 +12556,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/LiveTv/Programs', optionalBody: true)
   Future<chopper.Response<BaseItemDtoQueryResult>> _liveTvProgramsPost({
     @Body() required GetProgramsDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets available live tv epgs.',
+      operationId: 'GetPrograms',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a live tv program.
@@ -10581,6 +12591,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDto>> _liveTvProgramsProgramIdGet({
     @Path('programId') required String? programId,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a live tv program.',
+      operationId: 'GetProgram',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets recommended live tv epgs.
@@ -10685,6 +12706,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('fields') List<Object?>? fields,
     @Query('enableUserData') bool? enableUserData,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets recommended live tv epgs.',
+      operationId: 'GetRecommendedPrograms',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets live tv recordings.
@@ -10797,6 +12829,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('isNews') bool? isNews,
     @Query('isLibraryItem') bool? isLibraryItem,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets live tv recordings.',
+      operationId: 'GetRecordings',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a live tv recording.
@@ -10824,6 +12867,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDto>> _liveTvRecordingsRecordingIdGet({
     @Path('recordingId') required String? recordingId,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a live tv recording.',
+      operationId: 'GetRecording',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Deletes a live tv recording.
@@ -10839,6 +12893,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/LiveTv/Recordings/{recordingId}')
   Future<chopper.Response> _liveTvRecordingsRecordingIdDelete({
     @Path('recordingId') required String? recordingId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Deletes a live tv recording.',
+      operationId: 'DeleteRecording',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets recording folders.
@@ -10859,6 +12924,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/LiveTv/Recordings/Folders')
   Future<chopper.Response<BaseItemDtoQueryResult>> _liveTvRecordingsFoldersGet({
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets recording folders.',
+      operationId: 'GetRecordingFolders',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets live tv recording groups.
@@ -10881,6 +12957,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/LiveTv/Recordings/Groups')
   Future<chopper.Response<BaseItemDtoQueryResult>> _liveTvRecordingsGroupsGet({
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets live tv recording groups.',
+      operationId: 'GetRecordingGroups',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: true,
+    ),
   });
 
   ///Get recording group.
@@ -10898,6 +12985,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/LiveTv/Recordings/Groups/{groupId}')
   Future<chopper.Response> _liveTvRecordingsGroupsGroupIdGet({
     @Path('groupId') required String? groupId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get recording group.',
+      operationId: 'GetRecordingGroup',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: true,
+    ),
   });
 
   ///Gets live tv recording series.
@@ -10987,6 +13085,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('fields') List<Object?>? fields,
     @Query('enableUserData') bool? enableUserData,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets live tv recording series.',
+      operationId: 'GetRecordingsSeries',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: true,
+    ),
   });
 
   ///Gets live tv series timers.
@@ -11016,6 +13125,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   _liveTvSeriesTimersGet({
     @Query('sortBy') String? sortBy,
     @Query('sortOrder') String? sortOrder,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets live tv series timers.',
+      operationId: 'GetSeriesTimers',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Creates a live tv series timer.
@@ -11029,6 +13149,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/LiveTv/SeriesTimers', optionalBody: true)
   Future<chopper.Response> _liveTvSeriesTimersPost({
     @Body() required SeriesTimerInfoDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates a live tv series timer.',
+      operationId: 'CreateSeriesTimer',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a live tv series timer.
@@ -11049,6 +13180,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/LiveTv/SeriesTimers/{timerId}')
   Future<chopper.Response<SeriesTimerInfoDto>> _liveTvSeriesTimersTimerIdGet({
     @Path('timerId') required String? timerId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a live tv series timer.',
+      operationId: 'GetSeriesTimer',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Cancels a live tv series timer.
@@ -11064,6 +13206,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/LiveTv/SeriesTimers/{timerId}')
   Future<chopper.Response> _liveTvSeriesTimersTimerIdDelete({
     @Path('timerId') required String? timerId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Cancels a live tv series timer.',
+      operationId: 'CancelSeriesTimer',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Updates a live tv series timer.
@@ -11081,6 +13234,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _liveTvSeriesTimersTimerIdPost({
     @Path('timerId') required String? timerId,
     @Body() required SeriesTimerInfoDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates a live tv series timer.',
+      operationId: 'UpdateSeriesTimer',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the live tv timers.
@@ -11118,6 +13282,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('seriesTimerId') String? seriesTimerId,
     @Query('isActive') bool? isActive,
     @Query('isScheduled') bool? isScheduled,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the live tv timers.',
+      operationId: 'GetTimers',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Creates a live tv timer.
@@ -11129,6 +13304,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/LiveTv/Timers', optionalBody: true)
   Future<chopper.Response> _liveTvTimersPost({
     @Body() required TimerInfoDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates a live tv timer.',
+      operationId: 'CreateTimer',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a timer.
@@ -11149,6 +13335,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/LiveTv/Timers/{timerId}')
   Future<chopper.Response<TimerInfoDto>> _liveTvTimersTimerIdGet({
     @Path('timerId') required String? timerId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a timer.',
+      operationId: 'GetTimer',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Cancels a live tv timer.
@@ -11164,6 +13361,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/LiveTv/Timers/{timerId}')
   Future<chopper.Response> _liveTvTimersTimerIdDelete({
     @Path('timerId') required String? timerId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Cancels a live tv timer.',
+      operationId: 'CancelTimer',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Updates a live tv timer.
@@ -11181,6 +13389,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _liveTvTimersTimerIdPost({
     @Path('timerId') required String? timerId,
     @Body() required TimerInfoDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates a live tv timer.',
+      operationId: 'UpdateTimer',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the default values for a new timer.
@@ -11201,6 +13420,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/LiveTv/Timers/Defaults')
   Future<chopper.Response<SeriesTimerInfoDto>> _liveTvTimersDefaultsGet({
     @Query('programId') String? programId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the default values for a new timer.',
+      operationId: 'GetDefaultTimer',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Adds a tuner host.
@@ -11219,6 +13449,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/LiveTv/TunerHosts', optionalBody: true)
   Future<chopper.Response<TunerHostInfo>> _liveTvTunerHostsPost({
     @Body() required TunerHostInfo? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Adds a tuner host.',
+      operationId: 'AddTunerHost',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Deletes a tuner host.
@@ -11230,7 +13471,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Deletes a tuner host.
   ///@param id Tuner host id.
   @DELETE(path: '/LiveTv/TunerHosts')
-  Future<chopper.Response> _liveTvTunerHostsDelete({@Query('id') String? id});
+  Future<chopper.Response> _liveTvTunerHostsDelete({
+    @Query('id') String? id,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Deletes a tuner host.',
+      operationId: 'DeleteTunerHost',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
+  });
 
   ///Get tuner host types.
   Future<chopper.Response<List<NameIdPair>>> liveTvTunerHostsTypesGet() {
@@ -11241,7 +13495,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Get tuner host types.
   @GET(path: '/LiveTv/TunerHosts/Types')
-  Future<chopper.Response<List<NameIdPair>>> _liveTvTunerHostsTypesGet();
+  Future<chopper.Response<List<NameIdPair>>> _liveTvTunerHostsTypesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get tuner host types.',
+      operationId: 'GetTunerHostTypes',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
+  });
 
   ///Resets a tv tuner.
   ///@param tunerId Tuner id.
@@ -11256,6 +13522,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/LiveTv/Tuners/{tunerId}/Reset', optionalBody: true)
   Future<chopper.Response> _liveTvTunersTunerIdResetPost({
     @Path('tunerId') required String? tunerId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Resets a tv tuner.',
+      operationId: 'ResetTuner',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Discover tuners.
@@ -11276,6 +13553,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/LiveTv/Tuners/Discover')
   Future<chopper.Response<List<TunerHostInfo>>> _liveTvTunersDiscoverGet({
     @Query('newDevicesOnly') bool? newDevicesOnly,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Discover tuners.',
+      operationId: 'DiscoverTuners',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Discover tuners.
@@ -11296,6 +13584,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/LiveTv/Tuners/Discvover')
   Future<chopper.Response<List<TunerHostInfo>>> _liveTvTunersDiscvoverGet({
     @Query('newDevicesOnly') bool? newDevicesOnly,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Discover tuners.',
+      operationId: 'DiscvoverTuners',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["LiveTv"],
+      deprecated: false,
+    ),
   });
 
   ///Gets known countries.
@@ -11310,7 +13609,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets known countries.
   @GET(path: '/Localization/Countries')
-  Future<chopper.Response<List<CountryInfo>>> _localizationCountriesGet();
+  Future<chopper.Response<List<CountryInfo>>> _localizationCountriesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets known countries.',
+      operationId: 'GetCountries',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Localization"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets known cultures.
   Future<chopper.Response<List<CultureDto>>> localizationCulturesGet() {
@@ -11321,7 +13632,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets known cultures.
   @GET(path: '/Localization/Cultures')
-  Future<chopper.Response<List<CultureDto>>> _localizationCulturesGet();
+  Future<chopper.Response<List<CultureDto>>> _localizationCulturesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets known cultures.',
+      operationId: 'GetCultures',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Localization"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets localization options.
   Future<chopper.Response<List<LocalizationOption>>> localizationOptionsGet() {
@@ -11335,7 +13658,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets localization options.
   @GET(path: '/Localization/Options')
-  Future<chopper.Response<List<LocalizationOption>>> _localizationOptionsGet();
+  Future<chopper.Response<List<LocalizationOption>>> _localizationOptionsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets localization options.',
+      operationId: 'GetLocalizationOptions',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Localization"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets known parental ratings.
   Future<chopper.Response<List<ParentalRating>>>
@@ -11351,7 +13686,19 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///Gets known parental ratings.
   @GET(path: '/Localization/ParentalRatings')
   Future<chopper.Response<List<ParentalRating>>>
-  _localizationParentalRatingsGet();
+  _localizationParentalRatingsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets known parental ratings.',
+      operationId: 'GetParentalRatings',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Localization"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets an item's lyrics.
   ///@param itemId Item id.
@@ -11368,6 +13715,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Audio/{itemId}/Lyrics')
   Future<chopper.Response<LyricDto>> _audioItemIdLyricsGet({
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an item\'s lyrics.',
+      operationId: 'GetLyrics',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Lyrics"],
+      deprecated: false,
+    ),
   });
 
   ///Upload an external lyric file.
@@ -11395,6 +13753,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('itemId') required String? itemId,
     @Query('fileName') required String? fileName,
     @Body() required Object? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Upload an external lyric file.',
+      operationId: 'UploadLyrics',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Lyrics"],
+      deprecated: false,
+    ),
   });
 
   ///Deletes an external lyric file.
@@ -11408,6 +13777,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/Audio/{itemId}/Lyrics')
   Future<chopper.Response> _audioItemIdLyricsDelete({
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Deletes an external lyric file.',
+      operationId: 'DeleteLyrics',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Lyrics"],
+      deprecated: false,
+    ),
   });
 
   ///Search remote lyrics.
@@ -11426,7 +13806,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param itemId The item id.
   @GET(path: '/Audio/{itemId}/RemoteSearch/Lyrics')
   Future<chopper.Response<List<RemoteLyricInfoDto>>>
-  _audioItemIdRemoteSearchLyricsGet({@Path('itemId') required String? itemId});
+  _audioItemIdRemoteSearchLyricsGet({
+    @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Search remote lyrics.',
+      operationId: 'SearchRemoteLyrics',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Lyrics"],
+      deprecated: false,
+    ),
+  });
 
   ///Downloads a remote lyric.
   ///@param itemId The item id.
@@ -11453,6 +13846,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<LyricDto>> _audioItemIdRemoteSearchLyricsLyricIdPost({
     @Path('itemId') required String? itemId,
     @Path('lyricId') required String? lyricId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Downloads a remote lyric.',
+      operationId: 'DownloadRemoteLyrics',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Lyrics"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the remote lyrics.
@@ -11470,6 +13874,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Providers/Lyrics/{lyricId}')
   Future<chopper.Response<LyricDto>> _providersLyricsLyricIdGet({
     @Path('lyricId') required String? lyricId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the remote lyrics.',
+      operationId: 'GetRemoteLyrics',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Lyrics"],
+      deprecated: false,
+    ),
   });
 
   ///Gets live playback media info for an item.
@@ -11494,6 +13909,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<PlaybackInfoResponse>> _itemsItemIdPlaybackInfoGet({
     @Path('itemId') required String? itemId,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets live playback media info for an item.',
+      operationId: 'GetPlaybackInfo',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["MediaInfo"],
+      deprecated: false,
+    ),
   });
 
   ///Gets live playback media info for an item.
@@ -11589,6 +14015,18 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('allowVideoStreamCopy') bool? allowVideoStreamCopy,
     @Query('allowAudioStreamCopy') bool? allowAudioStreamCopy,
     @Body() required PlaybackInfoDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''For backwards compatibility parameters can be sent via Query or Body, with Query having higher precedence.
+Query parameters are obsolete.''',
+      summary: 'Gets live playback media info for an item.',
+      operationId: 'GetPostedPlaybackInfo',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["MediaInfo"],
+      deprecated: false,
+    ),
   });
 
   ///Closes a media source.
@@ -11604,6 +14042,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/LiveStreams/Close', optionalBody: true)
   Future<chopper.Response> _liveStreamsClosePost({
     @Query('liveStreamId') required String? liveStreamId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Closes a media source.',
+      operationId: 'CloseLiveStream',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["MediaInfo"],
+      deprecated: false,
+    ),
   });
 
   ///Opens a media source.
@@ -11685,6 +14134,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('alwaysBurnInSubtitleWhenTranscoding')
     bool? alwaysBurnInSubtitleWhenTranscoding,
     @Body() required OpenLiveStreamDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Opens a media source.',
+      operationId: 'OpenLiveStream',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["MediaInfo"],
+      deprecated: false,
+    ),
   });
 
   ///Tests the network with a request with the size of the bitrate.
@@ -11698,6 +14158,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Playback/BitrateTest')
   Future<chopper.Response<String>> _playbackBitrateTestGet({
     @Query('size') int? size,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Tests the network with a request with the size of the bitrate.',
+      operationId: 'GetBitrateTestBytes',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["MediaInfo"],
+      deprecated: false,
+    ),
   });
 
   ///Gets all media segments based on an itemId.
@@ -11725,6 +14196,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<MediaSegmentDtoQueryResult>> _mediaSegmentsItemIdGet({
     @Path('itemId') required String? itemId,
     @Query('includeSegmentTypes') List<Object?>? includeSegmentTypes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets all media segments based on an itemId.',
+      operationId: 'GetItemSegments',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["MediaSegments"],
+      deprecated: false,
+    ),
   });
 
   ///Gets movie recommendations.
@@ -11767,6 +14249,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('fields') List<Object?>? fields,
     @Query('categoryLimit') int? categoryLimit,
     @Query('itemLimit') int? itemLimit,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets movie recommendations.',
+      operationId: 'GetMovieRecommendations',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Movies"],
+      deprecated: false,
+    ),
   });
 
   ///Gets all music genres from a given item, folder, or the entire library.
@@ -11876,6 +14369,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('sortOrder') List<Object?>? sortOrder,
     @Query('enableImages') bool? enableImages,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets all music genres from a given item, folder, or the entire library.',
+      operationId: 'GetMusicGenres',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["MusicGenres"],
+      deprecated: true,
+    ),
   });
 
   ///Gets a music genre, by name.
@@ -11900,6 +14404,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDto>> _musicGenresGenreNameGet({
     @Path('genreName') required String? genreName,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a music genre, by name.',
+      operationId: 'GetMusicGenre',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["MusicGenres"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -11916,6 +14431,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   )
   Future<chopper.Response> _jellyfinPluginOpenSubtitlesValidateLoginInfoPost({
     @Body() required LoginInfoInput? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'ValidateLoginInfo',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["OpenSubtitles"],
+      deprecated: false,
+    ),
   });
 
   ///Gets available packages.
@@ -11930,7 +14456,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets available packages.
   @GET(path: '/Packages')
-  Future<chopper.Response<List<PackageInfo>>> _packagesGet();
+  Future<chopper.Response<List<PackageInfo>>> _packagesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets available packages.',
+      operationId: 'GetPackages',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Package"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets a package by name or assembly GUID.
   ///@param name The name of the package.
@@ -11954,6 +14492,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<PackageInfo>> _packagesNameGet({
     @Path('name') required String? name,
     @Query('assemblyGuid') String? assemblyGuid,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a package by name or assembly GUID.',
+      operationId: 'GetPackageInfo',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Package"],
+      deprecated: false,
+    ),
   });
 
   ///Installs a package.
@@ -11986,6 +14535,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('assemblyGuid') String? assemblyGuid,
     @Query('version') String? version,
     @Query('repositoryUrl') String? repositoryUrl,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Installs a package.',
+      operationId: 'InstallPackage',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Package"],
+      deprecated: false,
+    ),
   });
 
   ///Cancels a package installation.
@@ -12001,6 +14561,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/Packages/Installing/{packageId}')
   Future<chopper.Response> _packagesInstallingPackageIdDelete({
     @Path('packageId') required String? packageId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Cancels a package installation.',
+      operationId: 'CancelPackageInstallation',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Package"],
+      deprecated: false,
+    ),
   });
 
   ///Gets all package repositories.
@@ -12015,7 +14586,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets all package repositories.
   @GET(path: '/Repositories')
-  Future<chopper.Response<List<RepositoryInfo>>> _repositoriesGet();
+  Future<chopper.Response<List<RepositoryInfo>>> _repositoriesGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets all package repositories.',
+      operationId: 'GetRepositories',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Package"],
+      deprecated: false,
+    ),
+  });
 
   ///Sets the enabled and existing package repositories.
   Future<chopper.Response> repositoriesPost({
@@ -12028,6 +14611,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Repositories', optionalBody: true)
   Future<chopper.Response> _repositoriesPost({
     @Body() required List<RepositoryInfo>? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Sets the enabled and existing package repositories.',
+      operationId: 'SetRepositories',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Package"],
+      deprecated: false,
+    ),
   });
 
   ///Gets all persons.
@@ -12110,6 +14704,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('appearsInItemId') String? appearsInItemId,
     @Query('userId') String? userId,
     @Query('enableImages') bool? enableImages,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets all persons.',
+      operationId: 'GetPersons',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Persons"],
+      deprecated: false,
+    ),
   });
 
   ///Get person by name.
@@ -12134,6 +14739,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDto>> _personsNameGet({
     @Path('name') required String? name,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get person by name.',
+      operationId: 'GetPerson',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Persons"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12166,6 +14782,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('days') int? days,
     @Query('endDate') DateTime? endDate,
     @Query('timezoneOffset') num? timezoneOffset,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'GetBreakdownReport',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12198,6 +14825,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('date') required String? date,
     @Query('filter') String? filter,
     @Query('timezoneOffset') num? timezoneOffset,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'GetUserReportData',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12225,6 +14863,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('days') int? days,
     @Query('endDate') DateTime? endDate,
     @Query('filter') String? filter,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'GetDurationHistogramReport',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12252,6 +14901,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('days') int? days,
     @Query('endDate') DateTime? endDate,
     @Query('timezoneOffset') num? timezoneOffset,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'GetTvShowsReport',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12284,6 +14944,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('endDate') DateTime? endDate,
     @Query('filter') String? filter,
     @Query('timezoneOffset') num? timezoneOffset,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'GetHourlyReport',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12299,6 +14970,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/user_usage_stats/load_backup')
   Future<chopper.Response<List<String>>> _userUsageStatsLoadBackupGet({
     @Query('backupFilePath') String? backupFilePath,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'LoadBackup',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12326,6 +15008,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('days') int? days,
     @Query('endDate') DateTime? endDate,
     @Query('timezoneOffset') num? timezoneOffset,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'GetMovieReport',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12363,6 +15056,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('filter') String? filter,
     @Query('dataType') String? dataType,
     @Query('timezoneOffset') num? timezoneOffset,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'GetUsageStats',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12372,7 +15076,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///
   @GET(path: '/user_usage_stats/save_backup')
-  Future<chopper.Response<List<String>>> _userUsageStatsSaveBackupGet();
+  Future<chopper.Response<List<String>>> _userUsageStatsSaveBackupGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'SaveBackup',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
+  });
 
   ///
   Future<chopper.Response<Object>> userUsageStatsSubmitCustomQueryPost({
@@ -12385,6 +15101,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/user_usage_stats/submit_custom_query', optionalBody: true)
   Future<chopper.Response<Object>> _userUsageStatsSubmitCustomQueryPost({
     @Body() required CustomQueryData? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'CustomQuery',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12394,7 +15121,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///
   @GET(path: '/user_usage_stats/type_filter_list')
-  Future<chopper.Response> _userUsageStatsTypeFilterListGet();
+  Future<chopper.Response> _userUsageStatsTypeFilterListGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'GetTypeFilterList',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
+  });
 
   ///
   ///@param days
@@ -12421,6 +15160,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('days') int? days,
     @Query('endDate') DateTime? endDate,
     @Query('timezoneOffset') num? timezoneOffset,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'GetUserReport',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12430,7 +15180,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///
   @GET(path: '/user_usage_stats/user_list')
-  Future<chopper.Response> _userUsageStatsUserListGet();
+  Future<chopper.Response> _userUsageStatsUserListGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'GetJellyfinUsers',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
+  });
 
   ///
   ///@param id
@@ -12443,6 +15205,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/user_usage_stats/user_manage/add')
   Future<chopper.Response<bool>> _userUsageStatsUserManageAddGet({
     @Query('id') String? id,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'IgnoreListAdd',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///
@@ -12452,7 +15225,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///
   @GET(path: '/user_usage_stats/user_manage/prune')
-  Future<chopper.Response<bool>> _userUsageStatsUserManagePruneGet();
+  Future<chopper.Response<bool>> _userUsageStatsUserManagePruneGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'PruneUnknownUsers',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
+  });
 
   ///
   ///@param id
@@ -12467,6 +15252,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/user_usage_stats/user_manage/remove')
   Future<chopper.Response<bool>> _userUsageStatsUserManageRemoveGet({
     @Query('id') String? id,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: '',
+      operationId: 'IgnoreListRemove',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["PlaybackReportingActivity"],
+      deprecated: false,
+    ),
   });
 
   ///Creates a new playlist.
@@ -12507,6 +15303,18 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Query('mediaType') String? mediaType,
     @Body() required CreatePlaylistDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '''For backwards compatibility parameters can be sent via Query or Body, with Query having higher precedence.
+Query parameters are obsolete.''',
+      summary: 'Creates a new playlist.',
+      operationId: 'CreatePlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playlists"],
+      deprecated: false,
+    ),
   });
 
   ///Updates a playlist.
@@ -12524,6 +15332,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _playlistsPlaylistIdPost({
     @Path('playlistId') required String? playlistId,
     @Body() required UpdatePlaylistDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates a playlist.',
+      operationId: 'UpdatePlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playlists"],
+      deprecated: false,
+    ),
   });
 
   ///Get a playlist.
@@ -12544,6 +15363,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Playlists/{playlistId}')
   Future<chopper.Response<PlaylistDto>> _playlistsPlaylistIdGet({
     @Path('playlistId') required String? playlistId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get a playlist.',
+      operationId: 'GetPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playlists"],
+      deprecated: false,
+    ),
   });
 
   ///Adds items to a playlist.
@@ -12571,6 +15401,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('playlistId') required String? playlistId,
     @Query('ids') List<String>? ids,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Adds items to a playlist.',
+      operationId: 'AddItemToPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playlists"],
+      deprecated: false,
+    ),
   });
 
   ///Removes items from a playlist.
@@ -12593,6 +15434,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _playlistsPlaylistIdItemsDelete({
     @Path('playlistId') required String? playlistId,
     @Query('entryIds') List<String>? entryIds,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Removes items from a playlist.',
+      operationId: 'RemoveItemFromPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playlists"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the original items of a playlist.
@@ -12656,6 +15508,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableUserData') bool? enableUserData,
     @Query('imageTypeLimit') int? imageTypeLimit,
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the original items of a playlist.',
+      operationId: 'GetPlaylistItems',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playlists"],
+      deprecated: false,
+    ),
   });
 
   ///Moves a playlist item.
@@ -12686,6 +15549,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('playlistId') required String? playlistId,
     @Path('itemId') required String? itemId,
     @Path('newIndex') required int? newIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Moves a playlist item.',
+      operationId: 'MoveItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playlists"],
+      deprecated: false,
+    ),
   });
 
   ///Get a playlist's users.
@@ -12706,6 +15580,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<PlaylistUserPermissions>>>
   _playlistsPlaylistIdUsersGet({
     @Path('playlistId') required String? playlistId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get a playlist\'s users.',
+      operationId: 'GetPlaylistUsers',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playlists"],
+      deprecated: false,
+    ),
   });
 
   ///Get a playlist user.
@@ -12735,6 +15620,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   _playlistsPlaylistIdUsersUserIdGet({
     @Path('playlistId') required String? playlistId,
     @Path('userId') required String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get a playlist user.',
+      operationId: 'GetPlaylistUser',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playlists"],
+      deprecated: false,
+    ),
   });
 
   ///Modify a user of a playlist's users.
@@ -12760,6 +15656,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('playlistId') required String? playlistId,
     @Path('userId') required String? userId,
     @Body() required UpdatePlaylistUserDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Modify a user of a playlist\'s users.',
+      operationId: 'UpdatePlaylistUser',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playlists"],
+      deprecated: false,
+    ),
   });
 
   ///Remove a user from a playlist's users.
@@ -12782,6 +15689,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _playlistsPlaylistIdUsersUserIdDelete({
     @Path('playlistId') required String? playlistId,
     @Path('userId') required String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Remove a user from a playlist\'s users.',
+      operationId: 'RemoveUserFromPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playlists"],
+      deprecated: false,
+    ),
   });
 
   ///Reports that a session has begun playing an item.
@@ -12836,6 +15754,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('liveStreamId') String? liveStreamId,
     @Query('playSessionId') String? playSessionId,
     @Query('canSeek') bool? canSeek,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports that a session has begun playing an item.',
+      operationId: 'OnPlaybackStart',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playstate"],
+      deprecated: true,
+    ),
   });
 
   ///Reports that a session has stopped playing an item.
@@ -12880,6 +15809,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('positionTicks') int? positionTicks,
     @Query('liveStreamId') String? liveStreamId,
     @Query('playSessionId') String? playSessionId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports that a session has stopped playing an item.',
+      operationId: 'OnPlaybackStopped',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playstate"],
+      deprecated: true,
+    ),
   });
 
   ///Reports a session's playback progress.
@@ -12954,6 +15894,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('repeatMode') String? repeatMode,
     @Query('isPaused') bool? isPaused,
     @Query('isMuted') bool? isMuted,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports a session\'s playback progress.',
+      operationId: 'OnPlaybackProgress',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playstate"],
+      deprecated: true,
+    ),
   });
 
   ///Reports playback has started within a session.
@@ -12967,6 +15918,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Sessions/Playing', optionalBody: true)
   Future<chopper.Response> _sessionsPlayingPost({
     @Body() required PlaybackStartInfo? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports playback has started within a session.',
+      operationId: 'ReportPlaybackStart',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playstate"],
+      deprecated: false,
+    ),
   });
 
   ///Pings a playback session.
@@ -12982,6 +15944,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Sessions/Playing/Ping', optionalBody: true)
   Future<chopper.Response> _sessionsPlayingPingPost({
     @Query('playSessionId') required String? playSessionId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Pings a playback session.',
+      operationId: 'PingPlaybackSession',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playstate"],
+      deprecated: false,
+    ),
   });
 
   ///Reports playback progress within a session.
@@ -12995,6 +15968,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Sessions/Playing/Progress', optionalBody: true)
   Future<chopper.Response> _sessionsPlayingProgressPost({
     @Body() required PlaybackProgressInfo? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports playback progress within a session.',
+      operationId: 'ReportPlaybackProgress',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playstate"],
+      deprecated: false,
+    ),
   });
 
   ///Reports playback has stopped within a session.
@@ -13008,6 +15992,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Sessions/Playing/Stopped', optionalBody: true)
   Future<chopper.Response> _sessionsPlayingStoppedPost({
     @Body() required PlaybackStopInfo? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports playback has stopped within a session.',
+      operationId: 'ReportPlaybackStopped',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playstate"],
+      deprecated: false,
+    ),
   });
 
   ///Marks an item as played for user.
@@ -13040,6 +16035,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
     @Query('datePlayed') DateTime? datePlayed,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Marks an item as played for user.',
+      operationId: 'MarkPlayedItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playstate"],
+      deprecated: false,
+    ),
   });
 
   ///Marks an item as unplayed for user.
@@ -13064,6 +16070,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<UserItemDataDto>> _userPlayedItemsItemIdDelete({
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Marks an item as unplayed for user.',
+      operationId: 'MarkUnplayedItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Playstate"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a list of currently installed plugins.
@@ -13075,7 +16092,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets a list of currently installed plugins.
   @GET(path: '/Plugins')
-  Future<chopper.Response<List<PluginInfo>>> _pluginsGet();
+  Future<chopper.Response<List<PluginInfo>>> _pluginsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a list of currently installed plugins.',
+      operationId: 'GetPlugins',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Plugins"],
+      deprecated: false,
+    ),
+  });
 
   ///Uninstalls a plugin.
   ///@param pluginId Plugin id.
@@ -13090,6 +16119,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/Plugins/{pluginId}')
   Future<chopper.Response> _pluginsPluginIdDelete({
     @Path('pluginId') required String? pluginId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Uninstalls a plugin.',
+      operationId: 'UninstallPlugin',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Plugins"],
+      deprecated: true,
+    ),
   });
 
   ///Uninstalls a plugin by version.
@@ -13109,6 +16149,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _pluginsPluginIdVersionDelete({
     @Path('pluginId') required String? pluginId,
     @Path('version') required String? version,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Uninstalls a plugin by version.',
+      operationId: 'UninstallPluginByVersion',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Plugins"],
+      deprecated: false,
+    ),
   });
 
   ///Disable a plugin.
@@ -13131,6 +16182,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _pluginsPluginIdVersionDisablePost({
     @Path('pluginId') required String? pluginId,
     @Path('version') required String? version,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Disable a plugin.',
+      operationId: 'DisablePlugin',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Plugins"],
+      deprecated: false,
+    ),
   });
 
   ///Enables a disabled plugin.
@@ -13153,6 +16215,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _pluginsPluginIdVersionEnablePost({
     @Path('pluginId') required String? pluginId,
     @Path('version') required String? version,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Enables a disabled plugin.',
+      operationId: 'EnablePlugin',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Plugins"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a plugin's image.
@@ -13175,6 +16248,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<String>> _pluginsPluginIdVersionImageGet({
     @Path('pluginId') required String? pluginId,
     @Path('version') required String? version,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a plugin\'s image.',
+      operationId: 'GetPluginImage',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Plugins"],
+      deprecated: false,
+    ),
   });
 
   ///Gets plugin configuration.
@@ -13195,6 +16279,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BasePluginConfiguration>>
   _pluginsPluginIdConfigurationGet({
     @Path('pluginId') required String? pluginId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets plugin configuration.',
+      operationId: 'GetPluginConfiguration',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Plugins"],
+      deprecated: false,
+    ),
   });
 
   ///Updates plugin configuration.
@@ -13210,6 +16305,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Plugins/{pluginId}/Configuration', optionalBody: true)
   Future<chopper.Response> _pluginsPluginIdConfigurationPost({
     @Path('pluginId') required String? pluginId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: 'Accepts plugin configuration as JSON body.',
+      summary: 'Updates plugin configuration.',
+      operationId: 'UpdatePluginConfiguration',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Plugins"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a plugin's manifest.
@@ -13225,6 +16331,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Plugins/{pluginId}/Manifest', optionalBody: true)
   Future<chopper.Response> _pluginsPluginIdManifestPost({
     @Path('pluginId') required String? pluginId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a plugin\'s manifest.',
+      operationId: 'GetPluginManifest',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Plugins"],
+      deprecated: false,
+    ),
   });
 
   ///Authorizes a pending quick connect request.
@@ -13244,6 +16361,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<bool>> _quickConnectAuthorizePost({
     @Query('code') required String? code,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Authorizes a pending quick connect request.',
+      operationId: 'AuthorizeQuickConnect',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["QuickConnect"],
+      deprecated: false,
+    ),
   });
 
   ///Attempts to retrieve authentication information.
@@ -13264,6 +16392,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/QuickConnect/Connect')
   Future<chopper.Response<QuickConnectResult>> _quickConnectConnectGet({
     @Query('secret') required String? secret,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Attempts to retrieve authentication information.',
+      operationId: 'GetQuickConnectState',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["QuickConnect"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the current quick connect state.
@@ -13273,7 +16412,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets the current quick connect state.
   @GET(path: '/QuickConnect/Enabled')
-  Future<chopper.Response<bool>> _quickConnectEnabledGet();
+  Future<chopper.Response<bool>> _quickConnectEnabledGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the current quick connect state.',
+      operationId: 'GetQuickConnectEnabled',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["QuickConnect"],
+      deprecated: false,
+    ),
+  });
 
   ///Initiate a new quick connect request.
   Future<chopper.Response<QuickConnectResult>> quickConnectInitiatePost() {
@@ -13287,7 +16438,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Initiate a new quick connect request.
   @POST(path: '/QuickConnect/Initiate', optionalBody: true)
-  Future<chopper.Response<QuickConnectResult>> _quickConnectInitiatePost();
+  Future<chopper.Response<QuickConnectResult>> _quickConnectInitiatePost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Initiate a new quick connect request.',
+      operationId: 'InitiateQuickConnect',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["QuickConnect"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets available remote images for an item.
   ///@param itemId Item Id.
@@ -13334,6 +16497,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('limit') int? limit,
     @Query('providerName') String? providerName,
     @Query('includeAllLanguages') bool? includeAllLanguages,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets available remote images for an item.',
+      operationId: 'GetRemoteImages',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["RemoteImage"],
+      deprecated: false,
+    ),
   });
 
   ///Downloads a remote image for an item.
@@ -13361,6 +16535,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('itemId') required String? itemId,
     @Query('type') required String? type,
     @Query('imageUrl') String? imageUrl,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Downloads a remote image for an item.',
+      operationId: 'DownloadRemoteImage',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["RemoteImage"],
+      deprecated: false,
+    ),
   });
 
   ///Gets available remote image providers for an item.
@@ -13381,6 +16566,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<ImageProviderInfo>>>
   _itemsItemIdRemoteImagesProvidersGet({
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets available remote image providers for an item.',
+      operationId: 'GetRemoteImageProviders',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["RemoteImage"],
+      deprecated: false,
+    ),
   });
 
   ///Get tasks.
@@ -13402,6 +16598,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<TaskInfo>>> _scheduledTasksGet({
     @Query('isHidden') bool? isHidden,
     @Query('isEnabled') bool? isEnabled,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get tasks.',
+      operationId: 'GetTasks',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ScheduledTasks"],
+      deprecated: false,
+    ),
   });
 
   ///Get task by id.
@@ -13419,6 +16626,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/ScheduledTasks/{taskId}')
   Future<chopper.Response<TaskInfo>> _scheduledTasksTaskIdGet({
     @Path('taskId') required String? taskId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get task by id.',
+      operationId: 'GetTask',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ScheduledTasks"],
+      deprecated: false,
+    ),
   });
 
   ///Update specified task triggers.
@@ -13436,6 +16654,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _scheduledTasksTaskIdTriggersPost({
     @Path('taskId') required String? taskId,
     @Body() required List<TaskTriggerInfo>? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Update specified task triggers.',
+      operationId: 'UpdateTask',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ScheduledTasks"],
+      deprecated: false,
+    ),
   });
 
   ///Start specified task.
@@ -13451,6 +16680,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/ScheduledTasks/Running/{taskId}', optionalBody: true)
   Future<chopper.Response> _scheduledTasksRunningTaskIdPost({
     @Path('taskId') required String? taskId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Start specified task.',
+      operationId: 'StartTask',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ScheduledTasks"],
+      deprecated: false,
+    ),
   });
 
   ///Stop specified task.
@@ -13466,6 +16706,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/ScheduledTasks/Running/{taskId}')
   Future<chopper.Response> _scheduledTasksRunningTaskIdDelete({
     @Path('taskId') required String? taskId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Stop specified task.',
+      operationId: 'StopTask',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["ScheduledTasks"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the search hint result.
@@ -13573,6 +16824,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('includeGenres') bool? includeGenres,
     @Query('includeStudios') bool? includeStudios,
     @Query('includeArtists') bool? includeArtists,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the search hint result.',
+      operationId: 'GetSearchHints',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Search"],
+      deprecated: false,
+    ),
   });
 
   ///Get all password reset providers.
@@ -13584,7 +16846,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Get all password reset providers.
   @GET(path: '/Auth/PasswordResetProviders')
-  Future<chopper.Response<List<NameIdPair>>> _authPasswordResetProvidersGet();
+  Future<chopper.Response<List<NameIdPair>>> _authPasswordResetProvidersGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get all password reset providers.',
+      operationId: 'GetPasswordResetProviders',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
+  });
 
   ///Get all auth providers.
   Future<chopper.Response<List<NameIdPair>>> authProvidersGet() {
@@ -13595,7 +16869,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Get all auth providers.
   @GET(path: '/Auth/Providers')
-  Future<chopper.Response<List<NameIdPair>>> _authProvidersGet();
+  Future<chopper.Response<List<NameIdPair>>> _authProvidersGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get all auth providers.',
+      operationId: 'GetAuthProviders',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets a list of sessions.
   ///@param controllableByUserId Filter by sessions that a given user is allowed to remote control.
@@ -13627,6 +16913,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('controllableByUserId') String? controllableByUserId,
     @Query('deviceId') String? deviceId,
     @Query('activeWithinSeconds') int? activeWithinSeconds,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a list of sessions.',
+      operationId: 'GetSessions',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Issues a full general command to a client.
@@ -13644,6 +16941,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _sessionsSessionIdCommandPost({
     @Path('sessionId') required String? sessionId,
     @Body() required GeneralCommand? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Issues a full general command to a client.',
+      operationId: 'SendFullGeneralCommand',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Issues a general command to a client.
@@ -13666,6 +16974,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _sessionsSessionIdCommandCommandPost({
     @Path('sessionId') required String? sessionId,
     @Path('command') required String? command,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Issues a general command to a client.',
+      operationId: 'SendGeneralCommand',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Issues a command to a client to display a message to the user.
@@ -13683,6 +17002,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _sessionsSessionIdMessagePost({
     @Path('sessionId') required String? sessionId,
     @Body() required MessageCommand? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Issues a command to a client to display a message to the user.',
+      operationId: 'SendMessageCommand',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Instructs a session to play an item.
@@ -13735,6 +17065,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('audioStreamIndex') int? audioStreamIndex,
     @Query('subtitleStreamIndex') int? subtitleStreamIndex,
     @Query('startIndex') int? startIndex,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Instructs a session to play an item.',
+      operationId: 'Play',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Issues a playstate command to a client.
@@ -13767,6 +17108,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('command') required String? command,
     @Query('seekPositionTicks') int? seekPositionTicks,
     @Query('controllingUserId') String? controllingUserId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Issues a playstate command to a client.',
+      operationId: 'SendPlaystateCommand',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Issues a system command to a client.
@@ -13789,6 +17141,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _sessionsSessionIdSystemCommandPost({
     @Path('sessionId') required String? sessionId,
     @Path('command') required String? command,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Issues a system command to a client.',
+      operationId: 'SendSystemCommand',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Adds an additional user to a session.
@@ -13811,6 +17174,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _sessionsSessionIdUserUserIdPost({
     @Path('sessionId') required String? sessionId,
     @Path('userId') required String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Adds an additional user to a session.',
+      operationId: 'AddUserToSession',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Removes an additional user from a session.
@@ -13833,6 +17207,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _sessionsSessionIdUserUserIdDelete({
     @Path('sessionId') required String? sessionId,
     @Path('userId') required String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Removes an additional user from a session.',
+      operationId: 'RemoveUserFromSession',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Instructs a session to browse to an item or view.
@@ -13865,6 +17250,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('itemType') required String? itemType,
     @Query('itemId') required String? itemId,
     @Query('itemName') required String? itemName,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Instructs a session to browse to an item or view.',
+      operationId: 'DisplayContent',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Updates capabilities for a device.
@@ -13902,6 +17298,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('supportedCommands') List<Object?>? supportedCommands,
     @Query('supportsMediaControl') bool? supportsMediaControl,
     @Query('supportsPersistentIdentifier') bool? supportsPersistentIdentifier,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates capabilities for a device.',
+      operationId: 'PostCapabilities',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Updates capabilities for a device.
@@ -13919,6 +17326,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _sessionsCapabilitiesFullPost({
     @Query('id') String? id,
     @Body() required ClientCapabilitiesDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates capabilities for a device.',
+      operationId: 'PostFullCapabilities',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Reports that a session has ended.
@@ -13928,7 +17346,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Reports that a session has ended.
   @POST(path: '/Sessions/Logout', optionalBody: true)
-  Future<chopper.Response> _sessionsLogoutPost();
+  Future<chopper.Response> _sessionsLogoutPost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports that a session has ended.',
+      operationId: 'ReportSessionEnded',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
+  });
 
   ///Reports that a session is viewing an item.
   ///@param sessionId The session id.
@@ -13947,6 +17377,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _sessionsViewingPost({
     @Query('sessionId') String? sessionId,
     @Query('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Reports that a session is viewing an item.',
+      operationId: 'ReportViewing',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Session"],
+      deprecated: false,
+    ),
   });
 
   ///Completes the startup wizard.
@@ -13956,7 +17397,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Completes the startup wizard.
   @POST(path: '/Startup/Complete', optionalBody: true)
-  Future<chopper.Response> _startupCompletePost();
+  Future<chopper.Response> _startupCompletePost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Completes the startup wizard.',
+      operationId: 'CompleteWizard',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Startup"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets the initial startup wizard configuration.
   Future<chopper.Response<StartupConfigurationDto>> startupConfigurationGet() {
@@ -13970,7 +17423,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets the initial startup wizard configuration.
   @GET(path: '/Startup/Configuration')
-  Future<chopper.Response<StartupConfigurationDto>> _startupConfigurationGet();
+  Future<chopper.Response<StartupConfigurationDto>> _startupConfigurationGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the initial startup wizard configuration.',
+      operationId: 'GetStartupConfiguration',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Startup"],
+      deprecated: false,
+    ),
+  });
 
   ///Sets the initial startup wizard configuration.
   Future<chopper.Response> startupConfigurationPost({
@@ -13983,6 +17448,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Startup/Configuration', optionalBody: true)
   Future<chopper.Response> _startupConfigurationPost({
     @Body() required StartupConfigurationDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Sets the initial startup wizard configuration.',
+      operationId: 'UpdateInitialConfiguration',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Startup"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the first user.
@@ -13997,7 +17473,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets the first user.
   @GET(path: '/Startup/FirstUser')
-  Future<chopper.Response<StartupUserDto>> _startupFirstUserGet();
+  Future<chopper.Response<StartupUserDto>> _startupFirstUserGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the first user.',
+      operationId: 'GetFirstUser_2',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Startup"],
+      deprecated: false,
+    ),
+  });
 
   ///Sets remote access and UPnP.
   Future<chopper.Response> startupRemoteAccessPost({
@@ -14010,6 +17498,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Startup/RemoteAccess', optionalBody: true)
   Future<chopper.Response> _startupRemoteAccessPost({
     @Body() required StartupRemoteAccessDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Sets remote access and UPnP.',
+      operationId: 'SetRemoteAccess',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Startup"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the first user.
@@ -14024,7 +17523,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets the first user.
   @GET(path: '/Startup/User')
-  Future<chopper.Response<StartupUserDto>> _startupUserGet();
+  Future<chopper.Response<StartupUserDto>> _startupUserGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the first user.',
+      operationId: 'GetFirstUser',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Startup"],
+      deprecated: false,
+    ),
+  });
 
   ///Sets the user name and password.
   Future<chopper.Response> startupUserPost({required StartupUserDto? body}) {
@@ -14035,6 +17546,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Startup/User', optionalBody: true)
   Future<chopper.Response> _startupUserPost({
     @Body() required StartupUserDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Sets the user name and password.',
+      operationId: 'UpdateStartupUser',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Startup"],
+      deprecated: false,
+    ),
   });
 
   ///Gets all studios from a given item, folder, or the entire library.
@@ -14137,6 +17659,18 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('nameLessThan') String? nameLessThan,
     @Query('enableImages') bool? enableImages,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary:
+          'Gets all studios from a given item, folder, or the entire library.',
+      operationId: 'GetStudios',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Studios"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a studio by name.
@@ -14161,6 +17695,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDto>> _studiosNameGet({
     @Path('name') required String? name,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a studio by name.',
+      operationId: 'GetStudio',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Studios"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a list of available fallback font files.
@@ -14172,7 +17717,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets a list of available fallback font files.
   @GET(path: '/FallbackFont/Fonts')
-  Future<chopper.Response<List<FontFile>>> _fallbackFontFontsGet();
+  Future<chopper.Response<List<FontFile>>> _fallbackFontFontsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a list of available fallback font files.',
+      operationId: 'GetFallbackFontList',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Subtitle"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets a fallback font file.
   ///@param name The name of the fallback font file to get.
@@ -14187,6 +17744,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/FallbackFont/Fonts/{name}')
   Future<chopper.Response<String>> _fallbackFontFontsNameGet({
     @Path('name') required String? name,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a fallback font file.',
+      operationId: 'GetFallbackFont',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Subtitle"],
+      deprecated: false,
+    ),
   });
 
   ///Search remote subtitles.
@@ -14221,6 +17789,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('itemId') required String? itemId,
     @Path('language') required String? language,
     @Query('isPerfectMatch') bool? isPerfectMatch,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Search remote subtitles.',
+      operationId: 'SearchRemoteSubtitles',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Subtitle"],
+      deprecated: false,
+    ),
   });
 
   ///Downloads a remote subtitle.
@@ -14246,6 +17825,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _itemsItemIdRemoteSearchSubtitlesSubtitleIdPost({
     @Path('itemId') required String? itemId,
     @Path('subtitleId') required String? subtitleId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Downloads a remote subtitle.',
+      operationId: 'DownloadRemoteSubtitles',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Subtitle"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the remote subtitles.
@@ -14261,6 +17851,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Providers/Subtitles/Subtitles/{subtitleId}')
   Future<chopper.Response<String>> _providersSubtitlesSubtitlesSubtitleIdGet({
     @Path('subtitleId') required String? subtitleId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the remote subtitles.',
+      operationId: 'GetRemoteSubtitles',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Subtitle"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an HLS subtitle playlist.
@@ -14297,6 +17898,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('index') required int? index,
     @Path('mediaSourceId') required String? mediaSourceId,
     @Query('segmentLength') required int? segmentLength,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an HLS subtitle playlist.',
+      operationId: 'GetSubtitlePlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Subtitle"],
+      deprecated: false,
+    ),
   });
 
   ///Upload an external subtitle file.
@@ -14314,6 +17926,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _videosItemIdSubtitlesPost({
     @Path('itemId') required String? itemId,
     @Body() required UploadSubtitleDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Upload an external subtitle file.',
+      operationId: 'UploadSubtitle',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Subtitle"],
+      deprecated: false,
+    ),
   });
 
   ///Deletes an external subtitle file.
@@ -14333,6 +17956,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _videosItemIdSubtitlesIndexDelete({
     @Path('itemId') required String? itemId,
     @Path('index') required int? index,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Deletes an external subtitle file.',
+      operationId: 'DeleteSubtitle',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Subtitle"],
+      deprecated: false,
+    ),
   });
 
   ///Gets subtitles in a specified format.
@@ -14397,8 +18031,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param copyTimestamps Optional. Whether to copy the timestamps.
   ///@param addVttTimeMap Optional. Whether to add a VTT time map.
   @GET(
-    path:
-        '/Videos/{routeItemId}/{routeMediaSourceId}/Subtitles/{routeIndex}/{routeStartPositionTicks}/Stream.{routeFormat}',
+    path: '/Videos/{routeItemId}/{routeMediaSourceId}/Subtitles/{routeIndex}/{routeStartPositionTicks}/Stream.{routeFormat}',
   )
   Future<chopper.Response<String>>
   _videosRouteItemIdRouteMediaSourceIdSubtitlesRouteIndexRouteStartPositionTicksStreamRouteFormatGet({
@@ -14415,6 +18048,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('endPositionTicks') int? endPositionTicks,
     @Query('copyTimestamps') bool? copyTimestamps,
     @Query('addVttTimeMap') bool? addVttTimeMap,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets subtitles in a specified format.',
+      operationId: 'GetSubtitleWithTicks',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Subtitle"],
+      deprecated: false,
+    ),
   });
 
   ///Gets subtitles in a specified format.
@@ -14475,8 +18119,7 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param addVttTimeMap Optional. Whether to add a VTT time map.
   ///@param startPositionTicks The start position of the subtitle in ticks.
   @GET(
-    path:
-        '/Videos/{routeItemId}/{routeMediaSourceId}/Subtitles/{routeIndex}/Stream.{routeFormat}',
+    path: '/Videos/{routeItemId}/{routeMediaSourceId}/Subtitles/{routeIndex}/Stream.{routeFormat}',
   )
   Future<chopper.Response<String>>
   _videosRouteItemIdRouteMediaSourceIdSubtitlesRouteIndexStreamRouteFormatGet({
@@ -14492,6 +18135,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('copyTimestamps') bool? copyTimestamps,
     @Query('addVttTimeMap') bool? addVttTimeMap,
     @Query('startPositionTicks') int? startPositionTicks,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets subtitles in a specified format.',
+      operationId: 'GetSubtitle',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Subtitle"],
+      deprecated: false,
+    ),
   });
 
   ///Gets suggestions.
@@ -14539,6 +18193,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('startIndex') int? startIndex,
     @Query('limit') int? limit,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets suggestions.',
+      operationId: 'GetSuggestions',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Suggestions"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a SyncPlay group by id.
@@ -14557,6 +18222,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/SyncPlay/{id}')
   Future<chopper.Response<GroupInfoDto>> _syncPlayIdGet({
     @Path('id') required String? id,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a SyncPlay group by id.',
+      operationId: 'SyncPlayGetGroup',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Notify SyncPlay group that member is buffering.
@@ -14570,6 +18246,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/Buffering', optionalBody: true)
   Future<chopper.Response> _syncPlayBufferingPost({
     @Body() required BufferRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Notify SyncPlay group that member is buffering.',
+      operationId: 'SyncPlayBuffering',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Join an existing SyncPlay group.
@@ -14583,6 +18270,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/Join', optionalBody: true)
   Future<chopper.Response> _syncPlayJoinPost({
     @Body() required JoinGroupRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Join an existing SyncPlay group.',
+      operationId: 'SyncPlayJoinGroup',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Leave the joined SyncPlay group.
@@ -14592,7 +18290,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Leave the joined SyncPlay group.
   @POST(path: '/SyncPlay/Leave', optionalBody: true)
-  Future<chopper.Response> _syncPlayLeavePost();
+  Future<chopper.Response> _syncPlayLeavePost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Leave the joined SyncPlay group.',
+      operationId: 'SyncPlayLeaveGroup',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets all SyncPlay groups.
   Future<chopper.Response<List<GroupInfoDto>>> syncPlayListGet() {
@@ -14606,7 +18316,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets all SyncPlay groups.
   @GET(path: '/SyncPlay/List')
-  Future<chopper.Response<List<GroupInfoDto>>> _syncPlayListGet();
+  Future<chopper.Response<List<GroupInfoDto>>> _syncPlayListGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets all SyncPlay groups.',
+      operationId: 'SyncPlayGetGroups',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
+  });
 
   ///Request to move an item in the playlist in SyncPlay group.
   Future<chopper.Response> syncPlayMovePlaylistItemPost({
@@ -14619,6 +18341,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/MovePlaylistItem', optionalBody: true)
   Future<chopper.Response> _syncPlayMovePlaylistItemPost({
     @Body() required MovePlaylistItemRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request to move an item in the playlist in SyncPlay group.',
+      operationId: 'SyncPlayMovePlaylistItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Create a new SyncPlay group.
@@ -14637,6 +18370,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/New', optionalBody: true)
   Future<chopper.Response<GroupInfoDto>> _syncPlayNewPost({
     @Body() required NewGroupRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Create a new SyncPlay group.',
+      operationId: 'SyncPlayCreateGroup',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request next item in SyncPlay group.
@@ -14650,6 +18394,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/NextItem', optionalBody: true)
   Future<chopper.Response> _syncPlayNextItemPost({
     @Body() required NextItemRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request next item in SyncPlay group.',
+      operationId: 'SyncPlayNextItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request pause in SyncPlay group.
@@ -14659,7 +18414,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Request pause in SyncPlay group.
   @POST(path: '/SyncPlay/Pause', optionalBody: true)
-  Future<chopper.Response> _syncPlayPausePost();
+  Future<chopper.Response> _syncPlayPausePost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request pause in SyncPlay group.',
+      operationId: 'SyncPlayPause',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
+  });
 
   ///Update session ping.
   Future<chopper.Response> syncPlayPingPost({required PingRequestDto? body}) {
@@ -14670,6 +18437,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/Ping', optionalBody: true)
   Future<chopper.Response> _syncPlayPingPost({
     @Body() required PingRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Update session ping.',
+      operationId: 'SyncPlayPing',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request previous item in SyncPlay group.
@@ -14683,6 +18461,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/PreviousItem', optionalBody: true)
   Future<chopper.Response> _syncPlayPreviousItemPost({
     @Body() required PreviousItemRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request previous item in SyncPlay group.',
+      operationId: 'SyncPlayPreviousItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request to queue items to the playlist of a SyncPlay group.
@@ -14694,6 +18483,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/Queue', optionalBody: true)
   Future<chopper.Response> _syncPlayQueuePost({
     @Body() required QueueRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request to queue items to the playlist of a SyncPlay group.',
+      operationId: 'SyncPlayQueue',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Notify SyncPlay group that member is ready for playback.
@@ -14705,6 +18505,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/Ready', optionalBody: true)
   Future<chopper.Response> _syncPlayReadyPost({
     @Body() required ReadyRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Notify SyncPlay group that member is ready for playback.',
+      operationId: 'SyncPlayReady',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request to remove items from the playlist in SyncPlay group.
@@ -14718,6 +18529,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/RemoveFromPlaylist', optionalBody: true)
   Future<chopper.Response> _syncPlayRemoveFromPlaylistPost({
     @Body() required RemoveFromPlaylistRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request to remove items from the playlist in SyncPlay group.',
+      operationId: 'SyncPlayRemoveFromPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request seek in SyncPlay group.
@@ -14729,6 +18551,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/Seek', optionalBody: true)
   Future<chopper.Response> _syncPlaySeekPost({
     @Body() required SeekRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request seek in SyncPlay group.',
+      operationId: 'SyncPlaySeek',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request SyncPlay group to ignore member during group-wait.
@@ -14742,6 +18575,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/SetIgnoreWait', optionalBody: true)
   Future<chopper.Response> _syncPlaySetIgnoreWaitPost({
     @Body() required IgnoreWaitRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request SyncPlay group to ignore member during group-wait.',
+      operationId: 'SyncPlaySetIgnoreWait',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request to set new playlist in SyncPlay group.
@@ -14755,6 +18599,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/SetNewQueue', optionalBody: true)
   Future<chopper.Response> _syncPlaySetNewQueuePost({
     @Body() required PlayRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request to set new playlist in SyncPlay group.',
+      operationId: 'SyncPlaySetNewQueue',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request to change playlist item in SyncPlay group.
@@ -14768,6 +18623,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/SetPlaylistItem', optionalBody: true)
   Future<chopper.Response> _syncPlaySetPlaylistItemPost({
     @Body() required SetPlaylistItemRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request to change playlist item in SyncPlay group.',
+      operationId: 'SyncPlaySetPlaylistItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request to set repeat mode in SyncPlay group.
@@ -14781,6 +18647,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/SetRepeatMode', optionalBody: true)
   Future<chopper.Response> _syncPlaySetRepeatModePost({
     @Body() required SetRepeatModeRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request to set repeat mode in SyncPlay group.',
+      operationId: 'SyncPlaySetRepeatMode',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request to set shuffle mode in SyncPlay group.
@@ -14794,6 +18671,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/SyncPlay/SetShuffleMode', optionalBody: true)
   Future<chopper.Response> _syncPlaySetShuffleModePost({
     @Body() required SetShuffleModeRequestDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request to set shuffle mode in SyncPlay group.',
+      operationId: 'SyncPlaySetShuffleMode',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
   });
 
   ///Request stop in SyncPlay group.
@@ -14803,7 +18691,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Request stop in SyncPlay group.
   @POST(path: '/SyncPlay/Stop', optionalBody: true)
-  Future<chopper.Response> _syncPlayStopPost();
+  Future<chopper.Response> _syncPlayStopPost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request stop in SyncPlay group.',
+      operationId: 'SyncPlayStop',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
+  });
 
   ///Request unpause in SyncPlay group.
   Future<chopper.Response> syncPlayUnpausePost() {
@@ -14812,7 +18712,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Request unpause in SyncPlay group.
   @POST(path: '/SyncPlay/Unpause', optionalBody: true)
-  Future<chopper.Response> _syncPlayUnpausePost();
+  Future<chopper.Response> _syncPlayUnpausePost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Request unpause in SyncPlay group.',
+      operationId: 'SyncPlayUnpause',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["SyncPlay"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets information about the request endpoint.
   Future<chopper.Response<EndPointInfo>> systemEndpointGet() {
@@ -14826,7 +18738,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets information about the request endpoint.
   @GET(path: '/System/Endpoint')
-  Future<chopper.Response<EndPointInfo>> _systemEndpointGet();
+  Future<chopper.Response<EndPointInfo>> _systemEndpointGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets information about the request endpoint.',
+      operationId: 'GetEndpointInfo',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["System"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets information about the server.
   Future<chopper.Response<SystemInfo>> systemInfoGet() {
@@ -14837,7 +18761,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets information about the server.
   @GET(path: '/System/Info')
-  Future<chopper.Response<SystemInfo>> _systemInfoGet();
+  Future<chopper.Response<SystemInfo>> _systemInfoGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets information about the server.',
+      operationId: 'GetSystemInfo',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["System"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets public information about the server.
   Future<chopper.Response<PublicSystemInfo>> systemInfoPublicGet() {
@@ -14851,7 +18787,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets public information about the server.
   @GET(path: '/System/Info/Public')
-  Future<chopper.Response<PublicSystemInfo>> _systemInfoPublicGet();
+  Future<chopper.Response<PublicSystemInfo>> _systemInfoPublicGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets public information about the server.',
+      operationId: 'GetPublicSystemInfo',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["System"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets information about the server.
   Future<chopper.Response<SystemStorageDto>> systemInfoStorageGet() {
@@ -14865,7 +18813,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets information about the server.
   @GET(path: '/System/Info/Storage')
-  Future<chopper.Response<SystemStorageDto>> _systemInfoStorageGet();
+  Future<chopper.Response<SystemStorageDto>> _systemInfoStorageGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets information about the server.',
+      operationId: 'GetSystemStorage',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["System"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets a list of available server log files.
   Future<chopper.Response<List<LogFile>>> systemLogsGet() {
@@ -14876,7 +18836,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets a list of available server log files.
   @GET(path: '/System/Logs')
-  Future<chopper.Response<List<LogFile>>> _systemLogsGet();
+  Future<chopper.Response<List<LogFile>>> _systemLogsGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a list of available server log files.',
+      operationId: 'GetServerLogs',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["System"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets a log file.
   ///@param name The name of the log file to get.
@@ -14889,6 +18861,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/System/Logs/Log')
   Future<chopper.Response<String>> _systemLogsLogGet({
     @Query('name') required String? name,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a log file.',
+      operationId: 'GetLogFile',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["System"],
+      deprecated: false,
+    ),
   });
 
   ///Pings the system.
@@ -14898,7 +18881,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Pings the system.
   @GET(path: '/System/Ping')
-  Future<chopper.Response<String>> _systemPingGet();
+  Future<chopper.Response<String>> _systemPingGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Pings the system.',
+      operationId: 'GetPingSystem',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["System"],
+      deprecated: false,
+    ),
+  });
 
   ///Pings the system.
   Future<chopper.Response<String>> systemPingPost() {
@@ -14907,7 +18902,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Pings the system.
   @POST(path: '/System/Ping', optionalBody: true)
-  Future<chopper.Response<String>> _systemPingPost();
+  Future<chopper.Response<String>> _systemPingPost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Pings the system.',
+      operationId: 'PostPingSystem',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["System"],
+      deprecated: false,
+    ),
+  });
 
   ///Restarts the application.
   Future<chopper.Response> systemRestartPost() {
@@ -14916,7 +18923,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Restarts the application.
   @POST(path: '/System/Restart', optionalBody: true)
-  Future<chopper.Response> _systemRestartPost();
+  Future<chopper.Response> _systemRestartPost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Restarts the application.',
+      operationId: 'RestartApplication',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["System"],
+      deprecated: false,
+    ),
+  });
 
   ///Shuts down the application.
   Future<chopper.Response> systemShutdownPost() {
@@ -14925,7 +18944,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Shuts down the application.
   @POST(path: '/System/Shutdown', optionalBody: true)
-  Future<chopper.Response> _systemShutdownPost();
+  Future<chopper.Response> _systemShutdownPost({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Shuts down the application.',
+      operationId: 'ShutdownApplication',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["System"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets the current UTC time.
   Future<chopper.Response<UtcTimeResponse>> getUtcTimeGet() {
@@ -14939,7 +18970,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets the current UTC time.
   @GET(path: '/GetUtcTime')
-  Future<chopper.Response<UtcTimeResponse>> _getUtcTimeGet();
+  Future<chopper.Response<UtcTimeResponse>> _getUtcTimeGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the current UTC time.',
+      operationId: 'GetUtcTime',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["TimeSync"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets the TMDb image configuration options.
   Future<chopper.Response<ConfigImageTypes>> tmdbClientConfigurationGet() {
@@ -14953,7 +18996,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets the TMDb image configuration options.
   @GET(path: '/Tmdb/ClientConfiguration')
-  Future<chopper.Response<ConfigImageTypes>> _tmdbClientConfigurationGet();
+  Future<chopper.Response<ConfigImageTypes>> _tmdbClientConfigurationGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the TMDb image configuration options.',
+      operationId: 'TmdbClientConfiguration',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Tmdb"],
+      deprecated: false,
+    ),
+  });
 
   ///Finds movies and trailers similar to a given trailer.
   ///@param userId The user id supplied as query parameter; this is required when not using an API key.
@@ -15390,6 +19445,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('genreIds') List<String>? genreIds,
     @Query('enableTotalRecordCount') bool? enableTotalRecordCount,
     @Query('enableImages') bool? enableImages,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Finds movies and trailers similar to a given trailer.',
+      operationId: 'GetTrailers',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Trailers"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a trickplay tile image.
@@ -15422,6 +19488,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('width') required int? width,
     @Path('index') required int? index,
     @Query('mediaSourceId') String? mediaSourceId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a trickplay tile image.',
+      operationId: 'GetTrickplayTileImage',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Trickplay"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an image tiles playlist for trickplay.
@@ -15449,6 +19526,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('itemId') required String? itemId,
     @Path('width') required int? width,
     @Query('mediaSourceId') String? mediaSourceId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an image tiles playlist for trickplay.',
+      operationId: 'GetTrickplayHlsPlaylist',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Trickplay"],
+      deprecated: false,
+    ),
   });
 
   ///Gets episodes for a tv season.
@@ -15541,6 +19629,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
     @Query('enableUserData') bool? enableUserData,
     @Query('sortBy') String? sortBy,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets episodes for a tv season.',
+      operationId: 'GetEpisodes',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["TvShows"],
+      deprecated: false,
+    ),
   });
 
   ///Gets seasons for a tv series.
@@ -15608,6 +19707,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('imageTypeLimit') int? imageTypeLimit,
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
     @Query('enableUserData') bool? enableUserData,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets seasons for a tv series.',
+      operationId: 'GetSeasons',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["TvShows"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a list of next up episodes.
@@ -15700,6 +19810,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('disableFirstEpisode') bool? disableFirstEpisode,
     @Query('enableResumable') bool? enableResumable,
     @Query('enableRewatching') bool? enableRewatching,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a list of next up episodes.',
+      operationId: 'GetNextUp',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["TvShows"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a list of upcoming episodes.
@@ -15762,6 +19883,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('imageTypeLimit') int? imageTypeLimit,
     @Query('enableImageTypes') List<Object?>? enableImageTypes,
     @Query('enableUserData') bool? enableUserData,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a list of upcoming episodes.',
+      operationId: 'GetUpcomingEpisodes',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["TvShows"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an audio stream.
@@ -15869,6 +20001,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
     @Query('breakOnNonKeyFrames') bool? breakOnNonKeyFrames,
     @Query('enableRedirection') bool? enableRedirection,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an audio stream.',
+      operationId: 'GetUniversalAudioStream',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UniversalAudio"],
+      deprecated: false,
+    ),
   });
 
   ///Gets an audio stream.
@@ -15976,6 +20119,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
     @Query('breakOnNonKeyFrames') bool? breakOnNonKeyFrames,
     @Query('enableRedirection') bool? enableRedirection,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets an audio stream.',
+      operationId: 'HeadUniversalAudioStream',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UniversalAudio"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a list of users.
@@ -15997,6 +20151,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<UserDto>>> _usersGet({
     @Query('isHidden') bool? isHidden,
     @Query('isDisabled') bool? isDisabled,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a list of users.',
+      operationId: 'GetUsers',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Updates a user.
@@ -16011,6 +20176,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _usersPost({
     @Query('userId') String? userId,
     @Body() required UserDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates a user.',
+      operationId: 'UpdateUser',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a user by Id.
@@ -16026,6 +20202,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Users/{userId}')
   Future<chopper.Response<UserDto>> _usersUserIdGet({
     @Path('userId') required String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a user by Id.',
+      operationId: 'GetUserById',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Deletes a user.
@@ -16039,6 +20226,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/Users/{userId}')
   Future<chopper.Response> _usersUserIdDelete({
     @Path('userId') required String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Deletes a user.',
+      operationId: 'DeleteUser',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Updates a user policy.
@@ -16056,6 +20254,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _usersUserIdPolicyPost({
     @Path('userId') required String? userId,
     @Body() required UserPolicy? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates a user policy.',
+      operationId: 'UpdateUserPolicy',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Authenticates a user by name.
@@ -16074,6 +20283,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Users/AuthenticateByName', optionalBody: true)
   Future<chopper.Response<AuthenticationResult>> _usersAuthenticateByNamePost({
     @Body() required AuthenticateUserByName? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Authenticates a user by name.',
+      operationId: 'AuthenticateUserByName',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Authenticates a user with quick connect.
@@ -16092,6 +20312,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<AuthenticationResult>>
   _usersAuthenticateWithQuickConnectPost({
     @Body() required QuickConnectDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Authenticates a user with quick connect.',
+      operationId: 'AuthenticateWithQuickConnect',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Updates a user configuration.
@@ -16109,6 +20340,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _usersConfigurationPost({
     @Query('userId') String? userId,
     @Body() required UserConfiguration? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates a user configuration.',
+      operationId: 'UpdateUserConfiguration',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Initiates the forgot password process for a local user.
@@ -16127,6 +20369,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Users/ForgotPassword', optionalBody: true)
   Future<chopper.Response<ForgotPasswordResult>> _usersForgotPasswordPost({
     @Body() required ForgotPasswordDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Initiates the forgot password process for a local user.',
+      operationId: 'ForgotPassword',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Redeems a forgot password pin.
@@ -16145,6 +20398,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Users/ForgotPassword/Pin', optionalBody: true)
   Future<chopper.Response<PinRedeemResult>> _usersForgotPasswordPinPost({
     @Body() required ForgotPasswordPinDto? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Redeems a forgot password pin.',
+      operationId: 'ForgotPasswordPin',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the user based on auth token.
@@ -16156,7 +20420,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets the user based on auth token.
   @GET(path: '/Users/Me')
-  Future<chopper.Response<UserDto>> _usersMeGet();
+  Future<chopper.Response<UserDto>> _usersMeGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the user based on auth token.',
+      operationId: 'GetCurrentUser',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["User"],
+      deprecated: false,
+    ),
+  });
 
   ///Creates a user.
   Future<chopper.Response<UserDto>> usersNewPost({
@@ -16171,6 +20447,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Users/New', optionalBody: true)
   Future<chopper.Response<UserDto>> _usersNewPost({
     @Body() required CreateUserByName? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Creates a user.',
+      operationId: 'CreateUserByName',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Updates a user's password.
@@ -16188,6 +20475,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response> _usersPasswordPost({
     @Query('userId') String? userId,
     @Body() required UpdateUserPassword? body,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates a user\'s password.',
+      operationId: 'UpdateUserPassword',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["User"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a list of publicly visible users for display on a login screen.
@@ -16199,7 +20497,19 @@ abstract class JellyfinOpenApi extends ChopperService {
 
   ///Gets a list of publicly visible users for display on a login screen.
   @GET(path: '/Users/Public')
-  Future<chopper.Response<List<UserDto>>> _usersPublicGet();
+  Future<chopper.Response<List<UserDto>>> _usersPublicGet({
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a list of publicly visible users for display on a login screen.',
+      operationId: 'GetPublicUsers',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["User"],
+      deprecated: false,
+    ),
+  });
 
   ///Gets intros to play before the main media item plays.
   ///@param userId User id.
@@ -16223,6 +20533,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDtoQueryResult>> _itemsItemIdIntrosGet({
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets intros to play before the main media item plays.',
+      operationId: 'GetIntros',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserLibrary"],
+      deprecated: false,
+    ),
   });
 
   ///Gets local trailers for an item.
@@ -16247,6 +20568,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<BaseItemDto>>> _itemsItemIdLocalTrailersGet({
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets local trailers for an item.',
+      operationId: 'GetLocalTrailers',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserLibrary"],
+      deprecated: false,
+    ),
   });
 
   ///Gets special features for an item.
@@ -16271,6 +20603,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<List<BaseItemDto>>> _itemsItemIdSpecialFeaturesGet({
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets special features for an item.',
+      operationId: 'GetSpecialFeatures',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserLibrary"],
+      deprecated: false,
+    ),
   });
 
   ///Gets latest media.
@@ -16343,6 +20686,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('enableUserData') bool? enableUserData,
     @Query('limit') int? limit,
     @Query('groupItems') bool? groupItems,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets latest media.',
+      operationId: 'GetLatestMedia',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserLibrary"],
+      deprecated: false,
+    ),
   });
 
   ///Gets the root folder from a user's library.
@@ -16361,6 +20715,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @GET(path: '/Items/Root')
   Future<chopper.Response<BaseItemDto>> _itemsRootGet({
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets the root folder from a user\'s library.',
+      operationId: 'GetRootFolder',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserLibrary"],
+      deprecated: false,
+    ),
   });
 
   ///Marks an item as a favorite.
@@ -16385,6 +20750,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<UserItemDataDto>> _userFavoriteItemsItemIdPost({
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Marks an item as a favorite.',
+      operationId: 'MarkFavoriteItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserLibrary"],
+      deprecated: false,
+    ),
   });
 
   ///Unmarks item as a favorite.
@@ -16409,6 +20785,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<UserItemDataDto>> _userFavoriteItemsItemIdDelete({
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Unmarks item as a favorite.',
+      operationId: 'UnmarkFavoriteItem',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserLibrary"],
+      deprecated: false,
+    ),
   });
 
   ///Deletes a user's saved personal rating for an item.
@@ -16433,6 +20820,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<UserItemDataDto>> _userItemsItemIdRatingDelete({
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Deletes a user\'s saved personal rating for an item.',
+      operationId: 'DeleteUserItemRating',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserLibrary"],
+      deprecated: false,
+    ),
   });
 
   ///Updates a user's rating for an item.
@@ -16465,6 +20863,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Path('itemId') required String? itemId,
     @Query('likes') bool? likes,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Updates a user\'s rating for an item.',
+      operationId: 'UpdateUserItemRating',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserLibrary"],
+      deprecated: false,
+    ),
   });
 
   ///Get user views.
@@ -16502,6 +20911,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('includeExternalContent') bool? includeExternalContent,
     @Query('presetViews') List<Object?>? presetViews,
     @Query('includeHidden') bool? includeHidden,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get user views.',
+      operationId: 'GetUserViews',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserViews"],
+      deprecated: false,
+    ),
   });
 
   ///Get user view grouping options.
@@ -16520,7 +20940,20 @@ abstract class JellyfinOpenApi extends ChopperService {
   ///@param userId User id.
   @GET(path: '/UserViews/GroupingOptions')
   Future<chopper.Response<List<SpecialViewOptionDto>>>
-  _userViewsGroupingOptionsGet({@Query('userId') String? userId});
+  _userViewsGroupingOptionsGet({
+    @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get user view grouping options.',
+      operationId: 'GetGroupingOptions',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["UserViews"],
+      deprecated: false,
+    ),
+  });
 
   ///Get video attachment.
   ///@param videoId Video ID.
@@ -16549,6 +20982,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Path('videoId') required String? videoId,
     @Path('mediaSourceId') required String? mediaSourceId,
     @Path('index') required int? index,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get video attachment.',
+      operationId: 'GetAttachment',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["VideoAttachments"],
+      deprecated: false,
+    ),
   });
 
   ///Gets additional parts for a video.
@@ -16572,6 +21016,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   _videosItemIdAdditionalPartsGet({
     @Path('itemId') required String? itemId,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets additional parts for a video.',
+      operationId: 'GetAdditionalPart',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Videos"],
+      deprecated: false,
+    ),
   });
 
   ///Removes alternate video sources.
@@ -16587,6 +21042,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @DELETE(path: '/Videos/{itemId}/AlternateSources')
   Future<chopper.Response> _videosItemIdAlternateSourcesDelete({
     @Path('itemId') required String? itemId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Removes alternate video sources.',
+      operationId: 'DeleteAlternateSources',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Videos"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a video stream.
@@ -16859,6 +21325,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a video stream.',
+      operationId: 'GetVideoStream',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Videos"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a video stream.
@@ -17131,6 +21608,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a video stream.',
+      operationId: 'HeadVideoStream',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Videos"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a video stream.
@@ -17403,6 +21891,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a video stream.',
+      operationId: 'GetVideoStreamByContainer',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Videos"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a video stream.
@@ -17675,6 +22174,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('context') String? context,
     @Query('streamOptions') Object? streamOptions,
     @Query('enableAudioVbrEncoding') bool? enableAudioVbrEncoding,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a video stream.',
+      operationId: 'HeadVideoStreamByContainer',
+      consumes: [],
+      produces: [],
+      security: [],
+      tags: ["Videos"],
+      deprecated: false,
+    ),
   });
 
   ///Merges videos into a single record.
@@ -17690,6 +22200,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   @POST(path: '/Videos/MergeVersions', optionalBody: true)
   Future<chopper.Response> _videosMergeVersionsPost({
     @Query('ids') required List<String>? ids,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Merges videos into a single record.',
+      operationId: 'MergeVersions',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Videos"],
+      deprecated: false,
+    ),
   });
 
   ///Get years.
@@ -17782,6 +22303,17 @@ abstract class JellyfinOpenApi extends ChopperService {
     @Query('userId') String? userId,
     @Query('recursive') bool? recursive,
     @Query('enableImages') bool? enableImages,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Get years.',
+      operationId: 'GetYears',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Years"],
+      deprecated: false,
+    ),
   });
 
   ///Gets a year.
@@ -17806,6 +22338,17 @@ abstract class JellyfinOpenApi extends ChopperService {
   Future<chopper.Response<BaseItemDto>> _yearsYearGet({
     @Path('year') required int? year,
     @Query('userId') String? userId,
+    @chopper.Tag()
+    SwaggerMetaData swaggerMetaData = const SwaggerMetaData(
+      description: '',
+      summary: 'Gets a year.',
+      operationId: 'GetYear',
+      consumes: [],
+      produces: [],
+      security: ["CustomAuthentication"],
+      tags: ["Years"],
+      deprecated: false,
+    ),
   });
 }
 
@@ -24697,7 +29240,7 @@ extension $CultureDtoExtension on CultureDto {
 
 @JsonSerializable(explicitToJson: true)
 class CustomDatabaseOption {
-  const CustomDatabaseOption({this.key, this.$Value});
+  const CustomDatabaseOption({this.key, this.value});
 
   factory CustomDatabaseOption.fromJson(Map<String, dynamic> json) =>
       _$CustomDatabaseOptionFromJson(json);
@@ -24708,7 +29251,7 @@ class CustomDatabaseOption {
   @JsonKey(name: 'Key', includeIfNull: false)
   final String? key;
   @JsonKey(name: 'Value', includeIfNull: false)
-  final String? $Value;
+  final String? value;
   static const fromJsonFactory = _$CustomDatabaseOptionFromJson;
 
   @override
@@ -24717,8 +29260,8 @@ class CustomDatabaseOption {
         (other is CustomDatabaseOption &&
             (identical(other.key, key) ||
                 const DeepCollectionEquality().equals(other.key, key)) &&
-            (identical(other.$Value, $Value) ||
-                const DeepCollectionEquality().equals(other.$Value, $Value)));
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
@@ -24727,25 +29270,25 @@ class CustomDatabaseOption {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(key) ^
-      const DeepCollectionEquality().hash($Value) ^
+      const DeepCollectionEquality().hash(value) ^
       runtimeType.hashCode;
 }
 
 extension $CustomDatabaseOptionExtension on CustomDatabaseOption {
-  CustomDatabaseOption copyWith({String? key, String? $Value}) {
+  CustomDatabaseOption copyWith({String? key, String? value}) {
     return CustomDatabaseOption(
       key: key ?? this.key,
-      $Value: $Value ?? this.$Value,
+      value: value ?? this.value,
     );
   }
 
   CustomDatabaseOption copyWithWrapped({
     Wrapped<String?>? key,
-    Wrapped<String?>? $Value,
+    Wrapped<String?>? value,
   }) {
     return CustomDatabaseOption(
       key: (key != null ? key.value : this.key),
-      $Value: ($Value != null ? $Value.value : this.$Value),
+      value: (value != null ? value.value : this.value),
     );
   }
 }
@@ -31609,7 +36152,7 @@ extension $LiveTvServiceInfoExtension on LiveTvServiceInfo {
 
 @JsonSerializable(explicitToJson: true)
 class LocalizationOption {
-  const LocalizationOption({this.name, this.$Value});
+  const LocalizationOption({this.name, this.value});
 
   factory LocalizationOption.fromJson(Map<String, dynamic> json) =>
       _$LocalizationOptionFromJson(json);
@@ -31620,7 +36163,7 @@ class LocalizationOption {
   @JsonKey(name: 'Name', includeIfNull: false)
   final String? name;
   @JsonKey(name: 'Value', includeIfNull: false)
-  final String? $Value;
+  final String? value;
   static const fromJsonFactory = _$LocalizationOptionFromJson;
 
   @override
@@ -31629,8 +36172,8 @@ class LocalizationOption {
         (other is LocalizationOption &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.$Value, $Value) ||
-                const DeepCollectionEquality().equals(other.$Value, $Value)));
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
@@ -31639,25 +36182,25 @@ class LocalizationOption {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash($Value) ^
+      const DeepCollectionEquality().hash(value) ^
       runtimeType.hashCode;
 }
 
 extension $LocalizationOptionExtension on LocalizationOption {
-  LocalizationOption copyWith({String? name, String? $Value}) {
+  LocalizationOption copyWith({String? name, String? value}) {
     return LocalizationOption(
       name: name ?? this.name,
-      $Value: $Value ?? this.$Value,
+      value: value ?? this.value,
     );
   }
 
   LocalizationOption copyWithWrapped({
     Wrapped<String?>? name,
-    Wrapped<String?>? $Value,
+    Wrapped<String?>? value,
   }) {
     return LocalizationOption(
       name: (name != null ? name.value : this.name),
-      $Value: ($Value != null ? $Value.value : this.$Value),
+      value: (value != null ? value.value : this.value),
     );
   }
 }
@@ -35606,7 +40149,7 @@ extension $NameIdPairExtension on NameIdPair {
 
 @JsonSerializable(explicitToJson: true)
 class NameValuePair {
-  const NameValuePair({this.name, this.$Value});
+  const NameValuePair({this.name, this.value});
 
   factory NameValuePair.fromJson(Map<String, dynamic> json) =>
       _$NameValuePairFromJson(json);
@@ -35617,7 +40160,7 @@ class NameValuePair {
   @JsonKey(name: 'Name', includeIfNull: false)
   final String? name;
   @JsonKey(name: 'Value', includeIfNull: false)
-  final String? $Value;
+  final String? value;
   static const fromJsonFactory = _$NameValuePairFromJson;
 
   @override
@@ -35626,8 +40169,8 @@ class NameValuePair {
         (other is NameValuePair &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.$Value, $Value) ||
-                const DeepCollectionEquality().equals(other.$Value, $Value)));
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)));
   }
 
   @override
@@ -35636,25 +40179,22 @@ class NameValuePair {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash($Value) ^
+      const DeepCollectionEquality().hash(value) ^
       runtimeType.hashCode;
 }
 
 extension $NameValuePairExtension on NameValuePair {
-  NameValuePair copyWith({String? name, String? $Value}) {
-    return NameValuePair(
-      name: name ?? this.name,
-      $Value: $Value ?? this.$Value,
-    );
+  NameValuePair copyWith({String? name, String? value}) {
+    return NameValuePair(name: name ?? this.name, value: value ?? this.value);
   }
 
   NameValuePair copyWithWrapped({
     Wrapped<String?>? name,
-    Wrapped<String?>? $Value,
+    Wrapped<String?>? value,
   }) {
     return NameValuePair(
       name: (name != null ? name.value : this.name),
-      $Value: ($Value != null ? $Value.value : this.$Value),
+      value: (value != null ? value.value : this.value),
     );
   }
 }
@@ -36658,7 +41198,7 @@ extension $PackageInfoExtension on PackageInfo {
 
 @JsonSerializable(explicitToJson: true)
 class ParentalRating {
-  const ParentalRating({this.name, this.$Value, this.ratingScore});
+  const ParentalRating({this.name, this.value, this.ratingScore});
 
   factory ParentalRating.fromJson(Map<String, dynamic> json) =>
       _$ParentalRatingFromJson(json);
@@ -36669,7 +41209,7 @@ class ParentalRating {
   @JsonKey(name: 'Name', includeIfNull: false)
   final String? name;
   @JsonKey(name: 'Value', includeIfNull: false)
-  final int? $Value;
+  final int? value;
   @JsonKey(name: 'RatingScore', includeIfNull: false)
   final ParentalRatingScore? ratingScore;
   static const fromJsonFactory = _$ParentalRatingFromJson;
@@ -36680,8 +41220,8 @@ class ParentalRating {
         (other is ParentalRating &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.$Value, $Value) ||
-                const DeepCollectionEquality().equals(other.$Value, $Value)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)) &&
             (identical(other.ratingScore, ratingScore) ||
                 const DeepCollectionEquality().equals(
                   other.ratingScore,
@@ -36695,7 +41235,7 @@ class ParentalRating {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash($Value) ^
+      const DeepCollectionEquality().hash(value) ^
       const DeepCollectionEquality().hash(ratingScore) ^
       runtimeType.hashCode;
 }
@@ -36703,24 +41243,24 @@ class ParentalRating {
 extension $ParentalRatingExtension on ParentalRating {
   ParentalRating copyWith({
     String? name,
-    int? $Value,
+    int? value,
     ParentalRatingScore? ratingScore,
   }) {
     return ParentalRating(
       name: name ?? this.name,
-      $Value: $Value ?? this.$Value,
+      value: value ?? this.value,
       ratingScore: ratingScore ?? this.ratingScore,
     );
   }
 
   ParentalRating copyWithWrapped({
     Wrapped<String?>? name,
-    Wrapped<int?>? $Value,
+    Wrapped<int?>? value,
     Wrapped<ParentalRatingScore?>? ratingScore,
   }) {
     return ParentalRating(
       name: (name != null ? name.value : this.name),
-      $Value: ($Value != null ? $Value.value : this.$Value),
+      value: (value != null ? value.value : this.value),
       ratingScore: (ratingScore != null ? ratingScore.value : this.ratingScore),
     );
   }
@@ -40287,7 +44827,7 @@ class ProfileCondition {
   const ProfileCondition({
     this.condition,
     this.property,
-    this.$Value,
+    this.value,
     this.isRequired,
   });
 
@@ -40312,7 +44852,7 @@ class ProfileCondition {
   )
   final enums.ProfileConditionValue? property;
   @JsonKey(name: 'Value', includeIfNull: false)
-  final String? $Value;
+  final String? value;
   @JsonKey(name: 'IsRequired', includeIfNull: false)
   final bool? isRequired;
   static const fromJsonFactory = _$ProfileConditionFromJson;
@@ -40331,8 +44871,8 @@ class ProfileCondition {
                   other.property,
                   property,
                 )) &&
-            (identical(other.$Value, $Value) ||
-                const DeepCollectionEquality().equals(other.$Value, $Value)) &&
+            (identical(other.value, value) ||
+                const DeepCollectionEquality().equals(other.value, value)) &&
             (identical(other.isRequired, isRequired) ||
                 const DeepCollectionEquality().equals(
                   other.isRequired,
@@ -40347,7 +44887,7 @@ class ProfileCondition {
   int get hashCode =>
       const DeepCollectionEquality().hash(condition) ^
       const DeepCollectionEquality().hash(property) ^
-      const DeepCollectionEquality().hash($Value) ^
+      const DeepCollectionEquality().hash(value) ^
       const DeepCollectionEquality().hash(isRequired) ^
       runtimeType.hashCode;
 }
@@ -40356,13 +44896,13 @@ extension $ProfileConditionExtension on ProfileCondition {
   ProfileCondition copyWith({
     enums.ProfileConditionType? condition,
     enums.ProfileConditionValue? property,
-    String? $Value,
+    String? value,
     bool? isRequired,
   }) {
     return ProfileCondition(
       condition: condition ?? this.condition,
       property: property ?? this.property,
-      $Value: $Value ?? this.$Value,
+      value: value ?? this.value,
       isRequired: isRequired ?? this.isRequired,
     );
   }
@@ -40370,13 +44910,13 @@ extension $ProfileConditionExtension on ProfileCondition {
   ProfileCondition copyWithWrapped({
     Wrapped<enums.ProfileConditionType?>? condition,
     Wrapped<enums.ProfileConditionValue?>? property,
-    Wrapped<String?>? $Value,
+    Wrapped<String?>? value,
     Wrapped<bool?>? isRequired,
   }) {
     return ProfileCondition(
       condition: (condition != null ? condition.value : this.condition),
       property: (property != null ? property.value : this.property),
-      $Value: ($Value != null ? $Value.value : this.$Value),
+      value: (value != null ? value.value : this.value),
       isRequired: (isRequired != null ? isRequired.value : this.isRequired),
     );
   }
@@ -72969,9 +77509,9 @@ class $JsonSerializableConverter extends chopper.JsonConverter {
 
     if (ResultType == DateTime) {
       return response.copyWith(
-        body:
-            DateTime.parse((response.body as String).replaceAll('"', ''))
-                as ResultType,
+        body: DateTime.parse(
+          (response.body as String).replaceAll('"', ''),
+        ) as ResultType,
       );
     }
 

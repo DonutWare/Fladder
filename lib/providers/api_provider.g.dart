@@ -6,20 +6,56 @@ part of 'api_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$jellyApiHash() => r'9bc824d28d17f88f40c768cefb637144e0fbf346';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [JellyApi].
 @ProviderFor(JellyApi)
-final jellyApiProvider =
-    NotifierProvider<JellyApi, JellyService>.internal(
-  JellyApi.new,
-  name: r'jellyApiProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$jellyApiHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final jellyApiProvider = JellyApiProvider._();
 
-typedef _$JellyApi = Notifier<JellyService>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class JellyApiProvider extends $NotifierProvider<JellyApi, JellyService> {
+  JellyApiProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'jellyApiProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$jellyApiHash();
+
+  @$internal
+  @override
+  JellyApi create() => JellyApi();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(JellyService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<JellyService>(value),
+    );
+  }
+}
+
+String _$jellyApiHash() => r'29bdab968791c8f9311cb07aa7a315e746068b6c';
+
+abstract class _$JellyApi extends $Notifier<JellyService> {
+  JellyService build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<JellyService, JellyService>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<JellyService, JellyService>,
+              JellyService,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

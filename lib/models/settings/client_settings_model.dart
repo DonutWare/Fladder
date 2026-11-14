@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -82,7 +82,7 @@ enum BackgroundType {
 abstract class ClientSettingsModel with _$ClientSettingsModel {
   const ClientSettingsModel._();
 
-  factory ClientSettingsModel.internal({
+  factory ClientSettingsModel({
     String? syncPath,
     required TranscodeDownloadModel transcodeDownloadModel,
     @Default(TranscodeMusicDownloadModel()) TranscodeMusicDownloadModel transcodeMusicDownloadModel,
@@ -123,7 +123,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
 
   static ClientSettingsModel defaultModel() {
     final lightweightDefaults = leanBackMode || lowResourceDevice;
-    return ClientSettingsModel.internal(
+    return ClientSettingsModel(
       transcodeDownloadModel: TranscodeDownloadModel.fromDefaults(),
       blurPlaceHolders: !lightweightDefaults,
       backgroundImage: lightweightDefaults ? BackgroundType.disabled : BackgroundType.blurred,

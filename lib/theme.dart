@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:chinese_font_library/chinese_font_library.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -219,20 +219,21 @@ class FladderTheme {
     required ThemeData darkTheme,
   }) {
     return lightTheme.copyWith(
-      textTheme: lightTheme.textTheme.useSystemChineseFont(Brightness.light),
-      primaryTextTheme: lightTheme.primaryTextTheme.useSystemChineseFont(
-        Brightness.light,
-      ),
+      textTheme: _chineseFont(lightTheme.textTheme, Brightness.light),
+      primaryTextTheme: _chineseFont(lightTheme.primaryTextTheme, Brightness.light),
     );
   }
 
   /// Apply Chinese system font to a dark theme (for Windows, macOS, Android, iOS)
   static ThemeData applyChineseFontToDarkTheme({required ThemeData darkTheme}) {
     return darkTheme.copyWith(
-      textTheme: darkTheme.textTheme.useSystemChineseFont(Brightness.dark),
-      primaryTextTheme: darkTheme.primaryTextTheme.useSystemChineseFont(
-        Brightness.dark,
-      ),
+      textTheme: _chineseFont(darkTheme.textTheme, Brightness.dark),
+      primaryTextTheme: _chineseFont(darkTheme.primaryTextTheme, Brightness.dark),
     );
+  }
+
+  static TextTheme _chineseFont(TextTheme textTheme, Brightness brightness) {
+    final base = brightness == Brightness.dark ? Typography.material2021().white : Typography.material2021().black;
+    return base.apply(fontFamilyFallback: SystemChineseFont.fontFamilyFallback).merge(textTheme);
   }
 }

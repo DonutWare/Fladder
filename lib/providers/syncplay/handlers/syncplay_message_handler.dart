@@ -4,7 +4,7 @@ import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// [reason] is the server's `PlayQueueUpdateReason` wire value (`NewPlaylist`, `NextItem`, ...).
 typedef StartPlaybackCallback = Future<void> Function(String itemId, int startPositionTicks, String? reason);

@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' hide ConnectionState;
+import 'package:material_ui/material_ui.dart' hide ConnectionState;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
+import 'package:fladder/util/native_window.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 import 'package:fladder/widgets/shared/status_banners.dart';
 
@@ -19,20 +20,8 @@ class DefaultTitleBar extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _DefaultTitleBarState();
 }
 
-class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowListener {
+class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> {
   bool hovering = false;
-
-  @override
-  void initState() {
-    windowManager.addListener(this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    windowManager.removeListener(this);
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,11 +95,8 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                             ]),
                             child: Row(
                               children: [
-                                FutureBuilder<List<bool>>(future: Future.microtask(() async {
-                                  final isMinimized = await windowManager.isMinimized();
-                                  return [isMinimized];
-                                }), builder: (context, snapshot) {
-                                  final isMinimized = snapshot.data?.firstOrNull ?? false;
+                                Builder(builder: (context) {
+                                  final isMinimized = currentWindow?.isMinimized ?? false;
                                   return IconButton(
                                     style: IconButton.styleFrom(
                                         hoverColor: brightness == Brightness.light
@@ -120,9 +106,9 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                                     onPressed: () async {
                                       fullScreenHelper.closeFullScreen(ref);
                                       if (isMinimized) {
-                                        windowManager.restore();
+                                        currentWindow?.restore();
                                       } else {
-                                        windowManager.minimize();
+                                        currentWindow?.minimize();
                                       }
                                     },
                                     icon: Transform.translate(
@@ -135,13 +121,9 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                                     ),
                                   );
                                 }),
-                                FutureBuilder<List<bool>>(
-                                  future: Future.microtask(() async {
-                                    final isMaximized = await windowManager.isMaximized();
-                                    return [isMaximized];
-                                  }),
-                                  builder: (BuildContext context, AsyncSnapshot<List<bool>> snapshot) {
-                                    final maximized = snapshot.data?.firstOrNull ?? false;
+                                Builder(
+                                  builder: (BuildContext context) {
+                                    final maximized = currentWindow?.isMaximized ?? false;
                                     return IconButton(
                                       style: IconButton.styleFrom(
                                         hoverColor: brightness == Brightness.light
@@ -152,13 +134,9 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                                       onPressed: () async {
                                         fullScreenHelper.closeFullScreen(ref);
                                         if (maximized) {
-                                          await windowManager.unmaximize();
-                                          return;
-                                        }
-                                        if (!maximized) {
-                                          await windowManager.maximize();
+                                          currentWindow?.unmaximize();
                                         } else {
-                                          await windowManager.unmaximize();
+                                          currentWindow?.maximize();
                                         }
                                       },
                                       icon: Transform.translate(
@@ -180,7 +158,7 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowLi
                                     ),
                                   ),
                                   onPressed: () async {
-                                    windowManager.close();
+                                    currentWindow?.close();
                                   },
                                   icon: Transform.translate(
                                     offset: const Offset(0, -2),

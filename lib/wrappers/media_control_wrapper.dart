@@ -2,8 +2,15 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+import 'package:material_ui/material_ui.dart';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smtc_windows/smtc_windows.dart' if (dart.library.js_interop) 'package:fladder/stubs/web/smtc_web.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
+
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
@@ -28,16 +35,11 @@ import 'package:fladder/src/video_player_helper.g.dart' hide PlaybackState;
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
-    if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
+    if (dart.library.js_interop) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/multi_window_media_session.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
 import 'package:fladder/wrappers/players/native_player.dart';
 import 'package:fladder/wrappers/players/player_states.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
-import 'package:wakelock_plus/wakelock_plus.dart';
 
 part 'audio_queue_handler.dart';
 
@@ -693,10 +695,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
 
   /// The native activity was closed by the user: halt group playback on this device before teardown.
   @override
-  void onStop() => ref.read(videoPlayerProvider.notifier).userStop();
+  Future<void> onStop() async => ref.read(videoPlayerProvider.notifier).userStop();
 
   @override
-  void swapAudioTrack(int value) async {
+  Future<void> swapAudioTrack(int value) async {
     final playbackModel = ref.read(playBackModel);
     final newModel = await playbackModel?.setAudio(
         playbackModel.audioStreams?.firstWhere((element) => element.index == value), this);
@@ -710,7 +712,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   @override
-  void swapSubtitleTrack(int value) async {
+  Future<void> swapSubtitleTrack(int value) async {
     final playbackModel = ref.read(playBackModel);
     final newModel = await playbackModel?.setSubtitle(
         playbackModel.subStreams?.firstWhere((element) => element.index == value), this);

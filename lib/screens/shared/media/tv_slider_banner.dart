@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -326,7 +326,7 @@ class _BannerInfoOverlay extends StatelessWidget {
                     productionYear: episode.overview.productionYear?.toString(),
                     communityRating: episode.overview.communityRating,
                     runTime: episode.overview.runTime,
-                    additionalLabels: [if (labelWidget != null) labelWidget],
+                    additionalLabels: [?labelWidget],
                   ),
                 ],
               ),
@@ -347,7 +347,7 @@ class _BannerInfoOverlay extends StatelessWidget {
                 productionYear: poster.overview.productionYear?.toString(),
                 communityRating: poster.overview.communityRating,
                 runTime: poster.overview.runTime,
-                additionalLabels: [if (labelWidget != null) labelWidget],
+                additionalLabels: [?labelWidget],
               ),
               Genres(
                 genres: poster.overview.genreItems.take(6).toList(),

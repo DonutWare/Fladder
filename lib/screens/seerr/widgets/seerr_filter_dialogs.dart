@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/providers/seerr_api_provider.dart';
@@ -421,7 +422,7 @@ Future<void> openStudioDialog(
   );
 }
 
-class _StudioSearchDialog extends StatefulWidget {
+class _StudioSearchDialog extends ConsumerStatefulWidget {
   final SeerrSearch notifier;
   final BuildContext parentContext;
   final SeerrCompany? selectedStudio;
@@ -433,10 +434,10 @@ class _StudioSearchDialog extends StatefulWidget {
   });
 
   @override
-  State<_StudioSearchDialog> createState() => _StudioSearchDialogState();
+  ConsumerState<_StudioSearchDialog> createState() => _StudioSearchDialogState();
 }
 
-class _StudioSearchDialogState extends State<_StudioSearchDialog> {
+class _StudioSearchDialogState extends ConsumerState<_StudioSearchDialog> {
   late final TextEditingController _searchController = TextEditingController(text: widget.selectedStudio?.name ?? '');
   final Debouncer _debouncer = Debouncer(const Duration(milliseconds: 500));
   List<SeerrCompany> _searchResults = [];
@@ -465,7 +466,7 @@ class _StudioSearchDialogState extends State<_StudioSearchDialog> {
 
     setState(() => _isSearching = true);
     try {
-      final api = widget.notifier.ref.read(seerrApiProvider);
+      final api = ref.read(seerrApiProvider);
       final response = await api.searchCompany(query: query);
       setState(() {
         _searchResults = response.body?.results ?? [];

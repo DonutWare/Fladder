@@ -48,12 +48,12 @@ sudo apt install libmpv-dev
 Generate build files (e.g., for `json_serializable`, `freezed`, etc.):
 
 ```bash
-flutter pub run build_runner build
+dart run build_runner build
 ```
 
 > Tip: Use `watch` for continuous builds during development:
 ```bash
-flutter pub run build_runner watch
+dart run build_runner watch
 ```
 Update localization definitions:
 ```bash

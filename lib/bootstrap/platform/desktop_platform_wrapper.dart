@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:macos_window_utils/window_manipulator.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
+import 'package:smtc_windows/smtc_windows.dart' if (dart.library.js_interop) 'package:fladder/stubs/web/smtc_web.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/bootstrap/platform/base_app_wrapper.dart';
@@ -15,6 +15,7 @@ import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/src/application_menu.g.dart';
 import 'package:fladder/util/macos_window_helpers.dart';
+import 'package:fladder/util/native_window.dart';
 import 'package:fladder/util/protocol_registration.dart';
 import 'package:fladder/util/window_helper.dart';
 import 'package:fladder/wrappers/multi_window_media_session.dart';
@@ -26,15 +27,19 @@ class DesktopAppWrapper extends BaseAppWrapper {
   ConsumerState<DesktopAppWrapper> createState() => _DesktopAppWrapperState();
 }
 
-class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> with WindowListener {
+class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> {
+  ListenerId? _windowListener;
+
   @override
   bool get enableAppLinks => !ref.read(argumentsStateProvider).newWindow;
 
   @override
   Future<void> onAppLinkReceived() async {
-    if (await windowManager.isMinimized()) await windowManager.restore();
-    await windowManager.show();
-    await windowManager.focus();
+    final window = currentWindow;
+    if (window == null) return;
+    if (window.isMinimized) window.restore();
+    window.show();
+    window.focus();
   }
 
   @override
@@ -51,72 +56,42 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
 
     await MultiWindowMediaSession.instance.init(isHub: !ref.read(argumentsStateProvider).newWindow);
 
-    await WindowManager.instance.ensureInitialized();
-    windowManager.addListener(this);
+    _windowListener = currentWindow?.addListener(_onWindowEvent);
 
     final packageInfo = await PackageInfo.fromPlatform();
     final clientSettings = ref.read(clientSettingsProvider);
     final startupArguments = ref.read(argumentsStateProvider);
-    await windowManager.setupFladderWindowChrome(
+    setupFladderWindowChrome(
       startupArguments,
       clientSettings,
       packageInfo,
     );
-    await toggleMacTrafficLights(await windowManager.isFullScreen());
+    await toggleMacTrafficLights(currentWindow?.isFullScreen ?? false);
   }
 
   @override
   void dispose() {
-    windowManager.removeListener(this);
+    if (_windowListener != null) currentWindow?.removeListener(_windowListener!);
     super.dispose();
   }
 
-  @override
-  void onWindowClose() {
-    ref.read(videoPlayerProvider).stop();
-    ref.read(clientSettingsProvider.notifier).closeDirectory();
-    super.onWindowClose();
-  }
-
-  @override
-  void onWindowResize() async {
-    final size = await windowManager.getSize();
-    ref.read(clientSettingsProvider.notifier).setWindowSize(size);
-    super.onWindowResize();
-  }
-
-  @override
-  void onWindowResized() async {
-    final size = await windowManager.getSize();
-    ref.read(clientSettingsProvider.notifier).setWindowSize(size);
-    super.onWindowResized();
-  }
-
-  @override
-  void onWindowMove() async {
-    final position = await windowManager.getPosition();
-    ref.read(clientSettingsProvider.notifier).setWindowPosition(position);
-    super.onWindowMove();
-  }
-
-  @override
-  void onWindowMoved() async {
-    final position = await windowManager.getPosition();
-    ref.read(clientSettingsProvider.notifier).setWindowPosition(position);
-    super.onWindowMoved();
-  }
-
-  @override
-  void onWindowEnterFullScreen() {
-    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: true));
-    unawaited(toggleMacTrafficLights(true));
-    super.onWindowEnterFullScreen();
-  }
-
-  @override
-  void onWindowLeaveFullScreen() {
-    unawaited(toggleMacTrafficLights(false));
-    ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: false));
-    super.onWindowLeaveFullScreen();
+  void _onWindowEvent(WindowEvent event) {
+    switch (event) {
+      case WindowCloseRequestedEvent():
+        ref.read(videoPlayerProvider).stop();
+        ref.read(clientSettingsProvider.notifier).closeDirectory();
+      case WindowResizedEvent(:final newSize):
+        ref.read(clientSettingsProvider.notifier).setWindowSize(newSize.toSize());
+      case WindowMovedEvent(:final newPosition):
+        ref.read(clientSettingsProvider.notifier).setWindowPosition(newPosition.toOffset());
+      case WindowEnteredFullScreenEvent():
+        ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: true));
+        unawaited(toggleMacTrafficLights(true));
+      case WindowExitedFullScreenEvent():
+        unawaited(toggleMacTrafficLights(false));
+        ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(fullScreen: false));
+      default:
+        break;
+    }
   }
 }

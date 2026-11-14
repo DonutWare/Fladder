@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_helper_desktop.dart'
-    if (dart.library.html) 'package:fladder/widgets/full_screen_helpers/full_screen_helper_web.dart';
+    if (dart.library.js_interop) 'package:fladder/widgets/full_screen_helpers/full_screen_helper_web.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 final FullScreenHelper fullScreenHelper = FullScreenHelper.instantiate();

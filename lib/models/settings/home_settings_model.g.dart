@@ -6,26 +6,49 @@ part of 'home_settings_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_HomeSettingsModel _$HomeSettingsModelFromJson(Map<String, dynamic> json) => _HomeSettingsModel(
+_HomeSettingsModel _$HomeSettingsModelFromJson(Map<String, dynamic> json) =>
+    _HomeSettingsModel(
       screenLayouts:
-          (json['screenLayouts'] as List<dynamic>?)?.map((e) => $enumDecode(_$LayoutModeEnumMap, e)).toSet() ??
-              const {...LayoutMode.values},
-      layoutStates: (json['layoutStates'] as List<dynamic>?)?.map((e) => $enumDecode(_$ViewSizeEnumMap, e)).toSet() ??
+          (json['screenLayouts'] as List<dynamic>?)
+              ?.map((e) => $enumDecode(_$LayoutModeEnumMap, e))
+              .toSet() ??
+          const {...LayoutMode.values},
+      layoutStates:
+          (json['layoutStates'] as List<dynamic>?)
+              ?.map((e) => $enumDecode(_$ViewSizeEnumMap, e))
+              .toSet() ??
           const {...ViewSize.values},
-      homeBanner: $enumDecodeNullable(_$HomeBannerEnumMap, json['homeBanner']) ?? HomeBanner.carousel,
+      homeBanner:
+          $enumDecodeNullable(_$HomeBannerEnumMap, json['homeBanner']) ??
+          HomeBanner.carousel,
       carouselSettings:
-          $enumDecodeNullable(_$HomeCarouselSettingsEnumMap, json['carouselSettings']) ?? HomeCarouselSettings.combined,
-      nextUp: $enumDecodeNullable(_$HomeNextUpEnumMap, json['nextUp'], unknownValue: HomeNextUp.separate) ??
+          $enumDecodeNullable(
+            _$HomeCarouselSettingsEnumMap,
+            json['carouselSettings'],
+          ) ??
+          HomeCarouselSettings.combined,
+      nextUp:
+          $enumDecodeNullable(
+            _$HomeNextUpEnumMap,
+            json['nextUp'],
+            unknownValue: HomeNextUp.separate,
+          ) ??
           HomeNextUp.separate,
     );
 
-Map<String, dynamic> _$HomeSettingsModelToJson(_HomeSettingsModel instance) => <String, dynamic>{
-      'screenLayouts': instance.screenLayouts.map((e) => _$LayoutModeEnumMap[e]!).toList(),
-      'layoutStates': instance.layoutStates.map((e) => _$ViewSizeEnumMap[e]!).toList(),
-      'homeBanner': _$HomeBannerEnumMap[instance.homeBanner]!,
-      'carouselSettings': _$HomeCarouselSettingsEnumMap[instance.carouselSettings]!,
-      'nextUp': _$HomeNextUpEnumMap[instance.nextUp]!,
-    };
+Map<String, dynamic> _$HomeSettingsModelToJson(
+  _HomeSettingsModel instance,
+) => <String, dynamic>{
+  'screenLayouts': instance.screenLayouts
+      .map((e) => _$LayoutModeEnumMap[e]!)
+      .toList(),
+  'layoutStates': instance.layoutStates
+      .map((e) => _$ViewSizeEnumMap[e]!)
+      .toList(),
+  'homeBanner': _$HomeBannerEnumMap[instance.homeBanner]!,
+  'carouselSettings': _$HomeCarouselSettingsEnumMap[instance.carouselSettings]!,
+  'nextUp': _$HomeNextUpEnumMap[instance.nextUp]!,
+};
 
 const _$LayoutModeEnumMap = {
   LayoutMode.single: 'single',

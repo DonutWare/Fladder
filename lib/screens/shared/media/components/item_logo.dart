@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/util/fladder_image.dart';

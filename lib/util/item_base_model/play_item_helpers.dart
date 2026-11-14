@@ -1,9 +1,17 @@
 import 'dart:developer';
 import 'dart:math' show Random, min;
 
+import 'package:flutter/foundation.dart';
+import 'package:material_ui/material_ui.dart';
+
 import 'package:async/async.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:square_progress_indicator/square_progress_indicator.dart';
+
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/book_model.dart';
 import 'package:fladder/models/item_base_model.dart';
@@ -35,11 +43,6 @@ import 'package:fladder/util/list_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:square_progress_indicator/square_progress_indicator.dart';
 
 import 'package:fladder/models/syncplay/syncplay_models.dart';
 
@@ -50,7 +53,7 @@ extension BookBaseModelExtension on BookModel? {
     BuildContext context,
     WidgetRef ref, {
     int? currentPage,
-    AutoDisposeStateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel>? provider,
+    StateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel>? provider,
     BuildContext? parentContext,
   }) async {
     if (kIsWeb) {
@@ -85,7 +88,7 @@ extension PhotoAlbumExtension on PhotoAlbumModel? {
     BuildContext context,
     WidgetRef ref, {
     int? currentPage,
-    AutoDisposeStateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel>? provider,
+    StateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel>? provider,
     BuildContext? parentContext,
   }) async {
     final albumModel = this;
@@ -142,7 +145,7 @@ extension ChannelModelExtension on ChannelModel? {
     BuildContext context,
     WidgetRef ref, {
     int? currentPage,
-    AutoDisposeStateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel>? provider,
+    StateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel>? provider,
     BuildContext? parentContext,
   }) async {
     if (this == null) return;

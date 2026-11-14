@@ -1,47 +1,21 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_keyboard_visibility (0.0.1):
-    - Flutter
-  - fvp (0.35.2):
-    - Flutter
-    - FlutterMacOS
-    - mdk (~> 0.35.1)
-  - mdk (0.35.1)
   - pip (0.0.1):
-    - Flutter
-  - workmanager_apple (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
-  - fvp (from `.symlinks/plugins/fvp/darwin`)
   - pip (from `.symlinks/plugins/pip/ios`)
-  - workmanager_apple (from `.symlinks/plugins/workmanager_apple/ios`)
-
-SPEC REPOS:
-  trunk:
-    - mdk
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_keyboard_visibility:
-    :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
-  fvp:
-    :path: ".symlinks/plugins/fvp/darwin"
   pip:
     :path: ".symlinks/plugins/pip/ios"
-  workmanager_apple:
-    :path: ".symlinks/plugins/workmanager_apple/ios"
 
 SPEC CHECKSUMS:
   Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
-  flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
-  fvp: 56f8d6682e0282ded5b0f9c485ab8d50123400b8
-  mdk: 59bbe9e2ac2a052455ab1b076c245680d66cf6c0
   pip: 5101b81f04fb1b418bcdf6f15cb5cd0d08092cd7
-  workmanager_apple: 7bac258335c310689a641e2d66e88d4845d372e9
 
 PODFILE CHECKSUM: 7d1321873e418e836277c3b4fc359cb548a76f92
 

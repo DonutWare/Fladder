@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:screen_retriever/screen_retriever.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/providers/arguments_provider.dart';
+import 'package:fladder/util/native_window.dart';
 
 class ResolutionChecker extends ConsumerStatefulWidget {
   final Widget child;
@@ -25,7 +25,7 @@ class _ResolutionCheckerState extends ConsumerState<ResolutionChecker> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((value) async {
       if (ref.read(argumentsStateProvider).htpcMode) {
-        lastResolution = (await screenRetriever.getPrimaryDisplay()).size;
+        lastResolution = DisplayManager.instance.getPrimary()?.size.toSize();
         _timer = Timer.periodic(const Duration(seconds: 2), (timer) => checkResolution());
       }
     });
@@ -33,7 +33,7 @@ class _ResolutionCheckerState extends ConsumerState<ResolutionChecker> {
 
   Future<void> checkResolution() async {
     if (!mounted) return;
-    final newResolution = (await screenRetriever.getPrimaryDisplay()).size;
+    final newResolution = DisplayManager.instance.getPrimary()?.size.toSize();
     if (lastResolution != newResolution) {
       lastResolution = newResolution;
       shouldSetResolution();
@@ -42,11 +42,12 @@ class _ResolutionCheckerState extends ConsumerState<ResolutionChecker> {
 
   Future<void> shouldSetResolution() async {
     if (lastResolution != null) {
-      final isFullScreen = await windowManager.isFullScreen();
-      if (isFullScreen) {
-        await windowManager.setFullScreen(false);
+      final window = currentWindow;
+      if (window == null) return;
+      if (window.isFullScreen) {
+        window.isFullScreen = false;
       }
-      await windowManager.setFullScreen(true);
+      window.isFullScreen = true;
     }
   }
 

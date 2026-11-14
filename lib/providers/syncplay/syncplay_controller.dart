@@ -17,7 +17,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -403,7 +403,7 @@ class SyncPlayController {
     }
 
     final timeSync = TimeSyncService(_api);
-    timeSync.onMeasurement = (_, __) {
+    timeSync.onMeasurement = (_, _) {
       // The server sizes the group's unpause delay from our ping; also release a clock-gated command.
       unawaited(reportPing());
       _commandHandler.flushQueuedCommand();

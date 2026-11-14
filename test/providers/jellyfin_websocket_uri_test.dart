@@ -3,7 +3,7 @@ import 'package:fladder/providers/jellyfin_websocket_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final credentials = CredentialsModel.internal(token: 'tok-123', deviceId: 'dev-abc');
+  final credentials = CredentialsModel(token: 'tok-123', deviceId: 'dev-abc');
 
   group('jellyfinWebSocketUri', () {
     test('carries the token as ApiKey', () {

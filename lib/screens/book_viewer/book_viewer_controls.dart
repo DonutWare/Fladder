@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import 'package:extended_image/extended_image.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -33,7 +34,7 @@ class BookViewController {
 }
 
 class BookViewerControls extends ConsumerStatefulWidget {
-  final AutoDisposeStateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel> provider;
+  final StateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel> provider;
   final BookViewController viewController;
 
   final ExtendedPageController controller;

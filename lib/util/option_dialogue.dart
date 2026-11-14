@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 Future<List<T>> openMultiSelectOptions<T>(
   BuildContext context, {

@@ -47,6 +47,7 @@ class SeerrDetails extends _$SeerrDetails {
       tmdbId: currentTmdbId,
       mediaType: currentMediaType,
     );
+    if (!ref.mounted) return;
 
     poster = refreshedPoster ?? poster;
     if (poster == null) return;
@@ -54,9 +55,11 @@ class SeerrDetails extends _$SeerrDetails {
     state = state.copyWith(poster: poster);
 
     final currentUserBody = await ref.read(seerrUserProvider.notifier).refreshUser();
+    if (!ref.mounted) return;
     final isTv = currentMediaType == SeerrMediaType.tvshow;
     if (isTv) {
       final tvDetailsResponse = await api.tvDetails(tvId: poster.tmdbId);
+      if (!ref.mounted) return;
       if (tvDetailsResponse.isSuccessful && tvDetailsResponse.body != null) {
         final details = tvDetailsResponse.body!;
 
@@ -66,6 +69,7 @@ class SeerrDetails extends _$SeerrDetails {
         final contentRating = SeerrHelpers.extractContentRating(details.contentRatings, userRegion);
 
         final ratings = await api.tvRatings(poster.tmdbId);
+        if (!ref.mounted) return;
 
         final updatedPoster = poster.copyWith(
           seasons: details.seasons,
@@ -90,6 +94,7 @@ class SeerrDetails extends _$SeerrDetails {
       }
     } else {
       final movieDetailsResponse = await api.movieDetails(tmdbId: poster.tmdbId);
+      if (!ref.mounted) return;
       if (movieDetailsResponse.isSuccessful && movieDetailsResponse.body != null) {
         final details = movieDetailsResponse.body!;
         final userRegion = currentUserBody?.settings?.discoverRegion ?? 'US';
@@ -100,6 +105,7 @@ class SeerrDetails extends _$SeerrDetails {
         );
 
         final ratings = await api.movieRatings(poster.tmdbId);
+        if (!ref.mounted) return;
 
         state = state.copyWith(
           poster: updatedPoster,
@@ -118,10 +124,12 @@ class SeerrDetails extends _$SeerrDetails {
     if (currentMediaType == SeerrMediaType.movie) {
       final recommended = await api.discoverRecommendedMovies(tmdbId: poster.tmdbId);
       final related = await api.discoverRelatedMovies(tmdbId: poster.tmdbId);
+      if (!ref.mounted) return;
       state = state.copyWith(recommended: recommended, similar: related);
     } else {
       final recommended = await api.discoverRecommendedSeries(tmdbId: poster.tmdbId);
       final related = await api.discoverRelatedSeries(tmdbId: poster.tmdbId);
+      if (!ref.mounted) return;
       state = state.copyWith(recommended: recommended, similar: related);
     }
 
@@ -224,6 +232,7 @@ class SeerrDetails extends _$SeerrDetails {
       tvId: poster.tmdbId,
       seasonNumber: seasonNumber,
     );
+    if (!ref.mounted) return;
 
     if (response.isSuccessful && response.body != null) {
       final episodes = response.body!.episodes ?? [];
@@ -235,6 +244,7 @@ class SeerrDetails extends _$SeerrDetails {
 
   Future<void> approveRequest(int requestId) async {
     final response = await api.approveRequest(requestId: requestId);
+    if (!ref.mounted) return;
     if (response.isSuccessful) {
       await fetch();
     }
@@ -242,6 +252,7 @@ class SeerrDetails extends _$SeerrDetails {
 
   Future<void> declineRequest(int requestId) async {
     final response = await api.deleteRequest(requestId: requestId);
+    if (!ref.mounted) return;
     if (response.isSuccessful) {
       await fetch();
     }

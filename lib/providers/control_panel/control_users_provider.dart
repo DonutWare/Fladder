@@ -22,6 +22,7 @@ class ControlUsers extends _$ControlUsers {
 
   Future<void> fetchUsers() async {
     final users = (await api.getAllUsers()).body ?? [];
+    if (!ref.mounted) return;
     state = state.copyWith(users: users);
   }
 
@@ -45,11 +46,15 @@ class ControlUsers extends _$ControlUsers {
   Future<void> fetchSpecificUser(String? userId) async {
     if (userId == null) return;
     final user = (await api.getAllUsers()).body;
+    if (!ref.mounted) return;
     if (user != null) {
       final selectedUser = user.firstWhereOrNull((element) => element.id == userId);
       final devices = await api.getAllDevices();
+      if (!ref.mounted) return;
       final parentalRatings = await api.getParentalRatings();
+      if (!ref.mounted) return;
       final virtualFolders = (await api.libraryVirtualFoldersGet()).body ?? [];
+      if (!ref.mounted) return;
       final libraries = virtualFolders
           .map((e) => ViewModel.fromVirtualFolder(
                 e,
@@ -68,6 +73,7 @@ class ControlUsers extends _$ControlUsers {
 
   Future<void> deleteUser(String userId) async {
     await api.deleteUser(userId);
+    if (!ref.mounted) return;
     await fetchUsers();
   }
 

@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
 import 'package:fladder/models/account_model.dart';
@@ -42,7 +43,7 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
 
   Future<void> initModel() async {
     ref.read(userProvider.notifier).clear();
-    final currentAccounts = ref.read(authProvider.notifier).getSavedAccounts();
+    final currentAccounts = getSavedAccounts();
     ref.read(lockScreenActiveProvider.notifier).update((state) => true);
     if (FladderConfig.baseUrl != null) {
       final url = FladderConfig.baseUrl;
@@ -57,6 +58,10 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
       accounts: currentAccounts,
       screen: currentAccounts.isEmpty ? LoginScreenType.login : LoginScreenType.users,
     );
+    final message = localContext?.localized.unreadableAccountsLogInAgain;
+    if (message != null && ref.read(sharedUtilityProvider).hasUnreadableAccounts) {
+      FladderSnack.show(message, duration: const Duration(seconds: 8));
+    }
   }
 
   Future<void> _fetchServerInfo(String url) async {
@@ -144,16 +149,26 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
         serverName: serverResponse.body?.serverName ?? "",
       );
       var imageUrl = ref.read(imageUtilityProvider).getUserImageUrl(response.body?.user?.id ?? "");
-      AccountModel newUser = AccountModel(
+      final loggedIn = AccountModel(
         name: response.body?.user?.name ?? "",
         id: response.body?.user?.id ?? "",
         avatar: imageUrl,
         credentials: credentials,
         lastUsed: DateTime.now(),
       );
+      final existing = ref.read(sharedUtilityProvider).getAccounts().where(loggedIn.sameIdentity).firstOrNull;
+      final newUser = existing?.copyWith(
+            name: loggedIn.name,
+            avatar: loggedIn.avatar,
+            credentials: credentials.copyWith(localUrl: credentials.localUrl ?? existing.credentials.localUrl),
+            lastUsed: loggedIn.lastUsed,
+            authMethod: Authentication.autoLogin,
+            localPin: "",
+          ) ??
+          loggedIn;
       ref.read(sharedUtilityProvider).addAccount(newUser);
       ref.read(userProvider.notifier).userState = newUser;
-      final currentAccounts = ref.read(authProvider.notifier).getSavedAccounts();
+      final currentAccounts = getSavedAccounts();
 
       state = state.copyWith(
         accounts: currentAccounts,
@@ -181,13 +196,14 @@ class AuthNotifier extends StateNotifier<LoginScreenModel> {
   Future<void> switchUser() async => clearAllProviders();
 
   void clearAllProviders() {
-    ref.read(dashboardProvider.notifier).clear();
-    ref.read(viewsProvider.notifier).clear();
-    ref.read(favouritesProvider.notifier).clear();
-    ref.read(userProvider.notifier).clear();
-    ref.read(libraryScreenProvider.notifier).clear();
-    ref.read(seerrDashboardProvider.notifier).clear();
-    ref.read(musicDashboardProvider.notifier).clear();
+    final container = ref.container;
+    container.read(dashboardProvider.notifier).clear();
+    container.read(viewsProvider.notifier).clear();
+    container.read(favouritesProvider.notifier).clear();
+    container.read(userProvider.notifier).clear();
+    container.read(libraryScreenProvider.notifier).clear();
+    container.read(seerrDashboardProvider.notifier).clear();
+    container.read(musicDashboardProvider.notifier).clear();
   }
 
   Future<void> setServer(String server) async {
