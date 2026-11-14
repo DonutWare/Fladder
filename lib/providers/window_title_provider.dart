@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/providers/dashboard_mode_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
-import 'package:fladder/util/native_window.dart';
+import 'package:window_manager/window_manager.dart';
 
 /// Manages the context-aware window title.
 final windowTitleProvider = StateNotifierProvider<WindowTitleNotifier, String>((ref) {
@@ -75,7 +75,7 @@ class WindowTitleNotifier extends StateNotifier<String> {
     });
 
     if (!kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows)) {
-      currentWindow?.title = newState;
+      windowManager.setTitle(newState);
     }
   }
 }

@@ -15,7 +15,6 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/input_handler.dart';
 import 'package:fladder/util/list_padding.dart';
-import 'package:fladder/util/native_window.dart';
 import 'package:fladder/util/throttler.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 import 'package:fladder/widgets/shared/elevated_icon.dart';
@@ -55,8 +54,7 @@ class PhotoViewerControls extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _PhotoViewerControllsState();
 }
 
-class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> {
-  ListenerId? _windowListener;
+class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> with WindowListener {
   final Throttler throttler = Throttler(duration: const Duration(milliseconds: 130));
 
   final controller = TextEditingController();
@@ -67,9 +65,7 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> {
   @override
   void initState() {
     super.initState();
-    _windowListener = currentWindow?.addListener((event) {
-      if (event is WindowMinimizedEvent) timerController.cancel();
-    });
+    windowManager.addListener(this);
   }
 
   @override
@@ -79,12 +75,18 @@ class _PhotoViewerControllsState extends ConsumerState<PhotoViewerControls> {
   }
 
   @override
+  void onWindowMinimize() {
+    timerController.cancel();
+    super.onWindowMinimize();
+  }
+
+  @override
   void dispose() {
     timerController.dispose();
     if (context.mounted) {
       fullScreenHelper.closeFullScreen(ref);
     }
-    if (_windowListener != null) currentWindow?.removeListener(_windowListener!);
+    windowManager.removeListener(this);
     super.dispose();
   }
 

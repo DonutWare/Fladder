@@ -6,7 +6,6 @@ import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/providers/arguments_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
-import 'package:fladder/util/native_window.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
 import 'package:fladder/widgets/shared/status_banners.dart';
 
@@ -20,8 +19,20 @@ class DefaultTitleBar extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _DefaultTitleBarState();
 }
 
-class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> {
+class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> with WindowListener {
   bool hovering = false;
+
+  @override
+  void initState() {
+    windowManager.addListener(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    windowManager.removeListener(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,8 +106,11 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> {
                             ]),
                             child: Row(
                               children: [
-                                Builder(builder: (context) {
-                                  final isMinimized = currentWindow?.isMinimized ?? false;
+                                FutureBuilder<List<bool>>(future: Future.microtask(() async {
+                                  final isMinimized = await windowManager.isMinimized();
+                                  return [isMinimized];
+                                }), builder: (context, snapshot) {
+                                  final isMinimized = snapshot.data?.firstOrNull ?? false;
                                   return IconButton(
                                     style: IconButton.styleFrom(
                                         hoverColor: brightness == Brightness.light
@@ -106,9 +120,9 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> {
                                     onPressed: () async {
                                       fullScreenHelper.closeFullScreen(ref);
                                       if (isMinimized) {
-                                        currentWindow?.restore();
+                                        windowManager.restore();
                                       } else {
-                                        currentWindow?.minimize();
+                                        windowManager.minimize();
                                       }
                                     },
                                     icon: Transform.translate(
@@ -121,9 +135,13 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> {
                                     ),
                                   );
                                 }),
-                                Builder(
-                                  builder: (BuildContext context) {
-                                    final maximized = currentWindow?.isMaximized ?? false;
+                                FutureBuilder<List<bool>>(
+                                  future: Future.microtask(() async {
+                                    final isMaximized = await windowManager.isMaximized();
+                                    return [isMaximized];
+                                  }),
+                                  builder: (BuildContext context, AsyncSnapshot<List<bool>> snapshot) {
+                                    final maximized = snapshot.data?.firstOrNull ?? false;
                                     return IconButton(
                                       style: IconButton.styleFrom(
                                         hoverColor: brightness == Brightness.light
@@ -134,9 +152,13 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> {
                                       onPressed: () async {
                                         fullScreenHelper.closeFullScreen(ref);
                                         if (maximized) {
-                                          currentWindow?.unmaximize();
+                                          await windowManager.unmaximize();
+                                          return;
+                                        }
+                                        if (!maximized) {
+                                          await windowManager.maximize();
                                         } else {
-                                          currentWindow?.maximize();
+                                          await windowManager.unmaximize();
                                         }
                                       },
                                       icon: Transform.translate(
@@ -158,7 +180,7 @@ class _DefaultTitleBarState extends ConsumerState<DefaultTitleBar> {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    currentWindow?.close();
+                                    windowManager.close();
                                   },
                                   icon: Transform.translate(
                                     offset: const Offset(0, -2),

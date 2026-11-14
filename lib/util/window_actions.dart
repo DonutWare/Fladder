@@ -3,19 +3,20 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import 'package:desktop_multi_window/desktop_multi_window.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/screens/shared/default_alert_dialog.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/native_window.dart';
 
 Future<bool> closeCurrentWindow() async {
-  final window = currentWindow;
-  if (window == null || !window.isClosable) {
+  final manager = WindowManager.instance;
+
+  if (!await manager.isClosable()) {
     return false;
   }
 
-  window.close();
+  await manager.close();
   return true;
 }
 

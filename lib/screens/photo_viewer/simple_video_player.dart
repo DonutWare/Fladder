@@ -18,7 +18,6 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/fladder_image.dart';
-import 'package:fladder/util/native_window.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
@@ -35,8 +34,7 @@ class SimpleVideoPlayer extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _SimpleVideoPlayerState();
 }
 
-class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with WidgetsBindingObserver {
-  ListenerId? _windowListener;
+class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with WindowListener, WidgetsBindingObserver {
   late final BasePlayer player = switch (ref.read(videoPlayerSettingsProvider).wantedPlayer) {
     PlayerOptions.libMDK => LibMDK(),
     PlayerOptions.libMPV => LibMPV(),
@@ -73,9 +71,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Widg
   @override
   void initState() {
     super.initState();
-    _windowListener = currentWindow?.addListener((event) {
-      if (event is WindowMinimizedEvent && playing) player.pause();
-    });
+    windowManager.addListener(this);
     WidgetsBinding.instance.addObserver(this);
     playing = player.lastState.playing;
     position = player.lastState.position;
@@ -84,6 +80,12 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Widg
       await Future.delayed(const Duration(milliseconds: 500));
       if (mounted) _init();
     });
+  }
+
+  @override
+  void onWindowMinimize() {
+    if (playing) player.pause();
+    super.onWindowMinimize();
   }
 
   void _init() async {
@@ -130,7 +132,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Widg
       s.cancel();
     }
     WidgetsBinding.instance.removeObserver(this);
-    if (_windowListener != null) currentWindow?.removeListener(_windowListener!);
+    windowManager.removeListener(this);
     super.dispose();
   }
 

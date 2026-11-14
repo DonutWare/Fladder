@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/models/items/audio_model.dart';
 import 'package:fladder/models/media_playback_model.dart';
@@ -14,7 +15,6 @@ import 'package:fladder/screens/video_player/video_player.dart';
 import 'package:fladder/theme.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:fladder/util/native_window.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/music_player_bar_content.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/video_player_bar_content.dart';
@@ -55,9 +55,9 @@ class _CurrentlyPlayingBarState extends ConsumerState<FloatingPlayerBar> {
       ),
     );
     if (AdaptiveLayout.of(context).isDesktop || kIsWeb) {
-      final window = currentWindow;
-      if (window != null && window.isFullScreen) {
-        window.isFullScreen = false;
+      final fullScreen = await windowManager.isFullScreen();
+      if (fullScreen) {
+        await windowManager.setFullScreen(false);
       }
     }
     if (context.mounted) {

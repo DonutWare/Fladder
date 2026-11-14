@@ -116,10 +116,10 @@ dependencies:
   wakelock_plus: ">=1.8.0 <1.8.1" # 1.8.1+ needs dbus 0.8, blocked by audio_service_mpris
   screen_brightness: ^2.1.7
   volume_controller: ^3.7.1
-  window_manager: ^0.7.0
+  window_manager: ^0.5.1
   smtc_windows: ^1.1.0
   background_downloader: ^9.2.3
-  screen_retriever: ^0.4.0
+  screen_retriever: ^0.2.0
   desktop_multi_window: ^0.3.0
   workmanager: ^0.10.10
   flutter_local_notifications: ^23.0.2

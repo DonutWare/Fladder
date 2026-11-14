@@ -6,6 +6,7 @@ import macos_window_utils
 class MainFlutterWindow: NSWindow {
   override func awakeFromNib() {
     _ = BackBufferCacheSizeGuard.install
+    NSWindow.allowsAutomaticWindowTabbing = false
     let flutterViewController = FlutterViewController()
     let windowFrame = self.frame
     self.contentViewController = flutterViewController
