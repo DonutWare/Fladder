@@ -73,7 +73,7 @@ final jellyfinWebSocketProvider = StreamProvider<JellyfinWebSocketEvent>((ref) {
   final serverUrl = ref.watch(serverUrlProvider);
   final credentials = ref.watch(userProvider.select((account) => account?.credentials)) ??
       ref.watch(authProvider.select((state) => state.serverLoginModel?.tempCredentials));
-  final uri = _webSocketUri(serverUrl, credentials);
+  final uri = jellyfinWebSocketUri(serverUrl, credentials);
   if (uri == null || credentials == null) return const Stream.empty();
   final connected = ref.read(jellyfinWebSocketConnectedProvider.notifier);
   final syncPlayMessages = ref.read(jellyfinSyncPlayMessagesProvider);
@@ -92,7 +92,8 @@ final jellyfinWebSocketProvider = StreamProvider<JellyfinWebSocketEvent>((ref) {
   return socket.events;
 });
 
-Uri? _webSocketUri(String? serverUrl, CredentialsModel? credentials) {
+@visibleForTesting
+Uri? jellyfinWebSocketUri(String? serverUrl, CredentialsModel? credentials) {
   if (serverUrl == null || credentials == null || credentials.token.isEmpty) return null;
   final uri = buildServerUriFromBase(
     serverUrl,

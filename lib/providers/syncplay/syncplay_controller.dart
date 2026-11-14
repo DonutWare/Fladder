@@ -7,13 +7,12 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
 import 'package:fladder/models/syncplay/syncplay_models.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/jellyfin_websocket_provider.dart';
 import 'package:fladder/providers/router_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/syncplay/handlers/syncplay_command_handler.dart';
 import 'package:fladder/providers/syncplay/handlers/syncplay_message_handler.dart';
 import 'package:fladder/providers/syncplay/time_sync_service.dart';
-import 'package:fladder/providers/websocket/jellyfin_websocket.dart';
-import 'package:fladder/providers/websocket/jellyfin_websocket_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
@@ -52,7 +51,7 @@ class SyncPlayController {
 
   TimeSyncService? _timeSync;
   StreamSubscription? _wsMessageSubscription;
-  StreamSubscription? _wsStateSubscription;
+  ProviderSubscription<bool>? _wsStateSubscription;
   Timer? _syncCorrectionTimer;
   DateTime? _lastDriftCheckAt;
 
@@ -78,7 +77,7 @@ class SyncPlayController {
   static const Duration _silentRejoinQueueWindow = Duration(seconds: 5);
 
   // Previous socket state, used to detect reconnects for the silent rejoin.
-  WebSocketConnectionState? _previousWsState;
+  bool _wasWsConnected = false;
 
   Completer<bool>? _joinGroupCompleter;
 
@@ -397,8 +396,6 @@ class SyncPlayController {
       return;
     }
 
-    final ws = _ref.read(jellyfinWebSocketControllerProvider.notifier);
-
     // Idempotent: the sheet calls this every time it re-opens.
     if (_wsStateSubscription != null) {
       log('SyncPlay: connect() called but already subscribed; reusing shared socket');
@@ -414,11 +411,13 @@ class SyncPlayController {
     _timeSync = timeSync;
     timeSync.start();
 
-    _wsStateSubscription = ws.connectionState.listen(_handleConnectionState);
-    _wsMessageSubscription = ws.messages.listen(_handleMessage);
+    _wsStateSubscription = _ref.listen(jellyfinWebSocketConnectedProvider, (_, connected) {
+      _handleConnectionState(connected);
+    });
+    _wsMessageSubscription = _ref.read(jellyfinSyncPlayMessagesProvider).stream.listen(_handleMessage);
 
-    // The state stream does not replay; seed from the current state or `joinGroup` would stay blocked.
-    _handleConnectionState(ws.currentState);
+    // `listen` only reports changes; seed from the current state or `joinGroup` would stay blocked.
+    _handleConnectionState(_ref.read(jellyfinWebSocketConnectedProvider));
   }
 
   /// Detaches SyncPlay from the shared WebSocket without closing it (the socket is app-owned).
@@ -431,7 +430,7 @@ class SyncPlayController {
     _resetGroupLifecycleState();
     _commandHandler.cancelPendingCommands();
     await _wsMessageSubscription?.cancel();
-    await _wsStateSubscription?.cancel();
+    _wsStateSubscription?.close();
     _wsMessageSubscription = null;
     _wsStateSubscription = null;
     _timeSync?.onMeasurement = null;
@@ -1035,16 +1034,14 @@ class SyncPlayController {
     return pending;
   }
 
-  void _handleConnectionState(WebSocketConnectionState wsState) {
-    log('SyncPlay: WebSocket connection state: $wsState');
-    final isConnected = wsState == WebSocketConnectionState.connected;
+  void _handleConnectionState(bool isConnected) {
+    log('SyncPlay: WebSocket connected: $isConnected');
     _updateState(_state.copyWith(isConnected: isConnected));
     log('SyncPlay: isConnected updated to: $isConnected');
 
     // The initial connect lands here too; the `_lastGroupId` guard makes it a no-op until a group was joined.
-    final wasConnected = _previousWsState == WebSocketConnectionState.connected;
-    final isReconnect = isConnected && !wasConnected;
-    _previousWsState = wsState;
+    final isReconnect = isConnected && !_wasWsConnected;
+    _wasWsConnected = isConnected;
 
     if (isReconnect) {
       // A fresh socket may carry a stale clock offset.
