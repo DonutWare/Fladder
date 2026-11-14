@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -68,7 +69,12 @@ final jellyfinWebSocketProvider = StreamProvider<JellyfinWebSocketEvent>((ref) {
   if (uri == null || credentials == null) return const Stream.empty();
   final connected = ref.read(jellyfinWebSocketConnectedProvider.notifier);
   final socket = _JellyfinWebSocket(uri, credentials.header(ref), (value) => connected.state = value);
-  ref.onDispose(socket.close);
+  // A phone's socket often dies in the background; don't wait out the backoff when the app comes back.
+  final lifecycle = AppLifecycleListener(onResume: socket.ensureConnected);
+  ref.onDispose(() {
+    lifecycle.dispose();
+    socket.close();
+  });
   return socket.events;
 });
 
@@ -123,6 +129,16 @@ class _JellyfinWebSocket {
     _connected = true;
     onConnectionChanged(true);
     _subscription = channel.stream.listen(_handleMessage, onDone: _reconnect, onError: (_) {});
+  }
+
+  /// A socket waiting on its backoff reconnects now; any other gets a KeepAlive, so the server refreshes its
+  /// liveness timer and a connection that died in the background errors out and reconnects.
+  void ensureConnected() {
+    if (_closed) return;
+    if (_reconnectTimer?.isActive != true) return _sendKeepAlive();
+    _reconnectTimer!.cancel();
+    _retryDelay = 1;
+    _connect();
   }
 
   void _reconnect() {
