@@ -60,6 +60,14 @@ String _normalizeId(String id) => id.replaceAll('-', '').toLowerCase();
 
 final jellyfinWebSocketConnectedProvider = StateProvider<bool>((ref) => false);
 
+/// Raw SyncPlay messages, decoded by the SyncPlay controller. Lives apart from the socket so the controller
+/// keeps receiving across account and server-URL rebuilds.
+final jellyfinSyncPlayMessagesProvider = Provider<StreamController<Map<String, dynamic>>>((ref) {
+  final messages = StreamController<Map<String, dynamic>>.broadcast();
+  ref.onDispose(messages.close);
+  return messages;
+});
+
 final jellyfinWebSocketProvider = StreamProvider<JellyfinWebSocketEvent>((ref) {
   if (ref.watch(offlineStateProvider)) return const Stream.empty();
   final serverUrl = ref.watch(serverUrlProvider);
@@ -68,7 +76,13 @@ final jellyfinWebSocketProvider = StreamProvider<JellyfinWebSocketEvent>((ref) {
   final uri = _webSocketUri(serverUrl, credentials);
   if (uri == null || credentials == null) return const Stream.empty();
   final connected = ref.read(jellyfinWebSocketConnectedProvider.notifier);
-  final socket = _JellyfinWebSocket(uri, credentials.header(ref), (value) => connected.state = value);
+  final syncPlayMessages = ref.read(jellyfinSyncPlayMessagesProvider);
+  final socket = _JellyfinWebSocket(
+    uri,
+    credentials.header(ref),
+    (value) => connected.state = value,
+    syncPlayMessages.add,
+  );
   // A phone's socket often dies in the background; don't wait out the backoff when the app comes back.
   final lifecycle = AppLifecycleListener(onResume: socket.ensureConnected);
   ref.onDispose(() {
@@ -94,13 +108,14 @@ Uri? _webSocketUri(String? serverUrl, CredentialsModel? credentials) {
 }
 
 class _JellyfinWebSocket {
-  _JellyfinWebSocket(this.uri, this.headers, this.onConnectionChanged) {
+  _JellyfinWebSocket(this.uri, this.headers, this.onConnectionChanged, this.onSyncPlayMessage) {
     _connect();
   }
 
   final Uri uri;
   final Map<String, String> headers;
   final void Function(bool connected) onConnectionChanged;
+  final void Function(Map<String, dynamic> message) onSyncPlayMessage;
   final _events = StreamController<JellyfinWebSocketEvent>();
 
   WebSocketChannel? _channel;
@@ -162,6 +177,8 @@ class _JellyfinWebSocket {
         case SessionMessageType.userdatachanged:
           final data = UserDataChangedMessage.fromJson(json).data;
           if (data != null) _events.add(_userDataChanged(data));
+        case SessionMessageType.syncplaycommand || SessionMessageType.syncplaygroupupdate:
+          onSyncPlayMessage(json);
         default:
       }
     } catch (_) {}
