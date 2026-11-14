@@ -43,8 +43,11 @@ class VideoPlayerNextWrapper extends ConsumerStatefulWidget {
 class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper> {
   bool show = false;
   bool showOverwrite = false;
-  late RestartableTimerController timerController =
-      RestartableTimerController(const Duration(seconds: 30), const Duration(milliseconds: 33), onTimeout: onTimeOut);
+  late RestartableTimerController timerController = RestartableTimerController(
+    const Duration(seconds: 30),
+    const Duration(milliseconds: 33),
+    onTimeout: onTimeOut,
+  );
 
   void onTimeOut() {
     timerController.cancel();
@@ -138,9 +141,11 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
       fullScreenHelper.closeFullScreen(ref);
     }
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarIconBrightness: ref.read(clientSettingsProvider.select((value) => value.statusBarBrightness(context))),
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarIconBrightness: ref.read(clientSettingsProvider.select((value) => value.statusBarBrightness(context))),
+      ),
+    );
   }
 
   @override
@@ -192,37 +197,22 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
                                     context.localized.nextUp,
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(fontWeight: FontWeight.bold, fontSize: 24.0),
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, fontSize: 24.0),
                                   ),
                                 ),
                                 SizedBox.square(
                                   dimension: 45.0,
-                                  child: ProgressFloatingButton(
-                                    controller: timerController,
-                                  ),
+                                  child: ProgressFloatingButton(controller: timerController),
                                 ),
-                              ].addInBetween(
-                                const SizedBox(
-                                  height: 16,
-                                  width: 16,
-                                ),
-                              ),
+                              ].addInBetween(const SizedBox(height: 16, width: 16)),
                             ),
                             const Divider(),
                             Flexible(
-                              child: SingleChildScrollView(
-                                child: _NextUpInformation(
-                                  item: nextUp,
-                                ),
-                              ),
+                              child: SingleChildScrollView(child: _NextUpInformation(item: nextUp)),
                             ),
-                          ].addInBetween(const SizedBox(
-                            height: 8,
-                            width: 8,
-                          )),
+                          ].addInBetween(const SizedBox(height: 8, width: 8)),
                         ),
                       ),
                     ),
@@ -258,8 +248,11 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Flexible(
-                                              child: Text(currentItem.title,
-                                                  style: Theme.of(context).textTheme.displaySmall)),
+                                            child: Text(
+                                              currentItem.title,
+                                              style: Theme.of(context).textTheme.displaySmall,
+                                            ),
+                                          ),
                                           if (currentItem.label(context.localized) != null)
                                             Flexible(
                                               child: Text(
@@ -295,9 +288,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
                         children: [
                           AnimatedContainer(
                             duration: animSpeed,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(show ? 16 : 0),
-                            ),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(show ? 16 : 0)),
                             child: widget.video,
                           ),
                           widget.controlsBuilder(show),
@@ -311,9 +302,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
                         child: show
                             ? Padding(
                                 padding: const EdgeInsets.only(top: 16),
-                                child: _SimpleControls(
-                                  skip: nextUp != null ? () => onTimeOut() : null,
-                                ),
+                                child: _SimpleControls(skip: nextUp != null ? () => onTimeOut() : null),
                               )
                             : const SizedBox.shrink(),
                       ),
@@ -329,10 +318,7 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
               child: AnimatedOpacity(
                 duration: animSpeed,
                 opacity: show ? 1 : 0,
-                child: const Align(
-                  alignment: Alignment.topRight,
-                  child: DefaultTitleBar(),
-                ),
+                child: const Align(alignment: Alignment.topRight, child: DefaultTitleBar()),
               ),
             ),
         ],
@@ -344,90 +330,59 @@ class _VideoPlayerNextWrapperState extends ConsumerState<VideoPlayerNextWrapper>
 class _NextUpInformation extends StatelessWidget {
   final ItemBaseModel item;
 
-  const _NextUpInformation({
-    required this.item,
-  });
+  const _NextUpInformation({required this.item});
 
   @override
   Widget build(BuildContext context) {
     return switch (item) {
       MovieModel _ => Row(
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Flexible(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 150),
+                  child: AspectRatio(
+                    aspectRatio: 0.67,
+                    child: Card(child: FladderImage(image: item.images?.primary)),
+                  ),
+                ),
+              ),
+              Text(item.title, style: Theme.of(context).textTheme.titleLarge),
+            ].addInBetween(const SizedBox(height: 8)),
+          ),
+          Flexible(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Flexible(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 150),
-                    child: AspectRatio(
-                      aspectRatio: 0.67,
-                      child: Card(
-                        child: FladderImage(
-                          image: item.images?.primary,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Text(
-                  item.title,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ].addInBetween(
-                const SizedBox(height: 8),
-              ),
+                Text(context.localized.overview, style: Theme.of(context).textTheme.titleLarge),
+                const Divider(),
+                Text(item.overview.summary),
+              ],
             ),
-            Flexible(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.localized.overview,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const Divider(),
-                  Text(item.overview.summary),
-                ],
-              ),
-            )
-          ].addInBetween(
-            const SizedBox(width: 16),
           ),
-        ),
+        ].addInBetween(const SizedBox(width: 16)),
+      ),
       _ => Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              item.title,
-              style: Theme.of(context).textTheme.titleLarge,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(item.title, style: Theme.of(context).textTheme.titleLarge),
+          if (item.label(context.localized) != null) Text(item.label(context.localized)!),
+          Flexible(
+            child: AspectRatio(
+              aspectRatio: 2.1,
+              child: Card(child: FladderImage(image: item.images?.primary)),
             ),
-            if (item.label(context.localized) != null)
-              Text(
-                item.label(context.localized)!,
-              ),
-            Flexible(
-              child: AspectRatio(
-                aspectRatio: 2.1,
-                child: Card(
-                  child: FladderImage(
-                    image: item.images?.primary,
-                  ),
-                ),
-              ),
-            ),
-            Text(
-              context.localized.overview,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            Text(item.overview.summary),
-            const SizedBox(height: 12)
-          ].addInBetween(
-            const SizedBox(height: 8),
           ),
-        )
+          Text(context.localized.overview, style: Theme.of(context).textTheme.titleLarge),
+          Text(item.overview.summary),
+          const SizedBox(height: 12),
+        ].addInBetween(const SizedBox(height: 8)),
+      ),
     };
   }
 }
@@ -435,26 +390,25 @@ class _NextUpInformation extends StatelessWidget {
 class _SimpleControls extends ConsumerWidget {
   final Function()? skip;
 
-  const _SimpleControls({
-    this.skip,
-  });
+  const _SimpleControls({this.skip});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isPlaying = ref.watch(mediaPlaybackProvider.select((value) => value.playing));
     return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton.filledTonal(
+          onPressed: () => ref.read(videoPlayerProvider.notifier).userPlayOrPause(),
+          icon: Icon(isPlaying ? IconsaxPlusBold.pause : IconsaxPlusBold.play),
+        ),
+        if (skip != null)
           IconButton.filledTonal(
-            onPressed: () => ref.read(videoPlayerProvider.notifier).userPlayOrPause(),
-            icon: Icon(isPlaying ? IconsaxPlusBold.pause : IconsaxPlusBold.play),
+            onPressed: skip,
+            tooltip: context.localized.playNextVideo,
+            icon: const Icon(IconsaxPlusBold.next),
           ),
-          if (skip != null)
-            IconButton.filledTonal(
-              onPressed: skip,
-              tooltip: context.localized.playNextVideo,
-              icon: const Icon(IconsaxPlusBold.next),
-            )
-        ].addInBetween(const SizedBox(width: 4)));
+      ].addInBetween(const SizedBox(width: 4)),
+    );
   }
 }

@@ -48,9 +48,7 @@ class TimeSyncService implements SyncPlayClock {
       return Duration.zero;
     }
     // Use measurement with minimum delay (least network jitter)
-    final best = _measurements.reduce(
-      (a, b) => a.delay < b.delay ? a : b,
-    );
+    final best = _measurements.reduce((a, b) => a.delay < b.delay ? a : b);
     return best.offset;
   }
 
@@ -59,9 +57,7 @@ class TimeSyncService implements SyncPlayClock {
     if (_measurements.isEmpty) {
       return Duration.zero;
     }
-    final best = _measurements.reduce(
-      (a, b) => a.delay < b.delay ? a : b,
-    );
+    final best = _measurements.reduce((a, b) => a.delay < b.delay ? a : b);
     return best.ping;
   }
 

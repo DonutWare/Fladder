@@ -96,33 +96,35 @@ void main() {
     test('nothing outside a group or while halted', () {
       expect(resolveSyncPlayOverlay(SyncPlayState(groupState: SyncPlayGroupState.waiting)), SyncPlayOverlay.none);
       expect(
-        resolveSyncPlayOverlay(SyncPlayState(
-          isInGroup: true,
-          isFollowingGroupPlayback: false,
-          groupState: SyncPlayGroupState.waiting,
-        )),
+        resolveSyncPlayOverlay(
+          SyncPlayState(isInGroup: true, isFollowingGroupPlayback: false, groupState: SyncPlayGroupState.waiting),
+        ),
         SyncPlayOverlay.none,
       );
     });
 
     test('a queue switch wins over a command, a command over the group waiting', () {
       expect(
-        resolveSyncPlayOverlay(SyncPlayState(
-          isInGroup: true,
-          startPlaybackInProgress: true,
-          isProcessingCommand: true,
-          processingCommandType: SyncPlayCommand.seek,
-          groupState: SyncPlayGroupState.waiting,
-        )),
+        resolveSyncPlayOverlay(
+          SyncPlayState(
+            isInGroup: true,
+            startPlaybackInProgress: true,
+            isProcessingCommand: true,
+            processingCommandType: SyncPlayCommand.seek,
+            groupState: SyncPlayGroupState.waiting,
+          ),
+        ),
         SyncPlayOverlay.switching,
       );
       expect(
-        resolveSyncPlayOverlay(SyncPlayState(
-          isInGroup: true,
-          isProcessingCommand: true,
-          processingCommandType: SyncPlayCommand.seek,
-          groupState: SyncPlayGroupState.waiting,
-        )),
+        resolveSyncPlayOverlay(
+          SyncPlayState(
+            isInGroup: true,
+            isProcessingCommand: true,
+            processingCommandType: SyncPlayCommand.seek,
+            groupState: SyncPlayGroupState.waiting,
+          ),
+        ),
         SyncPlayOverlay.command,
       );
     });

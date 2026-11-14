@@ -19,10 +19,7 @@ void main() {
 
     test('a playing group is extrapolated from LastUpdate', () {
       final timing = SyncPlayQueueTiming(startPositionTicks: 5000, lastUpdate: at, isPlaying: true);
-      expect(
-        timing.positionTicksAt(at.add(const Duration(seconds: 3))),
-        5000 + millisecondsToTicks(3000),
-      );
+      expect(timing.positionTicksAt(at.add(const Duration(seconds: 3))), 5000 + millisecondsToTicks(3000));
     });
 
     test('a playing group without LastUpdate cannot be extrapolated', () {

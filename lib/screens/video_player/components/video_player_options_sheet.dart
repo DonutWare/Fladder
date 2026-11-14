@@ -41,10 +41,7 @@ Future<void> showVideoPlayerOptions(BuildContext context, Function() minimizePla
   return showBottomSheetPill(
     context: context,
     content: (context, scrollController) {
-      return VideoOptions(
-        controller: scrollController,
-        minimizePlayer: minimizePlayer,
-      );
+      return VideoOptions(controller: scrollController, minimizePlayer: minimizePlayer);
     },
   );
 }
@@ -83,15 +80,10 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        currentItem?.title ?? "",
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ],
+                    children: [Text(currentItem?.title ?? "", style: Theme.of(context).textTheme.titleLarge)],
                   ),
                   const Spacer(),
-                  const Opacity(opacity: 0.1, child: Icon(Icons.info_outline_rounded))
+                  const Opacity(opacity: 0.1, child: Icon(Icons.info_outline_rounded)),
                 ],
               ),
             ),
@@ -124,12 +116,9 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                           onPressed: () => ref.read(videoPlayerSettingsProvider.notifier).setScreenBrightness(null),
                           icon: Opacity(
                             opacity: videoSettings.screenBrightness != null ? 0.5 : 1,
-                            child: Icon(
-                              IconsaxPlusBold.autobrightness,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                            child: Icon(IconsaxPlusBold.autobrightness, color: Theme.of(context).colorScheme.primary),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -155,10 +144,12 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                     label: Text(context.localized.scale),
                     current: videoSettings.videoFit.name.toUpperCaseSplit(),
                     itemBuilder: (context) => BoxFit.values
-                        .map((value) => ItemActionButton(
-                              label: Text(value.name.toUpperCaseSplit()),
-                              action: () => ref.read(videoPlayerSettingsProvider.notifier).setFitType(value),
-                            ))
+                        .map(
+                          (value) => ItemActionButton(
+                            label: Text(value.name.toUpperCaseSplit()),
+                            action: () => ref.read(videoPlayerSettingsProvider.notifier).setFitType(value),
+                          ),
+                        )
                         .toList(),
                   ),
                 ),
@@ -178,15 +169,12 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               title: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(
-                    flex: 3,
-                    child: Text(context.localized.videoScalingFill),
-                  ),
+                  Expanded(flex: 3, child: Text(context.localized.videoScalingFill)),
                   const Spacer(),
                   Switch(
                     value: videoSettings.fillScreen,
                     onChanged: (value) => ref.read(videoPlayerSettingsProvider.notifier).setFillScreen(value),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -206,12 +194,9 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
             title: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  flex: 3,
-                  child: Text(context.localized.playbackRate),
-                ),
+                Expanded(flex: 3, child: Text(context.localized.playbackRate)),
                 const Spacer(),
-                Text("x${ref.watch(playbackRateProvider)}")
+                Text("x${ref.watch(playbackRateProvider)}"),
               ],
             ),
           ),
@@ -220,19 +205,16 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
               title: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(
-                    flex: 3,
-                    child: Text(context.localized.qualityOptionsTitle),
-                  ),
+                  Expanded(flex: 3, child: Text(context.localized.qualityOptionsTitle)),
                   const Spacer(),
-                  Text(bitRateOptions?.enabledFirst.keys.firstOrNull?.label(context) ?? "")
+                  Text(bitRateOptions?.enabledFirst.keys.firstOrNull?.label(context) ?? ""),
                 ],
               ),
               onTap: () {
                 Navigator.of(context).pop();
                 openQualityOptions(context);
               },
-            )
+            ),
         ],
       );
     }
@@ -257,16 +239,12 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                   items: playbackState?.queue ?? [],
                   currentItem: playbackState?.item,
                   onSectionReorder: (section, oldIndex, newIndex) {
-                    return ref.read(videoPlayerProvider.notifier).reorderAudioQueueSection(
-                          section,
-                          oldIndex,
-                          newIndex,
-                        );
+                    return ref.read(videoPlayerProvider.notifier).reorderAudioQueueSection(section, oldIndex, newIndex);
                   },
                   playSelected: ref.read(videoPlayerProvider.notifier).playAudioQueueItem,
                 );
               },
-            )
+            ),
         ],
       );
     }
@@ -343,14 +321,16 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
                 DirectPlaybackModel value => value.copyWith(item: newItem),
                 TranscodePlaybackModel value => value.copyWith(item: newItem),
                 OfflinePlaybackModel value => value.copyWith(item: newItem),
-                _ => null
+                _ => null,
               };
               ref.read(playBackModel.notifier).update((state) => playbackModel);
               Navigator.of(context).pop();
             },
-            title: Text(currentItem.userData.isFavourite == true
-                ? context.localized.removeAsFavorite
-                : context.localized.addAsFavorite),
+            title: Text(
+              currentItem.userData.isFavourite == true
+                  ? context.localized.removeAsFavorite
+                  : context.localized.addAsFavorite,
+            ),
           ),
           ListTile(
             onTap: () {
@@ -359,7 +339,7 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
             },
             title: Text(context.localized.info),
           ),
-        }
+        },
       ],
     );
   }
@@ -370,22 +350,12 @@ class _VideoOptionsMobileState extends ConsumerState<VideoOptions> {
         Row(
           children: [
             const SizedBox(width: 8),
-            BackButton(
-              onPressed: () => setState(() => page = 0),
-            ),
+            BackButton(onPressed: () => setState(() => page = 0)),
             const SizedBox(width: 16),
             Column(
               children: [
-                if (title != null)
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                if (subText != null)
-                  Text(
-                    subText,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  )
+                if (title != null) Text(title, style: Theme.of(context).textTheme.titleLarge),
+                if (subText != null) Text(subText, style: Theme.of(context).textTheme.titleMedium),
               ],
             ),
           ],
@@ -409,14 +379,12 @@ Future<void> showSubSelection(BuildContext context) {
             const Spacer(),
             if (player.backend == PlayerOptions.libMPV || player.backend == PlayerOptions.libMDK)
               IconButton.outlined(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    showSubtitleControls(
-                      context: context,
-                      label: context.localized.subtitleConfiguration,
-                    );
-                  },
-                  icon: const Icon(Icons.display_settings_rounded))
+                onPressed: () {
+                  Navigator.pop(context);
+                  showSubtitleControls(context: context, label: context.localized.subtitleConfiguration);
+                },
+                icon: const Icon(Icons.display_settings_rounded),
+              ),
           ],
         ),
         tracks: (model) =>
@@ -442,15 +410,12 @@ Future<void> showAudioSelection(BuildContext context) {
     context: context,
     builder: (context) {
       return _TrackSelectionDialog(
-        title: (context, player) => Row(
-          children: [
-            Text(context.localized.audio(1)),
-          ],
-        ),
+        title: (context, player) => Row(children: [Text(context.localized.audio(1))]),
         tracks: (model) =>
             model.audioStreams
                 ?.map(
-                    (audio) => _TrackOption(index: audio.index, label: audio.label(context), language: audio.language))
+                  (audio) => _TrackOption(index: audio.index, label: audio.label(context), language: audio.language),
+                )
                 .toList() ??
             const [],
         currentIndex: (model) => model.mediaStreams?.defaultAudioStreamIndex,
@@ -509,10 +474,7 @@ class _TrackSelectionDialogState extends ConsumerState<_TrackSelectionDialog> {
       final newModel = await widget.apply(model, player, index);
       modelNotifier.update((state) => newModel ?? state);
       if (newModel != null) {
-        await helper.shouldReload(
-          newModel,
-          isLocalTrackSwitch: true,
-        );
+        await helper.shouldReload(newModel, isLocalTrackSwitch: true);
       }
     }
 
@@ -540,26 +502,19 @@ class _TrackSelectionDialogState extends ConsumerState<_TrackSelectionDialog> {
     return SimpleDialog(
       contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
       title: widget.title(context, player),
-      children: tracks.map(
-        (track) {
-          final selected = highlighted == track.index;
-          final busy = _pendingIndex == track.index && currentIndex != track.index;
-          return ListTile(
-            title: Text(track.label),
-            tileColor: selected ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3) : null,
-            subtitle:
-                track.language.isNotEmpty ? Opacity(opacity: 0.6, child: Text(track.language.capitalize())) : null,
-            trailing: busy
-                ? const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : null,
-            onTap: playbackModel == null ? null : () => _select(playbackModel, player, track.index),
-          );
-        },
-      ).toList(),
+      children: tracks.map((track) {
+        final selected = highlighted == track.index;
+        final busy = _pendingIndex == track.index && currentIndex != track.index;
+        return ListTile(
+          title: Text(track.label),
+          tileColor: selected ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3) : null,
+          subtitle: track.language.isNotEmpty ? Opacity(opacity: 0.6, child: Text(track.language.capitalize())) : null,
+          trailing: busy
+              ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+              : null,
+          onTap: playbackModel == null ? null : () => _select(playbackModel, player, track.index),
+        );
+      }).toList(),
     );
   }
 }
@@ -568,56 +523,59 @@ Future<void> showPlaybackSpeed(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) {
-      return StatefulBuilder(builder: (context, setState) {
-        return Consumer(
-          builder: (context, ref, child) {
-            final player = ref.watch(videoPlayerProvider);
-            final lastSpeed = ref.watch(playbackRateProvider);
-            return SimpleDialog(
-              contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
-              title: Row(children: [Text(context.localized.playbackRate)]),
-              children: [
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 6),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("${context.localized.speed}: "),
-                      Flexible(
-                        child: SizedBox(
-                          width: 250,
-                          child: FladderSlider(
-                            min: 0.25,
-                            max: 3,
-                            value: lastSpeed,
-                            divisions: 55,
-                            onChanged: (value) {
-                              ref.read(playbackRateProvider.notifier).state = value;
-                              player.setSpeed(value);
-                            },
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return Consumer(
+            builder: (context, ref, child) {
+              final player = ref.watch(videoPlayerProvider);
+              final lastSpeed = ref.watch(playbackRateProvider);
+              return SimpleDialog(
+                contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
+                title: Row(children: [Text(context.localized.playbackRate)]),
+                children: [
+                  const Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 6),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("${context.localized.speed}: "),
+                        Flexible(
+                          child: SizedBox(
+                            width: 250,
+                            child: FladderSlider(
+                              min: 0.25,
+                              max: 3,
+                              value: lastSpeed,
+                              divisions: 55,
+                              onChanged: (value) {
+                                ref.read(playbackRateProvider.notifier).state = value;
+                                player.setSpeed(value);
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                      Text("x${lastSpeed.toStringAsFixed(2)}")
-                    ].addInBetween(const SizedBox(width: 8)),
+                        Text("x${lastSpeed.toStringAsFixed(2)}"),
+                      ].addInBetween(const SizedBox(width: 8)),
+                    ),
                   ),
-                )
-              ],
-            );
-          },
-        );
-      });
+                ],
+              );
+            },
+          );
+        },
+      );
     },
   );
 }
 
 Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
   Set<DeviceOrientation> orientations = ref
-      .read(videoPlayerSettingsProvider
-          .select((value) => value.allowedOrientations ?? Set.from(DeviceOrientation.values)))
+      .read(
+        videoPlayerSettingsProvider.select((value) => value.allowedOrientations ?? Set.from(DeviceOrientation.values)),
+      )
       .toSet();
 
   void toggleOrientation(DeviceOrientation orientation) {
@@ -631,52 +589,54 @@ Future<void> showOrientationOptions(BuildContext context, WidgetRef ref) async {
   await showDialog(
     context: context,
     builder: (context) {
-      return StatefulBuilder(builder: (context, state) {
-        return SimpleDialog(
-          contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
-          title: Row(children: [Text(context.localized.playerSettingsOrientationTitle)]),
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 6),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Divider(),
-                  ...DeviceOrientation.values.map(
-                    (orientation) => CheckboxListTile(
-                      title: Text(orientation.label(context)),
-                      value: orientations.contains(orientation),
-                      onChanged: (value) {
-                        state(() => toggleOrientation(orientation));
-                      },
-                    ),
-                  ),
-                  const Divider(),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text(context.localized.cancel),
-                      ),
-                      FilledButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          ref.read(videoPlayerSettingsProvider.notifier).toggleOrientation(orientations);
+      return StatefulBuilder(
+        builder: (context, state) {
+          return SimpleDialog(
+            contentPadding: const EdgeInsets.only(top: 8, bottom: 24),
+            title: Row(children: [Text(context.localized.playerSettingsOrientationTitle)]),
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 6),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Divider(),
+                    ...DeviceOrientation.values.map(
+                      (orientation) => CheckboxListTile(
+                        title: Text(orientation.label(context)),
+                        value: orientations.contains(orientation),
+                        onChanged: (value) {
+                          state(() => toggleOrientation(orientation));
                         },
-                        child: Text(context.localized.save),
                       ),
-                    ].addInBetween(const SizedBox(width: 8)),
-                  )
-                ].addInBetween(const SizedBox(width: 8)),
+                    ),
+                    const Divider(),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text(context.localized.cancel),
+                        ),
+                        FilledButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            ref.read(videoPlayerSettingsProvider.notifier).toggleOrientation(orientations);
+                          },
+                          child: Text(context.localized.save),
+                        ),
+                      ].addInBetween(const SizedBox(width: 8)),
+                    ),
+                  ].addInBetween(const SizedBox(width: 8)),
+                ),
               ),
-            )
-          ],
-        );
-      });
+            ],
+          );
+        },
+      );
     },
   );
 }

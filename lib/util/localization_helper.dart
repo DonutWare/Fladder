@@ -17,11 +17,7 @@ extension BuildContextExtension on BuildContext {
 class LocalizationContextWrapper extends ConsumerStatefulWidget {
   final Widget child;
   final Locale currentLocale;
-  const LocalizationContextWrapper({
-    required this.child,
-    required this.currentLocale,
-    super.key,
-  });
+  const LocalizationContextWrapper({required this.child, required this.currentLocale, super.key});
 
   @override
   ConsumerState<LocalizationContextWrapper> createState() => _LocalizationContextWrapperState();

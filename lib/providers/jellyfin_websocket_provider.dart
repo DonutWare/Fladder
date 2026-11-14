@@ -48,9 +48,9 @@ class JellyfinUserDataChanged extends JellyfinWebSocketEvent {
   final List<UserItemDataDto> items;
 
   Map<String, UserData> get userDataByItemId => {
-        for (final item in items)
-          if (item.itemId?.isNotEmpty == true) item.itemId!: UserData.fromDto(item),
-      };
+    for (final item in items)
+      if (item.itemId?.isNotEmpty == true) item.itemId!: UserData.fromDto(item),
+  };
 
   bool isForUser(String? currentUserId) => userId == null || _normalizeId(userId!) == _normalizeId(currentUserId ?? '');
 }
@@ -72,7 +72,8 @@ final jellyfinSyncPlayMessagesProvider = Provider<StreamController<Map<String, d
 final jellyfinWebSocketProvider = StreamProvider<JellyfinWebSocketEvent>((ref) {
   if (ref.watch(offlineStateProvider)) return const Stream.empty();
   final serverUrl = ref.watch(serverUrlProvider);
-  final credentials = ref.watch(userProvider.select((account) => account?.credentials)) ??
+  final credentials =
+      ref.watch(userProvider.select((account) => account?.credentials)) ??
       ref.watch(authProvider.select((state) => state.serverLoginModel?.tempCredentials));
   final uri = jellyfinWebSocketUri(serverUrl, credentials);
   if (uri == null || credentials == null) return const Stream.empty();
@@ -194,9 +195,8 @@ class _JellyfinWebSocket {
     _keepAliveTimer = Timer.periodic(Duration(milliseconds: seconds * 500), (_) => _sendKeepAlive());
   }
 
-  void _sendKeepAlive() => _channel?.sink.add(
-        jsonEncode(const InboundKeepAliveMessage(messageType: SessionMessageType.keepalive).toJson()),
-      );
+  void _sendKeepAlive() =>
+      _channel?.sink.add(jsonEncode(const InboundKeepAliveMessage(messageType: SessionMessageType.keepalive).toJson()));
 
   void close() {
     _closed = true;
@@ -258,8 +258,5 @@ JellyfinLibraryChanged _libraryChanged(LibraryUpdateInfo data) {
 }
 
 JellyfinUserDataChanged _userDataChanged(UserDataChangeInfo data) {
-  return JellyfinUserDataChanged(
-    userId: data.userId,
-    items: data.userDataList ?? const [],
-  );
+  return JellyfinUserDataChanged(userId: data.userId, items: data.userDataList ?? const []);
 }

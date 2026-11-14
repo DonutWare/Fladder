@@ -50,9 +50,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class Media {
   final String url;
 
-  const Media({
-    required this.url,
-  });
+  const Media({required this.url});
 }
 
 extension PlaybackModelExtension on PlaybackModel? {
@@ -71,12 +69,12 @@ extension PlaybackModelExtension on PlaybackModel? {
   }
 
   String? label(BuildContext context) => switch (this) {
-        DirectPlaybackModel _ => PlaybackType.directStream.name(context),
-        TranscodePlaybackModel _ => PlaybackType.transcode.name(context),
-        OfflinePlaybackModel _ => PlaybackType.offline.name(context),
-        TvPlaybackModel _ => PlaybackType.tv.name(context),
-        _ => context.localized.unknown,
-      };
+    DirectPlaybackModel _ => PlaybackType.directStream.name(context),
+    TranscodePlaybackModel _ => PlaybackType.transcode.name(context),
+    OfflinePlaybackModel _ => PlaybackType.offline.name(context),
+    TvPlaybackModel _ => PlaybackType.tv.name(context),
+    _ => context.localized.unknown,
+  };
 }
 
 class PlaybackModel {
@@ -151,11 +149,7 @@ class PlaybackModel {
     this.mediaSegments,
     this.chapters,
     this.trickPlay,
-  }) : playbackQueue = playbackQueue ??
-            PlaybackQueueState.fromQueue(
-              queue,
-              initialItemId: item.id,
-            );
+  }) : playbackQueue = playbackQueue ?? PlaybackQueueState.fromQueue(queue, initialItemId: item.id);
 }
 
 final playbackModelHelper = Provider<PlaybackModelHelper>((ref) {
@@ -224,11 +218,8 @@ class PlaybackModelHelper {
     ref.read(videoPlayerProvider).pause();
     ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(buffering: true));
     final currentModel = ref.read(playBackModel);
-    final newModel = (await createPlaybackModel(
-          null,
-          newItem,
-          oldModel: currentModel,
-        )) ??
+    final newModel =
+        (await createPlaybackModel(null, newItem, oldModel: currentModel)) ??
         await _createOfflinePlaybackModel(
           newItem,
           null,
@@ -250,19 +241,19 @@ class PlaybackModelHelper {
 
     PlaybackModel? serverModel;
     try {
-      serverModel = await createPlaybackModel(
-        null,
-        channel,
-        forcedPlaybackType: PlaybackType.tv,
-        oldModel: currentModel,
-      ).timeout(const Duration(seconds: 8), onTimeout: () {
-        return null;
-      });
+      serverModel =
+          await createPlaybackModel(null, channel, forcedPlaybackType: PlaybackType.tv, oldModel: currentModel).timeout(
+            const Duration(seconds: 8),
+            onTimeout: () {
+              return null;
+            },
+          );
     } catch (e) {
       serverModel = null;
     }
 
-    final newModel = serverModel ??
+    final newModel =
+        serverModel ??
         await _createOfflinePlaybackModel(
           channel,
           null,
@@ -342,11 +333,7 @@ class PlaybackModelHelper {
 
       final actualStartPosition = startPosition ?? fullItem.userData.playBackPosition;
 
-      final options = {
-        PlaybackType.directStream,
-        PlaybackType.transcode,
-        if (firstItemIsSynced) PlaybackType.offline,
-      };
+      final options = {PlaybackType.directStream, PlaybackType.transcode, if (firstItemIsSynced) PlaybackType.offline};
 
       final isOffline = ref.read(offlineStateProvider);
 
@@ -365,28 +352,25 @@ class PlaybackModelHelper {
       }
 
       Future<PlaybackModel?> getOfflineModel() => _createOfflinePlaybackModel(
-            fullItem,
-            item.streamModel,
-            syncedItem,
-            oldModel: oldModel,
-            queueSource: effectiveQueueSource,
-          );
+        fullItem,
+        item.streamModel,
+        syncedItem,
+        oldModel: oldModel,
+        queueSource: effectiveQueueSource,
+      );
 
       Future<PlaybackModel?> getServerModel(PlaybackType type) => _createServerPlaybackModel(
-            fullItem,
-            item.streamModel,
-            forcedPlaybackType ?? type,
-            oldModel: oldModel,
-            libraryQueue: queue,
-            queueSource: effectiveQueueSource,
-            startPosition: actualStartPosition,
-          );
+        fullItem,
+        item.streamModel,
+        forcedPlaybackType ?? type,
+        oldModel: oldModel,
+        libraryQueue: queue,
+        queueSource: effectiveQueueSource,
+        startPosition: actualStartPosition,
+      );
 
       if (((showPlaybackOptions || firstItemIsSynced) && !isOffline) && context != null) {
-        final playbackType = await showPlaybackTypeSelection(
-          context: context,
-          options: options,
-        );
+        final playbackType = await showPlaybackTypeSelection(context: context, options: options);
 
         if (!context.mounted) return null;
 
@@ -438,20 +422,23 @@ class PlaybackModelHelper {
       );
 
       final audioStreamIndex = selectAudioStream(
-          ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
-          oldModel?.mediaStreams?.currentAudioStream,
-          newStreamModel?.audioStreams,
-          newStreamModel?.defaultAudioStreamIndex);
+        ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
+        oldModel?.mediaStreams?.currentAudioStream,
+        newStreamModel?.audioStreams,
+        newStreamModel?.defaultAudioStreamIndex,
+      );
 
       final subStreamIndex = selectSubStream(
-          ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
-          oldModel?.mediaStreams?.currentSubStream,
-          newStreamModel?.subStreams,
-          newStreamModel?.defaultSubStreamIndex);
+        ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
+        oldModel?.mediaStreams?.currentSubStream,
+        newStreamModel?.subStreams,
+        newStreamModel?.defaultSubStreamIndex,
+      );
 
-//Native player does not allow for loading external subtitles with transcoding
-      final isNativePlayer =
-          ref.read(videoPlayerSettingsProvider.select((value) => value.wantedPlayer == PlayerOptions.nativePlayer));
+      //Native player does not allow for loading external subtitles with transcoding
+      final isNativePlayer = ref.read(
+        videoPlayerSettingsProvider.select((value) => value.wantedPlayer == PlayerOptions.nativePlayer),
+      );
       final isExternalSub = newStreamModel?.currentSubStream?.isExternal == true;
 
       final Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
@@ -484,10 +471,10 @@ class PlaybackModelHelper {
         return null;
       }
 
-      final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(playbackInfo.mediaSources, ref).copyWith(
-        defaultAudioStreamIndex: audioStreamIndex,
-        defaultSubStreamIndex: subStreamIndex,
-      );
+      final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(
+        playbackInfo.mediaSources,
+        ref,
+      ).copyWith(defaultAudioStreamIndex: audioStreamIndex, defaultSubStreamIndex: subStreamIndex);
 
       final mediaSegments = await api.mediaSegmentsGet(id: item.id);
 
@@ -602,10 +589,7 @@ class PlaybackModelHelper {
     return Response(response.base, (response.body?.items?.map((e) => EpisodeModel.fromBaseDto(e, ref)).toList() ?? []));
   }
 
-  Future<void> shouldReload(
-    PlaybackModel playbackModel, {
-    bool isLocalTrackSwitch = false,
-  }) async {
+  Future<void> shouldReload(PlaybackModel playbackModel, {bool isLocalTrackSwitch = false}) async {
     if (playbackModel is OfflinePlaybackModel) {
       return;
     }
@@ -622,10 +606,7 @@ class PlaybackModelHelper {
 
     if (isSyncPlayActive) {
       // Set reloading state in the player notifier to prevent premature ready reporting
-      ref.read(videoPlayerProvider.notifier).setReloading(
-            true,
-            reportToSyncPlay: shouldReportGroupBuffering,
-          );
+      ref.read(videoPlayerProvider.notifier).setReloading(true, reportToSyncPlay: shouldReportGroupBuffering);
 
       // The stale SyncPlayState.positionTicks would reload at an old position and SkipToSync forward visibly.
       final positionTicks = ref.read(syncPlayProvider.notifier).estimateCurrentGroupPositionTicks();
@@ -640,15 +621,17 @@ class PlaybackModelHelper {
     }
 
     final audioIndex = selectAudioStream(
-        ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
-        playbackModel.mediaStreams?.currentAudioStream,
-        playbackModel.audioStreams,
-        playbackModel.mediaStreams?.defaultAudioStreamIndex);
+      ref.read(userProvider.select((value) => value?.userConfiguration?.rememberAudioSelections ?? true)),
+      playbackModel.mediaStreams?.currentAudioStream,
+      playbackModel.audioStreams,
+      playbackModel.mediaStreams?.defaultAudioStreamIndex,
+    );
     final subIndex = selectSubStream(
-        ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
-        playbackModel.mediaStreams?.currentSubStream,
-        playbackModel.subStreams,
-        playbackModel.mediaStreams?.defaultSubStreamIndex);
+      ref.read(userProvider.select((value) => value?.userConfiguration?.rememberSubtitleSelections ?? true)),
+      playbackModel.mediaStreams?.currentSubStream,
+      playbackModel.subStreams,
+      playbackModel.mediaStreams?.defaultSubStreamIndex,
+    );
 
     Response<PlaybackInfoResponse> response = await api.itemsItemIdPlaybackInfoPost(
       itemId: item.id,
@@ -671,10 +654,10 @@ class PlaybackModelHelper {
 
     final mediaSource = playbackInfo.mediaSources?.first;
 
-    final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(playbackInfo.mediaSources, ref).copyWith(
-      defaultAudioStreamIndex: audioIndex,
-      defaultSubStreamIndex: subIndex,
-    );
+    final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(
+      playbackInfo.mediaSources,
+      ref,
+    ).copyWith(defaultAudioStreamIndex: audioIndex, defaultSubStreamIndex: subIndex);
 
     if (mediaSource == null) return;
 
@@ -736,20 +719,15 @@ class PlaybackModelHelper {
       return;
     }
     if (newModel.runtimeType != playbackModel.runtimeType || newModel is TranscodePlaybackModel) {
-      await ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
-            newModel,
-            currentPosition,
-            waitForSyncPlayCommand: shouldReportGroupBuffering,
-          );
+      await ref
+          .read(videoPlayerProvider.notifier)
+          .loadPlaybackItem(newModel, currentPosition, waitForSyncPlayCommand: shouldReportGroupBuffering);
       if (isLocalTrackSwitch) {
         await _ensureLocalTrackSwitchAutoplay();
       }
     } else if (isSyncPlayActive) {
       // If we didn't call loadPlaybackItem, we must reset reloading state
-      ref.read(videoPlayerProvider.notifier).setReloading(
-            false,
-            reportToSyncPlay: false,
-          );
+      ref.read(videoPlayerProvider.notifier).setReloading(false, reportToSyncPlay: false);
       if (isLocalTrackSwitch) {
         await _ensureLocalTrackSwitchAutoplay();
       }

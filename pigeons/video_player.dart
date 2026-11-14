@@ -27,12 +27,7 @@ class SimpleItemModel {
   });
 }
 
-enum PlaybackType {
-  direct,
-  transcoded,
-  offline,
-  tv,
-}
+enum PlaybackType { direct, transcoded, offline, tv }
 
 enum SyncPlayCommandType {
   none,
@@ -49,10 +44,7 @@ class MediaInfo {
   final PlaybackType playbackType;
   final String videoInformation;
 
-  const MediaInfo({
-    required this.playbackType,
-    required this.videoInformation,
-  });
+  const MediaInfo({required this.playbackType, required this.videoInformation});
 }
 
 class PlayableData {
@@ -95,13 +87,7 @@ class PlayableData {
   });
 }
 
-enum MediaSegmentType {
-  commercial,
-  preview,
-  recap,
-  intro,
-  outro,
-}
+enum MediaSegmentType { commercial, preview, recap, intro, outro }
 
 class MediaSegment {
   final MediaSegmentType type;
@@ -109,12 +95,7 @@ class MediaSegment {
   final int start;
   final int end;
 
-  const MediaSegment({
-    required this.type,
-    required this.name,
-    required this.start,
-    required this.end,
-  });
+  const MediaSegment({required this.type, required this.name, required this.start, required this.end});
 }
 
 class AudioTrack {
@@ -160,11 +141,7 @@ class Chapter {
   // Duration in milliseconds
   final int time;
 
-  const Chapter({
-    required this.name,
-    required this.url,
-    required this.time,
-  });
+  const Chapter({required this.name, required this.url, required this.time});
 }
 
 class TrickPlayModel {

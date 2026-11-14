@@ -31,10 +31,7 @@ class SyncPlayController {
   static const int _attachSeekToleranceTicks = SyncPlayCommandHandler.positionToleranceTicks;
 
   SyncPlayController(this._ref) {
-    _commandHandler = SyncPlayCommandHandler(
-      timeSync: () => _timeSync,
-      onStateUpdate: _updateStateWith,
-    );
+    _commandHandler = SyncPlayCommandHandler(timeSync: () => _timeSync, onStateUpdate: _updateStateWith);
     _messageHandler = SyncPlayMessageHandler(
       onStateUpdate: _updateStateWith,
       startPlayback: _onQueueStartPlayback,
@@ -122,9 +119,7 @@ class SyncPlayController {
 
   /// Stamps the last command time; the player-side cooldown uses it to avoid feedback loops.
   void markCommandExecuted([DateTime? at]) {
-    _updateStateWith((state) => state.copyWith(
-          lastCommandTime: at ?? DateTime.now().toUtc(),
-        ));
+    _updateStateWith((state) => state.copyWith(lastCommandTime: at ?? DateTime.now().toUtc()));
   }
 
   void setPlayerBufferingState(bool isBuffering) {
@@ -139,31 +134,27 @@ class SyncPlayController {
           }),
         );
       }
-      _updateStateWith((state) => state.copyWith(
-            correctionState: state.correctionState.copyWith(
-              playerIsBuffering: true,
-              syncEnabled: false,
-              activeStrategy: SyncCorrectionStrategy.none,
-            ),
-          ));
+      _updateStateWith(
+        (state) => state.copyWith(
+          correctionState: state.correctionState.copyWith(
+            playerIsBuffering: true,
+            syncEnabled: false,
+            activeStrategy: SyncCorrectionStrategy.none,
+          ),
+        ),
+      );
       return;
     }
 
-    _updateStateWith((state) => state.copyWith(
-          correctionState: state.correctionState.copyWith(
-            playerIsBuffering: false,
-            syncEnabled: true,
-          ),
-        ));
+    _updateStateWith(
+      (state) =>
+          state.copyWith(correctionState: state.correctionState.copyWith(playerIsBuffering: false, syncEnabled: true)),
+    );
   }
 
   /// [clearLastCommand] is false around halt/resume so the last command keeps describing the group's
   /// playhead while this device is not following.
-  void resetCorrectionState({
-    String reason = 'reset',
-    bool syncEnabled = true,
-    bool clearLastCommand = true,
-  }) {
+  void resetCorrectionState({String reason = 'reset', bool syncEnabled = true, bool clearLastCommand = true}) {
     _syncCorrectionTimer?.cancel();
     _syncCorrectionTimer = null;
     _lastDriftCheckAt = null;
@@ -181,23 +172,21 @@ class SyncPlayController {
     }
 
     log('SyncPlay: Reset correction state ($reason)');
-    _updateStateWith((state) => state.copyWith(
-          correctionState: state.correctionState.copyWith(
-            activeStrategy: SyncCorrectionStrategy.none,
-            syncEnabled: syncEnabled,
-            playbackDiffMillis: 0,
-            syncAttempts: 0,
-          ),
-        ));
+    _updateStateWith(
+      (state) => state.copyWith(
+        correctionState: state.correctionState.copyWith(
+          activeStrategy: SyncCorrectionStrategy.none,
+          syncEnabled: syncEnabled,
+          playbackDiffMillis: 0,
+          syncAttempts: 0,
+        ),
+      ),
+    );
   }
 
   /// Drift = estimated server position - local position (positive: local is behind).
   /// Throttled to [_driftCheckInterval] unless [force] (used right after a local-only reload).
-  void updatePlaybackDrift({
-    required int currentPositionTicks,
-    DateTime? at,
-    bool force = false,
-  }) {
+  void updatePlaybackDrift({required int currentPositionTicks, DateTime? at, bool force = false}) {
     if (!_state.isFollowingGroupPlayback) {
       return;
     }
@@ -239,11 +228,7 @@ class SyncPlayController {
     );
 
     if (strategy == SyncCorrectionStrategy.speedToSync) {
-      _applySpeedToSync(
-        diffMillis: diffMillis,
-        config: correctionConfig,
-        now: now,
-      );
+      _applySpeedToSync(diffMillis: diffMillis, config: correctionConfig, now: now);
       return;
     }
 
@@ -257,12 +242,11 @@ class SyncPlayController {
       return;
     }
 
-    _updateStateWith((state) => state.copyWith(
-          correctionState: state.correctionState.copyWith(
-            playbackDiffMillis: diffMillis,
-            lastSyncAt: now,
-          ),
-        ));
+    _updateStateWith(
+      (state) => state.copyWith(
+        correctionState: state.correctionState.copyWith(playbackDiffMillis: diffMillis, lastSyncAt: now),
+      ),
+    );
   }
 
   /// Estimates the live group playhead from the last command, then the last `PlayQueue` frame timing;
@@ -278,11 +262,7 @@ class SyncPlayController {
     );
   }
 
-  void _applySpeedToSync({
-    required double diffMillis,
-    required SyncCorrectionConfig config,
-    required DateTime now,
-  }) {
+  void _applySpeedToSync({required double diffMillis, required SyncCorrectionConfig config, required DateTime now}) {
     final setSpeed = _commandHandler.onSetSpeed;
     if (setSpeed == null) {
       return;
@@ -296,9 +276,7 @@ class SyncPlayController {
 
     final rawSpeed = 1.0 + (diffMillis / speedToSyncTimeMs);
     final speed = rawSpeed < minSpeed ? minSpeed : rawSpeed;
-    final resetDuration = Duration(
-      milliseconds: speedToSyncTimeMs.round(),
-    );
+    final resetDuration = Duration(milliseconds: speedToSyncTimeMs.round());
 
     _syncCorrectionTimer?.cancel();
     unawaited(
@@ -312,15 +290,17 @@ class SyncPlayController {
       'diffMs=${diffMillis.toStringAsFixed(1)})',
     );
 
-    _updateStateWith((state) => state.copyWith(
-          correctionState: state.correctionState.copyWith(
-            playbackDiffMillis: diffMillis,
-            lastSyncAt: now,
-            activeStrategy: SyncCorrectionStrategy.speedToSync,
-            syncEnabled: false,
-            syncAttempts: state.correctionState.syncAttempts + 1,
-          ),
-        ));
+    _updateStateWith(
+      (state) => state.copyWith(
+        correctionState: state.correctionState.copyWith(
+          playbackDiffMillis: diffMillis,
+          lastSyncAt: now,
+          activeStrategy: SyncCorrectionStrategy.speedToSync,
+          syncEnabled: false,
+          syncAttempts: state.correctionState.syncAttempts + 1,
+        ),
+      ),
+    );
 
     _syncCorrectionTimer = Timer(resetDuration, () {
       final resetSpeed = _commandHandler.onSetSpeed;
@@ -331,12 +311,14 @@ class SyncPlayController {
           }),
         );
       }
-      _updateStateWith((state) => state.copyWith(
-            correctionState: state.correctionState.copyWith(
-              activeStrategy: SyncCorrectionStrategy.none,
-              syncEnabled: true,
-            ),
-          ));
+      _updateStateWith(
+        (state) => state.copyWith(
+          correctionState: state.correctionState.copyWith(
+            activeStrategy: SyncCorrectionStrategy.none,
+            syncEnabled: true,
+          ),
+        ),
+      );
     });
   }
 
@@ -363,26 +345,28 @@ class SyncPlayController {
       'diffMs=${diffMillis.toStringAsFixed(1)})',
     );
 
-    _updateStateWith((state) => state.copyWith(
-          correctionState: state.correctionState.copyWith(
-            playbackDiffMillis: diffMillis,
-            lastSyncAt: now,
-            activeStrategy: SyncCorrectionStrategy.skipToSync,
-            syncEnabled: false,
-            syncAttempts: state.correctionState.syncAttempts + 1,
-          ),
-        ));
-
-    final cooldownDuration = Duration(
-      milliseconds: (config.maxDelaySpeedToSyncMs / 2.0).round(),
+    _updateStateWith(
+      (state) => state.copyWith(
+        correctionState: state.correctionState.copyWith(
+          playbackDiffMillis: diffMillis,
+          lastSyncAt: now,
+          activeStrategy: SyncCorrectionStrategy.skipToSync,
+          syncEnabled: false,
+          syncAttempts: state.correctionState.syncAttempts + 1,
+        ),
+      ),
     );
+
+    final cooldownDuration = Duration(milliseconds: (config.maxDelaySpeedToSyncMs / 2.0).round());
     _syncCorrectionTimer = Timer(cooldownDuration, () {
-      _updateStateWith((state) => state.copyWith(
-            correctionState: state.correctionState.copyWith(
-              activeStrategy: SyncCorrectionStrategy.none,
-              syncEnabled: true,
-            ),
-          ));
+      _updateStateWith(
+        (state) => state.copyWith(
+          correctionState: state.correctionState.copyWith(
+            activeStrategy: SyncCorrectionStrategy.none,
+            syncEnabled: true,
+          ),
+        ),
+      );
     });
   }
 
@@ -422,10 +406,7 @@ class SyncPlayController {
 
   /// Detaches SyncPlay from the shared WebSocket without closing it (the socket is app-owned).
   Future<void> disconnect() async {
-    resetCorrectionState(
-      reason: 'disconnect',
-      syncEnabled: false,
-    );
+    resetCorrectionState(reason: 'disconnect', syncEnabled: false);
     await leaveGroup();
     _resetGroupLifecycleState();
     _commandHandler.cancelPendingCommands();
@@ -460,9 +441,7 @@ class SyncPlayController {
     _updateStateWith((s) => s.copyWith(isFollowingGroupPlayback: true));
     final completer = _joinGroupCompleter = Completer<bool>();
     try {
-      final response = await _api.syncPlayNewPost(
-        body: NewGroupRequestDto(groupName: groupName),
-      );
+      final response = await _api.syncPlayNewPost(body: NewGroupRequestDto(groupName: groupName));
       final info = response.body;
       if (info == null) {
         _completeJoinRequest(false);
@@ -508,13 +487,11 @@ class SyncPlayController {
     final index = itemIds.indexOf(model.item.id).clamp(0, itemIds.length - 1);
     final position = _ref.read(videoPlayerProvider).lastState?.position ?? Duration.zero;
     final positionTicks = secondsToTicks(position.inMilliseconds / 1000);
-    log('SyncPlay: Seeding new group with local playback '
-        '(item=${model.item.id}, index=$index, ticks=$positionTicks)');
-    await setNewQueue(
-      itemIds: itemIds,
-      playingItemPosition: index,
-      startPositionTicks: positionTicks,
+    log(
+      'SyncPlay: Seeding new group with local playback '
+      '(item=${model.item.id}, index=$index, ticks=$positionTicks)',
     );
+    await setNewQueue(itemIds: itemIds, playingItemPosition: index, startPositionTicks: positionTicks);
   }
 
   /// Returns true only once the server's `GroupJoined` frame arrived.
@@ -541,17 +518,17 @@ class SyncPlayController {
   Future<bool> _sendJoinRequest(String groupId) async {
     final completer = _joinGroupCompleter = Completer<bool>();
     try {
-      await _api.syncPlayJoinPost(
-        body: JoinGroupRequestDto(groupId: groupId),
-      );
+      await _api.syncPlayJoinPost(body: JoinGroupRequestDto(groupId: groupId));
       final confirmed = await completer.future.timeout(
         const Duration(seconds: 12),
         onTimeout: () {
           // Join is idempotent and real rejections arrive promptly, so a missing GroupJoined is almost
           // always a slow socket: reconcile against the authoritative state instead of reporting failure.
           final joined = _state.isInGroup && _state.groupId == groupId;
-          log('SyncPlay: GroupJoined not received within timeout; '
-              'reconciled isInGroup=$joined for $groupId');
+          log(
+            'SyncPlay: GroupJoined not received within timeout; '
+            'reconciled isInGroup=$joined for $groupId',
+          );
           return joined;
         },
       );
@@ -579,10 +556,7 @@ class SyncPlayController {
 
   /// The `PlayQueue` frame that follows `GroupJoined` drives playback, so nothing is started here.
   void _onGroupJoined() {
-    resetCorrectionState(
-      reason: 'group_joined',
-      syncEnabled: true,
-    );
+    resetCorrectionState(reason: 'group_joined', syncEnabled: true);
     // Stamp from the server frame, not the awaited `joinGroup` bool: a slow socket can deliver
     // `GroupJoined` after `joinGroup` already timed out, and the silent rejoin depends on this.
     _lastGroupId = _state.groupId ?? _lastGroupId;
@@ -598,9 +572,7 @@ class SyncPlayController {
     // A transparent rejoin after a socket drop is not news to the user.
     final showSnackbar = _state.groupName != null && !silentRejoin;
     if (showSnackbar) {
-      _showGroupSnackbar(
-        (l) => l.syncPlayJoinedGroup(_state.groupName ?? ''),
-      );
+      _showGroupSnackbar((l) => l.syncPlayJoinedGroup(_state.groupName ?? ''));
     }
   }
 
@@ -613,19 +585,18 @@ class SyncPlayController {
   void _onGroupLeftOrKicked() {
     _resetGroupLifecycleState();
     _commandHandler.cancelPendingCommands();
-    resetCorrectionState(
-      reason: 'group_left_or_kicked',
-      syncEnabled: false,
+    resetCorrectionState(reason: 'group_left_or_kicked', syncEnabled: false);
+    _updateStateWith(
+      (s) => s.copyWith(
+        isProcessingCommand: false,
+        processingCommandType: null,
+        playingItemId: null,
+        playlistItemId: null,
+        startPlaybackInProgress: false,
+        startingPlaylistItemId: null,
+        isFollowingGroupPlayback: true,
+      ),
     );
-    _updateStateWith((s) => s.copyWith(
-          isProcessingCommand: false,
-          processingCommandType: null,
-          playingItemId: null,
-          playlistItemId: null,
-          startPlaybackInProgress: false,
-          startingPlaylistItemId: null,
-          isFollowingGroupPlayback: true,
-        ));
     _stopLocalPlayback();
   }
 
@@ -711,10 +682,7 @@ class SyncPlayController {
     } finally {
       _resetGroupLifecycleState();
       _commandHandler.cancelPendingCommands();
-      resetCorrectionState(
-        reason: 'leave_group',
-        syncEnabled: false,
-      );
+      resetCorrectionState(reason: 'leave_group', syncEnabled: false);
       _updateState(_clearGroupState(_state));
       _stopLocalPlayback();
     }
@@ -749,9 +717,7 @@ class SyncPlayController {
       return;
     }
     try {
-      await _api.syncPlaySeekPost(
-        body: SeekRequestDto(positionTicks: positionTicks),
-      );
+      await _api.syncPlaySeekPost(body: SeekRequestDto(positionTicks: positionTicks));
     } catch (e) {
       log('SyncPlay: Failed to request seek: $e');
     }
@@ -770,9 +736,7 @@ class SyncPlayController {
       return;
     }
     try {
-      await _api.syncPlayNextItemPost(
-        body: NextItemRequestDto(playlistItemId: currentPlaylistItemId),
-      );
+      await _api.syncPlayNextItemPost(body: NextItemRequestDto(playlistItemId: currentPlaylistItemId));
     } catch (e) {
       log('SyncPlay: Failed to request NextItem: $e');
     }
@@ -789,9 +753,7 @@ class SyncPlayController {
       return;
     }
     try {
-      await _api.syncPlayPreviousItemPost(
-        body: PreviousItemRequestDto(playlistItemId: currentPlaylistItemId),
-      );
+      await _api.syncPlayPreviousItemPost(body: PreviousItemRequestDto(playlistItemId: currentPlaylistItemId));
     } catch (e) {
       log('SyncPlay: Failed to request PreviousItem: $e');
     }
@@ -803,9 +765,7 @@ class SyncPlayController {
       return;
     }
     try {
-      await _api.syncPlaySetPlaylistItemPost(
-        body: SetPlaylistItemRequestDto(playlistItemId: playlistItemId),
-      );
+      await _api.syncPlaySetPlaylistItemPost(body: SetPlaylistItemRequestDto(playlistItemId: playlistItemId));
     } catch (e) {
       log('SyncPlay: Failed to request SetPlaylistItem: $e');
     }
@@ -817,9 +777,7 @@ class SyncPlayController {
       return;
     }
     try {
-      await _api.syncPlaySetIgnoreWaitPost(
-        body: IgnoreWaitRequestDto(ignoreWait: ignoreWait),
-      );
+      await _api.syncPlaySetIgnoreWaitPost(body: IgnoreWaitRequestDto(ignoreWait: ignoreWait));
     } catch (e) {
       log('SyncPlay: Failed to set IgnoreWait=$ignoreWait: $e');
     }
@@ -833,18 +791,16 @@ class SyncPlayController {
     }
     log('SyncPlay: Halting group playback on this device');
     _commandHandler.cancelPendingCommands();
-    resetCorrectionState(
-      reason: 'halt_playback',
-      syncEnabled: false,
-      clearLastCommand: false,
+    resetCorrectionState(reason: 'halt_playback', syncEnabled: false, clearLastCommand: false);
+    _updateStateWith(
+      (s) => s.copyWith(
+        isFollowingGroupPlayback: false,
+        isProcessingCommand: false,
+        processingCommandType: null,
+        startPlaybackInProgress: false,
+        startingPlaylistItemId: null,
+      ),
     );
-    _updateStateWith((s) => s.copyWith(
-          isFollowingGroupPlayback: false,
-          isProcessingCommand: false,
-          processingCommandType: null,
-          startPlaybackInProgress: false,
-          startingPlaylistItemId: null,
-        ));
     if (stopLocalPlayer) {
       _stopLocalPlayback();
     }
@@ -857,11 +813,7 @@ class SyncPlayController {
     }
     log('SyncPlay: Following group playback again');
     _updateStateWith((s) => s.copyWith(isFollowingGroupPlayback: true));
-    resetCorrectionState(
-      reason: 'follow_playback',
-      syncEnabled: true,
-      clearLastCommand: false,
-    );
+    resetCorrectionState(reason: 'follow_playback', syncEnabled: true, clearLastCommand: false);
     await setIgnoreWait(false);
   }
 
@@ -921,18 +873,12 @@ class SyncPlayController {
   /// Suppresses Buffering/Ready reports while [body] runs (track switch), then forces a drift check.
   /// Resumes explicitly if the group is Playing: media-kit on web does not reliably auto-play after a reload.
   Future<T> runLocalOnly<T>(Future<T> Function() body) async {
-    _updateStateWith(
-      (state) => state.copyWith(
-        localOnlyOperationCount: state.localOnlyOperationCount + 1,
-      ),
-    );
+    _updateStateWith((state) => state.copyWith(localOnlyOperationCount: state.localOnlyOperationCount + 1));
     try {
       return await body();
     } finally {
       _updateStateWith(
-        (state) => state.copyWith(
-          localOnlyOperationCount: (state.localOnlyOperationCount - 1).clamp(0, 1 << 30),
-        ),
+        (state) => state.copyWith(localOnlyOperationCount: (state.localOnlyOperationCount - 1).clamp(0, 1 << 30)),
       );
 
       final shouldResume = _state.groupState == SyncPlayGroupState.playing && _state.isFollowingGroupPlayback;
@@ -955,9 +901,7 @@ class SyncPlayController {
       return;
     }
     try {
-      await _api.syncPlayPingPost(
-        body: PingRequestDto(ping: _timeSync!.ping.inMilliseconds),
-      );
+      await _api.syncPlayPingPost(body: PingRequestDto(ping: _timeSync!.ping.inMilliseconds));
     } catch (e) {
       log('SyncPlay: Failed to report ping: $e');
     }
@@ -977,8 +921,10 @@ class SyncPlayController {
     final now = DateTime.now().toUtc();
     final lastAt = _lastSetNewQueueAt;
     if (lastAt != null && now.difference(lastAt) < const Duration(seconds: 1)) {
-      log('SyncPlay: Ignoring setNewQueue (debounced, last call '
-          '${now.difference(lastAt).inMilliseconds}ms ago)');
+      log(
+        'SyncPlay: Ignoring setNewQueue (debounced, last call '
+        '${now.difference(lastAt).inMilliseconds}ms ago)',
+      );
       return false;
     }
     _lastSetNewQueueAt = now;
@@ -1000,21 +946,23 @@ class SyncPlayController {
   }
 
   /// Completes with the outcome of the next `_startPlayback` (`false` on error or timeout).
-  Future<bool> awaitNextStartPlayback({
-    Duration timeout = const Duration(seconds: 20),
-  }) {
+  Future<bool> awaitNextStartPlayback({Duration timeout = const Duration(seconds: 20)}) {
     final completer = _startPlaybackCompleter ??= Completer<bool>();
-    return completer.future.timeout(
-      timeout,
-      onTimeout: () {
-        log('SyncPlay: awaitNextStartPlayback TIMED OUT after '
-            '${timeout.inSeconds}s (no _startPlayback completion)');
-        return false;
-      },
-    ).then((value) {
-      log('SyncPlay: awaitNextStartPlayback resolved with success=$value');
-      return value;
-    });
+    return completer.future
+        .timeout(
+          timeout,
+          onTimeout: () {
+            log(
+              'SyncPlay: awaitNextStartPlayback TIMED OUT after '
+              '${timeout.inSeconds}s (no _startPlayback completion)',
+            );
+            return false;
+          },
+        )
+        .then((value) {
+          log('SyncPlay: awaitNextStartPlayback resolved with success=$value');
+          return value;
+        });
   }
 
   /// "Resume playback" from outside the player: follows the group again, then restarts at the live position.
@@ -1028,8 +976,10 @@ class SyncPlayController {
     final positionTicks = estimateCurrentGroupPositionTicks();
     await _followGroupPlayback();
     final pending = awaitNextStartPlayback();
-    log('SyncPlay: Rejoining playback for item=$itemId, '
-        'positionTicks=$positionTicks (estimated live)');
+    log(
+      'SyncPlay: Rejoining playback for item=$itemId, '
+      'positionTicks=$positionTicks (estimated live)',
+    );
     unawaited(_startPlayback(itemId, positionTicks));
     return pending;
   }
@@ -1191,10 +1141,7 @@ class SyncPlayController {
     final localCompleter = _startPlaybackCompleter ??= Completer<bool>();
     _inFlightStartCompleter = Completer<void>();
     _currentlyStartingPlaylistItemId = dedupKey;
-    _updateStateWith((state) => state.copyWith(
-          startPlaybackInProgress: true,
-          startingPlaylistItemId: dedupKey,
-        ));
+    _updateStateWith((state) => state.copyWith(startPlaybackInProgress: true, startingPlaylistItemId: dedupKey));
     log('SyncPlay: _startPlayback called for item: $itemId, ticks: $startPositionTicks');
 
     var success = false;
@@ -1259,10 +1206,9 @@ class SyncPlayController {
       // From here on the player reports its own Ready on failure, so the finally block must not send one.
       loadAttempted = true;
       log('SyncPlay: Loading playback item...');
-      final loadedCorrectly = await _ref.read(videoPlayerProvider.notifier).loadPlaybackItem(
-            playbackModel,
-            startPosition,
-          );
+      final loadedCorrectly = await _ref
+          .read(videoPlayerProvider.notifier)
+          .loadPlaybackItem(playbackModel, startPosition);
       if (_shouldAbortStartPlayback()) {
         log('SyncPlay: _startPlayback aborted after loadPlaybackItem (left group)');
         // Tear down media loaded for a group we no longer belong to.
@@ -1277,9 +1223,7 @@ class SyncPlayController {
       success = true;
       log('SyncPlay: Playback item loaded successfully');
 
-      _ref.read(mediaPlaybackProvider.notifier).update(
-            (state) => state.copyWith(state: VideoPlayerState.fullScreen),
-          );
+      _ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(state: VideoPlayerState.fullScreen));
       log('SyncPlay: Set state to fullScreen');
 
       // When the route is already open, loadPlaybackItem swapped the content in place; pushing would stack routes.
@@ -1303,10 +1247,7 @@ class SyncPlayController {
       log('SyncPlay: Error starting playback: $e\n$stackTrace');
     } finally {
       _currentlyStartingPlaylistItemId = null;
-      _updateStateWith((state) => state.copyWith(
-            startPlaybackInProgress: false,
-            startingPlaylistItemId: null,
-          ));
+      _updateStateWith((state) => state.copyWith(startPlaybackInProgress: false, startingPlaylistItemId: null));
       if (!success) {
         // Clear the buffering flag so the rest of the group is not stranded waiting on us.
         setPlayerBufferingState(false);
@@ -1347,9 +1288,7 @@ class SyncPlayController {
 
   /// Shown when the server evicted us from a group we still believed we belonged to.
   void notifyGroupGone({bool wasKicked = false}) {
-    _showGroupSnackbar(
-      (l) => wasKicked ? l.syncPlayKickedFromGroup : l.syncPlayGroupNoLongerExists,
-    );
+    _showGroupSnackbar((l) => wasKicked ? l.syncPlayKickedFromGroup : l.syncPlayGroupNoLongerExists);
   }
 
   Future<void> dispose() async {

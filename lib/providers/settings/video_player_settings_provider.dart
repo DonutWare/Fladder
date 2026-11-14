@@ -17,8 +17,8 @@ import 'package:fladder/providers/video_player_provider.dart';
 
 final videoPlayerSettingsProvider =
     StateNotifierProvider<VideoPlayerSettingsProviderNotifier, VideoPlayerSettingsModel>((ref) {
-  return VideoPlayerSettingsProviderNotifier(ref);
-});
+      return VideoPlayerSettingsProviderNotifier(ref);
+    });
 
 final subtitleTimingOffsetProvider = StateProvider<Duration>((ref) => Duration.zero);
 
@@ -42,9 +42,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   }
 
   void setScreenBrightness(double? value) async {
-    state = state.copyWith(
-      screenBrightness: value,
-    );
+    state = state.copyWith(screenBrightness: value);
     if (state.screenBrightness != null) {
       ScreenBrightness().setApplicationScreenBrightness(state.screenBrightness!);
     } else {
@@ -91,9 +89,7 @@ class VideoPlayerSettingsProviderNotifier extends StateNotifier<VideoPlayerSetti
   }
 
   void steppedSpeed(double i) {
-    var value = double.parse(
-      ((ref.read(playbackRateProvider) + i).clamp(0.25, 3)).toStringAsFixed(2),
-    );
+    var value = double.parse(((ref.read(playbackRateProvider) + i).clamp(0.25, 3)).toStringAsFixed(2));
 
     if ((value - 1.0).abs() <= 0.06) {
       value = 1.0;

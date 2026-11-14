@@ -37,12 +37,7 @@ abstract class TimeSyncMeasurement with _$TimeSyncMeasurement {
   Duration get ping => Duration(milliseconds: delay.inMilliseconds ~/ 2);
 }
 
-enum SyncPlayGroupState {
-  idle,
-  waiting,
-  paused,
-  playing,
-}
+enum SyncPlayGroupState { idle, waiting, paused, playing }
 
 enum SyncPlayCommand {
   pause('Pause'),
@@ -96,11 +91,7 @@ enum SyncPlayStateReason {
   }
 }
 
-enum SyncCorrectionStrategy {
-  none,
-  speedToSync,
-  skipToSync,
-}
+enum SyncCorrectionStrategy { none, speedToSync, skipToSync }
 
 /// Defaults match the official Jellyfin SyncPlay thresholds.
 class SyncCorrectionConfig {
@@ -196,7 +187,8 @@ SyncCorrectionStrategy selectSyncCorrectionStrategy({
 
   final absDiffMillis = diffMillis.abs();
 
-  final canUseSpeedToSync = (config.useSpeedToSync &&
+  final canUseSpeedToSync =
+      (config.useSpeedToSync &&
       hasPlaybackRate &&
       absDiffMillis >= config.minDelaySpeedToSyncMs &&
       absDiffMillis < config.maxDelaySpeedToSyncMs);
@@ -214,10 +206,7 @@ SyncCorrectionStrategy selectSyncCorrectionStrategy({
 
 /// `playlistItemId` is the server-generated id used by NextItem/PreviousItem/SetPlaylistItem.
 class SyncPlayQueueEntry {
-  const SyncPlayQueueEntry({
-    required this.itemId,
-    required this.playlistItemId,
-  });
+  const SyncPlayQueueEntry({required this.itemId, required this.playlistItemId});
 
   final String itemId;
   final String playlistItemId;
@@ -326,7 +315,8 @@ int estimateGroupPositionTicks({
   required DateTime remoteNow,
 }) {
   if (lastCommand != null) {
-    final forCurrentItem = lastCommand.playlistItemId.isEmpty ||
+    final forCurrentItem =
+        lastCommand.playlistItemId.isEmpty ||
         currentPlaylistItemId == null ||
         lastCommand.playlistItemId == currentPlaylistItemId;
     final when = DateTime.tryParse(lastCommand.when);

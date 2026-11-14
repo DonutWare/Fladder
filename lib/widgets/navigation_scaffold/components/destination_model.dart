@@ -39,35 +39,26 @@ class DestinationModel {
 
   /// Converts this [DestinationModel] to a [NavigationRailDestination] used in a [NavigationRail].
   NavigationRailDestination toNavigationRailDestination({EdgeInsets? padding}) {
-    return NavigationRailDestination(
-      icon: icon!,
-      label: Text(label),
-      selectedIcon: selectedIcon,
-      padding: padding,
-    );
+    return NavigationRailDestination(icon: icon!, label: Text(label), selectedIcon: selectedIcon, padding: padding);
   }
 
   /// Converts this [DestinationModel] to a [NavigationDrawerDestination] used in a [NavigationDrawer].
   NavigationDrawerDestination toNavigationDrawerDestination() {
-    return NavigationDrawerDestination(
-      icon: icon!,
-      label: Text(label),
-      selectedIcon: selectedIcon,
-    );
+    return NavigationDrawerDestination(icon: icon!, label: Text(label), selectedIcon: selectedIcon);
   }
 
   /// Converts this [DestinationModel] to a [NavigationDestination] used in a [BottomNavigationBar].
   NavigationDestination toNavigationDestination() {
-    return NavigationDestination(
-      icon: icon!,
-      label: label,
-      selectedIcon: selectedIcon,
-      tooltip: tooltip,
-    );
+    return NavigationDestination(icon: icon!, label: label, selectedIcon: selectedIcon, tooltip: tooltip);
   }
 
-  NavigationButton toNavigationButton(bool selected, bool horizontal, bool expanded,
-      {bool navFocusNode = false, Widget? customIcon}) {
+  NavigationButton toNavigationButton(
+    bool selected,
+    bool horizontal,
+    bool expanded, {
+    bool navFocusNode = false,
+    Widget? customIcon,
+  }) {
     return NavigationButton(
       label: label,
       selected: selected,

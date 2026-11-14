@@ -8,22 +8,10 @@ extension SyncPlayGroupStateExtension on SyncPlayGroupState {
   (IconData, Color) iconAndColor(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return switch (this) {
-      SyncPlayGroupState.idle => (
-          IconsaxPlusLinear.pause_circle,
-          scheme.onSurfaceVariant,
-        ),
-      SyncPlayGroupState.waiting => (
-          IconsaxPlusLinear.timer_1,
-          scheme.tertiary,
-        ),
-      SyncPlayGroupState.paused => (
-          IconsaxPlusLinear.pause,
-          scheme.secondary,
-        ),
-      SyncPlayGroupState.playing => (
-          IconsaxPlusLinear.play,
-          scheme.primary,
-        ),
+      SyncPlayGroupState.idle => (IconsaxPlusLinear.pause_circle, scheme.onSurfaceVariant),
+      SyncPlayGroupState.waiting => (IconsaxPlusLinear.timer_1, scheme.tertiary),
+      SyncPlayGroupState.paused => (IconsaxPlusLinear.pause, scheme.secondary),
+      SyncPlayGroupState.playing => (IconsaxPlusLinear.play, scheme.primary),
     };
   }
 

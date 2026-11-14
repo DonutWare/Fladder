@@ -92,13 +92,15 @@ class SyncPlayMessageHandler {
 
     // `isFollowingGroupPlayback` is left alone: the controller sets it for user-initiated joins, and a
     // silent rejoin must not un-halt a device the user halted.
-    onStateUpdate((state) => state.copyWith(
-          isInGroup: true,
-          groupId: groupId,
-          groupName: groupName,
-          groupState: _parseGroupState(stateStr),
-          participants: participants,
-        ));
+    onStateUpdate(
+      (state) => state.copyWith(
+        isInGroup: true,
+        groupId: groupId,
+        groupName: groupName,
+        groupState: _parseGroupState(stateStr),
+        participants: participants,
+      ),
+    );
 
     log('SyncPlay: Joined group "$groupName" ($groupId)');
 
@@ -215,10 +217,7 @@ class SyncPlayMessageHandler {
     final reasonStr = data['Reason'] as String?;
     final newGroupState = _parseGroupState(stateStr);
 
-    onStateUpdate((state) => state.copyWith(
-          groupState: newGroupState,
-          stateReason: reasonStr,
-        ));
+    onStateUpdate((state) => state.copyWith(groupState: newGroupState, stateReason: reasonStr));
 
     log('SyncPlay: State update: $stateStr (reason: $reasonStr)');
 
@@ -265,25 +264,30 @@ class SyncPlayMessageHandler {
 
     final previousItemId = currentState.playingItemId;
 
-    onStateUpdate((state) => state.copyWith(
-          playingItemId: playingItemId,
-          playlistItemId: playlistItemId,
-          positionTicks: startPositionTicks,
-          playlist: entries,
-          playingItemIndex: hasPlayingEntry ? playingItemIndex : -1,
-          queueTiming: SyncPlayQueueTiming(
-            startPositionTicks: startPositionTicks,
-            lastUpdate: lastUpdate,
-            isPlaying: isPlayingNow,
-          ),
-        ));
+    onStateUpdate(
+      (state) => state.copyWith(
+        playingItemId: playingItemId,
+        playlistItemId: playlistItemId,
+        positionTicks: startPositionTicks,
+        playlist: entries,
+        playingItemIndex: hasPlayingEntry ? playingItemIndex : -1,
+        queueTiming: SyncPlayQueueTiming(
+          startPositionTicks: startPositionTicks,
+          lastUpdate: lastUpdate,
+          isPlaying: isPlayingNow,
+        ),
+      ),
+    );
 
-    log('SyncPlay: PlayQueue update - playing: $playingItemId '
-        '(reason: $reason, isPlaying: $isPlayingNow, previousItemId: $previousItemId, '
-        'queue: ${entries.length} items)');
+    log(
+      'SyncPlay: PlayQueue update - playing: $playingItemId '
+      '(reason: $reason, isPlaying: $isPlayingNow, previousItemId: $previousItemId, '
+      'queue: ${entries.length} items)',
+    );
 
     // Trigger regardless of whether the item changed: the user who set the queue also receives the update.
-    final shouldTrigger = playingItemId != null &&
+    final shouldTrigger =
+        playingItemId != null &&
         (reason == 'NewPlaylist' ||
             reason == 'SetCurrentItem' ||
             reason == 'NextItem' ||

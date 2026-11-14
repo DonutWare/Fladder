@@ -32,17 +32,8 @@ class SyncPlayCommandIndicator extends ConsumerWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
-                  width: 2,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    blurRadius: 20,
-                    spreadRadius: 5,
-                  ),
-                ],
+                border: Border.all(color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5), width: 2),
+                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 20, spreadRadius: 5)],
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -52,9 +43,9 @@ class SyncPlayCommandIndicator extends ConsumerWidget {
                   Text(
                     _label(context, overlay, commandType),
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Row(
@@ -63,17 +54,14 @@ class SyncPlayCommandIndicator extends ConsumerWidget {
                       SizedBox(
                         width: 12,
                         height: 12,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                        child: CircularProgressIndicator(strokeWidth: 2, color: Theme.of(context).colorScheme.primary),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         context.localized.syncPlaySyncingWithGroup,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
                       ),
                     ],
                   ),
@@ -100,10 +88,7 @@ class _OverlayIcon extends StatelessWidget {
   final SyncPlayOverlay overlay;
   final SyncPlayCommand? commandType;
 
-  const _OverlayIcon({
-    required this.overlay,
-    required this.commandType,
-  });
+  const _OverlayIcon({required this.overlay, required this.commandType});
 
   @override
   Widget build(BuildContext context) {
@@ -117,15 +102,8 @@ class _OverlayIcon extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.15),
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        icon,
-        size: 48,
-        color: color,
-      ),
+      decoration: BoxDecoration(color: color.withValues(alpha: 0.15), shape: BoxShape.circle),
+      child: Icon(icon, size: 48, color: color),
     );
   }
 }

@@ -7,10 +7,7 @@ void main() {
     test('selects SpeedToSync in medium drift window', () {
       final strategy = selectSyncCorrectionStrategy(
         config: const SyncCorrectionConfig(),
-        state: const SyncCorrectionState(
-          syncEnabled: true,
-          activeStrategy: SyncCorrectionStrategy.none,
-        ),
+        state: const SyncCorrectionState(syncEnabled: true, activeStrategy: SyncCorrectionStrategy.none),
         diffMillis: 500,
         hasPlaybackRate: true,
       );
@@ -21,10 +18,7 @@ void main() {
     test('falls back to SkipToSync when playback rate unsupported', () {
       final strategy = selectSyncCorrectionStrategy(
         config: const SyncCorrectionConfig(),
-        state: const SyncCorrectionState(
-          syncEnabled: true,
-          activeStrategy: SyncCorrectionStrategy.none,
-        ),
+        state: const SyncCorrectionState(syncEnabled: true, activeStrategy: SyncCorrectionStrategy.none),
         diffMillis: 500,
         hasPlaybackRate: false,
       );
@@ -35,10 +29,7 @@ void main() {
     test('selects SkipToSync for very large drift', () {
       final strategy = selectSyncCorrectionStrategy(
         config: const SyncCorrectionConfig(),
-        state: const SyncCorrectionState(
-          syncEnabled: true,
-          activeStrategy: SyncCorrectionStrategy.none,
-        ),
+        state: const SyncCorrectionState(syncEnabled: true, activeStrategy: SyncCorrectionStrategy.none),
         diffMillis: 3500,
         hasPlaybackRate: true,
       );
@@ -54,42 +45,26 @@ void main() {
     });
 
     test('hasActivePlayback true with playing item and non-idle state', () {
-      final state = SyncPlayState(
-        isInGroup: true,
-        playingItemId: 'item-1',
-        groupState: SyncPlayGroupState.playing,
-      );
+      final state = SyncPlayState(isInGroup: true, playingItemId: 'item-1', groupState: SyncPlayGroupState.playing);
       expect(state.hasActivePlayback, isTrue);
     });
 
     test('hasActivePlayback false when group state is idle', () {
-      final state = SyncPlayState(
-        isInGroup: true,
-        playingItemId: 'item-1',
-      );
+      final state = SyncPlayState(isInGroup: true, playingItemId: 'item-1');
       expect(state.hasActivePlayback, isFalse);
     });
 
     test('isInLocalOnlyMode mirrors localOnlyOperationCount', () {
       expect(SyncPlayState().isInLocalOnlyMode, isFalse);
-      expect(
-        SyncPlayState(localOnlyOperationCount: 1).isInLocalOnlyMode,
-        isTrue,
-      );
-      expect(
-        SyncPlayState(localOnlyOperationCount: 3).isInLocalOnlyMode,
-        isTrue,
-      );
+      expect(SyncPlayState(localOnlyOperationCount: 1).isInLocalOnlyMode, isTrue);
+      expect(SyncPlayState(localOnlyOperationCount: 3).isInLocalOnlyMode, isTrue);
     });
   });
 
   group('SyncPlayCommandHandler', () {
     test('duplicate Pause while already paused at position is a no-op correction check', () async {
       var pauseCalls = 0;
-      final handler = SyncPlayCommandHandler(
-        timeSync: () => null,
-        onStateUpdate: (_) {},
-      )
+      final handler = SyncPlayCommandHandler(timeSync: () => null, onStateUpdate: (_) {})
         ..onPause = () async {
           pauseCalls++;
         }
@@ -111,10 +86,7 @@ void main() {
 
     test('executes Unpause as seek then play', () async {
       final order = <String>[];
-      final handler = SyncPlayCommandHandler(
-        timeSync: () => null,
-        onStateUpdate: (_) {},
-      )
+      final handler = SyncPlayCommandHandler(timeSync: () => null, onStateUpdate: (_) {})
         ..onSeek = (ticks) async {
           order.add('seek');
         }
@@ -138,10 +110,7 @@ void main() {
 
     test('Unpause is not deduped when player is paused', () async {
       var playCalls = 0;
-      final handler = SyncPlayCommandHandler(
-        timeSync: () => null,
-        onStateUpdate: (_) {},
-      )
+      final handler = SyncPlayCommandHandler(timeSync: () => null, onStateUpdate: (_) {})
         ..onPlay = () async {
           playCalls++;
         }
@@ -166,10 +135,7 @@ void main() {
 
     test('Seek reports ready only when not buffering', () async {
       var readyCalls = 0;
-      final handler = SyncPlayCommandHandler(
-        timeSync: () => null,
-        onStateUpdate: (_) {},
-      )
+      final handler = SyncPlayCommandHandler(timeSync: () => null, onStateUpdate: (_) {})
         ..onPause = () async {}
         ..onSeek = (ticks) async {}
         ..onReportReady = ({required bool isPlaying, required int positionTicks}) async {
@@ -189,13 +155,7 @@ void main() {
       expect(readyCalls, 1);
 
       handler.isBuffering = () => true;
-      handler.handleCommand(
-        {
-          ...commandData,
-          'When': DateTime.now().toUtc().toIso8601String(),
-        },
-        SyncPlayState(),
-      );
+      handler.handleCommand({...commandData, 'When': DateTime.now().toUtc().toIso8601String()}, SyncPlayState());
       await Future<void>.delayed(const Duration(milliseconds: 5));
       expect(readyCalls, 1);
     });
@@ -204,20 +164,21 @@ void main() {
       var buffering = true;
       var stateClearFired = false;
 
-      final handler = SyncPlayCommandHandler(
-        timeSync: () => null,
-        onStateUpdate: (updater) {
-          // Detect the finally block's isProcessingCommand=false transition by applying the updater to a sentinel.
-          final after = updater(SyncPlayState(isProcessingCommand: true));
-          if (after.isProcessingCommand == false) {
-            stateClearFired = true;
-          }
-        },
-      )
-        ..onSeek = (_) async {}
-        ..onPlay = () async {}
-        ..getPositionTicks = (() => 0)
-        ..isBuffering = (() => buffering);
+      final handler =
+          SyncPlayCommandHandler(
+              timeSync: () => null,
+              onStateUpdate: (updater) {
+                // Detect the finally block's isProcessingCommand=false transition by applying the updater to a sentinel.
+                final after = updater(SyncPlayState(isProcessingCommand: true));
+                if (after.isProcessingCommand == false) {
+                  stateClearFired = true;
+                }
+              },
+            )
+            ..onSeek = (_) async {}
+            ..onPlay = () async {}
+            ..getPositionTicks = (() => 0)
+            ..isBuffering = (() => buffering);
 
       final commandData = <String, dynamic>{
         'Command': 'Unpause',
@@ -230,42 +191,35 @@ void main() {
 
       // While player is buffering the finally must not have fired.
       await Future<void>.delayed(const Duration(milliseconds: 250));
-      expect(
-        stateClearFired,
-        isFalse,
-        reason: 'should not clear isProcessingCommand while player is still buffering',
-      );
+      expect(stateClearFired, isFalse, reason: 'should not clear isProcessingCommand while player is still buffering');
 
       // Player finishes buffering; the wait loop polls every 100 ms and
       // the finally block should fire shortly after.
       buffering = false;
       await Future<void>.delayed(const Duration(milliseconds: 250));
-      expect(
-        stateClearFired,
-        isTrue,
-        reason: 'should clear isProcessingCommand once buffering ends',
-      );
+      expect(stateClearFired, isTrue, reason: 'should clear isProcessingCommand once buffering ends');
     });
 
     test('Pause-with-seek defers final state-clear until player stops buffering', () async {
       var buffering = true;
       var stateClearFired = false;
 
-      final handler = SyncPlayCommandHandler(
-        timeSync: () => null,
-        onStateUpdate: (updater) {
-          final after = updater(SyncPlayState(isProcessingCommand: true));
-          if (after.isProcessingCommand == false) {
-            stateClearFired = true;
-          }
-        },
-      )
-        ..onPause = () async {}
-        ..onSeek = (_) async {}
-        // Force a position correction by pretending the local player is far
-        // from the requested Pause position — handler will call onSeek.
-        ..getPositionTicks = (() => 0)
-        ..isBuffering = (() => buffering);
+      final handler =
+          SyncPlayCommandHandler(
+              timeSync: () => null,
+              onStateUpdate: (updater) {
+                final after = updater(SyncPlayState(isProcessingCommand: true));
+                if (after.isProcessingCommand == false) {
+                  stateClearFired = true;
+                }
+              },
+            )
+            ..onPause = () async {}
+            ..onSeek = (_) async {}
+            // Force a position correction by pretending the local player is far
+            // from the requested Pause position — handler will call onSeek.
+            ..getPositionTicks = (() => 0)
+            ..isBuffering = (() => buffering);
 
       final commandData = <String, dynamic>{
         'Command': 'Pause',
@@ -287,11 +241,7 @@ void main() {
 
       buffering = false;
       await Future<void>.delayed(const Duration(milliseconds: 250));
-      expect(
-        stateClearFired,
-        isTrue,
-        reason: 'should clear isProcessingCommand once buffering ends',
-      );
+      expect(stateClearFired, isTrue, reason: 'should clear isProcessingCommand once buffering ends');
     });
   });
 }

@@ -68,10 +68,7 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
           onSubmitted: (value) => Navigator.of(context).pop(value),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(context.localized.cancel),
-          ),
+          TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(context.localized.cancel)),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(controller.text),
             child: Text(context.localized.create),
@@ -114,15 +111,11 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
     final canJoin = syncPlayAccess == null || syncPlayAccess != SyncPlayUserAccessType.none;
 
     return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.sizeOf(context).height * 0.7,
-      ),
+      constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.7),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8).add(MediaQuery.paddingOf(context)),
         child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: FladderTheme.largeShape.borderRadius,
-          ),
+          shape: RoundedRectangleBorder(borderRadius: FladderTheme.largeShape.borderRadius),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -144,17 +137,9 @@ class _SyncPlayGroupSheetState extends ConsumerState<SyncPlayGroupSheet> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   children: [
-                    Icon(
-                      IconsaxPlusLinear.people,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+                    Icon(IconsaxPlusLinear.people, color: Theme.of(context).colorScheme.primary),
                     const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        context.localized.syncPlay,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ),
+                    Expanded(child: Text(context.localized.syncPlay, style: Theme.of(context).textTheme.titleLarge)),
                     if (syncPlayState.isInGroup)
                       TextButton.icon(
                         onPressed: _leaveGroup,
@@ -218,11 +203,7 @@ class _SyncPlaySheetContent extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                IconsaxPlusLinear.lock,
-                size: 48,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+              Icon(IconsaxPlusLinear.lock, size: 48, color: Theme.of(context).colorScheme.onSurfaceVariant),
               const SizedBox(height: 16),
               Text(
                 context.localized.syncPlayAccessDisabled,
@@ -236,10 +217,7 @@ class _SyncPlaySheetContent extends ConsumerWidget {
     }
     if (groupsState.isLoading) {
       return const Center(
-        child: Padding(
-          padding: EdgeInsets.all(32),
-          child: CircularProgressIndicator(),
-        ),
+        child: Padding(padding: EdgeInsets.all(32), child: CircularProgressIndicator()),
       );
     }
     if (groupsState.error != null) {
@@ -249,16 +227,9 @@ class _SyncPlaySheetContent extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                IconsaxPlusLinear.warning_2,
-                size: 48,
-                color: Theme.of(context).colorScheme.error,
-              ),
+              Icon(IconsaxPlusLinear.warning_2, size: 48, color: Theme.of(context).colorScheme.error),
               const SizedBox(height: 16),
-              Text(
-                context.localized.syncPlayFailedToLoadGroups,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+              Text(context.localized.syncPlayFailedToLoadGroups, style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 8),
               TextButton(
                 onPressed: () => ref.read(syncPlayGroupsProvider.notifier).loadGroups(),
@@ -276,22 +247,15 @@ class _SyncPlaySheetContent extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                IconsaxPlusLinear.people,
-                size: 48,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+              Icon(IconsaxPlusLinear.people, size: 48, color: Theme.of(context).colorScheme.onSurfaceVariant),
               const SizedBox(height: 16),
-              Text(
-                context.localized.syncPlayNoActiveGroups,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+              Text(context.localized.syncPlayNoActiveGroups, style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 8),
               Text(
                 context.localized.syncPlayCreateGroupHint,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
               ),
               if (canCreate) ...[
                 const SizedBox(height: 16),
@@ -314,11 +278,7 @@ class _SyncPlaySheetContent extends ConsumerWidget {
       padding: const EdgeInsets.only(bottom: 16),
       itemBuilder: (context, index) {
         final group = groups[index];
-        return _GroupListTile(
-          group: group,
-          onTap: () => onJoinGroup(group),
-          autofocus: index == 0,
-        );
+        return _GroupListTile(group: group, onTap: () => onJoinGroup(group), autofocus: index == 0);
       },
     );
   }
@@ -335,12 +295,11 @@ class _ActiveGroupView extends ConsumerWidget {
       return;
     }
     if (!ok) {
-      log('unableToPlayMedia [_ActiveGroupView._onResumePlayback]: '
-          'rejoinPlayback returned false');
-      FladderSnack.show(
-        context.localized.unableToPlayMedia,
-        context: context,
+      log(
+        'unableToPlayMedia [_ActiveGroupView._onResumePlayback]: '
+        'rejoinPlayback returned false',
       );
+      FladderSnack.show(context.localized.unableToPlayMedia, context: context);
       return;
     }
     Navigator.of(context).maybePop();
@@ -376,10 +335,7 @@ class _ActiveGroupView extends ConsumerWidget {
                   color: Theme.of(context).colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  IconsaxPlusBold.people,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
+                child: Icon(IconsaxPlusBold.people, color: Theme.of(context).colorScheme.onPrimaryContainer),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -396,9 +352,9 @@ class _ActiveGroupView extends ConsumerWidget {
                           : state.participants.join(', '),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
                     ),
                   ],
                 ),
@@ -426,9 +382,9 @@ class _ActiveGroupView extends ConsumerWidget {
           const SizedBox(height: 16),
           Text(
             context.localized.syncPlayInstructions,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
           ),
         ],
       ),
@@ -445,46 +401,40 @@ class _StateIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final (icon, label, color) = switch (state.groupState) {
       _ when !state.isFollowingGroupPlayback => (
-          IconsaxPlusLinear.pause_circle,
-          context.localized.syncPlayNotFollowing,
-          Theme.of(context).colorScheme.onSurfaceVariant,
-        ),
+        IconsaxPlusLinear.pause_circle,
+        context.localized.syncPlayNotFollowing,
+        Theme.of(context).colorScheme.onSurfaceVariant,
+      ),
       SyncPlayGroupState.idle => (
-          IconsaxPlusLinear.pause_circle,
-          context.localized.syncPlayStateIdle,
-          Theme.of(context).colorScheme.onSurfaceVariant,
-        ),
+        IconsaxPlusLinear.pause_circle,
+        context.localized.syncPlayStateIdle,
+        Theme.of(context).colorScheme.onSurfaceVariant,
+      ),
       SyncPlayGroupState.waiting => (
-          IconsaxPlusLinear.timer_1,
-          context.localized.syncPlayStateWaiting,
-          Theme.of(context).colorScheme.tertiary,
-        ),
+        IconsaxPlusLinear.timer_1,
+        context.localized.syncPlayStateWaiting,
+        Theme.of(context).colorScheme.tertiary,
+      ),
       SyncPlayGroupState.paused => (
-          IconsaxPlusLinear.pause,
-          context.localized.syncPlayStatePaused,
-          Theme.of(context).colorScheme.secondary,
-        ),
+        IconsaxPlusLinear.pause,
+        context.localized.syncPlayStatePaused,
+        Theme.of(context).colorScheme.secondary,
+      ),
       SyncPlayGroupState.playing => (
-          IconsaxPlusLinear.play,
-          context.localized.syncPlayStatePlaying,
-          Theme.of(context).colorScheme.primary,
-        ),
+        IconsaxPlusLinear.play,
+        context.localized.syncPlayStatePlaying,
+        Theme.of(context).colorScheme.primary,
+      ),
     };
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
-      ),
+      decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 16, color: color),
           const SizedBox(width: 8),
-          Text(
-            label,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(color: color),
-          ),
+          Text(label, style: Theme.of(context).textTheme.labelMedium?.copyWith(color: color)),
         ],
       ),
     );
@@ -496,11 +446,7 @@ class _GroupListTile extends StatelessWidget {
   final VoidCallback onTap;
   final bool autofocus;
 
-  const _GroupListTile({
-    required this.group,
-    required this.onTap,
-    this.autofocus = false,
-  });
+  const _GroupListTile({required this.group, required this.onTap, this.autofocus = false});
 
   @override
   Widget build(BuildContext context) {
@@ -508,10 +454,7 @@ class _GroupListTile extends StatelessWidget {
       autofocus: autofocus,
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        child: Icon(
-          IconsaxPlusLinear.people,
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-        ),
+        child: Icon(IconsaxPlusLinear.people, color: Theme.of(context).colorScheme.onPrimaryContainer),
       ),
       title: Text(group.groupName ?? context.localized.syncPlayUnnamedGroup),
       subtitle: Text(

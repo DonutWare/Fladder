@@ -45,12 +45,14 @@ void main() {
     test('recordCommand keeps the position bookkeeping without touching the player', () async {
       var pauseCalls = 0;
       int? writtenTicks;
-      final handler = SyncPlayCommandHandler(
-        timeSync: () => null,
-        onStateUpdate: (updater) => writtenTicks = updater(SyncPlayState()).positionTicks,
-      )..onPause = () async {
-          pauseCalls++;
-        };
+      final handler =
+          SyncPlayCommandHandler(
+              timeSync: () => null,
+              onStateUpdate: (updater) => writtenTicks = updater(SyncPlayState()).positionTicks,
+            )
+            ..onPause = () async {
+              pauseCalls++;
+            };
       final when = DateTime.now().toUtc();
 
       handler.recordCommand(_command('Pause', when: when, positionTicks: 42000));
@@ -69,10 +71,7 @@ void main() {
     test('hasPendingCommand stays true while the player callback runs', () async {
       final playStarted = Completer<void>();
       final release = Completer<void>();
-      final handler = SyncPlayCommandHandler(
-        timeSync: () => _FakeClock(ready: true),
-        onStateUpdate: (_) {},
-      )
+      final handler = SyncPlayCommandHandler(timeSync: () => _FakeClock(ready: true), onStateUpdate: (_) {})
         ..onPlay = () async {
           playStarted.complete();
           await release.future;
@@ -131,14 +130,15 @@ void main() {
 
     test('command does not overwrite the current playlist item in state', () async {
       String? writtenPlaylistItemId = 'unchanged';
-      final handler = SyncPlayCommandHandler(
-        timeSync: () => null,
-        onStateUpdate: (updater) {
-          writtenPlaylistItemId = updater(SyncPlayState(playlistItemId: 'unchanged')).playlistItemId;
-        },
-      )
-        ..onPause = () async {}
-        ..getPositionTicks = (() => 0);
+      final handler =
+          SyncPlayCommandHandler(
+              timeSync: () => null,
+              onStateUpdate: (updater) {
+                writtenPlaylistItemId = updater(SyncPlayState(playlistItemId: 'unchanged')).playlistItemId;
+              },
+            )
+            ..onPause = () async {}
+            ..getPositionTicks = (() => 0);
 
       handler.handleCommand(_command('Pause', when: DateTime.now().toUtc()), SyncPlayState());
       await _settle();
@@ -358,18 +358,19 @@ void main() {
     test('a queued command is applied with the unsynced clock once the fallback expires', () async {
       var seekCalls = 0;
       final clock = _FakeClock(ready: false);
-      final handler = SyncPlayCommandHandler(
-        timeSync: () => clock,
-        onStateUpdate: (_) {},
-        clockFallback: const Duration(milliseconds: 100),
-      )
-        ..onSeek = (_) async {
-          seekCalls++;
-        }
-        ..onPause = () async {}
-        ..getPositionTicks = (() => 0)
-        ..isPlaying = (() => false)
-        ..isBuffering = (() => false);
+      final handler =
+          SyncPlayCommandHandler(
+              timeSync: () => clock,
+              onStateUpdate: (_) {},
+              clockFallback: const Duration(milliseconds: 100),
+            )
+            ..onSeek = (_) async {
+              seekCalls++;
+            }
+            ..onPause = () async {}
+            ..getPositionTicks = (() => 0)
+            ..isPlaying = (() => false)
+            ..isBuffering = (() => false);
 
       handler.handleCommand(
         _command('Seek', when: DateTime.now().toUtc().subtract(const Duration(seconds: 1)), positionTicks: 9000),
@@ -497,10 +498,7 @@ void main() {
         ..isBuffering = (() => false)
         ..getPositionTicks = (() => target - millisecondsToTicks(300));
 
-      handler.handleCommand(
-        _command('Seek', when: DateTime.now().toUtc(), positionTicks: target),
-        SyncPlayState(),
-      );
+      handler.handleCommand(_command('Seek', when: DateTime.now().toUtc(), positionTicks: target), SyncPlayState());
       await _settle();
 
       expect(reportedPlaying, isFalse);

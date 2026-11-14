@@ -75,42 +75,22 @@ class SyncPlay extends _$SyncPlay {
 
   void setPlayerBufferingState(bool isBuffering) => controller.setPlayerBufferingState(isBuffering);
 
-  void resetCorrectionState({
-    String reason = 'manual',
-    bool syncEnabled = true,
-  }) =>
-      controller.resetCorrectionState(
-        reason: reason,
-        syncEnabled: syncEnabled,
-      );
+  void resetCorrectionState({String reason = 'manual', bool syncEnabled = true}) =>
+      controller.resetCorrectionState(reason: reason, syncEnabled: syncEnabled);
 
-  void updatePlaybackDrift({
-    required int currentPositionTicks,
-    DateTime? at,
-    bool force = false,
-  }) =>
-      controller.updatePlaybackDrift(
-        currentPositionTicks: currentPositionTicks,
-        at: at,
-        force: force,
-      );
+  void updatePlaybackDrift({required int currentPositionTicks, DateTime? at, bool force = false}) =>
+      controller.updatePlaybackDrift(currentPositionTicks: currentPositionTicks, at: at, force: force);
 
   int estimateCurrentGroupPositionTicks() => controller.estimateCurrentGroupPositionTicks();
 
-  Future<bool> awaitNextStartPlayback({
-    Duration timeout = const Duration(seconds: 20),
-  }) =>
+  Future<bool> awaitNextStartPlayback({Duration timeout = const Duration(seconds: 20)}) =>
       controller.awaitNextStartPlayback(timeout: timeout);
 
   Future<bool> rejoinPlayback() => controller.rejoinPlayback();
 
   Future<T> runLocalOnly<T>(Future<T> Function() body) => controller.runLocalOnly(body);
 
-  Future<bool> setNewQueue({
-    required List<String> itemIds,
-    int playingItemPosition = 0,
-    int startPositionTicks = 0,
-  }) =>
+  Future<bool> setNewQueue({required List<String> itemIds, int playingItemPosition = 0, int startPositionTicks = 0}) =>
       controller.setNewQueue(
         itemIds: itemIds,
         playingItemPosition: playingItemPosition,
@@ -197,11 +177,8 @@ bool syncPlayHasActivePlayback(Ref ref) {
 
 @Freezed(copyWith: true)
 abstract class SyncPlayGroupsState with _$SyncPlayGroupsState {
-  const factory SyncPlayGroupsState({
-    List<GroupInfoDto>? groups,
-    @Default(false) bool isLoading,
-    String? error,
-  }) = _SyncPlayGroupsState;
+  const factory SyncPlayGroupsState({List<GroupInfoDto>? groups, @Default(false) bool isLoading, String? error}) =
+      _SyncPlayGroupsState;
 }
 
 @Riverpod(keepAlive: false)
@@ -214,10 +191,7 @@ class SyncPlayGroups extends _$SyncPlayGroups {
     try {
       await ref.read(syncPlayProvider.notifier).connect();
       final groups = await ref.read(syncPlayProvider.notifier).listGroups();
-      state = state.copyWith(
-        groups: List.unmodifiable(groups),
-        isLoading: false,
-      );
+      state = state.copyWith(groups: List.unmodifiable(groups), isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }

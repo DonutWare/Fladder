@@ -36,15 +36,7 @@ class LibMDK extends BasePlayer {
 
     final advancedOptions = {
       'ffmpeg.enable.all': '1',
-      'video.decoders': [
-        'D3D11VA',
-        'Metal',
-        'NVDEC',
-        'VAAPI',
-        'VideoToolbox',
-        'AMediaCodec',
-        'FFmpeg',
-      ],
+      'video.decoders': ['D3D11VA', 'Metal', 'NVDEC', 'VAAPI', 'VideoToolbox', 'AMediaCodec', 'FFmpeg'],
       'videoout.hdr': 'yes',
       'videoout.hdr10_metadata': 'yes',
       'videoout.tone_mapping': 'hable', // (or 'mobius', 'reinhard')
@@ -94,9 +86,7 @@ class LibMDK extends BasePlayer {
       min: Duration(seconds: _lowResourceMode ? 5 : 15).inMilliseconds,
       max: Duration(seconds: _lowResourceMode ? 15 : 30).inMilliseconds,
     );
-    return setState(lastState.update(
-      buffering: true,
-    ));
+    return setState(lastState.update(buffering: true));
   }
 
   void setState(PlayerState state) {
@@ -105,16 +95,18 @@ class LibMDK extends BasePlayer {
   }
 
   void updateState() {
-    setState(lastState.update(
-      playing: _controller?.value.isPlaying ?? false,
-      completed: _controller?.value.isCompleted ?? false,
-      position: _controller?.value.position ?? Duration.zero,
-      duration: _controller?.value.duration ?? Duration.zero,
-      volume: (_controller?.value.volume ?? 1.0) * 100,
-      rate: _controller?.value.playbackSpeed ?? 1.0,
-      buffering: _controller?.value.isBuffering ?? true,
-      buffer: calculateBufferedDuration(_controller?.value),
-    ));
+    setState(
+      lastState.update(
+        playing: _controller?.value.isPlaying ?? false,
+        completed: _controller?.value.isCompleted ?? false,
+        position: _controller?.value.position ?? Duration.zero,
+        duration: _controller?.value.duration ?? Duration.zero,
+        volume: (_controller?.value.volume ?? 1.0) * 100,
+        rate: _controller?.value.playbackSpeed ?? 1.0,
+        buffering: _controller?.value.isBuffering ?? true,
+        buffer: calculateBufferedDuration(_controller?.value),
+      ),
+    );
   }
 
   Duration calculateBufferedDuration(VideoPlayerValue? value) {
@@ -218,7 +210,12 @@ class LibMDK extends BasePlayer {
       final imgWidth = videoCodec.width;
       final imgHeight = videoCodec.height;
       final image = img.Image.fromBytes(
-          width: imgWidth, height: imgHeight, bytes: snapshotData.buffer, numChannels: 4, order: img.ChannelOrder.rgba);
+        width: imgWidth,
+        height: imgHeight,
+        bytes: snapshotData.buffer,
+        numChannels: 4,
+        order: img.ChannelOrder.rgba,
+      );
 
       return img.encodePng(image);
     } else {
@@ -230,42 +227,35 @@ class LibMDK extends BasePlayer {
   Future<void> stop() async => dispose();
 
   @override
-  Widget? videoWidget(
-    Key key,
-    BoxFit fit,
-  ) =>
-      _controller == null
-          ? null
-          : Container(
-              key: key,
-              color: Colors.transparent,
-              child: LayoutBuilder(
-                builder: (context, constraints) => Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    FittedBox(
-                      fit: fit,
-                      alignment: Alignment.center,
-                      child: ValueListenableBuilder<VideoPlayerValue>(
-                        valueListenable: _controller ?? ValueNotifier(const VideoPlayerValue.uninitialized()),
-                        builder: (context, value, child) {
-                          final aspectRatio = value.isInitialized ? value.aspectRatio : 1.77;
-                          final controller = _controller;
-                          if (controller == null) return const SizedBox.shrink();
-                          return SizedBox(
-                            width: constraints.maxWidth,
-                            child: AspectRatio(
-                              aspectRatio: aspectRatio,
-                              child: VideoPlayer(controller),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+  Widget? videoWidget(Key key, BoxFit fit) => _controller == null
+      ? null
+      : Container(
+          key: key,
+          color: Colors.transparent,
+          child: LayoutBuilder(
+            builder: (context, constraints) => Stack(
+              fit: StackFit.expand,
+              children: [
+                FittedBox(
+                  fit: fit,
+                  alignment: Alignment.center,
+                  child: ValueListenableBuilder<VideoPlayerValue>(
+                    valueListenable: _controller ?? ValueNotifier(const VideoPlayerValue.uninitialized()),
+                    builder: (context, value, child) {
+                      final aspectRatio = value.isInitialized ? value.aspectRatio : 1.77;
+                      final controller = _controller;
+                      if (controller == null) return const SizedBox.shrink();
+                      return SizedBox(
+                        width: constraints.maxWidth,
+                        child: AspectRatio(aspectRatio: aspectRatio, child: VideoPlayer(controller)),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            );
+              ],
+            ),
+          ),
+        );
 
   @override
   Widget? subtitles(bool showOverlay, {GlobalKey? controlsKey}) => null;

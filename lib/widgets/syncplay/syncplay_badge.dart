@@ -44,38 +44,25 @@ class SyncPlayBadge extends ConsumerWidget {
             SizedBox(
               width: 12,
               height: 12,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              child: CircularProgressIndicator(strokeWidth: 2, color: Theme.of(context).colorScheme.primary),
             ),
             const SizedBox(width: 6),
             Text(
               isProcessing ? processingCommand.syncPlayProcessingLabel(context) : correctionStrategy.label(context),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    fontWeight: FontWeight.w600,
-                  ),
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ] else ...[
-            Icon(
-              IconsaxPlusLinear.people,
-              size: 14,
-              color: color,
-            ),
+            Icon(IconsaxPlusLinear.people, size: 14, color: color),
             const SizedBox(width: 6),
             Text(
               groupName ?? context.localized.syncPlay,
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Theme.of(context).colorScheme.onSurface),
             ),
             const SizedBox(width: 6),
-            Icon(
-              icon,
-              size: 12,
-              color: color,
-            ),
+            Icon(icon, size: 12, color: color),
           ],
         ],
       ),
@@ -107,23 +94,17 @@ class SyncPlayIndicator extends ConsumerWidget {
             ? Theme.of(context).colorScheme.primaryContainer
             : color.withValues(alpha: 0.2),
         shape: BoxShape.circle,
-        border:
-            (isProcessing || hasCorrection) ? Border.all(color: Theme.of(context).colorScheme.primary, width: 2) : null,
+        border: (isProcessing || hasCorrection)
+            ? Border.all(color: Theme.of(context).colorScheme.primary, width: 2)
+            : null,
       ),
       child: (isProcessing || hasCorrection)
           ? SizedBox(
               width: 16,
               height: 16,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              child: CircularProgressIndicator(strokeWidth: 2, color: Theme.of(context).colorScheme.primary),
             )
-          : Icon(
-              IconsaxPlusBold.people,
-              size: 16,
-              color: color,
-            ),
+          : Icon(IconsaxPlusBold.people, size: 16, color: color),
     );
   }
 }

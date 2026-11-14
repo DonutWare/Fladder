@@ -110,10 +110,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   void applySettingsChanged(VideoPlayerSettingsModel settings) {
     final currentItem = ref.read(playBackModel)?.item;
     if (currentItem != null) {
-      state.applyReplayGain(
-        currentItem,
-        settings: settings,
-      );
+      state.applyReplayGain(currentItem, settings: settings);
     }
   }
 
@@ -173,9 +170,11 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   void _setupSyncPlayStateListener() {
     _syncPlayStateSubscription?.cancel();
     _lastNativeOverlayType = SyncPlayCommandType.none;
-    _syncPlayStateSubscription = ref.read(syncPlayProvider.notifier).controller.stateStream.listen(
-          _forwardNativeOverlay,
-        );
+    _syncPlayStateSubscription = ref
+        .read(syncPlayProvider.notifier)
+        .controller
+        .stateStream
+        .listen(_forwardNativeOverlay);
   }
 
   /// Pushed right before the native activity opens so it does not wait for the next state change.
@@ -212,10 +211,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     };
   }
 
-  void setReloading(
-    bool value, {
-    bool reportToSyncPlay = true,
-  }) {
+  void setReloading(bool value, {bool reportToSyncPlay = true}) {
     ref.read(syncPlayProvider.notifier).setPlayerBufferingState(value);
     if (value && _isSyncPlayActive && reportToSyncPlay) {
       ref.read(syncPlayProvider.notifier).reportBuffering();
@@ -223,7 +219,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   }
 
   void _registerSyncPlayCallbacks() {
-    ref.read(syncPlayProvider.notifier).registerPlayer(
+    ref
+        .read(syncPlayProvider.notifier)
+        .registerPlayer(
           onPlay: () async {
             _syncPlayAction = true;
             ref.read(syncPlayProvider.notifier).markCommandExecuted();
@@ -256,9 +254,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
             _syncPlayAction = true;
             ref.read(syncPlayProvider.notifier).markCommandExecuted();
             await stopAndClosePlayer();
-            ref.read(syncPlayProvider.notifier).resetCorrectionState(
-                  reason: 'stop_command',
-                );
+            ref.read(syncPlayProvider.notifier).resetCorrectionState(reason: 'stop_command');
             _syncPlayAction = false;
           },
           onSetSpeed: (speed) async {
@@ -302,22 +298,12 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   }
 
   Future<void> updateBuffer(Duration buffer) async {
-    mediaState.update(
-      (state) => (state.buffer - buffer).inSeconds.abs() < 1
-          ? state
-          : state.copyWith(
-              buffer: buffer,
-            ),
-    );
+    mediaState.update((state) => (state.buffer - buffer).inSeconds.abs() < 1 ? state : state.copyWith(buffer: buffer));
   }
 
   Future<void> updateDuration(Duration duration) async {
     mediaState.update((state) {
-      return (state.duration - duration).inSeconds.abs() < 1
-          ? state
-          : state.copyWith(
-              duration: duration,
-            );
+      return (state.duration - duration).inSeconds.abs() < 1 ? state : state.copyWith(duration: duration);
     });
   }
 
@@ -325,9 +311,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     final currentState = playbackState;
     if (!state.hasPlayer || currentState.playing == event) return;
     if (currentState.state == VideoPlayerState.disposed) return;
-    mediaState.update(
-      (state) => state.copyWith(playing: event),
-    );
+    mediaState.update((state) => state.copyWith(playing: event));
     ref.read(playBackModel)?.updatePlaybackPosition(currentState.position, event, ref);
   }
 
@@ -343,7 +327,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
     // Every tick feeds drift estimation; the controller throttles the actual corrections.
     if (_isSyncPlayActive) {
-      ref.read(syncPlayProvider.notifier).updatePlaybackDrift(
+      ref
+          .read(syncPlayProvider.notifier)
+          .updatePlaybackDrift(
             currentPositionTicks: secondsToTicks(event.inMilliseconds / 1000),
             at: DateTime.now().toUtc(),
           );
@@ -361,15 +347,10 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     final diff = (position.inMilliseconds - lastPosition.inMilliseconds).abs();
 
     if (diff > const Duration(seconds: 10).inMilliseconds) {
-      mediaState.update((value) => value.copyWith(
-            position: event,
-            lastPosition: position,
-          ));
+      mediaState.update((value) => value.copyWith(position: event, lastPosition: position));
       ref.read(playBackModel)?.updatePlaybackPosition(position, playbackState.playing, ref);
     } else {
-      mediaState.update((value) => value.copyWith(
-            position: event,
-          ));
+      mediaState.update((value) => value.copyWith(position: event));
     }
   }
 
@@ -412,15 +393,17 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       ref.read(playbackRateProvider.notifier).state = 1.0;
       ref.read(subtitleTimingOffsetProvider.notifier).state = Duration.zero; //reset subtitle offset on new video
       final effectiveStartPosition = await model.resolvedStartPosition(startPosition);
-      mediaState.update((state) => state.copyWith(
-            state: useMinimizedPlayer ? VideoPlayerState.minimized : VideoPlayerState.fullScreen,
-            fullScreen: !useMinimizedPlayer,
-            buffering: true,
-            errorPlaying: false,
-            skippedSegments: {},
-            position: effectiveStartPosition,
-            lastPosition: effectiveStartPosition,
-          ));
+      mediaState.update(
+        (state) => state.copyWith(
+          state: useMinimizedPlayer ? VideoPlayerState.minimized : VideoPlayerState.fullScreen,
+          fullScreen: !useMinimizedPlayer,
+          buffering: true,
+          errorPlaying: false,
+          skippedSegments: {},
+          position: effectiveStartPosition,
+          lastPosition: effectiveStartPosition,
+        ),
+      );
 
       final media = model.media;
       PlaybackModel? newPlaybackModel = model;
@@ -429,10 +412,9 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
         ref.read(syncPlayProvider.notifier).setPlayerBufferingState(false);
         mediaState.update((state) => state.copyWith(errorPlaying: true));
         if (reportingForSyncPlay) {
-          unawaited(ref.read(syncPlayProvider.notifier).reportReady(
-                isPlaying: false,
-                positionTicks: loadPositionTicks,
-              ));
+          unawaited(
+            ref.read(syncPlayProvider.notifier).reportReady(isPlaying: false, positionTicks: loadPositionTicks),
+          );
         }
         return false;
       }
@@ -445,22 +427,23 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       await state.setSubtitleTrack(null, model);
       ref.read(playBackModel.notifier).update((state) => newPlaybackModel);
 
-      ref.read(mediaPlaybackProvider.notifier).update((state) => state.copyWith(
-            state: useMinimizedPlayer ? VideoPlayerState.minimized : VideoPlayerState.fullScreen,
-            buffering: true,
-            errorPlaying: false,
-            skippedSegments: {},
-          ));
+      ref
+          .read(mediaPlaybackProvider.notifier)
+          .update(
+            (state) => state.copyWith(
+              state: useMinimizedPlayer ? VideoPlayerState.minimized : VideoPlayerState.fullScreen,
+              buffering: true,
+              errorPlaying: false,
+              skippedSegments: {},
+            ),
+          );
 
       if (!reportingForSyncPlay) {
         await state.play();
       } else {
         // Report the requested position with isPlaying=false: the server only corrects a paused client whose
         // position is off by more than 500 ms, which keeps keyframe-bound media inside the window.
-        await ref.read(syncPlayProvider.notifier).reportReady(
-              isPlaying: false,
-              positionTicks: loadPositionTicks,
-            );
+        await ref.read(syncPlayProvider.notifier).reportReady(isPlaying: false, positionTicks: loadPositionTicks);
       }
       return true;
     } catch (e, stackTrace) {
@@ -468,10 +451,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
       mediaState.update((state) => state.copyWith(errorPlaying: true, buffering: false));
       // Tell the group we recovered so the server doesn't keep everyone paused waiting on us.
       if (reportingForSyncPlay) {
-        unawaited(ref.read(syncPlayProvider.notifier).reportReady(
-              isPlaying: false,
-              positionTicks: loadPositionTicks,
-            ));
+        unawaited(ref.read(syncPlayProvider.notifier).reportReady(isPlaying: false, positionTicks: loadPositionTicks));
       }
       developer.log('loadPlaybackItem failed: $e\n$stackTrace');
       return false;
@@ -503,32 +483,32 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     ref.read(playBackModel.notifier).update((state) => queuedModel);
     ref.read(playbackRateProvider.notifier).state = 1.0;
 
-    mediaState.update((state) => state.copyWith(
-          state: keepFullScreenLayout ? VideoPlayerState.fullScreen : VideoPlayerState.minimized,
-          fullScreen: keepFullScreenLayout,
-          buffering: true,
-          errorPlaying: false,
-          skippedSegments: {},
-          duration: queuedModel.item.overview.runTime ?? Duration.zero,
-        ));
+    mediaState.update(
+      (state) => state.copyWith(
+        state: keepFullScreenLayout ? VideoPlayerState.fullScreen : VideoPlayerState.minimized,
+        fullScreen: keepFullScreenLayout,
+        buffering: true,
+        errorPlaying: false,
+        skippedSegments: {},
+        duration: queuedModel.item.overview.runTime ?? Duration.zero,
+      ),
+    );
 
     await state.loadAudioQueue(queue, currentIndex, effectiveStartPosition, true);
     await state.setVolume(ref.read(videoPlayerSettingsProvider).volume);
 
-    mediaState.update((state) => state.copyWith(
-          buffering: false,
-          playing: true,
-          position: effectiveStartPosition,
-          duration: queuedModel.item.overview.runTime ?? Duration.zero,
-        ));
+    mediaState.update(
+      (state) => state.copyWith(
+        buffering: false,
+        playing: true,
+        position: effectiveStartPosition,
+        duration: queuedModel.item.overview.runTime ?? Duration.zero,
+      ),
+    );
     return true;
   }
 
-  Future<void> reorderAudioQueueSection(
-    AudioQueueSection section,
-    int oldIndex,
-    int newIndex,
-  ) async {
+  Future<void> reorderAudioQueueSection(AudioQueueSection section, int oldIndex, int newIndex) async {
     await state.reorderAudioQueueSection(section, oldIndex, newIndex);
   }
 
@@ -544,10 +524,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
     await state.removeAudioQueueItem(item.id);
   }
 
-  Future<void> removeAudioQueueSectionItem(
-    AudioQueueSection section,
-    int sectionIndex,
-  ) async {
+  Future<void> removeAudioQueueSectionItem(AudioQueueSection section, int sectionIndex) async {
     await state.removeAudioQueueSectionItem(section, sectionIndex);
   }
 

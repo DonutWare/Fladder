@@ -31,11 +31,9 @@ class VideoFloatingPlayerBarContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playbackState = ref.watch(mediaPlaybackProvider.select((state) => (
-          state: state.state,
-          duration: state.duration,
-          playing: state.playing,
-        )));
+    final playbackState = ref.watch(
+      mediaPlaybackProvider.select((state) => (state: state.state, duration: state.duration, playing: state.playing)),
+    );
     final player = ref.read(videoPlayerProvider);
 
     return Column(
@@ -55,10 +53,8 @@ class VideoFloatingPlayerBarContent extends ConsumerWidget {
                     showExpandButton: showExpandButton,
                     onShowExpandButton: onShowExpandButton,
                     openFullScreenPlayer: openFullScreenPlayer,
-                    child: player.videoWidget(
-                          const ValueKey("mini_player_video"),
-                          BoxFit.fitHeight,
-                        ) ??
+                    child:
+                        player.videoWidget(const ValueKey("mini_player_video"), BoxFit.fitHeight) ??
                         const SizedBox.shrink(),
                   ),
                 Expanded(
@@ -80,8 +76,8 @@ class VideoFloatingPlayerBarContent extends ConsumerWidget {
                               child: Text(
                                 "${pos.readAbleDuration} / ${playbackState.duration.readAbleDuration}",
                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Theme.of(context).colorScheme.onSurface.withAlpha(125),
-                                    ),
+                                  color: Theme.of(context).colorScheme.onSurface.withAlpha(125),
+                                ),
                               ),
                             );
                           },

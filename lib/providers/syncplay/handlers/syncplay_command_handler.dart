@@ -151,13 +151,16 @@ class SyncPlayCommandHandler {
     // A late command for the previous item must not be applied to the new one around an item switch.
     // Stop is exempt: the server sends it with an empty playlist item.
     final currentPlaylistItemId = currentState.playlistItemId;
-    final isForOtherItem = command != SyncPlayCommand.stop &&
+    final isForOtherItem =
+        command != SyncPlayCommand.stop &&
         playlistItemId.isNotEmpty &&
         currentPlaylistItemId != null &&
         currentPlaylistItemId != playlistItemId;
     if (isForOtherItem) {
-      log('SyncPlay: Ignoring ${command.wire} for playlist item $playlistItemId '
-          '(current item is $currentPlaylistItemId)');
+      log(
+        'SyncPlay: Ignoring ${command.wire} for playlist item $playlistItemId '
+        '(current item is $currentPlaylistItemId)',
+      );
       return;
     }
 
@@ -184,12 +187,7 @@ class SyncPlayCommandHandler {
     _scheduleCommand(command, when, positionTicks);
   }
 
-  bool _isDuplicateCommand(
-    String when,
-    int positionTicks,
-    SyncPlayCommand command,
-    String playlistItemId,
-  ) {
+  bool _isDuplicateCommand(String when, int positionTicks, SyncPlayCommand command, String playlistItemId) {
     final last = _lastCommand;
     if (last == null) {
       return false;
@@ -337,20 +335,25 @@ class SyncPlayCommandHandler {
 
     // Executing stale commands extrapolates far past EOF and starts a buffer oscillation.
     if (delay.isNegative && -delay > _staleCommandThreshold) {
-      log('SyncPlay: Discarding stale ${command.wire} command '
-          '(${(-delay).inSeconds}s late > '
-          '${_staleCommandThreshold.inSeconds}s threshold). '
-          'Server StateUpdate will resync.');
+      log(
+        'SyncPlay: Discarding stale ${command.wire} command '
+        '(${(-delay).inSeconds}s late > '
+        '${_staleCommandThreshold.inSeconds}s threshold). '
+        'Server StateUpdate will resync.',
+      );
       return;
     }
 
     if (delay.isNegative) {
       // Only Unpause extrapolates by the elapsed delay (the group kept playing); Pause/Seek/Stop are
       // static targets, and extrapolating them would seek past EOF and trigger a real buffer cycle.
-      final ticksToUse =
-          command == SyncPlayCommand.unpause ? _estimateCurrentTicks(positionTicks, serverTime) : positionTicks;
-      log('SyncPlay: Executing late command: ${command.wire} '
-          '(${delay.inMilliseconds}ms late)');
+      final ticksToUse = command == SyncPlayCommand.unpause
+          ? _estimateCurrentTicks(positionTicks, serverTime)
+          : positionTicks;
+      log(
+        'SyncPlay: Executing late command: ${command.wire} '
+        '(${delay.inMilliseconds}ms late)',
+      );
       _runNow(command, ticksToUse);
       return;
     }
@@ -358,22 +361,18 @@ class SyncPlayCommandHandler {
     if (delay.inMilliseconds > 5000) {
       log('SyncPlay: Warning - large delay: ${delay.inMilliseconds}ms');
     } else {
-      log('SyncPlay: Scheduling command: ${command.wire} '
-          'in ${delay.inMilliseconds}ms');
+      log(
+        'SyncPlay: Scheduling command: ${command.wire} '
+        'in ${delay.inMilliseconds}ms',
+      );
     }
 
-    onStateUpdate((state) => state.copyWith(
-          isProcessingCommand: true,
-          processingCommandType: command,
-        ));
+    onStateUpdate((state) => state.copyWith(isProcessingCommand: true, processingCommandType: command));
     _commandTimer = Timer(delay, () => _executeCommand(command, positionTicks));
   }
 
   void _runNow(SyncPlayCommand command, int positionTicks) {
-    onStateUpdate((state) => state.copyWith(
-          isProcessingCommand: true,
-          processingCommandType: command,
-        ));
+    onStateUpdate((state) => state.copyWith(isProcessingCommand: true, processingCommandType: command));
     unawaited(_executeCommand(command, positionTicks));
   }
 
@@ -387,10 +386,7 @@ class SyncPlayCommandHandler {
     return ticks + millisecondsToTicks(elapsedMs);
   }
 
-  Future<void> _executeCommand(
-    SyncPlayCommand command,
-    int positionTicks,
-  ) async {
+  Future<void> _executeCommand(SyncPlayCommand command, int positionTicks) async {
     log('SyncPlay: Executing command: ${command.wire} at $positionTicks ticks');
 
     _isExecuting = true;
@@ -450,10 +446,7 @@ class SyncPlayCommandHandler {
       }
     } finally {
       _isExecuting = false;
-      onStateUpdate((state) => state.copyWith(
-            isProcessingCommand: false,
-            processingCommandType: null,
-          ));
+      onStateUpdate((state) => state.copyWith(isProcessingCommand: false, processingCommandType: null));
     }
   }
 
