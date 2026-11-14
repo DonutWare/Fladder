@@ -1071,7 +1071,9 @@ class SyncPlayController {
     }
     _silentRejoinInFlight = true;
     final confirmed = await _sendJoinRequest(groupId);
-    if (confirmed) {
+    // A NotInGroup answering a request sent before the rejoin fails the pending join although the server
+    // then confirms it; forgetting the group then would skip the rejoin after the next drop.
+    if (confirmed || _state.groupId == groupId) {
       log('SyncPlay: Silent rejoin confirmed');
     } else {
       log('SyncPlay: Silent rejoin not confirmed; clearing _lastGroupId');
