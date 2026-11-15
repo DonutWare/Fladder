@@ -68,7 +68,7 @@ static void my_application_activate(GApplication *application)
 	g_autoptr(FlDartProject) project = fl_dart_project_new();
 	fl_dart_project_set_dart_entrypoint_arguments(project, self->dart_entrypoint_arguments);
 
-	g_autofree gchar *impeller_flag = g_build_filename(g_get_user_data_dir(), APPLICATION_ID, "disable_impeller", nullptr);
+	g_autofree gchar *impeller_flag = g_build_filename(g_get_user_config_dir(), APPLICATION_ID, "disable_impeller", nullptr);
 	gboolean disable_impeller = g_strcmp0(g_getenv("FLADDER_DISABLE_IMPELLER"), "1") == 0 || g_file_test(impeller_flag, G_FILE_TEST_EXISTS);
 	fl_dart_project_set_enable_impeller(project, !disable_impeller);
 

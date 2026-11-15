@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/legacy.dart';
 const _applicationId = "nl.jknaapen.fladder";
 
 File get _flagFile {
-  final dataHome = Platform.environment['XDG_DATA_HOME'];
-  final base = dataHome != null && dataHome.isNotEmpty
-      ? dataHome
-      : "${Platform.environment['HOME']}/.local/share";
+  final configHome = Platform.environment['XDG_CONFIG_HOME'];
+  final base = configHome != null && configHome.isNotEmpty
+      ? configHome
+      : "${Platform.environment['HOME']}/.config";
   return File("$base/$_applicationId/disable_impeller");
 }
 
