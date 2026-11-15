@@ -19,6 +19,7 @@ class PlayerSettings {
   final int skipForward;
   final int skipBackward;
   final AutoNextType autoNextType;
+  final int nextUpCountdownSeconds;
   final List<PlayerOrientations> acceptedOrientations;
   final bool fillScreen;
   final VideoPlayerFit videoFit;
@@ -33,6 +34,7 @@ class PlayerSettings {
     required this.skipForward,
     required this.skipBackward,
     required this.autoNextType,
+    required this.nextUpCountdownSeconds,
     required this.acceptedOrientations,
     required this.fillScreen,
     required this.videoFit,

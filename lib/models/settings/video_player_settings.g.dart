@@ -28,6 +28,8 @@ _VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
   nextVideoType:
       $enumDecodeNullable(_$AutoNextTypeEnumMap, json['nextVideoType']) ??
       AutoNextType.smart,
+  nextUpCountdownSeconds:
+      (json['nextUpCountdownSeconds'] as num?)?.toInt() ?? 30,
   maxHomeBitrate:
       $enumDecodeNullable(_$BitrateEnumMap, json['maxHomeBitrate']) ??
       Bitrate.original,
@@ -92,6 +94,7 @@ Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
       ?.map((e) => _$DeviceOrientationEnumMap[e]!)
       .toList(),
   'nextVideoType': _$AutoNextTypeEnumMap[instance.nextVideoType]!,
+  'nextUpCountdownSeconds': instance.nextUpCountdownSeconds,
   'maxHomeBitrate': _$BitrateEnumMap[instance.maxHomeBitrate]!,
   'maxInternetBitrate': _$BitrateEnumMap[instance.maxInternetBitrate]!,
   'audioDevice': instance.audioDevice,
