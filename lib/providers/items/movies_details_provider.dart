@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
 import 'package:logging/logging.dart' as logging;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -27,6 +28,9 @@ class MovieDetails extends _$MovieDetails {
   @override
   MovieModel? build(String arg) => null;
 
+  @override
+  bool updateShouldNotify(MovieModel? previous, MovieModel? next) => !identical(previous, next);
+
   Future<Response?> fetchDetails(ItemBaseModel item) async {
     try {
       if (item is MovieModel) {
@@ -34,7 +38,7 @@ class MovieDetails extends _$MovieDetails {
       }
       MovieModel? newState;
       final response = await api.usersUserIdItemsItemIdGet(itemId: item.id);
-      if (response.body == null) return null;
+      if (!ref.mounted || response.body == null) return null;
       newState = (response.bodyOrThrow as MovieModel).copyWith(
         related: state?.related ?? const [],
         seerrRelated: state?.seerrRelated ?? const [],
@@ -80,6 +84,7 @@ class MovieDetails extends _$MovieDetails {
         }
       }
 
+      if (!ref.mounted) return null;
       state = newState.copyWith(
           related: related.body,
           seerrRelated: seerrRelated,

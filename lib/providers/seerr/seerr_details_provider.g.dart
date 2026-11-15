@@ -6,215 +6,136 @@ part of 'seerr_details_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$seerrDetailsHash() => r'902b94de548fcfbaf9edfbd8f0532955a3e0234d';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
+@ProviderFor(SeerrDetails)
+final seerrDetailsProvider = SeerrDetailsFamily._();
 
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
+final class SeerrDetailsProvider
+    extends $NotifierProvider<SeerrDetails, SeerrDetailsModel> {
+  SeerrDetailsProvider._({
+    required SeerrDetailsFamily super.from,
+    required ({
+      int tmdbId,
+      SeerrMediaType mediaType,
+      SeerrDashboardPosterModel? poster,
+    })
+    super.argument,
+  }) : super(
+         retry: null,
+         name: r'seerrDetailsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$seerrDetailsHash();
+
+  @override
+  String toString() {
+    return r'seerrDetailsProvider'
+        ''
+        '$argument';
   }
 
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+  @$internal
+  @override
+  SeerrDetails create() => SeerrDetails();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SeerrDetailsModel value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SeerrDetailsModel>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SeerrDetailsProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
   }
 }
 
-abstract class _$SeerrDetails
-    extends BuildlessAutoDisposeNotifier<SeerrDetailsModel> {
-  late final int tmdbId;
-  late final SeerrMediaType mediaType;
-  late final SeerrDashboardPosterModel? poster;
+String _$seerrDetailsHash() => r'155d620fed5592fd86d9f9b8158ff3afb678b322';
+
+final class SeerrDetailsFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          SeerrDetails,
+          SeerrDetailsModel,
+          SeerrDetailsModel,
+          SeerrDetailsModel,
+          ({
+            int tmdbId,
+            SeerrMediaType mediaType,
+            SeerrDashboardPosterModel? poster,
+          })
+        > {
+  SeerrDetailsFamily._()
+    : super(
+        retry: null,
+        name: r'seerrDetailsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  SeerrDetailsProvider call({
+    required int tmdbId,
+    required SeerrMediaType mediaType,
+    SeerrDashboardPosterModel? poster,
+  }) => SeerrDetailsProvider._(
+    argument: (tmdbId: tmdbId, mediaType: mediaType, poster: poster),
+    from: this,
+  );
+
+  @override
+  String toString() => r'seerrDetailsProvider';
+}
+
+abstract class _$SeerrDetails extends $Notifier<SeerrDetailsModel> {
+  late final _$args =
+      ref.$arg
+          as ({
+            int tmdbId,
+            SeerrMediaType mediaType,
+            SeerrDashboardPosterModel? poster,
+          });
+  int get tmdbId => _$args.tmdbId;
+  SeerrMediaType get mediaType => _$args.mediaType;
+  SeerrDashboardPosterModel? get poster => _$args.poster;
 
   SeerrDetailsModel build({
     required int tmdbId,
     required SeerrMediaType mediaType,
     SeerrDashboardPosterModel? poster,
   });
-}
-
-/// See also [SeerrDetails].
-@ProviderFor(SeerrDetails)
-const seerrDetailsProvider = SeerrDetailsFamily();
-
-/// See also [SeerrDetails].
-class SeerrDetailsFamily extends Family<SeerrDetailsModel> {
-  /// See also [SeerrDetails].
-  const SeerrDetailsFamily();
-
-  /// See also [SeerrDetails].
-  SeerrDetailsProvider call({
-    required int tmdbId,
-    required SeerrMediaType mediaType,
-    SeerrDashboardPosterModel? poster,
-  }) {
-    return SeerrDetailsProvider(
-      tmdbId: tmdbId,
-      mediaType: mediaType,
-      poster: poster,
-    );
-  }
-
+  @$mustCallSuper
   @override
-  SeerrDetailsProvider getProviderOverride(
-    covariant SeerrDetailsProvider provider,
-  ) {
-    return call(
-      tmdbId: provider.tmdbId,
-      mediaType: provider.mediaType,
-      poster: provider.poster,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'seerrDetailsProvider';
-}
-
-/// See also [SeerrDetails].
-class SeerrDetailsProvider
-    extends AutoDisposeNotifierProviderImpl<SeerrDetails, SeerrDetailsModel> {
-  /// See also [SeerrDetails].
-  SeerrDetailsProvider({
-    required int tmdbId,
-    required SeerrMediaType mediaType,
-    SeerrDashboardPosterModel? poster,
-  }) : this._internal(
-          () => SeerrDetails()
-            ..tmdbId = tmdbId
-            ..mediaType = mediaType
-            ..poster = poster,
-          from: seerrDetailsProvider,
-          name: r'seerrDetailsProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$seerrDetailsHash,
-          dependencies: SeerrDetailsFamily._dependencies,
-          allTransitiveDependencies:
-              SeerrDetailsFamily._allTransitiveDependencies,
-          tmdbId: tmdbId,
-          mediaType: mediaType,
-          poster: poster,
-        );
-
-  SeerrDetailsProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.tmdbId,
-    required this.mediaType,
-    required this.poster,
-  }) : super.internal();
-
-  final int tmdbId;
-  final SeerrMediaType mediaType;
-  final SeerrDashboardPosterModel? poster;
-
-  @override
-  SeerrDetailsModel runNotifierBuild(
-    covariant SeerrDetails notifier,
-  ) {
-    return notifier.build(
-      tmdbId: tmdbId,
-      mediaType: mediaType,
-      poster: poster,
-    );
-  }
-
-  @override
-  Override overrideWith(SeerrDetails Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: SeerrDetailsProvider._internal(
-        () => create()
-          ..tmdbId = tmdbId
-          ..mediaType = mediaType
-          ..poster = poster,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        tmdbId: tmdbId,
-        mediaType: mediaType,
-        poster: poster,
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<SeerrDetailsModel, SeerrDetailsModel>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SeerrDetailsModel, SeerrDetailsModel>,
+              SeerrDetailsModel,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(
+      ref,
+      () => build(
+        tmdbId: _$args.tmdbId,
+        mediaType: _$args.mediaType,
+        poster: _$args.poster,
       ),
     );
   }
-
-  @override
-  AutoDisposeNotifierProviderElement<SeerrDetails, SeerrDetailsModel>
-      createElement() {
-    return _SeerrDetailsProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is SeerrDetailsProvider &&
-        other.tmdbId == tmdbId &&
-        other.mediaType == mediaType &&
-        other.poster == poster;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, tmdbId.hashCode);
-    hash = _SystemHash.combine(hash, mediaType.hashCode);
-    hash = _SystemHash.combine(hash, poster.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
 }
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin SeerrDetailsRef on AutoDisposeNotifierProviderRef<SeerrDetailsModel> {
-  /// The parameter `tmdbId` of this provider.
-  int get tmdbId;
-
-  /// The parameter `mediaType` of this provider.
-  SeerrMediaType get mediaType;
-
-  /// The parameter `poster` of this provider.
-  SeerrDashboardPosterModel? get poster;
-}
-
-class _SeerrDetailsProviderElement
-    extends AutoDisposeNotifierProviderElement<SeerrDetails, SeerrDetailsModel>
-    with SeerrDetailsRef {
-  _SeerrDetailsProviderElement(super.provider);
-
-  @override
-  int get tmdbId => (origin as SeerrDetailsProvider).tmdbId;
-  @override
-  SeerrMediaType get mediaType => (origin as SeerrDetailsProvider).mediaType;
-  @override
-  SeerrDashboardPosterModel? get poster =>
-      (origin as SeerrDetailsProvider).poster;
-}
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

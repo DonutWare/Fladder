@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +20,6 @@ import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/refresh_state.dart';
 import 'package:fladder/util/sticky_header_text.dart';
-import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/enum_selection.dart';
 import 'package:fladder/widgets/shared/focus_row.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
@@ -38,6 +37,7 @@ class EpisodePosters extends ConsumerStatefulWidget {
   final EpisodeModel? selectedEpisode;
   final Function(VoidCallback action, EpisodeModel episodeModel)? onEpisodeTap;
   final Function(EpisodeModel selected)? onFocused;
+  final double revealAlignment;
   final EpisodeDetailsViewType? viewType;
   const EpisodePosters({
     this.label,
@@ -50,6 +50,7 @@ class EpisodePosters extends ConsumerStatefulWidget {
     this.selectedEpisode,
     this.onFocused,
     this.viewType,
+    this.revealAlignment = 0.5,
     super.key,
   });
 
@@ -171,13 +172,9 @@ class _EpisodePosterState extends ConsumerState<EpisodePosters> {
         HorizontalList(
           label: widget.label,
           titleActionsPosition: widget.titleActionsPosition,
+          revealAlignment: widget.revealAlignment,
           onFocused: (index) {
             widget.onFocused?.call(episodes[index]);
-          },
-          onFocusChange: (value) {
-            if (value) {
-              context.ensureVisible();
-            }
           },
           titleActions: titleActions,
           contentPadding: widget.contentPadding,

@@ -6,21 +6,57 @@ part of 'control_libraries_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlLibrariesHash() => r'e3da05dc3d283260923cedee26a2069ad6ec2ab0';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [ControlLibraries].
 @ProviderFor(ControlLibraries)
-final controlLibrariesProvider = AutoDisposeNotifierProvider<ControlLibraries,
-    ControlLibrariesModel>.internal(
-  ControlLibraries.new,
-  name: r'controlLibrariesProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$controlLibrariesHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final controlLibrariesProvider = ControlLibrariesProvider._();
 
-typedef _$ControlLibraries = AutoDisposeNotifier<ControlLibrariesModel>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class ControlLibrariesProvider
+    extends $NotifierProvider<ControlLibraries, ControlLibrariesModel> {
+  ControlLibrariesProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'controlLibrariesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$controlLibrariesHash();
+
+  @$internal
+  @override
+  ControlLibraries create() => ControlLibraries();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ControlLibrariesModel value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ControlLibrariesModel>(value),
+    );
+  }
+}
+
+String _$controlLibrariesHash() => r'ea6a0d02730e5bba265e6045bde621b1793b8488';
+
+abstract class _$ControlLibraries extends $Notifier<ControlLibrariesModel> {
+  ControlLibrariesModel build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<ControlLibrariesModel, ControlLibrariesModel>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ControlLibrariesModel, ControlLibrariesModel>,
+              ControlLibrariesModel,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

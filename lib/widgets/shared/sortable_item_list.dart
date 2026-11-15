@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:iconsax_plus/iconsax_plus.dart';
 
@@ -32,7 +32,7 @@ class SortableItemList<T> extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: items.length,
-      onReorder: (oldIndex, newIndex) {
+      onReorderItem: (oldIndex, newIndex) {
         onReorder?.call(items.reordered(oldIndex, newIndex));
       },
       buildDefaultDragHandles: false,

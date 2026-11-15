@@ -41,8 +41,10 @@ class ControlActivity extends _$ControlActivity {
       ..sort(
         (a, b) => (b.lastActivityDate ?? DateTime.now()).compareTo(a.lastActivityDate ?? DateTime.now()),
       );
+    if (!ref.mounted) return;
 
-    state = await Future.wait(
+    final imageUtility = ref.read(imageUtilityProvider);
+    final result = await Future.wait(
       activities.map(
         (activity) async {
           final itemModel =
@@ -54,7 +56,7 @@ class ControlActivity extends _$ControlActivity {
                 ? AccountModel(
                     name: activity.userName ?? "--",
                     id: activity.userId ?? "",
-                    avatar: ref.read(imageUtilityProvider).getUserImageUrl(activity.userId ?? ""),
+                    avatar: imageUtility.getUserImageUrl(activity.userId ?? ""),
                     lastUsed: DateTime.now(),
                     credentials: CredentialsModel.createNewCredentials(),
                   )
@@ -76,6 +78,8 @@ class ControlActivity extends _$ControlActivity {
         },
       ),
     );
+    if (!ref.mounted) return;
+    state = result;
   }
 }
 

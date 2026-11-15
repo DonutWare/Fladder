@@ -26,12 +26,14 @@ class ControlDeviceDiscovery extends _$ControlDeviceDiscovery {
 
     try {
       final result = await onDiscover();
+      if (!ref.mounted) return;
       state = state.copyWith(
         isLoading: false,
         devices: result,
       );
     } catch (e, stackTrace) {
       log('Failed to discover tuner devices', error: e, stackTrace: stackTrace);
+      if (!ref.mounted) return;
       state = state.copyWith(
         isLoading: false,
         devices: [],

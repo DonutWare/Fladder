@@ -1,5 +1,7 @@
+import 'dart:js_interop';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:universal_html/html.dart' as html;
+import 'package:web/web.dart' as html;
 
 import 'package:fladder/providers/video_player_provider.dart';
 import 'package:fladder/widgets/full_screen_helpers/full_screen_wrapper.dart';
@@ -25,7 +27,7 @@ class FullScreenHelper implements FullScreenWrapper {
       //Wait for 1 second
       await Future.delayed(const Duration(seconds: 1));
     } else {
-      await html.document.documentElement?.requestFullscreen();
+      await html.document.documentElement?.requestFullscreen().toDart;
     }
     ref
         .read(mediaPlaybackProvider.notifier)

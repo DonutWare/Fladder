@@ -23,7 +23,7 @@ class AudioUrlResolver {
     final token = ref.read(userProvider)?.credentials.token;
     final params = <String, String?>{
       'Static': 'true',
-      if (token != null) 'ApiKey': token,
+      'ApiKey': ?token,
     };
 
     var streamId = item.id;

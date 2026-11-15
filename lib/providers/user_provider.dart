@@ -15,6 +15,7 @@ import 'package:fladder/models/library_filters_model.dart';
 import 'package:fladder/models/seerr_credentials_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/connectivity_provider.dart';
 import 'package:fladder/providers/image_provider.dart';
 import 'package:fladder/providers/service_provider.dart';
 import 'package:fladder/providers/shared_provider.dart';
@@ -215,6 +216,17 @@ class User extends _$User {
   void updateUser(AccountModel? user) => userState = user;
   void loginUser(AccountModel? user) => state = user;
   void setAuthMethod(Authentication method) => userState = state?.copyWith(authMethod: method);
+  Future<bool> setServerURL(String value) async {
+    final user = state;
+    if (user == null) return false;
+    final url = normalizeUrl(value);
+    final serverInfo = await fetchSystemInfoDynamic(url);
+    if (serverInfo?.id != user.credentials.serverId) return false;
+    state = user.copyWith(credentials: user.credentials.copyWith(url: url));
+    userState = state;
+    return true;
+  }
+
   void setLocalURL(String? value) {
     final user = state;
     if (user == null) return;

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
@@ -17,6 +17,7 @@ import 'package:fladder/widgets/navigation_scaffold/components/background_image.
 import 'package:fladder/widgets/navigation_scaffold/components/destination_model.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/navigation_button.dart';
 import 'package:fladder/widgets/navigation_scaffold/components/settings_user_icon.dart';
+import 'package:fladder/widgets/shared/horizontal_list.dart';
 
 final topBarNode = FocusScopeNode(debugLabel: 'topBarScope');
 
@@ -193,7 +194,7 @@ class TopNavigationBar extends ConsumerWidget {
                                                 child: Row(
                                                   spacing: 8,
                                                   children: [
-                                                    if (icon != null) icon,
+                                                    ?icon,
                                                     Text(
                                                       destination.label,
                                                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
@@ -290,7 +291,7 @@ bool _focusFirstInContent() {
 }
 
 class _TopBarTraversalPolicy extends ReadingOrderTraversalPolicy {
-  _TopBarTraversalPolicy();
+  _TopBarTraversalPolicy() : super(requestFocusCallback: railAwareRequestFocus);
 
   @override
   bool inDirection(FocusNode currentNode, TraversalDirection direction) {

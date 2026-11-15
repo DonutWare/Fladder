@@ -14,7 +14,8 @@ _TrickPlayModel _$TrickPlayModelFromJson(Map<String, dynamic> json) =>
       tileHeight: (json['tileHeight'] as num).toInt(),
       thumbnailCount: (json['thumbnailCount'] as num).toInt(),
       interval: Duration(microseconds: (json['interval'] as num).toInt()),
-      images: (json['images'] as List<dynamic>?)
+      images:
+          (json['images'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],

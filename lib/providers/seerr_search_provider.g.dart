@@ -6,20 +6,57 @@ part of 'seerr_search_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$seerrSearchHash() => r'c26e548427c4dd144be5b844ea3e7865f07998b2';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [SeerrSearch].
 @ProviderFor(SeerrSearch)
-final seerrSearchProvider =
-    AutoDisposeNotifierProvider<SeerrSearch, SeerrSearchModel>.internal(
-  SeerrSearch.new,
-  name: r'seerrSearchProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$seerrSearchHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final seerrSearchProvider = SeerrSearchProvider._();
 
-typedef _$SeerrSearch = AutoDisposeNotifier<SeerrSearchModel>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class SeerrSearchProvider
+    extends $NotifierProvider<SeerrSearch, SeerrSearchModel> {
+  SeerrSearchProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'seerrSearchProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$seerrSearchHash();
+
+  @$internal
+  @override
+  SeerrSearch create() => SeerrSearch();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SeerrSearchModel value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SeerrSearchModel>(value),
+    );
+  }
+}
+
+String _$seerrSearchHash() => r'0b0594e7f0c9eb802298ee850551b50fc0586d8f';
+
+abstract class _$SeerrSearch extends $Notifier<SeerrSearchModel> {
+  SeerrSearchModel build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<SeerrSearchModel, SeerrSearchModel>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SeerrSearchModel, SeerrSearchModel>,
+              SeerrSearchModel,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

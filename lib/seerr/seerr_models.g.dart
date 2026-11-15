@@ -7,30 +7,35 @@ part of 'seerr_models.dart';
 // **************************************************************************
 
 SeerrStatus _$SeerrStatusFromJson(Map<String, dynamic> json) => SeerrStatus(
-      version: json['version'] as String?,
-      commitTag: json['commitTag'] as String?,
-      updateAvailable: json['updateAvailable'] as bool?,
-      commitsBehind: (json['commitsBehind'] as num?)?.toInt(),
-    );
+  version: json['version'] as String?,
+  commitTag: json['commitTag'] as String?,
+  updateAvailable: json['updateAvailable'] as bool?,
+  commitsBehind: (json['commitsBehind'] as num?)?.toInt(),
+);
 
-Map<String, dynamic> _$SeerrStatusToJson(SeerrStatus instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrStatusToJson(SeerrStatus instance) =>
+    <String, dynamic>{
       'version': instance.version,
       'commitTag': instance.commitTag,
       'updateAvailable': instance.updateAvailable,
       'commitsBehind': instance.commitsBehind,
     };
 
-SeerrUserQuota _$SeerrUserQuotaFromJson(Map<String, dynamic> json) => SeerrUserQuota(
-      movie: json['movie'] == null ? null : SeerrQuotaEntry.fromJson(json['movie'] as Map<String, dynamic>),
-      tv: json['tv'] == null ? null : SeerrQuotaEntry.fromJson(json['tv'] as Map<String, dynamic>),
+SeerrUserQuota _$SeerrUserQuotaFromJson(Map<String, dynamic> json) =>
+    SeerrUserQuota(
+      movie: json['movie'] == null
+          ? null
+          : SeerrQuotaEntry.fromJson(json['movie'] as Map<String, dynamic>),
+      tv: json['tv'] == null
+          ? null
+          : SeerrQuotaEntry.fromJson(json['tv'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$SeerrUserQuotaToJson(SeerrUserQuota instance) => <String, dynamic>{
-      'movie': instance.movie,
-      'tv': instance.tv,
-    };
+Map<String, dynamic> _$SeerrUserQuotaToJson(SeerrUserQuota instance) =>
+    <String, dynamic>{'movie': instance.movie, 'tv': instance.tv};
 
-SeerrQuotaEntry _$SeerrQuotaEntryFromJson(Map<String, dynamic> json) => SeerrQuotaEntry(
+SeerrQuotaEntry _$SeerrQuotaEntryFromJson(Map<String, dynamic> json) =>
+    SeerrQuotaEntry(
       days: (json['days'] as num?)?.toInt(),
       limit: (json['limit'] as num?)?.toInt(),
       used: (json['used'] as num?)?.toInt(),
@@ -38,7 +43,8 @@ SeerrQuotaEntry _$SeerrQuotaEntryFromJson(Map<String, dynamic> json) => SeerrQuo
       restricted: json['restricted'] as bool?,
     );
 
-Map<String, dynamic> _$SeerrQuotaEntryToJson(SeerrQuotaEntry instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrQuotaEntryToJson(SeerrQuotaEntry instance) =>
+    <String, dynamic>{
       'days': instance.days,
       'limit': instance.limit,
       'used': instance.used,
@@ -46,94 +52,106 @@ Map<String, dynamic> _$SeerrQuotaEntryToJson(SeerrQuotaEntry instance) => <Strin
       'restricted': instance.restricted,
     };
 
-SeerrUserSettings _$SeerrUserSettingsFromJson(Map<String, dynamic> json) => SeerrUserSettings(
+SeerrUserSettings _$SeerrUserSettingsFromJson(Map<String, dynamic> json) =>
+    SeerrUserSettings(
       locale: json['locale'] as String?,
       discoverRegion: json['discoverRegion'] as String?,
       originalLanguage: json['originalLanguage'] as String?,
     );
 
-Map<String, dynamic> _$SeerrUserSettingsToJson(SeerrUserSettings instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrUserSettingsToJson(SeerrUserSettings instance) =>
+    <String, dynamic>{
       'locale': instance.locale,
       'discoverRegion': instance.discoverRegion,
       'originalLanguage': instance.originalLanguage,
     };
 
-SeerrUsersResponse _$SeerrUsersResponseFromJson(Map<String, dynamic> json) => SeerrUsersResponse(
-      results:
-          (json['results'] as List<dynamic>?)?.map((e) => SeerrUserModel.fromJson(e as Map<String, dynamic>)).toList(),
-      pageInfo: json['pageInfo'] == null ? null : SeerrPageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>),
+SeerrUsersResponse _$SeerrUsersResponseFromJson(Map<String, dynamic> json) =>
+    SeerrUsersResponse(
+      results: (json['results'] as List<dynamic>?)
+          ?.map((e) => SeerrUserModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pageInfo: json['pageInfo'] == null
+          ? null
+          : SeerrPageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$SeerrUsersResponseToJson(SeerrUsersResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrUsersResponseToJson(SeerrUsersResponse instance) =>
+    <String, dynamic>{
       'results': instance.results,
       'pageInfo': instance.pageInfo,
     };
 
-SeerrContentRating _$SeerrContentRatingFromJson(Map<String, dynamic> json) => SeerrContentRating(
+SeerrContentRating _$SeerrContentRatingFromJson(Map<String, dynamic> json) =>
+    SeerrContentRating(
       countryCode: json['iso_3166_1'] as String?,
       rating: json['rating'] as String?,
       descriptors: json['descriptors'] as List<dynamic>?,
     );
 
-Map<String, dynamic> _$SeerrContentRatingToJson(SeerrContentRating instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrContentRatingToJson(SeerrContentRating instance) =>
+    <String, dynamic>{
       'iso_3166_1': instance.countryCode,
       'rating': instance.rating,
       'descriptors': instance.descriptors,
     };
 
 SeerrCredits _$SeerrCreditsFromJson(Map<String, dynamic> json) => SeerrCredits(
-      cast: (json['cast'] as List<dynamic>?)?.map((e) => SeerrCast.fromJson(e as Map<String, dynamic>)).toList(),
-      crew: (json['crew'] as List<dynamic>?)?.map((e) => SeerrCrew.fromJson(e as Map<String, dynamic>)).toList(),
-    );
+  cast: (json['cast'] as List<dynamic>?)
+      ?.map((e) => SeerrCast.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  crew: (json['crew'] as List<dynamic>?)
+      ?.map((e) => SeerrCrew.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
-Map<String, dynamic> _$SeerrCreditsToJson(SeerrCredits instance) => <String, dynamic>{
-      'cast': instance.cast,
-      'crew': instance.crew,
-    };
+Map<String, dynamic> _$SeerrCreditsToJson(SeerrCredits instance) =>
+    <String, dynamic>{'cast': instance.cast, 'crew': instance.crew};
 
 SeerrCast _$SeerrCastFromJson(Map<String, dynamic> json) => SeerrCast(
-      id: (json['id'] as num?)?.toInt(),
-      castId: (json['castId'] as num?)?.toInt(),
-      character: json['character'] as String?,
-      creditId: json['creditId'] as String?,
-      gender: (json['gender'] as num?)?.toInt(),
-      name: json['name'] as String?,
-      order: (json['order'] as num?)?.toInt(),
-      internalProfilePath: json['profilePath'] as String?,
-    );
+  id: (json['id'] as num?)?.toInt(),
+  castId: (json['castId'] as num?)?.toInt(),
+  character: json['character'] as String?,
+  creditId: json['creditId'] as String?,
+  gender: (json['gender'] as num?)?.toInt(),
+  name: json['name'] as String?,
+  order: (json['order'] as num?)?.toInt(),
+  internalProfilePath: json['profilePath'] as String?,
+);
 
 Map<String, dynamic> _$SeerrCastToJson(SeerrCast instance) => <String, dynamic>{
-      'id': instance.id,
-      'castId': instance.castId,
-      'character': instance.character,
-      'creditId': instance.creditId,
-      'gender': instance.gender,
-      'name': instance.name,
-      'order': instance.order,
-      'profilePath': instance.internalProfilePath,
-    };
+  'id': instance.id,
+  'castId': instance.castId,
+  'character': instance.character,
+  'creditId': instance.creditId,
+  'gender': instance.gender,
+  'name': instance.name,
+  'order': instance.order,
+  'profilePath': instance.internalProfilePath,
+};
 
 SeerrCrew _$SeerrCrewFromJson(Map<String, dynamic> json) => SeerrCrew(
-      id: (json['id'] as num?)?.toInt(),
-      creditId: json['creditId'] as String?,
-      gender: (json['gender'] as num?)?.toInt(),
-      name: json['name'] as String?,
-      job: json['job'] as String?,
-      department: json['department'] as String?,
-      internalProfilePath: json['profilePath'] as String?,
-    );
+  id: (json['id'] as num?)?.toInt(),
+  creditId: json['creditId'] as String?,
+  gender: (json['gender'] as num?)?.toInt(),
+  name: json['name'] as String?,
+  job: json['job'] as String?,
+  department: json['department'] as String?,
+  internalProfilePath: json['profilePath'] as String?,
+);
 
 Map<String, dynamic> _$SeerrCrewToJson(SeerrCrew instance) => <String, dynamic>{
-      'id': instance.id,
-      'creditId': instance.creditId,
-      'gender': instance.gender,
-      'name': instance.name,
-      'job': instance.job,
-      'department': instance.department,
-      'profilePath': instance.internalProfilePath,
-    };
+  'id': instance.id,
+  'creditId': instance.creditId,
+  'gender': instance.gender,
+  'name': instance.name,
+  'job': instance.job,
+  'department': instance.department,
+  'profilePath': instance.internalProfilePath,
+};
 
-SeerrRelatedVideo _$SeerrRelatedVideoFromJson(Map<String, dynamic> json) => SeerrRelatedVideo(
+SeerrRelatedVideo _$SeerrRelatedVideoFromJson(Map<String, dynamic> json) =>
+    SeerrRelatedVideo(
       url: json['url'] as String?,
       key: json['key'] as String?,
       name: json['name'] as String?,
@@ -142,7 +160,8 @@ SeerrRelatedVideo _$SeerrRelatedVideoFromJson(Map<String, dynamic> json) => Seer
       site: json['site'] as String?,
     );
 
-Map<String, dynamic> _$SeerrRelatedVideoToJson(SeerrRelatedVideo instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrRelatedVideoToJson(SeerrRelatedVideo instance) =>
+    <String, dynamic>{
       'url': instance.url,
       'key': instance.key,
       'name': instance.name,
@@ -151,32 +170,43 @@ Map<String, dynamic> _$SeerrRelatedVideoToJson(SeerrRelatedVideo instance) => <S
       'site': instance.site,
     };
 
-SeerrMovieDetails _$SeerrMovieDetailsFromJson(Map<String, dynamic> json) => SeerrMovieDetails(
-      id: (json['id'] as num?)?.toInt(),
-      title: json['title'] as String?,
-      originalTitle: json['originalTitle'] as String?,
-      overview: json['overview'] as String?,
-      internalPosterPath: json['posterPath'] as String?,
-      internalBackdropPath: json['backdropPath'] as String?,
-      releaseDate: json['releaseDate'] as String?,
-      voteAverage: (json['voteAverage'] as num?)?.toDouble(),
-      voteCount: (json['voteCount'] as num?)?.toInt(),
-      runtime: (json['runtime'] as num?)?.toInt(),
-      genres: (json['genres'] as List<dynamic>?)?.map((e) => SeerrGenre.fromJson(e as Map<String, dynamic>)).toList(),
-      relatedVideos: (json['relatedVideos'] as List<dynamic>?)
-          ?.map((e) => SeerrRelatedVideo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      mediaInfo: json['mediaInfo'] == null ? null : SeerrMediaInfo.fromJson(json['mediaInfo'] as Map<String, dynamic>),
-      externalIds:
-          json['externalIds'] == null ? null : SeerrExternalIds.fromJson(json['externalIds'] as Map<String, dynamic>),
-      credits: json['credits'] == null ? null : SeerrCredits.fromJson(json['credits'] as Map<String, dynamic>),
-      mediaId: _readJellyfinMediaId(json, 'mediaId') as String?,
-      contentRatings: (_readContentRatings(json, 'contentRatings') as List<dynamic>?)
+SeerrMovieDetails _$SeerrMovieDetailsFromJson(
+  Map<String, dynamic> json,
+) => SeerrMovieDetails(
+  id: (json['id'] as num?)?.toInt(),
+  title: json['title'] as String?,
+  originalTitle: json['originalTitle'] as String?,
+  overview: json['overview'] as String?,
+  internalPosterPath: json['posterPath'] as String?,
+  internalBackdropPath: json['backdropPath'] as String?,
+  releaseDate: json['releaseDate'] as String?,
+  voteAverage: (json['voteAverage'] as num?)?.toDouble(),
+  voteCount: (json['voteCount'] as num?)?.toInt(),
+  runtime: (json['runtime'] as num?)?.toInt(),
+  genres: (json['genres'] as List<dynamic>?)
+      ?.map((e) => SeerrGenre.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  relatedVideos: (json['relatedVideos'] as List<dynamic>?)
+      ?.map((e) => SeerrRelatedVideo.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  mediaInfo: json['mediaInfo'] == null
+      ? null
+      : SeerrMediaInfo.fromJson(json['mediaInfo'] as Map<String, dynamic>),
+  externalIds: json['externalIds'] == null
+      ? null
+      : SeerrExternalIds.fromJson(json['externalIds'] as Map<String, dynamic>),
+  credits: json['credits'] == null
+      ? null
+      : SeerrCredits.fromJson(json['credits'] as Map<String, dynamic>),
+  mediaId: _readJellyfinMediaId(json, 'mediaId') as String?,
+  contentRatings:
+      (_readContentRatings(json, 'contentRatings') as List<dynamic>?)
           ?.map((e) => SeerrContentRating.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
+);
 
-Map<String, dynamic> _$SeerrMovieDetailsToJson(SeerrMovieDetails instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrMovieDetailsToJson(SeerrMovieDetails instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'originalTitle': instance.originalTitle,
@@ -196,38 +226,51 @@ Map<String, dynamic> _$SeerrMovieDetailsToJson(SeerrMovieDetails instance) => <S
       'contentRatings': instance.contentRatings,
     };
 
-SeerrTvDetails _$SeerrTvDetailsFromJson(Map<String, dynamic> json) => SeerrTvDetails(
-      id: (json['id'] as num?)?.toInt(),
-      name: json['name'] as String?,
-      originalName: json['originalName'] as String?,
-      overview: json['overview'] as String?,
-      internalPosterPath: json['posterPath'] as String?,
-      internalBackdropPath: json['backdropPath'] as String?,
-      firstAirDate: json['firstAirDate'] as String?,
-      lastAirDate: json['lastAirDate'] as String?,
-      voteAverage: (json['voteAverage'] as num?)?.toDouble(),
-      voteCount: (json['voteCount'] as num?)?.toInt(),
-      numberOfSeasons: (json['numberOfSeasons'] as num?)?.toInt(),
-      numberOfEpisodes: (json['numberOfEpisodes'] as num?)?.toInt(),
-      genres: (json['genres'] as List<dynamic>?)?.map((e) => SeerrGenre.fromJson(e as Map<String, dynamic>)).toList(),
-      seasons:
-          (json['seasons'] as List<dynamic>?)?.map((e) => SeerrSeason.fromJson(e as Map<String, dynamic>)).toList(),
-      relatedVideos: (json['relatedVideos'] as List<dynamic>?)
-          ?.map((e) => SeerrRelatedVideo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      mediaInfo: json['mediaInfo'] == null ? null : SeerrMediaInfo.fromJson(json['mediaInfo'] as Map<String, dynamic>),
-      externalIds:
-          json['externalIds'] == null ? null : SeerrExternalIds.fromJson(json['externalIds'] as Map<String, dynamic>),
-      keywords:
-          (json['keywords'] as List<dynamic>?)?.map((e) => SeerrKeyword.fromJson(e as Map<String, dynamic>)).toList(),
-      credits: json['credits'] == null ? null : SeerrCredits.fromJson(json['credits'] as Map<String, dynamic>),
-      mediaId: _readJellyfinMediaId(json, 'mediaId') as String?,
-      contentRatings: (_readContentRatings(json, 'contentRatings') as List<dynamic>?)
+SeerrTvDetails _$SeerrTvDetailsFromJson(
+  Map<String, dynamic> json,
+) => SeerrTvDetails(
+  id: (json['id'] as num?)?.toInt(),
+  name: json['name'] as String?,
+  originalName: json['originalName'] as String?,
+  overview: json['overview'] as String?,
+  internalPosterPath: json['posterPath'] as String?,
+  internalBackdropPath: json['backdropPath'] as String?,
+  firstAirDate: json['firstAirDate'] as String?,
+  lastAirDate: json['lastAirDate'] as String?,
+  voteAverage: (json['voteAverage'] as num?)?.toDouble(),
+  voteCount: (json['voteCount'] as num?)?.toInt(),
+  numberOfSeasons: (json['numberOfSeasons'] as num?)?.toInt(),
+  numberOfEpisodes: (json['numberOfEpisodes'] as num?)?.toInt(),
+  genres: (json['genres'] as List<dynamic>?)
+      ?.map((e) => SeerrGenre.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  seasons: (json['seasons'] as List<dynamic>?)
+      ?.map((e) => SeerrSeason.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  relatedVideos: (json['relatedVideos'] as List<dynamic>?)
+      ?.map((e) => SeerrRelatedVideo.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  mediaInfo: json['mediaInfo'] == null
+      ? null
+      : SeerrMediaInfo.fromJson(json['mediaInfo'] as Map<String, dynamic>),
+  externalIds: json['externalIds'] == null
+      ? null
+      : SeerrExternalIds.fromJson(json['externalIds'] as Map<String, dynamic>),
+  keywords: (json['keywords'] as List<dynamic>?)
+      ?.map((e) => SeerrKeyword.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  credits: json['credits'] == null
+      ? null
+      : SeerrCredits.fromJson(json['credits'] as Map<String, dynamic>),
+  mediaId: _readJellyfinMediaId(json, 'mediaId') as String?,
+  contentRatings:
+      (_readContentRatings(json, 'contentRatings') as List<dynamic>?)
           ?.map((e) => SeerrContentRating.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
+);
 
-Map<String, dynamic> _$SeerrTvDetailsToJson(SeerrTvDetails instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrTvDetailsToJson(SeerrTvDetails instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'originalName': instance.originalName,
@@ -252,36 +295,33 @@ Map<String, dynamic> _$SeerrTvDetailsToJson(SeerrTvDetails instance) => <String,
     };
 
 SeerrGenre _$SeerrGenreFromJson(Map<String, dynamic> json) => SeerrGenre(
-      id: (json['id'] as num?)?.toInt(),
-      name: json['name'] as String?,
-    );
+  id: (json['id'] as num?)?.toInt(),
+  name: json['name'] as String?,
+);
 
-Map<String, dynamic> _$SeerrGenreToJson(SeerrGenre instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-    };
+Map<String, dynamic> _$SeerrGenreToJson(SeerrGenre instance) =>
+    <String, dynamic>{'id': instance.id, 'name': instance.name};
 
 SeerrKeyword _$SeerrKeywordFromJson(Map<String, dynamic> json) => SeerrKeyword(
-      id: (json['id'] as num?)?.toInt(),
-      name: json['name'] as String?,
-    );
+  id: (json['id'] as num?)?.toInt(),
+  name: json['name'] as String?,
+);
 
-Map<String, dynamic> _$SeerrKeywordToJson(SeerrKeyword instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-    };
+Map<String, dynamic> _$SeerrKeywordToJson(SeerrKeyword instance) =>
+    <String, dynamic>{'id': instance.id, 'name': instance.name};
 
 SeerrSeason _$SeerrSeasonFromJson(Map<String, dynamic> json) => SeerrSeason(
-      id: (json['id'] as num?)?.toInt(),
-      name: json['name'] as String?,
-      overview: json['overview'] as String?,
-      seasonNumber: (json['seasonNumber'] as num?)?.toInt(),
-      internalPosterPath: json['posterPath'] as String?,
-      episodeCount: (json['episodeCount'] as num?)?.toInt(),
-      mediaId: _readJellyfinMediaId(json, 'mediaId') as String?,
-    );
+  id: (json['id'] as num?)?.toInt(),
+  name: json['name'] as String?,
+  overview: json['overview'] as String?,
+  seasonNumber: (json['seasonNumber'] as num?)?.toInt(),
+  internalPosterPath: json['posterPath'] as String?,
+  episodeCount: (json['episodeCount'] as num?)?.toInt(),
+  mediaId: _readJellyfinMediaId(json, 'mediaId') as String?,
+);
 
-Map<String, dynamic> _$SeerrSeasonToJson(SeerrSeason instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrSeasonToJson(SeerrSeason instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'overview': instance.overview,
@@ -291,17 +331,20 @@ Map<String, dynamic> _$SeerrSeasonToJson(SeerrSeason instance) => <String, dynam
       'mediaId': instance.mediaId,
     };
 
-SeerrSeasonDetails _$SeerrSeasonDetailsFromJson(Map<String, dynamic> json) => SeerrSeasonDetails(
+SeerrSeasonDetails _$SeerrSeasonDetailsFromJson(Map<String, dynamic> json) =>
+    SeerrSeasonDetails(
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
       overview: json['overview'] as String?,
       seasonNumber: (json['seasonNumber'] as num?)?.toInt(),
       internalPosterPath: json['posterPath'] as String?,
-      episodes:
-          (json['episodes'] as List<dynamic>?)?.map((e) => SeerrEpisode.fromJson(e as Map<String, dynamic>)).toList(),
+      episodes: (json['episodes'] as List<dynamic>?)
+          ?.map((e) => SeerrEpisode.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
-Map<String, dynamic> _$SeerrSeasonDetailsToJson(SeerrSeasonDetails instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrSeasonDetailsToJson(SeerrSeasonDetails instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'overview': instance.overview,
@@ -311,18 +354,19 @@ Map<String, dynamic> _$SeerrSeasonDetailsToJson(SeerrSeasonDetails instance) => 
     };
 
 SeerrEpisode _$SeerrEpisodeFromJson(Map<String, dynamic> json) => SeerrEpisode(
-      id: (json['id'] as num?)?.toInt(),
-      name: json['name'] as String?,
-      overview: json['overview'] as String?,
-      episodeNumber: (json['episodeNumber'] as num?)?.toInt(),
-      seasonNumber: (json['seasonNumber'] as num?)?.toInt(),
-      airDate: json['airDate'] as String?,
-      internalStillPath: json['stillPath'] as String?,
-      voteAverage: (json['voteAverage'] as num?)?.toDouble(),
-      voteCount: (json['voteCount'] as num?)?.toInt(),
-    );
+  id: (json['id'] as num?)?.toInt(),
+  name: json['name'] as String?,
+  overview: json['overview'] as String?,
+  episodeNumber: (json['episodeNumber'] as num?)?.toInt(),
+  seasonNumber: (json['seasonNumber'] as num?)?.toInt(),
+  airDate: json['airDate'] as String?,
+  internalStillPath: json['stillPath'] as String?,
+  voteAverage: (json['voteAverage'] as num?)?.toDouble(),
+  voteCount: (json['voteCount'] as num?)?.toInt(),
+);
 
-Map<String, dynamic> _$SeerrEpisodeToJson(SeerrEpisode instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrEpisodeToJson(SeerrEpisode instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'overview': instance.overview,
@@ -334,46 +378,50 @@ Map<String, dynamic> _$SeerrEpisodeToJson(SeerrEpisode instance) => <String, dyn
       'voteCount': instance.voteCount,
     };
 
-SeerrDownloadStatusEpisode _$SeerrDownloadStatusEpisodeFromJson(Map<String, dynamic> json) =>
-    SeerrDownloadStatusEpisode(
-      seriesId: (json['seriesId'] as num?)?.toInt(),
-      tvdbId: (json['tvdbId'] as num?)?.toInt(),
-      episodeFileId: (json['episodeFileId'] as num?)?.toInt(),
-      seasonNumber: (json['seasonNumber'] as num?)?.toInt(),
-      episodeNumber: (json['episodeNumber'] as num?)?.toInt(),
-      title: json['title'] as String?,
-      airDate: json['airDate'] as String?,
-      airDateUtc: json['airDateUtc'] as String?,
-      lastSearchTime: json['lastSearchTime'] as String?,
-      runtime: (json['runtime'] as num?)?.toInt(),
-      overview: json['overview'] as String?,
-      hasFile: json['hasFile'] as bool?,
-      monitored: json['monitored'] as bool?,
-      absoluteEpisodeNumber: (json['absoluteEpisodeNumber'] as num?)?.toInt(),
-      unverifiedSceneNumbering: json['unverifiedSceneNumbering'] as bool?,
-      id: (json['id'] as num?)?.toInt(),
-    );
+SeerrDownloadStatusEpisode _$SeerrDownloadStatusEpisodeFromJson(
+  Map<String, dynamic> json,
+) => SeerrDownloadStatusEpisode(
+  seriesId: (json['seriesId'] as num?)?.toInt(),
+  tvdbId: (json['tvdbId'] as num?)?.toInt(),
+  episodeFileId: (json['episodeFileId'] as num?)?.toInt(),
+  seasonNumber: (json['seasonNumber'] as num?)?.toInt(),
+  episodeNumber: (json['episodeNumber'] as num?)?.toInt(),
+  title: json['title'] as String?,
+  airDate: json['airDate'] as String?,
+  airDateUtc: json['airDateUtc'] as String?,
+  lastSearchTime: json['lastSearchTime'] as String?,
+  runtime: (json['runtime'] as num?)?.toInt(),
+  overview: json['overview'] as String?,
+  hasFile: json['hasFile'] as bool?,
+  monitored: json['monitored'] as bool?,
+  absoluteEpisodeNumber: (json['absoluteEpisodeNumber'] as num?)?.toInt(),
+  unverifiedSceneNumbering: json['unverifiedSceneNumbering'] as bool?,
+  id: (json['id'] as num?)?.toInt(),
+);
 
-Map<String, dynamic> _$SeerrDownloadStatusEpisodeToJson(SeerrDownloadStatusEpisode instance) => <String, dynamic>{
-      'seriesId': instance.seriesId,
-      'tvdbId': instance.tvdbId,
-      'episodeFileId': instance.episodeFileId,
-      'seasonNumber': instance.seasonNumber,
-      'episodeNumber': instance.episodeNumber,
-      'title': instance.title,
-      'airDate': instance.airDate,
-      'airDateUtc': instance.airDateUtc,
-      'lastSearchTime': instance.lastSearchTime,
-      'runtime': instance.runtime,
-      'overview': instance.overview,
-      'hasFile': instance.hasFile,
-      'monitored': instance.monitored,
-      'absoluteEpisodeNumber': instance.absoluteEpisodeNumber,
-      'unverifiedSceneNumbering': instance.unverifiedSceneNumbering,
-      'id': instance.id,
-    };
+Map<String, dynamic> _$SeerrDownloadStatusEpisodeToJson(
+  SeerrDownloadStatusEpisode instance,
+) => <String, dynamic>{
+  'seriesId': instance.seriesId,
+  'tvdbId': instance.tvdbId,
+  'episodeFileId': instance.episodeFileId,
+  'seasonNumber': instance.seasonNumber,
+  'episodeNumber': instance.episodeNumber,
+  'title': instance.title,
+  'airDate': instance.airDate,
+  'airDateUtc': instance.airDateUtc,
+  'lastSearchTime': instance.lastSearchTime,
+  'runtime': instance.runtime,
+  'overview': instance.overview,
+  'hasFile': instance.hasFile,
+  'monitored': instance.monitored,
+  'absoluteEpisodeNumber': instance.absoluteEpisodeNumber,
+  'unverifiedSceneNumbering': instance.unverifiedSceneNumbering,
+  'id': instance.id,
+};
 
-SeerrDownloadStatus _$SeerrDownloadStatusFromJson(Map<String, dynamic> json) => SeerrDownloadStatus(
+SeerrDownloadStatus _$SeerrDownloadStatusFromJson(Map<String, dynamic> json) =>
+    SeerrDownloadStatus(
       externalId: (json['externalId'] as num?)?.toInt(),
       estimatedCompletionTime: json['estimatedCompletionTime'] as String?,
       mediaType: json['mediaType'] as String?,
@@ -382,65 +430,82 @@ SeerrDownloadStatus _$SeerrDownloadStatusFromJson(Map<String, dynamic> json) => 
       status: json['status'] as String?,
       timeLeft: json['timeLeft'] as String?,
       title: json['title'] as String?,
-      episode:
-          json['episode'] == null ? null : SeerrDownloadStatusEpisode.fromJson(json['episode'] as Map<String, dynamic>),
+      episode: json['episode'] == null
+          ? null
+          : SeerrDownloadStatusEpisode.fromJson(
+              json['episode'] as Map<String, dynamic>,
+            ),
       downloadId: json['downloadId'] as String?,
     );
 
-Map<String, dynamic> _$SeerrDownloadStatusToJson(SeerrDownloadStatus instance) => <String, dynamic>{
-      'externalId': instance.externalId,
-      'estimatedCompletionTime': instance.estimatedCompletionTime,
-      'mediaType': instance.mediaType,
-      'size': instance.size,
-      'sizeLeft': instance.sizeLeft,
-      'status': instance.status,
-      'timeLeft': instance.timeLeft,
-      'title': instance.title,
-      'episode': instance.episode,
-      'downloadId': instance.downloadId,
-    };
+Map<String, dynamic> _$SeerrDownloadStatusToJson(
+  SeerrDownloadStatus instance,
+) => <String, dynamic>{
+  'externalId': instance.externalId,
+  'estimatedCompletionTime': instance.estimatedCompletionTime,
+  'mediaType': instance.mediaType,
+  'size': instance.size,
+  'sizeLeft': instance.sizeLeft,
+  'status': instance.status,
+  'timeLeft': instance.timeLeft,
+  'title': instance.title,
+  'episode': instance.episode,
+  'downloadId': instance.downloadId,
+};
 
-SeerrMediaInfoSeason _$SeerrMediaInfoSeasonFromJson(Map<String, dynamic> json) => SeerrMediaInfoSeason(
-      id: (json['id'] as num?)?.toInt(),
-      seasonNumber: (json['seasonNumber'] as num?)?.toInt(),
-      status: (json['status'] as num?)?.toInt(),
-      createdAt: json['createdAt'] as String?,
-      updatedAt: json['updatedAt'] as String?,
-    );
+SeerrMediaInfoSeason _$SeerrMediaInfoSeasonFromJson(
+  Map<String, dynamic> json,
+) => SeerrMediaInfoSeason(
+  id: (json['id'] as num?)?.toInt(),
+  seasonNumber: (json['seasonNumber'] as num?)?.toInt(),
+  status: (json['status'] as num?)?.toInt(),
+  createdAt: json['createdAt'] as String?,
+  updatedAt: json['updatedAt'] as String?,
+);
 
-Map<String, dynamic> _$SeerrMediaInfoSeasonToJson(SeerrMediaInfoSeason instance) => <String, dynamic>{
-      'id': instance.id,
-      'seasonNumber': instance.seasonNumber,
-      'status': instance.status,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
-    };
+Map<String, dynamic> _$SeerrMediaInfoSeasonToJson(
+  SeerrMediaInfoSeason instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'seasonNumber': instance.seasonNumber,
+  'status': instance.status,
+  'createdAt': instance.createdAt,
+  'updatedAt': instance.updatedAt,
+};
 
-SeerrExternalIds _$SeerrExternalIdsFromJson(Map<String, dynamic> json) => SeerrExternalIds(
+SeerrExternalIds _$SeerrExternalIdsFromJson(Map<String, dynamic> json) =>
+    SeerrExternalIds(
       imdbId: json['imdbId'] as String?,
       facebookId: json['facebookId'] as String?,
       instagramId: json['instagramId'] as String?,
       twitterId: json['twitterId'] as String?,
     );
 
-Map<String, dynamic> _$SeerrExternalIdsToJson(SeerrExternalIds instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrExternalIdsToJson(SeerrExternalIds instance) =>
+    <String, dynamic>{
       'imdbId': instance.imdbId,
       'facebookId': instance.facebookId,
       'instagramId': instance.instagramId,
       'twitterId': instance.twitterId,
     };
 
-SeerrRatingsResponse _$SeerrRatingsResponseFromJson(Map<String, dynamic> json) => SeerrRatingsResponse(
-      rt: json['rt'] == null ? null : SeerrRtRating.fromJson(json['rt'] as Map<String, dynamic>),
-      imdb: json['imdb'] == null ? null : SeerrImdbRating.fromJson(json['imdb'] as Map<String, dynamic>),
-    );
+SeerrRatingsResponse _$SeerrRatingsResponseFromJson(
+  Map<String, dynamic> json,
+) => SeerrRatingsResponse(
+  rt: json['rt'] == null
+      ? null
+      : SeerrRtRating.fromJson(json['rt'] as Map<String, dynamic>),
+  imdb: json['imdb'] == null
+      ? null
+      : SeerrImdbRating.fromJson(json['imdb'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$SeerrRatingsResponseToJson(SeerrRatingsResponse instance) => <String, dynamic>{
-      'rt': instance.rt,
-      'imdb': instance.imdb,
-    };
+Map<String, dynamic> _$SeerrRatingsResponseToJson(
+  SeerrRatingsResponse instance,
+) => <String, dynamic>{'rt': instance.rt, 'imdb': instance.imdb};
 
-SeerrRtRating _$SeerrRtRatingFromJson(Map<String, dynamic> json) => SeerrRtRating(
+SeerrRtRating _$SeerrRtRatingFromJson(Map<String, dynamic> json) =>
+    SeerrRtRating(
       title: json['title'] as String?,
       year: (json['year'] as num?)?.toInt(),
       criticsScore: (json['criticsScore'] as num?)?.toInt(),
@@ -450,7 +515,8 @@ SeerrRtRating _$SeerrRtRatingFromJson(Map<String, dynamic> json) => SeerrRtRatin
       url: json['url'] as String?,
     );
 
-Map<String, dynamic> _$SeerrRtRatingToJson(SeerrRtRating instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrRtRatingToJson(SeerrRtRating instance) =>
+    <String, dynamic>{
       'title': instance.title,
       'year': instance.year,
       'criticsScore': instance.criticsScore,
@@ -460,40 +526,59 @@ Map<String, dynamic> _$SeerrRtRatingToJson(SeerrRtRating instance) => <String, d
       'url': instance.url,
     };
 
-SeerrImdbRating _$SeerrImdbRatingFromJson(Map<String, dynamic> json) => SeerrImdbRating(
+SeerrImdbRating _$SeerrImdbRatingFromJson(Map<String, dynamic> json) =>
+    SeerrImdbRating(
       title: json['title'] as String?,
       url: json['url'] as String?,
       criticsScore: (json['criticsScore'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$SeerrImdbRatingToJson(SeerrImdbRating instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrImdbRatingToJson(SeerrImdbRating instance) =>
+    <String, dynamic>{
       'title': instance.title,
       'url': instance.url,
       'criticsScore': instance.criticsScore,
     };
 
-SeerrRequestsResponse _$SeerrRequestsResponseFromJson(Map<String, dynamic> json) => SeerrRequestsResponse(
-      results: (json['results'] as List<dynamic>?)
-          ?.map((e) => SeerrMediaRequest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      pageInfo: json['pageInfo'] == null ? null : SeerrPageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>),
-    );
+SeerrRequestsResponse _$SeerrRequestsResponseFromJson(
+  Map<String, dynamic> json,
+) => SeerrRequestsResponse(
+  results: (json['results'] as List<dynamic>?)
+      ?.map((e) => SeerrMediaRequest.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  pageInfo: json['pageInfo'] == null
+      ? null
+      : SeerrPageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$SeerrRequestsResponseToJson(SeerrRequestsResponse instance) => <String, dynamic>{
-      'results': instance.results,
-      'pageInfo': instance.pageInfo,
-    };
+Map<String, dynamic> _$SeerrRequestsResponseToJson(
+  SeerrRequestsResponse instance,
+) => <String, dynamic>{
+  'results': instance.results,
+  'pageInfo': instance.pageInfo,
+};
 
-SeerrMediaRequest _$SeerrMediaRequestFromJson(Map<String, dynamic> json) => SeerrMediaRequest(
+SeerrMediaRequest _$SeerrMediaRequestFromJson(Map<String, dynamic> json) =>
+    SeerrMediaRequest(
       id: (json['id'] as num?)?.toInt(),
       status: (json['status'] as num?)?.toInt(),
-      media: json['media'] == null ? null : SeerrMedia.fromJson(json['media'] as Map<String, dynamic>),
-      createdAt: json['createdAt'] == null ? null : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null ? null : DateTime.parse(json['updatedAt'] as String),
-      requestedBy:
-          json['requestedBy'] == null ? null : SeerrUserModel.fromJson(json['requestedBy'] as Map<String, dynamic>),
-      modifiedBy:
-          json['modifiedBy'] == null ? null : SeerrUserModel.fromJson(json['modifiedBy'] as Map<String, dynamic>),
+      media: json['media'] == null
+          ? null
+          : SeerrMedia.fromJson(json['media'] as Map<String, dynamic>),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+      requestedBy: json['requestedBy'] == null
+          ? null
+          : SeerrUserModel.fromJson(
+              json['requestedBy'] as Map<String, dynamic>,
+            ),
+      modifiedBy: json['modifiedBy'] == null
+          ? null
+          : SeerrUserModel.fromJson(json['modifiedBy'] as Map<String, dynamic>),
       is4k: json['is4k'] as bool?,
       seasons: _parseRequestSeasons(json['seasons'] as List?),
       serverId: (json['serverId'] as num?)?.toInt(),
@@ -501,7 +586,8 @@ SeerrMediaRequest _$SeerrMediaRequestFromJson(Map<String, dynamic> json) => Seer
       rootFolder: json['rootFolder'] as String?,
     );
 
-Map<String, dynamic> _$SeerrMediaRequestToJson(SeerrMediaRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrMediaRequestToJson(SeerrMediaRequest instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'status': instance.status,
       'media': instance.media,
@@ -516,56 +602,67 @@ Map<String, dynamic> _$SeerrMediaRequestToJson(SeerrMediaRequest instance) => <S
       'rootFolder': instance.rootFolder,
     };
 
-SeerrPageInfo _$SeerrPageInfoFromJson(Map<String, dynamic> json) => SeerrPageInfo(
+SeerrPageInfo _$SeerrPageInfoFromJson(Map<String, dynamic> json) =>
+    SeerrPageInfo(
       pages: (json['pages'] as num?)?.toInt(),
       pageSize: (json['pageSize'] as num?)?.toInt(),
       results: (json['results'] as num?)?.toInt(),
       page: (json['page'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$SeerrPageInfoToJson(SeerrPageInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrPageInfoToJson(SeerrPageInfo instance) =>
+    <String, dynamic>{
       'pages': instance.pages,
       'pageSize': instance.pageSize,
       'results': instance.results,
       'page': instance.page,
     };
 
-SeerrCreateRequestBody _$SeerrCreateRequestBodyFromJson(Map<String, dynamic> json) => SeerrCreateRequestBody(
-      mediaType: json['mediaType'] as String?,
-      mediaId: (json['mediaId'] as num?)?.toInt(),
-      is4k: json['is4k'] as bool?,
-      seasons: (json['seasons'] as List<dynamic>?)?.map((e) => (e as num).toInt()).toList(),
-      serverId: (json['serverId'] as num?)?.toInt(),
-      profileId: (json['profileId'] as num?)?.toInt(),
-      rootFolder: json['rootFolder'] as String?,
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => (e as num).toInt()).toList(),
-      userId: (json['userId'] as num?)?.toInt(),
-    );
+SeerrCreateRequestBody _$SeerrCreateRequestBodyFromJson(
+  Map<String, dynamic> json,
+) => SeerrCreateRequestBody(
+  mediaType: json['mediaType'] as String?,
+  mediaId: (json['mediaId'] as num?)?.toInt(),
+  is4k: json['is4k'] as bool?,
+  seasons: (json['seasons'] as List<dynamic>?)
+      ?.map((e) => (e as num).toInt())
+      .toList(),
+  serverId: (json['serverId'] as num?)?.toInt(),
+  profileId: (json['profileId'] as num?)?.toInt(),
+  rootFolder: json['rootFolder'] as String?,
+  tags: (json['tags'] as List<dynamic>?)
+      ?.map((e) => (e as num).toInt())
+      .toList(),
+  userId: (json['userId'] as num?)?.toInt(),
+);
 
-Map<String, dynamic> _$SeerrCreateRequestBodyToJson(SeerrCreateRequestBody instance) => <String, dynamic>{
-      'mediaType': instance.mediaType,
-      'mediaId': instance.mediaId,
-      if (instance.is4k case final value?) 'is4k': value,
-      if (instance.seasons case final value?) 'seasons': value,
-      if (instance.serverId case final value?) 'serverId': value,
-      if (instance.profileId case final value?) 'profileId': value,
-      if (instance.rootFolder case final value?) 'rootFolder': value,
-      if (instance.tags case final value?) 'tags': value,
-      if (instance.userId case final value?) 'userId': value,
-    };
+Map<String, dynamic> _$SeerrCreateRequestBodyToJson(
+  SeerrCreateRequestBody instance,
+) => <String, dynamic>{
+  'mediaType': instance.mediaType,
+  'mediaId': instance.mediaId,
+  'is4k': ?instance.is4k,
+  'seasons': ?instance.seasons,
+  'serverId': ?instance.serverId,
+  'profileId': ?instance.profileId,
+  'rootFolder': ?instance.rootFolder,
+  'tags': ?instance.tags,
+  'userId': ?instance.userId,
+};
 
 SeerrMedia _$SeerrMediaFromJson(Map<String, dynamic> json) => SeerrMedia(
-      id: (json['id'] as num?)?.toInt(),
-      tmdbId: (json['tmdbId'] as num?)?.toInt(),
-      tvdbId: (json['tvdbId'] as num?)?.toInt(),
-      status: (json['status'] as num?)?.toInt(),
-      mediaType: json['mediaType'] as String?,
-      requests: (json['requests'] as List<dynamic>?)
-          ?.map((e) => SeerrMediaRequest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  id: (json['id'] as num?)?.toInt(),
+  tmdbId: (json['tmdbId'] as num?)?.toInt(),
+  tvdbId: (json['tvdbId'] as num?)?.toInt(),
+  status: (json['status'] as num?)?.toInt(),
+  mediaType: json['mediaType'] as String?,
+  requests: (json['requests'] as List<dynamic>?)
+      ?.map((e) => SeerrMediaRequest.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
-Map<String, dynamic> _$SeerrMediaToJson(SeerrMedia instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrMediaToJson(SeerrMedia instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'tmdbId': instance.tmdbId,
       'tvdbId': instance.tvdbId,
@@ -574,19 +671,29 @@ Map<String, dynamic> _$SeerrMediaToJson(SeerrMedia instance) => <String, dynamic
       'requests': instance.requests,
     };
 
-SeerrMediaResponse _$SeerrMediaResponseFromJson(Map<String, dynamic> json) => SeerrMediaResponse(
-      results: (json['results'] as List<dynamic>?)?.map((e) => SeerrMedia.fromJson(e as Map<String, dynamic>)).toList(),
-      pageInfo: json['pageInfo'] == null ? null : SeerrPageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>),
+SeerrMediaResponse _$SeerrMediaResponseFromJson(Map<String, dynamic> json) =>
+    SeerrMediaResponse(
+      results: (json['results'] as List<dynamic>?)
+          ?.map((e) => SeerrMedia.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pageInfo: json['pageInfo'] == null
+          ? null
+          : SeerrPageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$SeerrMediaResponseToJson(SeerrMediaResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrMediaResponseToJson(SeerrMediaResponse instance) =>
+    <String, dynamic>{
       'results': instance.results,
       'pageInfo': instance.pageInfo,
     };
 
-SeerrDiscoverItem _$SeerrDiscoverItemFromJson(Map<String, dynamic> json) => SeerrDiscoverItem(
+SeerrDiscoverItem _$SeerrDiscoverItemFromJson(Map<String, dynamic> json) =>
+    SeerrDiscoverItem(
       id: (json['id'] as num?)?.toInt(),
-      mediaType: $enumDecodeNullable(_$SeerrMediaTypeEnumMap, json['mediaType']),
+      mediaType: $enumDecodeNullable(
+        _$SeerrMediaTypeEnumMap,
+        json['mediaType'],
+      ),
       title: json['title'] as String?,
       name: json['name'] as String?,
       originalTitle: json['originalTitle'] as String?,
@@ -596,11 +703,14 @@ SeerrDiscoverItem _$SeerrDiscoverItemFromJson(Map<String, dynamic> json) => Seer
       internalBackdropPath: json['backdropPath'] as String?,
       releaseDate: json['releaseDate'] as String?,
       firstAirDate: json['firstAirDate'] as String?,
-      mediaInfo: json['mediaInfo'] == null ? null : SeerrMediaInfo.fromJson(json['mediaInfo'] as Map<String, dynamic>),
+      mediaInfo: json['mediaInfo'] == null
+          ? null
+          : SeerrMediaInfo.fromJson(json['mediaInfo'] as Map<String, dynamic>),
       mediaId: _readJellyfinMediaId(json, 'mediaId') as String?,
     );
 
-Map<String, dynamic> _$SeerrDiscoverItemToJson(SeerrDiscoverItem instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrDiscoverItemToJson(SeerrDiscoverItem instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'mediaType': _$SeerrMediaTypeEnumMap[instance.mediaType],
       'title': instance.title,
@@ -622,107 +732,130 @@ const _$SeerrMediaTypeEnumMap = {
   SeerrMediaType.person: 'person',
 };
 
-SeerrDiscoverResponse _$SeerrDiscoverResponseFromJson(Map<String, dynamic> json) => SeerrDiscoverResponse(
-      results: (json['results'] as List<dynamic>?)
-          ?.map((e) => SeerrDiscoverItem.fromJson(e as Map<String, dynamic>))
+SeerrDiscoverResponse _$SeerrDiscoverResponseFromJson(
+  Map<String, dynamic> json,
+) => SeerrDiscoverResponse(
+  results: (json['results'] as List<dynamic>?)
+      ?.map((e) => SeerrDiscoverItem.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  page: (json['page'] as num?)?.toInt(),
+  totalPages: (json['totalPages'] as num?)?.toInt(),
+  totalResults: (json['totalResults'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$SeerrDiscoverResponseToJson(
+  SeerrDiscoverResponse instance,
+) => <String, dynamic>{
+  'results': instance.results,
+  'page': instance.page,
+  'totalPages': instance.totalPages,
+  'totalResults': instance.totalResults,
+};
+
+SeerrGenreResponse _$SeerrGenreResponseFromJson(Map<String, dynamic> json) =>
+    SeerrGenreResponse(
+      genres: (json['genres'] as List<dynamic>?)
+          ?.map((e) => SeerrGenre.fromJson(e as Map<String, dynamic>))
           .toList(),
-      page: (json['page'] as num?)?.toInt(),
-      totalPages: (json['totalPages'] as num?)?.toInt(),
-      totalResults: (json['totalResults'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$SeerrDiscoverResponseToJson(SeerrDiscoverResponse instance) => <String, dynamic>{
-      'results': instance.results,
-      'page': instance.page,
-      'totalPages': instance.totalPages,
-      'totalResults': instance.totalResults,
-    };
+Map<String, dynamic> _$SeerrGenreResponseToJson(SeerrGenreResponse instance) =>
+    <String, dynamic>{'genres': instance.genres};
 
-SeerrGenreResponse _$SeerrGenreResponseFromJson(Map<String, dynamic> json) => SeerrGenreResponse(
-      genres: (json['genres'] as List<dynamic>?)?.map((e) => SeerrGenre.fromJson(e as Map<String, dynamic>)).toList(),
-    );
-
-Map<String, dynamic> _$SeerrGenreResponseToJson(SeerrGenreResponse instance) => <String, dynamic>{
-      'genres': instance.genres,
-    };
-
-SeerrWatchProvider _$SeerrWatchProviderFromJson(Map<String, dynamic> json) => SeerrWatchProvider(
+SeerrWatchProvider _$SeerrWatchProviderFromJson(Map<String, dynamic> json) =>
+    SeerrWatchProvider(
       providerId: (json['id'] as num?)?.toInt(),
       providerName: json['name'] as String?,
       internalLogoPath: json['logoPath'] as String?,
       displayPriority: (json['displayPriority'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$SeerrWatchProviderToJson(SeerrWatchProvider instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrWatchProviderToJson(SeerrWatchProvider instance) =>
+    <String, dynamic>{
       'id': instance.providerId,
       'name': instance.providerName,
       'logoPath': instance.internalLogoPath,
       'displayPriority': instance.displayPriority,
     };
 
-SeerrWatchProviderRegion _$SeerrWatchProviderRegionFromJson(Map<String, dynamic> json) => SeerrWatchProviderRegion(
-      iso31661: json['iso_3166_1'] as String?,
-      englishName: json['english_name'] as String?,
-      nativeName: json['native_name'] as String?,
-    );
+SeerrWatchProviderRegion _$SeerrWatchProviderRegionFromJson(
+  Map<String, dynamic> json,
+) => SeerrWatchProviderRegion(
+  iso31661: json['iso_3166_1'] as String?,
+  englishName: json['english_name'] as String?,
+  nativeName: json['native_name'] as String?,
+);
 
-Map<String, dynamic> _$SeerrWatchProviderRegionToJson(SeerrWatchProviderRegion instance) => <String, dynamic>{
-      'iso_3166_1': instance.iso31661,
-      'english_name': instance.englishName,
-      'native_name': instance.nativeName,
-    };
+Map<String, dynamic> _$SeerrWatchProviderRegionToJson(
+  SeerrWatchProviderRegion instance,
+) => <String, dynamic>{
+  'iso_3166_1': instance.iso31661,
+  'english_name': instance.englishName,
+  'native_name': instance.nativeName,
+};
 
-SeerrCertification _$SeerrCertificationFromJson(Map<String, dynamic> json) => SeerrCertification(
+SeerrCertification _$SeerrCertificationFromJson(Map<String, dynamic> json) =>
+    SeerrCertification(
       certification: json['certification'] as String?,
       meaning: json['meaning'] as String?,
       order: (json['order'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$SeerrCertificationToJson(SeerrCertification instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrCertificationToJson(SeerrCertification instance) =>
+    <String, dynamic>{
       'certification': instance.certification,
       'meaning': instance.meaning,
       'order': instance.order,
     };
 
-SeerrCertificationsResponse _$SeerrCertificationsResponseFromJson(Map<String, dynamic> json) =>
-    SeerrCertificationsResponse(
-      certifications: (json['certifications'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(
-            k, (e as List<dynamic>).map((e) => SeerrCertification.fromJson(e as Map<String, dynamic>)).toList()),
-      ),
-    );
+SeerrCertificationsResponse _$SeerrCertificationsResponseFromJson(
+  Map<String, dynamic> json,
+) => SeerrCertificationsResponse(
+  certifications: (json['certifications'] as Map<String, dynamic>?)?.map(
+    (k, e) => MapEntry(
+      k,
+      (e as List<dynamic>)
+          .map((e) => SeerrCertification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    ),
+  ),
+);
 
-Map<String, dynamic> _$SeerrCertificationsResponseToJson(SeerrCertificationsResponse instance) => <String, dynamic>{
-      'certifications': instance.certifications,
-    };
+Map<String, dynamic> _$SeerrCertificationsResponseToJson(
+  SeerrCertificationsResponse instance,
+) => <String, dynamic>{'certifications': instance.certifications};
 
-SeerrAuthLocalBody _$SeerrAuthLocalBodyFromJson(Map<String, dynamic> json) => SeerrAuthLocalBody(
+SeerrAuthLocalBody _$SeerrAuthLocalBodyFromJson(Map<String, dynamic> json) =>
+    SeerrAuthLocalBody(
       email: json['email'] as String,
       password: json['password'] as String,
     );
 
-Map<String, dynamic> _$SeerrAuthLocalBodyToJson(SeerrAuthLocalBody instance) => <String, dynamic>{
-      'email': instance.email,
-      'password': instance.password,
-    };
+Map<String, dynamic> _$SeerrAuthLocalBodyToJson(SeerrAuthLocalBody instance) =>
+    <String, dynamic>{'email': instance.email, 'password': instance.password};
 
-SeerrAuthJellyfinBody _$SeerrAuthJellyfinBodyFromJson(Map<String, dynamic> json) => SeerrAuthJellyfinBody(
-      username: json['username'] as String,
-      password: json['password'] as String,
-      customHeaders: (json['customHeaders'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as String),
-      ),
-      hostname: json['hostname'] as String?,
-    );
+SeerrAuthJellyfinBody _$SeerrAuthJellyfinBodyFromJson(
+  Map<String, dynamic> json,
+) => SeerrAuthJellyfinBody(
+  username: json['username'] as String,
+  password: json['password'] as String,
+  customHeaders: (json['customHeaders'] as Map<String, dynamic>?)?.map(
+    (k, e) => MapEntry(k, e as String),
+  ),
+  hostname: json['hostname'] as String?,
+);
 
-Map<String, dynamic> _$SeerrAuthJellyfinBodyToJson(SeerrAuthJellyfinBody instance) => <String, dynamic>{
-      'username': instance.username,
-      'password': instance.password,
-      if (instance.customHeaders case final value?) 'customHeaders': value,
-      if (instance.hostname case final value?) 'hostname': value,
-    };
+Map<String, dynamic> _$SeerrAuthJellyfinBodyToJson(
+  SeerrAuthJellyfinBody instance,
+) => <String, dynamic>{
+  'username': instance.username,
+  'password': instance.password,
+  'customHeaders': ?instance.customHeaders,
+  'hostname': ?instance.hostname,
+};
 
-_SeerrUserModel _$SeerrUserModelFromJson(Map<String, dynamic> json) => _SeerrUserModel(
+_SeerrUserModel _$SeerrUserModelFromJson(Map<String, dynamic> json) =>
+    _SeerrUserModel(
       id: (json['id'] as num?)?.toInt(),
       email: json['email'] as String?,
       username: json['username'] as String?,
@@ -731,14 +864,19 @@ _SeerrUserModel _$SeerrUserModelFromJson(Map<String, dynamic> json) => _SeerrUse
       plexUsername: json['plexUsername'] as String?,
       permissions: (json['permissions'] as num?)?.toInt(),
       avatar: json['avatar'] as String?,
-      settings: json['settings'] == null ? null : SeerrUserSettings.fromJson(json['settings'] as Map<String, dynamic>),
+      settings: json['settings'] == null
+          ? null
+          : SeerrUserSettings.fromJson(
+              json['settings'] as Map<String, dynamic>,
+            ),
       movieQuotaLimit: (json['movieQuotaLimit'] as num?)?.toInt(),
       movieQuotaDays: (json['movieQuotaDays'] as num?)?.toInt(),
       tvQuotaLimit: (json['tvQuotaLimit'] as num?)?.toInt(),
       tvQuotaDays: (json['tvQuotaDays'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$SeerrUserModelToJson(_SeerrUserModel instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrUserModelToJson(_SeerrUserModel instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'email': instance.email,
       'username': instance.username,
@@ -754,7 +892,8 @@ Map<String, dynamic> _$SeerrUserModelToJson(_SeerrUserModel instance) => <String
       'tvQuotaDays': instance.tvQuotaDays,
     };
 
-_SeerrSonarrServer _$SeerrSonarrServerFromJson(Map<String, dynamic> json) => _SeerrSonarrServer(
+_SeerrSonarrServer _$SeerrSonarrServerFromJson(Map<String, dynamic> json) =>
+    _SeerrSonarrServer(
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
       hostname: json['hostname'] as String?,
@@ -764,10 +903,12 @@ _SeerrSonarrServer _$SeerrSonarrServerFromJson(Map<String, dynamic> json) => _Se
       baseUrl: json['baseUrl'] as String?,
       activeProfileId: (json['activeProfileId'] as num?)?.toInt(),
       activeProfileName: json['activeProfileName'] as String?,
-      activeLanguageProfileId: (json['activeLanguageProfileId'] as num?)?.toInt(),
+      activeLanguageProfileId: (json['activeLanguageProfileId'] as num?)
+          ?.toInt(),
       activeDirectory: json['activeDirectory'] as String?,
       activeAnimeProfileId: (json['activeAnimeProfileId'] as num?)?.toInt(),
-      activeAnimeLanguageProfileId: (json['activeAnimeLanguageProfileId'] as num?)?.toInt(),
+      activeAnimeLanguageProfileId:
+          (json['activeAnimeLanguageProfileId'] as num?)?.toInt(),
       activeAnimeProfileName: json['activeAnimeProfileName'] as String?,
       activeAnimeDirectory: json['activeAnimeDirectory'] as String?,
       is4k: json['is4k'] as bool?,
@@ -778,14 +919,19 @@ _SeerrSonarrServer _$SeerrSonarrServerFromJson(Map<String, dynamic> json) => _Se
       profiles: (json['profiles'] as List<dynamic>?)
           ?.map((e) => SeerrServiceProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => SeerrServiceTag.fromJson(e as Map<String, dynamic>)).toList(),
+      tags: (json['tags'] as List<dynamic>?)
+          ?.map((e) => SeerrServiceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
       rootFolders: (json['rootFolders'] as List<dynamic>?)
           ?.map((e) => SeerrRootFolder.fromJson(e as Map<String, dynamic>))
           .toList(),
-      activeTags: (json['activeTags'] as List<dynamic>?)?.map((e) => (e as num).toInt()).toList(),
+      activeTags: (json['activeTags'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
     );
 
-Map<String, dynamic> _$SeerrSonarrServerToJson(_SeerrSonarrServer instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrSonarrServerToJson(_SeerrSonarrServer instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'hostname': instance.hostname,
@@ -812,25 +958,34 @@ Map<String, dynamic> _$SeerrSonarrServerToJson(_SeerrSonarrServer instance) => <
       'activeTags': instance.activeTags,
     };
 
-_SeerrSonarrServerResponse _$SeerrSonarrServerResponseFromJson(Map<String, dynamic> json) => _SeerrSonarrServerResponse(
-      server: json['server'] == null ? null : SeerrSonarrServer.fromJson(json['server'] as Map<String, dynamic>),
-      profiles: (json['profiles'] as List<dynamic>?)
-          ?.map((e) => SeerrServiceProfile.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      rootFolders: (json['rootFolders'] as List<dynamic>?)
-          ?.map((e) => SeerrRootFolder.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => SeerrServiceTag.fromJson(e as Map<String, dynamic>)).toList(),
-    );
+_SeerrSonarrServerResponse _$SeerrSonarrServerResponseFromJson(
+  Map<String, dynamic> json,
+) => _SeerrSonarrServerResponse(
+  server: json['server'] == null
+      ? null
+      : SeerrSonarrServer.fromJson(json['server'] as Map<String, dynamic>),
+  profiles: (json['profiles'] as List<dynamic>?)
+      ?.map((e) => SeerrServiceProfile.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  rootFolders: (json['rootFolders'] as List<dynamic>?)
+      ?.map((e) => SeerrRootFolder.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  tags: (json['tags'] as List<dynamic>?)
+      ?.map((e) => SeerrServiceTag.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
-Map<String, dynamic> _$SeerrSonarrServerResponseToJson(_SeerrSonarrServerResponse instance) => <String, dynamic>{
-      'server': instance.server,
-      'profiles': instance.profiles,
-      'rootFolders': instance.rootFolders,
-      'tags': instance.tags,
-    };
+Map<String, dynamic> _$SeerrSonarrServerResponseToJson(
+  _SeerrSonarrServerResponse instance,
+) => <String, dynamic>{
+  'server': instance.server,
+  'profiles': instance.profiles,
+  'rootFolders': instance.rootFolders,
+  'tags': instance.tags,
+};
 
-_SeerrRadarrServer _$SeerrRadarrServerFromJson(Map<String, dynamic> json) => _SeerrRadarrServer(
+_SeerrRadarrServer _$SeerrRadarrServerFromJson(Map<String, dynamic> json) =>
+    _SeerrRadarrServer(
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
       hostname: json['hostname'] as String?,
@@ -840,10 +995,12 @@ _SeerrRadarrServer _$SeerrRadarrServerFromJson(Map<String, dynamic> json) => _Se
       baseUrl: json['baseUrl'] as String?,
       activeProfileId: (json['activeProfileId'] as num?)?.toInt(),
       activeProfileName: json['activeProfileName'] as String?,
-      activeLanguageProfileId: (json['activeLanguageProfileId'] as num?)?.toInt(),
+      activeLanguageProfileId: (json['activeLanguageProfileId'] as num?)
+          ?.toInt(),
       activeDirectory: json['activeDirectory'] as String?,
       activeAnimeProfileId: (json['activeAnimeProfileId'] as num?)?.toInt(),
-      activeAnimeLanguageProfileId: (json['activeAnimeLanguageProfileId'] as num?)?.toInt(),
+      activeAnimeLanguageProfileId:
+          (json['activeAnimeLanguageProfileId'] as num?)?.toInt(),
       activeAnimeProfileName: json['activeAnimeProfileName'] as String?,
       activeAnimeDirectory: json['activeAnimeDirectory'] as String?,
       is4k: json['is4k'] as bool?,
@@ -854,14 +1011,19 @@ _SeerrRadarrServer _$SeerrRadarrServerFromJson(Map<String, dynamic> json) => _Se
       profiles: (json['profiles'] as List<dynamic>?)
           ?.map((e) => SeerrServiceProfile.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => SeerrServiceTag.fromJson(e as Map<String, dynamic>)).toList(),
+      tags: (json['tags'] as List<dynamic>?)
+          ?.map((e) => SeerrServiceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
       rootFolders: (json['rootFolders'] as List<dynamic>?)
           ?.map((e) => SeerrRootFolder.fromJson(e as Map<String, dynamic>))
           .toList(),
-      activeTags: (json['activeTags'] as List<dynamic>?)?.map((e) => (e as num).toInt()).toList(),
+      activeTags: (json['activeTags'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
     );
 
-Map<String, dynamic> _$SeerrRadarrServerToJson(_SeerrRadarrServer instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrRadarrServerToJson(_SeerrRadarrServer instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'hostname': instance.hostname,
@@ -888,57 +1050,67 @@ Map<String, dynamic> _$SeerrRadarrServerToJson(_SeerrRadarrServer instance) => <
       'activeTags': instance.activeTags,
     };
 
-_SeerrRadarrServerResponse _$SeerrRadarrServerResponseFromJson(Map<String, dynamic> json) => _SeerrRadarrServerResponse(
-      server: json['server'] == null ? null : SeerrRadarrServer.fromJson(json['server'] as Map<String, dynamic>),
-      profiles: (json['profiles'] as List<dynamic>?)
-          ?.map((e) => SeerrServiceProfile.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      rootFolders: (json['rootFolders'] as List<dynamic>?)
-          ?.map((e) => SeerrRootFolder.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => SeerrServiceTag.fromJson(e as Map<String, dynamic>)).toList(),
-    );
+_SeerrRadarrServerResponse _$SeerrRadarrServerResponseFromJson(
+  Map<String, dynamic> json,
+) => _SeerrRadarrServerResponse(
+  server: json['server'] == null
+      ? null
+      : SeerrRadarrServer.fromJson(json['server'] as Map<String, dynamic>),
+  profiles: (json['profiles'] as List<dynamic>?)
+      ?.map((e) => SeerrServiceProfile.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  rootFolders: (json['rootFolders'] as List<dynamic>?)
+      ?.map((e) => SeerrRootFolder.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  tags: (json['tags'] as List<dynamic>?)
+      ?.map((e) => SeerrServiceTag.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
-Map<String, dynamic> _$SeerrRadarrServerResponseToJson(_SeerrRadarrServerResponse instance) => <String, dynamic>{
-      'server': instance.server,
-      'profiles': instance.profiles,
-      'rootFolders': instance.rootFolders,
-      'tags': instance.tags,
-    };
+Map<String, dynamic> _$SeerrRadarrServerResponseToJson(
+  _SeerrRadarrServerResponse instance,
+) => <String, dynamic>{
+  'server': instance.server,
+  'profiles': instance.profiles,
+  'rootFolders': instance.rootFolders,
+  'tags': instance.tags,
+};
 
-_SeerrServiceProfile _$SeerrServiceProfileFromJson(Map<String, dynamic> json) => _SeerrServiceProfile(
+_SeerrServiceProfile _$SeerrServiceProfileFromJson(Map<String, dynamic> json) =>
+    _SeerrServiceProfile(
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$SeerrServiceProfileToJson(_SeerrServiceProfile instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-    };
+Map<String, dynamic> _$SeerrServiceProfileToJson(
+  _SeerrServiceProfile instance,
+) => <String, dynamic>{'id': instance.id, 'name': instance.name};
 
-_SeerrServiceTag _$SeerrServiceTagFromJson(Map<String, dynamic> json) => _SeerrServiceTag(
+_SeerrServiceTag _$SeerrServiceTagFromJson(Map<String, dynamic> json) =>
+    _SeerrServiceTag(
       id: (json['id'] as num?)?.toInt(),
       label: json['label'] as String?,
     );
 
-Map<String, dynamic> _$SeerrServiceTagToJson(_SeerrServiceTag instance) => <String, dynamic>{
-      'id': instance.id,
-      'label': instance.label,
-    };
+Map<String, dynamic> _$SeerrServiceTagToJson(_SeerrServiceTag instance) =>
+    <String, dynamic>{'id': instance.id, 'label': instance.label};
 
-_SeerrRootFolder _$SeerrRootFolderFromJson(Map<String, dynamic> json) => _SeerrRootFolder(
+_SeerrRootFolder _$SeerrRootFolderFromJson(Map<String, dynamic> json) =>
+    _SeerrRootFolder(
       id: (json['id'] as num?)?.toInt(),
       freeSpace: (json['freeSpace'] as num?)?.toInt(),
       path: json['path'] as String?,
     );
 
-Map<String, dynamic> _$SeerrRootFolderToJson(_SeerrRootFolder instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrRootFolderToJson(_SeerrRootFolder instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'freeSpace': instance.freeSpace,
       'path': instance.path,
     };
 
-_SeerrMediaInfo _$SeerrMediaInfoFromJson(Map<String, dynamic> json) => _SeerrMediaInfo(
+_SeerrMediaInfo _$SeerrMediaInfoFromJson(Map<String, dynamic> json) =>
+    _SeerrMediaInfo(
       id: (json['id'] as num?)?.toInt(),
       tmdbId: (json['tmdbId'] as num?)?.toInt(),
       tvdbId: (json['tvdbId'] as num?)?.toInt(),
@@ -960,7 +1132,8 @@ _SeerrMediaInfo _$SeerrMediaInfoFromJson(Map<String, dynamic> json) => _SeerrMed
           .toList(),
     );
 
-Map<String, dynamic> _$SeerrMediaInfoToJson(_SeerrMediaInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$SeerrMediaInfoToJson(_SeerrMediaInfo instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'tmdbId': instance.tmdbId,
       'tvdbId': instance.tvdbId,

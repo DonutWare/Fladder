@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:flutter/services.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +10,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:fladder/models/item_base_model.dart';
 import 'package:fladder/models/items/channel_model.dart';
 import 'package:fladder/models/items/episode_model.dart';
+import 'package:fladder/providers/low_resource_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/screens/details_screens/components/overview_header.dart';
 import 'package:fladder/screens/shared/media/components/media_header.dart';
@@ -21,7 +23,6 @@ import 'package:fladder/util/item_base_model/item_base_model_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/widgets/shared/animated_visibility.dart';
 import 'package:fladder/widgets/shared/clickable_text.dart';
-import 'package:fladder/widgets/shared/ensure_visible.dart';
 import 'package:fladder/widgets/shared/horizontal_list.dart';
 import 'package:fladder/widgets/shared/item_actions.dart';
 import 'package:fladder/widgets/shared/modal_bottom_sheet.dart';
@@ -57,7 +58,10 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
   static const double _largeAspectRatio = 1.76;
 
   int _selectedIndex = 0;
+  int _expandedIndex = 0;
+  bool _expanded = true;
   bool _hasFocus = false;
+  bool _repeating = false;
 
   @override
   void didUpdateWidget(covariant TVPosterRow oldWidget) {
@@ -65,9 +69,36 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
     if (_selectedIndex >= widget.posters.length && widget.posters.isNotEmpty) {
       setState(() {
         _selectedIndex = widget.posters.length - 1;
+        _expandedIndex = _selectedIndex;
       });
     }
   }
+
+  void _select(int index) {
+    if (index == _selectedIndex && _hasFocus && (_expanded || _repeating)) return;
+    setState(() {
+      _selectedIndex = index;
+      _hasFocus = true;
+      _expanded = !_repeating;
+      if (!_repeating) _expandedIndex = index;
+    });
+  }
+
+  KeyEventResult _onKeyEvent(FocusNode node, KeyEvent event) {
+    if (event.logicalKey != LogicalKeyboardKey.arrowLeft && event.logicalKey != LogicalKeyboardKey.arrowRight) {
+      return KeyEventResult.ignored;
+    }
+    _repeating = event is KeyRepeatEvent;
+    if (event is KeyUpEvent && !_expanded) {
+      setState(() {
+        _expanded = true;
+        _expandedIndex = _selectedIndex;
+      });
+    }
+    return KeyEventResult.ignored;
+  }
+
+  bool _isExpanded(int index) => _hasFocus && _expanded && index == _expandedIndex;
 
   double _basePosterHeight(BuildContext context) {
     final posterSize = ref.watch(clientSettingsProvider.select((value) => value.posterSize));
@@ -76,7 +107,7 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
   }
 
   double _itemWidth(int index, double posterHeight) {
-    if (_hasFocus && index == _selectedIndex) {
+    if (_isExpanded(index)) {
       return posterHeight * _largeAspectRatio;
     }
     return posterHeight * _smallAspectRatio;
@@ -86,77 +117,71 @@ class _TVPosterRowState extends ConsumerState<TVPosterRow> {
   Widget build(BuildContext context) {
     if (widget.posters.isEmpty) return const SizedBox.shrink();
 
-    final selectedPoster = widget.posters[_selectedIndex];
+    final expandedPoster = widget.posters[_expandedIndex];
     final posterHeight = _basePosterHeight(context);
-
-    final animationDelay = _kAnimationDuration * 0.25;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 8,
       children: [
         Flexible(
-          child: HorizontalList(
-            autoFocus: widget.autoFocus,
-            label: widget.label.isNotEmpty ? widget.label : null,
-            onLabelClick: widget.onLabelClick,
-            contentPadding: widget.contentPadding,
-            height: posterHeight,
-            items: widget.posters,
-            itemWidthBuilder: (index) => _itemWidth(index, posterHeight),
-            onFocusChange: (hasFocus) async {
-              if (hasFocus == _hasFocus) return;
-              if (hasFocus) {
-                await Future.delayed(animationDelay);
-                context.ensureVisible(
-                  alignment: 0.5,
+          child: Focus(
+            canRequestFocus: false,
+            skipTraversal: true,
+            onKeyEvent: _onKeyEvent,
+            child: HorizontalList(
+              autoFocus: widget.autoFocus,
+              label: widget.label.isNotEmpty ? widget.label : null,
+              onLabelClick: widget.onLabelClick,
+              contentPadding: widget.contentPadding,
+              height: posterHeight,
+              items: widget.posters,
+              itemWidthBuilder: (index) => _itemWidth(index, posterHeight),
+              revealContext: context,
+              trailingSpace: posterHeight * (_largeAspectRatio - _smallAspectRatio),
+              onFocusChange: (hasFocus) {
+                if (!hasFocus) _repeating = false;
+                if (hasFocus != _hasFocus) setState(() => _hasFocus = hasFocus);
+              },
+              onFocused: _select,
+              itemBuilder: (context, index) {
+                final poster = widget.posters[index];
+                final isFocused = _isExpanded(index);
+                return _TVPosterItem(
+                  poster: poster,
+                  height: posterHeight,
+                  width: _itemWidth(index, posterHeight),
+                  focused: isFocused,
+                  showLarge: (index - _selectedIndex).abs() <= 2,
+                  onFocusChanged: (focused) {
+                    if (focused) {
+                      _select(index);
+                      widget.onFocused?.call(poster);
+                    }
+                  },
+                  onTap: () => poster.navigateTo(context, ref: ref),
                 );
-              }
-              setState(() => _hasFocus = hasFocus);
-            },
-            onFocused: (index) {
-              final changed = index != _selectedIndex;
-              setState(() {
-                _selectedIndex = index;
-                _hasFocus = true;
-              });
-              if (changed || widget.onFocused != null) {
-                widget.onFocused?.call(widget.posters[index]);
-              }
-            },
-            itemBuilder: (context, index) {
-              final poster = widget.posters[index];
-              final isSelected = index == _selectedIndex;
-              final isFocused = isSelected && _hasFocus;
-              return _TVPosterItem(
-                poster: poster,
-                height: posterHeight,
-                width: _itemWidth(index, posterHeight),
-                selected: isSelected,
-                focused: isFocused,
-                onFocusChanged: (focused) {
-                  if (focused) {
-                    setState(() => _selectedIndex = index);
-                    widget.onFocused?.call(poster);
-                  }
-                },
-                onTap: () => poster.navigateTo(context, ref: ref),
-              );
-            },
+              },
+            ),
           ),
         ),
-        if (_hasFocus)
-          Padding(
-            padding: widget.contentPadding,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 125),
-              child: _TVBottomInfo(
-                key: ValueKey(selectedPoster.id),
-                poster: selectedPoster,
-              ),
-            ),
-          )
+        AnimatedSize(
+          duration: ref.watch(lowResourceModeProvider) || _hasFocus ? Duration.zero : _kAnimationDuration,
+          curve: Curves.easeInOut,
+          alignment: AlignmentDirectional.topStart,
+          child: _hasFocus
+              ? Padding(
+                  padding: widget.contentPadding.copyWith(top: 8),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: 125),
+                    child: _TVBottomInfo(
+                      key: ValueKey(expandedPoster.id),
+                      poster: expandedPoster,
+                    ),
+                  ),
+                )
+              : const SizedBox(width: double.infinity),
+        ),
       ],
     );
   }
@@ -166,8 +191,8 @@ class _TVPosterItem extends ConsumerWidget {
   final ItemBaseModel poster;
   final double width;
   final double height;
-  final bool selected;
   final bool focused;
+  final bool showLarge;
   final Function(bool focused)? onFocusChanged;
   final VoidCallback onTap;
 
@@ -175,8 +200,8 @@ class _TVPosterItem extends ConsumerWidget {
     required this.poster,
     required this.width,
     required this.height,
-    required this.selected,
     required this.focused,
+    required this.showLarge,
     this.onFocusChanged,
     required this.onTap,
   });
@@ -209,11 +234,12 @@ class _TVPosterItem extends ConsumerWidget {
           clipBehavior: Clip.hardEdge,
           child: Stack(
             children: [
-              FladderImage(
-                key: ValueKey(poster.tvPosterLarge?.key ?? "${poster.id}_large"),
-                image: poster.tvPosterLarge,
-                placeHolder: const _TVPosterPlaceholder(),
-              ),
+              if (showLarge)
+                FladderImage(
+                  key: ValueKey(poster.tvPosterLarge?.key ?? "${poster.id}_large"),
+                  image: poster.tvPosterLarge,
+                  placeHolder: const _TVPosterPlaceholder(),
+                ),
               AnimatedOpacity(
                 duration: _kAnimationDuration,
                 opacity: focused ? 0 : 1,
@@ -223,39 +249,40 @@ class _TVPosterItem extends ConsumerWidget {
                   placeHolder: const _TVPosterPlaceholder(),
                 ),
               ),
-              AnimatedVisibility(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                      colors: [
-                        overlayColor.withAlpha(200),
-                        overlayColor.withAlpha(25),
-                        overlayColor.withAlpha(0),
-                      ],
+              if (showLarge)
+                AnimatedVisibility(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                          overlayColor.withAlpha(200),
+                          overlayColor.withAlpha(25),
+                          overlayColor.withAlpha(0),
+                        ],
+                      ),
                     ),
-                  ),
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: FractionallySizedBox(
-                      widthFactor: 0.6,
-                      child: FittedBox(
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          child: MediaHeader(
-                            name: poster.name,
-                            alignment: Alignment.bottomLeft,
-                            logo: poster.tvPosterLogo,
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: FractionallySizedBox(
+                        widthFactor: 0.6,
+                        child: FittedBox(
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            child: MediaHeader(
+                              name: poster.name,
+                              alignment: Alignment.bottomLeft,
+                              logo: poster.tvPosterLogo,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
+                  visible: focused,
                 ),
-                visible: focused,
-              ),
               if (focused) ...[
                 BottomOverlaysContainer(
                   showFavourite: false,

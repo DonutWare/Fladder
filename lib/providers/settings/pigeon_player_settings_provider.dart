@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fladder/models/items/media_segments_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
+import 'package:fladder/providers/low_resource_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -28,6 +29,7 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
       pigeon.PlayerSettingsPigeon().sendPlayerSettings(
         pigeon.PlayerSettings(
           enableTunneling: value.enableTunneling,
+          lowResourceMode: ref.read(lowResourceModeProvider),
           screensaver: switch (value.screensaver) {
             Screensaver.disabled => pigeon.Screensaver.disabled,
             Screensaver.dvd => pigeon.Screensaver.dvd,
@@ -81,14 +83,16 @@ final pigeonPlayerSettingsSyncProvider = Provider<void>((ref) {
                 },
               )
               .toList(),
+          refreshRateSwitching: value.refreshRateSwitching,
         ),
       );
     }
   }
 
-  ref.listen(userProvider, (_, __) => sendSettings());
-  ref.listen(clientSettingsProvider, (_, __) => sendSettings());
-  ref.listen(videoPlayerSettingsProvider, (_, __) => sendSettings());
+  ref.listen(userProvider, (_, _) => sendSettings());
+  ref.listen(clientSettingsProvider, (_, _) => sendSettings());
+  ref.listen(videoPlayerSettingsProvider, (_, _) => sendSettings());
+  ref.listen(lowResourceModeProvider, (_, _) => sendSettings());
 
   sendSettings();
 });

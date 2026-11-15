@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 import 'package:punycoder/punycoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -112,7 +113,7 @@ class JellyRequest implements Interceptor {
             headers,
           ),
         );
-        unawaited(connectivityNotifier.checkConnectivity(immediate: true));
+        unawaited(connectivityNotifier.checkConnectivityThrottled());
         return response;
       } catch (e) {
         if (!_isConnectionError(e) || attempt == _maxRetries) {

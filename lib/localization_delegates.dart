@@ -1,8 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'
+    hide kMaterialSupportedLanguages, getMaterialTranslation, kCupertinoSupportedLanguages, getCupertinoTranslation;
+import 'package:flutter_localizations/flutter_localizations.dart' as legacy;
 // ignore: implementation_imports
 import 'package:flutter_localizations/src/utils/date_localizations.dart' as util;
 import 'package:intl/intl.dart' as intl;
@@ -16,6 +18,32 @@ class FladderLocalizations {
     FladderCupertinoLocalizationsDelegate(),
     FladderWidgetsLocalizationsDelegate(),
   ];
+
+  static const List<LocalizationsDelegate<dynamic>> legacyDelegates = <LocalizationsDelegate<dynamic>>[
+    // ignore: deprecated_member_use
+    _FallbackLocalizationsDelegate(legacy.GlobalMaterialLocalizations.delegate),
+    // ignore: deprecated_member_use
+    _FallbackLocalizationsDelegate(legacy.GlobalCupertinoLocalizations.delegate),
+    FladderWidgetsLocalizationsDelegate(),
+  ];
+}
+
+class _FallbackLocalizationsDelegate<T> extends LocalizationsDelegate<T> {
+  const _FallbackLocalizationsDelegate(this.delegate);
+
+  final LocalizationsDelegate<T> delegate;
+
+  @override
+  Type get type => delegate.type;
+
+  @override
+  bool isSupported(Locale locale) => true;
+
+  @override
+  Future<T> load(Locale locale) => delegate.load(delegate.isSupported(locale) ? locale : const Locale('en'));
+
+  @override
+  bool shouldReload(covariant LocalizationsDelegate<T> old) => false;
 }
 
 class FladderMaterialLocalizationsDelegate extends LocalizationsDelegate<MaterialLocalizations> {

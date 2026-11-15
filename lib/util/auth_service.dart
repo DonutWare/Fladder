@@ -2,8 +2,7 @@
 
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth_android/local_auth_android.dart';
@@ -31,18 +30,16 @@ class AuthService {
           authMessages: <AuthMessages>[
             AndroidAuthMessages(
               signInTitle: 'Fladder',
-              biometricHint: context.localized.scanBiometricHint,
+              signInHint: context.localized.scanBiometricHint,
             ),
             IOSAuthMessages(
               cancelButton: context.localized.cancel,
             )
           ],
-          options: AuthenticationOptions(
-            stickyAuth: stickyAuth,
-            sensitiveTransaction: sensitiveTransaction,
-          ),
+          persistAcrossBackgrounding: stickyAuth,
+          sensitiveTransaction: sensitiveTransaction,
         );
-      } on PlatformException catch (e) {
+      } on LocalAuthException catch (e) {
         debugPrint('Error during authentication: $e');
       }
     } else {

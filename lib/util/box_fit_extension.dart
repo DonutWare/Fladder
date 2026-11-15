@@ -1,5 +1,5 @@
 import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 extension BoxFitExtension on BoxFit {
   String label(BuildContext context) {

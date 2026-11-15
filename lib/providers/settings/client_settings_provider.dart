@@ -2,9 +2,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 import 'package:fladder/bootstrap/app_bootstrap.dart';
 import 'package:fladder/models/settings/arguments_model.dart';
@@ -126,6 +127,9 @@ class ClientSettingsNotifier extends StateNotifier<ClientSettingsModel> {
     final newLeanBackMode = leanBackIsAvailable ? true : value;
     state = state.copyWith(forceLeanBackMode: newLeanBackMode);
     leanBackMode = newLeanBackMode;
-    ref.read(argumentsStateProvider.notifier).update((state) => state.copyWith(leanBackMode: newLeanBackMode));
+    ref.read(argumentsStateProvider.notifier).update((state) => state.copyWith(
+          leanBackMode: newLeanBackMode,
+          htpcMode: newLeanBackMode,
+        ));
   }
 }

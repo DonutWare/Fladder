@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
+import 'package:smtc_windows/smtc_windows.dart' if (dart.library.js_interop) 'package:fladder/stubs/web/smtc_web.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -25,6 +25,7 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/api_provider.dart';
 import 'package:fladder/providers/audio_lyrics_provider.dart';
 import 'package:fladder/providers/live_tv_provider.dart';
+import 'package:fladder/providers/low_resource_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/subtitle_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
@@ -34,7 +35,7 @@ import 'package:fladder/src/video_player_helper.g.dart' hide PlaybackState;
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
-    if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
+    if (dart.library.js_interop) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/multi_window_media_session.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
 import 'package:fladder/wrappers/players/native_player.dart';
@@ -140,7 +141,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     }
 
     _player = newPlayer;
-    await newPlayer.init(ref.read(videoPlayerSettingsProvider));
+    await newPlayer.init(
+      ref.read(videoPlayerSettingsProvider),
+      lowResourceMode: ref.read(lowResourceModeProvider),
+    );
     _initPlayer();
     _subscribePlayerState();
   }
@@ -400,11 +404,9 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
     await _player?.play();
     if (_isStopped) return;
 
-    final currentPosition = await ref.read(playBackModel.select((value) => value?.startDuration()));
-    if (_isStopped) return;
     if (_isNewPlayback || !playbackState.value.playing) {
       _isNewPlayback = false;
-      await ref.read(playBackModel)?.playbackStarted(currentPosition ?? Duration.zero, ref);
+      await ref.read(playBackModel)?.playbackStarted(ref.read(mediaPlaybackProvider).position, ref);
     }
     if (playBackItem == null) return;
 
@@ -505,7 +507,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   @override
-  Future<void> stop() async {
+  Future<void> stop({bool keepMediaSession = false}) async {
     if (_isStopped) return;
     _isStopped = true;
 
@@ -513,17 +515,19 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
       (_player as LibMPV).setMusicPlaybackMode(false);
     }
 
-    smtc?.setPlaybackStatus(PlaybackStatus.stopped);
-    smtc?.clearMetadata();
-    smtc?.disableSmtc();
-    mediaItem.value = null;
-    playbackState.add(
-      playbackState.value.copyWith(
-        playing: false,
-        processingState: AudioProcessingState.completed,
-        controls: [],
-      ),
-    );
+    if (!keepMediaSession) {
+      smtc?.setPlaybackStatus(PlaybackStatus.stopped);
+      smtc?.clearMetadata();
+      smtc?.disableSmtc();
+      mediaItem.value = null;
+      playbackState.add(
+        playbackState.value.copyWith(
+          playing: false,
+          processingState: AudioProcessingState.completed,
+          controls: [],
+        ),
+      );
+    }
 
     final playbackModel = ref.read(playBackModel);
     if (playbackModel == null) return;
@@ -610,6 +614,8 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   Future<int> setSubtitleTrack(SubStreamModel? model, PlaybackModel playbackModel) async =>
       await _player?.setSubtitleTrack(model, playbackModel) ?? -1;
 
+  Future<void> shiftSubtitleOffset(Duration offset) async => _player?.shiftSubtitleOffset(offset);
+
   Future<void> setVolume(double volume) async {
     //Do not set volume on Android/iOS since we use the system volume for that.
     if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
@@ -650,10 +656,10 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   @override
-  void onStop() => stop();
+  Future<void> onStop() async => stop();
 
   @override
-  void swapAudioTrack(int value) async {
+  Future<void> swapAudioTrack(int value) async {
     final playbackModel = ref.read(playBackModel);
     final newModel = await playbackModel?.setAudio(
         playbackModel.audioStreams?.firstWhere((element) => element.index == value), this);
@@ -664,7 +670,7 @@ class MediaControlsWrapper extends BaseAudioHandler implements VideoPlayerContro
   }
 
   @override
-  void swapSubtitleTrack(int value) async {
+  Future<void> swapSubtitleTrack(int value) async {
     final playbackModel = ref.read(playBackModel);
     final newModel = await playbackModel?.setSubtitle(
         playbackModel.subStreams?.firstWhere((element) => element.index == value), this);

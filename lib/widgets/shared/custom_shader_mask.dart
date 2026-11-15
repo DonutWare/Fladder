@@ -1,6 +1,6 @@
 import 'dart:ui' as ui;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 class CustomShaderMask extends StatefulWidget {
@@ -25,9 +25,20 @@ class CustomShaderMaskState extends State<CustomShaderMask> {
     final bytes = data.buffer.asUint8List();
     final codec = await ui.instantiateImageCodec(bytes);
     final frame = await codec.getNextFrame();
+    codec.dispose();
+    if (!mounted) {
+      frame.image.dispose();
+      return;
+    }
     setState(() {
       gradientImage = frame.image;
     });
+  }
+
+  @override
+  void dispose() {
+    gradientImage?.dispose();
+    super.dispose();
   }
 
   @override

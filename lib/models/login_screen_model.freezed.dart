@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'login_screen_model.dart';
@@ -9,53 +9,44 @@ part of 'login_screen_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
-
 /// @nodoc
 mixin _$LoginScreenModel {
-  List<AccountModel> get accounts;
-  LoginScreenType get screen;
-  ServerLoginModel? get serverLoginModel;
-  String? get errorMessage;
-  bool get hasBaseUrl;
-  bool get loading;
-  String? get tempSeerrUrl;
-  String? get tempSeerrSessionCookie;
 
-  /// Create a copy of LoginScreenModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $LoginScreenModelCopyWith<LoginScreenModel> get copyWith =>
-      _$LoginScreenModelCopyWithImpl<LoginScreenModel>(
-          this as LoginScreenModel, _$identity);
+ List<AccountModel> get accounts; LoginScreenType get screen; ServerLoginModel? get serverLoginModel; String? get errorMessage; bool get hasBaseUrl; bool get loading; String? get tempSeerrUrl; String? get tempSeerrSessionCookie;
+/// Create a copy of LoginScreenModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$LoginScreenModelCopyWith<LoginScreenModel> get copyWith => _$LoginScreenModelCopyWithImpl<LoginScreenModel>(this as LoginScreenModel, _$identity);
 
-  @override
-  String toString() {
-    return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
-  }
+
+
+
+
+@override
+String toString() {
+  final _this = this as LoginScreenModel;
+  return 'LoginScreenModel(accounts: ${_this.accounts}, screen: ${_this.screen}, serverLoginModel: ${_this.serverLoginModel}, errorMessage: ${_this.errorMessage}, hasBaseUrl: ${_this.hasBaseUrl}, loading: ${_this.loading}, tempSeerrUrl: ${_this.tempSeerrUrl}, tempSeerrSessionCookie: ${_this.tempSeerrSessionCookie})';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class $LoginScreenModelCopyWith<$Res> {
-  factory $LoginScreenModelCopyWith(
-          LoginScreenModel value, $Res Function(LoginScreenModel) _then) =
-      _$LoginScreenModelCopyWithImpl;
-  @useResult
-  $Res call(
-      {List<AccountModel> accounts,
-      LoginScreenType screen,
-      ServerLoginModel? serverLoginModel,
-      String? errorMessage,
-      bool hasBaseUrl,
-      bool loading,
-      String? tempSeerrUrl,
-      String? tempSeerrSessionCookie});
+abstract mixin class $LoginScreenModelCopyWith<$Res>  {
+  factory $LoginScreenModelCopyWith(LoginScreenModel value, $Res Function(LoginScreenModel) _then) = _$LoginScreenModelCopyWithImpl;
+@useResult
+$Res call({
+ List<AccountModel> accounts, LoginScreenType screen, ServerLoginModel? serverLoginModel, String? errorMessage, bool hasBaseUrl, bool loading, String? tempSeerrUrl, String? tempSeerrSessionCookie
+});
 
-  $ServerLoginModelCopyWith<$Res>? get serverLoginModel;
+
+$ServerLoginModelCopyWith<$Res>? get serverLoginModel;
+
 }
-
 /// @nodoc
 class _$LoginScreenModelCopyWithImpl<$Res>
     implements $LoginScreenModelCopyWith<$Res> {
@@ -64,356 +55,219 @@ class _$LoginScreenModelCopyWithImpl<$Res>
   final LoginScreenModel _self;
   final $Res Function(LoginScreenModel) _then;
 
-  /// Create a copy of LoginScreenModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? accounts = null,
-    Object? screen = null,
-    Object? serverLoginModel = freezed,
-    Object? errorMessage = freezed,
-    Object? hasBaseUrl = null,
-    Object? loading = null,
-    Object? tempSeerrUrl = freezed,
-    Object? tempSeerrSessionCookie = freezed,
-  }) {
-    return _then(_self.copyWith(
-      accounts: null == accounts
-          ? _self.accounts
-          : accounts // ignore: cast_nullable_to_non_nullable
-              as List<AccountModel>,
-      screen: null == screen
-          ? _self.screen
-          : screen // ignore: cast_nullable_to_non_nullable
-              as LoginScreenType,
-      serverLoginModel: freezed == serverLoginModel
-          ? _self.serverLoginModel
-          : serverLoginModel // ignore: cast_nullable_to_non_nullable
-              as ServerLoginModel?,
-      errorMessage: freezed == errorMessage
-          ? _self.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hasBaseUrl: null == hasBaseUrl
-          ? _self.hasBaseUrl
-          : hasBaseUrl // ignore: cast_nullable_to_non_nullable
-              as bool,
-      loading: null == loading
-          ? _self.loading
-          : loading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      tempSeerrUrl: freezed == tempSeerrUrl
-          ? _self.tempSeerrUrl
-          : tempSeerrUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      tempSeerrSessionCookie: freezed == tempSeerrSessionCookie
-          ? _self.tempSeerrSessionCookie
-          : tempSeerrSessionCookie // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-
-  /// Create a copy of LoginScreenModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ServerLoginModelCopyWith<$Res>? get serverLoginModel {
-    if (_self.serverLoginModel == null) {
-      return null;
-    }
-
-    return $ServerLoginModelCopyWith<$Res>(_self.serverLoginModel!, (value) {
-      return _then(_self.copyWith(serverLoginModel: value));
-    });
-  }
+/// Create a copy of LoginScreenModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? accounts = null,Object? screen = null,Object? serverLoginModel = freezed,Object? errorMessage = freezed,Object? hasBaseUrl = null,Object? loading = null,Object? tempSeerrUrl = freezed,Object? tempSeerrSessionCookie = freezed,}) {
+  return _then(LoginScreenModel(
+accounts: null == accounts ? _self.accounts : accounts // ignore: cast_nullable_to_non_nullable
+as List<AccountModel>,screen: null == screen ? _self.screen : screen // ignore: cast_nullable_to_non_nullable
+as LoginScreenType,serverLoginModel: freezed == serverLoginModel ? _self.serverLoginModel : serverLoginModel // ignore: cast_nullable_to_non_nullable
+as ServerLoginModel?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,hasBaseUrl: null == hasBaseUrl ? _self.hasBaseUrl : hasBaseUrl // ignore: cast_nullable_to_non_nullable
+as bool,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
+as bool,tempSeerrUrl: freezed == tempSeerrUrl ? _self.tempSeerrUrl : tempSeerrUrl // ignore: cast_nullable_to_non_nullable
+as String?,tempSeerrSessionCookie: freezed == tempSeerrSessionCookie ? _self.tempSeerrSessionCookie : tempSeerrSessionCookie // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
 }
+/// Create a copy of LoginScreenModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ServerLoginModelCopyWith<$Res>? get serverLoginModel {
+    if (_self.serverLoginModel == null) {
+    return null;
+  }
+
+  return $ServerLoginModelCopyWith<$Res>(_self.serverLoginModel!, (value) {
+    return _then(_self.copyWith(serverLoginModel: value));
+  });
+}
+}
+
 
 /// Adds pattern-matching-related methods to [LoginScreenModel].
 extension LoginScreenModelPatterns on LoginScreenModel {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_LoginScreenModel value)? $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _LoginScreenModel() when $default != null:
-        return $default(_that);
-      case _:
-        return orElse();
-    }
-  }
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _LoginScreenModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _LoginScreenModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_LoginScreenModel value) $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _LoginScreenModel():
-        return $default(_that);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _LoginScreenModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _LoginScreenModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
 
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_LoginScreenModel value)? $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _LoginScreenModel() when $default != null:
-        return $default(_that);
-      case _:
-        return null;
-    }
-  }
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _LoginScreenModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _LoginScreenModel() when $default != null:
+return $default(_that);case _:
+  return null;
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            List<AccountModel> accounts,
-            LoginScreenType screen,
-            ServerLoginModel? serverLoginModel,
-            String? errorMessage,
-            bool hasBaseUrl,
-            bool loading,
-            String? tempSeerrUrl,
-            String? tempSeerrSessionCookie)?
-        $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _LoginScreenModel() when $default != null:
-        return $default(
-            _that.accounts,
-            _that.screen,
-            _that.serverLoginModel,
-            _that.errorMessage,
-            _that.hasBaseUrl,
-            _that.loading,
-            _that.tempSeerrUrl,
-            _that.tempSeerrSessionCookie);
-      case _:
-        return orElse();
-    }
-  }
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<AccountModel> accounts,  LoginScreenType screen,  ServerLoginModel? serverLoginModel,  String? errorMessage,  bool hasBaseUrl,  bool loading,  String? tempSeerrUrl,  String? tempSeerrSessionCookie)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _LoginScreenModel() when $default != null:
+return $default(_that.accounts,_that.screen,_that.serverLoginModel,_that.errorMessage,_that.hasBaseUrl,_that.loading,_that.tempSeerrUrl,_that.tempSeerrSessionCookie);case _:
+  return orElse();
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(
-            List<AccountModel> accounts,
-            LoginScreenType screen,
-            ServerLoginModel? serverLoginModel,
-            String? errorMessage,
-            bool hasBaseUrl,
-            bool loading,
-            String? tempSeerrUrl,
-            String? tempSeerrSessionCookie)
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _LoginScreenModel():
-        return $default(
-            _that.accounts,
-            _that.screen,
-            _that.serverLoginModel,
-            _that.errorMessage,
-            _that.hasBaseUrl,
-            _that.loading,
-            _that.tempSeerrUrl,
-            _that.tempSeerrSessionCookie);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<AccountModel> accounts,  LoginScreenType screen,  ServerLoginModel? serverLoginModel,  String? errorMessage,  bool hasBaseUrl,  bool loading,  String? tempSeerrUrl,  String? tempSeerrSessionCookie)  $default,) {final _that = this;
+switch (_that) {
+case _LoginScreenModel():
+return $default(_that.accounts,_that.screen,_that.serverLoginModel,_that.errorMessage,_that.hasBaseUrl,_that.loading,_that.tempSeerrUrl,_that.tempSeerrSessionCookie);case _:
+  throw StateError('Unexpected subclass');
 
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            List<AccountModel> accounts,
-            LoginScreenType screen,
-            ServerLoginModel? serverLoginModel,
-            String? errorMessage,
-            bool hasBaseUrl,
-            bool loading,
-            String? tempSeerrUrl,
-            String? tempSeerrSessionCookie)?
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _LoginScreenModel() when $default != null:
-        return $default(
-            _that.accounts,
-            _that.screen,
-            _that.serverLoginModel,
-            _that.errorMessage,
-            _that.hasBaseUrl,
-            _that.loading,
-            _that.tempSeerrUrl,
-            _that.tempSeerrSessionCookie);
-      case _:
-        return null;
-    }
-  }
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<AccountModel> accounts,  LoginScreenType screen,  ServerLoginModel? serverLoginModel,  String? errorMessage,  bool hasBaseUrl,  bool loading,  String? tempSeerrUrl,  String? tempSeerrSessionCookie)?  $default,) {final _that = this;
+switch (_that) {
+case _LoginScreenModel() when $default != null:
+return $default(_that.accounts,_that.screen,_that.serverLoginModel,_that.errorMessage,_that.hasBaseUrl,_that.loading,_that.tempSeerrUrl,_that.tempSeerrSessionCookie);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
+
 
 class _LoginScreenModel implements LoginScreenModel {
-  _LoginScreenModel(
-      {final List<AccountModel> accounts = const [],
-      this.screen = LoginScreenType.users,
-      this.serverLoginModel,
-      this.errorMessage,
-      this.hasBaseUrl = false,
-      this.loading = false,
-      this.tempSeerrUrl,
-      this.tempSeerrSessionCookie})
-      : _accounts = accounts;
+   _LoginScreenModel({ List<AccountModel> accounts = const [], this.screen = LoginScreenType.users, this.serverLoginModel, this.errorMessage, this.hasBaseUrl = false, this.loading = false, this.tempSeerrUrl, this.tempSeerrSessionCookie}): _accounts = accounts;
+  
 
-  final List<AccountModel> _accounts;
-  @override
-  @JsonKey()
-  List<AccountModel> get accounts {
-    if (_accounts is EqualUnmodifiableListView) return _accounts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_accounts);
-  }
+ final  List<AccountModel> _accounts;
+@override@JsonKey() List<AccountModel> get accounts {
+  if (_accounts is EqualUnmodifiableListView) return _accounts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_accounts);
+}
 
-  @override
-  @JsonKey()
-  final LoginScreenType screen;
-  @override
-  final ServerLoginModel? serverLoginModel;
-  @override
-  final String? errorMessage;
-  @override
-  @JsonKey()
-  final bool hasBaseUrl;
-  @override
-  @JsonKey()
-  final bool loading;
-  @override
-  final String? tempSeerrUrl;
-  @override
-  final String? tempSeerrSessionCookie;
+@override@JsonKey() final  LoginScreenType screen;
+@override final  ServerLoginModel? serverLoginModel;
+@override final  String? errorMessage;
+@override@JsonKey() final  bool hasBaseUrl;
+@override@JsonKey() final  bool loading;
+@override final  String? tempSeerrUrl;
+@override final  String? tempSeerrSessionCookie;
 
-  /// Create a copy of LoginScreenModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$LoginScreenModelCopyWith<_LoginScreenModel> get copyWith =>
-      __$LoginScreenModelCopyWithImpl<_LoginScreenModel>(this, _$identity);
+/// Create a copy of LoginScreenModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LoginScreenModelCopyWith<_LoginScreenModel> get copyWith => __$LoginScreenModelCopyWithImpl<_LoginScreenModel>(this, _$identity);
 
-  @override
-  String toString() {
+
+
+
+
+@override
+String toString() {
     return 'LoginScreenModel(accounts: $accounts, screen: $screen, serverLoginModel: $serverLoginModel, errorMessage: $errorMessage, hasBaseUrl: $hasBaseUrl, loading: $loading, tempSeerrUrl: $tempSeerrUrl, tempSeerrSessionCookie: $tempSeerrSessionCookie)';
-  }
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class _$LoginScreenModelCopyWith<$Res>
-    implements $LoginScreenModelCopyWith<$Res> {
-  factory _$LoginScreenModelCopyWith(
-          _LoginScreenModel value, $Res Function(_LoginScreenModel) _then) =
-      __$LoginScreenModelCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {List<AccountModel> accounts,
-      LoginScreenType screen,
-      ServerLoginModel? serverLoginModel,
-      String? errorMessage,
-      bool hasBaseUrl,
-      bool loading,
-      String? tempSeerrUrl,
-      String? tempSeerrSessionCookie});
+abstract mixin class _$LoginScreenModelCopyWith<$Res> implements $LoginScreenModelCopyWith<$Res> {
+  factory _$LoginScreenModelCopyWith(_LoginScreenModel value, $Res Function(_LoginScreenModel) _then) = __$LoginScreenModelCopyWithImpl;
+@override @useResult
+$Res call({
+ List<AccountModel> accounts, LoginScreenType screen, ServerLoginModel? serverLoginModel, String? errorMessage, bool hasBaseUrl, bool loading, String? tempSeerrUrl, String? tempSeerrSessionCookie
+});
 
-  @override
-  $ServerLoginModelCopyWith<$Res>? get serverLoginModel;
+
+@override $ServerLoginModelCopyWith<$Res>? get serverLoginModel;
+
 }
-
 /// @nodoc
 class __$LoginScreenModelCopyWithImpl<$Res>
     implements _$LoginScreenModelCopyWith<$Res> {
@@ -422,107 +276,72 @@ class __$LoginScreenModelCopyWithImpl<$Res>
   final _LoginScreenModel _self;
   final $Res Function(_LoginScreenModel) _then;
 
-  /// Create a copy of LoginScreenModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? accounts = null,
-    Object? screen = null,
-    Object? serverLoginModel = freezed,
-    Object? errorMessage = freezed,
-    Object? hasBaseUrl = null,
-    Object? loading = null,
-    Object? tempSeerrUrl = freezed,
-    Object? tempSeerrSessionCookie = freezed,
-  }) {
-    return _then(_LoginScreenModel(
-      accounts: null == accounts
-          ? _self._accounts
-          : accounts // ignore: cast_nullable_to_non_nullable
-              as List<AccountModel>,
-      screen: null == screen
-          ? _self.screen
-          : screen // ignore: cast_nullable_to_non_nullable
-              as LoginScreenType,
-      serverLoginModel: freezed == serverLoginModel
-          ? _self.serverLoginModel
-          : serverLoginModel // ignore: cast_nullable_to_non_nullable
-              as ServerLoginModel?,
-      errorMessage: freezed == errorMessage
-          ? _self.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hasBaseUrl: null == hasBaseUrl
-          ? _self.hasBaseUrl
-          : hasBaseUrl // ignore: cast_nullable_to_non_nullable
-              as bool,
-      loading: null == loading
-          ? _self.loading
-          : loading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      tempSeerrUrl: freezed == tempSeerrUrl
-          ? _self.tempSeerrUrl
-          : tempSeerrUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      tempSeerrSessionCookie: freezed == tempSeerrSessionCookie
-          ? _self.tempSeerrSessionCookie
-          : tempSeerrSessionCookie // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
+/// Create a copy of LoginScreenModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? accounts = null,Object? screen = null,Object? serverLoginModel = freezed,Object? errorMessage = freezed,Object? hasBaseUrl = null,Object? loading = null,Object? tempSeerrUrl = freezed,Object? tempSeerrSessionCookie = freezed,}) {
+  return _then(_LoginScreenModel(
+accounts: null == accounts ? _self._accounts : accounts // ignore: cast_nullable_to_non_nullable
+as List<AccountModel>,screen: null == screen ? _self.screen : screen // ignore: cast_nullable_to_non_nullable
+as LoginScreenType,serverLoginModel: freezed == serverLoginModel ? _self.serverLoginModel : serverLoginModel // ignore: cast_nullable_to_non_nullable
+as ServerLoginModel?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,hasBaseUrl: null == hasBaseUrl ? _self.hasBaseUrl : hasBaseUrl // ignore: cast_nullable_to_non_nullable
+as bool,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
+as bool,tempSeerrUrl: freezed == tempSeerrUrl ? _self.tempSeerrUrl : tempSeerrUrl // ignore: cast_nullable_to_non_nullable
+as String?,tempSeerrSessionCookie: freezed == tempSeerrSessionCookie ? _self.tempSeerrSessionCookie : tempSeerrSessionCookie // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
 
-  /// Create a copy of LoginScreenModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ServerLoginModelCopyWith<$Res>? get serverLoginModel {
+/// Create a copy of LoginScreenModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ServerLoginModelCopyWith<$Res>? get serverLoginModel {
     if (_self.serverLoginModel == null) {
-      return null;
-    }
-
-    return $ServerLoginModelCopyWith<$Res>(_self.serverLoginModel!, (value) {
-      return _then(_self.copyWith(serverLoginModel: value));
-    });
+    return null;
   }
+
+  return $ServerLoginModelCopyWith<$Res>(_self.serverLoginModel!, (value) {
+    return _then(_self.copyWith(serverLoginModel: value));
+  });
+}
 }
 
 /// @nodoc
 mixin _$ServerLoginModel {
-  CredentialsModel get tempCredentials;
-  List<AccountModel> get accounts;
-  String? get serverMessage;
-  bool get hasQuickConnect;
 
-  /// Create a copy of ServerLoginModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $ServerLoginModelCopyWith<ServerLoginModel> get copyWith =>
-      _$ServerLoginModelCopyWithImpl<ServerLoginModel>(
-          this as ServerLoginModel, _$identity);
+ CredentialsModel get tempCredentials; List<AccountModel> get accounts; String? get serverMessage; bool get hasQuickConnect;
+/// Create a copy of ServerLoginModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ServerLoginModelCopyWith<ServerLoginModel> get copyWith => _$ServerLoginModelCopyWithImpl<ServerLoginModel>(this as ServerLoginModel, _$identity);
 
-  @override
-  String toString() {
-    return 'ServerLoginModel(tempCredentials: $tempCredentials, accounts: $accounts, serverMessage: $serverMessage, hasQuickConnect: $hasQuickConnect)';
-  }
+
+
+
+
+@override
+String toString() {
+  final _this = this as ServerLoginModel;
+  return 'ServerLoginModel(tempCredentials: ${_this.tempCredentials}, accounts: ${_this.accounts}, serverMessage: ${_this.serverMessage}, hasQuickConnect: ${_this.hasQuickConnect})';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class $ServerLoginModelCopyWith<$Res> {
-  factory $ServerLoginModelCopyWith(
-          ServerLoginModel value, $Res Function(ServerLoginModel) _then) =
-      _$ServerLoginModelCopyWithImpl;
-  @useResult
-  $Res call(
-      {CredentialsModel tempCredentials,
-      List<AccountModel> accounts,
-      String? serverMessage,
-      bool hasQuickConnect});
+abstract mixin class $ServerLoginModelCopyWith<$Res>  {
+  factory $ServerLoginModelCopyWith(ServerLoginModel value, $Res Function(ServerLoginModel) _then) = _$ServerLoginModelCopyWithImpl;
+@useResult
+$Res call({
+ CredentialsModel tempCredentials, List<AccountModel> accounts, String? serverMessage, bool hasQuickConnect
+});
 
-  $CredentialsModelCopyWith<$Res> get tempCredentials;
+
+$CredentialsModelCopyWith<$Res> get tempCredentials;
+
 }
-
 /// @nodoc
 class _$ServerLoginModelCopyWithImpl<$Res>
     implements $ServerLoginModelCopyWith<$Res> {
@@ -531,281 +350,208 @@ class _$ServerLoginModelCopyWithImpl<$Res>
   final ServerLoginModel _self;
   final $Res Function(ServerLoginModel) _then;
 
-  /// Create a copy of ServerLoginModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? tempCredentials = null,
-    Object? accounts = null,
-    Object? serverMessage = freezed,
-    Object? hasQuickConnect = null,
-  }) {
-    return _then(_self.copyWith(
-      tempCredentials: null == tempCredentials
-          ? _self.tempCredentials
-          : tempCredentials // ignore: cast_nullable_to_non_nullable
-              as CredentialsModel,
-      accounts: null == accounts
-          ? _self.accounts
-          : accounts // ignore: cast_nullable_to_non_nullable
-              as List<AccountModel>,
-      serverMessage: freezed == serverMessage
-          ? _self.serverMessage
-          : serverMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hasQuickConnect: null == hasQuickConnect
-          ? _self.hasQuickConnect
-          : hasQuickConnect // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
-
-  /// Create a copy of ServerLoginModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $CredentialsModelCopyWith<$Res> get tempCredentials {
-    return $CredentialsModelCopyWith<$Res>(_self.tempCredentials, (value) {
-      return _then(_self.copyWith(tempCredentials: value));
-    });
-  }
+/// Create a copy of ServerLoginModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? tempCredentials = null,Object? accounts = null,Object? serverMessage = freezed,Object? hasQuickConnect = null,}) {
+  return _then(ServerLoginModel(
+tempCredentials: null == tempCredentials ? _self.tempCredentials : tempCredentials // ignore: cast_nullable_to_non_nullable
+as CredentialsModel,accounts: null == accounts ? _self.accounts : accounts // ignore: cast_nullable_to_non_nullable
+as List<AccountModel>,serverMessage: freezed == serverMessage ? _self.serverMessage : serverMessage // ignore: cast_nullable_to_non_nullable
+as String?,hasQuickConnect: null == hasQuickConnect ? _self.hasQuickConnect : hasQuickConnect // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
 }
+/// Create a copy of ServerLoginModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CredentialsModelCopyWith<$Res> get tempCredentials {
+  
+  return $CredentialsModelCopyWith<$Res>(_self.tempCredentials, (value) {
+    return _then(_self.copyWith(tempCredentials: value));
+  });
+}
+}
+
 
 /// Adds pattern-matching-related methods to [ServerLoginModel].
 extension ServerLoginModelPatterns on ServerLoginModel {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_ServerLoginModel value)? $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _ServerLoginModel() when $default != null:
-        return $default(_that);
-      case _:
-        return orElse();
-    }
-  }
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ServerLoginModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ServerLoginModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_ServerLoginModel value) $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _ServerLoginModel():
-        return $default(_that);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ServerLoginModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _ServerLoginModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
 
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_ServerLoginModel value)? $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _ServerLoginModel() when $default != null:
-        return $default(_that);
-      case _:
-        return null;
-    }
-  }
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ServerLoginModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ServerLoginModel() when $default != null:
+return $default(_that);case _:
+  return null;
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            CredentialsModel tempCredentials,
-            List<AccountModel> accounts,
-            String? serverMessage,
-            bool hasQuickConnect)?
-        $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _ServerLoginModel() when $default != null:
-        return $default(_that.tempCredentials, _that.accounts,
-            _that.serverMessage, _that.hasQuickConnect);
-      case _:
-        return orElse();
-    }
-  }
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CredentialsModel tempCredentials,  List<AccountModel> accounts,  String? serverMessage,  bool hasQuickConnect)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ServerLoginModel() when $default != null:
+return $default(_that.tempCredentials,_that.accounts,_that.serverMessage,_that.hasQuickConnect);case _:
+  return orElse();
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(
-            CredentialsModel tempCredentials,
-            List<AccountModel> accounts,
-            String? serverMessage,
-            bool hasQuickConnect)
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _ServerLoginModel():
-        return $default(_that.tempCredentials, _that.accounts,
-            _that.serverMessage, _that.hasQuickConnect);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CredentialsModel tempCredentials,  List<AccountModel> accounts,  String? serverMessage,  bool hasQuickConnect)  $default,) {final _that = this;
+switch (_that) {
+case _ServerLoginModel():
+return $default(_that.tempCredentials,_that.accounts,_that.serverMessage,_that.hasQuickConnect);case _:
+  throw StateError('Unexpected subclass');
 
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            CredentialsModel tempCredentials,
-            List<AccountModel> accounts,
-            String? serverMessage,
-            bool hasQuickConnect)?
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _ServerLoginModel() when $default != null:
-        return $default(_that.tempCredentials, _that.accounts,
-            _that.serverMessage, _that.hasQuickConnect);
-      case _:
-        return null;
-    }
-  }
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CredentialsModel tempCredentials,  List<AccountModel> accounts,  String? serverMessage,  bool hasQuickConnect)?  $default,) {final _that = this;
+switch (_that) {
+case _ServerLoginModel() when $default != null:
+return $default(_that.tempCredentials,_that.accounts,_that.serverMessage,_that.hasQuickConnect);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
+
 
 class _ServerLoginModel implements ServerLoginModel {
-  _ServerLoginModel(
-      {required this.tempCredentials,
-      final List<AccountModel> accounts = const [],
-      this.serverMessage,
-      this.hasQuickConnect = false})
-      : _accounts = accounts;
+   _ServerLoginModel({required this.tempCredentials,  List<AccountModel> accounts = const [], this.serverMessage, this.hasQuickConnect = false}): _accounts = accounts;
+  
 
-  @override
-  final CredentialsModel tempCredentials;
-  final List<AccountModel> _accounts;
-  @override
-  @JsonKey()
-  List<AccountModel> get accounts {
-    if (_accounts is EqualUnmodifiableListView) return _accounts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_accounts);
-  }
+@override final  CredentialsModel tempCredentials;
+ final  List<AccountModel> _accounts;
+@override@JsonKey() List<AccountModel> get accounts {
+  if (_accounts is EqualUnmodifiableListView) return _accounts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_accounts);
+}
 
-  @override
-  final String? serverMessage;
-  @override
-  @JsonKey()
-  final bool hasQuickConnect;
+@override final  String? serverMessage;
+@override@JsonKey() final  bool hasQuickConnect;
 
-  /// Create a copy of ServerLoginModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$ServerLoginModelCopyWith<_ServerLoginModel> get copyWith =>
-      __$ServerLoginModelCopyWithImpl<_ServerLoginModel>(this, _$identity);
+/// Create a copy of ServerLoginModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ServerLoginModelCopyWith<_ServerLoginModel> get copyWith => __$ServerLoginModelCopyWithImpl<_ServerLoginModel>(this, _$identity);
 
-  @override
-  String toString() {
+
+
+
+
+@override
+String toString() {
     return 'ServerLoginModel(tempCredentials: $tempCredentials, accounts: $accounts, serverMessage: $serverMessage, hasQuickConnect: $hasQuickConnect)';
-  }
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class _$ServerLoginModelCopyWith<$Res>
-    implements $ServerLoginModelCopyWith<$Res> {
-  factory _$ServerLoginModelCopyWith(
-          _ServerLoginModel value, $Res Function(_ServerLoginModel) _then) =
-      __$ServerLoginModelCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {CredentialsModel tempCredentials,
-      List<AccountModel> accounts,
-      String? serverMessage,
-      bool hasQuickConnect});
+abstract mixin class _$ServerLoginModelCopyWith<$Res> implements $ServerLoginModelCopyWith<$Res> {
+  factory _$ServerLoginModelCopyWith(_ServerLoginModel value, $Res Function(_ServerLoginModel) _then) = __$ServerLoginModelCopyWithImpl;
+@override @useResult
+$Res call({
+ CredentialsModel tempCredentials, List<AccountModel> accounts, String? serverMessage, bool hasQuickConnect
+});
 
-  @override
-  $CredentialsModelCopyWith<$Res> get tempCredentials;
+
+@override $CredentialsModelCopyWith<$Res> get tempCredentials;
+
 }
-
 /// @nodoc
 class __$ServerLoginModelCopyWithImpl<$Res>
     implements _$ServerLoginModelCopyWith<$Res> {
@@ -814,45 +560,28 @@ class __$ServerLoginModelCopyWithImpl<$Res>
   final _ServerLoginModel _self;
   final $Res Function(_ServerLoginModel) _then;
 
-  /// Create a copy of ServerLoginModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? tempCredentials = null,
-    Object? accounts = null,
-    Object? serverMessage = freezed,
-    Object? hasQuickConnect = null,
-  }) {
-    return _then(_ServerLoginModel(
-      tempCredentials: null == tempCredentials
-          ? _self.tempCredentials
-          : tempCredentials // ignore: cast_nullable_to_non_nullable
-              as CredentialsModel,
-      accounts: null == accounts
-          ? _self._accounts
-          : accounts // ignore: cast_nullable_to_non_nullable
-              as List<AccountModel>,
-      serverMessage: freezed == serverMessage
-          ? _self.serverMessage
-          : serverMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hasQuickConnect: null == hasQuickConnect
-          ? _self.hasQuickConnect
-          : hasQuickConnect // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
+/// Create a copy of ServerLoginModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? tempCredentials = null,Object? accounts = null,Object? serverMessage = freezed,Object? hasQuickConnect = null,}) {
+  return _then(_ServerLoginModel(
+tempCredentials: null == tempCredentials ? _self.tempCredentials : tempCredentials // ignore: cast_nullable_to_non_nullable
+as CredentialsModel,accounts: null == accounts ? _self._accounts : accounts // ignore: cast_nullable_to_non_nullable
+as List<AccountModel>,serverMessage: freezed == serverMessage ? _self.serverMessage : serverMessage // ignore: cast_nullable_to_non_nullable
+as String?,hasQuickConnect: null == hasQuickConnect ? _self.hasQuickConnect : hasQuickConnect // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
 
-  /// Create a copy of ServerLoginModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $CredentialsModelCopyWith<$Res> get tempCredentials {
-    return $CredentialsModelCopyWith<$Res>(_self.tempCredentials, (value) {
-      return _then(_self.copyWith(tempCredentials: value));
-    });
-  }
+/// Create a copy of ServerLoginModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CredentialsModelCopyWith<$Res> get tempCredentials {
+  
+  return $CredentialsModelCopyWith<$Res>(_self.tempCredentials, (value) {
+    return _then(_self.copyWith(tempCredentials: value));
+  });
+}
 }
 
 // dart format on

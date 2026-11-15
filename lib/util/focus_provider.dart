@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import 'package:fladder/screens/shared/flat_button.dart';
@@ -30,6 +30,8 @@ class FocusProvider extends InheritedWidget {
     final widget = context.dependOnInheritedWidgetOfExactType<FocusProvider>();
     return widget?.hasFocus ?? false;
   }
+
+  static bool canAutoFocus(BuildContext context) => TickerMode.valuesOf(context).enabled && (ModalRoute.isCurrentOf(context) ?? true);
 
   static bool autoFocusOf(BuildContext context) {
     final widget = context.dependOnInheritedWidgetOfExactType<FocusProvider>();
@@ -158,7 +160,7 @@ class FocusButtonState extends State<FocusButton> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      if (widget.autoFocus && !focusNode.hasFocus) {
+      if (widget.autoFocus && !focusNode.hasFocus && FocusProvider.canAutoFocus(context)) {
         focusNode.requestFocus();
       }
     });
@@ -181,7 +183,7 @@ class FocusButtonState extends State<FocusButton> {
       onHover: widget.onHover != null ? (event) => widget.onHover?.call(true) : null,
       child: Focus(
         focusNode: focusNode,
-        autofocus: widget.autoFocus,
+        autofocus: widget.autoFocus && FocusProvider.canAutoFocus(context),
         canRequestFocus: widget.onTap != null || widget.onLongPress != null || widget.onSecondaryTapDown != null,
         skipTraversal: widget.onTap == null && widget.onLongPress == null && widget.onSecondaryTapDown != null,
         onFocusChange: (value) {
@@ -198,7 +200,7 @@ class FocusButtonState extends State<FocusButton> {
             builder: (context, value, child) {
               final hasFocus = widget.forceFocusOutline ? true : value;
               return AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
+                duration: hasFocus ? Duration.zero : const Duration(milliseconds: 200),
                 curve: Curves.easeInOut,
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(

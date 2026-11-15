@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:macos_window_utils/window_manipulator.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
+import 'package:smtc_windows/smtc_windows.dart' if (dart.library.js_interop) 'package:fladder/stubs/web/smtc_web.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'package:fladder/bootstrap/platform/base_app_wrapper.dart';

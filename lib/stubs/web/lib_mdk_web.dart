@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/playback_model.dart';
@@ -18,7 +18,7 @@ class LibMDK extends BasePlayer {
   Stream<PlayerState> get stateStream => _stateController.stream;
 
   @override
-  Future<void> init(VideoPlayerSettingsModel settings) async {}
+  Future<void> init(VideoPlayerSettingsModel settings, {bool lowResourceMode = false}) async {}
 
   @override
   Future<void> dispose() async {}

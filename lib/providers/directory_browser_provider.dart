@@ -21,8 +21,10 @@ class DirectoryBrowser extends _$DirectoryBrowser {
       String? startPath = parent;
       if (startPath == null || startPath.isEmpty) {
         final defaultDirectory = (await api.defaultDirectoryGet()).body;
+        if (!ref.mounted) return;
         startPath = defaultDirectory?.path;
         final driveFolders = (await api.getDriveLocations()).body;
+        if (!ref.mounted) return;
         state = state.copyWith(
           parentFolder: driveFolders?.firstOrNull?.path?.replaceAll('"', ''),
           currentPath: startPath,
@@ -31,8 +33,10 @@ class DirectoryBrowser extends _$DirectoryBrowser {
         );
       } else {
         final parentPath = (await api.parentPathGet(startPath)).body;
+        if (!ref.mounted) return;
         if (parentPath == null || (startPath.isEmpty || startPath == '/')) {
           final driveFolders = (await api.getDriveLocations()).body;
+          if (!ref.mounted) return;
           state = state.copyWith(
             parentFolder: driveFolders?.firstOrNull?.path?.replaceAll('"', ''),
             currentPath: startPath,
@@ -41,6 +45,7 @@ class DirectoryBrowser extends _$DirectoryBrowser {
           );
         } else {
           final directories = (await api.directoryContentsGet(path: startPath, includeDirectories: true)).body;
+          if (!ref.mounted) return;
           state = state.copyWith(
             parentFolder: parentPath.replaceAll('"', ''),
             currentPath: startPath,
@@ -50,7 +55,7 @@ class DirectoryBrowser extends _$DirectoryBrowser {
         }
       }
     } catch (e) {
-      state = state.copyWith(loading: false);
+      if (ref.mounted) state = state.copyWith(loading: false);
       rethrow;
     }
   }
@@ -59,6 +64,7 @@ class DirectoryBrowser extends _$DirectoryBrowser {
     state = state.copyWith(loading: true);
     try {
       final driveFolders = (await api.getDriveLocations()).body;
+      if (!ref.mounted) return;
       state = state.copyWith(
         parentFolder: driveFolders?.firstOrNull?.path?.replaceAll('"', ''),
         currentPath: null,
@@ -66,7 +72,7 @@ class DirectoryBrowser extends _$DirectoryBrowser {
         loading: false,
       );
     } catch (e) {
-      state = state.copyWith(loading: false);
+      if (ref.mounted) state = state.copyWith(loading: false);
       rethrow;
     }
   }

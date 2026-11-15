@@ -16,8 +16,12 @@ class ChannelDetails extends _$ChannelDetails {
     return null;
   }
 
+  @override
+  bool updateShouldNotify(ChannelModel? previous, ChannelModel? next) => !identical(previous, next);
+
   Future<void> fetchDetails(String id) async {
     final channelResponse = await api.usersUserIdItemsItemIdGet(itemId: id);
+    if (!ref.mounted) return;
     if (channelResponse.body == null || channelResponse.body is! ChannelModel) return;
     final channelModel = channelResponse.bodyOrThrow as ChannelModel;
     state = channelModel;
@@ -26,6 +30,7 @@ class ChannelDetails extends _$ChannelDetails {
       channelIds: [state?.id ?? id],
       minEndDate: DateTime.now(),
     );
+    if (!ref.mounted) return;
 
     state = state?.copyChannelWith(
       programs: programsResponse.body?.items?.map((e) => ChannelProgram.fromBaseDto(e, ref)).toList() ?? [],

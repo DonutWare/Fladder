@@ -157,7 +157,7 @@ class AuthGuard extends AutoRouteGuard {
       return resolver.next(true);
     }
 
-    resolver.redirectUntil<bool>(SplashRoute(loggedIn: (value) {
+    resolver.redirectUntil(SplashRoute(loggedIn: (value) {
       if (value) {
         resolver.next(true);
       } else {

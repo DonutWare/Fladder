@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,10 +68,15 @@ class ChapterRow extends ConsumerWidget {
             foregroundDecoration: FladderTheme.defaultPosterDecoration,
             child: AspectRatio(
               aspectRatio: 1.75,
-              child: CachedNetworkImage(
-                imageUrl: chapter.imageUrl,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => const Icon(IconsaxPlusBold.image),
+              child: LayoutBuilder(
+                builder: (context, constraints) => CachedNetworkImage(
+                  imageUrl: chapter.imageUrl,
+                  fit: BoxFit.cover,
+                  memCacheHeight: constraints.maxHeight.isFinite
+                      ? (constraints.maxHeight * MediaQuery.devicePixelRatioOf(context)).ceil()
+                      : null,
+                  placeholder: (context, url) => const Icon(IconsaxPlusBold.image),
+                ),
               ),
             ),
           ),

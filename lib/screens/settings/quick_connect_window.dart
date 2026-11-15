@@ -2,7 +2,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/screens/login/widgets/login_icon.dart';
 import 'package:fladder/screens/shared/outlined_text_field.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -4,13 +4,14 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' hide ConnectionState;
+import 'package:material_ui/material_ui.dart' hide ConnectionState;
 
 import 'package:background_downloader/background_downloader.dart';
 import 'package:collection/collection.dart';
 import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
@@ -349,7 +350,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
       if (saveDirectory == null) {
         String? selectedDirectory =
-            await FilePicker.platform.getDirectoryPath(dialogTitle: context.localized.syncSelectDownloadsFolder);
+            await FilePicker.getDirectoryPath(dialogTitle: context.localized.syncSelectDownloadsFolder);
         if (selectedDirectory?.isEmpty == true && context.mounted) {
           FladderSnack.show(context.localized.syncNoFolderSetup, context: context);
           return;

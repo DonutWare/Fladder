@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -465,14 +465,9 @@ void tapLoggedInAccount(BuildContext context, AccountModel user, WidgetRef ref, 
       }
       break;
     case Authentication.passcode:
-      if (context.mounted) {
-        showPassCodeDialog(context, (newPin) {
-          if (newPin == user.localPin) {
-            loginFunction();
-          } else {
-            FladderSnack.show(context.localized.incorrectPinTryAgain, context: context);
-          }
-        });
+    case Authentication.pattern:
+      if (await verifyLocalCode(context, user) && context.mounted) {
+        loginFunction();
       }
       break;
     case Authentication.none:

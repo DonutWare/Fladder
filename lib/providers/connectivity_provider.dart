@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -42,6 +43,7 @@ class ConnectivityStatus extends _$ConnectivityStatus {
   Timer? _debounceTimer;
   int _probeId = 0;
   Completer<void>? _probeCompleter;
+  DateTime? _lastProbe;
 
   @override
   ConnectionState build() {
@@ -73,6 +75,12 @@ class ConnectivityStatus extends _$ConnectivityStatus {
   Future<void> checkConnectivity({bool immediate = false}) async {
     final results = await Connectivity().checkConnectivity();
     _handleHardwareChange(results, immediate: immediate);
+  }
+
+  Future<void> checkConnectivityThrottled() async {
+    final lastProbe = _lastProbe;
+    if (lastProbe != null && DateTime.now().difference(lastProbe) < const Duration(seconds: 30)) return;
+    return checkConnectivity(immediate: true);
   }
 
   Future<void> waitForProbe() async => _probeCompleter?.future;
@@ -107,6 +115,7 @@ class ConnectivityStatus extends _$ConnectivityStatus {
   }
 
   Future<void> _probeReachability(int id, ConnectionState candidateState) async {
+    _lastProbe = DateTime.now();
     try {
       final user = ref.read(userProvider);
       if (user == null) return;

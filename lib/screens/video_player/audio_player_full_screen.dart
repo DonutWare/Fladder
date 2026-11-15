@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -666,6 +666,7 @@ class _AudioPlayerFullScreenState extends ConsumerState<AudioPlayerFullScreen> {
 
     return BackButtonListener(
       onBackButtonPressed: () async {
+        if (ModalRoute.of(context)?.isCurrent == false) return false;
         closeFullScreen();
         return true;
       },

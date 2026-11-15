@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:collection/collection.dart';
 import 'package:desktop_multi_window/desktop_multi_window.dart';
-import 'package:smtc_windows/smtc_windows.dart' if (dart.library.html) 'package:fladder/stubs/web/smtc_web.dart';
+import 'package:smtc_windows/smtc_windows.dart' if (dart.library.js_interop) 'package:fladder/stubs/web/smtc_web.dart';
 
 //Manager every windows media player and forward the active window state to the OS (audio_service + SMTC).
 class MultiWindowMediaSession {
@@ -194,7 +194,7 @@ class _OsMediaSession extends BaseAudioHandler {
 
   void show(MediaItem? item, PlaybackState? state) {
     mediaItem.add(item);
-    playbackState.add(state ?? PlaybackState(processingState: AudioProcessingState.completed));
+    playbackState.add(state ?? PlaybackState(processingState: AudioProcessingState.idle));
     _updateSmtc(item, state);
   }
 

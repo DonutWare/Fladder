@@ -32,6 +32,10 @@ class ServerDiscovery extends _$ServerDiscovery {
 
     // Bind the socket and start listening
     final RawDatagramSocket socket = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 0);
+    if (!ref.mounted) {
+      socket.close();
+      return;
+    }
     socket.broadcastEnabled = true;
 
     // Send the broadcast message

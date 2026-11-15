@@ -1,6 +1,7 @@
 package nl.jknaapen.fladder.composables.controls
 
 import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -18,13 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import io.github.rabehx.iconsax.Iconsax
 import io.github.rabehx.iconsax.outline.Refresh
-import nl.jknaapen.fladder.utility.visible
 import kotlin.math.absoluteValue
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -34,10 +34,15 @@ internal fun BoxScope.SeekOverlay(
     modifier: Modifier = Modifier,
     value: Long = 0L,
 ) {
+    val alpha by animateFloatAsState(
+        targetValue = if (value != 0L) 1f else 0f,
+        label = "AlphaAnimation"
+    )
+    if (alpha == 0f) return
 
     val infiniteTransition = rememberInfiniteTransition()
 
-    val rotation by infiniteTransition.animateFloat(
+    val rotation = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
@@ -51,7 +56,7 @@ internal fun BoxScope.SeekOverlay(
     Box(
         modifier = modifier
             .align(Alignment.Center)
-            .visible(value != 0L)
+            .graphicsLayer { this.alpha = alpha }
             .wrapContentSize()
             .background(
                 color = Color.Black.copy(alpha = 0.85f),
@@ -65,7 +70,7 @@ internal fun BoxScope.SeekOverlay(
             modifier = Modifier
                 .size(65.dp)
                 .scale(scaleX = if (value < 0) 1f else -1f, scaleY = 1f)
-                .rotate(-rotation),
+                .graphicsLayer { rotationZ = -rotation.value },
             contentDescription = "SkipLogoRotating",
             tint = Color.White,
 

@@ -31,8 +31,8 @@ class DeepLinkNotifier extends Notifier<DeepLinkTarget?> {
 
   @override
   DeepLinkTarget? build() {
-    ref.listen(userProvider.select((value) => value?.id), (_, __) => _openPending());
-    ref.listen(lockScreenActiveProvider, (_, __) => _openPending());
+    ref.listen(userProvider.select((value) => value?.id), (_, _) => _openPending());
+    ref.listen(lockScreenActiveProvider, (_, _) => _openPending());
     return null;
   }
 

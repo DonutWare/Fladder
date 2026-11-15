@@ -21,6 +21,7 @@ class ControlLiveTv extends _$ControlLiveTv {
   Future<void> loadConfiguration() async {
     try {
       final response = await api.getLiveTvConfiguration();
+      if (!ref.mounted) return;
       state = state.copyWith(
         liveTvOptions: response.body,
       );
