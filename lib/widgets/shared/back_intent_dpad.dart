@@ -7,6 +7,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/focus_helper.dart';
 
+final backKeys = {
+  LogicalKeyboardKey.backspace,
+  LogicalKeyboardKey.escape,
+  LogicalKeyboardKey.goBack,
+  LogicalKeyboardKey.browserBack,
+  LogicalKeyboardKey.gameButtonB,
+};
+
 class BackIntentDpad extends StatelessWidget {
   final Widget child;
   const BackIntentDpad({required this.child, super.key});
@@ -31,16 +39,20 @@ class BackIntentDpad extends StatelessWidget {
             return KeyEventResult.ignored;
           }
 
-          if (event.logicalKey == LogicalKeyboardKey.backspace) {
-            if (isEditableTextFocused()) {
-              return KeyEventResult.ignored;
-          } else {
-              context.maybePop();
-              return KeyEventResult.handled;
+          if (!backKeys.contains(event.logicalKey)) {
+            return KeyEventResult.ignored;
           }
-        }
 
-          return KeyEventResult.ignored;
+          if (isEditableTextFocused()) {
+            if (event.logicalKey == LogicalKeyboardKey.backspace) {
+              return KeyEventResult.ignored;
+            }
+            FocusManager.instance.primaryFocus?.unfocus();
+            return KeyEventResult.handled;
+          }
+
+          context.maybePop();
+          return KeyEventResult.handled;
         },
         child: child,
       ),
