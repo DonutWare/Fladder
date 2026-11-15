@@ -227,6 +227,12 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   }
 
   Future<void> addToTemporaryQueue(List<ItemBaseModel> items) async {
+    if (items.isEmpty) return;
+    if (ref.read(playBackModel) == null) {
+      final model = await ref.read(playbackModelHelper).createPlaybackModel(null, items.first, libraryQueue: items);
+      if (model != null) await loadAudioPlaybackItem(model, items, 0, Duration.zero);
+      return;
+    }
     await state.addToTemporaryQueue(items);
   }
 
