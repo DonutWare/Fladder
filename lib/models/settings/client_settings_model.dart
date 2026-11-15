@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/settings/arguments_model.dart';
 import 'package:fladder/models/settings/key_combinations.dart';
@@ -78,6 +79,20 @@ enum BackgroundType {
   }
 }
 
+enum EpisodeDetailsViewType {
+  list(icon: IconsaxPlusBold.grid_6),
+  grid(icon: IconsaxPlusBold.grid_2);
+
+  const EpisodeDetailsViewType({required this.icon});
+
+  String label(BuildContext context) => switch (this) {
+        EpisodeDetailsViewType.list => context.localized.list,
+        EpisodeDetailsViewType.grid => context.localized.grid,
+      };
+
+  final IconData icon;
+}
+
 @Freezed(copyWith: true)
 abstract class ClientSettingsModel with _$ClientSettingsModel {
   const ClientSettingsModel._();
@@ -118,6 +133,7 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(LowResourceMode.auto) LowResourceMode lowResourceMode,
     String? lastViewedUpdate,
     int? libraryPageSize,
+    EpisodeDetailsViewType? episodeViewType,
     @Default({}) Map<GlobalHotKeys, KeyCombination> shortcuts,
   }) = _ClientSettingsModel;
 
