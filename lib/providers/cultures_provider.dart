@@ -16,6 +16,7 @@ class Cultures extends _$Cultures {
   Future<void> _fetch() async {
     final api = ref.read(jellyApiProvider);
     final response = await api.localizationCulturesGet();
+    if (!ref.mounted) return;
     final cultures = response.body;
     if (cultures != null) {
       state = cultures;

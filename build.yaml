@@ -1,56 +1,83 @@
 targets:
   $default:
     sources:
-      - lib/$lib$
-      - "!lib/jellyseer/**"
-      - "**/models/**.dart"
-      - "**/models/**/**.dart"
-      - "**/providers/**.dart"
-      - "**/providers/**/**.dart"
-      - lib/util/**.dart
-      - lib/jellyfin/**.dart
-      - lib/seerr/**.dart
-      - "**/**_screen.dart"
-      - "**/**_page.dart"
-      - swagger/jellyfin-open-api.json
-      - lib/routes/auto_router.dart
-      - $package$
+      exclude:
+        - lib/jellyseer/**
+        - .fvm/**
+      include:
+        - lib/$lib$
+        - "**/models/**.dart"
+        - "**/models/**/**.dart"
+        - "**/providers/**.dart"
+        - "**/providers/**/**.dart"
+        - lib/util/**.dart
+        - lib/jellyfin/**.dart
+        - lib/seerr/**.dart
+        - "**/**_screen.dart"
+        - "**/**_page.dart"
+        - swagger/jellyfin-open-api.json
+        - lib/routes/auto_router.dart
+        - $package$
+        - pubspec.yaml
     builders:
-      auto_route_generator:auto_router_generator:
-        options:
-          enable_cached_builds: true
-          generate_for:
-            - lib/routes/auto_router.dart
-      auto_route_generator:auto_route_generator:
-        options:
-          enable_cached_builds: true
-          generate_for:
-            - "**/**_screen.dart"
-            - "**/**_page.dart"
-      freezed|freezed:
-        options:
-          copy_with: false
-          equal: false
-          tostring:
-          generate_for:
-            - "**/**.f.dart"
-            - "**/**.g.dart"
-      dart_mappable_builder:
-        options:
-          ignoreNull: true
-          discriminatorKey: type
-          generateMethods: [copy]
-      chopper_generator:
-        options:
-          header: "//Generated jellyfin api code"
-          include_if_null: false
       swagger_dart_code_generator:
+        generate_for:
+          - swagger/jellyfin-open-api.json
         options:
           input_folder: "swagger/"
           output_folder: "lib/jellyfin/"
-          generate_for: swagger/jellyfin-open-api.json
           with_converter: true
           build_only_models: false
           with_base_url: false
           include_if_null: false
-          auto_apply: dependents
+      chopper_generator:
+        generate_for:
+          - lib/jellyfin/jellyfin_open_api.swagger.dart
+          - lib/seerr/**
+        options:
+          header: "//Generated jellyfin api code"
+          include_if_null: false
+      json_serializable:
+        generate_for:
+          - lib/jellyfin/**
+          - lib/models/**
+          - lib/providers/**
+          - lib/seerr/**
+          - lib/util/**
+      freezed:
+        generate_for:
+          - lib/models/**
+          - lib/providers/**
+          - lib/seerr/**
+          - lib/util/**
+        options:
+          copy_with: false
+          equal: false
+      riverpod_generator:
+        generate_for:
+          - lib/providers/**
+      dart_mappable_builder:
+        generate_for:
+          - lib/models/**
+          - lib/providers/**
+        options:
+          ignoreNull: true
+          discriminatorKey: type
+          generateMethods: [copy]
+      drift_dev:preparing_builder:
+        generate_for:
+          - lib/models/syncing/**
+      drift_dev:
+        generate_for:
+          - lib/models/syncing/**
+      auto_route_generator:auto_route_generator:
+        generate_for:
+          - lib/**_screen.dart
+          - lib/**_page.dart
+        options:
+          enable_cached_builds: true
+      auto_route_generator:auto_router_generator:
+        generate_for:
+          - lib/routes/auto_router.dart
+        options:
+          enable_cached_builds: true

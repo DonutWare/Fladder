@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
@@ -33,6 +33,7 @@ class FavouritesScreen extends ConsumerWidget {
     final useTVExpandedLayout = ref.watch(clientSettingsProvider.select((value) => value.useTVExpandedLayout));
 
     return PullToRefresh(
+      contextRefresh: false,
       onRefresh: () async => await ref.read(favouritesProvider.notifier).fetchFavourites(),
       child: (context) => NestedScaffold(
         background: BackgroundImage(items: favourites.favourites.values.expand((element) => element).toList()),

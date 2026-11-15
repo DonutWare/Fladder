@@ -14,26 +14,31 @@ _AccountModel _$AccountModelFromJson(Map<String, dynamic> json) =>
       lastUsed: DateTime.parse(json['lastUsed'] as String),
       authMethod:
           $enumDecodeNullable(_$AuthenticationEnumMap, json['authMethod']) ??
-              Authentication.autoLogin,
+          Authentication.autoLogin,
       askForAuthOnLaunch: json['askForAuthOnLaunch'] as bool? ?? false,
       localPin: json['localPin'] as String? ?? "",
       credentials: const CredentialsConverter().fromJson(json['credentials']),
       seerrCredentials: json['seerrCredentials'] == null
           ? null
           : SeerrCredentialsModel.fromJson(
-              json['seerrCredentials'] as Map<String, dynamic>),
-      latestItemsExcludes: (json['latestItemsExcludes'] as List<dynamic>?)
+              json['seerrCredentials'] as Map<String, dynamic>,
+            ),
+      latestItemsExcludes:
+          (json['latestItemsExcludes'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
-      searchQueryHistory: (json['searchQueryHistory'] as List<dynamic>?)
+      searchQueryHistory:
+          (json['searchQueryHistory'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
       quickConnectState: json['quickConnectState'] as bool? ?? false,
-      libraryFilters: (json['libraryFilters'] as List<dynamic>?)
-              ?.map((e) =>
-                  LibraryFiltersModel.fromJson(e as Map<String, dynamic>))
+      libraryFilters:
+          (json['libraryFilters'] as List<dynamic>?)
+              ?.map(
+                (e) => LibraryFiltersModel.fromJson(e as Map<String, dynamic>),
+              )
               .toList() ??
           const [],
       updateNotificationsEnabled:
@@ -73,21 +78,40 @@ const _$AuthenticationEnumMap = {
   Authentication.biometrics: 'biometrics',
   Authentication.passcode: 'passcode',
   Authentication.none: 'none',
+  Authentication.pattern: 'pattern',
 };
 
-_UserSettings _$UserSettingsFromJson(Map<String, dynamic> json) =>
-    _UserSettings(
-      skipForwardDuration: json['skipForwardDuration'] == null
-          ? const Duration(seconds: 30)
-          : Duration(
-              microseconds: (json['skipForwardDuration'] as num).toInt()),
-      skipBackDuration: json['skipBackDuration'] == null
-          ? const Duration(seconds: 10)
-          : Duration(microseconds: (json['skipBackDuration'] as num).toInt()),
-    );
+_UserSettings _$UserSettingsFromJson(
+  Map<String, dynamic> json,
+) => _UserSettings(
+  skipForwardDuration: json['skipForwardDuration'] == null
+      ? const Duration(seconds: 30)
+      : Duration(microseconds: (json['skipForwardDuration'] as num).toInt()),
+  skipBackDuration: json['skipBackDuration'] == null
+      ? const Duration(seconds: 10)
+      : Duration(microseconds: (json['skipBackDuration'] as num).toInt()),
+  libraryFilters: json['libraryFilters'] == null
+      ? const []
+      : const LibraryFiltersConverter().fromJson(json['libraryFilters']),
+  filterSortOrder: json['filterSortOrder'] == null
+      ? const {}
+      : const FilterSortOrderConverter().fromJson(json['filterSortOrder']),
+  pDashboardSorting: json['pDashboardSorting'] == null
+      ? const {}
+      : const DashboardSortingConverter().fromJson(json['pDashboardSorting']),
+);
 
 Map<String, dynamic> _$UserSettingsToJson(_UserSettings instance) =>
     <String, dynamic>{
       'skipForwardDuration': instance.skipForwardDuration.inMicroseconds,
       'skipBackDuration': instance.skipBackDuration.inMicroseconds,
+      'libraryFilters': const LibraryFiltersConverter().toJson(
+        instance.libraryFilters,
+      ),
+      'filterSortOrder': const FilterSortOrderConverter().toJson(
+        instance.filterSortOrder,
+      ),
+      'pDashboardSorting': const DashboardSortingConverter().toJson(
+        instance.pDashboardSorting,
+      ),
     };

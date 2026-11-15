@@ -172,7 +172,7 @@
     "fallbackMaxBitrate": "حداکثر نرخ بیت جایگزین (Mbps)",
     "discoveredDevices": "دستگاه‌های کشف‌شده",
     "noDevicesFound": "هیچ دستگاهی یافت نشد",
-    "pasteFladderAuthLink": "پیوند احراز هویت fladder را جای‌گذاری کنید fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "پیوند احراز هویت fladder را جای‌گذاری کنید fladder://login?authLink=...",
     "connect": "اتصال",
     "groupedFoldersTitle": "کتابخانه‌های رسانه گروه‌بندی‌شده",
     "homeBannerDetailed": "با جزئیات",

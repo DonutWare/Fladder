@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -38,6 +38,24 @@ enum GlobalHotKeys {
   }
 }
 
+enum LowResourceMode {
+  auto,
+  on,
+  off;
+
+  bool isActive(bool lowResourceDevice) => switch (this) {
+        LowResourceMode.auto => lowResourceDevice,
+        LowResourceMode.on => true,
+        LowResourceMode.off => false,
+      };
+
+  String label(BuildContext context) => switch (this) {
+        LowResourceMode.auto => context.localized.lowResourceModeAuto,
+        LowResourceMode.on => context.localized.enabled,
+        LowResourceMode.off => context.localized.disabled,
+      };
+}
+
 enum BackgroundType {
   disabled,
   enabled,
@@ -64,7 +82,7 @@ enum BackgroundType {
 abstract class ClientSettingsModel with _$ClientSettingsModel {
   const ClientSettingsModel._();
 
-  factory ClientSettingsModel.internal({
+  factory ClientSettingsModel({
     String? syncPath,
     required TranscodeDownloadModel transcodeDownloadModel,
     @Default(TranscodeMusicDownloadModel()) TranscodeMusicDownloadModel transcodeMusicDownloadModel,
@@ -97,20 +115,22 @@ abstract class ClientSettingsModel with _$ClientSettingsModel {
     @Default(false) bool useSystemIME,
     @Default(false) bool useTVExpandedLayout,
     @Default(false) bool forceLeanBackMode,
+    @Default(LowResourceMode.auto) LowResourceMode lowResourceMode,
     String? lastViewedUpdate,
     int? libraryPageSize,
     @Default({}) Map<GlobalHotKeys, KeyCombination> shortcuts,
   }) = _ClientSettingsModel;
 
   static ClientSettingsModel defaultModel() {
-    return ClientSettingsModel.internal(
+    final lightweightDefaults = leanBackMode || lowResourceDevice;
+    return ClientSettingsModel(
       transcodeDownloadModel: TranscodeDownloadModel.fromDefaults(),
-      blurPlaceHolders: leanBackMode ? false : true,
-      backgroundImage: leanBackMode ? BackgroundType.disabled : BackgroundType.blurred,
+      blurPlaceHolders: !lightweightDefaults,
+      backgroundImage: lightweightDefaults ? BackgroundType.disabled : BackgroundType.blurred,
       themeMode: leanBackMode ? ThemeMode.dark : ThemeMode.system,
-      enableBlurEffects: leanBackMode ? false : true,
+      enableBlurEffects: !lightweightDefaults,
       useTVExpandedLayout: false,
-      dynamicPosterColors: leanBackMode ? false : true,
+      dynamicPosterColors: !lightweightDefaults,
     );
   }
 

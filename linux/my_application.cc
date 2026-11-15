@@ -19,6 +19,14 @@ G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 static void my_application_activate(GApplication *application)
 {
 	MyApplication *self = MY_APPLICATION(application);
+
+	GtkWindow *existing_window = gtk_application_get_active_window(GTK_APPLICATION(application));
+	if (existing_window != nullptr)
+	{
+		gtk_window_present(existing_window);
+		return;
+	}
+
 	GtkWindow *window =
 		GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
 
@@ -60,6 +68,10 @@ static void my_application_activate(GApplication *application)
 	g_autoptr(FlDartProject) project = fl_dart_project_new();
 	fl_dart_project_set_dart_entrypoint_arguments(project, self->dart_entrypoint_arguments);
 
+	g_autofree gchar *impeller_flag = g_build_filename(g_get_user_config_dir(), APPLICATION_ID, "disable_impeller", nullptr);
+	gboolean disable_impeller = g_strcmp0(g_getenv("FLADDER_DISABLE_IMPELLER"), "1") == 0 || g_file_test(impeller_flag, G_FILE_TEST_EXISTS);
+	fl_dart_project_set_enable_impeller(project, !disable_impeller);
+
 	FlView *view = fl_view_new(project);
 	gtk_widget_show(GTK_WIDGET(view));
 	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(view));
@@ -72,22 +84,33 @@ static void my_application_activate(GApplication *application)
 // Implements GApplication::local_command_line.
 static gboolean my_application_local_command_line(GApplication *application, gchar ***arguments, int *exit_status)
 {
-	MyApplication *self = MY_APPLICATION(application);
-	// Strip out the first argument as it is the binary name.
-	self->dart_entrypoint_arguments = g_strdupv(*arguments + 1);
-
 	g_autoptr(GError) error = nullptr;
 	if (!g_application_register(application, nullptr, &error))
 	{
 		g_warning("Failed to register: %s", error->message);
-		*exit_status = 1;
-		return TRUE;
+		g_application_set_flags(application, static_cast<GApplicationFlags>(g_application_get_flags(application) | G_APPLICATION_NON_UNIQUE));
 	}
 
-	g_application_activate(application);
-	*exit_status = 0;
+	return G_APPLICATION_CLASS(my_application_parent_class)->local_command_line(application, arguments, exit_status);
+}
 
-	return TRUE;
+static gint my_application_command_line(GApplication *application, GApplicationCommandLine *command_line)
+{
+	MyApplication *self = MY_APPLICATION(application);
+
+	if (gtk_application_get_active_window(GTK_APPLICATION(application)) != nullptr)
+	{
+		g_application_activate(application);
+		return 0;
+	}
+
+	gint argc = 0;
+	g_auto(GStrv) argv = g_application_command_line_get_arguments(command_line, &argc);
+	g_clear_pointer(&self->dart_entrypoint_arguments, g_strfreev);
+	self->dart_entrypoint_arguments = argc > 0 ? g_strdupv(argv + 1) : nullptr;
+
+	g_application_activate(application);
+	return 0;
 }
 
 // Implements GObject::dispose.
@@ -102,16 +125,22 @@ static void my_application_class_init(MyApplicationClass *klass)
 {
 	G_APPLICATION_CLASS(klass)->activate = my_application_activate;
 	G_APPLICATION_CLASS(klass)->local_command_line = my_application_local_command_line;
+	G_APPLICATION_CLASS(klass)->command_line = my_application_command_line;
 	G_OBJECT_CLASS(klass)->dispose = my_application_dispose;
 }
 
 static void my_application_init(MyApplication *self) {}
 
-MyApplication *my_application_new()
+MyApplication *my_application_new(gboolean new_instance)
 {
 	g_set_prgname("fladder");
+	GApplicationFlags flags = G_APPLICATION_HANDLES_COMMAND_LINE;
+	if (new_instance)
+	{
+		flags = static_cast<GApplicationFlags>(flags | G_APPLICATION_NON_UNIQUE);
+	}
 	return MY_APPLICATION(g_object_new(my_application_get_type(),
 									   "application-id", APPLICATION_ID,
-									   "flags", G_APPLICATION_NON_UNIQUE,
+									   "flags", flags,
 									   nullptr));
 }

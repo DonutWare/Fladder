@@ -81,7 +81,7 @@ class SharedKeys {
   static final SharedKeys instance = SharedKeys._();
 
   static const String _loginCredentialsKey = 'loginCredentialsKey';
-  static const String _clientSettingsKey = 'clientSettings';
+  static const String clientSettingsKey = 'clientSettings';
   static const String _homeSettingsKey = 'homeSettings';
   static const String _videoPlayerSettingsKey = 'videoPlayerSettings';
   static const String _subtitleSettingsKey = 'subtitleSettings';
@@ -107,16 +107,7 @@ class SharedHelper {
 
     List<AccountModel> accounts = getAccounts().toList();
     if (accounts.any((element) => element.sameIdentity(newAccount))) {
-      accounts = accounts
-          .map(
-            (e) => e.sameIdentity(newAccount)
-                ? e.copyWith(
-                    credentials: newAccount.credentials,
-                    lastUsed: newAccount.lastUsed,
-                  )
-                : e,
-          )
-          .toList();
+      accounts = accounts.map((e) => e.sameIdentity(newAccount) ? newAccount : e).toList();
     } else {
       accounts = [
         ...accounts,
@@ -145,15 +136,19 @@ class SharedHelper {
     return (await saveAccounts(savedAccounts));
   }
 
-  List<AccountModel> getAccounts() {
-    final savedAccounts = sharedPreferences.getStringList(SharedKeys._loginCredentialsKey);
-    try {
-      return savedAccounts != null ? savedAccounts.map((e) => AccountModel.fromJson(jsonDecode(e))).toList() : [];
-    } catch (_, stacktrace) {
-      log(stacktrace.toString());
-      return [];
-    }
-  }
+  List<AccountModel> getAccounts() => _decodeAccounts().nonNulls.toList();
+
+  bool get hasUnreadableAccounts => _decodeAccounts().contains(null);
+
+  List<AccountModel?> _decodeAccounts() =>
+      (sharedPreferences.getStringList(SharedKeys._loginCredentialsKey) ?? []).map((e) {
+        try {
+          return AccountModel.fromJson(jsonDecode(e));
+        } catch (e, stacktrace) {
+          log("Unable to read account: $e\n$stacktrace");
+          return null;
+        }
+      }).toList();
 
   AccountModel? getActiveAccount() {
     try {
@@ -175,7 +170,7 @@ class SharedHelper {
 
   ClientSettingsModel get clientSettings {
     try {
-      return ClientSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(SharedKeys._clientSettingsKey) ?? ""));
+      return ClientSettingsModel.fromJson(jsonDecode(sharedPreferences.getString(SharedKeys.clientSettingsKey) ?? ""));
     } catch (e) {
       log(e.toString());
       return ClientSettingsModel.defaultModel();
@@ -183,7 +178,7 @@ class SharedHelper {
   }
 
   set clientSettings(ClientSettingsModel settings) =>
-      sharedPreferences.setString(SharedKeys._clientSettingsKey, jsonEncode(settings.toJson()));
+      sharedPreferences.setString(SharedKeys.clientSettingsKey, jsonEncode(settings.toJson()));
 
   HomeSettingsModel get homeSettings {
     try {

@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:collection/collection.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -116,20 +116,21 @@ class ItemActionButton extends ItemAction {
         );
 
   @override
-  PopupMenuItem toPopupMenuItem({bool useIcons = false}) {
+  PopupMenuItem toPopupMenuItem({bool useIcons = false, bool useColors = true}) {
     return PopupMenuItem(
       onTap: action,
       enabled: action != null,
       child: Builder(
         builder: (context) {
-          final resolvedForegroundColor = _resolveForegroundColor(context);
-
+          final backgroundColor = useColors ? _resolveBackgroundColor(context) : Colors.transparent;
+          final resolvedForegroundColor =
+              useColors ? _resolveForegroundColor(context) : Theme.of(context).colorScheme.onSurface;
           final child = useIcons
               ? Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Row(
                     children: [
-                      if (icon != null) icon!,
+                      ?icon,
                       const SizedBox(width: 8),
                       if (label != null) Flexible(child: label!),
                     ],
@@ -142,11 +143,18 @@ class ItemActionButton extends ItemAction {
                   ],
                 );
 
-          return IconTheme(
-            data: IconThemeData(color: resolvedForegroundColor),
-            child: DefaultTextStyle.merge(
-              style: TextStyle(color: resolvedForegroundColor),
-              child: child,
+          return Container(
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: const EdgeInsets.all(6.0),
+            child: IconTheme(
+              data: IconThemeData(color: resolvedForegroundColor),
+              child: DefaultTextStyle.merge(
+                style: TextStyle(color: resolvedForegroundColor),
+                child: child,
+              ),
             ),
           );
         },
@@ -186,7 +194,7 @@ class ItemActionButton extends ItemAction {
                   data: IconThemeData(color: foregroundColor),
                   child: Row(
                     children: [
-                      if (icon != null) icon!,
+                      ?icon,
                       const SizedBox(width: 8),
                       if (label != null) Flexible(child: label!),
                     ],

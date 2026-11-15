@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:collection/collection.dart';
 import 'package:dart_mappable/dart_mappable.dart';
@@ -180,7 +180,6 @@ class EpisodeModel extends ItemStreamModel with EpisodeModelMappable {
   @override
   bool get syncAble => playAble;
 
-  @override
   factory EpisodeModel.fromBaseDto(dto.BaseItemDto item, Ref? ref) {
     if (ref == null) {
       return EpisodeModel(

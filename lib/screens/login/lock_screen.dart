@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/routes/auto_router.gr.dart';
 import 'package:fladder/screens/login/widgets/login_icon.dart';
-import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
 import 'package:fladder/screens/shared/route_wrapper.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
@@ -80,14 +80,9 @@ class _LockScreenState extends ConsumerState<LockScreen> with WidgetsBindingObse
         }
         break;
       case Authentication.passcode:
-        if (context.mounted) {
-          showPassCodeDialog(context, (newPin) {
-            if (newPin == user.localPin) {
-              handleLogin(user);
-            } else {
-              FladderSnack.show(context.localized.incorrectPinTryAgain, context: context);
-            }
-          });
+      case Authentication.pattern:
+        if (await verifyLocalCode(context, user) && context.mounted) {
+          handleLogin(user);
         }
         break;
       case Authentication.none:

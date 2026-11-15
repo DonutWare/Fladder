@@ -1,6 +1,8 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 // ignore_for_file: type=lint
+// ignore_for_file: invalid_use_of_protected_member
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
 
@@ -26,64 +28,103 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
   final String id = 'SeasonModel';
 
   static ImagesData? _$parentImages(SeasonModel v) => v.parentImages;
-  static const Field<SeasonModel, ImagesData> _f$parentImages =
-      Field('parentImages', _$parentImages);
+  static const Field<SeasonModel, ImagesData> _f$parentImages = Field(
+    'parentImages',
+    _$parentImages,
+  );
   static String _$seasonName(SeasonModel v) => v.seasonName;
-  static const Field<SeasonModel, String> _f$seasonName =
-      Field('seasonName', _$seasonName);
+  static const Field<SeasonModel, String> _f$seasonName = Field(
+    'seasonName',
+    _$seasonName,
+  );
   static List<EpisodeModel> _$episodes(SeasonModel v) => v.episodes;
-  static const Field<SeasonModel, List<EpisodeModel>> _f$episodes =
-      Field('episodes', _$episodes, opt: true, def: const []);
+  static const Field<SeasonModel, List<EpisodeModel>> _f$episodes = Field(
+    'episodes',
+    _$episodes,
+    opt: true,
+    def: const [],
+  );
   static List<SpecialFeatureModel> _$specialFeatures(SeasonModel v) =>
       v.specialFeatures;
   static const Field<SeasonModel, List<SpecialFeatureModel>>
-      _f$specialFeatures =
-      Field('specialFeatures', _$specialFeatures, opt: true, def: const []);
+  _f$specialFeatures = Field(
+    'specialFeatures',
+    _$specialFeatures,
+    opt: true,
+    def: const [],
+  );
   static int _$episodeCount(SeasonModel v) => v.episodeCount;
-  static const Field<SeasonModel, int> _f$episodeCount =
-      Field('episodeCount', _$episodeCount);
+  static const Field<SeasonModel, int> _f$episodeCount = Field(
+    'episodeCount',
+    _$episodeCount,
+  );
   static String _$seriesId(SeasonModel v) => v.seriesId;
-  static const Field<SeasonModel, String> _f$seriesId =
-      Field('seriesId', _$seriesId);
+  static const Field<SeasonModel, String> _f$seriesId = Field(
+    'seriesId',
+    _$seriesId,
+  );
   static int _$season(SeasonModel v) => v.season;
   static const Field<SeasonModel, int> _f$season = Field('season', _$season);
   static String _$seriesName(SeasonModel v) => v.seriesName;
-  static const Field<SeasonModel, String> _f$seriesName =
-      Field('seriesName', _$seriesName);
+  static const Field<SeasonModel, String> _f$seriesName = Field(
+    'seriesName',
+    _$seriesName,
+  );
   static String _$name(SeasonModel v) => v.name;
   static const Field<SeasonModel, String> _f$name = Field('name', _$name);
   static String _$id(SeasonModel v) => v.id;
   static const Field<SeasonModel, String> _f$id = Field('id', _$id);
   static OverviewModel _$overview(SeasonModel v) => v.overview;
-  static const Field<SeasonModel, OverviewModel> _f$overview =
-      Field('overview', _$overview);
+  static const Field<SeasonModel, OverviewModel> _f$overview = Field(
+    'overview',
+    _$overview,
+  );
   static String? _$parentId(SeasonModel v) => v.parentId;
-  static const Field<SeasonModel, String> _f$parentId =
-      Field('parentId', _$parentId);
+  static const Field<SeasonModel, String> _f$parentId = Field(
+    'parentId',
+    _$parentId,
+  );
   static String? _$playlistId(SeasonModel v) => v.playlistId;
-  static const Field<SeasonModel, String> _f$playlistId =
-      Field('playlistId', _$playlistId);
+  static const Field<SeasonModel, String> _f$playlistId = Field(
+    'playlistId',
+    _$playlistId,
+  );
   static ImagesData? _$images(SeasonModel v) => v.images;
-  static const Field<SeasonModel, ImagesData> _f$images =
-      Field('images', _$images);
+  static const Field<SeasonModel, ImagesData> _f$images = Field(
+    'images',
+    _$images,
+  );
   static int? _$childCount(SeasonModel v) => v.childCount;
-  static const Field<SeasonModel, int> _f$childCount =
-      Field('childCount', _$childCount);
+  static const Field<SeasonModel, int> _f$childCount = Field(
+    'childCount',
+    _$childCount,
+  );
   static double? _$primaryRatio(SeasonModel v) => v.primaryRatio;
-  static const Field<SeasonModel, double> _f$primaryRatio =
-      Field('primaryRatio', _$primaryRatio);
+  static const Field<SeasonModel, double> _f$primaryRatio = Field(
+    'primaryRatio',
+    _$primaryRatio,
+  );
   static UserData _$userData(SeasonModel v) => v.userData;
-  static const Field<SeasonModel, UserData> _f$userData =
-      Field('userData', _$userData);
+  static const Field<SeasonModel, UserData> _f$userData = Field(
+    'userData',
+    _$userData,
+  );
   static bool? _$canDelete(SeasonModel v) => v.canDelete;
-  static const Field<SeasonModel, bool> _f$canDelete =
-      Field('canDelete', _$canDelete);
+  static const Field<SeasonModel, bool> _f$canDelete = Field(
+    'canDelete',
+    _$canDelete,
+  );
   static bool? _$canDownload(SeasonModel v) => v.canDownload;
-  static const Field<SeasonModel, bool> _f$canDownload =
-      Field('canDownload', _$canDownload);
+  static const Field<SeasonModel, bool> _f$canDownload = Field(
+    'canDownload',
+    _$canDownload,
+  );
   static dto.BaseItemKind? _$jellyType(SeasonModel v) => v.jellyType;
-  static const Field<SeasonModel, dto.BaseItemKind> _f$jellyType =
-      Field('jellyType', _$jellyType, opt: true);
+  static const Field<SeasonModel, dto.BaseItemKind> _f$jellyType = Field(
+    'jellyType',
+    _$jellyType,
+    opt: true,
+  );
 
   @override
   final MappableFields<SeasonModel> fields = const {
@@ -121,26 +162,27 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
 
   static SeasonModel _instantiate(DecodingData data) {
     return SeasonModel(
-        parentImages: data.dec(_f$parentImages),
-        seasonName: data.dec(_f$seasonName),
-        episodes: data.dec(_f$episodes),
-        specialFeatures: data.dec(_f$specialFeatures),
-        episodeCount: data.dec(_f$episodeCount),
-        seriesId: data.dec(_f$seriesId),
-        season: data.dec(_f$season),
-        seriesName: data.dec(_f$seriesName),
-        name: data.dec(_f$name),
-        id: data.dec(_f$id),
-        overview: data.dec(_f$overview),
-        parentId: data.dec(_f$parentId),
-        playlistId: data.dec(_f$playlistId),
-        images: data.dec(_f$images),
-        childCount: data.dec(_f$childCount),
-        primaryRatio: data.dec(_f$primaryRatio),
-        userData: data.dec(_f$userData),
-        canDelete: data.dec(_f$canDelete),
-        canDownload: data.dec(_f$canDownload),
-        jellyType: data.dec(_f$jellyType));
+      parentImages: data.dec(_f$parentImages),
+      seasonName: data.dec(_f$seasonName),
+      episodes: data.dec(_f$episodes),
+      specialFeatures: data.dec(_f$specialFeatures),
+      episodeCount: data.dec(_f$episodeCount),
+      seriesId: data.dec(_f$seriesId),
+      season: data.dec(_f$season),
+      seriesName: data.dec(_f$seriesName),
+      name: data.dec(_f$name),
+      id: data.dec(_f$id),
+      overview: data.dec(_f$overview),
+      parentId: data.dec(_f$parentId),
+      playlistId: data.dec(_f$playlistId),
+      images: data.dec(_f$images),
+      childCount: data.dec(_f$childCount),
+      primaryRatio: data.dec(_f$primaryRatio),
+      userData: data.dec(_f$userData),
+      canDelete: data.dec(_f$canDelete),
+      canDownload: data.dec(_f$canDownload),
+      jellyType: data.dec(_f$jellyType),
+    );
   }
 
   @override
@@ -150,7 +192,10 @@ class SeasonModelMapper extends SubClassMapperBase<SeasonModel> {
 mixin SeasonModelMappable {
   SeasonModelCopyWith<SeasonModel, SeasonModel, SeasonModel> get copyWith =>
       _SeasonModelCopyWithImpl<SeasonModel, SeasonModel>(
-          this as SeasonModel, $identity, $identity);
+        this as SeasonModel,
+        $identity,
+        $identity,
+      );
 }
 
 extension SeasonModelValueCopy<$R, $Out>
@@ -161,39 +206,45 @@ extension SeasonModelValueCopy<$R, $Out>
 
 abstract class SeasonModelCopyWith<$R, $In extends SeasonModel, $Out>
     implements ItemBaseModelCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, EpisodeModel,
-      EpisodeModelCopyWith<$R, EpisodeModel, EpisodeModel>> get episodes;
   ListCopyWith<
-      $R,
-      SpecialFeatureModel,
-      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
-          SpecialFeatureModel>> get specialFeatures;
+    $R,
+    EpisodeModel,
+    EpisodeModelCopyWith<$R, EpisodeModel, EpisodeModel>
+  >
+  get episodes;
+  ListCopyWith<
+    $R,
+    SpecialFeatureModel,
+    SpecialFeatureModelCopyWith<$R, SpecialFeatureModel, SpecialFeatureModel>
+  >
+  get specialFeatures;
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview;
   @override
   UserDataCopyWith<$R, UserData, UserData> get userData;
   @override
-  $R call(
-      {ImagesData? parentImages,
-      String? seasonName,
-      List<EpisodeModel>? episodes,
-      List<SpecialFeatureModel>? specialFeatures,
-      int? episodeCount,
-      String? seriesId,
-      int? season,
-      String? seriesName,
-      String? name,
-      String? id,
-      OverviewModel? overview,
-      String? parentId,
-      String? playlistId,
-      ImagesData? images,
-      int? childCount,
-      double? primaryRatio,
-      UserData? userData,
-      bool? canDelete,
-      bool? canDownload,
-      dto.BaseItemKind? jellyType});
+  $R call({
+    ImagesData? parentImages,
+    String? seasonName,
+    List<EpisodeModel>? episodes,
+    List<SpecialFeatureModel>? specialFeatures,
+    int? episodeCount,
+    String? seriesId,
+    int? season,
+    String? seriesName,
+    String? name,
+    String? id,
+    OverviewModel? overview,
+    String? parentId,
+    String? playlistId,
+    ImagesData? images,
+    int? childCount,
+    double? primaryRatio,
+    UserData? userData,
+    bool? canDelete,
+    bool? canDownload,
+    dto.BaseItemKind? jellyType,
+  });
   SeasonModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -206,19 +257,27 @@ class _SeasonModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<SeasonModel> $mapper =
       SeasonModelMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, EpisodeModel,
-          EpisodeModelCopyWith<$R, EpisodeModel, EpisodeModel>>
-      get episodes => ListCopyWith($value.episodes,
-          (v, t) => v.copyWith.$chain(t), (v) => call(episodes: v));
+  ListCopyWith<
+    $R,
+    EpisodeModel,
+    EpisodeModelCopyWith<$R, EpisodeModel, EpisodeModel>
+  >
+  get episodes => ListCopyWith(
+    $value.episodes,
+    (v, t) => v.copyWith.$chain(t),
+    (v) => call(episodes: v),
+  );
   @override
   ListCopyWith<
-      $R,
-      SpecialFeatureModel,
-      SpecialFeatureModelCopyWith<$R, SpecialFeatureModel,
-          SpecialFeatureModel>> get specialFeatures => ListCopyWith(
-      $value.specialFeatures,
-      (v, t) => v.copyWith.$chain(t),
-      (v) => call(specialFeatures: v));
+    $R,
+    SpecialFeatureModel,
+    SpecialFeatureModelCopyWith<$R, SpecialFeatureModel, SpecialFeatureModel>
+  >
+  get specialFeatures => ListCopyWith(
+    $value.specialFeatures,
+    (v, t) => v.copyWith.$chain(t),
+    (v) => call(specialFeatures: v),
+  );
   @override
   OverviewModelCopyWith<$R, OverviewModel, OverviewModel> get overview =>
       $value.overview.copyWith.$chain((v) => call(overview: v));
@@ -226,74 +285,78 @@ class _SeasonModelCopyWithImpl<$R, $Out>
   UserDataCopyWith<$R, UserData, UserData> get userData =>
       $value.userData.copyWith.$chain((v) => call(userData: v));
   @override
-  $R call(
-          {Object? parentImages = $none,
-          String? seasonName,
-          List<EpisodeModel>? episodes,
-          List<SpecialFeatureModel>? specialFeatures,
-          int? episodeCount,
-          String? seriesId,
-          int? season,
-          String? seriesName,
-          String? name,
-          String? id,
-          OverviewModel? overview,
-          Object? parentId = $none,
-          Object? playlistId = $none,
-          Object? images = $none,
-          Object? childCount = $none,
-          Object? primaryRatio = $none,
-          UserData? userData,
-          Object? canDelete = $none,
-          Object? canDownload = $none,
-          Object? jellyType = $none}) =>
-      $apply(FieldCopyWithData({
-        if (parentImages != $none) #parentImages: parentImages,
-        if (seasonName != null) #seasonName: seasonName,
-        if (episodes != null) #episodes: episodes,
-        if (specialFeatures != null) #specialFeatures: specialFeatures,
-        if (episodeCount != null) #episodeCount: episodeCount,
-        if (seriesId != null) #seriesId: seriesId,
-        if (season != null) #season: season,
-        if (seriesName != null) #seriesName: seriesName,
-        if (name != null) #name: name,
-        if (id != null) #id: id,
-        if (overview != null) #overview: overview,
-        if (parentId != $none) #parentId: parentId,
-        if (playlistId != $none) #playlistId: playlistId,
-        if (images != $none) #images: images,
-        if (childCount != $none) #childCount: childCount,
-        if (primaryRatio != $none) #primaryRatio: primaryRatio,
-        if (userData != null) #userData: userData,
-        if (canDelete != $none) #canDelete: canDelete,
-        if (canDownload != $none) #canDownload: canDownload,
-        if (jellyType != $none) #jellyType: jellyType
-      }));
+  $R call({
+    Object? parentImages = $none,
+    String? seasonName,
+    List<EpisodeModel>? episodes,
+    List<SpecialFeatureModel>? specialFeatures,
+    int? episodeCount,
+    String? seriesId,
+    int? season,
+    String? seriesName,
+    String? name,
+    String? id,
+    OverviewModel? overview,
+    Object? parentId = $none,
+    Object? playlistId = $none,
+    Object? images = $none,
+    Object? childCount = $none,
+    Object? primaryRatio = $none,
+    UserData? userData,
+    Object? canDelete = $none,
+    Object? canDownload = $none,
+    Object? jellyType = $none,
+  }) => $apply(
+    FieldCopyWithData({
+      if (parentImages != $none) #parentImages: parentImages,
+      if (seasonName != null) #seasonName: seasonName,
+      if (episodes != null) #episodes: episodes,
+      if (specialFeatures != null) #specialFeatures: specialFeatures,
+      if (episodeCount != null) #episodeCount: episodeCount,
+      if (seriesId != null) #seriesId: seriesId,
+      if (season != null) #season: season,
+      if (seriesName != null) #seriesName: seriesName,
+      if (name != null) #name: name,
+      if (id != null) #id: id,
+      if (overview != null) #overview: overview,
+      if (parentId != $none) #parentId: parentId,
+      if (playlistId != $none) #playlistId: playlistId,
+      if (images != $none) #images: images,
+      if (childCount != $none) #childCount: childCount,
+      if (primaryRatio != $none) #primaryRatio: primaryRatio,
+      if (userData != null) #userData: userData,
+      if (canDelete != $none) #canDelete: canDelete,
+      if (canDownload != $none) #canDownload: canDownload,
+      if (jellyType != $none) #jellyType: jellyType,
+    }),
+  );
   @override
   SeasonModel $make(CopyWithData data) => SeasonModel(
-      parentImages: data.get(#parentImages, or: $value.parentImages),
-      seasonName: data.get(#seasonName, or: $value.seasonName),
-      episodes: data.get(#episodes, or: $value.episodes),
-      specialFeatures: data.get(#specialFeatures, or: $value.specialFeatures),
-      episodeCount: data.get(#episodeCount, or: $value.episodeCount),
-      seriesId: data.get(#seriesId, or: $value.seriesId),
-      season: data.get(#season, or: $value.season),
-      seriesName: data.get(#seriesName, or: $value.seriesName),
-      name: data.get(#name, or: $value.name),
-      id: data.get(#id, or: $value.id),
-      overview: data.get(#overview, or: $value.overview),
-      parentId: data.get(#parentId, or: $value.parentId),
-      playlistId: data.get(#playlistId, or: $value.playlistId),
-      images: data.get(#images, or: $value.images),
-      childCount: data.get(#childCount, or: $value.childCount),
-      primaryRatio: data.get(#primaryRatio, or: $value.primaryRatio),
-      userData: data.get(#userData, or: $value.userData),
-      canDelete: data.get(#canDelete, or: $value.canDelete),
-      canDownload: data.get(#canDownload, or: $value.canDownload),
-      jellyType: data.get(#jellyType, or: $value.jellyType));
+    parentImages: data.get(#parentImages, or: $value.parentImages),
+    seasonName: data.get(#seasonName, or: $value.seasonName),
+    episodes: data.get(#episodes, or: $value.episodes),
+    specialFeatures: data.get(#specialFeatures, or: $value.specialFeatures),
+    episodeCount: data.get(#episodeCount, or: $value.episodeCount),
+    seriesId: data.get(#seriesId, or: $value.seriesId),
+    season: data.get(#season, or: $value.season),
+    seriesName: data.get(#seriesName, or: $value.seriesName),
+    name: data.get(#name, or: $value.name),
+    id: data.get(#id, or: $value.id),
+    overview: data.get(#overview, or: $value.overview),
+    parentId: data.get(#parentId, or: $value.parentId),
+    playlistId: data.get(#playlistId, or: $value.playlistId),
+    images: data.get(#images, or: $value.images),
+    childCount: data.get(#childCount, or: $value.childCount),
+    primaryRatio: data.get(#primaryRatio, or: $value.primaryRatio),
+    userData: data.get(#userData, or: $value.userData),
+    canDelete: data.get(#canDelete, or: $value.canDelete),
+    canDownload: data.get(#canDownload, or: $value.canDownload),
+    jellyType: data.get(#jellyType, or: $value.jellyType),
+  );
 
   @override
   SeasonModelCopyWith<$R2, SeasonModel, $Out2> $chain<$R2, $Out2>(
-          Then<$Out2, $R2> t) =>
-      _SeasonModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
+    Then<$Out2, $R2> t,
+  ) => _SeasonModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
+

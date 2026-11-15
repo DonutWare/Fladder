@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
@@ -362,7 +362,7 @@ class _QueueSortList extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       buildDefaultDragHandles: false,
       itemCount: items.length,
-      onReorder: onReorder,
+      onReorderItem: onReorder,
       itemBuilder: (context, index) {
         return _QueueTile(
           key: ValueKey('${items[index].id}-$index'),

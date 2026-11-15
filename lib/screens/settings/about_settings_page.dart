@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,13 +24,13 @@ class _Socials {
   const _Socials(this.label, this.url, this.icon);
 }
 
-const socials = [
+final socials = [
   _Socials(
     'Github',
     'https://github.com/DonutWare/Fladder',
-    FontAwesomeIcons.githubAlt,
+    FontAwesomeIcons.githubAlt.data,
   ),
-  _Socials(
+  const _Socials(
     'Weblate',
     'https://hosted.weblate.org/projects/fladder/',
     IconsaxPlusLinear.global,

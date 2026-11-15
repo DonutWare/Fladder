@@ -19,8 +19,11 @@ class ControlDashboard extends _$ControlDashboard {
 
   Future<void> refreshDashboard() async {
     final serverInfo = (await api.systemInfoGet()).bodyOrThrow;
+    if (!ref.mounted) return;
     final itemCounts = (await api.systemInfoCounts()).body;
+    if (!ref.mounted) return;
     final storageInfo = (await api.getStorage()).body;
+    if (!ref.mounted) return;
 
     state = ControlDashboardModel(
       serverName: serverInfo.serverName,
@@ -34,11 +37,13 @@ class ControlDashboard extends _$ControlDashboard {
 
   Future<void> restartServer() async {
     await api.systemRestartPost();
+    if (!ref.mounted) return;
     state = state.copyWith(isShuttingDown: true);
   }
 
   Future<void> shutdownServer() async {
     await api.systemShutdownPost();
+    if (!ref.mounted) return;
     state = state.copyWith(isShuttingDown: true);
   }
 

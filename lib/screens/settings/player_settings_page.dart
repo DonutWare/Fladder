@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
@@ -175,6 +175,11 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                 trailing: IntInputField(
                   suffix: context.localized.seconds(10),
                   controller: TextEditingController(text: userSettings.skipBackDuration.inSeconds.toString()),
+                  onChanged: (value) {
+                    if (value != null) {
+                      ref.read(userProvider.notifier).setBackwardSpeed(value);
+                    }
+                  },
                   onSubmitted: (value) {
                     if (value != null) {
                       ref.read(userProvider.notifier).setBackwardSpeed(value);
@@ -187,6 +192,11 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
               trailing: IntInputField(
                 suffix: context.localized.seconds(10),
                 controller: TextEditingController(text: userSettings!.skipForwardDuration.inSeconds.toString()),
+                onChanged: (value) {
+                  if (value != null) {
+                    ref.read(userProvider.notifier).setForwardSpeed(value);
+                  }
+                },
                 onSubmitted: (value) {
                   if (value != null) {
                     ref.read(userProvider.notifier).setForwardSpeed(value);
@@ -416,6 +426,16 @@ class _PlayerSettingsPageState extends ConsumerState<PlayerSettingsPage> {
                   trailing: Switch(
                     value: videoSettings.enableTunneling,
                     onChanged: (value) => provider.setMediaTunneling(value),
+                  ),
+                ),
+              if (currentPlayer == PlayerOptions.nativePlayer)
+                SettingsListTile(
+                  label: Text(context.localized.refreshRateSwitchingTitle),
+                  subLabel: Text(context.localized.refreshRateSwitchingDesc),
+                  onTap: () => provider.setRefreshRateSwitching(!videoSettings.refreshRateSwitching),
+                  trailing: Switch(
+                    value: videoSettings.refreshRateSwitching,
+                    onChanged: (value) => provider.setRefreshRateSwitching(value),
                   ),
                 ),
               if (ref.read(argumentsStateProvider).leanBackMode)

@@ -29,15 +29,17 @@ class ControlServer extends _$ControlServer {
 
   Future<void> fetchSettings() async {
     saveConfig = (await api.systemConfigurationGet()).body;
+    if (!ref.mounted) return;
     final options = (await api.localizationOptions()).body;
+    if (!ref.mounted) return;
     state = state.copyWith(
       name: saveConfig?.serverName ?? "",
       availableLanguages: options,
       quickConnectEnabled: saveConfig?.quickConnectAvailable ?? false,
       cachePath: saveConfig?.cachePath ?? "",
       metaDataPath: saveConfig?.metadataPath ?? "",
-      maxConcurrentLibraryScan: saveConfig?.libraryScanFanoutConcurrency ?? 1,
-      maxImageDecodingThreads: saveConfig?.parallelImageEncodingLimit ?? 1,
+      maxConcurrentLibraryScan: saveConfig?.libraryScanFanoutConcurrency,
+      maxImageDecodingThreads: saveConfig?.parallelImageEncodingLimit,
     );
   }
 
@@ -67,7 +69,7 @@ abstract class ControlServerModel with _$ControlServerModel {
     @Default("") String cachePath,
     @Default("") String metaDataPath,
     @Default(false) bool quickConnectEnabled,
-    @Default(1) int maxConcurrentLibraryScan,
-    @Default(1) int maxImageDecodingThreads,
+    int? maxConcurrentLibraryScan,
+    int? maxImageDecodingThreads,
   }) = _ControlServerModel;
 }

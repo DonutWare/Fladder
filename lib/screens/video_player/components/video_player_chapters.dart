@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,9 +56,14 @@ class VideoPlayerChapters extends ConsumerWidget {
               child: Stack(
                 children: [
                   Center(
-                    child: CachedNetworkImage(
-                      imageUrl: chapter.imageUrl,
-                      fit: BoxFit.fitWidth,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) => CachedNetworkImage(
+                        imageUrl: chapter.imageUrl,
+                        fit: BoxFit.fitWidth,
+                        memCacheWidth: constraints.maxWidth.isFinite
+                            ? (constraints.maxWidth * MediaQuery.devicePixelRatioOf(context)).ceil()
+                            : null,
+                      ),
                     ),
                   ),
                   Align(

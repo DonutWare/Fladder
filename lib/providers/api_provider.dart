@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 import 'package:punycoder/punycoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -34,19 +35,20 @@ final serverUrlProvider = StateProvider<String?>((ref) {
   return normalizeUrl(newUrl ?? "");
 });
 
-@riverpod
+@Riverpod(keepAlive: true)
 class JellyApi extends _$JellyApi {
   @override
-  JellyService build() => JellyService(
-        ref,
-        JellyfinOpenApi.create(
-          interceptors: [
-            JellyRequest(ref),
-            JellyResponse(ref),
-            HttpLoggingInterceptor(level: Level.basic),
-          ],
-        ),
-      );
+  JellyService build() {
+    final api = JellyfinOpenApi.create(
+      interceptors: [
+        JellyRequest(ref),
+        JellyResponse(ref),
+        HttpLoggingInterceptor(level: Level.basic),
+      ],
+    );
+    ref.onDispose(api.client.dispose);
+    return JellyService(ref, api);
+  }
 }
 
 JellyfinOpenApi createJellyfinApiForAccount(Ref ref, String baseUrl, Map<String, String> headers) {
@@ -111,7 +113,7 @@ class JellyRequest implements Interceptor {
             headers,
           ),
         );
-        unawaited(connectivityNotifier.checkConnectivity(immediate: true));
+        unawaited(connectivityNotifier.checkConnectivityThrottled());
         return response;
       } catch (e) {
         if (!_isConnectionError(e) || attempt == _maxRetries) {

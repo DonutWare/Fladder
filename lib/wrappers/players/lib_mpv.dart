@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:async/async.dart';
 import 'package:audio_session/audio_session.dart';
@@ -27,7 +27,8 @@ import 'package:fladder/wrappers/players/player_states.dart';
 class LibMPV extends BasePlayer {
   mpv.Player? _player;
   VideoController? _controller;
-  String _currentSubtitleCodec = '';
+  Duration _subtitleOffset = Duration.zero;
+  final ValueNotifier<bool> _internalSubtitleRenderer = ValueNotifier(false);
 
   final StreamController<PlayerState> _stateController = StreamController.broadcast();
   @override
@@ -37,6 +38,7 @@ class LibMPV extends BasePlayer {
 
   bool _replayGainFallbackLogged = false;
   VideoPlayerSettingsModel _settings = VideoPlayerSettingsModel();
+  bool _lowResourceMode = false;
 
   RestartableTimer? _retryTimer;
   DateTime _firstLoadAttempt = DateTime.now();
@@ -51,6 +53,10 @@ class LibMPV extends BasePlayer {
   AudioSession? _audioSession;
 
   bool _musicPaused = false;
+  bool _loopFile = false;
+  bool _finishCrossfade = false;
+  int pauseCount = 0;
+  final StreamController<int> _playlistIndexController = StreamController.broadcast();
   bool _musicPlaybackMode = false;
 
   void setMusicPlaybackMode(bool enabled) {
@@ -69,49 +75,75 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> init(VideoPlayerSettingsModel settings) async {
+  Future<void> init(VideoPlayerSettingsModel settings, {bool lowResourceMode = false}) async {
     _settings = settings;
+    _lowResourceMode = lowResourceMode;
     dispose();
 
     mpv.MediaKit.ensureInitialized();
 
-    _player = mpv.Player(
-      configuration: mpv.PlayerConfiguration(
-        title: "nl.jknaapen.fladder",
-        libassAndroidFont: libassFallbackFont,
-        libass: !kIsWeb && settings.useLibass,
-        bufferSize: settings.bufferSize * 1024 * 1024, // MPV uses buffer size in bytes
+    final player = await _createPlayer();
+    _player = player;
+    _controller = VideoController(
+      player,
+      configuration: VideoControllerConfiguration(
+        enableHardwareAcceleration: settings.hardwareAccel,
       ),
     );
+    _setupPlayerStreams(player);
 
-    if (_player != null) {
-      _controller = VideoController(
-        _player!,
-        configuration: VideoControllerConfiguration(
-          enableHardwareAcceleration: settings.hardwareAccel,
-        ),
-      );
-      _setupPlayerStreams(_player!);
-    }
-
-    if (_player?.platform is mpv.NativePlayer) {
-      final nativePlayer = _player!.platform as dynamic;
-      await nativePlayer.setProperty('force-seekable', 'yes');
-      await nativePlayer.setProperty('gapless-audio', 'yes');
-      await nativePlayer.setProperty('cache', 'yes');
-      await nativePlayer.setProperty('demuxer-max-bytes', '150M');
-      await nativePlayer.setProperty('network-timeout', '60');
-      await nativePlayer.setProperty('stream-buffer-size', '4M');
-      await nativePlayer.setProperty('prefetch-playlist', 'yes');
-
-      if (defaultTargetPlatform == TargetPlatform.android) {
-        await nativePlayer.setProperty('ao', 'audiotrack');
-      }
+    if (player.platform is mpv.NativePlayer) {
+      final nativePlayer = player.platform as dynamic;
+      await nativePlayer.observeProperty('sid', (String _) async {
+        final String codec = await nativePlayer.getProperty('current-tracks/sub/codec');
+        _internalSubtitleRenderer.value = _needsInternalRenderer(codec);
+        if (settings.useLibass) {
+          await nativePlayer.setProperty('sub-visibility', _internalSubtitleRenderer.value ? 'yes' : 'no');
+        }
+      });
 
       setupAudioSession();
     }
 
     await _applyReplayGainSettings();
+  }
+
+  Future<mpv.Player> _createPlayer() async {
+    final player = mpv.Player(
+      configuration: mpv.PlayerConfiguration(
+        title: "nl.jknaapen.fladder",
+        libassAndroidFont: libassFallbackFont,
+        libassAndroidFontName: libassFallbackFontName,
+        libass: !kIsWeb && _settings.useLibass,
+        bufferSize: _settings.bufferSize * 1024 * 1024,
+      ),
+    );
+    if (player.platform is mpv.NativePlayer) {
+      final native = player.platform as dynamic;
+      await native.setProperty('force-seekable', 'yes');
+      await native.setProperty('gapless-audio', 'yes');
+      await native.setProperty('cache', 'yes');
+      await native.setProperty('demuxer-max-bytes', _lowResourceMode ? '64M' : '150M');
+      await native.setProperty('network-timeout', '60');
+      await native.setProperty('stream-buffer-size', '4M');
+      await native.setProperty('prefetch-playlist', 'yes');
+      await native.setProperty('loop-file', _loopFile ? 'inf' : 'no');
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        await native.setProperty('ao', 'audiotrack');
+      }
+    }
+    return player;
+  }
+
+  void finishCrossfade() => _finishCrossfade = true;
+
+  Future<void> setLoopFile(bool enabled) async {
+    if (_loopFile == enabled) return;
+    _loopFile = enabled;
+    final player = _player;
+    if (player?.platform is mpv.NativePlayer) {
+      await (player!.platform as dynamic).setProperty('loop-file', enabled ? 'inf' : 'no');
+    }
   }
 
   @override
@@ -159,6 +191,7 @@ class LibMPV extends BasePlayer {
       player.stream.rate.listen((value) => setState(lastState.update(rate: value))),
       player.stream.buffer.listen((value) => setState(lastState.update(buffer: value))),
       player.stream.completed.listen((value) => setState(lastState.update(completed: value))),
+      player.stream.playlist.listen((value) => _playlistIndexController.add(value.index)),
     ]);
   }
 
@@ -174,27 +207,14 @@ class LibMPV extends BasePlayer {
       await loadVideo(url, true, startPosition: startPosition);
       return;
     }
+    _finishCrossfade = false;
 
     const stepMs = 16;
     final steps = math.max(1, _settings.crossfadeDurationMs ~/ stepMs);
 
-    final incomingPlayer = mpv.Player(
-      configuration: mpv.PlayerConfiguration(
-        title: "nl.jknaapen.fladder",
-        libassAndroidFont: libassFallbackFont,
-        libass: !kIsWeb && _settings.useLibass,
-        bufferSize: _settings.bufferSize * 1024 * 1024,
-      ),
-    );
-
+    final incomingPlayer = await _createPlayer();
     if (incomingPlayer.platform is mpv.NativePlayer) {
-      final native = incomingPlayer.platform as dynamic;
-      await native.setProperty('force-seekable', 'yes');
-      await native.setProperty('gapless-audio', 'weak');
-      if (defaultTargetPlatform == TargetPlatform.android) {
-        await native.setProperty('ao', 'audiotrack');
-      }
-      await native.setProperty('start', '${startPosition.inMilliseconds / 1000}');
+      await (incomingPlayer.platform as dynamic).setProperty('start', '${startPosition.inMilliseconds / 1000}');
     }
 
     await _applyReplayGainSettings(trackGainDb: replayGainDb, targetPlayer: incomingPlayer);
@@ -212,6 +232,7 @@ class LibMPV extends BasePlayer {
         aborted = true;
         break;
       }
+      if (_musicPaused || _finishCrossfade) break;
       final progress = i / steps;
       await oldPlayer.setVolume(fromVolume * (1.0 - progress));
       await incomingPlayer.setVolume(_preferredVolume * progress);
@@ -236,6 +257,14 @@ class LibMPV extends BasePlayer {
     oldPlayer.stop();
     oldPlayer.dispose();
 
+    if (_musicPaused) {
+      _fadeTimer?.cancel();
+      _fadeTimer = null;
+      await incomingPlayer.pause();
+    } else {
+      await incomingPlayer.setVolume(_preferredVolume);
+    }
+
     setState(lastState.update(
       playing: incomingPlayer.state.playing,
       buffering: incomingPlayer.state.buffering,
@@ -258,6 +287,7 @@ class LibMPV extends BasePlayer {
 
     _retryTimer?.cancel();
     _retryTimer = null;
+    if (_player == null) return;
 
     _retryTimer = RestartableTimer(
       _currentRetryDuration,
@@ -312,14 +342,8 @@ class LibMPV extends BasePlayer {
   /// Apply ReplayGain normalization for the given [item] before loading it.
   /// Call this before [loadVideo] when starting an audio queue item.
   Future<void> applyReplayGainForItem(ItemBaseModel? item) async {
-    double? gainDb;
-    if (item is AudioModel) {
-      final gain = item.normalizationGain;
-      if (gain != null && !gain.isNaN && !gain.isInfinite) {
-        gainDb = gain.clamp(-60.0, 0).toDouble();
-      }
-    }
-    await _applyReplayGainSettings(trackGainDb: gainDb);
+    final gain = item is AudioModel ? item.normalizationGain : null;
+    await _applyReplayGainSettings(trackGainDb: gain != null && gain.isFinite ? gain : null);
   }
 
   double get _replayGainVolumeOffsetDb {
@@ -440,6 +464,7 @@ class LibMPV extends BasePlayer {
 
   @override
   Future<void> pause() async {
+    pauseCount++;
     _musicPaused = true;
     setState(lastState.update(playing: false));
     unawaited(_audioSession?.setActive(false));
@@ -505,7 +530,6 @@ class LibMPV extends BasePlayer {
       await _player?.setSubtitleTrack(mpv.SubtitleTrack.no());
       return -1;
     }
-    _currentSubtitleCodec = wantedSubtitle.codec;
     final index = playbackModel.subStreams?.sublist(1).indexWhere((element) => element.id == wantedSubtitle.id) ?? -1;
     if (!wantedSubtitle.isExternal) await _awaitTrack(index, (tracks) => tracks.subtitle.length);
     final internalTrack = subTracks.getRange(2, subTracks.length).toList();
@@ -531,7 +555,9 @@ class LibMPV extends BasePlayer {
   Future<void> playerPrevious() async => _player?.previous();
 
   @override
-  Stream<int> get playlistIndexStream => _player?.stream.playlist.map((p) => p.index) ?? const Stream<int>.empty();
+  Stream<int> get playlistIndexStream => _playlistIndexController.stream;
+
+  int get playlistIndex => _player?.state.playlist.index ?? 0;
 
   @override
   Future<void> stop() async {
@@ -571,9 +597,23 @@ class LibMPV extends BasePlayer {
               controller: _controller!,
               showOverlay: showOverlay,
               controlsKey: controlsKey,
-              currentSubtitleCodec: _currentSubtitleCodec,
+              internalRenderer: _internalSubtitleRenderer,
             )
           : null;
+
+  static bool _needsInternalRenderer(String codec) {
+    final value = codec.toLowerCase();
+    return const ['ass', 'ssa', 'pgs', 'dvd', 'vobsub', 'dvb', 'xsub'].any(value.contains);
+  }
+
+  @override
+  Future<void> shiftSubtitleOffset(Duration offset) async {
+    if (_player?.platform is! mpv.NativePlayer) return;
+
+    _subtitleOffset += offset;
+    final nativePlayer = _player!.platform as dynamic;
+    await nativePlayer.setProperty('sub-delay', (_subtitleOffset.inMilliseconds / 1000).toStringAsFixed(3));
+  }
 
   @override
   Future<void> setVolume(double volume) async {
@@ -600,13 +640,13 @@ class _VideoSubtitles extends ConsumerStatefulWidget {
   final VideoController controller;
   final bool showOverlay;
   final GlobalKey? controlsKey;
-  final String currentSubtitleCodec;
+  final ValueListenable<bool> internalRenderer;
 
   const _VideoSubtitles({
     required this.controller,
+    required this.internalRenderer,
     this.showOverlay = false,
     this.controlsKey,
-    this.currentSubtitleCodec = '',
   });
 
   @override
@@ -625,6 +665,7 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
   void initState() {
     super.initState();
     subtitle = widget.controller.player.state.subtitle;
+    widget.internalRenderer.addListener(_onRendererChanged);
     subscription = widget.controller.player.stream.subtitle.listen((value) {
       if (mounted) {
         setState(() {
@@ -635,9 +676,14 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
     });
   }
 
+  void _onRendererChanged() {
+    if (mounted) setState(() {});
+  }
+
   @override
   void dispose() {
     subscription?.cancel();
+    widget.internalRenderer.removeListener(_onRendererChanged);
     super.dispose();
   }
 
@@ -655,23 +701,9 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
 
     final text = _cachedSubtitleText;
 
-    final bool isLibassEnabled = widget.controller.player.platform?.configuration.libass ?? false;
+    final isLibassEnabled = widget.controller.player.platform?.configuration.libass ?? false;
 
-    if (isLibassEnabled) {
-      // On desktop (Linux/Windows/macOS), mpv burns ALL subtitle formats into the video when libass is enabled.
-      // On mobile (Android/iOS), only ASS/SSA subs are burned in by libass; other formats need the Flutter overlay.
-      final bool isDesktop = defaultTargetPlatform == TargetPlatform.linux ||
-          defaultTargetPlatform == TargetPlatform.windows ||
-          defaultTargetPlatform == TargetPlatform.macOS;
-      if (isDesktop) {
-        return const SizedBox.shrink();
-      }
-      final currentSubCodec = widget.currentSubtitleCodec.toLowerCase();
-      final bool isAssSubtitle = currentSubCodec.contains('ass') || currentSubCodec.contains('ssa');
-      if (isAssSubtitle || text.isEmpty) {
-        return const SizedBox.shrink();
-      }
-    } else if (text.isEmpty) {
+    if (text.isEmpty || (isLibassEnabled && widget.internalRenderer.value)) {
       return const SizedBox.shrink();
     }
 

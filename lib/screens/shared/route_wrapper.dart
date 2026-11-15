@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';

@@ -6,6 +6,7 @@ on:
       - "v*"
     branches:
       - master
+      - develop
   pull_request:
     paths:
       - pubspec.yaml
@@ -14,9 +15,6 @@ on:
     types:
       - opened
       - reopened
-  schedule:
-    # Run nightly at midnight UTC, but only if there were changes to develop
-    - cron: "0 0 * * *"
   workflow_dispatch:
     inputs:
       build_type:
@@ -36,19 +34,13 @@ env:
   NIGHTLY_TAG: nightly
 
 jobs:
-  # Check if workflow should run based on trigger conditions
+  # Determine build type based on trigger conditions
   check-trigger:
     runs-on: ubuntu-latest
     outputs:
-      should_run: ${{ steps.check.outputs.should_run }}
       build_type: ${{ steps.check.outputs.build_type }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: Check if should run and determine build type
+      - name: Determine build type
         id: check
         run: |
           # Determine build type based on trigger and input
@@ -56,18 +48,7 @@ jobs:
             BUILD_TYPE="${{ github.event.inputs.build_type }}"
           elif [[ "${{ startsWith(github.ref, 'refs/tags/v') }}" == "true" ]]; then
             BUILD_TYPE="release"
-          elif [[ "${{ github.event_name }}" == "schedule" ]]; then
-            # Check if there were commits to develop in the last 24 hours
-            git checkout develop
-            COMMITS_LAST_24H=$(git log --since="24 hours ago" --oneline | wc -l)
-            if [[ $COMMITS_LAST_24H -gt 0 ]]; then
-              BUILD_TYPE="nightly"
-            else
-              echo "No commits to develop in the last 24 hours, skipping nightly build"
-              echo "should_run=false" >> $GITHUB_OUTPUT
-              exit 0
-            fi
-          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
             BUILD_TYPE="nightly"
           else
             # For PRs and other events, build but don't release
@@ -75,12 +56,10 @@ jobs:
           fi
 
           echo "build_type=${BUILD_TYPE}" >> $GITHUB_OUTPUT
-          echo "should_run=true" >> $GITHUB_OUTPUT
           echo "Build type determined: ${BUILD_TYPE}"
 
   fetch-info:
     needs: [check-trigger]
-    if: needs.check-trigger.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     outputs:
       version_name: ${{ steps.fetch.outputs.version_name }}
@@ -152,7 +131,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: "zulu"
-          java-version: "17"
+          java-version: "21"
           cache: "gradle"
           check-latest: true
 
@@ -251,10 +230,6 @@ jobs:
     needs: [fetch-info]
 
     steps:
-      # - uses: maxim-lobanov/setup-xcode@v1.6.0
-      #   with:
-      #     xcode-version: latest-stable
-
       - name: Checkout repository
         uses: actions/checkout@v4.1.1
 
@@ -352,14 +327,14 @@ jobs:
       - name: Get packages
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev libmpv-dev patchelf cmake clang libfuse2
+          sudo apt-get install -y ninja-build libgtk-3-dev libx11-dev libxi-dev libmpv-dev patchelf cmake clang libfuse2
 
       - name: Build Linux app
         run: flutter build linux --release --build-number=${{ github.run_number }}
 
       - name: Fix RPATH
         run: |
-          for lib in "build/linux/x64/release/bundle/lib"/*.so; do
+          for lib in "build/linux/x64/release/bundle"/*.so; do
             [[ -f "$lib" && -n "$(patchelf --print-rpath "$lib")" ]] && \
             patchelf --set-rpath '$ORIGIN' "$lib"
           done
@@ -476,7 +451,6 @@ jobs:
       contents: write
     steps:
       - name: Checkout repository
-        if: needs.fetch-info.outputs.build_type == 'nightly'
         uses: actions/checkout@v4.1.1
         with:
           fetch-depth: 0
@@ -511,40 +485,34 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate changelog
-        if: needs.fetch-info.outputs.build_type == 'nightly'
         id: changelog
         run: |
-          # Get the latest stable release tag for comparison
-          LATEST_STABLE_RELEASE=$(gh release list --limit 50 --exclude-drafts --json tagName,isPrerelease --jq '.[] | select(.isPrerelease == false) | .tagName' | head -1 || echo "")
+          PREVIOUS_RELEASE=$(git tag --list 'v*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | grep -vx "${{ github.ref_name }}" | head -1 || echo "")
+          RANGE=${PREVIOUS_RELEASE:+$PREVIOUS_RELEASE..}HEAD
 
-          # Create new changelog with comparison link
-          cat > changelog.md <<-EOF
+          if [[ "${{ needs.fetch-info.outputs.build_type }}" == "nightly" ]]; then
+            cat > changelog.md <<-EOF
           # $(date -u "+%Y-%m-%d %H:%M:%S UTC")
 
           This is an automated nightly build containing the latest changes from the develop branch.
 
           **⚠️ Warning:** This is a development build and may contain bugs or incomplete features.
-          EOF
 
-          # Add comparison link if we have a latest stable release
-          if [ -n "$LATEST_STABLE_RELEASE" ]; then
-            cat >> changelog.md <<-EOF
-
-          ## 📋 What's Changed
-
-          See all changes since the latest release: [Compare $LATEST_STABLE_RELEASE...HEAD](https://github.com/${{ github.repository }}/compare/$LATEST_STABLE_RELEASE...HEAD)
           EOF
           else
-            cat >> changelog.md <<-EOF
-
-          ## 📋 What's Changed
-
-          See all changes: [View commits](https://github.com/${{ github.repository }}/commits/develop)
-          EOF
+            : > changelog.md
           fi
 
-          # Add build metadata
-          cat >> changelog.md <<-EOF
+          echo "## 📋 What's Changed" >> changelog.md
+          echo "" >> changelog.md
+          python3 .github/scripts/changelog.py "$RANGE" >> changelog.md
+
+          if [ -n "$PREVIOUS_RELEASE" ]; then
+            echo "**Full Changelog:** https://github.com/${{ github.repository }}/compare/$PREVIOUS_RELEASE...${{ github.ref_name }}" >> changelog.md
+          fi
+
+          if [[ "${{ needs.fetch-info.outputs.build_type }}" == "nightly" ]]; then
+            cat >> changelog.md <<-EOF
 
           ---
 
@@ -553,10 +521,7 @@ jobs:
           📝 **Commit:** ${{ github.sha }}
           🌿 **Branch:** develop
           EOF
-
-          echo "changelog_file=changelog.md" >> $GITHUB_OUTPUT
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          fi
 
       - name: Download Artifacts Android
         uses: actions/download-artifact@v4
@@ -621,14 +586,12 @@ jobs:
           zip -r ../Fladder-Linux-${{ steps.version.outputs.version }}.zip .
 
       - name: Download Artifacts Linux Flatpak
-        if: needs.fetch-info.outputs.build_type == 'release'
         uses: actions/download-artifact@v4
         with:
           name: fladder-linux-flatpak
           path: fladder-linux-flatpak
 
       - name: Move Linux Flatpak
-        if: needs.fetch-info.outputs.build_type == 'release'
         run: mv fladder-linux-flatpak/Fladder-Linux.flatpak Fladder-Linux-${{ steps.version.outputs.version }}.flatpak
 
       - name: Download Artifacts Linux AppImage
@@ -657,11 +620,10 @@ jobs:
         with:
           tag_name: ${{ needs.fetch-info.outputs.build_type == 'nightly' && env.NIGHTLY_TAG || github.ref_name }}
           name: ${{ needs.fetch-info.outputs.build_type == 'nightly' && format('🌙 Nightly Build - {0}', steps.version.outputs.version) || '' }}
-          body_path: ${{ needs.fetch-info.outputs.build_type == 'nightly' && 'changelog.md' || '' }}
+          body_path: changelog.md
           draft: ${{ needs.fetch-info.outputs.build_type == 'release' }}
           prerelease: ${{ needs.fetch-info.outputs.build_type == 'nightly' }}
           make_latest: ${{ needs.fetch-info.outputs.build_type == 'release' }}
-          generate_release_notes: ${{ needs.fetch-info.outputs.build_type == 'release' }}
           fail_on_unmatched_files: true
           files: |
             Fladder-Android-${{ steps.version.outputs.version }}-arm64-v8a.apk
@@ -676,7 +638,7 @@ jobs:
             Fladder-Linux-${{ steps.version.outputs.version }}.zip
             Fladder-Linux-${{ steps.version.outputs.version }}.AppImage
             Fladder-Linux-${{ steps.version.outputs.version }}.AppImage.zsync
-            ${{ needs.fetch-info.outputs.build_type == 'release' && format('Fladder-Linux-{0}.flatpak', steps.version.outputs.version) || '' }}
+            Fladder-Linux-${{ steps.version.outputs.version }}.flatpak
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -758,27 +720,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
-
-  # Winget package submission
-  # winget-package-submit:
-  #   runs-on: ubuntu-latest
-  #   needs: [check-trigger, create_release]
-  #   strategy:
-  #     matrix:
-  #       include:
-  #         - build_type: release
-  #           identifier: DonutWare.Fladder
-  #           max_versions: "0"
-  #         - build_type: nightly
-  #           identifier: DonutWare.Fladder.Nightly
-  #           max_versions: "1"
-  #   steps:
-  #     - name: Submit to Winget (${{ matrix.build_type }})
-  #       if: needs.check-trigger.outputs.build_type == matrix.build_type
-  #       uses: vedantmgoyal9/winget-releaser@19e706d4c9121098010096f9c495a70a7518b30f
-  #       with:
-  #         identifier: ${{ matrix.identifier }}
-  #         installers-regex: 'Fladder-Windows-.*-Setup\.exe$'
-  #         token: ${{ secrets.WINGET_TOKEN }}
-  #         max-versions-to-keep: ${{ matrix.max_versions || '' }}
-  #         release-tag: ${{ matrix.build_type == 'nightly' && env.NIGHTLY_TAG || github.ref_name }}

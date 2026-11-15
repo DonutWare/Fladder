@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import 'package:auto_route/auto_route.dart';
@@ -91,17 +91,8 @@ class _AuthLinkDialogState extends State<AuthLinkDialog> {
     ),
     quietZone: const PrettyQrPixelsQuietZone(24),
     background: Theme.of(context).colorScheme.surfaceContainer,
-    shape: PrettyQrShape.custom(
-      PrettyQrSmoothSymbol(
-        roundFactor: 1,
-        color: Theme.of(context).colorScheme.primary,
-      ),
-      finderPattern: PrettyQrSmoothSymbol(
-        color: Theme.of(context).colorScheme.primary,
-      ),
-      alignmentPatterns: PrettyQrSmoothSymbol(
-        color: Theme.of(context).colorScheme.primary,
-      ),
+    shape: PrettyQrSmoothSymbol(
+      color: Theme.of(context).colorScheme.primary,
     ),
   );
 

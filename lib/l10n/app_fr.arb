@@ -1833,7 +1833,7 @@
     "copyLoginLink": "Copier le lien",
     "includePassword": "Inclure le mot de passe",
     "invalidAuthLink": "Lien de connexion invalide",
-    "pasteFladderAuthLink": "Collez le lien d’authentification Fladder fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "Collez le lien d’authentification Fladder fladder://login?authLink=...",
     "connect": "Connexion",
     "authLinkDesc": "Demandez à l’administrateur du serveur de fournir le lien d’authentification. Le lien contient des informations d’authentification, veillez donc à le garder sécurisé.",
     "deletedItem": "{itemName} supprimé",

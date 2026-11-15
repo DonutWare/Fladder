@@ -79,3 +79,4 @@ Output
 # Generated localizations
 lib/l10n/generated
 android/build/reports/problems/
+android/.kotlin/sessions/*

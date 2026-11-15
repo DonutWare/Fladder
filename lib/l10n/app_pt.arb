@@ -1587,7 +1587,7 @@
     "passwordNotRequired": "Não é necessário, deixe vazio para não incluir palavra-passe no link",
     "authLinkButtonToolTip": "Abrir diálogo de link de autenticação",
     "connectWithAuthLink": "Ligar com link de autenticação",
-    "pasteFladderAuthLink": "Cole o link de autenticação do Fladder fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "Cole o link de autenticação do Fladder fladder://login?authLink=...",
     "connect": "Ligar",
     "authLinkDesc": "Peça ao administrador do servidor para fornecer o link de autenticação. O link contém informações de autenticação, por isso mantenha-o seguro.",
     "deletedItem": "{itemName} eliminado",

@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/account_model.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/screens/shared/passcode_input.dart';
+import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/auth_service.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
@@ -14,10 +15,11 @@ Future<void> showAuthOptionsDialogue(
   AccountModel currentUser,
   Function(AccountModel) setMethod,
 ) async {
-  final availableOptions = await Authentication.available();
+  final dPad = AdaptiveLayout.inputDeviceOf(context) == InputDevice.dPad;
+  final availableOptions = (await Authentication.available()).where((method) => !dPad || method != Authentication.pattern);
   showDialog(
     context: context,
-    builder: (context) => AlertDialog(
+    builder: (dialogContext) => AlertDialog(
       scrollable: true,
       icon: const Icon(IconsaxPlusBold.lock_1),
       title: Text(context.localized.appLockTitle(currentUser.name)),
@@ -46,21 +48,19 @@ Future<void> showAuthOptionsDialogue(
                       }
                       break;
                     case Authentication.passcode:
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                        Future.microtask(() {
-                          showPassCodeDialog(context, (newPin) {
-                            setMethod.call(currentUser.copyWith(authMethod: method, localPin: newPin));
-                          });
-                        });
+                    case Authentication.pattern:
+                      Navigator.of(dialogContext).pop();
+                      final code = await showLocalCodeDialog(context, method);
+                      if (code != null) {
+                        setMethod.call(currentUser.copyWith(authMethod: method, localPin: code));
                       }
                       return;
                     case Authentication.none:
                       setMethod.call(currentUser.copyWith(authMethod: method));
                       break;
                   }
-                  if (context.mounted) {
-                    Navigator.of(context).pop();
+                  if (dialogContext.mounted) {
+                    Navigator.of(dialogContext).pop();
                   }
                 },
                 icon: Icon(method.icon),

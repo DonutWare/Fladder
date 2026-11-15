@@ -24,6 +24,7 @@ class SeerrSearch extends _$SeerrSearch {
       final api = ref.read(seerrApiProvider);
 
       final watchRegionsResponse = await api.getWatchProviderRegions();
+      if (!ref.mounted) return;
       final watchRegions = watchRegionsResponse.body ?? [];
 
       final currentUser = ref.read(seerrUserProvider);
@@ -36,7 +37,7 @@ class SeerrSearch extends _$SeerrSearch {
         isLoading: false,
       );
     } catch (error) {
-      state = state.copyWith(isLoading: false, initialized: true);
+      if (ref.mounted) state = state.copyWith(isLoading: false, initialized: true);
     }
   }
 
@@ -51,6 +52,7 @@ class SeerrSearch extends _$SeerrSearch {
     } else if (mode == SeerrSearchMode.discoverTv) {
       currentFilters = await _fetchTvData();
     }
+    if (!ref.mounted) return;
 
     state = state.copyWith(
       searchMode: mode,
@@ -175,6 +177,7 @@ class SeerrSearch extends _$SeerrSearch {
           break;
       }
 
+      if (!ref.mounted) return;
       if (isLoadingMore) {
         state = state.copyWith(
           results: [...state.results, ...items],
@@ -190,6 +193,7 @@ class SeerrSearch extends _$SeerrSearch {
         );
       }
     } catch (error) {
+      if (!ref.mounted) return;
       if (isLoadingMore) {
         state = state.copyWith(isLoadingMore: false);
       } else {
@@ -234,7 +238,7 @@ class SeerrSearch extends _$SeerrSearch {
 
       return (movieGenresMap, movieWatchProvidersMap, movieCertificationsMap);
     } catch (error) {
-      state = state.copyWith(isLoading: false);
+      if (ref.mounted) state = state.copyWith(isLoading: false);
       return (const <SeerrGenre, bool>{}, const <SeerrWatchProvider, bool>{}, const <SeerrCertification, bool>{});
     }
   }
@@ -267,7 +271,7 @@ class SeerrSearch extends _$SeerrSearch {
 
       return (tvGenresMap, tvWatchProvidersMap, tvCertificationsMap);
     } catch (error) {
-      state = state.copyWith(isLoading: false);
+      if (ref.mounted) state = state.copyWith(isLoading: false);
       return (const <SeerrGenre, bool>{}, const <SeerrWatchProvider, bool>{}, const <SeerrCertification, bool>{});
     }
   }
@@ -307,6 +311,7 @@ class SeerrSearch extends _$SeerrSearch {
       // Only fetch for modes that have already been loaded (non-empty genres)
       if (state.searchMode == SeerrSearchMode.discoverMovies && state.genres.isNotEmpty) {
         final movieWatchProvidersResponse = await api.getMovieWatchProviders(watchRegion: targetRegion);
+        if (!ref.mounted) return;
         final movieWatchProviders = movieWatchProvidersResponse.body ?? [];
 
         final movieWatchProvidersMap = <SeerrWatchProvider, bool>{};
@@ -323,6 +328,7 @@ class SeerrSearch extends _$SeerrSearch {
         );
       } else if (state.searchMode == SeerrSearchMode.discoverTv && state.genres.isNotEmpty) {
         final tvWatchProvidersResponse = await api.getTvWatchProviders(watchRegion: targetRegion);
+        if (!ref.mounted) return;
         final tvWatchProviders = tvWatchProvidersResponse.body ?? [];
 
         final tvWatchProvidersMap = <SeerrWatchProvider, bool>{};
@@ -350,7 +356,7 @@ class SeerrSearch extends _$SeerrSearch {
         state = state.copyWith(isLoading: false);
       }
     } catch (error) {
-      state = state.copyWith(isLoading: false);
+      if (ref.mounted) state = state.copyWith(isLoading: false);
     }
   }
 

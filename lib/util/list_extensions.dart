@@ -1,19 +1,20 @@
 import 'package:collection/collection.dart';
 
 extension ListExtensions<T> on List<T> {
-  void reorderInPlace(int oldIndex, int newIndex) {
+  void reorderInPlace(int oldIndex, int newIndex) => moveInPlace(oldIndex, oldIndex < newIndex ? newIndex - 1 : newIndex);
+
+  void moveInPlace(int oldIndex, int newIndex) {
     if (oldIndex == newIndex) {
       return;
     }
 
     final item = removeAt(oldIndex);
-    final targetIndex = (oldIndex < newIndex ? newIndex - 1 : newIndex).clamp(0, length);
-    insert(targetIndex, item);
+    insert(newIndex.clamp(0, length), item);
   }
 
   List<T> reordered(int oldIndex, int newIndex) {
     final updatedList = toList();
-    updatedList.reorderInPlace(oldIndex, newIndex);
+    updatedList.moveInPlace(oldIndex, newIndex);
     return updatedList;
   }
 

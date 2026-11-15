@@ -58,6 +58,7 @@ Future<List<SyncedItem>> _mergeAlbumChildren({
 }) async {
   final localTracks = localChildren.where((child) => child.itemModel is AudioModel).toList();
   final localById = {for (final child in localTracks) child.id: child};
+
   final response = await api.itemsGet(
     parentId: item.id,
     includeItemTypes: [BaseItemKind.audio],
@@ -75,12 +76,14 @@ Future<List<SyncedItem>> _mergeAlbumChildren({
   );
 
   final serverTracks = response.body?.items.whereType<AudioModel>().toList() ?? [];
+
   final merged = serverTracks
       .map((track) => localById[track.id] ?? _createUnsyncedRemoteItem(parent: item, model: track))
       .toList();
 
-  final missingLocal = localTracks.where((child) => !merged.any((mergedChild) => mergedChild.id == child.id));
-  merged.addAll(missingLocal);
+  final mergedIds = merged.map((e) => e.id).toSet();
+  merged.addAll(localTracks.where((child) => !mergedIds.contains(child.id)));
+
   return merged;
 }
 
@@ -150,41 +153,49 @@ class SyncedNestedChildren extends _$SyncedNestedChildren {
 class SyncDownloadStatus extends _$SyncDownloadStatus {
   @override
   DownloadStream? build(SyncedItem arg, List<SyncedItem> children) {
-    final nestedChildren = children;
+    final mainStream = ref.watch(downloadTasksProvider(arg.id));
 
-    ref.watch(downloadTasksProvider(arg.id));
-    for (var element in nestedChildren) {
-      ref.watch(downloadTasksProvider(element.id));
+    if (children.isEmpty) {
+      final isSelfSynced = arg.videoFile.existsSync();
+      return mainStream.copyWith(
+        status: isSelfSynced ? TaskStatus.complete : mainStream.status,
+      );
     }
 
-    DownloadStream mainStream = ref.read(downloadTasksProvider(arg.id));
-    int downloadCount = 0;
-    double fullProgress = mainStream.hasDownload ? mainStream.progress : 0.0;
+    int activeDownloadCount = 0;
+    double aggregatedProgress = 0.0;
+    int syncAbleChildrenCount = 0;
+    int syncedChildrenCount = 0;
+    TaskStatus compositeStatus = mainStream.status;
 
-    int fullySyncedChildren = 0;
+    for (final child in children) {
+      final stream = ref.watch(downloadTasksProvider(child.id));
 
-    for (var i = 0; i < nestedChildren.length; i++) {
-      final childItem = nestedChildren[i];
-      final downloadStream = ref.read(downloadTasksProvider(childItem.id));
-      if (childItem.videoFile.existsSync()) {
-        fullySyncedChildren++;
+      // Containers like seasons or albums have no file of their own
+      if (child.hasVideoFile) {
+        syncAbleChildrenCount++;
+        if (child.videoFile.existsSync()) {
+          syncedChildrenCount++;
+        }
       }
-      if (downloadStream.isEnqueuedOrDownloading) {
-        downloadCount++;
-        fullProgress += downloadStream.progress.clamp(0.0, 1.0);
 
-        mainStream = mainStream.copyWith(
-          status: mainStream.status != TaskStatus.running ? downloadStream.status : mainStream.status,
-        );
+      if (stream.isEnqueuedOrDownloading) {
+        activeDownloadCount++;
+        aggregatedProgress += stream.progress.clamp(0.0, 1.0);
+        if (compositeStatus != TaskStatus.running) {
+          compositeStatus = stream.status;
+        }
       }
     }
 
-    int syncAbleChildren = nestedChildren.where((element) => element.hasVideoFile).length;
+    final isFullySynced = syncedChildrenCount == syncAbleChildrenCount;
+    final averageProgress = activeDownloadCount > 0
+        ? aggregatedProgress / activeDownloadCount
+        : (isFullySynced ? 1.0 : mainStream.progress);
 
-    var fullySynced = nestedChildren.isNotEmpty ? fullySyncedChildren == syncAbleChildren : arg.videoFile.existsSync();
     return mainStream.copyWith(
-      status: fullySynced ? TaskStatus.complete : mainStream.status,
-      progress: fullProgress / downloadCount.clamp(1, double.infinity).toInt(),
+      status: isFullySynced ? TaskStatus.complete : compositeStatus,
+      progress: averageProgress,
     );
   }
 }

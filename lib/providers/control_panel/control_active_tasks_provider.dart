@@ -35,12 +35,13 @@ class ControlActiveTasks extends _$ControlActiveTasks {
 
   Future<void> fetchActiveTasks() async {
     final activeTasks = (await api.getActiveTasks()).body;
+    if (!ref.mounted) return;
     state = activeTasks ?? [];
   }
 
   Future<bool> updateTaskTriggers({required String taskId, required List<TaskTriggerInfo> triggers}) async {
     var response = (await api.updateTaskTriggers(taskId, triggers: triggers));
-    if (response.isSuccessful) {
+    if (response.isSuccessful && ref.mounted) {
       await fetchActiveTasks();
     }
     return response.isSuccessful;

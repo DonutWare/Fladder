@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:fladder/models/library_search/library_search_options.dart';
 import 'package:fladder/providers/library_search_provider.dart';

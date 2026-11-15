@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,10 +18,12 @@ import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/application_info.dart';
 import 'package:fladder/util/deep_link_helper.dart';
 import 'package:fladder/util/localization_helper.dart';
+import 'package:fladder/util/popup_back_gesture.dart';
 import 'package:fladder/util/themes_data.dart';
 import 'package:fladder/widgets/media_query_scaler.dart';
 import 'package:fladder/widgets/pip_lifecycle_controller.dart';
 import 'package:fladder/widgets/shared/adaptive_color.dart';
+import 'package:fladder/widgets/shared/middle_mouse_autoscroll.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +32,7 @@ void main(List<String> args) async {
 
   runApp(
     ProviderScope(
+      retry: (_, _) => null,
       overrides: [
         sharedPreferencesProvider.overrideWith((ref) => bootstrap.sharedPreferences),
         applicationInfoProvider.overrideWith((ref) => bootstrap.applicationInfo),
@@ -73,7 +76,7 @@ class _FladderApp extends ConsumerWidget {
     final mouseDrag = ref.watch(clientSettingsProvider.select((value) => value.mouseDragSupport));
     final language = ref.watch(clientSettingsProvider
         .select((value) => value.selectedLocale ?? WidgetsBinding.instance.platformDispatcher.locale));
-    final scrollBehaviour = const MaterialScrollBehavior();
+    final scrollBehaviour = const FladderScrollBehavior();
     final amoledOverwrite = amoledBlack ? Colors.black : null;
 
     return AdaptiveColor(
@@ -104,12 +107,16 @@ class _FladderApp extends ConsumerWidget {
 
             return matchByLanguage;
           },
-          builder: (context, child) => MediaQueryScaler(
-            child: LocalizationContextWrapper(
-              child: PipLifecycleController(child: child ?? Container()),
-              currentLocale: language,
+          // ignore: deprecated_member_use
+          builder: (context, child) => MaterialUiCompatibilityBridge(
+            delegates: FladderLocalizations.legacyDelegates,
+            child: MediaQueryScaler(
+              child: LocalizationContextWrapper(
+                child: PipLifecycleController(child: child ?? Container()),
+                currentLocale: language,
+              ),
+              enable: ref.read(argumentsStateProvider).leanBackMode,
             ),
-            enable: ref.read(argumentsStateProvider).leanBackMode,
           ),
           debugShowCheckedModeBanner: false,
           darkTheme: darkTheme.copyWith(
@@ -124,6 +131,7 @@ class _FladderApp extends ConsumerWidget {
           ),
           themeMode: themeMode,
           routerConfig: autoRouter.config(
+            navigatorObservers: () => [PopupBackGestureObserver()],
             deepLinkBuilder: (deepLink) => deepLinkBuilder(deepLink.uri),
           ),
         ),

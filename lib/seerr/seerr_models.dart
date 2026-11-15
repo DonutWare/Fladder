@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -1560,7 +1560,7 @@ class SeerrCompany {
   }) : _logoPath = logoPath;
 
   String? get logoUrl {
-    if (_logoPath == null || _logoPath!.isEmpty) return null;
+    if (_logoPath == null || _logoPath.isEmpty) return null;
     return '$_tmdbImageBaseUrl$_logoPath';
   }
 

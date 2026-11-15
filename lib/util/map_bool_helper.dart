@@ -5,8 +5,13 @@ extension MapExtensions<T> on Map<T, bool> {
     return map((key, value) => MapEntry(key, wantedKey == key ? !value : value));
   }
 
-  Map<T, bool> setKey(T? wantedKey, bool enable) {
-    return map((key, value) => MapEntry(key, wantedKey == key ? enable : value));
+  Map<T, bool> setKey(T? wantedKey, bool enable, {bool addIfNotExists = false}) {
+    final hasKey = containsKey(wantedKey);
+    final newMap = map((key, value) => MapEntry(key, wantedKey == key ? enable : value));
+    if (!hasKey && addIfNotExists && wantedKey != null) {
+      newMap[wantedKey] = enable;
+    }
+    return newMap;
   }
 
   Map<T, bool> setKeys(Iterable<T?> wantedKey, bool enable) {

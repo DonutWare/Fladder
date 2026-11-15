@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:logging/logging.dart' as logging;
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';

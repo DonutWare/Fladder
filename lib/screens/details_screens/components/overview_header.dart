@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:collection/collection.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -216,7 +216,7 @@ class OverviewHeader extends ConsumerWidget {
                   spacing: 16,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (poster != null) poster!,
+                    ?poster,
                     Flexible(
                       child: ExcludeFocus(
                         child: Center(
@@ -239,7 +239,7 @@ class OverviewHeader extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  if (poster != null) poster!,
+                  ?poster,
                   ExcludeFocus(
                     child: Center(
                       child: MediaHeader(
@@ -301,13 +301,13 @@ class OverviewHeader extends ConsumerWidget {
                   ),
               ],
             ),
-            if (summary != null) summary!,
+            ?summary,
             if (AdaptiveLayout.viewSizeOf(context) <= ViewSize.phone)
               Column(
                 mainAxisSize: MainAxisSize.min,
                 spacing: 6,
                 children: [
-                  if (mainButton != null) mainButton!,
+                  ?mainButton,
                   if (mediaStreamHelper != null)
                     Center(
                       child: FittedBox(
@@ -318,7 +318,7 @@ class OverviewHeader extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  if (centerButtons != null) centerButtons!,
+                  ?centerButtons,
                 ].addInBetween(
                   Center(
                     child: Container(
@@ -503,8 +503,8 @@ class SimpleLabel extends StatelessWidget {
                 size: 21,
                 color: iconColor ?? Theme.of(context).colorScheme.onSurface,
               ),
-            if (iconWidget != null) iconWidget!,
-            if (label != null) label!
+            ?iconWidget,
+            ?label
           ],
         ),
       ),

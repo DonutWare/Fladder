@@ -5,16 +5,11 @@ allprojects {
     }
 }
 
-rootProject.buildDir = "../build"
+def newBuildDir = rootProject.layout.buildDirectory.dir("../../build").get()
+rootProject.layout.buildDirectory.value(newBuildDir)
 
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-
-subprojects {
-    if (name == "permission_handler_android") {
-        apply plugin: "org.jetbrains.kotlin.android"
-    }
+    project.layout.buildDirectory.value(newBuildDir.dir(project.name))
 }
 
 subprojects {
@@ -22,5 +17,5 @@ subprojects {
 }
 
 tasks.register("clean", Delete) {
-    delete rootProject.buildDir
+    delete rootProject.layout.buildDirectory
 }

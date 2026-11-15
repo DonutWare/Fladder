@@ -1976,7 +1976,7 @@
     "passwordNotRequired": "Tidak dibutuhkan, biarkan kosong untuk tidak memasukkan password di link",
     "authLinkButtonToolTip": "Buka dialog otorisasi link",
     "connectWithAuthLink": "Hubungkan dengan link otorisasi",
-    "pasteFladderAuthLink": "Tempel link otorisasi fladder fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "Tempel link otorisasi fladder fladder://login?authLink=...",
     "connect": "Hubungkan",
     "authLinkDesc": "Minta administrator server untuk menyediakan link otorisasi . Link mengandung informasi otentikasi, pastikan untuk menyimpannya dengan aman.",
     "deletedItem": "{itemName} dihapus",

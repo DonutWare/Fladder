@@ -28,7 +28,7 @@ class ApplicationMenuImp extends ApplicationMenu {
     } else if (Platform.isWindows) {
       await Process.start(Platform.resolvedExecutable, []);
     } else if (Platform.isLinux) {
-      await Process.start(Platform.resolvedExecutable, [], mode: ProcessStartMode.detached);
+      await Process.start(Platform.resolvedExecutable, [NotificationKeys.newInstance], mode: ProcessStartMode.detached);
     }
   }
 }

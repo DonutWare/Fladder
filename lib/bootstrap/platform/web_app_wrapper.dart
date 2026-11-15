@@ -1,5 +1,6 @@
+import 'package:flutter/services.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:universal_html/html.dart' as html;
 
 import 'package:fladder/bootstrap/platform/base_app_wrapper.dart';
 
@@ -15,7 +16,10 @@ class _WebAppWrapperState extends BaseAppWrapperState<WebAppWrapper> {
   bool get enableNotifications => false;
 
   @override
+  bool get enableAppLinks => false;
+
+  @override
   Future<void> platformInit() async {
-    html.document.onContextMenu.listen((event) => event.preventDefault());
+    await BrowserContextMenu.disableContextMenu();
   }
 }

@@ -6,171 +6,102 @@ part of 'movies_details_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$movieDetailsHash() => r'cef764853d7527e173927bd45b9cd0a5c78a2b63';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-abstract class _$MovieDetails
-    extends BuildlessAutoDisposeNotifier<MovieModel?> {
-  late final String arg;
-
-  MovieModel? build(
-    String arg,
-  );
-}
-
-/// See also [MovieDetails].
 @ProviderFor(MovieDetails)
-const movieDetailsProvider = MovieDetailsFamily();
+final movieDetailsProvider = MovieDetailsFamily._();
 
-/// See also [MovieDetails].
-class MovieDetailsFamily extends Family<MovieModel?> {
-  /// See also [MovieDetails].
-  const MovieDetailsFamily();
+final class MovieDetailsProvider
+    extends $NotifierProvider<MovieDetails, MovieModel?> {
+  MovieDetailsProvider._({
+    required MovieDetailsFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'movieDetailsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [MovieDetails].
-  MovieDetailsProvider call(
-    String arg,
-  ) {
-    return MovieDetailsProvider(
-      arg,
-    );
+  @override
+  String debugGetCreateSourceHash() => _$movieDetailsHash();
+
+  @override
+  String toString() {
+    return r'movieDetailsProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  MovieDetailsProvider getProviderOverride(
-    covariant MovieDetailsProvider provider,
-  ) {
-    return call(
-      provider.arg,
-    );
-  }
+  MovieDetails create() => MovieDetails();
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'movieDetailsProvider';
-}
-
-/// See also [MovieDetails].
-class MovieDetailsProvider
-    extends AutoDisposeNotifierProviderImpl<MovieDetails, MovieModel?> {
-  /// See also [MovieDetails].
-  MovieDetailsProvider(
-    String arg,
-  ) : this._internal(
-          () => MovieDetails()..arg = arg,
-          from: movieDetailsProvider,
-          name: r'movieDetailsProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$movieDetailsHash,
-          dependencies: MovieDetailsFamily._dependencies,
-          allTransitiveDependencies:
-              MovieDetailsFamily._allTransitiveDependencies,
-          arg: arg,
-        );
-
-  MovieDetailsProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.arg,
-  }) : super.internal();
-
-  final String arg;
-
-  @override
-  MovieModel? runNotifierBuild(
-    covariant MovieDetails notifier,
-  ) {
-    return notifier.build(
-      arg,
-    );
-  }
-
-  @override
-  Override overrideWith(MovieDetails Function() create) {
-    return ProviderOverride(
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(MovieModel? value) {
+    return $ProviderOverride(
       origin: this,
-      override: MovieDetailsProvider._internal(
-        () => create()..arg = arg,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        arg: arg,
-      ),
+      providerOverride: $SyncValueProvider<MovieModel?>(value),
     );
-  }
-
-  @override
-  AutoDisposeNotifierProviderElement<MovieDetails, MovieModel?>
-      createElement() {
-    return _MovieDetailsProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is MovieDetailsProvider && other.arg == arg;
+    return other is MovieDetailsProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, arg.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin MovieDetailsRef on AutoDisposeNotifierProviderRef<MovieModel?> {
-  /// The parameter `arg` of this provider.
-  String get arg;
-}
+String _$movieDetailsHash() => r'83ddda576d78fa8652c3926a8fa18e6e81aee37a';
 
-class _MovieDetailsProviderElement
-    extends AutoDisposeNotifierProviderElement<MovieDetails, MovieModel?>
-    with MovieDetailsRef {
-  _MovieDetailsProviderElement(super.provider);
+final class MovieDetailsFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          MovieDetails,
+          MovieModel?,
+          MovieModel?,
+          MovieModel?,
+          String
+        > {
+  MovieDetailsFamily._()
+    : super(
+        retry: null,
+        name: r'movieDetailsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  MovieDetailsProvider call(String arg) =>
+      MovieDetailsProvider._(argument: arg, from: this);
 
   @override
-  String get arg => (origin as MovieDetailsProvider).arg;
+  String toString() => r'movieDetailsProvider';
 }
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+
+abstract class _$MovieDetails extends $Notifier<MovieModel?> {
+  late final _$args = ref.$arg as String;
+  String get arg => _$args;
+
+  MovieModel? build(String arg);
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<MovieModel?, MovieModel?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<MovieModel?, MovieModel?>,
+              MovieModel?,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args));
+  }
+}

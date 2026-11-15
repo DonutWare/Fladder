@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import 'package:async/async.dart';
@@ -638,7 +638,8 @@ class _TvPlayerControlsState extends ConsumerState<TvPlayerControls> {
   Future<void> closePlayer() async {
     clearOverlaySettings();
     ref.read(videoPlayerProvider).stop();
-    Navigator.of(context).pop();
+    await WidgetsBinding.instance.endOfFrame;
+    if (context.mounted) Navigator.of(context).pop();
   }
 
   Future<void> clearOverlaySettings() async {

@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/information_model.dart';
@@ -29,7 +30,7 @@ class ItemInfoScreen extends ConsumerStatefulWidget {
 }
 
 class ItemInfoScreenState extends ConsumerState<ItemInfoScreen> {
-  AutoDisposeStateNotifierProvider<InformationNotifier, InformationProviderModel> get provider =>
+  StateNotifierProvider<InformationNotifier, InformationProviderModel> get provider =>
       informationProvider(widget.item.id);
 
   FocusNode focusNode = FocusNode();

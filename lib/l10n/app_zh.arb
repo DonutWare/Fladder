@@ -1858,7 +1858,7 @@
     "passwordNotRequired": "并非必填项，留空则链接中不包含密码",
     "authLinkButtonToolTip": "打开身份验证链接对话框",
     "connectWithAuthLink": "使用身份验证链接",
-    "pasteFladderAuthLink": "粘贴 fladder 身份验证链接 fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "粘贴 fladder 身份验证链接 fladder://login?authLink=...",
     "connect": "连接",
     "authLinkDesc": "请服务器管理员提供身份验证链接。该链接包含身份验证信息，请务必妥善保管。",
     "deletedItem": "删除 {itemName}",
@@ -2172,5 +2172,52 @@
     "localNetworkPermissionRequest": "允许本地网络访问以发现服务器。",
     "requestPermission": "请求权限",
     "localNetworkPermissionDenied": "需要本地网络访问权限。请在系统设置中启用附近设备权限。",
-    "openSettings": "打开设置"
+    "openSettings": "打开设置",
+    "sideBar": "侧边栏",
+    "musicSideBar": "音乐侧边栏",
+    "showOnDashboard": "在控制台上显示",
+    "libraryFilters": "媒体库筛选器",
+    "editYourLibraryFilters": "编辑您的媒体库筛选条件",
+    "libraryFiltersTitle": "媒体库筛选器",
+    "libraryFiltersDesc": "媒体库筛选器，允许您基于媒体库的内容创建自定义视图",
+    "libraryNoFiltersSaved": "未保存任何媒体库筛选器",
+    "addTo": "添加到",
+    "deepLinkSwitchUserTitle": "切换用户？",
+    "deepLinkSwitchUserDesc": "此项目不适用于 {user}。请用以下身份打开：",
+    "@deepLinkSwitchUserDesc": {
+        "description": "Shown when a link points to an item the current user cannot access, followed by a list of accounts that can",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkSwitchAccountDesc": "此链接属于 {user}。要切换到此账户吗？",
+    "@deepLinkSwitchAccountDesc": {
+        "description": "Shown when a notification link was created for another saved account",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkItemNotFound": "此项目在您的任何账户中均不可用",
+    "settingsServerUrlSetDesc": "更改用于连接至 Jellyfin 服务器的地址。新的 URL 必须指向同一台服务器。",
+    "refreshRateSwitchingTitle": "刷新率匹配",
+    "refreshRateSwitchingDesc": "使显示刷新率与视频帧率相匹配",
+    "subtitleOffsetBackward": "字幕后移",
+    "subtitleOffsetForward": "字幕前移",
+    "subtitleOffset": "字幕偏移",
+    "lowResourceModeTitle": "低资源模式",
+    "lowResourceModeDesc": "通过降低缓存与缓冲区并关闭复杂的视觉特效，在内存（RAM）有限的设备上减少内存占用。对于内存（RAM）在 3 GB 及以下的设备，此功能会自动启用。",
+    "lowResourceModeAuto": "自动",
+    "appLockPattern": "图案",
+    "enterPin": "输入 PIN 码",
+    "confirmPin": "确认 PIN 码",
+    "drawPattern": "绘制图案",
+    "confirmPattern": "再次绘制图案",
+    "incorrectPatternTryAgain": "图案不正确。请重试。",
+    "patternTooShort": "连接至少 4 个点",
+    "codeMismatch": "不匹配。请重试。",
+    "unreadableAccountsLogInAgain": "部分已保存的账户无法加载。请重新登录以恢复这些账户。"
 }

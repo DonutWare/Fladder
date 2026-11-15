@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -10,8 +10,10 @@ import 'package:window_manager/window_manager.dart';
 import 'package:fladder/models/items/photos_model.dart';
 import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/providers/api_provider.dart';
+import 'package:fladder/providers/low_resource_provider.dart';
 import 'package:fladder/providers/settings/photo_view_settings_provider.dart';
 import 'package:fladder/providers/settings/video_player_settings_provider.dart';
+import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/duration_extensions.dart';
@@ -19,7 +21,7 @@ import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/widgets/shared/fladder_slider.dart';
 import 'package:fladder/wrappers/players/base_player.dart';
 import 'package:fladder/wrappers/players/lib_mdk.dart'
-    if (dart.library.html) 'package:fladder/stubs/web/lib_mdk_web.dart';
+    if (dart.library.js_interop) 'package:fladder/stubs/web/lib_mdk_web.dart';
 import 'package:fladder/wrappers/players/lib_mpv.dart';
 
 class SimpleVideoPlayer extends ConsumerStatefulWidget {
@@ -39,6 +41,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
     _ => LibMDK(),
   };
   late String videoUrl = "";
+  final _videoKey = UniqueKey();
 
   bool playing = false;
   bool wasPlaying = false;
@@ -89,18 +92,24 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
     final Map<String, String?> directOptions = {
       'Static': 'true',
       'mediaSourceId': widget.video.id,
-      'api_key': ref.read(userProvider)?.credentials.token,
+      'ApiKey': ref.read(userProvider)?.credentials.token,
     };
 
-    player.init(ref.read(videoPlayerSettingsProvider));
+    await player.init(ref.read(videoPlayerSettingsProvider), lowResourceMode: ref.read(lowResourceModeProvider));
+    if (!mounted) return;
+
+    final syncedVideo = (await ref.read(syncProvider.notifier).getSyncedItem(widget.video.id))?.videoFile;
+    if (!mounted) return;
 
     final baseUrl = ref.read(serverUrlProvider) ?? '';
-    videoUrl = buildServerUriFromBase(
-          baseUrl,
-          pathSegments: ['Videos', widget.video.id, 'stream'],
-          queryParameters: directOptions,
-        )?.toString() ??
-        '';
+    videoUrl = syncedVideo != null && syncedVideo.existsSync()
+        ? syncedVideo.path
+        : buildServerUriFromBase(
+              baseUrl,
+              pathSegments: ['Videos', widget.video.id, 'stream'],
+              queryParameters: directOptions,
+            )?.toString() ??
+            '';
 
     subscriptions.add(player.stateStream.listen((event) {
       setState(() {
@@ -109,9 +118,11 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
         duration = event.duration;
       });
     }));
-    await player.loadVideo(videoUrl, !ref.watch(photoViewSettingsProvider).autoPlay);
-    await player.setVolume(ref.watch(photoViewSettingsProvider.select((value) => value.mute)) ? 0 : 100);
-    await player.loop(ref.watch(photoViewSettingsProvider.select((value) => value.repeat)));
+    final settings = ref.read(photoViewSettingsProvider);
+    await player.loadVideo(videoUrl, !settings.autoPlay);
+    if (!mounted) return;
+    await player.setVolume(settings.mute ? 0 : 100);
+    await player.loop(settings.repeat);
   }
 
   @override
@@ -152,7 +163,7 @@ class _SimpleVideoPlayerState extends ConsumerState<SimpleVideoPlayer> with Wind
           Transform.scale(
             scaleY: 1.004,
             child: player.videoWidget(
-              UniqueKey(),
+              _videoKey,
               BoxFit.contain,
             ),
           ),

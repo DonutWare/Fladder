@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:collection/collection.dart';
@@ -173,7 +173,7 @@ class VideoStream {
       final Map<String, String?> directOptions = {
         'Static': 'true',
         'mediaSourceId': mediaSource.id,
-        'api_key': ref.read(userProvider)?.credentials.token,
+        'ApiKey': ref.read(userProvider)?.credentials.token,
       };
 
       if (mediaSource.eTag != null) {
