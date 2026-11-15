@@ -73,5 +73,6 @@
         }
     },
     "autoPlay": "Awtomatikong pag-play",
-    "backgroundBlur": "Blur ng background"
+    "backgroundBlur": "Blur ng background",
+    "cancel": "Kanselahin"
 }
