@@ -56,10 +56,9 @@ class ConnectivityStatus extends _$ConnectivityStatus {
       },
     );
 
-    final subscription = Connectivity().onConnectivityChanged.listen(
-      (results) => _handleHardwareChange(results),
-      onError: (_) {},
-    );
+    final subscription = Connectivity().onConnectivityChanged.listen((results) {
+      _handleHardwareChange(results);
+    });
 
     ref.onDispose(() {
       _debounceTimer?.cancel();
