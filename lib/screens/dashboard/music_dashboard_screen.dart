@@ -218,7 +218,7 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
                               contentPadding: padding,
                               label: FladderItemType.playlist
                                   .label(context.localized, count: musicDashboard.playlists.length),
-                              onPlaylistPlayTap: (playlist) => playlist.play(context, ref),
+                              onPlaylistPlayTap: (playlist) => playlist.play(context, ref, shuffle: true),
                             ),
                           if (musicDashboard.recentlyAddedAlbums.isNotEmpty)
                             PosterRow(

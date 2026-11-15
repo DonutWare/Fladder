@@ -9,6 +9,7 @@ extension PlaylistModelPlayback on PlaylistModel? {
     WidgetRef ref, {
     Duration? startPosition,
     bool showPlaybackOption = false,
+    bool shuffle = false,
   }) async {
     final playlist = this;
     if (playlist == null) return;
@@ -41,7 +42,7 @@ extension PlaylistModelPlayback on PlaylistModel? {
         final queueSource = PlaylistAudioQueueSource(
           playlistId: playlist.id,
           limit: _playlistAudioRefillLimit,
-          shuffle: false,
+          shuffle: shuffle,
         );
         final initialQueue = await queueSource.fetchQueue(
           ref.read,
@@ -99,7 +100,8 @@ extension PlaylistModelPlayback on PlaylistModel? {
         context,
         context.localized.libraryPlayItems,
         playVideos: classification.hasPlayable ? () => _playPlaylistVideos(context, ref, playlist.id) : null,
-        playMusic: classification.hasMusic ? () => _playPlaylistMusic(context, ref, playlist.id) : null,
+        playMusic:
+            classification.hasMusic ? () => _playPlaylistMusic(context, ref, playlist.id, shuffle: shuffle) : null,
         viewGallery: classification.hasGallery ? () => _playPlaylistGallery(context, ref, playlist.id) : null,
       );
       return;
@@ -141,14 +143,14 @@ extension PlaylistModelPlayback on PlaylistModel? {
   }
 }
 
-Future<void> _playPlaylistMusic(BuildContext context, WidgetRef ref, String playlistId) async {
+Future<void> _playPlaylistMusic(BuildContext context, WidgetRef ref, String playlistId, {bool shuffle = false}) async {
   await ref.read(videoPlayerProvider.notifier).init();
 
   final op = CancelableOperation.fromFuture(Future(() async {
     final queueSource = PlaylistAudioQueueSource(
       playlistId: playlistId,
       limit: _playlistAudioRefillLimit,
-      shuffle: false,
+      shuffle: shuffle,
     );
     final initialQueue = await queueSource.fetchQueue(
       ref.read,
