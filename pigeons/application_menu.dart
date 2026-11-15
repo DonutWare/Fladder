@@ -13,6 +13,8 @@ import 'package:pigeon/pigeon.dart';
 )
 @FlutterApi()
 abstract class ApplicationMenu {
+  @asyncCallback
   void openNewWindow();
+  @asyncCallback
   void newInstance();
 }

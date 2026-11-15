@@ -6,21 +6,57 @@ part of 'control_livetv_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlLiveTvHash() => r'f82b3b1ae56471d190aa7fa8fb5a34a6ccd73761';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [ControlLiveTv].
 @ProviderFor(ControlLiveTv)
-final controlLiveTvProvider =
-    AutoDisposeNotifierProvider<ControlLiveTv, ControlLiveTvModel>.internal(
-  ControlLiveTv.new,
-  name: r'controlLiveTvProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$controlLiveTvHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final controlLiveTvProvider = ControlLiveTvProvider._();
 
-typedef _$ControlLiveTv = AutoDisposeNotifier<ControlLiveTvModel>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class ControlLiveTvProvider
+    extends $NotifierProvider<ControlLiveTv, ControlLiveTvModel> {
+  ControlLiveTvProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'controlLiveTvProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$controlLiveTvHash();
+
+  @$internal
+  @override
+  ControlLiveTv create() => ControlLiveTv();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ControlLiveTvModel value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ControlLiveTvModel>(value),
+    );
+  }
+}
+
+String _$controlLiveTvHash() => r'bb40d4b6bcbb2a18bf6041bf4b73f2ccd94d8e9b';
+
+abstract class _$ControlLiveTv extends $Notifier<ControlLiveTvModel> {
+  ControlLiveTvModel build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<ControlLiveTvModel, ControlLiveTvModel>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ControlLiveTvModel, ControlLiveTvModel>,
+              ControlLiveTvModel,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

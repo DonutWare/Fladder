@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/item_base_model.dart';
@@ -34,7 +35,7 @@ class SeasonDetailScreen extends ConsumerStatefulWidget {
 
 class _SeasonDetailScreenState extends ConsumerState<SeasonDetailScreen> {
   Set<EpisodeDetailsViewType> viewOptions = {EpisodeDetailsViewType.grid};
-  AutoDisposeStateNotifierProvider<SeasonDetailsNotifier, SeasonModel?> get providerId =>
+  StateNotifierProvider<SeasonDetailsNotifier, SeasonModel?> get providerId =>
       seasonDetailsProvider(widget.item.id);
 
   @override

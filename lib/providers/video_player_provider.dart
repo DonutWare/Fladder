@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:fladder/models/item_base_model.dart';
@@ -36,11 +37,6 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
   late final mediaState = ref.read(mediaPlaybackProvider.notifier);
 
   MediaPlaybackModel get playbackState => ref.read(mediaPlaybackProvider);
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   void applySettingsChanged(VideoPlayerSettingsModel settings) {
     final currentItem = ref.read(playBackModel)?.item;
@@ -141,6 +137,7 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
 
     final useMinimizedPlayer =
         model.item.type == FladderItemType.audio || model.mediaStreams?.videoStreams.isEmpty == true;
+    final effectiveStartPosition = await model.resolvedStartPosition(startPosition);
 
     mediaState.update((state) => state.copyWith(
           state: useMinimizedPlayer ? VideoPlayerState.minimized : VideoPlayerState.fullScreen,
@@ -148,11 +145,12 @@ class VideoPlayerNotifier extends StateNotifier<MediaControlsWrapper> {
           buffering: true,
           errorPlaying: false,
           skippedSegments: {},
+          position: effectiveStartPosition,
+          lastPosition: effectiveStartPosition,
         ));
 
     final media = model.media;
     PlaybackModel? newPlaybackModel = model;
-    final effectiveStartPosition = await model.resolvedStartPosition(startPosition);
 
     if (media != null) {
       ref.read(playBackModel.notifier).update((state) => newPlaybackModel);

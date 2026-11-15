@@ -29,7 +29,9 @@ class ControlServer extends _$ControlServer {
 
   Future<void> fetchSettings() async {
     saveConfig = (await api.systemConfigurationGet()).body;
+    if (!ref.mounted) return;
     final options = (await api.localizationOptions()).body;
+    if (!ref.mounted) return;
     state = state.copyWith(
       name: saveConfig?.serverName ?? "",
       availableLanguages: options,

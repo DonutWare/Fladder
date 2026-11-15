@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -92,8 +92,8 @@ class _PipLifecycleControllerState extends ConsumerState<PipLifecycleController>
         child: Stack(
           fit: StackFit.expand,
           children: [
-            if (video != null) video,
-            if (subtitle != null) subtitle,
+            ?video,
+            ?subtitle,
           ],
         ),
       );

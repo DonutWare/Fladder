@@ -23,8 +23,11 @@ class ControlLibraries extends _$ControlLibraries {
 
   Future<void> fetchInfo({bool clearSelected = false}) async {
     final cultures = (await api.localizationCulturesGet()).body ?? [];
+    if (!ref.mounted) return;
     final countries = (await api.localizationCountriesGet()).body ?? [];
+    if (!ref.mounted) return;
     final virtualFolders = (await api.libraryVirtualFoldersGet()).body ?? [];
+    if (!ref.mounted) return;
     final libraries = virtualFolders
         .map((e) => ViewModel.fromVirtualFolder(
               e,
@@ -48,7 +51,9 @@ class ControlLibraries extends _$ControlLibraries {
 
   Future<void> selectLibrary(ViewModel library) async {
     final virtualFolders = (await api.libraryVirtualFoldersGet()).body ?? [];
+    if (!ref.mounted) return;
     final availableOptions = (await api.librariesAvailableOptionsGet()).body;
+    if (!ref.mounted) return;
 
     state = state.copyWith(
       selectedLibrary: library,
@@ -130,6 +135,7 @@ class ControlLibraries extends _$ControlLibraries {
         newFolder: newFolder,
         refreshLibrary: true,
       );
+      if (!ref.mounted) return null;
       if (response.isSuccessful) {
         state = state.copyWith(
           newVirtualFolder: null,
@@ -180,6 +186,7 @@ class ControlLibraries extends _$ControlLibraries {
       isNewLibrary: true,
     ))
         .body;
+    if (!ref.mounted) return;
 
     state = state.copyWith(
       newVirtualFolder: state.newVirtualFolder!.copyWith(

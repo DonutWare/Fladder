@@ -6,20 +6,57 @@ part of 'control_users_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlUsersHash() => r'c75c30523c95aa41812bcdb4c6d34873cbf2bca6';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [ControlUsers].
 @ProviderFor(ControlUsers)
-final controlUsersProvider =
-    AutoDisposeNotifierProvider<ControlUsers, ControlUsersModel>.internal(
-  ControlUsers.new,
-  name: r'controlUsersProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$controlUsersHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final controlUsersProvider = ControlUsersProvider._();
 
-typedef _$ControlUsers = AutoDisposeNotifier<ControlUsersModel>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class ControlUsersProvider
+    extends $NotifierProvider<ControlUsers, ControlUsersModel> {
+  ControlUsersProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'controlUsersProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$controlUsersHash();
+
+  @$internal
+  @override
+  ControlUsers create() => ControlUsers();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ControlUsersModel value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ControlUsersModel>(value),
+    );
+  }
+}
+
+String _$controlUsersHash() => r'a10a1740c29b00797b0e649f72115d8f9f8187e8';
+
+abstract class _$ControlUsers extends $Notifier<ControlUsersModel> {
+  ControlUsersModel build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<ControlUsersModel, ControlUsersModel>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ControlUsersModel, ControlUsersModel>,
+              ControlUsersModel,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

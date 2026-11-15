@@ -6,21 +6,57 @@ part of 'directory_browser_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$directoryBrowserHash() => r'baecaa63893df6dcbcf6c940bee81f92a7cd5c92';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [DirectoryBrowser].
 @ProviderFor(DirectoryBrowser)
-final directoryBrowserProvider = AutoDisposeNotifierProvider<DirectoryBrowser,
-    DirectoryBrowserModel>.internal(
-  DirectoryBrowser.new,
-  name: r'directoryBrowserProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$directoryBrowserHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final directoryBrowserProvider = DirectoryBrowserProvider._();
 
-typedef _$DirectoryBrowser = AutoDisposeNotifier<DirectoryBrowserModel>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class DirectoryBrowserProvider
+    extends $NotifierProvider<DirectoryBrowser, DirectoryBrowserModel> {
+  DirectoryBrowserProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'directoryBrowserProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$directoryBrowserHash();
+
+  @$internal
+  @override
+  DirectoryBrowser create() => DirectoryBrowser();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DirectoryBrowserModel value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DirectoryBrowserModel>(value),
+    );
+  }
+}
+
+String _$directoryBrowserHash() => r'a57839cc748cdb26daab0525b03ad9351c12abd2';
+
+abstract class _$DirectoryBrowser extends $Notifier<DirectoryBrowserModel> {
+  DirectoryBrowserModel build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<DirectoryBrowserModel, DirectoryBrowserModel>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DirectoryBrowserModel, DirectoryBrowserModel>,
+              DirectoryBrowserModel,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

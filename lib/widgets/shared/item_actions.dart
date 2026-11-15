@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:collection/collection.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -130,7 +130,7 @@ class ItemActionButton extends ItemAction {
                   padding: const EdgeInsets.all(4.0),
                   child: Row(
                     children: [
-                      if (icon != null) icon!,
+                      ?icon,
                       const SizedBox(width: 8),
                       if (label != null) Flexible(child: label!),
                     ],
@@ -194,7 +194,7 @@ class ItemActionButton extends ItemAction {
                   data: IconThemeData(color: foregroundColor),
                   child: Row(
                     children: [
-                      if (icon != null) icon!,
+                      ?icon,
                       const SizedBox(width: 8),
                       if (label != null) Flexible(child: label!),
                     ],

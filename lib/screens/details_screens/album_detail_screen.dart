@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -84,9 +84,9 @@ class _AlbumDetailScreenState extends ConsumerState<AlbumDetailScreen> {
         tracks.fold<Duration>(Duration.zero, (duration, track) => duration + (track.overview.runTime ?? Duration.zero));
     final durationText = totalDuration > Duration.zero ? totalDuration.readAbleDuration : null;
     final albumMeta = [
-      if (releaseYear != null) releaseYear,
+      ?releaseYear,
       '${tracks.length} ${tracks.length == 1 ? 'track' : 'tracks'}',
-      if (durationText != null) durationText,
+      ?durationText,
     ].join(' • ');
 
     final radius = FladderTheme.smallShape.borderRadius;

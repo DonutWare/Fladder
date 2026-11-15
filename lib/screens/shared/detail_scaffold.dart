@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -184,6 +183,7 @@ class _DetailScaffoldState extends ConsumerState<DetailScaffold> {
     return ThemeOverwrite(
       color: dominantColor,
       child: (context) => PullToRefresh(
+        serverUpdateItemId: widget.item?.id,
         onRefresh: () async {
           await widget.onRefresh?.call();
           if (mounted) {

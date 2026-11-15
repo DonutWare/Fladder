@@ -36,6 +36,7 @@ class SessionInfo extends _$SessionInfo {
     }
 
     final response = await api.sessionsInfo(deviceId);
+    if (!ref.mounted) return;
 
     final session = response.body?.firstOrNull;
 

@@ -6,162 +6,103 @@ part of 'library_filters_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$libraryFiltersHash() => r'52d05dd1366b82e81f290439adce82c30d1697bf';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-abstract class _$LibraryFilters extends BuildlessAutoDisposeNotifier<List<LibraryFiltersModel>> {
-  late final List<String> ids;
-
-  List<LibraryFiltersModel> build(
-    List<String> ids,
-  );
-}
-
-/// See also [LibraryFilters].
 @ProviderFor(LibraryFilters)
-const libraryFiltersProvider = LibraryFiltersFamily();
+final libraryFiltersProvider = LibraryFiltersFamily._();
 
-/// See also [LibraryFilters].
-class LibraryFiltersFamily extends Family<List<LibraryFiltersModel>> {
-  /// See also [LibraryFilters].
-  const LibraryFiltersFamily();
+final class LibraryFiltersProvider
+    extends $NotifierProvider<LibraryFilters, List<LibraryFiltersModel>> {
+  LibraryFiltersProvider._({
+    required LibraryFiltersFamily super.from,
+    required List<String> super.argument,
+  }) : super(
+         retry: null,
+         name: r'libraryFiltersProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [LibraryFilters].
-  LibraryFiltersProvider call(
-    List<String> ids,
-  ) {
-    return LibraryFiltersProvider(
-      ids,
-    );
+  @override
+  String debugGetCreateSourceHash() => _$libraryFiltersHash();
+
+  @override
+  String toString() {
+    return r'libraryFiltersProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  LibraryFiltersProvider getProviderOverride(
-    covariant LibraryFiltersProvider provider,
-  ) {
-    return call(
-      provider.ids,
-    );
-  }
+  LibraryFilters create() => LibraryFilters();
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies => _allTransitiveDependencies;
-
-  @override
-  String? get name => r'libraryFiltersProvider';
-}
-
-/// See also [LibraryFilters].
-class LibraryFiltersProvider extends AutoDisposeNotifierProviderImpl<LibraryFilters, List<LibraryFiltersModel>> {
-  /// See also [LibraryFilters].
-  LibraryFiltersProvider(
-    List<String> ids,
-  ) : this._internal(
-          () => LibraryFilters()..ids = ids,
-          from: libraryFiltersProvider,
-          name: r'libraryFiltersProvider',
-          debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$libraryFiltersHash,
-          dependencies: LibraryFiltersFamily._dependencies,
-          allTransitiveDependencies: LibraryFiltersFamily._allTransitiveDependencies,
-          ids: ids,
-        );
-
-  LibraryFiltersProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.ids,
-  }) : super.internal();
-
-  final List<String> ids;
-
-  @override
-  List<LibraryFiltersModel> runNotifierBuild(
-    covariant LibraryFilters notifier,
-  ) {
-    return notifier.build(
-      ids,
-    );
-  }
-
-  @override
-  Override overrideWith(LibraryFilters Function() create) {
-    return ProviderOverride(
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<LibraryFiltersModel> value) {
+    return $ProviderOverride(
       origin: this,
-      override: LibraryFiltersProvider._internal(
-        () => create()..ids = ids,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        ids: ids,
-      ),
+      providerOverride: $SyncValueProvider<List<LibraryFiltersModel>>(value),
     );
-  }
-
-  @override
-  AutoDisposeNotifierProviderElement<LibraryFilters, List<LibraryFiltersModel>> createElement() {
-    return _LibraryFiltersProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is LibraryFiltersProvider && other.ids == ids;
+    return other is LibraryFiltersProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, ids.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin LibraryFiltersRef on AutoDisposeNotifierProviderRef<List<LibraryFiltersModel>> {
-  /// The parameter `ids` of this provider.
-  List<String> get ids;
-}
+String _$libraryFiltersHash() => r'52d05dd1366b82e81f290439adce82c30d1697bf';
 
-class _LibraryFiltersProviderElement
-    extends AutoDisposeNotifierProviderElement<LibraryFilters, List<LibraryFiltersModel>> with LibraryFiltersRef {
-  _LibraryFiltersProviderElement(super.provider);
+final class LibraryFiltersFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          LibraryFilters,
+          List<LibraryFiltersModel>,
+          List<LibraryFiltersModel>,
+          List<LibraryFiltersModel>,
+          List<String>
+        > {
+  LibraryFiltersFamily._()
+    : super(
+        retry: null,
+        name: r'libraryFiltersProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  LibraryFiltersProvider call(List<String> ids) =>
+      LibraryFiltersProvider._(argument: ids, from: this);
 
   @override
-  List<String> get ids => (origin as LibraryFiltersProvider).ids;
+  String toString() => r'libraryFiltersProvider';
 }
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+
+abstract class _$LibraryFilters extends $Notifier<List<LibraryFiltersModel>> {
+  late final _$args = ref.$arg as List<String>;
+  List<String> get ids => _$args;
+
+  List<LibraryFiltersModel> build(List<String> ids);
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref =
+        this.ref as $Ref<List<LibraryFiltersModel>, List<LibraryFiltersModel>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<LibraryFiltersModel>, List<LibraryFiltersModel>>,
+              List<LibraryFiltersModel>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args));
+  }
+}

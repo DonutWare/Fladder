@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart' hide ConnectionState;
+import 'package:material_ui/material_ui.dart' hide ConnectionState;
 
 import 'package:background_downloader/background_downloader.dart';
 import 'package:chopper/chopper.dart';

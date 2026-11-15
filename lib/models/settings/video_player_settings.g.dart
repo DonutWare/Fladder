@@ -6,86 +6,121 @@ part of 'video_player_settings.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(Map<String, dynamic> json) => _VideoPlayerSettingsModel(
-      screenBrightness: (json['screenBrightness'] as num?)?.toDouble(),
-      videoFit: $enumDecodeNullable(_$BoxFitEnumMap, json['videoFit']) ?? BoxFit.contain,
-      fillScreen: json['fillScreen'] as bool? ?? false,
-      hardwareAccel: json['hardwareAccel'] as bool? ?? true,
-      useLibass: json['useLibass'] as bool? ?? true,
-      enableTunneling: json['enableTunneling'] as bool? ?? false,
-      bufferSize: (json['bufferSize'] as num?)?.toInt() ?? 32,
-      playerOptions: $enumDecodeNullable(_$PlayerOptionsEnumMap, json['playerOptions']),
-      internalVolume: (json['internalVolume'] as num?)?.toDouble() ?? 100,
-      allowedOrientations: (json['allowedOrientations'] as List<dynamic>?)
-          ?.map((e) => $enumDecode(_$DeviceOrientationEnumMap, e))
-          .toSet(),
-      nextVideoType: $enumDecodeNullable(_$AutoNextTypeEnumMap, json['nextVideoType']) ?? AutoNextType.smart,
-      nextUpCountdownSeconds: (json['nextUpCountdownSeconds'] as num?)?.toInt() ?? 30,
-      maxHomeBitrate: $enumDecodeNullable(_$BitrateEnumMap, json['maxHomeBitrate']) ?? Bitrate.original,
-      maxInternetBitrate: $enumDecodeNullable(_$BitrateEnumMap, json['maxInternetBitrate']) ?? Bitrate.original,
-      audioDevice: json['audioDevice'] as String?,
-      segmentSkipSettings: (json['segmentSkipSettings'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry($enumDecode(_$MediaSegmentTypeEnumMap, k), $enumDecode(_$SegmentSkipEnumMap, e)),
-          ) ??
-          defaultSegmentSkipValues,
-      hotKeys: (json['hotKeys'] as Map<String, dynamic>?)?.map(
-            (k, e) =>
-                MapEntry($enumDecode(_$VideoHotKeysEnumMap, k), KeyCombination.fromJson(e as Map<String, dynamic>)),
-          ) ??
-          const {},
-      screensaver: $enumDecodeNullable(_$ScreensaverEnumMap, json['screensaver']) ?? Screensaver.logo,
-      enableSpeedBoost: json['enableSpeedBoost'] as bool? ?? false,
-      speedBoostRate: (json['speedBoostRate'] as num?)?.toDouble() ?? 2.0,
-      enableDoubleTapSeek: json['enableDoubleTapSeek'] as bool? ?? true,
-      enableAdvancedVideoOptions: json['enableAdvancedVideoOptions'] as bool? ?? false,
-      enableEdgeGestures: json['enableEdgeGestures'] as bool? ?? true,
-      reverseEdgeGestures: json['reverseEdgeGestures'] as bool? ?? false,
-      enablePictureInPicture: json['enablePictureInPicture'] as bool? ?? true,
-      enableReplayGain: json['enableReplayGain'] as bool? ?? true,
-      replayGainVolumeLevel: $enumDecodeNullable(_$ReplayGainVolumeLevelEnumMap, json['replayGainVolumeLevel']) ??
-          ReplayGainVolumeLevel.quiet,
-      enablePlayPauseFade: json['enablePlayPauseFade'] as bool? ?? true,
-      enableCrossfade: json['enableCrossfade'] as bool? ?? true,
-      crossfadeDurationMs: (json['crossfadeDurationMs'] as num?)?.toInt() ?? 400,
-      refreshRateSwitching: json['refreshRateSwitching'] as bool? ?? false,
-      ambientBlur: json['ambientBlur'] as bool? ?? false,
-    );
+_VideoPlayerSettingsModel _$VideoPlayerSettingsModelFromJson(
+  Map<String, dynamic> json,
+) => _VideoPlayerSettingsModel(
+  screenBrightness: (json['screenBrightness'] as num?)?.toDouble(),
+  videoFit:
+      $enumDecodeNullable(_$BoxFitEnumMap, json['videoFit']) ?? BoxFit.contain,
+  fillScreen: json['fillScreen'] as bool? ?? false,
+  hardwareAccel: json['hardwareAccel'] as bool? ?? true,
+  useLibass: json['useLibass'] as bool? ?? true,
+  enableTunneling: json['enableTunneling'] as bool? ?? false,
+  bufferSize: (json['bufferSize'] as num?)?.toInt() ?? 32,
+  playerOptions: $enumDecodeNullable(
+    _$PlayerOptionsEnumMap,
+    json['playerOptions'],
+  ),
+  internalVolume: (json['internalVolume'] as num?)?.toDouble() ?? 100,
+  allowedOrientations: (json['allowedOrientations'] as List<dynamic>?)
+      ?.map((e) => $enumDecode(_$DeviceOrientationEnumMap, e))
+      .toSet(),
+  nextVideoType:
+      $enumDecodeNullable(_$AutoNextTypeEnumMap, json['nextVideoType']) ??
+      AutoNextType.smart,
+  nextUpCountdownSeconds:
+      (json['nextUpCountdownSeconds'] as num?)?.toInt() ?? 30,
+  maxHomeBitrate:
+      $enumDecodeNullable(_$BitrateEnumMap, json['maxHomeBitrate']) ??
+      Bitrate.original,
+  maxInternetBitrate:
+      $enumDecodeNullable(_$BitrateEnumMap, json['maxInternetBitrate']) ??
+      Bitrate.original,
+  audioDevice: json['audioDevice'] as String?,
+  segmentSkipSettings:
+      (json['segmentSkipSettings'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(
+          $enumDecode(_$MediaSegmentTypeEnumMap, k),
+          $enumDecode(_$SegmentSkipEnumMap, e),
+        ),
+      ) ??
+      defaultSegmentSkipValues,
+  hotKeys:
+      (json['hotKeys'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(
+          $enumDecode(_$VideoHotKeysEnumMap, k),
+          KeyCombination.fromJson(e as Map<String, dynamic>),
+        ),
+      ) ??
+      const {},
+  screensaver:
+      $enumDecodeNullable(_$ScreensaverEnumMap, json['screensaver']) ??
+      Screensaver.logo,
+  enableSpeedBoost: json['enableSpeedBoost'] as bool? ?? false,
+  speedBoostRate: (json['speedBoostRate'] as num?)?.toDouble() ?? 2.0,
+  enableDoubleTapSeek: json['enableDoubleTapSeek'] as bool? ?? true,
+  enableAdvancedVideoOptions:
+      json['enableAdvancedVideoOptions'] as bool? ?? false,
+  enableEdgeGestures: json['enableEdgeGestures'] as bool? ?? true,
+  reverseEdgeGestures: json['reverseEdgeGestures'] as bool? ?? false,
+  enablePictureInPicture: json['enablePictureInPicture'] as bool? ?? true,
+  enableReplayGain: json['enableReplayGain'] as bool? ?? true,
+  replayGainVolumeLevel:
+      $enumDecodeNullable(
+        _$ReplayGainVolumeLevelEnumMap,
+        json['replayGainVolumeLevel'],
+      ) ??
+      ReplayGainVolumeLevel.quiet,
+  enablePlayPauseFade: json['enablePlayPauseFade'] as bool? ?? true,
+  enableCrossfade: json['enableCrossfade'] as bool? ?? true,
+  crossfadeDurationMs: (json['crossfadeDurationMs'] as num?)?.toInt() ?? 400,
+  refreshRateSwitching: json['refreshRateSwitching'] as bool? ?? false,
+  ambientBlur: json['ambientBlur'] as bool? ?? false,
+);
 
-Map<String, dynamic> _$VideoPlayerSettingsModelToJson(_VideoPlayerSettingsModel instance) => <String, dynamic>{
-      'screenBrightness': instance.screenBrightness,
-      'videoFit': _$BoxFitEnumMap[instance.videoFit]!,
-      'fillScreen': instance.fillScreen,
-      'hardwareAccel': instance.hardwareAccel,
-      'useLibass': instance.useLibass,
-      'enableTunneling': instance.enableTunneling,
-      'bufferSize': instance.bufferSize,
-      'playerOptions': _$PlayerOptionsEnumMap[instance.playerOptions],
-      'internalVolume': instance.internalVolume,
-      'allowedOrientations': instance.allowedOrientations?.map((e) => _$DeviceOrientationEnumMap[e]!).toList(),
-      'nextVideoType': _$AutoNextTypeEnumMap[instance.nextVideoType]!,
-      'nextUpCountdownSeconds': instance.nextUpCountdownSeconds,
-      'maxHomeBitrate': _$BitrateEnumMap[instance.maxHomeBitrate]!,
-      'maxInternetBitrate': _$BitrateEnumMap[instance.maxInternetBitrate]!,
-      'audioDevice': instance.audioDevice,
-      'segmentSkipSettings':
-          instance.segmentSkipSettings.map((k, e) => MapEntry(_$MediaSegmentTypeEnumMap[k]!, _$SegmentSkipEnumMap[e]!)),
-      'hotKeys': instance.hotKeys.map((k, e) => MapEntry(_$VideoHotKeysEnumMap[k]!, e)),
-      'screensaver': _$ScreensaverEnumMap[instance.screensaver]!,
-      'enableSpeedBoost': instance.enableSpeedBoost,
-      'speedBoostRate': instance.speedBoostRate,
-      'enableDoubleTapSeek': instance.enableDoubleTapSeek,
-      'enableAdvancedVideoOptions': instance.enableAdvancedVideoOptions,
-      'enableEdgeGestures': instance.enableEdgeGestures,
-      'reverseEdgeGestures': instance.reverseEdgeGestures,
-      'enablePictureInPicture': instance.enablePictureInPicture,
-      'enableReplayGain': instance.enableReplayGain,
-      'replayGainVolumeLevel': _$ReplayGainVolumeLevelEnumMap[instance.replayGainVolumeLevel]!,
-      'enablePlayPauseFade': instance.enablePlayPauseFade,
-      'enableCrossfade': instance.enableCrossfade,
-      'crossfadeDurationMs': instance.crossfadeDurationMs,
-      'refreshRateSwitching': instance.refreshRateSwitching,
-      'ambientBlur': instance.ambientBlur,
-    };
+Map<String, dynamic> _$VideoPlayerSettingsModelToJson(
+  _VideoPlayerSettingsModel instance,
+) => <String, dynamic>{
+  'screenBrightness': instance.screenBrightness,
+  'videoFit': _$BoxFitEnumMap[instance.videoFit]!,
+  'fillScreen': instance.fillScreen,
+  'hardwareAccel': instance.hardwareAccel,
+  'useLibass': instance.useLibass,
+  'enableTunneling': instance.enableTunneling,
+  'bufferSize': instance.bufferSize,
+  'playerOptions': _$PlayerOptionsEnumMap[instance.playerOptions],
+  'internalVolume': instance.internalVolume,
+  'allowedOrientations': instance.allowedOrientations
+      ?.map((e) => _$DeviceOrientationEnumMap[e]!)
+      .toList(),
+  'nextVideoType': _$AutoNextTypeEnumMap[instance.nextVideoType]!,
+  'nextUpCountdownSeconds': instance.nextUpCountdownSeconds,
+  'maxHomeBitrate': _$BitrateEnumMap[instance.maxHomeBitrate]!,
+  'maxInternetBitrate': _$BitrateEnumMap[instance.maxInternetBitrate]!,
+  'audioDevice': instance.audioDevice,
+  'segmentSkipSettings': instance.segmentSkipSettings.map(
+    (k, e) => MapEntry(_$MediaSegmentTypeEnumMap[k]!, _$SegmentSkipEnumMap[e]!),
+  ),
+  'hotKeys': instance.hotKeys.map(
+    (k, e) => MapEntry(_$VideoHotKeysEnumMap[k]!, e),
+  ),
+  'screensaver': _$ScreensaverEnumMap[instance.screensaver]!,
+  'enableSpeedBoost': instance.enableSpeedBoost,
+  'speedBoostRate': instance.speedBoostRate,
+  'enableDoubleTapSeek': instance.enableDoubleTapSeek,
+  'enableAdvancedVideoOptions': instance.enableAdvancedVideoOptions,
+  'enableEdgeGestures': instance.enableEdgeGestures,
+  'reverseEdgeGestures': instance.reverseEdgeGestures,
+  'enablePictureInPicture': instance.enablePictureInPicture,
+  'enableReplayGain': instance.enableReplayGain,
+  'replayGainVolumeLevel':
+      _$ReplayGainVolumeLevelEnumMap[instance.replayGainVolumeLevel]!,
+  'enablePlayPauseFade': instance.enablePlayPauseFade,
+  'enableCrossfade': instance.enableCrossfade,
+  'crossfadeDurationMs': instance.crossfadeDurationMs,
+  'refreshRateSwitching': instance.refreshRateSwitching,
+  'ambientBlur': instance.ambientBlur,
+};
 
 const _$BoxFitEnumMap = {
   BoxFit.fill: 'fill',

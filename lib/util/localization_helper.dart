@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 import 'package:fladder/l10n/generated/app_localizations.dart';
 import 'package:fladder/providers/sync/background_download_provider.dart';
@@ -85,48 +86,48 @@ class _TranslationsMessgener extends messenger.TranslationsPigeon {
   final BuildContext context;
 
   @override
-  String chapters(int count) => context.localized.chapter(count);
+  Future<String> chapters(int count) async => context.localized.chapter(count);
 
   @override
-  String close() => context.localized.close;
+  Future<String> close() async => context.localized.close;
 
   @override
-  String endsAt(String time) => context.localized.endsAt(DateTime.parse(time).toLocal());
+  Future<String> endsAt(String time) async => context.localized.endsAt(DateTime.parse(time).toLocal());
 
   @override
-  String next() => context.localized.nextVideo;
+  Future<String> next() async => context.localized.nextVideo;
 
   @override
-  String nextUpInSeconds(int seconds) => context.localized.nextUpInCount(seconds);
+  Future<String> nextUpInSeconds(int seconds) async => context.localized.nextUpInCount(seconds);
 
   @override
-  String nextVideo() => context.localized.nextVideo;
+  Future<String> nextVideo() async => context.localized.nextVideo;
 
   @override
-  String off() => context.localized.off;
+  Future<String> off() async => context.localized.off;
 
   @override
-  String skip(String name) => context.localized.skipButtonLabel(name);
+  Future<String> skip(String name) async => context.localized.skipButtonLabel(name);
 
   @override
-  String subtitles() => context.localized.subtitles;
+  Future<String> subtitles() async => context.localized.subtitles;
 
   @override
-  String hoursAndMinutes(String time) => context.localized.formattedTime(DateTime.parse(time).toLocal());
+  Future<String> hoursAndMinutes(String time) async => context.localized.formattedTime(DateTime.parse(time).toLocal());
 
   @override
-  String decline() => context.localized.decline;
+  Future<String> decline() async => context.localized.decline;
 
   @override
-  String now() => context.localized.now;
+  Future<String> now() async => context.localized.now;
 
   @override
-  String switchChannel() => context.localized.switchChannel;
+  Future<String> switchChannel() async => context.localized.switchChannel;
 
   @override
-  String switchChannelDesc(String programName, String channelName) =>
+  Future<String> switchChannelDesc(String programName, String channelName) async =>
       context.localized.switchChannelDesc(programName, channelName);
 
   @override
-  String watch() => context.localized.watch;
+  Future<String> watch() async => context.localized.watch;
 }

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
@@ -16,7 +16,9 @@ import 'package:fladder/models/media_playback_model.dart';
 import 'package:fladder/models/settings/home_settings_model.dart';
 import 'package:fladder/providers/dashboard_mode_provider.dart';
 import 'package:fladder/providers/dashboard_provider.dart';
+import 'package:fladder/providers/jellyfin_websocket_provider.dart';
 import 'package:fladder/providers/library_filters_provider.dart';
+import 'package:fladder/providers/music_dashboard_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
 import 'package:fladder/providers/user_provider.dart';
@@ -50,7 +52,9 @@ class DashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
-  late final Timer _timer;
+  late final Timer _refreshTimer;
+  late final AppLifecycleListener _lifecycleListener;
+  bool _visible = true;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   final textController = TextEditingController();
@@ -62,17 +66,46 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 120), (timer) {
-      final appInForeground = WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
-      final videoFullScreen = ref.read(mediaPlaybackProvider).state == VideoPlayerState.fullScreen;
-      if (!appInForeground || videoFullScreen) return;
-      _refreshIndicatorKey.currentState?.show();
+    _lifecycleListener = AppLifecycleListener(onResume: _refreshOnReturn);
+    _refreshTimer = Timer.periodic(const Duration(minutes: 2), (timer) {
+      if (!_canRefresh) return;
+      if (!ref.read(jellyfinWebSocketConnectedProvider)) {
+        _refresh();
+      } else if (!ref.read(musicDashboardModeProvider)) {
+        ref.read(dashboardProvider.notifier).refreshLiveTV();
+      }
     });
+  }
+
+  void _refresh() {
+    ref.read(musicDashboardModeProvider)
+        ? ref.read(musicDashboardProvider.notifier).fetchMusicHome(silent: true)
+        : ref.read(dashboardProvider.notifier).refreshLoadedSections();
+  }
+
+  void _refreshOnReturn() {
+    if (_canRefresh) _refresh();
+  }
+
+  bool get _canRefresh {
+    final appInForeground = WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
+    final videoFullScreen = ref.read(mediaPlaybackProvider).state == VideoPlayerState.fullScreen;
+    return _visible && appInForeground && !videoFullScreen;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final visible = context.watchRouter.topRoute.name == DashboardRoute.name;
+    final entered = visible && !_visible;
+    _visible = visible;
+    if (entered) Future.microtask(_refreshOnReturn);
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _refreshTimer.cancel();
+    _lifecycleListener.dispose();
     super.dispose();
   }
 
@@ -138,7 +171,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return NestedScaffold(
       background: ValueListenableBuilder<ItemBaseModel?>(
         valueListenable: selectedPoster,
-        builder: (_, value, __) {
+        builder: (_, value, _) {
           return BackgroundImage(
             images: (value != null
                     ? [value]
@@ -155,6 +188,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ),
       body: PullToRefresh(
         refreshKey: _refreshIndicatorKey,
+        contextRefresh: false,
         displacement: 80 + MediaQuery.of(context).viewPadding.top,
         onRefresh: () async => await _refreshHome(),
         child: (context) => PinchPosterZoom(

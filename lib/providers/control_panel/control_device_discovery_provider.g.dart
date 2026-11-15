@@ -6,23 +6,65 @@ part of 'control_device_discovery_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$controlDeviceDiscoveryHash() =>
-    r'2d01dd615a1afd7dd6f3ec69dd332c341a0fdc81';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [ControlDeviceDiscovery].
 @ProviderFor(ControlDeviceDiscovery)
-final controlDeviceDiscoveryProvider = AutoDisposeNotifierProvider<
-    ControlDeviceDiscovery, ControlDeviceDiscoveryModel>.internal(
-  ControlDeviceDiscovery.new,
-  name: r'controlDeviceDiscoveryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$controlDeviceDiscoveryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final controlDeviceDiscoveryProvider = ControlDeviceDiscoveryProvider._();
 
-typedef _$ControlDeviceDiscovery
-    = AutoDisposeNotifier<ControlDeviceDiscoveryModel>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class ControlDeviceDiscoveryProvider
+    extends
+        $NotifierProvider<ControlDeviceDiscovery, ControlDeviceDiscoveryModel> {
+  ControlDeviceDiscoveryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'controlDeviceDiscoveryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$controlDeviceDiscoveryHash();
+
+  @$internal
+  @override
+  ControlDeviceDiscovery create() => ControlDeviceDiscovery();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ControlDeviceDiscoveryModel value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ControlDeviceDiscoveryModel>(value),
+    );
+  }
+}
+
+String _$controlDeviceDiscoveryHash() =>
+    r'dd57121bd506f29c2cafeb030b9dc68828ffccc5';
+
+abstract class _$ControlDeviceDiscovery
+    extends $Notifier<ControlDeviceDiscoveryModel> {
+  ControlDeviceDiscoveryModel build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref =
+        this.ref
+            as $Ref<ControlDeviceDiscoveryModel, ControlDeviceDiscoveryModel>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                ControlDeviceDiscoveryModel,
+                ControlDeviceDiscoveryModel
+              >,
+              ControlDeviceDiscoveryModel,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

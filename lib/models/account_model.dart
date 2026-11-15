@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -226,7 +226,8 @@ enum Authentication {
   autoLogin(0),
   biometrics(1),
   passcode(2),
-  none(3);
+  none(3),
+  pattern(4);
 
   const Authentication(this.value);
   final int value;
@@ -237,6 +238,7 @@ enum Authentication {
         Authentication.autoLogin => false,
         Authentication.biometrics => true,
         Authentication.passcode => true,
+        Authentication.pattern => true,
         Authentication.none => false,
       };
 
@@ -249,6 +251,7 @@ enum Authentication {
       Authentication.autoLogin,
       if (hasBiometrics) Authentication.biometrics,
       Authentication.passcode,
+      Authentication.pattern,
       Authentication.none,
     };
   }
@@ -263,6 +266,8 @@ enum Authentication {
         return context.localized.appLockBiometrics;
       case Authentication.passcode:
         return context.localized.appLockPasscode;
+      case Authentication.pattern:
+        return context.localized.appLockPattern;
     }
   }
 
@@ -276,6 +281,8 @@ enum Authentication {
         return IconsaxPlusLinear.finger_scan;
       case Authentication.passcode:
         return IconsaxPlusLinear.password_check;
+      case Authentication.pattern:
+        return IconsaxPlusLinear.grid_lock;
     }
   }
 

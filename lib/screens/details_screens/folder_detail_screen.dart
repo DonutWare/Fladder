@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +20,7 @@ class FolderDetailScreen extends ConsumerWidget {
     final details = ref.watch(providerInstance);
 
     return PullToRefresh(
+      serverUpdateItemId: item.id,
       child: (context) => Scaffold(
         appBar: AppBar(
             title: Text(

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -73,6 +73,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with SingleTicker
       ),
       body: PullToRefresh(
         refreshOnStart: true,
+        contextRefresh: false,
         refreshKey: refreshKey,
         onRefresh: () async {
           if (refreshing) return;

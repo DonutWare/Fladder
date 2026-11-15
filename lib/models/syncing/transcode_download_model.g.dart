@@ -7,26 +7,26 @@ part of 'transcode_download_model.dart';
 // **************************************************************************
 
 _TranscodeDownloadModel _$TranscodeDownloadModelFromJson(
-        Map<String, dynamic> json) =>
-    _TranscodeDownloadModel(
-      enabled: json['enabled'] as bool? ?? false,
-      videoCodec: $enumDecode(_$VideoCodecEnumMap, json['videoCodec']),
-      audioCodec: $enumDecode(_$AudioCodecEnumMap, json['audioCodec']),
-      maxHeight: $enumDecode(_$MaxHeightEnumMap, json['maxHeight']),
-      container: $enumDecode(_$VideoContainerEnumMap, json['container']),
-      maxBitrate: $enumDecode(_$BitrateEnumMap, json['maxBitrate']),
-    );
+  Map<String, dynamic> json,
+) => _TranscodeDownloadModel(
+  enabled: json['enabled'] as bool? ?? false,
+  videoCodec: $enumDecode(_$VideoCodecEnumMap, json['videoCodec']),
+  audioCodec: $enumDecode(_$AudioCodecEnumMap, json['audioCodec']),
+  maxHeight: $enumDecode(_$MaxHeightEnumMap, json['maxHeight']),
+  container: $enumDecode(_$VideoContainerEnumMap, json['container']),
+  maxBitrate: $enumDecode(_$BitrateEnumMap, json['maxBitrate']),
+);
 
 Map<String, dynamic> _$TranscodeDownloadModelToJson(
-        _TranscodeDownloadModel instance) =>
-    <String, dynamic>{
-      'enabled': instance.enabled,
-      'videoCodec': _$VideoCodecEnumMap[instance.videoCodec]!,
-      'audioCodec': _$AudioCodecEnumMap[instance.audioCodec]!,
-      'maxHeight': _$MaxHeightEnumMap[instance.maxHeight]!,
-      'container': _$VideoContainerEnumMap[instance.container]!,
-      'maxBitrate': _$BitrateEnumMap[instance.maxBitrate]!,
-    };
+  _TranscodeDownloadModel instance,
+) => <String, dynamic>{
+  'enabled': instance.enabled,
+  'videoCodec': _$VideoCodecEnumMap[instance.videoCodec]!,
+  'audioCodec': _$AudioCodecEnumMap[instance.audioCodec]!,
+  'maxHeight': _$MaxHeightEnumMap[instance.maxHeight]!,
+  'container': _$VideoContainerEnumMap[instance.container]!,
+  'maxBitrate': _$BitrateEnumMap[instance.maxBitrate]!,
+};
 
 const _$VideoCodecEnumMap = {
   VideoCodec.h264: 'h264',

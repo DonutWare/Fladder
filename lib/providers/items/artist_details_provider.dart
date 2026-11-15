@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:logging/logging.dart' as logging;
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -65,7 +66,7 @@ class ArtistDetailsNotifier extends StateNotifier<ArtistModel?> {
   }
 
   Future<void> fetchAlbums() async {
-    if (state == null) return;
+    if (!mounted || state == null) return;
     if (ref.read(connectivityStatusProvider) == ConnectionState.offline) {
       final albums = (await ref.read(syncProvider.notifier).getChildren(state!.id))
           .map((item) => item.itemModel)
@@ -112,10 +113,10 @@ class ArtistDetailsNotifier extends StateNotifier<ArtistModel?> {
   }
 
   Future<void> fetchFavoriteTracks() async {
-    if (state == null) return;
+    if (!mounted || state == null) return;
     if (ref.read(connectivityStatusProvider) == ConnectionState.offline) {
       final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(state!.id);
-      if (syncedItem == null) return;
+      if (!mounted || syncedItem == null) return;
 
       final favoriteTracks = (await ref.read(syncProvider.notifier).getNestedChildren(syncedItem))
           .map((item) => item.itemModel)
@@ -153,10 +154,10 @@ class ArtistDetailsNotifier extends StateNotifier<ArtistModel?> {
   }
 
   Future<void> fetchTracks({int limit = 10}) async {
-    if (state == null) return;
+    if (!mounted || state == null) return;
     if (ref.read(connectivityStatusProvider) == ConnectionState.offline) {
       final syncedItem = await ref.read(syncProvider.notifier).getSyncedItem(state!.id);
-      if (syncedItem == null) return;
+      if (!mounted || syncedItem == null) return;
 
       final tracks = (await ref.read(syncProvider.notifier).getNestedChildren(syncedItem))
           .map((item) => item.itemModel)
@@ -253,7 +254,7 @@ class ArtistDetailsNotifier extends StateNotifier<ArtistModel?> {
   }
 
   Future<void> fetchSimilarArtists() async {
-    if (state == null) return;
+    if (!mounted || state == null) return;
     if (ref.read(connectivityStatusProvider) == ConnectionState.offline) {
       return;
     }

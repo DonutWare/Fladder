@@ -25,11 +25,13 @@ class SeerrRequest extends _$SeerrRequest {
     state = state.copyWith(poster: poster);
 
     final currentUserBody = await ref.read(seerrUserProvider.notifier).refreshUser();
+    if (!ref.mounted) return;
     final isTv = poster.type == SeerrMediaType.tvshow;
 
     SeerrDashboardPosterModel updatedPoster = poster;
     if (isTv) {
       final tvDetailsResponse = await api.tvDetails(tvId: poster.tmdbId);
+      if (!ref.mounted) return;
       if (tvDetailsResponse.isSuccessful && tvDetailsResponse.body != null) {
         final details = tvDetailsResponse.body!;
 
@@ -54,6 +56,7 @@ class SeerrRequest extends _$SeerrRequest {
       }
     } else if (!isTv) {
       final movieDetailsResponse = await api.movieDetails(tmdbId: poster.tmdbId);
+      if (!ref.mounted) return;
       if (movieDetailsResponse.isSuccessful && movieDetailsResponse.body != null) {
         final details = movieDetailsResponse.body!;
         updatedPoster = poster.copyWith(mediaInfo: details.mediaInfo);
@@ -74,9 +77,11 @@ class SeerrRequest extends _$SeerrRequest {
     }
 
     await _loadQuotaForUser(currentUserBody?.id, force: true);
+    if (!ref.mounted) return;
 
     if (isTv) {
       final servers = await api.sonarrServers();
+      if (!ref.mounted) return;
       final nextState = state.copyWith(
         sonarrServers: servers,
         use4k: state.use4k && servers.firstWhereOrNull((s) => s.is4k == true) != null,
@@ -91,6 +96,7 @@ class SeerrRequest extends _$SeerrRequest {
       );
     } else {
       final servers = await api.radarrServers();
+      if (!ref.mounted) return;
       final nextState = state.copyWith(
         radarrServers: servers,
         use4k: state.use4k && servers.firstWhereOrNull((s) => s.is4k == true) != null,
@@ -108,6 +114,7 @@ class SeerrRequest extends _$SeerrRequest {
 
   Future<void> loadUsers() async {
     final users = await api.users();
+    if (!ref.mounted) return;
     state = state.copyWith(availableUsers: users);
   }
 
@@ -116,6 +123,7 @@ class SeerrRequest extends _$SeerrRequest {
     if (!force && state.userQuotas.containsKey(userId)) return;
 
     final quota = await api.userQuota(userId: userId);
+    if (!ref.mounted) return;
     if (quota != null) {
       state = state.copyWith(userQuotas: {...state.userQuotas, userId: quota});
     } else if (force && state.userQuotas.containsKey(userId)) {

@@ -126,13 +126,15 @@ class ControlTunerEdit extends _$ControlTunerEdit {
     state = state.copyWith(isDiscovering: true, discoveryError: null);
     try {
       final result = await api.discoverTuners(newDevicesOnly: newDevicesOnly);
-      state = state.copyWith(isDiscovering: false);
+      if (ref.mounted) state = state.copyWith(isDiscovering: false);
       return result.body ?? [];
     } catch (e) {
-      state = state.copyWith(
-        isDiscovering: false,
-        discoveryError: e.toString(),
-      );
+      if (ref.mounted) {
+        state = state.copyWith(
+          isDiscovering: false,
+          discoveryError: e.toString(),
+        );
+      }
       rethrow;
     }
   }

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:fladder/models/items/media_streams_model.dart';
 import 'package:fladder/models/playback/direct_playback_model.dart';
@@ -109,7 +109,7 @@ class NativePlayer extends BasePlayer implements VideoPlayerListenerCallback {
   Widget? videoWidget(Key key, BoxFit fit) => null;
 
   @override
-  void onPlaybackStateChanged(PlaybackState state) {
+  Future<void> onPlaybackStateChanged(PlaybackState state) async {
     lastState = lastState.update(
       playing: state.playing,
       position: Duration(milliseconds: state.position),

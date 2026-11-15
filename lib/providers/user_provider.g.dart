@@ -6,33 +6,98 @@ part of 'user_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$showSyncButtonProviderHash() => r'c09f42cd6536425bf9417da41c83e15c135d0edb';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [showSyncButtonProvider].
 @ProviderFor(showSyncButtonProvider)
-final showSyncButtonProviderProvider = AutoDisposeProvider<bool>.internal(
-  showSyncButtonProvider,
-  name: r'showSyncButtonProviderProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$showSyncButtonProviderHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final showSyncButtonProviderProvider = ShowSyncButtonProviderProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ShowSyncButtonProviderRef = AutoDisposeProviderRef<bool>;
-String _$userHash() => r'f48bf375f1d1ec9f75c3af0a70330909619cc367';
+final class ShowSyncButtonProviderProvider
+    extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
+  ShowSyncButtonProviderProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'showSyncButtonProviderProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
-/// See also [User].
+  @override
+  String debugGetCreateSourceHash() => _$showSyncButtonProviderHash();
+
+  @$internal
+  @override
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  bool create(Ref ref) {
+    return showSyncButtonProvider(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$showSyncButtonProviderHash() =>
+    r'c09f42cd6536425bf9417da41c83e15c135d0edb';
+
 @ProviderFor(User)
-final userProvider = NotifierProvider<User, AccountModel?>.internal(
-  User.new,
-  name: r'userProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$userHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final userProvider = UserProvider._();
 
-typedef _$User = Notifier<AccountModel?>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+final class UserProvider extends $NotifierProvider<User, AccountModel?> {
+  UserProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'userProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$userHash();
+
+  @$internal
+  @override
+  User create() => User();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AccountModel? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AccountModel?>(value),
+    );
+  }
+}
+
+String _$userHash() => r'8ef65abc833499e4a49b2e82e8686683f8077705';
+
+abstract class _$User extends $Notifier<AccountModel?> {
+  AccountModel? build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<AccountModel?, AccountModel?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AccountModel?, AccountModel?>,
+              AccountModel?,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,26 +48,11 @@ class MusicDashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
-  late final Timer _timer;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final selectedPoster = ValueNotifier<ItemBaseModel?>(null);
   MusicTrackSection _selectedRecentTrackSection = MusicTrackSection.recentlyAdded;
 
   bool _refreshing = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 120), (timer) {
-      _refreshIndicatorKey.currentState?.show();
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
 
   Future<void> _refreshHome() async {
     if (!mounted) return;
@@ -136,7 +121,7 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
     return NestedScaffold(
       background: ValueListenableBuilder<ItemBaseModel?>(
         valueListenable: selectedPoster,
-        builder: (_, value, __) {
+        builder: (_, value, _) {
           return BackgroundImage(
             images: (value != null ? [value] : backgroundItems).map((e) => e.images).nonNulls.toList(),
           );
@@ -144,6 +129,7 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
       ),
       body: PullToRefresh(
         refreshKey: _refreshIndicatorKey,
+        contextRefresh: false,
         displacement: 80 + MediaQuery.of(context).viewPadding.top,
         onRefresh: () async => await _refreshHome(),
         child: (context) => PinchPosterZoom(
@@ -285,7 +271,7 @@ class _MusicDashboardScreenState extends ConsumerState<MusicDashboardScreen> {
                                     onTrackTap: (track) => track.parentBaseModel.navigateTo(context),
                                     onTrackPlayTap: (track) =>
                                         _playTrackFromSection(track, section: activeRecentTrackSection.section),
-                                    onTrackSecondaryTap: (_, __) {},
+                                    onTrackSecondaryTap: (_, _) {},
                                   ),
                                 ],
                               ),

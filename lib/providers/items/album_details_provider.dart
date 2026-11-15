@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:logging/logging.dart' as logging;
 
 import 'package:fladder/jellyfin/jellyfin_open_api.swagger.dart';
@@ -50,7 +51,7 @@ class AlbumDetailsNotifier extends StateNotifier<AlbumModel?> {
   }
 
   Future<void> fetchTracks() async {
-    if (state == null) return;
+    if (!mounted || state == null) return;
     if (ref.read(connectivityStatusProvider) == ConnectionState.offline) {
       final tracks = (await ref.read(syncProvider.notifier).getChildren(state!.id))
           .map((item) => item.itemModel)
@@ -88,7 +89,7 @@ class AlbumDetailsNotifier extends StateNotifier<AlbumModel?> {
   }
 
   Future<void> fetchArtistRelated() async {
-    if (state == null) return;
+    if (!mounted || state == null) return;
     if (ref.read(connectivityStatusProvider) == ConnectionState.offline) {
       final parentId = state!.parentId;
       if (parentId == null) return;

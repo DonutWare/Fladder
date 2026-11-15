@@ -4,11 +4,12 @@ import 'package:fladder/providers/items/book_details_provider.dart';
 import 'package:fladder/util/adaptive_layout/adaptive_layout.dart';
 import 'package:fladder/util/fladder_image.dart';
 import 'package:fladder/widgets/shared/modal_side_sheet.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 Future<void> showBookViewerChapters(
-    BuildContext context, AutoDisposeStateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel> provider,
+    BuildContext context, StateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel> provider,
     {Function(BookModel book)? onPressed}) async {
   if (AdaptiveLayout.of(context).isDesktop) {
     return showModalSideSheet(context,
@@ -31,7 +32,7 @@ Future<void> showBookViewerChapters(
 }
 
 class BookViewerChapters extends ConsumerWidget {
-  final AutoDisposeStateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel> provider;
+  final StateNotifierProvider<BookDetailsProviderNotifier, BookProviderModel> provider;
   final Function(BookModel book)? onPressed;
   const BookViewerChapters({required this.provider, this.onPressed, super.key});
 

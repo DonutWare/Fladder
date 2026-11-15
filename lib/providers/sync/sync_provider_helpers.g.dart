@@ -6,740 +6,457 @@ part of 'sync_provider_helpers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$syncedItemHash() => r'8342c557accf52fd0a8561274ecf9b77b5cf7acd';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// Copied from Dart SDK
-class _SystemHash {
-  _SystemHash._();
-
-  static int combine(int hash, int value) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + value);
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  static int finish(int hash) {
-    // ignore: parameter_assignments
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    // ignore: parameter_assignments
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
-}
-
-/// See also [syncedItem].
 @ProviderFor(syncedItem)
-const syncedItemProvider = SyncedItemFamily();
+final syncedItemProvider = SyncedItemFamily._();
 
-/// See also [syncedItem].
-class SyncedItemFamily extends Family<AsyncValue<SyncedItem?>> {
-  /// See also [syncedItem].
-  const SyncedItemFamily();
+final class SyncedItemProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<SyncedItem?>,
+          SyncedItem?,
+          Stream<SyncedItem?>
+        >
+    with $FutureModifier<SyncedItem?>, $StreamProvider<SyncedItem?> {
+  SyncedItemProvider._({
+    required SyncedItemFamily super.from,
+    required ItemBaseModel? super.argument,
+  }) : super(
+         retry: null,
+         name: r'syncedItemProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [syncedItem].
-  SyncedItemProvider call(
-    ItemBaseModel? item,
-  ) {
-    return SyncedItemProvider(
-      item,
-    );
+  @override
+  String debugGetCreateSourceHash() => _$syncedItemHash();
+
+  @override
+  String toString() {
+    return r'syncedItemProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  SyncedItemProvider getProviderOverride(
-    covariant SyncedItemProvider provider,
-  ) {
-    return call(
-      provider.item,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
+  $StreamProviderElement<SyncedItem?> $createElement(
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
 
   @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies => _allTransitiveDependencies;
-
-  @override
-  String? get name => r'syncedItemProvider';
-}
-
-/// See also [syncedItem].
-class SyncedItemProvider extends AutoDisposeStreamProvider<SyncedItem?> {
-  /// See also [syncedItem].
-  SyncedItemProvider(
-    ItemBaseModel? item,
-  ) : this._internal(
-          (ref) => syncedItem(
-            ref as SyncedItemRef,
-            item,
-          ),
-          from: syncedItemProvider,
-          name: r'syncedItemProvider',
-          debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$syncedItemHash,
-          dependencies: SyncedItemFamily._dependencies,
-          allTransitiveDependencies: SyncedItemFamily._allTransitiveDependencies,
-          item: item,
-        );
-
-  SyncedItemProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.item,
-  }) : super.internal();
-
-  final ItemBaseModel? item;
-
-  @override
-  Override overrideWith(
-    Stream<SyncedItem?> Function(SyncedItemRef provider) create,
-  ) {
-    return ProviderOverride(
-      origin: this,
-      override: SyncedItemProvider._internal(
-        (ref) => create(ref as SyncedItemRef),
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        item: item,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeStreamProviderElement<SyncedItem?> createElement() {
-    return _SyncedItemProviderElement(this);
+  Stream<SyncedItem?> create(Ref ref) {
+    final argument = this.argument as ItemBaseModel?;
+    return syncedItem(ref, argument);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SyncedItemProvider && other.item == item;
+    return other is SyncedItemProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, item.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin SyncedItemRef on AutoDisposeStreamProviderRef<SyncedItem?> {
-  /// The parameter `item` of this provider.
-  ItemBaseModel? get item;
-}
+String _$syncedItemHash() => r'8342c557accf52fd0a8561274ecf9b77b5cf7acd';
 
-class _SyncedItemProviderElement extends AutoDisposeStreamProviderElement<SyncedItem?> with SyncedItemRef {
-  _SyncedItemProviderElement(super.provider);
+final class SyncedItemFamily extends $Family
+    with $FunctionalFamilyOverride<Stream<SyncedItem?>, ItemBaseModel?> {
+  SyncedItemFamily._()
+    : super(
+        retry: null,
+        name: r'syncedItemProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  SyncedItemProvider call(ItemBaseModel? item) =>
+      SyncedItemProvider._(argument: item, from: this);
 
   @override
-  ItemBaseModel? get item => (origin as SyncedItemProvider).item;
+  String toString() => r'syncedItemProvider';
+}
+
+@ProviderFor(SyncedChildren)
+final syncedChildrenProvider = SyncedChildrenFamily._();
+
+final class SyncedChildrenProvider
+    extends $AsyncNotifierProvider<SyncedChildren, List<SyncedItem>> {
+  SyncedChildrenProvider._({
+    required SyncedChildrenFamily super.from,
+    required SyncedItem super.argument,
+  }) : super(
+         retry: null,
+         name: r'syncedChildrenProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$syncedChildrenHash();
+
+  @override
+  String toString() {
+    return r'syncedChildrenProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  SyncedChildren create() => SyncedChildren();
+
+  @override
+  bool operator ==(Object other) {
+    return other is SyncedChildrenProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
 }
 
 String _$syncedChildrenHash() => r'13e1df8d7e855f0bc455bd6e367e179e0d1fbf85';
 
-abstract class _$SyncedChildren extends BuildlessAutoDisposeAsyncNotifier<List<SyncedItem>> {
-  late final SyncedItem item;
-
-  FutureOr<List<SyncedItem>> build(
-    SyncedItem item,
-  );
-}
-
-/// See also [SyncedChildren].
-@ProviderFor(SyncedChildren)
-const syncedChildrenProvider = SyncedChildrenFamily();
-
-/// See also [SyncedChildren].
-class SyncedChildrenFamily extends Family<AsyncValue<List<SyncedItem>>> {
-  /// See also [SyncedChildren].
-  const SyncedChildrenFamily();
-
-  /// See also [SyncedChildren].
-  SyncedChildrenProvider call(
-    SyncedItem item,
-  ) {
-    return SyncedChildrenProvider(
-      item,
-    );
-  }
-
-  @override
-  SyncedChildrenProvider getProviderOverride(
-    covariant SyncedChildrenProvider provider,
-  ) {
-    return call(
-      provider.item,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies => _allTransitiveDependencies;
-
-  @override
-  String? get name => r'syncedChildrenProvider';
-}
-
-/// See also [SyncedChildren].
-class SyncedChildrenProvider extends AutoDisposeAsyncNotifierProviderImpl<SyncedChildren, List<SyncedItem>> {
-  /// See also [SyncedChildren].
-  SyncedChildrenProvider(
-    SyncedItem item,
-  ) : this._internal(
-          () => SyncedChildren()..item = item,
-          from: syncedChildrenProvider,
-          name: r'syncedChildrenProvider',
-          debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$syncedChildrenHash,
-          dependencies: SyncedChildrenFamily._dependencies,
-          allTransitiveDependencies: SyncedChildrenFamily._allTransitiveDependencies,
-          item: item,
-        );
-
-  SyncedChildrenProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.item,
-  }) : super.internal();
-
-  final SyncedItem item;
-
-  @override
-  FutureOr<List<SyncedItem>> runNotifierBuild(
-    covariant SyncedChildren notifier,
-  ) {
-    return notifier.build(
-      item,
-    );
-  }
-
-  @override
-  Override overrideWith(SyncedChildren Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: SyncedChildrenProvider._internal(
-        () => create()..item = item,
-        from: from,
-        name: null,
+final class SyncedChildrenFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          SyncedChildren,
+          AsyncValue<List<SyncedItem>>,
+          List<SyncedItem>,
+          FutureOr<List<SyncedItem>>,
+          SyncedItem
+        > {
+  SyncedChildrenFamily._()
+    : super(
+        retry: null,
+        name: r'syncedChildrenProvider',
         dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        item: item,
-      ),
-    );
-  }
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  SyncedChildrenProvider call(SyncedItem item) =>
+      SyncedChildrenProvider._(argument: item, from: this);
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<SyncedChildren, List<SyncedItem>> createElement() {
-    return _SyncedChildrenProviderElement(this);
-  }
+  String toString() => r'syncedChildrenProvider';
+}
 
+abstract class _$SyncedChildren extends $AsyncNotifier<List<SyncedItem>> {
+  late final _$args = ref.$arg as SyncedItem;
+  SyncedItem get item => _$args;
+
+  FutureOr<List<SyncedItem>> build(SyncedItem item);
+  @$mustCallSuper
   @override
-  bool operator ==(Object other) {
-    return other is SyncedChildrenProvider && other.item == item;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, item.hashCode);
-
-    return _SystemHash.finish(hash);
+  WhenComplete runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<List<SyncedItem>>, List<SyncedItem>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<List<SyncedItem>>, List<SyncedItem>>,
+              AsyncValue<List<SyncedItem>>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args));
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin SyncedChildrenRef on AutoDisposeAsyncNotifierProviderRef<List<SyncedItem>> {
-  /// The parameter `item` of this provider.
-  SyncedItem get item;
-}
-
-class _SyncedChildrenProviderElement extends AutoDisposeAsyncNotifierProviderElement<SyncedChildren, List<SyncedItem>>
-    with SyncedChildrenRef {
-  _SyncedChildrenProviderElement(super.provider);
-
-  @override
-  SyncedItem get item => (origin as SyncedChildrenProvider).item;
-}
-
-String _$syncedNestedChildrenHash() => r'ea8dd0e694efa6d6ec0c73d699b5fb3e933f9322';
-
-abstract class _$SyncedNestedChildren extends BuildlessAutoDisposeAsyncNotifier<List<SyncedItem>> {
-  late final SyncedItem item;
-
-  FutureOr<List<SyncedItem>> build(
-    SyncedItem item,
-  );
-}
-
-/// See also [SyncedNestedChildren].
 @ProviderFor(SyncedNestedChildren)
-const syncedNestedChildrenProvider = SyncedNestedChildrenFamily();
+final syncedNestedChildrenProvider = SyncedNestedChildrenFamily._();
 
-/// See also [SyncedNestedChildren].
-class SyncedNestedChildrenFamily extends Family<AsyncValue<List<SyncedItem>>> {
-  /// See also [SyncedNestedChildren].
-  const SyncedNestedChildrenFamily();
+final class SyncedNestedChildrenProvider
+    extends $AsyncNotifierProvider<SyncedNestedChildren, List<SyncedItem>> {
+  SyncedNestedChildrenProvider._({
+    required SyncedNestedChildrenFamily super.from,
+    required SyncedItem super.argument,
+  }) : super(
+         retry: null,
+         name: r'syncedNestedChildrenProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [SyncedNestedChildren].
-  SyncedNestedChildrenProvider call(
-    SyncedItem item,
-  ) {
-    return SyncedNestedChildrenProvider(
-      item,
-    );
+  @override
+  String debugGetCreateSourceHash() => _$syncedNestedChildrenHash();
+
+  @override
+  String toString() {
+    return r'syncedNestedChildrenProvider'
+        ''
+        '($argument)';
   }
 
+  @$internal
   @override
-  SyncedNestedChildrenProvider getProviderOverride(
-    covariant SyncedNestedChildrenProvider provider,
-  ) {
-    return call(
-      provider.item,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies => _allTransitiveDependencies;
-
-  @override
-  String? get name => r'syncedNestedChildrenProvider';
-}
-
-/// See also [SyncedNestedChildren].
-class SyncedNestedChildrenProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<SyncedNestedChildren, List<SyncedItem>> {
-  /// See also [SyncedNestedChildren].
-  SyncedNestedChildrenProvider(
-    SyncedItem item,
-  ) : this._internal(
-          () => SyncedNestedChildren()..item = item,
-          from: syncedNestedChildrenProvider,
-          name: r'syncedNestedChildrenProvider',
-          debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$syncedNestedChildrenHash,
-          dependencies: SyncedNestedChildrenFamily._dependencies,
-          allTransitiveDependencies: SyncedNestedChildrenFamily._allTransitiveDependencies,
-          item: item,
-        );
-
-  SyncedNestedChildrenProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.item,
-  }) : super.internal();
-
-  final SyncedItem item;
-
-  @override
-  FutureOr<List<SyncedItem>> runNotifierBuild(
-    covariant SyncedNestedChildren notifier,
-  ) {
-    return notifier.build(
-      item,
-    );
-  }
-
-  @override
-  Override overrideWith(SyncedNestedChildren Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: SyncedNestedChildrenProvider._internal(
-        () => create()..item = item,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        item: item,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderElement<SyncedNestedChildren, List<SyncedItem>> createElement() {
-    return _SyncedNestedChildrenProviderElement(this);
-  }
+  SyncedNestedChildren create() => SyncedNestedChildren();
 
   @override
   bool operator ==(Object other) {
-    return other is SyncedNestedChildrenProvider && other.item == item;
+    return other is SyncedNestedChildrenProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, item.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin SyncedNestedChildrenRef on AutoDisposeAsyncNotifierProviderRef<List<SyncedItem>> {
-  /// The parameter `item` of this provider.
-  SyncedItem get item;
-}
+String _$syncedNestedChildrenHash() =>
+    r'ea8dd0e694efa6d6ec0c73d699b5fb3e933f9322';
 
-class _SyncedNestedChildrenProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<SyncedNestedChildren, List<SyncedItem>>
-    with SyncedNestedChildrenRef {
-  _SyncedNestedChildrenProviderElement(super.provider);
+final class SyncedNestedChildrenFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          SyncedNestedChildren,
+          AsyncValue<List<SyncedItem>>,
+          List<SyncedItem>,
+          FutureOr<List<SyncedItem>>,
+          SyncedItem
+        > {
+  SyncedNestedChildrenFamily._()
+    : super(
+        retry: null,
+        name: r'syncedNestedChildrenProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  SyncedNestedChildrenProvider call(SyncedItem item) =>
+      SyncedNestedChildrenProvider._(argument: item, from: this);
 
   @override
-  SyncedItem get item => (origin as SyncedNestedChildrenProvider).item;
+  String toString() => r'syncedNestedChildrenProvider';
 }
 
-String _$syncDownloadStatusHash() => r'39cacaf983e7da79b406b0249f5de4da1e785f9a';
+abstract class _$SyncedNestedChildren extends $AsyncNotifier<List<SyncedItem>> {
+  late final _$args = ref.$arg as SyncedItem;
+  SyncedItem get item => _$args;
 
-abstract class _$SyncDownloadStatus extends BuildlessAutoDisposeNotifier<DownloadStream?> {
-  late final SyncedItem arg;
-  late final List<SyncedItem> children;
-
-  DownloadStream? build(
-    SyncedItem arg,
-    List<SyncedItem> children,
-  );
+  FutureOr<List<SyncedItem>> build(SyncedItem item);
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<List<SyncedItem>>, List<SyncedItem>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<List<SyncedItem>>, List<SyncedItem>>,
+              AsyncValue<List<SyncedItem>>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args));
+  }
 }
 
-/// See also [SyncDownloadStatus].
 @ProviderFor(SyncDownloadStatus)
-const syncDownloadStatusProvider = SyncDownloadStatusFamily();
+final syncDownloadStatusProvider = SyncDownloadStatusFamily._();
 
-/// See also [SyncDownloadStatus].
-class SyncDownloadStatusFamily extends Family<DownloadStream?> {
-  /// See also [SyncDownloadStatus].
-  const SyncDownloadStatusFamily();
+final class SyncDownloadStatusProvider
+    extends $NotifierProvider<SyncDownloadStatus, DownloadStream?> {
+  SyncDownloadStatusProvider._({
+    required SyncDownloadStatusFamily super.from,
+    required (SyncedItem, List<SyncedItem>) super.argument,
+  }) : super(
+         retry: null,
+         name: r'syncDownloadStatusProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
-  /// See also [SyncDownloadStatus].
-  SyncDownloadStatusProvider call(
-    SyncedItem arg,
-    List<SyncedItem> children,
-  ) {
-    return SyncDownloadStatusProvider(
-      arg,
-      children,
-    );
+  @override
+  String debugGetCreateSourceHash() => _$syncDownloadStatusHash();
+
+  @override
+  String toString() {
+    return r'syncDownloadStatusProvider'
+        ''
+        '$argument';
   }
 
+  @$internal
   @override
-  SyncDownloadStatusProvider getProviderOverride(
-    covariant SyncDownloadStatusProvider provider,
-  ) {
-    return call(
-      provider.arg,
-      provider.children,
-    );
-  }
+  SyncDownloadStatus create() => SyncDownloadStatus();
 
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies => _allTransitiveDependencies;
-
-  @override
-  String? get name => r'syncDownloadStatusProvider';
-}
-
-/// See also [SyncDownloadStatus].
-class SyncDownloadStatusProvider extends AutoDisposeNotifierProviderImpl<SyncDownloadStatus, DownloadStream?> {
-  /// See also [SyncDownloadStatus].
-  SyncDownloadStatusProvider(
-    SyncedItem arg,
-    List<SyncedItem> children,
-  ) : this._internal(
-          () => SyncDownloadStatus()
-            ..arg = arg
-            ..children = children,
-          from: syncDownloadStatusProvider,
-          name: r'syncDownloadStatusProvider',
-          debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$syncDownloadStatusHash,
-          dependencies: SyncDownloadStatusFamily._dependencies,
-          allTransitiveDependencies: SyncDownloadStatusFamily._allTransitiveDependencies,
-          arg: arg,
-          children: children,
-        );
-
-  SyncDownloadStatusProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.arg,
-    required this.children,
-  }) : super.internal();
-
-  final SyncedItem arg;
-  final List<SyncedItem> children;
-
-  @override
-  DownloadStream? runNotifierBuild(
-    covariant SyncDownloadStatus notifier,
-  ) {
-    return notifier.build(
-      arg,
-      children,
-    );
-  }
-
-  @override
-  Override overrideWith(SyncDownloadStatus Function() create) {
-    return ProviderOverride(
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DownloadStream? value) {
+    return $ProviderOverride(
       origin: this,
-      override: SyncDownloadStatusProvider._internal(
-        () => create()
-          ..arg = arg
-          ..children = children,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        arg: arg,
-        children: children,
-      ),
+      providerOverride: $SyncValueProvider<DownloadStream?>(value),
     );
-  }
-
-  @override
-  AutoDisposeNotifierProviderElement<SyncDownloadStatus, DownloadStream?> createElement() {
-    return _SyncDownloadStatusProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is SyncDownloadStatusProvider && other.arg == arg && other.children == children;
+    return other is SyncDownloadStatusProvider && other.argument == argument;
   }
 
   @override
   int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, arg.hashCode);
-    hash = _SystemHash.combine(hash, children.hashCode);
-
-    return _SystemHash.finish(hash);
+    return argument.hashCode;
   }
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin SyncDownloadStatusRef on AutoDisposeNotifierProviderRef<DownloadStream?> {
-  /// The parameter `arg` of this provider.
-  SyncedItem get arg;
+String _$syncDownloadStatusHash() =>
+    r'242a0a6cfe5314d75ab09dca50a88527acb92e9e';
 
-  /// The parameter `children` of this provider.
-  List<SyncedItem> get children;
+final class SyncDownloadStatusFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          SyncDownloadStatus,
+          DownloadStream?,
+          DownloadStream?,
+          DownloadStream?,
+          (SyncedItem, List<SyncedItem>)
+        > {
+  SyncDownloadStatusFamily._()
+    : super(
+        retry: null,
+        name: r'syncDownloadStatusProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  SyncDownloadStatusProvider call(SyncedItem arg, List<SyncedItem> children) =>
+      SyncDownloadStatusProvider._(argument: (arg, children), from: this);
+
+  @override
+  String toString() => r'syncDownloadStatusProvider';
 }
 
-class _SyncDownloadStatusProviderElement extends AutoDisposeNotifierProviderElement<SyncDownloadStatus, DownloadStream?>
-    with SyncDownloadStatusRef {
-  _SyncDownloadStatusProviderElement(super.provider);
+abstract class _$SyncDownloadStatus extends $Notifier<DownloadStream?> {
+  late final _$args = ref.$arg as (SyncedItem, List<SyncedItem>);
+  SyncedItem get arg => _$args.$1;
+  List<SyncedItem> get children => _$args.$2;
+
+  DownloadStream? build(SyncedItem arg, List<SyncedItem> children);
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<DownloadStream?, DownloadStream?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DownloadStream?, DownloadStream?>,
+              DownloadStream?,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args.$1, _$args.$2));
+  }
+}
+
+@ProviderFor(SyncSize)
+final syncSizeProvider = SyncSizeFamily._();
+
+final class SyncSizeProvider extends $NotifierProvider<SyncSize, int?> {
+  SyncSizeProvider._({
+    required SyncSizeFamily super.from,
+    required (SyncedItem, List<SyncedItem>?) super.argument,
+  }) : super(
+         retry: null,
+         name: r'syncSizeProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
-  SyncedItem get arg => (origin as SyncDownloadStatusProvider).arg;
+  String debugGetCreateSourceHash() => _$syncSizeHash();
+
   @override
-  List<SyncedItem> get children => (origin as SyncDownloadStatusProvider).children;
+  String toString() {
+    return r'syncSizeProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  SyncSize create() => SyncSize();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int?>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SyncSizeProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
 }
 
 String _$syncSizeHash() => r'a975c17b0918892ccf9ee36a3635d34d7398512f';
 
-abstract class _$SyncSize extends BuildlessAutoDisposeNotifier<int?> {
-  late final SyncedItem arg;
-  late final List<SyncedItem>? children;
-
-  int? build(
-    SyncedItem arg,
-    List<SyncedItem>? children,
-  );
-}
-
-/// See also [SyncSize].
-@ProviderFor(SyncSize)
-const syncSizeProvider = SyncSizeFamily();
-
-/// See also [SyncSize].
-class SyncSizeFamily extends Family<int?> {
-  /// See also [SyncSize].
-  const SyncSizeFamily();
-
-  /// See also [SyncSize].
-  SyncSizeProvider call(
-    SyncedItem arg,
-    List<SyncedItem>? children,
-  ) {
-    return SyncSizeProvider(
-      arg,
-      children,
-    );
-  }
-
-  @override
-  SyncSizeProvider getProviderOverride(
-    covariant SyncSizeProvider provider,
-  ) {
-    return call(
-      provider.arg,
-      provider.children,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies => _allTransitiveDependencies;
-
-  @override
-  String? get name => r'syncSizeProvider';
-}
-
-/// See also [SyncSize].
-class SyncSizeProvider extends AutoDisposeNotifierProviderImpl<SyncSize, int?> {
-  /// See also [SyncSize].
-  SyncSizeProvider(
-    SyncedItem arg,
-    List<SyncedItem>? children,
-  ) : this._internal(
-          () => SyncSize()
-            ..arg = arg
-            ..children = children,
-          from: syncSizeProvider,
-          name: r'syncSizeProvider',
-          debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product') ? null : _$syncSizeHash,
-          dependencies: SyncSizeFamily._dependencies,
-          allTransitiveDependencies: SyncSizeFamily._allTransitiveDependencies,
-          arg: arg,
-          children: children,
-        );
-
-  SyncSizeProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.arg,
-    required this.children,
-  }) : super.internal();
-
-  final SyncedItem arg;
-  final List<SyncedItem>? children;
-
-  @override
-  int? runNotifierBuild(
-    covariant SyncSize notifier,
-  ) {
-    return notifier.build(
-      arg,
-      children,
-    );
-  }
-
-  @override
-  Override overrideWith(SyncSize Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: SyncSizeProvider._internal(
-        () => create()
-          ..arg = arg
-          ..children = children,
-        from: from,
-        name: null,
+final class SyncSizeFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          SyncSize,
+          int?,
+          int?,
+          int?,
+          (SyncedItem, List<SyncedItem>?)
+        > {
+  SyncSizeFamily._()
+    : super(
+        retry: null,
+        name: r'syncSizeProvider',
         dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        arg: arg,
-        children: children,
-      ),
-    );
-  }
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  SyncSizeProvider call(SyncedItem arg, List<SyncedItem>? children) =>
+      SyncSizeProvider._(argument: (arg, children), from: this);
 
   @override
-  AutoDisposeNotifierProviderElement<SyncSize, int?> createElement() {
-    return _SyncSizeProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is SyncSizeProvider && other.arg == arg && other.children == children;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, arg.hashCode);
-    hash = _SystemHash.combine(hash, children.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
+  String toString() => r'syncSizeProvider';
 }
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin SyncSizeRef on AutoDisposeNotifierProviderRef<int?> {
-  /// The parameter `arg` of this provider.
-  SyncedItem get arg;
+abstract class _$SyncSize extends $Notifier<int?> {
+  late final _$args = ref.$arg as (SyncedItem, List<SyncedItem>?);
+  SyncedItem get arg => _$args.$1;
+  List<SyncedItem>? get children => _$args.$2;
 
-  /// The parameter `children` of this provider.
-  List<SyncedItem>? get children;
-}
-
-class _SyncSizeProviderElement extends AutoDisposeNotifierProviderElement<SyncSize, int?> with SyncSizeRef {
-  _SyncSizeProviderElement(super.provider);
-
+  int? build(SyncedItem arg, List<SyncedItem>? children);
+  @$mustCallSuper
   @override
-  SyncedItem get arg => (origin as SyncSizeProvider).arg;
-  @override
-  List<SyncedItem>? get children => (origin as SyncSizeProvider).children;
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<int?, int?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int?, int?>,
+              int?,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(_$args.$1, _$args.$2));
+  }
 }
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

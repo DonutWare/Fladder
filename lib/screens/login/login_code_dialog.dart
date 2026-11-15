@@ -8,7 +8,7 @@ import 'package:fladder/screens/shared/media/external_urls.dart' as ext;
 import 'package:fladder/util/clipboard_helper.dart';
 import 'package:fladder/util/list_padding.dart';
 import 'package:fladder/util/localization_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 
