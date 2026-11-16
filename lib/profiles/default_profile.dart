@@ -41,5 +41,6 @@ DeviceProfile defaultProfile(PlayerOptions player) => kIsWeb
           SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
           SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
           SubtitleProfile(format: 'pgssub', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'dvdsub', method: SubtitleDeliveryMethod.embed),
         ],
       );
