@@ -297,6 +297,13 @@ class LibMPV extends BasePlayer {
           log("Max retry duration reached, stopping retries.");
           _retryTimer?.cancel();
           _retryTimer = null;
+        } else if (!await _isPlayerIdle()) {
+          // mpv is still opening the file, it just hasn't reported a duration yet. That is normal for
+          // slow starts such as a server-side transcode or a high-latency connection, and reopening
+          // here would abort a load that is making progress. A load that really hangs is ended by
+          // mpv's own network-timeout, which leaves the player idle and is retried below.
+          log("Video is still loading, waiting before retrying");
+          _retryTimer?.reset();
         } else {
           log("Retrying to load video $url");
           await setStartPosition(startPosition);
@@ -337,6 +344,13 @@ class LibMPV extends BasePlayer {
       },
     );
     return setState(lastState.update(buffering: true));
+  }
+
+  /// Whether mpv has nothing loaded, which after a load means the load failed or ended.
+  Future<bool> _isPlayerIdle() async {
+    final platform = _player?.platform;
+    if (platform is! mpv.NativePlayer) return true;
+    return await (platform as dynamic).getProperty('idle-active') == 'yes';
   }
 
   /// Apply ReplayGain normalization for the given [item] before loading it.
