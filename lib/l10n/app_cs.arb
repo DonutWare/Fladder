@@ -2036,7 +2036,7 @@
     "passwordNotRequired": "Není povinné, ponechte prázdné, pokud chcete, aby odkaz nezahrnoval heslo",
     "authLinkButtonToolTip": "Otevřít dialogové okno autorizačního odkazu",
     "connectWithAuthLink": "Připojit pomocí autorizačního odkazu",
-    "pasteFladderAuthLink": "Vložit fladder odkaz pro ověření fladder:///login?authLink=...",
+    "pasteFladderAuthLink": "Vložit fladder ověřovací odkaz fladder:///login?authLink=...",
     "connect": "Připojit",
     "authLinkDesc": "Požádejte administrátora serveru o poskytnutí autorizačního odkazu. Odkaz obsahuje ověřovací informace, proto jej uchovávejte v bezpečí.",
     "deletedItem": "Smazáno: {itemName}",
@@ -2152,5 +2152,54 @@
     },
     "leanBackModeTitle": "Režim Lean-Back",
     "leanBackModeDesc": "Povolit režim lean-back na zařízeních se systémem Android, i když zařízení hlásí opak.",
-    "leanBackModeInfo": "Režim lean-back je na zařízeních AndroidTV ve výchozím nastavení opět zapnutý. Zapnutí této možnosti na jiných než AndroidTV zařízeních může způsobit neočekávané chování."
+    "leanBackModeInfo": "Režim lean-back je na zařízeních AndroidTV ve výchozím nastavení opět zapnutý. Zapnutí této možnosti na jiných než AndroidTV zařízeních může způsobit neočekávané chování.",
+    "appLockPattern": "Gesto",
+    "enterPin": "Zadejte PIN",
+    "confirmPin": "Potvrďte PIN",
+    "drawPattern": "Nakreslete gesto",
+    "confirmPattern": "Znovu nakreslete gesto",
+    "incorrectPatternTryAgain": "Nesprávné gesto. Zkuste znovu.",
+    "patternTooShort": "Spojte alespoň 4 tečky",
+    "codeMismatch": "Nesouhlasí. Zkuste znovu.",
+    "unreadableAccountsLogInAgain": "Některé uložené účty nemohly být načteny. Přihlašte se znovu aby se obnovili.",
+    "sideBar": "Boční panel",
+    "musicSideBar": "Hudební boční panel",
+    "refreshRateSwitchingTitle": "Přizpůsobení obnovovací frekvence",
+    "refreshRateSwitchingDesc": "Přizpůsobit obnovovací frekvenci displeje snímkové frekvenci videa",
+    "subtitleOffsetBackward": "Posunout vzad",
+    "subtitleOffsetForward": "Posunout vpřed",
+    "subtitleOffset": "Časový posun titulků",
+    "settingsServerUrlSetDesc": "Změňte adresu používanou pro připojení k vašemu serveru Jellyfin. Nová adresa URL musí směřovat na tentýž server.",
+    "showOnDashboard": "Zobrazit na řídicím panelu",
+    "libraryFilters": "Filtry knihovny",
+    "editYourLibraryFilters": "Upravte filtry knihovny",
+    "libraryFiltersTitle": "Filtry knihovny",
+    "libraryFiltersDesc": "Filtry knihoven vám umožňují vytvářet vlastní zobrazení knihoven na základě",
+    "libraryNoFiltersSaved": "Žádné uložené filtry knihovny",
+    "addTo": "Přidat do",
+    "deepLinkSwitchUserTitle": "Změnit uživatele?",
+    "deepLinkSwitchUserDesc": "Tato položka není pro {user} k dispozici. Otevřít jako:",
+    "@deepLinkSwitchUserDesc": {
+        "description": "Shown when a link points to an item the current user cannot access, followed by a list of accounts that can",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkSwitchAccountDesc": "Tento odkaz patří uživateli {user}. Přepnout na tento účet?",
+    "@deepLinkSwitchAccountDesc": {
+        "description": "Shown when a notification link was created for another saved account",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkItemNotFound": "Tato položka není k dispozici pro žádný z vašich účtů",
+    "lowResourceModeTitle": "Režim nízkého výkonu",
+    "lowResourceModeDesc": "Spotřebovává méně paměti na zařízeních s omezenou pamětí RAM snížením mezipaměti a vyrovnávacích pamětí a vypnutím náročných vizuálních efektů. Automaticky zapnuto na zařízeních s 3 GB RAM nebo méně.",
+    "lowResourceModeAuto": "Automaticky",
+    "impellerRendererTitle": "Vykreslovač Impeller",
+    "impellerRendererDesc": "Používejte vykreslovací engine Impeller od Flutteru. Pokud se přechody nebo efekty na vašem grafickém čipu (GPU) vykreslují nesprávně, vypněte jej a použijte engine Skia. Vyžaduje restart."
 }
