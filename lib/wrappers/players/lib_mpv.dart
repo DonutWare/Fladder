@@ -86,9 +86,7 @@ class LibMPV extends BasePlayer {
     _player = player;
     _controller = VideoController(
       player,
-      configuration: VideoControllerConfiguration(
-        enableHardwareAcceleration: settings.hardwareAccel,
-      ),
+      configuration: VideoControllerConfiguration(enableHardwareAcceleration: settings.hardwareAccel),
     );
     _setupPlayerStreams(player);
 
@@ -163,9 +161,7 @@ class LibMPV extends BasePlayer {
   }
 
   void setState(PlayerState state) {
-    final newState = state.update(
-      playing: _musicPlaybackMode ? !_musicPaused : state.playing,
-    );
+    final newState = state.update(playing: _musicPlaybackMode ? !_musicPaused : state.playing);
     lastState = newState;
     _stateController.add(newState);
   }
@@ -265,15 +261,17 @@ class LibMPV extends BasePlayer {
       await incomingPlayer.setVolume(_preferredVolume);
     }
 
-    setState(lastState.update(
-      playing: incomingPlayer.state.playing,
-      buffering: incomingPlayer.state.buffering,
-      position: incomingPlayer.state.position,
-      duration: incomingPlayer.state.duration,
-      volume: _preferredVolume,
-      buffer: incomingPlayer.state.buffer,
-      completed: false,
-    ));
+    setState(
+      lastState.update(
+        playing: incomingPlayer.state.playing,
+        buffering: incomingPlayer.state.buffering,
+        position: incomingPlayer.state.position,
+        duration: incomingPlayer.state.duration,
+        volume: _preferredVolume,
+        buffer: incomingPlayer.state.buffer,
+        completed: false,
+      ),
+    );
   }
 
   @override
@@ -289,29 +287,26 @@ class LibMPV extends BasePlayer {
     _retryTimer = null;
     if (_player == null) return;
 
-    _retryTimer = RestartableTimer(
-      _currentRetryDuration,
-      () async {
-        await Future.delayed(const Duration(milliseconds: 150));
-        if (DateTime.now().isAfter(_firstLoadAttempt.add(_maxRetryDuration))) {
-          log("Max retry duration reached, stopping retries.");
-          _retryTimer?.cancel();
-          _retryTimer = null;
-        } else if (!await _isPlayerIdle()) {
-          // mpv is still opening the file, it just hasn't reported a duration yet. That is normal for
-          // slow starts such as a server-side transcode or a high-latency connection, and reopening
-          // here would abort a load that is making progress. A load that really hangs is ended by
-          // mpv's own network-timeout, which leaves the player idle and is retried below.
-          log("Video is still loading, waiting before retrying");
-          _retryTimer?.reset();
-        } else {
-          log("Retrying to load video $url");
-          await setStartPosition(startPosition);
-          await _player?.open(mpv.Media(url), play: play);
-          _retryTimer?.reset();
-        }
-      },
-    );
+    _retryTimer = RestartableTimer(_currentRetryDuration, () async {
+      await Future.delayed(const Duration(milliseconds: 150));
+      if (DateTime.now().isAfter(_firstLoadAttempt.add(_maxRetryDuration))) {
+        log("Max retry duration reached, stopping retries.");
+        _retryTimer?.cancel();
+        _retryTimer = null;
+      } else if (!await _isPlayerIdle()) {
+        // mpv is still opening the file, it just hasn't reported a duration yet. That is normal for
+        // slow starts such as a server-side transcode or a high-latency connection, and reopening
+        // here would abort a load that is making progress. A load that really hangs is ended by
+        // mpv's own network-timeout, which leaves the player idle and is retried below.
+        log("Video is still loading, waiting before retrying");
+        _retryTimer?.reset();
+      } else {
+        log("Retrying to load video $url");
+        await setStartPosition(startPosition);
+        await _player?.open(mpv.Media(url), play: play);
+        _retryTimer?.reset();
+      }
+    });
 
     // Wait for the player to be ready
     if (_loadCompleter?.isCompleted == false) {
@@ -335,14 +330,12 @@ class LibMPV extends BasePlayer {
       });
     }
 
-    _loadCompleter?.future.then(
-      (value) async {
-        // Backup seek in case property didn't work
-        if (startPosition != Duration.zero && (_player?.state.position.inSeconds ?? 0) < startPosition.inSeconds - 5) {
-          await _player?.seek(startPosition);
-        }
-      },
-    );
+    _loadCompleter?.future.then((value) async {
+      // Backup seek in case property didn't work
+      if (startPosition != Duration.zero && (_player?.state.position.inSeconds ?? 0) < startPosition.inSeconds - 5) {
+        await _player?.seek(startPosition);
+      }
+    });
     return setState(lastState.update(buffering: true));
   }
 
@@ -408,10 +401,7 @@ class LibMPV extends BasePlayer {
 
   Future<void> setStartPosition(Duration position) async {
     if (_player?.platform is mpv.NativePlayer) {
-      await (_player?.platform as dynamic).setProperty(
-        'start',
-        '${position.inMilliseconds / 1000}',
-      );
+      await (_player?.platform as dynamic).setProperty('start', '${position.inMilliseconds / 1000}');
     }
   }
 
@@ -422,11 +412,10 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> open(BuildContext context) async => Navigator.of(context, rootNavigator: true).push(
-        MaterialPageRoute(
-          builder: (context) => const video_screen.VideoPlayer(),
-        ),
-      );
+  Future<void> open(BuildContext context) async => Navigator.of(
+    context,
+    rootNavigator: true,
+  ).push(MaterialPageRoute(builder: (context) => const video_screen.VideoPlayer()));
 
   List<mpv.SubtitleTrack> get subTracks => _player?.state.tracks.subtitle ?? [];
   mpv.SubtitleTrack get subtitleTrack => _player?.state.track.subtitle ?? mpv.SubtitleTrack.no();
@@ -585,35 +574,27 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Widget? videoWidget(
-    Key key,
-    BoxFit fit,
-  ) =>
-      _controller == null
-          ? null
-          : Video(
-              key: key,
-              controller: _controller!,
-              wakelock: false,
-              fill: Colors.transparent,
-              fit: fit,
-              subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
-              controls: NoVideoControls,
-            );
+  Widget? videoWidget(Key key, BoxFit fit) => _controller == null
+      ? null
+      : Video(
+          key: key,
+          controller: _controller!,
+          wakelock: false,
+          fill: Colors.transparent,
+          fit: fit,
+          subtitleViewConfiguration: const SubtitleViewConfiguration(visible: false),
+          controls: NoVideoControls,
+        );
 
   @override
-  Widget? subtitles(
-    bool showOverlay, {
-    GlobalKey? controlsKey,
-  }) =>
-      _controller != null
-          ? _VideoSubtitles(
-              controller: _controller!,
-              showOverlay: showOverlay,
-              controlsKey: controlsKey,
-              internalRenderer: _internalSubtitleRenderer,
-            )
-          : null;
+  Widget? subtitles(bool showOverlay, {GlobalKey? controlsKey}) => _controller != null
+      ? _VideoSubtitles(
+          controller: _controller!,
+          showOverlay: showOverlay,
+          controlsKey: controlsKey,
+          internalRenderer: _internalSubtitleRenderer,
+        )
+      : null;
 
   static bool _needsInternalRenderer(String codec) {
     final value = codec.toLowerCase();
@@ -728,12 +709,7 @@ class _VideoSubtitlesState extends ConsumerState<_VideoSubtitles> {
       menuHeight: _cachedMenuHeight,
     );
 
-    return SubtitleText(
-      subModel: settings,
-      padding: padding,
-      offset: offset,
-      text: text,
-    );
+    return SubtitleText(subModel: settings, padding: padding, offset: offset, text: text);
   }
 
   void _measureMenuHeight() {
