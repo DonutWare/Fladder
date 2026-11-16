@@ -253,7 +253,7 @@
     "masonry": "砖石",
     "mediaTypeBase": "基础类型",
     "mediaTypeBook": "{count, plural, one{书籍} other{书籍}}",
-    "mediaTypeBoxset": "{count, plural, one{套装} other{套装}}",
+    "mediaTypeBoxset": "{count, plural, one{合集} other{合集}}",
     "mediaTypeEpisode": "{count, plural, one{集} other{集}}",
     "mediaTypeFolder": "{count, plural, one{文件夹} other{文件夹}}",
     "mediaTypeMovie": "{count, plural, one{电影} other{电影}}",
