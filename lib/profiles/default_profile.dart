@@ -27,12 +27,12 @@ DeviceProfile defaultProfile(PlayerOptions player) => kIsWeb
         ],
         transcodingProfiles: [
           TranscodingProfile(
-            audioCodec: 'aac,mp3,mp2',
+            audioCodec: 'aac,mp3,mp2,ac3,eac3',
             container: 'ts',
-            maxAudioChannels: '2',
+            maxAudioChannels: '6',
             protocol: MediaStreamProtocol.hls,
             type: DlnaProfileType.video,
-            videoCodec: 'h264',
+            videoCodec: 'hevc,h264',
           ),
         ],
         containerProfiles: [],
