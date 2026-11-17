@@ -2084,5 +2084,17 @@
             }
         }
     },
-    "settingsPlayerCrossfadeDesc": "Blende zwischen Titel über, die im selben Album nicht aufeinander folgen"
+    "settingsPlayerCrossfadeDesc": "Blende zwischen Titel über, die im selben Album nicht aufeinander folgen",
+    "appLockPattern": "Muster",
+    "confirmPattern": "Muster erneut zeichnen",
+    "incorrectPatternTryAgain": "Falsches Muster. Versuchen Sie es noch mal.",
+    "patternTooShort": "Mindestens 4 Punkte verbinden",
+    "codeMismatch": "Das passt nicht. Versuchen Sie es noch mal.",
+    "unreadableAccountsLogInAgain": "Einige gespeicherte Konten konnten nicht geladen werden. Melden Sie sich erneut an, um sie wiederherzustellen.",
+    "sideBar": "Seitenleiste",
+    "musicSideBar": "Musik Sidebar",
+    "posterColorsTitle": "Generierte Posterfarben",
+    "posterColorsDesc": "Verwenden Sie generierte Farben für Poster anstelle der Standardfarbe",
+    "settingsServerUrlSetDesc": "Ändern Sie die zur Verbindung mit Ihrem Jellyfin-Server verwendete Adresse. Die neue URL muss auf denselben Server zeigen.",
+    "localNetworkPermissionRequest": "Erlauben Sie lokalen Netzwerk-Zugriff, um Server zu entdecken."
 }
