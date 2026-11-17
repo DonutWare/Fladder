@@ -2286,5 +2286,6 @@
     "leanBackModeTitle": "حالت Lean-back",
     "leanBackModeDesc": "فعال‌سازی حالت Lean-back در دستگاه‌های اندرویدی، حتی اگر دستگاه آن را به عنوان false گزارش دهد.",
     "leanBackModeInfo": "حالت Lean-back به صورت پیش‌فرض در دستگاه‌های AndroidTV دوباره فعال می‌شود. تغییر این گزینه در دستگاه‌های غیر AndroidTV ممکن است باعث رفتار غیرمنتظره شود.",
-    "localNetworkPermissionRequest": "اجازه دسترسی به شبکه محلی برای کشف سرورهای."
+    "localNetworkPermissionRequest": "اجازه دسترسی به شبکه محلی برای کشف سرورهای.",
+    "libraryFiltersDesc": "فیلترهای کتابخانه به شما اجازه می دهد تا دیدگاه های سفارشی کتابخانه های خود را ایجاد کنید"
 }
