@@ -2296,5 +2296,14 @@
                 "type": "String"
             }
         }
+    },
+    "deepLinkSwitchAccountDesc": "این پیوند به {user} تعلق دارد. سوئیچ به این حساب؟?",
+    "@deepLinkSwitchAccountDesc": {
+        "description": "Shown when a notification link was created for another saved account",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
     }
 }
