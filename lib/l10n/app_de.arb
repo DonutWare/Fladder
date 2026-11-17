@@ -2096,5 +2096,17 @@
     "posterColorsTitle": "Generierte Posterfarben",
     "posterColorsDesc": "Verwenden Sie generierte Farben für Poster anstelle der Standardfarbe",
     "settingsServerUrlSetDesc": "Ändern Sie die zur Verbindung mit Ihrem Jellyfin-Server verwendete Adresse. Die neue URL muss auf denselben Server zeigen.",
-    "localNetworkPermissionRequest": "Erlauben Sie lokalen Netzwerk-Zugriff, um Server zu entdecken."
+    "localNetworkPermissionRequest": "Erlauben Sie lokalen Netzwerk-Zugriff, um Server zu entdecken.",
+    "enterPin": "Die PIN eingeben",
+    "confirmPin": "Bestätige die PIN",
+    "mediaTypeMusicVideo": "{count, plural, one{Musikvideo} other{Musikvideos}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    }
 }
