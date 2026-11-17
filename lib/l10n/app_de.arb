@@ -2108,5 +2108,8 @@
                 "example": "1"
             }
         }
-    }
+    },
+    "playItems": "Inhalt Wiedergeben",
+    "shuffleItems": "Inhalt zufällig wiedergeben",
+    "playerSettingsAmbientBlurTitle": "Aktiviere Umgebungsunschärfe"
 }
