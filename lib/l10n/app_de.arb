@@ -2111,5 +2111,46 @@
     },
     "playItems": "Inhalt Wiedergeben",
     "shuffleItems": "Inhalt zufällig wiedergeben",
-    "playerSettingsAmbientBlurTitle": "Aktiviere Umgebungsunschärfe"
+    "playerSettingsAmbientBlurTitle": "Aktiviere Umgebungsunschärfe",
+    "applyFilter": "Filter anwenden",
+    "playerSettingsAmbientBlurDescWarning": "Ambient Blur kann Leistungsprobleme auf Low-End-Geräten verursachen.",
+    "discography": "Diskographie",
+    "latestTracksBy": "Neueste Tracks von {artist}",
+    "@latestTracksBy": {
+        "description": "Latest tracks by artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "favoritesOf": "Favoriten von {artist}",
+    "@favoritesOf": {
+        "description": "Favorites of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryFilters": "Bibliotheksfilter",
+    "editYourLibraryFilters": "Bibliotheksfilter bearbeiten",
+    "libraryFiltersTitle": "Bibliotheksfilter",
+    "libraryFiltersDesc": "Bibliotheksfilter ermöglichen es Ihnen, benutzerdefinierte Ansichten Ihrer Bibliotheken zu erstellen",
+    "libraryNoFiltersSaved": "Keine Bibliotheksfilter gespeichert",
+    "deepLinkSwitchUserTitle": "Benutzer wechseln?",
+    "deepLinkSwitchAccountDesc": "Dieser Link gehört zu {user}. Auf dieses Konto wechseln?",
+    "@deepLinkSwitchAccountDesc": {
+        "description": "Shown when a notification link was created for another saved account",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "lowResourceModeTitle": "Niedriger Ressourcenmodus",
+    "lowResourceModeDesc": "Verwenden Sie weniger Speicher auf Geräten mit begrenztem RAM, indem Caches und Puffer gesenkt und schwere visuelle Effekte ausgeschaltet werden. Automatic ermöglicht es auf Geräten mit 3 GB RAM oder weniger.",
+    "lowResourceModeAuto": "Automatisch",
+    "impellerRendererTitle": "Impeller Rendering",
+    "impellerRendererDesc": "Verwenden Sie Flutters Impeller Renderer. Schalten Sie aus, um Skia zu verwenden, wenn Gradienten oder Effekte falsch auf Ihre GPU. Erfordert einen Neustart."
 }
