@@ -349,10 +349,13 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       if (context == null) return;
 
       if (saveDirectory == null) {
-        String? selectedDirectory =
-            await FilePicker.getDirectoryPath(dialogTitle: context.localized.syncSelectDownloadsFolder);
-        if (selectedDirectory?.isEmpty == true && context.mounted) {
-          FladderSnack.show(context.localized.syncNoFolderSetup, context: context);
+        final selectedDirectory = await FilePicker.getDirectoryPath(
+          dialogTitle: context.localized.syncSelectDownloadsFolder,
+        );
+        if (selectedDirectory == null || selectedDirectory.isEmpty) {
+          if (context.mounted) {
+            FladderSnack.show(context.localized.syncNoFolderSetup, context: context);
+          }
           return;
         }
         ref.read(clientSettingsProvider.notifier).setSyncPath(selectedDirectory);
