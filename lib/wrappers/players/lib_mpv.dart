@@ -34,8 +34,6 @@ class LibMPV extends BasePlayer {
   @override
   Stream<PlayerState> get stateStream => _stateController.stream;
 
-  StreamSubscription<bool>? _onCompleted;
-
   bool _replayGainFallbackLogged = false;
   VideoPlayerSettingsModel _settings = VideoPlayerSettingsModel();
   bool _lowResourceMode = false;
@@ -127,11 +125,11 @@ class LibMPV extends BasePlayer {
       await native.setProperty('network-timeout', '60');
       await native.setProperty('stream-buffer-size', '4M');
       await native.setProperty('prefetch-playlist', 'yes');
-      await native.setProperty('loop-file', _loopFile ? 'inf' : 'no');
       if (defaultTargetPlatform == TargetPlatform.android) {
         await native.setProperty('ao', 'audiotrack');
       }
     }
+    await player.setPlaylistMode(_loopFile ? mpv.PlaylistMode.single : mpv.PlaylistMode.none);
     return player;
   }
 
@@ -140,10 +138,7 @@ class LibMPV extends BasePlayer {
   Future<void> setLoopFile(bool enabled) async {
     if (_loopFile == enabled) return;
     _loopFile = enabled;
-    final player = _player;
-    if (player?.platform is mpv.NativePlayer) {
-      await (player!.platform as dynamic).setProperty('loop-file', enabled ? 'inf' : 'no');
-    }
+    await _player?.setPlaylistMode(enabled ? mpv.PlaylistMode.single : mpv.PlaylistMode.none);
   }
 
   @override
@@ -153,8 +148,6 @@ class LibMPV extends BasePlayer {
     _fadeTimer = null;
     _crossfadeGeneration++;
     _cancelPlayerStreams();
-    _onCompleted?.cancel();
-    _onCompleted = null;
     _player?.stop();
     _player?.dispose();
     _player = null;
@@ -623,17 +616,7 @@ class LibMPV extends BasePlayer {
   }
 
   @override
-  Future<void> loop(bool loop) async {
-    if (loop && _onCompleted == null) {
-      _onCompleted = _player?.stream.completed.listen((completed) {
-        if (completed) {
-          _player?.play();
-        }
-      });
-    } else {
-      _onCompleted?.cancel();
-    }
-  }
+  Future<void> loop(bool loop) => setLoopFile(loop);
 }
 
 class _VideoSubtitles extends ConsumerStatefulWidget {
