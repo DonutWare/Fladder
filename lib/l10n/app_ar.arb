@@ -2213,5 +2213,16 @@
     "subtitleOffset": "إزاحة الترجمة",
     "lowResourceModeTitle": "وضع الموارد المنخفضة",
     "lowResourceModeDesc": "يستهلك ذاكرة أقل على الأجهزة ذات الذاكرة العشوائية المحدودة من خلال تقليل حجم التخزين المؤقت والمخازن وتعطيل التأثيرات البصرية الثقيلة. يُفعَّل تلقائياً على الأجهزة التي تحتوي على 3 جيجابايت من الذاكرة العشوائية أو أقل.",
-    "lowResourceModeAuto": "تلقائي"
+    "lowResourceModeAuto": "تلقائي",
+    "appLockPattern": "النمط",
+    "enterPin": "أدخل رمز PIN",
+    "confirmPin": "تأكيد رمز PIN",
+    "drawPattern": "ارسم النمط",
+    "confirmPattern": "أعد رسم النمط",
+    "incorrectPatternTryAgain": "النمط غير صحيح. حاول مرة أخرى.",
+    "patternTooShort": "صِل بين 4 نقاط على الأقل",
+    "codeMismatch": "غير متطابق. حاول مرة أخرى.",
+    "unreadableAccountsLogInAgain": "تعذر تحميل بعض الحسابات المحفوظة. سجّل الدخول مرة أخرى لاستعادتها.",
+    "impellerRendererTitle": "عارض Impeller",
+    "impellerRendererDesc": "استخدم عارض Impeller الخاص بـ Flutter. عطّله لاستخدام Skia إذا كانت التدرجات اللونية أو التأثيرات تُعرَض بشكل غير صحيح على معالج الرسومات لديك. يتطلب ذلك إعادة تشغيل التطبيق."
 }

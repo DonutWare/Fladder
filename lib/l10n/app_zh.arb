@@ -253,7 +253,7 @@
     "masonry": "砖石",
     "mediaTypeBase": "基础类型",
     "mediaTypeBook": "{count, plural, one{书籍} other{书籍}}",
-    "mediaTypeBoxset": "{count, plural, one{套装} other{套装}}",
+    "mediaTypeBoxset": "{count, plural, one{合集} other{合集}}",
     "mediaTypeEpisode": "{count, plural, one{集} other{集}}",
     "mediaTypeFolder": "{count, plural, one{文件夹} other{文件夹}}",
     "mediaTypeMovie": "{count, plural, one{电影} other{电影}}",
@@ -2219,5 +2219,7 @@
     "incorrectPatternTryAgain": "图案不正确。请重试。",
     "patternTooShort": "连接至少 4 个点",
     "codeMismatch": "不匹配。请重试。",
-    "unreadableAccountsLogInAgain": "部分已保存的账户无法加载。请重新登录以恢复这些账户。"
+    "unreadableAccountsLogInAgain": "部分已保存的账户无法加载。请重新登录以恢复这些账户。",
+    "impellerRendererTitle": "Impeller 渲染器",
+    "impellerRendererDesc": "使用 Flutter 的 Impeller 渲染器。如果渐变或特效在您的 GPU 上渲染不正常，请将其关闭以改用 Skia。更改后需要重启。"
 }
