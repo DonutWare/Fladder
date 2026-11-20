@@ -42,6 +42,7 @@ import 'package:fladder/util/bitrate_helper.dart';
 import 'package:fladder/util/duration_extensions.dart';
 import 'package:fladder/util/localization_helper.dart';
 import 'package:fladder/util/map_bool_helper.dart';
+import 'package:fladder/util/playback_media_source.dart';
 import 'package:fladder/util/streams_selection.dart';
 import 'package:fladder/wrappers/media_control_wrapper.dart';
 
@@ -419,13 +420,16 @@ class PlaybackModelHelper {
         return null;
       }
 
-      final mediaSource = playbackInfo.mediaSources?[newStreamModel?.versionStreamIndex ?? 0];
+      final mediaSource = selectPlaybackMediaSource(
+        playbackInfo.mediaSources,
+        newStreamModel?.currentVersionStream?.id,
+      );
 
       if (mediaSource == null) {
         return null;
       }
 
-      final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(playbackInfo.mediaSources, ref).copyWith(
+      final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList([mediaSource], ref).copyWith(
         defaultAudioStreamIndex: audioStreamIndex,
         defaultSubStreamIndex: subStreamIndex,
       );
@@ -585,14 +589,17 @@ class PlaybackModelHelper {
 
     PlaybackInfoResponse playbackInfo = response.bodyOrThrow;
 
-    final mediaSource = playbackInfo.mediaSources?.first;
-
-    final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList(playbackInfo.mediaSources, ref).copyWith(
-      defaultAudioStreamIndex: audioIndex,
-      defaultSubStreamIndex: subIndex,
+    final mediaSource = selectPlaybackMediaSource(
+      playbackInfo.mediaSources,
+      playbackModel.mediaStreams?.currentVersionStream?.id,
     );
 
     if (mediaSource == null) return;
+
+    final mediaStreamsWithUrls = MediaStreamsModel.fromMediaStreamsList([mediaSource], ref).copyWith(
+      defaultAudioStreamIndex: audioIndex,
+      defaultSubStreamIndex: subIndex,
+    );
 
     PlaybackModel? newModel;
 
