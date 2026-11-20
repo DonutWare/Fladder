@@ -42,8 +42,12 @@ class MiddleMouseAutoscroll extends StatelessWidget {
   /// Scroll speed gained per logical pixel the pointer sits past the dead zone, in pixels per second.
   static const double speedPerPixel = 6;
 
+  /// Distance past the dead zone, in logical pixels, at which the speed is double the linear rate.
+  /// Close to the origin the speed stays near linear for fine control, further out it ramps up.
+  static const double accelerationDistance = 600;
+
   /// Upper bound on the scroll speed, in logical pixels per second.
-  static const double maxSpeed = 3000;
+  static const double maxSpeed = 15000;
 
   // Pointer events reach listeners innermost first, so the first scrollable to claim an axis
   // for the current pointer is the nearest one. One session is shared by every listener.
@@ -151,7 +155,9 @@ class _AutoscrollSession {
   static double _speedFor(double distance) {
     final magnitude = distance.abs() - MiddleMouseAutoscroll.deadZone;
     if (magnitude <= 0) return 0;
-    final speed = (magnitude * MiddleMouseAutoscroll.speedPerPixel).clamp(0.0, MiddleMouseAutoscroll.maxSpeed);
+    final ramp = magnitude / MiddleMouseAutoscroll.accelerationDistance;
+    final speed = (magnitude * MiddleMouseAutoscroll.speedPerPixel * (1 + ramp * ramp))
+        .clamp(0.0, MiddleMouseAutoscroll.maxSpeed);
     return distance.isNegative ? -speed : speed;
   }
 
