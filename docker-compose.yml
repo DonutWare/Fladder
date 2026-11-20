@@ -7,5 +7,9 @@ services:
     environment:
       - BASE_URL=https://server-url #OPTIONAL: Locks the Fladder front-end to a certain jellyfin server
       - SEERR_BASE_URL=https://seerr-url #OPTIONAL: Presets Seerr base URL
-      - SEERR_HEADER={"key":"value"} #OPTIONAL: JSON object string of Seerr headers
+      # SEERR_HEADER is intended to e.g. bypass an OUTER auth wall which is in front of Seerr:
+      # Authelia, Authentik, forward-auth, Cloudflare Access, basic-auth on a reverse proxy, etc.)
+      # Do NOT put Seerr's own X-Api-Key here!
+      # /seerr-proxy/ is not authenticated by Fladder, so an X-Api-Key would let any HTTP caller act as a Seerr admin.
+      - SEERR_HEADER={"key":"value"} #OPTIONAL: JSON headers injected server-side via nginx proxy (requires SEERR_BASE_URL)
       - FLADDER_WEBPATH=/ #OPTIONAL: Configures a subpath to run Fladder at
