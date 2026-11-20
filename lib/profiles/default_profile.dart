@@ -8,8 +8,10 @@ import 'package:fladder/models/settings/video_player_settings.dart';
 import 'package:fladder/profiles/web_profile.dart';
 import 'package:fladder/providers/video_player_provider.dart';
 
-final videoProfileProvider = StateProvider.autoDispose<DeviceProfile>((ref) =>
-    defaultProfile(ref.read(videoPlayerProvider.select((value) => value.backend)) ?? PlayerOptions.platformDefaults));
+final videoProfileProvider = StateProvider.autoDispose<DeviceProfile>(
+  (ref) =>
+      defaultProfile(ref.read(videoPlayerProvider.select((value) => value.backend)) ?? PlayerOptions.platformDefaults),
+);
 
 DeviceProfile defaultProfile(PlayerOptions player) => kIsWeb
     ? webProfile
@@ -18,12 +20,8 @@ DeviceProfile defaultProfile(PlayerOptions player) => kIsWeb
         maxStaticBitrate: 120000000,
         musicStreamingTranscodingBitrate: 384000,
         directPlayProfiles: [
-          DirectPlayProfile(
-            type: DlnaProfileType.video,
-          ),
-          DirectPlayProfile(
-            type: DlnaProfileType.audio,
-          )
+          DirectPlayProfile(type: DlnaProfileType.video),
+          DirectPlayProfile(type: DlnaProfileType.audio),
         ],
         transcodingProfiles: [
           TranscodingProfile(
@@ -41,5 +39,6 @@ DeviceProfile defaultProfile(PlayerOptions player) => kIsWeb
           SubtitleProfile(format: 'ass', method: SubtitleDeliveryMethod.$external),
           SubtitleProfile(format: 'ssa', method: SubtitleDeliveryMethod.$external),
           SubtitleProfile(format: 'pgssub', method: SubtitleDeliveryMethod.$external),
+          SubtitleProfile(format: 'dvdsub', method: SubtitleDeliveryMethod.embed),
         ],
       );
