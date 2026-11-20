@@ -41,7 +41,6 @@ import nl.jknaapen.fladder.objects.Translate
 import nl.jknaapen.fladder.objects.VideoPlayerObject
 import nl.jknaapen.fladder.utility.defaultSelected
 import nl.jknaapen.fladder.utility.leanBackEnabled
-import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 internal fun BoxScope.SegmentSkipOverlay(
@@ -62,14 +61,15 @@ internal fun BoxScope.SegmentSkipOverlay(
 
     if (segments.isEmpty() || player == null) return
 
-    val activeSegment = segments.firstOrNull { it.start <= position && it.end >= position }
+    // The end is exclusive: it's where the segment is over, so seeking to it leaves the segment.
+    val activeSegment = segments.firstOrNull { it.start <= position && position < it.end }
 
     val segmentType = activeSegment?.type?.toSegment
     val skip = skipMap[segmentType]
     val currentSegmentId = activeSegment?.let { "${it.type}-${it.start}-${it.end}" }
 
     fun skipSegment(segment: MediaSegment, segmentId: String) {
-        player.seekTo(segment.end + 250.milliseconds.inWholeMilliseconds)
+        player.seekTo(segment.end)
         skippedSegments.add(segmentId)
     }
 

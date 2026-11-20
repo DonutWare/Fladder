@@ -38,7 +38,8 @@ abstract class MediaSegment with _$MediaSegment {
 
   factory MediaSegment.fromJson(Map<String, dynamic> json) => _$MediaSegmentFromJson(json);
 
-  bool inRange(Duration position) => (position.compareTo(start) >= 0 && position.compareTo(end) <= 0);
+  // The end is exclusive: it's where the segment is over, so seeking to it leaves the segment.
+  bool inRange(Duration position) => (position.compareTo(start) >= 0 && position.compareTo(end) < 0);
 
   SegmentVisibility visibility(Duration position, {bool force = false}) {
     if (force) return SegmentVisibility.visible;
