@@ -1691,7 +1691,7 @@
     "newPassword": "گذرواژه جدید",
     "enabledRealtimeMonitoring": "نظارت بلادرنگ فعال‌شده",
     "automaticallyAddToCollection": "افزودن خودکار به مجموعه",
-    "trickplay": "Trickplay",
+    "trickplay": "جستجوی بصری در ویدیو",
     "enableTrickplayImageExtraction": "فعال‌سازی استخراج تصاویر Trickplay",
     "saveSubtitlesNextToMedia": "ذخیره زیرنویس‌ها در کنار رسانه",
     "metadataImageLongPressTouch": "فشار طولانی برای حذف تصویر",
@@ -2285,5 +2285,58 @@
     },
     "leanBackModeTitle": "حالت Lean-back",
     "leanBackModeDesc": "فعال‌سازی حالت Lean-back در دستگاه‌های اندرویدی، حتی اگر دستگاه آن را به عنوان false گزارش دهد.",
-    "leanBackModeInfo": "حالت Lean-back به صورت پیش‌فرض در دستگاه‌های AndroidTV دوباره فعال می‌شود. تغییر این گزینه در دستگاه‌های غیر AndroidTV ممکن است باعث رفتار غیرمنتظره شود."
+    "leanBackModeInfo": "حالت Lean-back به صورت پیش‌فرض در دستگاه‌های AndroidTV دوباره فعال می‌شود. تغییر این گزینه در دستگاه‌های غیر AndroidTV ممکن است باعث رفتار غیرمنتظره شود.",
+    "localNetworkPermissionRequest": "برای یافتن سرورها، مجوز دسترسی به شبکه محلی را بدهید.",
+    "libraryFiltersDesc": "فیلترهای کتابخانه به شما اجازه می دهد تا نمایش های سفارشی بر اساس کتابخانه های خود را ایجاد کنید",
+    "deepLinkSwitchUserDesc": "این آیتم برای {user} در دسترس نیست. بازکردن به عنوان:",
+    "@deepLinkSwitchUserDesc": {
+        "description": "Shown when a link points to an item the current user cannot access, followed by a list of accounts that can",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkSwitchAccountDesc": "این پیوند به {user} تعلق دارد. سوئیچ به این حساب؟",
+    "@deepLinkSwitchAccountDesc": {
+        "description": "Shown when a notification link was created for another saved account",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "appLockPattern": "الگو",
+    "enterPin": "رمز پین را وارد کنید",
+    "confirmPin": "رمز پین خود را برای تایید مجددا وارد کنید",
+    "drawPattern": "یک الگو بکشید",
+    "confirmPattern": "الگو خود را مجدد بکشید",
+    "incorrectPatternTryAgain": "الگو اشتباه وارد شد. مجدد تلاش کنید.",
+    "patternTooShort": "حداقل ۴ نقطه را وصل کنید",
+    "codeMismatch": "مطابقت نداشت. مجددا تلاش کنید.",
+    "unreadableAccountsLogInAgain": "برخی حساب های ذخیره‌شده، بارگزاری نشدند. مجددا وارد شوید تا آن ها را بازیابی کنید.",
+    "sideBar": "نوار کناری",
+    "musicSideBar": "موسیقی نوار کناری",
+    "refreshRateSwitchingTitle": "مطابقت نرخ نوسازی",
+    "refreshRateSwitchingDesc": "مطابقت نرخ نوسازی صفحه نمایش با نرخ فریم ویدیو",
+    "subtitleOffsetBackward": "تاخیر در نمایش زیرنویس",
+    "subtitleOffsetForward": "تعجیل در نمایش زیرنویس",
+    "subtitleOffset": "تنظیم زمان نمایش زیرنویس",
+    "settingsServerUrlSetDesc": "آدرس که برای اتصال به سرور jellyfin استفاده می‌شود را تغییر دهید. آدرس URL جدید باید به همان سرور اشاره کند.",
+    "requestPermission": "درخواست مجوز",
+    "localNetworkPermissionDenied": "دسترسی به شبکه محلی ضروری است. مجوز دسترسی به دستگاه های مجاور (devices nearby) را در تنظیم سیستمی، فعال کنید.",
+    "openSettings": "بازکردن تنظیمات",
+    "showOnDashboard": "نمایش در داشبورد",
+    "libraryFilters": "فیلتر کتابخانه",
+    "editYourLibraryFilters": "اصلاح فیلتر های کتابخانه خود",
+    "libraryFiltersTitle": "فیلتر های کتابخانه",
+    "libraryNoFiltersSaved": "هیچ فیلتر کتابخانه‌ای ذخیره نشد",
+    "addTo": "اضافه کردن به",
+    "deepLinkSwitchUserTitle": "تغییر کاربر؟",
+    "lowResourceModeTitle": "حالت مصرف کم منابع",
+    "lowResourceModeDesc": "مصرف رم را با محدود کردن سقف مصرف حافظه پنهان و بافرها و کاهش افکت های سنگین تصویری، کاهش می‌دهد. به طور خودکار رو دستگاه هایی که رم کمتر از ۳ گیگابایت و کمتر دارند، فعال می‌شود.",
+    "lowResourceModeAuto": "خودکار",
+    "impellerRendererTitle": "موتور رندر کننده Impeller",
+    "impellerRendererDesc": "از موتور رندر کننده Impeller فلاتر استفاده شود. اگر گرادیانت ها و افکت ها روی GPU شما، درست رندر نمی‌شود‌، با خاموش کردن این گزینه، از موتور Skia استفاده کنید. نیازمند یک شروع مجدد است.",
+    "deepLinkItemNotFound": "این مورد برای هیچ یک از حساب های شما موجود نیست"
 }

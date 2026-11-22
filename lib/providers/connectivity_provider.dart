@@ -73,7 +73,7 @@ class ConnectivityStatus extends _$ConnectivityStatus {
   }
 
   Future<void> checkConnectivity({bool immediate = false}) async {
-    final results = await Connectivity().checkConnectivity();
+    final results = await Connectivity().checkConnectivity().catchError((_) => [ConnectivityResult.ethernet]);
     _handleHardwareChange(results, immediate: immediate);
   }
 

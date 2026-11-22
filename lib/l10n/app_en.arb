@@ -2921,5 +2921,7 @@
   "lowResourceModeTitle": "Low resource mode",
   "lowResourceModeDesc": "Uses less memory on devices with limited RAM by lowering caches and buffers and turning off heavy visual effects. Automatic enables it on devices with 3 GB of RAM or less.",
   "lowResourceModeAuto": "Automatic",
-  "row": "Row"
+  "row": "Row",
+  "impellerRendererTitle": "Impeller renderer",
+  "impellerRendererDesc": "Use Flutter's Impeller renderer. Turn off to use Skia if gradients or effects render incorrectly on your GPU. Requires a restart."
 }
