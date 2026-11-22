@@ -96,6 +96,7 @@ abstract class VideoPlayerSettingsModel with _$VideoPlayerSettingsModel {
     @Default(100) double internalVolume,
     Set<DeviceOrientation>? allowedOrientations,
     @Default(AutoNextType.smart) AutoNextType nextVideoType,
+    @Default(30) int nextUpCountdownSeconds,
     @Default(Bitrate.original) Bitrate maxHomeBitrate,
     @Default(Bitrate.original) Bitrate maxInternetBitrate,
     String? audioDevice,

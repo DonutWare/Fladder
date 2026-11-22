@@ -151,6 +151,7 @@ class PlayerSettings {
     required this.skipForward,
     required this.skipBackward,
     required this.autoNextType,
+    required this.nextUpCountdownSeconds,
     required this.acceptedOrientations,
     required this.fillScreen,
     required this.videoFit,
@@ -170,6 +171,8 @@ class PlayerSettings {
   int skipBackward;
 
   AutoNextType autoNextType;
+
+  int nextUpCountdownSeconds;
 
   List<PlayerOrientations> acceptedOrientations;
 
@@ -191,6 +194,7 @@ class PlayerSettings {
       skipForward,
       skipBackward,
       autoNextType,
+      nextUpCountdownSeconds,
       acceptedOrientations,
       fillScreen,
       videoFit,
@@ -212,12 +216,13 @@ class PlayerSettings {
       skipForward: result[3]! as int,
       skipBackward: result[4]! as int,
       autoNextType: result[5]! as AutoNextType,
-      acceptedOrientations: (result[6]! as List<Object?>).cast<PlayerOrientations>(),
-      fillScreen: result[7]! as bool,
-      videoFit: result[8]! as VideoPlayerFit,
-      screensaver: result[9]! as Screensaver,
-      refreshRateSwitching: result[10]! as bool,
-      lowResourceMode: result[11]! as bool,
+      nextUpCountdownSeconds: result[6]! as int,
+      acceptedOrientations: (result[7]! as List<Object?>).cast<PlayerOrientations>(),
+      fillScreen: result[8]! as bool,
+      videoFit: result[9]! as VideoPlayerFit,
+      screensaver: result[10]! as Screensaver,
+      refreshRateSwitching: result[11]! as bool,
+      lowResourceMode: result[12]! as bool,
     );
   }
 
@@ -230,7 +235,7 @@ class PlayerSettings {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(enableTunneling, other.enableTunneling) && _deepEquals(skipTypes, other.skipTypes) && _deepEquals(themeColor, other.themeColor) && _deepEquals(skipForward, other.skipForward) && _deepEquals(skipBackward, other.skipBackward) && _deepEquals(autoNextType, other.autoNextType) && _deepEquals(acceptedOrientations, other.acceptedOrientations) && _deepEquals(fillScreen, other.fillScreen) && _deepEquals(videoFit, other.videoFit) && _deepEquals(screensaver, other.screensaver) && _deepEquals(refreshRateSwitching, other.refreshRateSwitching) && _deepEquals(lowResourceMode, other.lowResourceMode);
+    return _deepEquals(enableTunneling, other.enableTunneling) && _deepEquals(skipTypes, other.skipTypes) && _deepEquals(themeColor, other.themeColor) && _deepEquals(skipForward, other.skipForward) && _deepEquals(skipBackward, other.skipBackward) && _deepEquals(autoNextType, other.autoNextType) && _deepEquals(nextUpCountdownSeconds, other.nextUpCountdownSeconds) && _deepEquals(acceptedOrientations, other.acceptedOrientations) && _deepEquals(fillScreen, other.fillScreen) && _deepEquals(videoFit, other.videoFit) && _deepEquals(screensaver, other.screensaver) && _deepEquals(refreshRateSwitching, other.refreshRateSwitching) && _deepEquals(lowResourceMode, other.lowResourceMode);
   }
 
   @override
@@ -239,7 +244,7 @@ class PlayerSettings {
 
   @override
   String toString() {
-    return 'PlayerSettings(enableTunneling: $enableTunneling, skipTypes: $skipTypes, themeColor: $themeColor, skipForward: $skipForward, skipBackward: $skipBackward, autoNextType: $autoNextType, acceptedOrientations: $acceptedOrientations, fillScreen: $fillScreen, videoFit: $videoFit, screensaver: $screensaver, refreshRateSwitching: $refreshRateSwitching, lowResourceMode: $lowResourceMode)';
+    return 'PlayerSettings(enableTunneling: $enableTunneling, skipTypes: $skipTypes, themeColor: $themeColor, skipForward: $skipForward, skipBackward: $skipBackward, autoNextType: $autoNextType, nextUpCountdownSeconds: $nextUpCountdownSeconds, acceptedOrientations: $acceptedOrientations, fillScreen: $fillScreen, videoFit: $videoFit, screensaver: $screensaver, refreshRateSwitching: $refreshRateSwitching, lowResourceMode: $lowResourceMode)';
   }
 }
 

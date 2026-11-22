@@ -281,6 +281,7 @@ data class PlayerSettings (
   val skipForward: Long,
   val skipBackward: Long,
   val autoNextType: AutoNextType,
+  val nextUpCountdownSeconds: Long,
   val acceptedOrientations: List<PlayerOrientations>,
   val fillScreen: Boolean,
   val videoFit: VideoPlayerFit,
@@ -297,13 +298,14 @@ data class PlayerSettings (
       val skipForward = pigeonVar_list[3] as Long
       val skipBackward = pigeonVar_list[4] as Long
       val autoNextType = pigeonVar_list[5] as AutoNextType
-      val acceptedOrientations = pigeonVar_list[6] as List<PlayerOrientations>
-      val fillScreen = pigeonVar_list[7] as Boolean
-      val videoFit = pigeonVar_list[8] as VideoPlayerFit
-      val screensaver = pigeonVar_list[9] as Screensaver
-      val refreshRateSwitching = pigeonVar_list[10] as Boolean
-      val lowResourceMode = pigeonVar_list[11] as Boolean
-      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType, acceptedOrientations, fillScreen, videoFit, screensaver, refreshRateSwitching, lowResourceMode)
+      val nextUpCountdownSeconds = pigeonVar_list[6] as Long
+      val acceptedOrientations = pigeonVar_list[7] as List<PlayerOrientations>
+      val fillScreen = pigeonVar_list[8] as Boolean
+      val videoFit = pigeonVar_list[9] as VideoPlayerFit
+      val screensaver = pigeonVar_list[10] as Screensaver
+      val refreshRateSwitching = pigeonVar_list[11] as Boolean
+      val lowResourceMode = pigeonVar_list[12] as Boolean
+      return PlayerSettings(enableTunneling, skipTypes, themeColor, skipForward, skipBackward, autoNextType, nextUpCountdownSeconds, acceptedOrientations, fillScreen, videoFit, screensaver, refreshRateSwitching, lowResourceMode)
     }
   }
   fun toList(): List<Any?> {
@@ -314,6 +316,7 @@ data class PlayerSettings (
       skipForward,
       skipBackward,
       autoNextType,
+      nextUpCountdownSeconds,
       acceptedOrientations,
       fillScreen,
       videoFit,
@@ -330,7 +333,7 @@ data class PlayerSettings (
       return true
     }
     val other = other as PlayerSettings
-    return PlayerSettingsHelperPigeonUtils.deepEquals(this.enableTunneling, other.enableTunneling) && PlayerSettingsHelperPigeonUtils.deepEquals(this.skipTypes, other.skipTypes) && PlayerSettingsHelperPigeonUtils.deepEquals(this.themeColor, other.themeColor) && PlayerSettingsHelperPigeonUtils.deepEquals(this.skipForward, other.skipForward) && PlayerSettingsHelperPigeonUtils.deepEquals(this.skipBackward, other.skipBackward) && PlayerSettingsHelperPigeonUtils.deepEquals(this.autoNextType, other.autoNextType) && PlayerSettingsHelperPigeonUtils.deepEquals(this.acceptedOrientations, other.acceptedOrientations) && PlayerSettingsHelperPigeonUtils.deepEquals(this.fillScreen, other.fillScreen) && PlayerSettingsHelperPigeonUtils.deepEquals(this.videoFit, other.videoFit) && PlayerSettingsHelperPigeonUtils.deepEquals(this.screensaver, other.screensaver) && PlayerSettingsHelperPigeonUtils.deepEquals(this.refreshRateSwitching, other.refreshRateSwitching) && PlayerSettingsHelperPigeonUtils.deepEquals(this.lowResourceMode, other.lowResourceMode)
+    return PlayerSettingsHelperPigeonUtils.deepEquals(this.enableTunneling, other.enableTunneling) && PlayerSettingsHelperPigeonUtils.deepEquals(this.skipTypes, other.skipTypes) && PlayerSettingsHelperPigeonUtils.deepEquals(this.themeColor, other.themeColor) && PlayerSettingsHelperPigeonUtils.deepEquals(this.skipForward, other.skipForward) && PlayerSettingsHelperPigeonUtils.deepEquals(this.skipBackward, other.skipBackward) && PlayerSettingsHelperPigeonUtils.deepEquals(this.autoNextType, other.autoNextType) && PlayerSettingsHelperPigeonUtils.deepEquals(this.nextUpCountdownSeconds, other.nextUpCountdownSeconds) && PlayerSettingsHelperPigeonUtils.deepEquals(this.acceptedOrientations, other.acceptedOrientations) && PlayerSettingsHelperPigeonUtils.deepEquals(this.fillScreen, other.fillScreen) && PlayerSettingsHelperPigeonUtils.deepEquals(this.videoFit, other.videoFit) && PlayerSettingsHelperPigeonUtils.deepEquals(this.screensaver, other.screensaver) && PlayerSettingsHelperPigeonUtils.deepEquals(this.refreshRateSwitching, other.refreshRateSwitching) && PlayerSettingsHelperPigeonUtils.deepEquals(this.lowResourceMode, other.lowResourceMode)
   }
 
   override fun hashCode(): Int {
@@ -341,6 +344,7 @@ data class PlayerSettings (
     result = 31 * result + PlayerSettingsHelperPigeonUtils.deepHash(this.skipForward)
     result = 31 * result + PlayerSettingsHelperPigeonUtils.deepHash(this.skipBackward)
     result = 31 * result + PlayerSettingsHelperPigeonUtils.deepHash(this.autoNextType)
+    result = 31 * result + PlayerSettingsHelperPigeonUtils.deepHash(this.nextUpCountdownSeconds)
     result = 31 * result + PlayerSettingsHelperPigeonUtils.deepHash(this.acceptedOrientations)
     result = 31 * result + PlayerSettingsHelperPigeonUtils.deepHash(this.fillScreen)
     result = 31 * result + PlayerSettingsHelperPigeonUtils.deepHash(this.videoFit)
@@ -350,7 +354,7 @@ data class PlayerSettings (
     return result
   }
   override fun toString(): String {
-    return "PlayerSettings(enableTunneling=$enableTunneling, skipTypes=$skipTypes, themeColor=$themeColor, skipForward=$skipForward, skipBackward=$skipBackward, autoNextType=$autoNextType, acceptedOrientations=$acceptedOrientations, fillScreen=$fillScreen, videoFit=$videoFit, screensaver=$screensaver, refreshRateSwitching=$refreshRateSwitching, lowResourceMode=$lowResourceMode)"
+    return "PlayerSettings(enableTunneling=$enableTunneling, skipTypes=$skipTypes, themeColor=$themeColor, skipForward=$skipForward, skipBackward=$skipBackward, autoNextType=$autoNextType, nextUpCountdownSeconds=$nextUpCountdownSeconds, acceptedOrientations=$acceptedOrientations, fillScreen=$fillScreen, videoFit=$videoFit, screensaver=$screensaver, refreshRateSwitching=$refreshRateSwitching, lowResourceMode=$lowResourceMode)"
   }
 }
 private open class PlayerSettingsHelperPigeonCodec : StandardMessageCodec() {

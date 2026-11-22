@@ -37,6 +37,10 @@ object PlayerSettingsObject : PlayerSettingsPigeon {
         settings?.autoNextType ?: AutoNextType.OFF
     }
 
+    val nextUpCountdownSeconds = settings.map { settings ->
+        settings?.nextUpCountdownSeconds?.toInt() ?: 30
+    }
+
     val acceptedOrientations = settings.map { settings ->
         settings?.acceptedOrientations ?: emptyList()
     }
