@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 
@@ -40,7 +41,11 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
   @override
   Future<void> platformInit() async {
     if (defaultTargetPlatform == TargetPlatform.windows) {
-      await SMTCWindows.initialize();
+      try {
+        await SMTCWindows.initialize();
+      } catch (e, stackTrace) {
+        log('Failed to initialize SMTC, media controls disabled: $e\n$stackTrace');
+      }
       if (enableAppLinks) unawaited(ensureWindowsProtocolRegistered());
     }
     if (defaultTargetPlatform == TargetPlatform.macOS) {
@@ -57,11 +62,7 @@ class _DesktopAppWrapperState extends BaseAppWrapperState<DesktopAppWrapper> wit
     final packageInfo = await PackageInfo.fromPlatform();
     final clientSettings = ref.read(clientSettingsProvider);
     final startupArguments = ref.read(argumentsStateProvider);
-    await windowManager.setupFladderWindowChrome(
-      startupArguments,
-      clientSettings,
-      packageInfo,
-    );
+    await windowManager.setupFladderWindowChrome(startupArguments, clientSettings, packageInfo);
     await toggleMacTrafficLights(await windowManager.isFullScreen());
   }
 

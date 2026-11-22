@@ -6,6 +6,7 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:fladder/models/settings/client_settings_model.dart';
 import 'package:fladder/providers/incognito_mode_provider.dart';
+import 'package:fladder/providers/linux_impeller_provider.dart';
 import 'package:fladder/providers/low_resource_provider.dart';
 import 'package:fladder/providers/settings/client_settings_provider.dart';
 import 'package:fladder/providers/settings/home_settings_provider.dart';
@@ -160,6 +161,13 @@ List<Widget> buildClientSettingsAdvanced(BuildContext context, WidgetRef ref) {
             )
             .toList(),
       ),
+      if (!kIsWeb && defaultTargetPlatform == TargetPlatform.linux)
+        SettingsListTileCheckbox(
+          label: Text(context.localized.impellerRendererTitle),
+          subLabel: Text(context.localized.impellerRendererDesc),
+          value: ref.watch(linuxImpellerProvider),
+          onChanged: (value) => ref.read(linuxImpellerProvider.notifier).setEnabled(value ?? false),
+        ),
       if (defaultTargetPlatform == TargetPlatform.android)
         Column(
           children: [
