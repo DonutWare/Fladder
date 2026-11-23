@@ -62,9 +62,7 @@ final activeDownloadTasksProvider = StateProvider<List<DownloadTask>>((ref) {
 const syncPathKey = "syncPathKey";
 
 class SyncNotifier extends StateNotifier<SyncSettingsModel> {
-  SyncNotifier(this.ref, this.mobileDirectory)
-      : _db = AppDatabase(ref),
-        super(SyncSettingsModel()) {
+  SyncNotifier(this.ref, this.mobileDirectory) : _db = AppDatabase(ref), super(SyncSettingsModel()) {
     _init();
   }
 
@@ -84,15 +82,17 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
   }
 
   Future<void> updateSyncStates() async {
-    final lastState =
-        (await _db.getAllItems.get()).where((item) => item.unSyncedData && item.userData != null).toList();
+    final lastState = (await _db.getAllItems.get())
+        .where((item) => item.unSyncedData && item.userData != null)
+        .toList();
     if (updatingSyncStatus || lastState.isEmpty) return;
     updatingSyncStatus = true;
     try {
       for (final item in lastState) {
         if (item.userData == null) continue;
-        final updatedItem =
-            await ref.read(jellyApiProvider).userItemsItemIdUserDataPost(itemId: item.id, body: item.userData);
+        final updatedItem = await ref
+            .read(jellyApiProvider)
+            .userItemsItemIdUserDataPost(itemId: item.id, body: item.userData);
         if (updatedItem?.isSuccessful == true) {
           final syncedItem = item.copyWith(unSyncedData: false);
           await _db.insertItem(syncedItem);
@@ -109,16 +109,13 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
   void _init() {
     cleanupTemporaryFiles();
-    ref.listen(
-      userProvider,
-      (previous, next) {
-        if (previous?.id != next?.id) {
-          if (next?.id != null) {
-            _initializeQueryStream(id: next!.id);
-          }
+    ref.listen(userProvider, (previous, next) {
+      if (previous?.id != next?.id) {
+        if (next?.id != null) {
+          _initializeQueryStream(id: next!.id);
         }
-      },
-    );
+      }
+    });
 
     ref.listen(connectivityStatusProvider, (_, next) {
       if (next != ConnectionState.offline) {
@@ -312,9 +309,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     for (var i = 0; i < itemsToSync.length; i++) {
       final itemToSync = itemsToSync[i];
-      final itemResponse = await api.usersUserIdItemsItemIdGetBaseItem(
-        itemId: itemToSync.id,
-      );
+      final itemResponse = await api.usersUserIdItemsItemIdGetBaseItem(itemId: itemToSync.id);
 
       final itemModel = ItemBaseModel.fromBaseDto(itemResponse.bodyOrThrow, ref);
 
@@ -349,18 +344,23 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       if (context == null) return;
 
       if (saveDirectory == null) {
-        String? selectedDirectory =
-            await FilePicker.getDirectoryPath(dialogTitle: context.localized.syncSelectDownloadsFolder);
-        if (selectedDirectory?.isEmpty == true && context.mounted) {
-          FladderSnack.show(context.localized.syncNoFolderSetup, context: context);
+        final selectedDirectory = await FilePicker.getDirectoryPath(
+          dialogTitle: context.localized.syncSelectDownloadsFolder,
+        );
+        if (selectedDirectory == null || selectedDirectory.isEmpty) {
+          if (context.mounted) {
+            FladderSnack.show(context.localized.syncNoFolderSetup, context: context);
+          }
           return;
         }
         ref.read(clientSettingsProvider.notifier).setSyncPath(selectedDirectory);
       }
 
       if (context.mounted) {
-        FladderSnack.show(context.localized.syncAddItemForSyncing(item.detailedName(context.localized) ?? "Unknown"),
-            context: context);
+        FladderSnack.show(
+          context.localized.syncAddItemForSyncing(item.detailedName(context.localized) ?? "Unknown"),
+          context: context,
+        );
       }
       final newSync = switch (item) {
         EpisodeModel episode => await syncSeries(item.parentBaseModel, episode: episode),
@@ -373,14 +373,15 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         PlaylistModel playlist => await syncPlaylist(playlist),
         PhotoModel photo => await syncPhotoAlbum(photo.albumId ?? photo.parentId, photo: photo),
         PhotoAlbumModel album => await syncPhotoAlbum(album.id),
-        _ => null
+        _ => null,
       };
       if (context.mounted) {
         FladderSnack.show(
-            newSync != null
-                ? context.localized.startedSyncingItem(item.detailedName(context.localized) ?? "Unknown")
-                : context.localized.unableToSyncItem(item.detailedName(context.localized) ?? "Unknown"),
-            context: context);
+          newSync != null
+              ? context.localized.startedSyncingItem(item.detailedName(context.localized) ?? "Unknown")
+              : context.localized.unableToSyncItem(item.detailedName(context.localized) ?? "Unknown"),
+          context: context,
+        );
       }
 
       return;
@@ -402,11 +403,8 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
       final nestedChildren = await getNestedChildren(item);
 
       state = state.copyWith(
-          items: state.items
-              .map(
-                (e) => e.copyWith(markedForDelete: e.id == item.id ? true : false),
-              )
-              .toList());
+        items: state.items.map((e) => e.copyWith(markedForDelete: e.id == item.id ? true : false)).toList(),
+      );
 
       await ref.read(backgroundDownloaderProvider).cancelTaskWithId(item.id);
 
@@ -433,14 +431,11 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     }
   }
 
-  Future<bool> removePlaylistSync(
-    BuildContext context,
-    SyncedItem item, {
-    required bool removeLinkedItems,
-  }) async {
+  Future<bool> removePlaylistSync(BuildContext context, SyncedItem item, {required bool removeLinkedItems}) async {
     try {
       state = state.copyWith(
-          items: state.items.map((e) => e.copyWith(markedForDelete: e.id == item.id ? true : false)).toList());
+        items: state.items.map((e) => e.copyWith(markedForDelete: e.id == item.id ? true : false)).toList(),
+      );
 
       await ref.read(backgroundDownloaderProvider).cancelTaskWithId(item.id);
 
@@ -577,12 +572,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         await syncPhotoFile(syncedItem);
         return;
       default:
-        await syncFile(
-          syncedItem,
-          false,
-          transcodeModel: transcodeModel,
-          musicTranscodeModel: musicTranscodeModel,
-        );
+        await syncFile(syncedItem, false, transcodeModel: transcodeModel, musicTranscodeModel: musicTranscodeModel);
         return;
     }
   }
@@ -627,9 +617,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     await syncedItem.deleteDatFiles(ref);
 
-    syncedItem = syncedItem.copyWith(
-      transcodeDownloadModel: null,
-    );
+    syncedItem = syncedItem.copyWith(transcodeDownloadModel: null);
     await updateItem(syncedItem);
 
     ref.read(downloadTasksProvider(syncedItem.id).notifier).update((state) => DownloadStream.empty());
@@ -654,8 +642,9 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     }
 
     final globalTranscodeModel = ref.read(clientSettingsProvider.select((value) => value.transcodeDownloadModel));
-    final globalMusicTranscodeModel =
-        ref.read(clientSettingsProvider.select((value) => value.transcodeMusicDownloadModel));
+    final globalMusicTranscodeModel = ref.read(
+      clientSettingsProvider.select((value) => value.transcodeMusicDownloadModel),
+    );
 
     final effectiveTranscodeModel = transcodeModel ?? globalTranscodeModel;
     final effectiveMusicTranscodeModel = musicTranscodeModel ?? globalMusicTranscodeModel;
@@ -666,12 +655,13 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     final isAudioItem = item is AudioModel;
     final streamModel = item.streamModel;
     final transcodeEnabled = isAudioItem ? effectiveMusicTranscodeModel.enabled : effectiveTranscodeModel.enabled;
-    final maxBitrate =
-        isAudioItem ? effectiveMusicTranscodeModel.maxBitrate.bitRate : effectiveTranscodeModel.maxBitrate.bitRate;
+    final maxBitrate = isAudioItem
+        ? effectiveMusicTranscodeModel.maxBitrate.bitRate
+        : effectiveTranscodeModel.maxBitrate.bitRate;
     final deviceProfile = isAudioItem
         ? (effectiveMusicTranscodeModel.enabled
-            ? effectiveMusicTranscodeModel.deviceProfile
-            : ref.read(videoProfileProvider))
+              ? effectiveMusicTranscodeModel.deviceProfile
+              : ref.read(videoProfileProvider))
         : (effectiveTranscodeModel.enabled ? effectiveTranscodeModel.deviceProfile : ref.read(videoProfileProvider));
 
     final playbackResponse = await FladderSnack.showResponse(
@@ -744,10 +734,7 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
 
     final String downloadUrl;
     if ((mediaSource?.supportsDirectStream ?? false) || (mediaSource?.supportsDirectPlay ?? false)) {
-      final directOptions = {
-        'Static': 'true',
-        'mediaSourceId': mediaSource!.id,
-      };
+      final directOptions = {'Static': 'true', 'mediaSourceId': mediaSource!.id};
       downloadUrl = buildServerUrl(
         ref,
         pathSegments: [isAudioItem ? 'Audio' : 'Videos', mediaSource.id!, 'stream'],
@@ -836,8 +823,12 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
     await _db.insertItem(updatedItem);
   }
 
-  Future<void> updatePlayedItem(String? itemId,
-      {DateTime? datePlayed, required bool played, bool responseSuccessful = false}) async {
+  Future<void> updatePlayedItem(
+    String? itemId, {
+    DateTime? datePlayed,
+    required bool played,
+    bool responseSuccessful = false,
+  }) async {
     if (itemId == null) return;
 
     final syncedItem = _db.getItem(itemId).getSingleOrNull();
@@ -857,13 +848,10 @@ class SyncNotifier extends StateNotifier<SyncSettingsModel> {
         // Update child items with the same played status, jellyfin server does this was well
         // when marking a series or season as played
         children = (await getNestedChildren(item))
-            .map((e) => e.copyWith(
-                  userData: e.userData?.copyWith(
-                    played: played,
-                    playbackPositionTicks: 0,
-                    progress: 0.0,
-                  ),
-                ))
+            .map(
+              (e) =>
+                  e.copyWith(userData: e.userData?.copyWith(played: played, playbackPositionTicks: 0, progress: 0.0)),
+            )
             .toList();
       }
       await _db.insertMultipleEntries([updatedItem, ...children]);
@@ -991,9 +979,7 @@ extension SyncNotifierHelpers on SyncNotifier {
     bool skipDownload = false,
     TranscodeDownloadModel? transcodeModel,
   }) async {
-    final response = await api.usersUserIdItemsItemIdGetBaseItem(
-      itemId: item.id,
-    );
+    final response = await api.usersUserIdItemsItemIdGetBaseItem(itemId: item.id);
 
     final itemBaseModel = response.body;
     if (itemBaseModel == null) return null;
@@ -1020,24 +1006,18 @@ extension SyncNotifierHelpers on SyncNotifier {
       return existingSyncedItem;
     }
 
-    final response = await api.usersUserIdItemsItemIdGetBaseItem(
-      itemId: item.id,
-    );
+    final response = await api.usersUserIdItemsItemIdGetBaseItem(itemId: item.id);
 
     final itemBaseModel = response.body;
     if (itemBaseModel == null) return null;
 
     SyncedItem? albumParent = parent;
     if (albumParent == null && itemBaseModel.albumId != null) {
-      final albumResponse = await api.usersUserIdItemsItemIdGetBaseItem(
-        itemId: itemBaseModel.albumId!,
-      );
+      final albumResponse = await api.usersUserIdItemsItemIdGetBaseItem(itemId: itemBaseModel.albumId!);
       if (albumResponse.body != null) {
         SyncedItem? artistItem;
         if (albumResponse.body!.parentId != null) {
-          final artistResponse = await api.usersUserIdItemsItemIdGetBaseItem(
-            itemId: albumResponse.body!.parentId!,
-          );
+          final artistResponse = await api.usersUserIdItemsItemIdGetBaseItem(itemId: albumResponse.body!.parentId!);
           if (artistResponse.body != null) {
             artistItem = await createSyncItem(artistResponse.bodyOrThrow);
             await _db.insertItem(artistItem);
@@ -1066,18 +1046,14 @@ extension SyncNotifierHelpers on SyncNotifier {
     SyncedItem? parent,
     TranscodeMusicDownloadModel? musicTranscodeModel,
   }) async {
-    final response = await api.usersUserIdItemsItemIdGetBaseItem(
-      itemId: item.id,
-    );
+    final response = await api.usersUserIdItemsItemIdGetBaseItem(itemId: item.id);
 
     final itemBaseModel = response.body;
     if (itemBaseModel == null) return null;
 
     SyncedItem? artistItem = parent;
     if (artistItem == null && itemBaseModel.parentId != null) {
-      final artistResponse = await api.usersUserIdItemsItemIdGetBaseItem(
-        itemId: itemBaseModel.parentId!,
-      );
+      final artistResponse = await api.usersUserIdItemsItemIdGetBaseItem(itemId: itemBaseModel.parentId!);
       if (artistResponse.body != null) {
         artistItem = await createSyncItem(artistResponse.bodyOrThrow);
         await _db.insertItem(artistItem);
@@ -1135,9 +1111,7 @@ extension SyncNotifierHelpers on SyncNotifier {
     bool skipDownload = false,
     TranscodeMusicDownloadModel? musicTranscodeModel,
   }) async {
-    final response = await api.usersUserIdItemsItemIdGetBaseItem(
-      itemId: item.id,
-    );
+    final response = await api.usersUserIdItemsItemIdGetBaseItem(itemId: item.id);
 
     final itemBaseModel = response.body;
     if (itemBaseModel == null) return null;
@@ -1218,9 +1192,7 @@ extension SyncNotifierHelpers on SyncNotifier {
     bool skipDownload = false,
     TranscodeMusicDownloadModel? musicTranscodeModel,
   }) async {
-    final response = await api.usersUserIdItemsItemIdGetBaseItem(
-      itemId: item.id,
-    );
+    final response = await api.usersUserIdItemsItemIdGetBaseItem(itemId: item.id);
 
     final itemBaseModel = response.body;
     if (itemBaseModel == null) return null;
@@ -1262,9 +1234,7 @@ extension SyncNotifierHelpers on SyncNotifier {
     EpisodeModel? episode,
     TranscodeDownloadModel? transcodeModel,
   }) async {
-    final response = await api.usersUserIdItemsItemIdGetBaseItem(
-      itemId: item.id,
-    );
+    final response = await api.usersUserIdItemsItemIdGetBaseItem(itemId: item.id);
 
     List<SyncedItem> newItems = [];
 
@@ -1373,10 +1343,7 @@ extension SyncNotifierHelpers on SyncNotifier {
     } else {
       final childrenResponse = await api.itemsGet(
         parentId: albumId,
-        includeItemTypes: [
-          BaseItemKind.photo,
-          BaseItemKind.video,
-        ],
+        includeItemTypes: [BaseItemKind.photo, BaseItemKind.video],
         recursive: true,
       );
       photoIds = childrenResponse.body?.items.whereType<PhotoModel>().map((e) => e.id).toList() ?? [];
