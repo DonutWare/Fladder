@@ -253,7 +253,7 @@
     "masonry": "Mampostería",
     "mediaTypeBase": "Tipo base",
     "mediaTypeBook": "{count, plural, one{Libro} other{Libros}}",
-    "mediaTypeBoxset": "{count, plural, one{Colección} other{Colecciones}}",
+    "mediaTypeBoxset": "{count, plural, one{Recopilatorio} other{Recopilatorios}}",
     "mediaTypeEpisode": "{count, plural, one{Episodio} other{Episodios}}",
     "mediaTypeFolder": "{count, plural, one{Carpeta} other{Carpetas}}",
     "mediaTypeMovie": "{count, plural, one{Película} other{Películas}}",
@@ -792,7 +792,7 @@
     "unableToPlayMedia": "Hubo un error al encontrar un tipo de medio compatible",
     "errorOpeningMedia": "Algo sucedió al reproducir este medio",
     "unableToPlayBooksOnWeb": "Los libros no se pueden consultar en la web por ahora",
-    "defaultFilterForLibrary": "Filtro predeterminado para la biblioteca",
+    "defaultFilterForLibrary": "Establecer filtro predeterminado para biblioteca",
     "updateFilterForLibrary": "Actualizar filtro",
     "removeFilterForLibrary": "¿Eliminar {filter}?",
     "@removeFilterForLibrary": {
@@ -2054,5 +2054,110 @@
     "pictureInPictureNotSupported": "Imagen dentro de imagen no está disponible en este dispositivo",
     "@pictureInPictureNotSupported": {
         "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
-    }
+    },
+    "appLockPattern": "Patrón",
+    "enterPin": "Introduzca PIN",
+    "confirmPin": "Confirme PIN",
+    "drawPattern": "Dibujar patrón",
+    "confirmPattern": "Dibujar patrón de nuevo",
+    "incorrectPatternTryAgain": "Patrón incorrecto. Inténtelo de nuevo.",
+    "patternTooShort": "Conecte al menos 4 puntos",
+    "codeMismatch": "No coincide. Intente de nuevo.",
+    "unreadableAccountsLogInAgain": "Algunas cuentas guardadas no pudieron ser cargadas. Inicie sesión de nuevo para restaurarlas.",
+    "mediaTypeMusicVideo": "{count, plural, one{Vídeo Musical} other{Vídeos Musicales}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeCollection": "{count, plural, one{Colección} other{Colecciones}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "sideBar": "Barra lateral",
+    "musicSideBar": "Barra lateral musical",
+    "posterColorsDesc": "Emplee colores generados para carteles en lugar del color predeterminado",
+    "refreshRateSwitchingTitle": "Coincidencia de tasa de refresco",
+    "subtitleOffsetForward": "Subtítulo adelantado",
+    "subtitleOffsetBackward": "Subtítulo retrasado",
+    "subtitleOffset": "Desplazamiento de subtítulo",
+    "settingsServerUrlSetDesc": "Cambie la dirección utilizada para conectarse a su servidor Jellyfin. La nueva URL debe apuntar al mismo servidor.",
+    "localNetworkPermissionRequest": "Conceder acceso a la red local para descubrir servidores.",
+    "requestPermission": "Solicitar Permiso",
+    "localNetworkPermissionDenied": "Se requiere acceso a la red local. Habilite dispositivos con permisos cercanos en los ajustes del sistema.",
+    "openSettings": "Abrir ajustes",
+    "stopSelection": "Detener selección {count}",
+    "@stopSelection": {
+        "description": "stopSelection",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "playItems": "Reproducir elementos",
+    "shuffleItems": "Barajar elementos",
+    "disc": "Disco {number}",
+    "@disc": {
+        "description": "disc",
+        "placeholders": {
+            "number": {
+                "type": "int"
+            }
+        }
+    },
+    "incognito": "Incógnito",
+    "incognitoModeGlobal": "Modo incógnito (App)",
+    "incognitoModeLocal": "Modo incógnito (Perfil)",
+    "incognitoModeDesc": "Modo incógnito inhabilita envío de estado de reproducción al servidor",
+    "showInSideBar": "Mostrar en barra lateral",
+    "showOnDashboard": "Mostrar en panel",
+    "hideInSideBar": "Ocultar de barra lateral",
+    "showInSideBarDesc": "Mostrar este filtro en la barra lateral para acceso rápido",
+    "applyFilter": "Aplicar filtro",
+    "playerSettingsAmbientBlurTitle": "Habilitar desenfoque ambiental",
+    "playerSettingsAmbientBlurDesc": "Habilita el desenfoque ambiental en el reproductor. Esto difuminará el fondo detrás del reproductor para reducir las distracciones.",
+    "playerSettingsAmbientBlurDescWarning": "El desenfoque ambiental puede causar incidencias de rendimiento en dispositivos de gama baja.",
+    "leanBackModeTitle": "Modo Reclinado",
+    "leanBackModeDesc": "Habilita el modo reclinado en dispositivos Android, incluso si el dispositivo reporta como falso.",
+    "leanBackModeInfo": "El modo reclinado se activa de forma predeterminada en los dispositivos Android TV. Activar o desactivar esta opción en dispositivos que no sean Android TV puede provocar un comportamiento inesperado.",
+    "editYourLibraryFilters": "Edita tus filtros de biblioteca",
+    "libraryFiltersDesc": "Los filtros de biblioteca le permiten crear vistas personalizadas de sus bibliotecas basadas",
+    "libraryNoFiltersSaved": "No se guardan filtros de biblioteca",
+    "addTo": "Añadir a",
+    "deepLinkSwitchUserTitle": "¿Conmutar usuario?",
+    "deepLinkSwitchUserDesc": "Este artículo no está disponible para {user}. Ábrelo como:",
+    "@deepLinkSwitchUserDesc": {
+        "description": "Shown when a link points to an item the current user cannot access, followed by a list of accounts that can",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkSwitchAccountDesc": "Este enlace pertenece a {user}. ¿Cambio a esta cuenta?",
+    "@deepLinkSwitchAccountDesc": {
+        "description": "Shown when a notification link was created for another saved account",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkItemNotFound": "Este artículo no está disponible para ninguna de sus cuentas",
+    "lowResourceModeTitle": "Modo de recurso bajo",
+    "lowResourceModeDesc": "Usa menos memoria en dispositivos con RAM limitada bajando caches y búferes y apagando efectos visuales pesados. Automático lo permite en dispositivos con 3 GB de RAM o menos.",
+    "impellerRendererTitle": "Renderizador de Impeller",
+    "impellerRendererDesc": "Utiliza el renderizador Impeller de Flutter. Apágalo para usar Skia si los degradados o efectos se renderizan incorrectamente en tu GPU. Requiere reiniciar.",
+    "refreshRateSwitchingDesc": "Tasa de refresco de pantalla para proporción de marco de vídeo"
 }
