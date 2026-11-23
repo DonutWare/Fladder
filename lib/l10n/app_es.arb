@@ -2159,5 +2159,43 @@
     "lowResourceModeDesc": "Usa menos memoria en dispositivos con RAM limitada bajando caches y búferes y apagando efectos visuales pesados. Automático lo permite en dispositivos con 3 GB de RAM o menos.",
     "impellerRendererTitle": "Renderizador de Impeller",
     "impellerRendererDesc": "Utiliza el renderizador Impeller de Flutter. Apágalo para usar Skia si los degradados o efectos se renderizan incorrectamente en tu GPU. Requiere reiniciar.",
-    "refreshRateSwitchingDesc": "Tasa de refresco de pantalla para proporción de marco de vídeo"
+    "refreshRateSwitchingDesc": "Tasa de refresco de pantalla para proporción de marco de vídeo",
+    "posterColorsTitle": "Colores de póster generados",
+    "lyrics": "Letras",
+    "returnToSyncedLyrics": "Volver a las letras sincronizadas",
+    "noSyncedLyrics": "No hay letras sincronizadas disponibles",
+    "selectRandom": "Seleccione al azar",
+    "openSelected": "Abrir seleccionado",
+    "discography": "Discografía",
+    "youLiked": "Te gustaba",
+    "instantMixBy": "Mezcla instantánea de {artist}",
+    "@instantMixBy": {
+        "description": "Instant Mix of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "latestTracksBy": "Últimas pistas por {artist}",
+    "@latestTracksBy": {
+        "description": "Latest tracks by artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "favoritesOf": "Favoritos de {artist}",
+    "@favoritesOf": {
+        "description": "Favorites of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "libraryFilters": "Filtros de biblioteca",
+    "libraryFiltersTitle": "Filtros de biblioteca",
+    "lowResourceModeAuto": "Automático"
 }
