@@ -10,7 +10,7 @@ import 'package:fladder/providers/user_provider.dart';
 import 'package:fladder/seerr/seerr_chopper_service.dart';
 import 'package:fladder/seerr/seerr_json_converter.dart';
 import 'package:fladder/util/fladder_config.dart';
-import 'package:fladder/util/seerr_http_client.dart'
+import 'package:fladder/util/http_client.dart'
     if (dart.library.js_interop) 'package:fladder/util/seerr_http_client_web.dart';
 
 part 'seerr_api_provider.g.dart';
@@ -21,7 +21,8 @@ class SeerrApi extends _$SeerrApi {
   SeerrService build() {
     ref.watch(userProvider.select((u) => u?.seerrCredentials));
 
-    final httpClient = createSeerrHttpClient();
+    final httpClient = createHttpClient();
+
     final chopperClient = ChopperClient(
       client: httpClient,
       converter: const SeerrJsonConverter(),
@@ -37,10 +38,7 @@ class SeerrApi extends _$SeerrApi {
       httpClient.close();
     });
 
-    return SeerrService(
-      ref,
-      SeerrChopperService.create(chopperClient),
-    );
+    return SeerrService(ref, SeerrChopperService.create(chopperClient));
   }
 }
 
@@ -62,9 +60,7 @@ class SeerrRequest implements Interceptor {
     final cookie = creds?.sessionCookie.trim() ?? '';
 
     final authHeaders = _authHeaders(apiKey: apiKey, cookie: cookie);
-    final customHeaders = {
-      ...?creds?.customHeaders,
-    };
+    final customHeaders = {...?creds?.customHeaders};
     final headers = {...authHeaders, ...customHeaders};
     final apiBaseUri = Uri.parse(serverUrl);
 
@@ -75,18 +71,13 @@ class SeerrRequest implements Interceptor {
       resolvedRequestUri = chain.request.url;
     }
 
-    final requestWithHeaders = applyHeaders(
-      chain.request.copyWith(baseUri: apiBaseUri),
-      headers,
-    );
+    final requestWithHeaders = applyHeaders(chain.request.copyWith(baseUri: apiBaseUri), headers);
 
     try {
       final response = await chain.proceed(requestWithHeaders);
       return response;
     } catch (e, st) {
-      throw HttpException(
-        'Seerr API request failed: ${chain.request.method} $resolvedRequestUri\nError: $e\n$st',
-      );
+      throw HttpException('Seerr API request failed: ${chain.request.method} $resolvedRequestUri\nError: $e\n$st');
     }
   }
 }
@@ -116,9 +107,7 @@ class SeerrResponse implements Interceptor {
       final body = response.bodyString;
       final bodyPreview = body.length <= 1500 ? body : '${body.substring(0, 1500)}…';
 
-      log(
-        'x- $status - $reason - ${response.error} - $method $url\n$bodyPreview',
-      );
+      log('x- $status - $reason - ${response.error} - $method $url\n$bodyPreview');
     }
 
     return response;

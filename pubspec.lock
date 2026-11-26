@@ -385,6 +385,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
+  cronet_http:
+    dependency: "direct main"
+    description:
+      name: cronet_http
+      sha256: "9af7a54ce87cdcdf801cefac73e159862d355a256ea6c21a4f9597a16dd0ff86"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.10.2"
   cross_file:
     dependency: transitive
     description:
@@ -1093,6 +1101,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
+  http_profile:
+    dependency: transitive
+    description:
+      name: http_profile
+      sha256: "7e679e355b09aaee2ab5010915c932cce3f2d1c11c3b2dc177891687014ffa78"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   icons_launcher:
     dependency: "direct dev"
     description:
@@ -1137,18 +1153,18 @@ packages:
     dependency: transitive
     description:
       name: jni
-      sha256: "2e91e6087291affd10b31b6c872f3e3ac7dc5d93b51b5ba485d930c8f08bde6c"
+      sha256: "19764f78f6b9e0d40f6395b04649d1046eb57f5ccf05afce50cc63e5a82777b0"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.2"
+    version: "1.2.1"
   jni_flutter:
     dependency: transitive
     description:
       name: jni_flutter
-      sha256: "0dd33d67797560f66e961a6053882d4df54bd345bf063b8fe7ea133f7ad8b191"
+      sha256: "586594ad345b403bda8a794b0b8a9e34298238b86c2a7d7f15160b092fe9ef3d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4+1"
+    version: "1.1.0"
   jni_util:
     dependency: transitive
     description:

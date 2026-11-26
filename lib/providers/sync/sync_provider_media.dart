@@ -15,6 +15,7 @@ import 'package:fladder/models/syncing/sync_item.dart';
 import 'package:fladder/providers/sync_provider.dart';
 import 'package:fladder/screens/shared/fladder_notification_overlay.dart';
 import 'package:fladder/util/string_extensions.dart';
+import 'package:fladder/util/http_client.dart';
 
 extension SyncMediaHelpers on SyncNotifier {
   Future<List<SubStreamModel>> saveExternalSubtitles(List<SubStreamModel>? subtitles, SyncedItem item) async {
@@ -28,15 +29,13 @@ extension SyncMediaHelpers on SyncNotifier {
       final canDownload = element.isExternal || (element.supportsExternalStream && element.url != null);
       if (canDownload) {
         try {
-          final response = await http.get(Uri.parse(element.url!));
+          final client = createHttpClient();
+          final response = await client.get(Uri.parse(element.url!));
           if (response.statusCode == 200 && response.bodyBytes.isNotEmpty) {
             final ext = subtitleExtension(element.codec);
             final file = File(path.joinAll([directory.path, "${element.displayTitle}.${element.language}.$ext"]));
             file.writeAsBytesSync(response.bodyBytes);
-            return element.copyWith(
-              url: () => file.path,
-              isExternal: true,
-            );
+            return element.copyWith(url: () => file.path, isExternal: true);
           }
         } catch (e) {
           log('Failed to download subtitle: ${element.displayTitle} - $e');
@@ -69,7 +68,8 @@ extension SyncMediaHelpers on SyncNotifier {
     for (var index = 0; index < (trickPlayData?.body?.images.length ?? 0); index++) {
       final image = trickPlayData?.body?.images[index];
       if (image != null) {
-        final http.Response response = await http.get(Uri.parse(image));
+        final client = createHttpClient();
+        final http.Response response = await client.get(Uri.parse(image));
         File? newFile;
         final fileName = "tile_$index.jpg";
         if (response.statusCode == 200) {
@@ -95,11 +95,7 @@ extension SyncMediaHelpers on SyncNotifier {
         .asyncMap((element) async => await urlDataToFileData(element, saveDirectory, "backdrop-${element.key}.jpg"))
         .toList();
 
-    return data.copyWith(
-      primary: () => primary,
-      logo: () => logo,
-      backDrop: () => backdrops.nonNulls.toList(),
-    );
+    return data.copyWith(primary: () => primary, logo: () => logo, backDrop: () => backdrops.nonNulls.toList());
   }
 
   Future<List<Chapter>?> saveChapterImages(List<Chapter>? data, Directory itemPath) async {
@@ -117,16 +113,15 @@ extension SyncMediaHelpers on SyncNotifier {
       final fileName = '$safeName.jpg';
 
       try {
-        final response = await http.get(Uri.parse(event.imageUrl));
+        final client = createHttpClient();
+        final response = await client.get(Uri.parse(event.imageUrl));
         if (response.statusCode != 200 || response.bodyBytes.isEmpty) return event;
 
         final file = File(path.joinAll([saveDirectory.path, fileName]));
         await file.parent.create(recursive: true);
         await file.writeAsBytes(response.bodyBytes);
 
-        return event.copyWith(
-          imageUrl: path.joinAll([SyncedItem.chaptersPath, fileName]),
-        );
+        return event.copyWith(imageUrl: path.joinAll([SyncedItem.chaptersPath, fileName]));
       } catch (e, stackTrace) {
         FladderSnack.showException(e, stackTrace: stackTrace);
         return event;
@@ -138,7 +133,8 @@ extension SyncMediaHelpers on SyncNotifier {
 
   Future<ImageData?> urlDataToFileData(ImageData? data, Directory directory, String fileName) async {
     if (data?.path == null) return null;
-    final response = await http.get(Uri.parse(data?.path ?? ""));
+    final client = createHttpClient();
+    final response = await client.get(Uri.parse(data?.path ?? ""));
 
     final file = File(path.joinAll([directory.path, fileName]));
     file.writeAsBytesSync(response.bodyBytes);
