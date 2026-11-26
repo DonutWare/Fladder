@@ -57,9 +57,7 @@ class _TrickPlayImageState extends ConsumerState<TrickPlayImage> {
   Widget build(BuildContext context) {
     return Container(
       child: image != null
-          ? CustomPaint(
-              painter: _TrickPlayPainter(image!, currentOffset, widget.trickPlay),
-            )
+          ? CustomPaint(painter: _TrickPlayPainter(image!, currentOffset, widget.trickPlay))
           : const SizedBox.shrink(),
     );
   }
@@ -118,12 +116,7 @@ class _TrickPlayPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Rect srcRect = Rect.fromLTWH(
-      offset.dx,
-      offset.dy,
-      model.width.toDouble(),
-      model.height.toDouble(),
-    );
+    Rect srcRect = Rect.fromLTWH(offset.dx, offset.dy, model.width.toDouble(), model.height.toDouble());
 
     Paint paint = Paint();
     Rect dstRect = Rect.fromLTWH(0, 0, size.width, size.height);

@@ -103,12 +103,7 @@ class DiscoveryInfo with DiscoveryInfoMappable {
   @MappableField(key: "EndpointAddress")
   final String? endPointAddress;
 
-  const DiscoveryInfo({
-    required this.id,
-    required this.name,
-    required this.address,
-    required this.endPointAddress,
-  });
+  const DiscoveryInfo({required this.id, required this.name, required this.address, required this.endPointAddress});
 
   factory DiscoveryInfo.fromMap(Map<String, dynamic> map) => DiscoveryInfoMapper.fromMap(map);
   factory DiscoveryInfo.fromJson(String json) => DiscoveryInfoMapper.fromJson(json);

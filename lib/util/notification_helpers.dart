@@ -38,9 +38,10 @@ class NotificationHelpers {
       converter: const SeerrJsonConverter(),
       interceptors: [
         _WorkerSeerrAuthInterceptor(
-            apiKey: credentials.apiKey.trim(),
-            cookie: credentials.sessionCookie.trim(),
-            customHeaders: credentials.customHeaders),
+          apiKey: credentials.apiKey.trim(),
+          cookie: credentials.sessionCookie.trim(),
+          customHeaders: credentials.customHeaders,
+        ),
         HttpLoggingInterceptor(level: Level.basic),
       ],
     );
@@ -62,8 +63,9 @@ class NotificationHelpers {
 
       final userId = meResp.body!.id;
       final reqResp = await seerrApi.getRequests(take: limit, skip: 0);
-      final requests =
-          reqResp.isSuccessful && reqResp.body?.results != null ? reqResp.body!.results! : <SeerrMediaRequest>[];
+      final requests = reqResp.isSuccessful && reqResp.body?.results != null
+          ? reqResp.body!.results!
+          : <SeerrMediaRequest>[];
 
       final since = debug ? lastUpdateCheck.subtract(const Duration(days: 12)) : lastUpdateCheck;
 
@@ -96,9 +98,7 @@ class NotificationHelpers {
       api = dto.JellyfinOpenApi.create(
         httpClient: createHttpClient(),
         baseUrl: Uri.parse(trimmed),
-        interceptors: [
-          _WorkerAuthInterceptor(token),
-        ],
+        interceptors: [_WorkerAuthInterceptor(token)],
       );
 
       Future<List<dto.BaseItemDto>> latestGet({String? parentId, required int take}) async {
@@ -122,9 +122,7 @@ class NotificationHelpers {
       }
 
       if (!includeHiddenViews) {
-        final items = await latestGet(
-          take: limit,
-        );
+        final items = await latestGet(take: limit);
 
         return items.reversed.where((element) {
           final itemDate = element.dateLastMediaAdded ?? element.dateCreated;
@@ -136,9 +134,7 @@ class NotificationHelpers {
       final viewsResp = await api.userViewsGet(userId: userId, includeHidden: true);
       if (!viewsResp.isSuccessful || viewsResp.body == null || (viewsResp.body?.items?.isEmpty ?? true)) {
         log('No views returned for user $userId while includeHiddenViews=true; falling back to single latest call');
-        final items = await latestGet(
-          take: limit,
-        );
+        final items = await latestGet(take: limit);
         return items.reversed.toList();
       }
 
@@ -150,9 +146,7 @@ class NotificationHelpers {
           .toList(growable: false);
 
       if (parentIds.isEmpty) {
-        final items = await latestGet(
-          take: limit,
-        );
+        final items = await latestGet(take: limit);
         return items.reversed.toList();
       }
 
@@ -162,10 +156,7 @@ class NotificationHelpers {
       final List<dto.BaseItemDto> allItems = [];
       for (final parentId in parentIds) {
         try {
-          final items = await latestGet(
-            parentId: parentId,
-            take: perViewLimit,
-          );
+          final items = await latestGet(parentId: parentId, take: perViewLimit);
           if (items.isNotEmpty) allItems.addAll(items);
         } catch (e) {
           log('Error fetching latest items for view $parentId: $e');
@@ -178,13 +169,13 @@ class NotificationHelpers {
         if (item.id != null && !unique.containsKey(item.id)) unique[item.id!] = item;
       }
 
-      final newItems = (unique.values.toList()
-            ..sort((a, b) {
-              final aDate = a.dateLastMediaAdded ?? a.dateCreated ?? DateTime.fromMillisecondsSinceEpoch(0);
-              final bDate = b.dateLastMediaAdded ?? b.dateCreated ?? DateTime.fromMillisecondsSinceEpoch(0);
-              return bDate.compareTo(aDate);
-            }))
-          .toList();
+      final newItems =
+          (unique.values.toList()..sort((a, b) {
+                final aDate = a.dateLastMediaAdded ?? a.dateCreated ?? DateTime.fromMillisecondsSinceEpoch(0);
+                final bDate = b.dateLastMediaAdded ?? b.dateCreated ?? DateTime.fromMillisecondsSinceEpoch(0);
+                return bDate.compareTo(aDate);
+              }))
+              .toList();
 
       return newItems.reversed.where((element) {
         final itemDate = element.dateLastMediaAdded ?? element.dateCreated;

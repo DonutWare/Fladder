@@ -111,10 +111,7 @@ class JellyRequest implements Interceptor {
     for (var attempt = 0; attempt <= _maxRetries; attempt++) {
       try {
         final response = await chain.proceed(
-          applyHeaders(
-            chain.request.copyWith(baseUri: Uri.parse(serverUrl)),
-            headers,
-          ),
+          applyHeaders(chain.request.copyWith(baseUri: Uri.parse(serverUrl)), headers),
         );
         unawaited(connectivityNotifier.checkConnectivityThrottled());
         return response;
@@ -296,7 +293,9 @@ class JellyResponse implements Interceptor {
     final Response<BodyType> response = await chain.proceed(chain.request);
 
     if (!response.isSuccessful) {
-      log('x- ${response.base.statusCode} - ${response.base.reasonPhrase} - ${response.error} - ${response.base.request?.method} ${response.base.request?.url.toString()}');
+      log(
+        'x- ${response.base.statusCode} - ${response.base.reasonPhrase} - ${response.error} - ${response.base.request?.method} ${response.base.request?.url.toString()}',
+      );
     }
     if (response.statusCode == 404) {
       chopperLogger.severe('404 NOT FOUND');
