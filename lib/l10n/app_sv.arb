@@ -4,9 +4,9 @@
     "active": "Aktiv",
     "nativeName": "Svenska",
     "addAsFavorite": "Lägg till som favorit",
-    "advanced": "Avancerad",
+    "advanced": "Avancerat",
     "all": "Alla",
-    "amoledBlack": "Amoled svart",
+    "amoledBlack": "AMOLED-svart",
     "appLockAutoLogin": "Automatisk inloggning",
     "appLockBiometrics": "Biometri",
     "actor": "{count, plural, other{Skådespelare} one{Skådespelare}}",
@@ -23,13 +23,13 @@
     "mediaSegmentOutro": "Outro",
     "login": "Logga in",
     "loggedIn": "Inloggad",
-    "light": "Ljus",
+    "light": "Tunn",
     "list": "Lista",
     "lockscreen": "Låsskärm",
     "loading": "Laddar",
     "downloadsTitle": "Nedladdningar",
-    "downloadsClearTitle": "Rensa synkad data",
-    "deleteItem": "Radera {item}?",
+    "downloadsClearTitle": "Rensa synkroniserade data",
+    "deleteItem": "Ta bort {item}?",
     "@deleteItem": {
         "description": "deleteItem",
         "placeholders": {
@@ -40,7 +40,7 @@
     },
     "descending": "Fallande",
     "disabled": "Av",
-    "discovered": "Upptäckt",
+    "discovered": "Hittade servrar",
     "disableFilters": "Stäng av filter",
     "editMetadata": "Redigera metadata",
     "downloadFile": "Ladda ner {type}",
@@ -53,14 +53,14 @@
     },
     "cancel": "Avbryt",
     "change": "Byt",
-    "castAndCrew": "Skådespelare och filmarbetare",
+    "castAndCrew": "Skådespelare och filmteam",
     "favorites": "Favoriter",
     "enabled": "På",
     "displayLanguage": "Visningsspråk",
     "deleteFilterConfirmation": "Är du säker på att du vill ta bort det här filtret?",
     "home": "Hem",
     "info": "Info",
-    "invalidUrl": "Ogiltig URL",
+    "invalidUrl": "Ogiltig webbadress",
     "invalidUrlDesc": "URL:en måste börja med http(s)://",
     "identify": "Identifiera",
     "mediaTypePhoto": "{count, plural, one{Foto} other{Foton}}",
@@ -68,7 +68,7 @@
     "mediaTypeBook": "{count, plural, one{Bok} other{Böcker}}",
     "mediaSegmentUnknown": "Okänd",
     "mediaTypeFolder": "{count, plural, one{Mapp} other{Mappar}}",
-    "mediaTypeBoxset": "Boxset",
+    "mediaTypeBoxset": "{count, plural, one{Samling} other{Samlingar}}",
     "mediaTypeEpisode": "{count, plural, one{Avsnitt} other{Avsnitt}}",
     "mediaTypePerson": "{count, plural, one{Person} other{Personer}}",
     "mediaTypePlaylist": "{count, plural, one{Spellista} other{Spellistor}}",
@@ -89,17 +89,17 @@
         }
     },
     "audio": "{count, plural, one{Ljud} other{Ljud}}",
-    "ascending": "Ökande",
+    "ascending": "Stigande",
     "bold": "Fetstil",
     "clearAllSettingsQuestion": "Återställ alla inställningar?",
-    "clearChanges": "Rensa ändringar",
-    "clearSelection": "Rensa markeringar",
+    "clearChanges": "Ångra ändringar",
+    "clearSelection": "Avmarkera alla",
     "close": "Stäng",
     "code": "Kod",
     "color": "Färg",
-    "combined": "Kombinerad",
-    "communityRating": "Gemenskapsbetyg",
-    "continuePage": "Fortsätt - sida {page}",
+    "combined": "Tillsammans",
+    "communityRating": "Publikbetyg",
+    "continuePage": "Fortsätt på sida {page}",
     "@continuePage": {
         "description": "Continue - page 1",
         "placeholders": {
@@ -109,12 +109,12 @@
         }
     },
     "controls": "Kontroller",
-    "dashboard": "Kontrollpanel",
+    "dashboard": "Startsida",
     "dashboardContinue": "Fortsätt",
     "dashboardContinueListening": "Fortsätt lyssna",
     "dashboardContinueReading": "Fortsätt läsa",
     "nextUp": "Nästa",
-    "dashboardRecentlyAdded": "Nyligen lagts till i {name}",
+    "dashboardRecentlyAdded": "Nyligen tillagt i {name}",
     "@dashboardRecentlyAdded": {
         "description": "Recently added on home screen",
         "placeholders": {
@@ -123,16 +123,16 @@
             }
         }
     },
-    "dateAdded": "Datum tillagt",
-    "dateLastContentAdded": "Datum innehåll senast blev tillagt",
-    "datePlayed": "Datum spelat",
+    "dateAdded": "Datum då objektet lades till",
+    "dateLastContentAdded": "Datum då innehåll senast lades till",
+    "datePlayed": "Senaste uppspelning",
     "delete": "Ta bort",
-    "heightOffset": "Höjdförskjutning",
-    "hide": "Göm",
-    "hideEmpty": "Göm tomma",
+    "heightOffset": "Förskjutning i höjdled",
+    "hide": "Dölj",
+    "hideEmpty": "Dölj tomma serier",
     "homeBannerCarousel": "Karusell",
     "immediately": "Omedelbart",
-    "incorrectPinTryAgain": "Fel PIN. Försök igen.",
+    "incorrectPinTryAgain": "Fel PIN-kod. Försök igen.",
     "label": "{count, plural, other{Etiketter} one{Etikett}}",
     "@label": {
         "description": "label",
@@ -153,10 +153,10 @@
             }
         }
     },
-    "libraryPageSizeDesc": "Sätt antal att ladda åt gången. 0 stänger av sidindelning.",
+    "libraryPageSizeDesc": "Ange hur många objekt som ska läsas in åt gången. Ange 0 för att stänga av sidindelningen.",
     "libraryPageSizeTitle": "Sidstorlek för bibliotek",
     "logout": "Logga ut",
-    "logoutUserPopupContent": "Detta kommer att logga ut {userName} och ta bort användaren från appen.\nDu kommer att behöva logga in igen på {serverName}.",
+    "logoutUserPopupContent": "{userName} loggas ut och tas bort från appen.\nDu behöver sedan logga in på {serverName} igen.",
     "@logoutUserPopupContent": {
         "description": "Pop-up for logging out the user description",
         "placeholders": {
@@ -177,12 +177,12 @@
             }
         }
     },
-    "loop": "Slinga",
-    "markAsUnwatched": "Markera som inte sedd",
+    "loop": "Upprepa",
+    "markAsUnwatched": "Markera som osedd",
     "markAsWatched": "Markera som sedd",
-    "masonry": "Murverk",
+    "masonry": "Mosaik",
     "mediaTypeBase": "Grundtyp",
-    "metaDataSavedFor": "Sparade metadata för {item}",
+    "metaDataSavedFor": "Metadata har sparats för {item}",
     "@metaDataSavedFor": {
         "description": "metaDataSavedFor",
         "placeholders": {
@@ -192,8 +192,8 @@
         }
     },
     "metadataRefreshDefault": "Sök efter nya och uppdaterade filer",
-    "autoPlay": "Auto-spela",
-    "endsAt": "slutar {date}",
+    "autoPlay": "Automatisk uppspelning",
+    "endsAt": "slutar kl. {date}",
     "@endsAt": {
         "description": "endsAt",
         "placeholders": {
@@ -214,7 +214,7 @@
         }
     },
     "error": "Fel",
-    "failedToLoadImage": "Kunde inte hämta bild",
+    "failedToLoadImage": "Det gick inte att läsa in bilden",
     "favorite": "Favorit",
     "filter": "{count, plural, other{Filter} one{Filter}}",
     "@filter": {
@@ -229,7 +229,7 @@
     "folders": "Mappar",
     "fontColor": "Textfärg",
     "fontSize": "Teckenstorlek",
-    "forceRefresh": "Tvinga att ladda om",
+    "forceRefresh": "Tvinga fram uppdatering",
     "genre": "{count, plural, other{Genrer} one{Genre}}",
     "@genre": {
         "description": "genre",
@@ -242,7 +242,7 @@
     },
     "goTo": "Gå till",
     "grid": "Rutnät",
-    "group": "Grupp",
+    "group": "Gruppera",
     "groupBy": "Gruppera efter",
     "never": "Aldrig",
     "page": "Sida {index}",
@@ -256,7 +256,7 @@
     },
     "parentalRating": "Åldersgräns",
     "password": "Lösenord",
-    "refreshPopup": "Uppdatera - {name}",
+    "refreshPopup": "Uppdatera {name}",
     "@refreshPopup": {
         "placeholders": {
             "name": {
@@ -264,14 +264,14 @@
             }
         }
     },
-    "refreshPopupContentMetadata": "Metadata uppdateras beroende på inställningar och om internet tjänster är aktiverat i kontrollpanelen.",
+    "refreshPopupContentMetadata": "Hur metadata uppdateras beror på inställningarna och vilka internettjänster som är aktiverade i kontrollpanelen.",
     "related": "Relaterat",
     "releaseDate": "Utgivningsdatum",
     "removeAsFavorite": "Ta bort som favorit",
     "removeFromCollection": "Ta bort från samling",
     "removeFromPlaylist": "Ta bort från spellista",
     "replaceAllImages": "Ersätt alla bilder",
-    "replaceExistingImages": "Ersätt existerande bilder",
+    "replaceExistingImages": "Ersätt befintliga bilder",
     "restart": "Starta om",
     "result": "Resultat",
     "resumable": "Kan återupptas",
@@ -288,7 +288,7 @@
     "retry": "Försök igen",
     "runTime": "Speltid",
     "runtimeMinutesTitle": "Speltid (minuter)",
-    "runtimeRangeMinutes": "{min} - {max} minuter",
+    "runtimeRangeMinutes": "{min}–{max} minuter",
     "@runtimeRangeMinutes": {
         "placeholders": {
             "min": {
@@ -319,8 +319,8 @@
         }
     },
     "save": "Spara",
-    "saved": "Sparad",
-    "scanBiometricHint": "Bekräfta identitet",
+    "saved": "Sparat",
+    "scanBiometricHint": "Bekräfta din identitet",
     "scanLibrary": "Skanna bibliotek",
     "scanYourFingerprintToAuthenticate": "Skanna ditt fingeravtryck för att logga in som {user}",
     "@scanYourFingerprintToAuthenticate": {
@@ -330,7 +330,7 @@
             }
         }
     },
-    "scanningName": "Skannar - {name}…",
+    "scanningName": "Skannar {name}…",
     "@scanningName": {
         "placeholders": {
             "name": {
@@ -349,7 +349,7 @@
             }
         }
     },
-    "seconds": "{count, plural, other{Sekunder} one{Sekund}}",
+    "seconds": "{count, plural, one{sekund} other{sekunder}}",
     "@seconds": {
         "description": "second",
         "placeholders": {
@@ -361,9 +361,9 @@
     },
     "selectAll": "Markera alla",
     "selectTime": "Välj tid",
-    "selectViewType": "Välj visningstyp",
+    "selectViewType": "Välj visningsläge",
     "selected": "Vald",
-    "selectedWith": "Valde {info}",
+    "selectedWith": "Redan valt: {info}",
     "@selectedWith": {
         "description": "selected",
         "placeholders": {
@@ -372,14 +372,14 @@
             }
         }
     },
-    "separate": "Separera",
+    "separate": "Var för sig",
     "server": "Server",
-    "set": "Sätt",
+    "set": "Ange",
     "@set": {
         "description": "Use for setting a certain value",
         "context": "Set 'time'"
     },
-    "setIdentityTo": "Ändra identitet till {name}",
+    "setIdentityTo": "Identiteten har ändrats till {name}",
     "@setIdentityTo": {
         "description": "setIdentityTo",
         "placeholders": {
@@ -392,7 +392,7 @@
     "settings": "Inställningar",
     "empty": "Tom",
     "navigationSync": "Synkroniserat",
-    "random": "Slumpmässig",
+    "random": "Slumpmässig ordning",
     "popularity": "Popularitet",
     "reWatch": "Se igen",
     "read": "Läs {item}",
@@ -413,14 +413,14 @@
             }
         }
     },
-    "recursive": "Rekursivt",
+    "recursive": "Sök i undermappar",
     "refresh": "Uppdatera",
     "refreshMetadata": "Uppdatera metadata",
     "settingsProfileTitle": "Profil",
-    "settingsProfileSubtitleLanguage": "Föredraget undertextsspråk",
-    "settingsProfileSubtitleMode": "Undertextsläge",
-    "backgroundBlur": "Bakgrundsskärpa",
-    "backgroundOpacity": "Bakgrundstransparans",
+    "settingsProfileSubtitleLanguage": "Föredraget språk för undertexter",
+    "settingsProfileSubtitleMode": "Visning av undertexter",
+    "backgroundBlur": "Bakgrundsoskärpa",
+    "backgroundOpacity": "Bakgrundens opacitet",
     "clear": "Rensa",
     "clearAllSettings": "Återställ alla inställningar",
     "invalidAuthLink": "Ogiltig inloggningslänk",
@@ -429,10 +429,10 @@
     "fetchingLibrary": "Hämtar biblioteksobjekt…",
     "homeBannerSlideshow": "Bildspel",
     "homeBannerTV": "TV",
-    "libraryFetchNoItemsFound": "Inga objekt hittades. Prova ändra dina inställningar.",
-    "pathClearTitle": "Rensa nerladdningssökväg",
+    "libraryFetchNoItemsFound": "Inga objekt hittades. Prova andra inställningar.",
+    "pathClearTitle": "Återställ sökvägen för nedladdningar",
     "mode": "Läge",
-    "lastUpdateAt": "Senast uppdaterad den {date} vid {time}",
+    "lastUpdateAt": "Senast uppdaterad {date} kl. {time}",
     "@lastUpdateAt": {
         "description": "lastUpdateAt",
         "placeholders": {
@@ -446,7 +446,7 @@
             }
         }
     },
-    "deletedItem": "Raderad {itemName}",
+    "deletedItem": "{itemName} har tagits bort",
     "@deletedItem": {
         "description": "Message shown when a item is deleted",
         "placeholders": {
@@ -455,14 +455,14 @@
             }
         }
     },
-    "downloadTranscoded": "Nerladdning transkodad",
-    "seerrSeries": "Upptäck Serier",
-    "today": "Idag",
-    "quickConnectInputACode": "Mata in en kod",
+    "downloadTranscoded": "Ladda ner omkodad version",
+    "seerrSeries": "Upptäck serier",
+    "today": "I dag",
+    "quickConnectInputACode": "Ange en kod",
     "quickConnectWrongCode": "Fel kod",
-    "settingsClientDesc": "Allmän, Time-out, Layout, Tema",
+    "settingsClientDesc": "Allmänt, tidsgräns, layout och tema",
     "settingsClientTitle": "Fladder",
-    "biometricsFailedCheckAgain": "Biometri misslyckades. Kontrollera inställningar och försök igen.",
+    "biometricsFailedCheckAgain": "Den biometriska verifieringen misslyckades. Kontrollera inställningarna och försök igen.",
     "generateLoginLink": "Kod för {userName}",
     "@generateLoginLink": {
         "description": "Code for a user to share",
@@ -475,14 +475,14 @@
     "shareLoginLink": "Dela inloggningslänk",
     "shareQRCode": "Dela QR-kod",
     "copyLoginLink": "Kopiera länk",
-    "includePassword": "Inkludera lösenord",
+    "includePassword": "Ta med lösenord",
     "gestures": "Gester",
     "dynamicText": "Dynamisk",
     "homeBannerDetailed": "Detaljerad",
-    "other": "Andra",
+    "other": "Övrigt",
     "overview": "Översikt",
     "pathEditTitle": "Ändra plats",
-    "play": "Spela {item}",
+    "play": "Spela upp {item}",
     "@play": {
         "description": "Play with",
         "placeholders": {
@@ -501,9 +501,9 @@
         }
     },
     "moreOptions": "Fler alternativ",
-    "mouseDragSupport": "Drag med mus",
-    "navigation": "Navigation",
-    "noItemsSynced": "Inga objekt synkroniserade",
+    "mouseDragSupport": "Dra med musen",
+    "navigation": "Navigering",
+    "noItemsSynced": "Inga objekt har synkroniserats",
     "noItemsToShow": "Inga objekt att visa",
     "noRating": "Inget betyg",
     "noResults": "Inga resultat",
@@ -511,15 +511,15 @@
     "noSuggestionsFound": "Inga förslag hittades",
     "none": "Ingen",
     "normal": "Normal",
-    "notPartOfAlbum": "Inte en del av ett album",
+    "notPartOfAlbum": "Ingår inte i något album",
     "options": "Alternativ",
     "includeHiddenItems": "Inkludera dolda bibliotek",
-    "linkData": "Länk data",
-    "passwordNotRequired": "Inte nödvändigt, lämna tomt för att inte inkludera lösenord i länken",
+    "linkData": "Uppgifter i länken",
+    "passwordNotRequired": "Lämna fältet tomt om du vill dela länken utan lösenord.",
     "connect": "Anslut",
     "groupedFoldersTitle": "Grupperade bibliotek",
-    "downloadOriginal": "Ladda ner original",
-    "personBirthday": "Födelsedag: {date}",
+    "downloadOriginal": "Ladda ner originalet",
+    "personBirthday": "Födelsedatum: {date}",
     "@personBirthday": {
         "description": "Birthday label with formatted date",
         "placeholders": {
@@ -547,7 +547,7 @@
         }
     },
     "seerrMovies": "Upptäck filmer",
-    "playFrom": "Spela från {name}",
+    "playFrom": "Spela upp från {name}",
     "@playFrom": {
         "description": "playFrom",
         "placeholders": {
@@ -556,7 +556,7 @@
             }
         }
     },
-    "playFromStart": "Spela {name} från början",
+    "playFromStart": "Spela upp {name} från början",
     "@playFromStart": {
         "description": "speel vanaf het begin",
         "placeholders": {
@@ -565,12 +565,1648 @@
             }
         }
     },
-    "playLabel": "Spela",
-    "playVideos": "Spela videor",
-    "quickConnectAction": "Ange snabb anslutningskod för",
+    "playLabel": "Spela upp",
+    "playVideos": "Spela upp videor",
+    "quickConnectAction": "Ange snabbanslutningskoden för",
     "quickConnectTitle": "Snabbanslutning",
-    "contentRating": "Innehållsbetyg",
-    "settingsBlurredPlaceholderDesc": "Visa suddig bakgrund när du laddar affischer",
+    "contentRating": "Åldersklassificering",
+    "settingsBlurredPlaceholderDesc": "Visa en suddig bakgrund medan affischerna läses in",
     "settingsContinue": "Fortsätt",
-    "settingsHomeBannerDescription": "Visa som en bildspel, karusell eller dölja bannern"
+    "settingsHomeBannerDescription": "Visa bannern som ett bildspel eller en karusell, eller dölj den",
+    "addToQueue": "Lägg till i uppspelningskön",
+    "instantMix": "Snabbmix",
+    "addedToQueue": "{count, plural, one{{count} spår lades till i uppspelningskön} other{{count} spår lades till i uppspelningskön}}",
+    "@addedToQueue": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "appLockPasscode": "PIN-kod",
+    "audioPlayerPlaybackOptionsTitle": "Uppspelningsalternativ",
+    "audioPlayerRepeatAll": "Upprepa alla",
+    "audioPlayerRepeatOff": "Ingen upprepning",
+    "audioPlayerRepeatOne": "Upprepa ett spår",
+    "audioPlayerShuffle": "Blanda",
+    "showArtist": "Visa artist",
+    "track": "{count, plural, one{Spår} other{Spår}}",
+    "@track": {
+        "description": "track",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "chapter": "{count, plural, other{Kapitel} one{Kapitel}}",
+    "@chapter": {
+        "description": "chapter",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "collectionFolder": "{count, plural, one{Samlingsmapp} other{Samlingsmappar}}",
+    "@collectionFolder": {
+        "description": "Collection folder (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "dashboardRecentlyAddedItems": "Nyligen tillagt – {name}",
+    "@dashboardRecentlyAddedItems": {
+        "description": "Recently added items on home screen",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteFileFromSystem": "Om du tar bort {item} försvinner objektet både från filsystemet och från mediebiblioteket. Vill du fortsätta?",
+    "@deleteFileFromSystem": {
+        "description": "Delete file from system",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "director": "{count, plural, other{Regi} two{Regi}}",
+    "@director": {
+        "description": "director",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "downloadsClearDesc": "Vill du ta bort alla synkroniserade data för samtliga användare?",
+    "downloadsSyncedData": "Synkroniserade data",
+    "appLockPattern": "Låsmönster",
+    "enterPin": "Ange PIN-koden",
+    "confirmPin": "Bekräfta PIN-koden",
+    "drawPattern": "Rita låsmönstret",
+    "confirmPattern": "Rita låsmönstret igen",
+    "incorrectPatternTryAgain": "Fel låsmönster. Försök igen.",
+    "patternTooShort": "Dra en linje genom minst fyra punkter",
+    "codeMismatch": "Inmatningarna skiljer sig åt. Försök igen.",
+    "unreadableAccountsLogInAgain": "Vissa sparade konton kunde inte läsas in. Logga in igen för att återställa dem.",
+    "itemCount": "Antal objekt: {count}",
+    "@itemCount": {
+        "description": "Item count",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "mediaTypeArtists": "{count, plural, one{Artist} other{Artister}}",
+    "@mediaTypeArtists": {
+        "description": "Artist (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeMusicVideo": "{count, plural, one{Musikvideo} other{Musikvideor}}",
+    "@mediaTypeMusicVideo": {
+        "description": "Music Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypePhotoAlbum": "{count, plural, one{Fotoalbum} other{Fotoalbum}}",
+    "@mediaTypePhotoAlbum": {
+        "description": "Photo Album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeTV": "{count, plural, one{Tv-kanal} other{Tv-kanaler}}",
+    "@mediaTypeTV": {
+        "description": "TV Channel (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "mediaTypeCollection": "{count, plural, one{Samling} other{Samlingar}}",
+    "@mediaTypeCollection": {
+        "description": "Collection (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "metadataRefreshFull": "Ersätt alla metadata",
+    "metadataRefreshValidation": "Sök efter metadata som saknas",
+    "minutes": "{count, plural, other{Minuter} one{Minut}}",
+    "@minutes": {
+        "description": "minute",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "musicAlbum": "{count, plural, one{Album} other{Album}}",
+    "@musicAlbum": {
+        "description": "Music album (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "sideBar": "Sidofält",
+    "musicSideBar": "Sidofält för musik",
+    "navigationDashboard": "Startsida",
+    "openParent": "Gå upp en nivå",
+    "openShow": "Öppna serien",
+    "outlineColor": "Konturfärg",
+    "outlineSize": "Konturtjocklek",
+    "pathEditDesc": "Platsen gäller för alla användare. Om du byter plats kommer du inte längre åt tidigare synkroniserade data i appen. Filerna finns kvar på enheten.",
+    "pathEditSelect": "Välj var nedladdningar ska sparas",
+    "playCount": "Antal uppspelningar",
+    "playMusic": "Spela musik",
+    "played": "Uppspelade",
+    "rating": "{count, plural, other{Betyg} one{Betyg}}",
+    "@rating": {
+        "description": "rating",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "authenticateWithBiometrics": "Använd biometri för att logga in som {user}",
+    "@authenticateWithBiometrics": {
+        "description": "Prompt shown to the user when biometric authentication is requested",
+        "placeholders": {
+            "user": {
+                "type": "String",
+                "example": "Jane"
+            }
+        }
+    },
+    "scrollToTop": "Rulla högst upp",
+    "settingsBlurEpisodesDesc": "Gör bilderna för alla kommande avsnitt suddiga",
+    "settingsBlurEpisodesTitle": "Gör bilderna för kommande avsnitt suddiga",
+    "settingsBlurredPlaceholderTitle": "Suddig platshållarbild",
+    "settingsEnableOsMediaControls": "Använd systemets mediekontroller",
+    "settingsEnableOsMediaControlsDesc": "Styr uppspelningen med medietangenterna och visa i systemet vad som spelas",
+    "settingsHomeBannerTitle": "Banner på startsidan",
+    "settingsHomeBannerInformationDesc": "Välj vilken information som ska visas i bannern på startsidan",
+    "settingsHomeBannerInformationTitle": "Information i bannern",
+    "settingsHomeNextUpDesc": "Välj vilka affischer som ska visas på startsidan",
+    "settingsHomeNextUpTitle": "Affischer under Nästa",
+    "settingsNextUpCutoffDays": "Hur långt tillbaka Nästa ska visa serier",
+    "settingsPlayerCustomSubtitlesDesc": "Anpassa storlek, färg, placering och kontur",
+    "settingsPlayerCustomSubtitlesTitle": "Anpassa undertexter",
+    "settingsPlayerDesc": "Bildförhållande och avancerade inställningar",
+    "settingsPlayerMobileWarning": "Om både maskinvaruacceleration och undertexter via libass är aktiverade på Android kan vissa undertexter utebli.",
+    "settingsPlayerNativeLibassAccelDesc": "Låt videospelaren visa undertexter med libass",
+    "settingsPlayerNativeLibassAccelTitle": "Undertexter via libass",
+    "settingsPlayerBufferSizeTitle": "Videobuffertens storlek",
+    "settingsPlayerPlayPauseFadeTitle": "Tona in och ut vid start och paus",
+    "settingsPlayerPlayPauseFadeDesc": "Tona in ljudet när uppspelningen startar och tona ut det vid paus",
+    "settingsPlayerBufferSizeDesc": "Ange hur mycket videodata som ska läsas in i förväg vid uppspelning.",
+    "settingsPlayerTitle": "Spelare",
+    "settingsPlayerVideoHWAccelDesc": "Använd grafikprocessorn för att spela upp video (rekommenderas)",
+    "settingsPlayerVideoHWAccelTitle": "Maskinvaruacceleration",
+    "settingsPosterPinch": "Ändra affischstorleken med två fingrar",
+    "settingsPosterSize": "Affischstorlek",
+    "settingsProfileDesc": "Låsskärm, lokal serveradress och Seerr",
+    "anyLanguage": "Alla språk",
+    "subtitlePlaybackModeDefault": "Standard",
+    "subtitlePlaybackModeAlways": "Visa alltid",
+    "subtitlePlaybackModeOnlyForced": "Endast tvingade undertexter",
+    "subtitlePlaybackModeNone": "Inga",
+    "subtitlePlaybackModeSmart": "Smart",
+    "settingsQuickConnectTitle": "Snabbanslutning",
+    "settingsSecurity": "Säkerhet",
+    "settingsShowScaleSlider": "Visa reglaget för affischstorlek",
+    "settingsVisual": "Utseende",
+    "shadow": "Skugga",
+    "backgroundColor": "Bakgrundsfärg",
+    "showAlbum": "Visa album",
+    "showDetails": "Visa detaljer",
+    "showEmpty": "Visa tomma",
+    "shuffleVideos": "Spela videor i slumpmässig ordning",
+    "somethingWentWrong": "Något gick fel",
+    "somethingWentWrongPasswordCheck": "Något gick fel. Kontrollera lösenordet.",
+    "sortBy": "Sortera efter",
+    "sortName": "Namn",
+    "sortOrder": "Sorteringsordning",
+    "start": "Start",
+    "studio": "{count, plural, other{Studior} one{Studio}}",
+    "@studio": {
+        "description": "studio",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "subtitleConfigurator": "Anpassa undertexter",
+    "subtitleConfiguratorPlaceHolder": "Så här ser undertexterna ut med dina inställningar.",
+    "subtitles": "Undertexter",
+    "sync": "Synkronisera",
+    "syncDeleteItemDesc": "Vill du ta bort alla synkroniserade data för {item}?",
+    "@syncDeleteItemDesc": {
+        "description": "Sync delete item pop-up window",
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteItemTitle": "Ta bort synkroniserat objekt",
+    "syncDeletePopupPermanent": "Alla lokalt synkroniserade filer tas bort permanent.",
+    "syncPlaylistDeleteTitle": "Ta bort synkroniserad spellista",
+    "syncPlaylistDeleteContent": "Vill du även ta bort spåren som synkroniserats från den här spellistan?",
+    "syncPlaylistKeepTracks": "Behåll spåren",
+    "syncPlaylistRemoveTracks": "Ta bort spåren",
+    "syncDetails": "Synkroniseringsdetaljer",
+    "syncOpenParent": "Gå upp en nivå",
+    "syncRemoveDataDesc": "Vill du ta bort synkroniserade videodata? Filerna tas bort permanent och måste synkroniseras på nytt om du vill använda dem igen.",
+    "syncRemoveDataTitle": "Ta bort synkroniserade data?",
+    "syncedItems": "Synkroniserade objekt",
+    "tag": "{count, plural, one{Tagg} other{Taggar}}",
+    "@tag": {
+        "description": "tag",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "theme": "Tema",
+    "themeColor": "Temafärg",
+    "themeModeDark": "Mörkt",
+    "themeModeLight": "Ljust",
+    "themeModeSystem": "Följ systemet",
+    "timeAndAnnotation": "{minutes} och {seconds}",
+    "@timeAndAnnotation": {
+        "description": "timeAndAnnotation",
+        "placeholders": {
+            "minutes": {
+                "type": "String"
+            },
+            "seconds": {
+                "type": "String"
+            }
+        }
+    },
+    "timeOut": "Tid innan appen låses",
+    "totalSize": "Total storlek: {size}",
+    "@totalSize": {
+        "placeholders": {
+            "size": {
+                "type": "String"
+            }
+        }
+    },
+    "type": "{count, plural, other{Typer} one{Typ}}",
+    "@type": {
+        "description": "type",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "unPlayed": "Ouppspelade",
+    "unableToConnectHost": "Det gick inte att ansluta till servern",
+    "unableToReverseAction": "Alla inställningar tas bort. Det går inte att ångra.",
+    "unknown": "Okänd",
+    "useDefaults": "Använd standardvärden",
+    "userName": "Användarnamn",
+    "video": "{count, plural, one{Video} other{Videor}}",
+    "@video": {
+        "description": "Video (plural)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "videoScaling": "Videoskalning",
+    "videoScalingContain": "Visa hela bilden",
+    "videoScalingCover": "Fyll genom att beskära",
+    "videoScalingFill": "Sträck ut bilden",
+    "videoScalingFillScreenDesc": "Låt bilden täcka navigeringsfältet och statusfältet",
+    "videoScalingFillScreenNotif": "I liggande läge används Fyll skärmen oavsett vald videoskalning.",
+    "videoScalingFillScreenTitle": "Fyll skärmen",
+    "pictureInPictureTitle": "Bild-i-bild",
+    "@pictureInPictureTitle": {
+        "description": "Tooltip on the in-player PiP button"
+    },
+    "pictureInPictureAutoTitle": "Automatisk bild-i-bild",
+    "@pictureInPictureAutoTitle": {
+        "description": "Title of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureSubtitle": "Växla automatiskt till bild-i-bild när du lämnar spelaren. Knappen för bild-i-bild fungerar oavsett inställning.",
+    "@pictureInPictureSubtitle": {
+        "description": "Subtitle of the auto-enter Picture-in-Picture setting toggle"
+    },
+    "pictureInPictureNotSupported": "Bild-i-bild är inte tillgängligt på den här enheten",
+    "@pictureInPictureNotSupported": {
+        "description": "Snackbar shown when the user taps the PiP button and the OS reports it unsupported"
+    },
+    "videoScalingFitHeight": "Anpassa till höjden",
+    "videoScalingFitWidth": "Anpassa till bredden",
+    "videoScalingScaleDown": "Förminska vid behov",
+    "viewPhotos": "Visa foton",
+    "writer": "{count, plural, other{Manus} two{Manus}}",
+    "@writer": {
+        "description": "writer",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "year": "{count, plural, other{År} one{År}}",
+    "@year": {
+        "description": "year",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "addToNewCollection": "Ny samling",
+    "addItemsToCollection": "Lägg till {itemLength} objekt i en samling",
+    "@addItemsToCollection": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addedToCollection": "Tillagt i samlingen {collectionName}",
+    "@addedToCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "removedFromCollection": "Borttaget från samlingen {collectionName}",
+    "@removedFromCollection": {
+        "placeholders": {
+            "collectionName": {
+                "type": "String"
+            }
+        }
+    },
+    "addToNewPlaylist": "Ny spellista",
+    "addItemsToPlaylist": "Lägg till {itemLength} objekt i en spellista",
+    "@addItemsToPlaylist": {
+        "placeholders": {
+            "itemLength": {
+                "type": "int"
+            }
+        }
+    },
+    "addedToPlaylist": "Tillagt i spellistan {playlistName}",
+    "@addedToPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "removedFromPlaylist": "Borttaget från spellistan {playlistName}",
+    "@removedFromPlaylist": {
+        "placeholders": {
+            "playlistName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncStatusEnqueued": "I kö",
+    "syncStatusRunning": "Pågår",
+    "syncStatusNotFound": "Hittades inte",
+    "syncStatusFailed": "Misslyckades",
+    "syncStatusCanceled": "Avbruten",
+    "syncStatusWaitingToRetry": "Väntar på nytt försök",
+    "syncStatusPaused": "Pausad",
+    "syncStatusSynced": "Synkroniserad",
+    "syncOverlayDeleting": "Tar bort synkroniserat objekt",
+    "syncOverlaySyncing": "Synkroniserar objektets uppgifter",
+    "syncSelectDownloadsFolder": "Välj nedladdningsmapp",
+    "syncNoFolderSetup": "Ingen synkroniseringsmapp har valts",
+    "syncRemoveUnableToDeleteItem": "Det gick inte att ta bort det synkroniserade objektet",
+    "syncAddItemForSyncing": "{item} lades till för synkronisering",
+    "@syncAddItemForSyncing": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "startedSyncingItem": "Synkroniseringen av {item} har startat",
+    "@startedSyncingItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "unableToSyncItem": "Det gick inte att synkronisera {item}",
+    "@unableToSyncItem": {
+        "placeholders": {
+            "item": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutVersion": "Version: {version}",
+    "@aboutVersion": {
+        "placeholders": {
+            "version": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutBuild": "Byggnummer: {buildNumber}",
+    "@aboutBuild": {
+        "placeholders": {
+            "buildNumber": {
+                "type": "String"
+            }
+        }
+    },
+    "aboutCreatedBy": "Skapad av DonutWare",
+    "aboutSocials": "Sociala medier",
+    "aboutLicenses": "Licenser",
+    "subtitle": "Undertext",
+    "subtitleConfiguration": "Undertextinställningar",
+    "off": "Av",
+    "screenBrightness": "Skärmens ljusstyrka",
+    "enableEdgeGesturesTitle": "Aktivera kantgester",
+    "enableEdgeGesturesDesc": "Justera ljusstyrkan och volymen genom att dra uppåt eller nedåt längs skärmens kanter",
+    "reverseEdgeGesturesTitle": "Byt sida för kantgester",
+    "reverseEdgeGesturesDesc": "Låt ljusstyrkan och volymen byta sida",
+    "scale": "Skalning",
+    "playBackSettings": "Uppspelningsinställningar",
+    "settingsAutoNextTitle": "Förhandsvisning av nästa objekt",
+    "settingsAutoNextDesc": "Visa nästa objekt i uppspelningskön när uppspelningen närmar sig slutet",
+    "autoNextOffSmartTitle": "Smart",
+    "autoNextOffSmartDesc": "Visa nästa objekt när eftertexterna börjar om de ligger nära slutet och följs av mindre än 30 sekunders speltid. Annars visas det när ungefär 30 sekunder återstår av videon.",
+    "autoNextOffStaticTitle": "Fast tid",
+    "autoNextOffStaticDesc": "Visa nästa objekt när ungefär 30 sekunder återstår av videon.",
+    "playbackRate": "Uppspelningshastighet",
+    "speed": "Hastighet",
+    "unableToPlayMedia": "Det gick inte att hitta en kompatibel medietyp",
+    "errorOpeningMedia": "Det gick inte att spela upp det här innehållet",
+    "unableToPlayBooksOnWeb": "Böcker stöds ännu inte i webbversionen",
+    "defaultFilterForLibrary": "Ange standardfilter för biblioteket",
+    "updateFilterForLibrary": "Uppdatera filtret",
+    "removeFilterForLibrary": "Ta bort {filter}?",
+    "@removeFilterForLibrary": {
+        "description": "removeFilterForLibrary",
+        "placeholders": {
+            "filter": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteRequestConfirmation": "Vill du ta bort det här önskemålet?",
+    "libraryFiltersLimitReached": "Du har nått gränsen på tio filter. Ta bort ett filter för att lägga till ett nytt.",
+    "libraryFiltersRemoveAll": "Ta bort alla filter",
+    "libraryFiltersRemoveAllConfirm": "Alla sparade filter för samtliga bibliotek tas bort.",
+    "playerSettingsOrientationTitle": "Spelarens skärmriktning",
+    "playerSettingsOrientationDesc": "Välj vilka skärmriktningar videospelaren får använda",
+    "deviceOrientationPortraitUp": "Stående",
+    "deviceOrientationPortraitDown": "Stående upp och ner",
+    "deviceOrientationLandscapeLeft": "Liggande åt vänster",
+    "deviceOrientationLandscapeRight": "Liggande åt höger",
+    "clientSettingsSchemeVariantTitle": "Färgschema",
+    "schemeSettingsTonalSpot": "Mjuka färgtoner",
+    "schemeSettingsFidelity": "Färgtroget",
+    "schemeSettingsMonochrome": "Monokromt",
+    "schemeSettingsNeutral": "Neutralt",
+    "schemeSettingsVibrant": "Färgstarkt",
+    "schemeSettingsExpressive": "Uttrycksfullt",
+    "schemeSettingsContent": "Innehållsbaserat",
+    "schemeSettingsRainbow": "Regnbåge",
+    "schemeSettingsFruitSalad": "Fruktsallad",
+    "clientSettingsRequireWifiTitle": "Kräv wifi",
+    "clientSettingsRequireWifiDesc": "Ladda bara ner när enheten är ansluten till ett wifi-nätverk",
+    "libraryShuffleAndPlayItems": "Spela upp i slumpmässig ordning",
+    "libraryPlayItems": "Spela upp objekten",
+    "clientSettingsShowAllCollectionsTitle": "Visa alla samlingstyper",
+    "clientSettingsShowAllCollectionsDesc": "Visa även samlingstyper som Fladder saknar stöd för",
+    "stop": "Stoppa",
+    "resumeVideo": "Återuppta videon",
+    "closeVideo": "Stäng videon",
+    "playNextVideo": "Spela upp nästa video",
+    "playerSettingsBackendTitle": "Uppspelningsmotor",
+    "playerSettingsBackendDesc": "Välj vilken motor som ska användas för uppspelning",
+    "playerSettingsReplayGainTitle": "ReplayGain",
+    "playerSettingsReplayGainDesc": "Jämna ut musikens upplevda ljudstyrka med hjälp av ReplayGain-taggar.",
+    "playerSettingsReplayGainLevelTitle": "Målnivå för ReplayGain",
+    "playerSettingsReplayGainLevelDesc": "Välj vilken ljudstyrka ReplayGain ska anpassa musiken till. Ett vanligt riktvärde är −14 dB.",
+    "settingsPlayerCrossfadeTitle": "Övertoning",
+    "settingsPlayerCrossfadeDesc": "Tona över mellan spår som inte följer direkt på varandra på samma album",
+    "settingsPlayerCrossfadeDurationTitle": "Övertoningens längd",
+    "settingsPlayerCrossfadeDurationDesc": "Ange hur länge övertoningen ska pågå",
+    "defaultLabel": "Standard",
+    "@defaultLabel": {
+        "description": "To indicate a default value, default media player backend"
+    },
+    "noVideoPlayerOptions": "Den valda uppspelningsmotorn har inga inställningar",
+    "mdkExperimental": "MDK är fortfarande på försöksstadiet",
+    "skipButtonLabel": "Hoppa över: {segment}",
+    "@skipButtonLabel": {
+        "placeholders": {
+            "segment": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentCommercial": "Reklam",
+    "mediaSegmentPreview": "Förhandsvisning",
+    "mediaSegmentRecap": "Sammanfattning",
+    "mediaSegmentIntro": "Intro",
+    "errorLogs": "Felloggar",
+    "external": "Extern",
+    "copyStreamUrl": "Kopiera strömmens adress",
+    "settingsLayoutSizesTitle": "Layoutstorlekar",
+    "settingsLayoutSizesDesc": "Välj vilka layouter appen får använda för olika fönsterstorlekar",
+    "settingsLayoutModesTitle": "Panellayout",
+    "settingsLayoutModesDesc": "Välj om appen får använda en eller två paneler",
+    "phone": "Telefon",
+    "tablet": "Surfplatta",
+    "desktop": "Dator",
+    "television": "Tv",
+    "layoutModeSingle": "En panel",
+    "layoutModeDual": "Två paneler",
+    "copiedToClipboard": "Kopierat till urklipp",
+    "episodeAvailable": "Tillgängligt",
+    "episodeUnaired": "Ännu inte sänt",
+    "episodeMissing": "Saknas",
+    "internetStreamingQualityTitle": "Kvalitet via internet",
+    "internetStreamingQualityDesc": "Högsta kvalitet vid strömning via internet (mobilnät)",
+    "homeStreamingQualityTitle": "Kvalitet i hemnätverket",
+    "homeStreamingQualityDesc": "Högsta kvalitet vid strömning i hemnätverket",
+    "qualityOptionsTitle": "Kvalitetsalternativ",
+    "qualityOptionsOriginal": "Original",
+    "qualityOptionsAuto": "Automatisk",
+    "advancedVideoOptionsTitle": "Avancerade videoinställningar",
+    "advancedVideoOptionsDesc": "Aktivera HDR, tonmappning och avancerad färghantering. Detta kan vara instabilt på vissa enheter.",
+    "version": "Version",
+    "mediaSegmentActions": "Åtgärder för mediesegment",
+    "segmentActionNone": "Ingen åtgärd",
+    "segmentActionAskToSkip": "Fråga om segmentet ska hoppas över",
+    "segmentActionSkipOnce": "Hoppa över en gång",
+    "segmentActionSkip": "Hoppa över",
+    "exitFladderTitle": "Avsluta Fladder",
+    "exitFladderDesc": "Vill du avsluta Fladder?",
+    "quitMultipleWindowsDesc": "Du har {count} fönster öppna. Alla stängs om du avslutar Fladder. Vill du fortsätta?",
+    "@quitMultipleWindowsDesc": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "closeWindow": "Stäng fönstret",
+    "guestActor": "{count, plural, other{Gästskådespelare} one{Gästskådespelare}}",
+    "@guestActor": {
+        "description": "Guest actors",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "maxConcurrentDownloadsTitle": "Högsta antal samtidiga nedladdningar",
+    "maxConcurrentDownloadsDesc": "Ange hur många nedladdningar som får pågå samtidigt. Ange 0 för obegränsat antal.",
+    "playbackTrackSelection": "Val av ljudspår och undertexter",
+    "rememberSubtitleSelections": "Kom ihåg valet av undertexter",
+    "rememberAudioSelections": "Kom ihåg valet av ljudspår",
+    "rememberSubtitleSelectionsDesc": "Försök välja det undertextspår som bäst motsvarar det du använde i föregående video.",
+    "rememberAudioSelectionsDesc": "Försök välja det ljudspår som bäst motsvarar det du använde i föregående video.",
+    "similarToRecentlyPlayed": "Liknar något du nyligen sett",
+    "similarToLikedItem": "Liknar något du gillar",
+    "hasDirectorFromRecentlyPlayed": "Av samma regissör som något du nyligen sett",
+    "hasActorFromRecentlyPlayed": "Med en skådespelare från något du nyligen sett",
+    "hasLikedDirector": "Av en regissör du gillar",
+    "hasLikedActor": "Med en skådespelare du gillar",
+    "latest": "Senaste",
+    "recommended": "Rekommenderat",
+    "playbackType": "Uppspelningssätt",
+    "playbackTypeDirect": "Direktuppspelning",
+    "playbackTypeTranscode": "Omkodning",
+    "playbackTypeOffline": "Offline",
+    "playbackTypeTV": "TV",
+    "latestReleases": "Senaste versioner",
+    "autoCheckForUpdates": "Sök regelbundet efter uppdateringar",
+    "newReleaseFoundTitle": "Version {newRelease} finns tillgänglig!",
+    "@newReleaseFoundTitle": {
+        "placeholders": {
+            "newRelease": {
+                "type": "String"
+            }
+        }
+    },
+    "newUpdateFoundOnGithub": "En uppdatering finns på GitHub",
+    "enableBackgroundPostersTitle": "Visa affischer i bakgrunden",
+    "enableBackgroundPostersDesc": "Visa slumpmässigt valda affischer i vyer som stöder det.",
+    "notificationDownloadingDownloading": "Laddar ner",
+    "notificationDownloadingPaused": "Nedladdningen har pausats",
+    "notificationDownloadingFinished": "Nedladdningen är klar",
+    "syncAllItemsTitle": "Synkronisera alla objekt från ”{itemName}”?",
+    "@syncAllItemsTitle": {
+        "description": "syncAllItemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncDeleteAllItemsTitle": "Ta bort alla synkroniserade objekt från ”{itemName}”?",
+    "@syncDeleteAllItemsTitle": {
+        "description": "syncDeleteAllitemsFrom",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "syncPauseAll": "Pausa alla",
+    "syncResumeAll": "Återuppta alla",
+    "syncStopAll": "Stoppa alla",
+    "syncDeleteAll": "Ta bort alla filer",
+    "syncAllFiles": "Synkronisera alla filer",
+    "usePostersForLibraryIconsTitle": "Visa affischer som biblioteksikoner",
+    "usePostersForLibraryIconsDesc": "Visa en affisch för varje bibliotek i stället för dess ikon.",
+    "offline": "Offline",
+    "shortCuts": "Kortkommandon",
+    "keyboardShortCuts": "Kortkommandon",
+    "skipForwardLength": "Tid per hopp framåt",
+    "skipBackLength": "Tid per hopp bakåt",
+    "playPause": "Spela upp eller pausa",
+    "seekForward": "Hoppa framåt",
+    "seekBack": "Hoppa bakåt",
+    "seekForwardInstant": "Hoppa framåt direkt",
+    "seekBackInstant": "Hoppa bakåt direkt",
+    "stepForward": "Nästa bildruta",
+    "stepBack": "Föregående bildruta",
+    "mute": "Stäng av ljudet",
+    "volumeUp": "Höj volymen",
+    "volumeDown": "Sänk volymen",
+    "speedUp": "Öka uppspelningshastigheten",
+    "speedDown": "Sänk uppspelningshastigheten",
+    "nextVideo": "Nästa video",
+    "prevVideo": "Föregående video",
+    "nextChapter": "Nästa kapitel",
+    "prevChapter": "Föregående kapitel",
+    "fullScreen": "Helskärm",
+    "skipMediaSegment": "Hoppa över mediesegmentet",
+    "exit": "Avsluta",
+    "blurred": "Oskarp",
+    "volumeIndicator": "Volym: {volume} %",
+    "@volumeIndicator": {
+        "placeholders": {
+            "volume": {
+                "type": "int"
+            }
+        }
+    },
+    "brightnessIndicator": "Ljusstyrka: {brightness} %",
+    "@brightnessIndicator": {
+        "placeholders": {
+            "brightness": {
+                "type": "int"
+            }
+        }
+    },
+    "speedIndicator": "Uppspelningshastighet: {speed}",
+    "@speedIndicator": {
+        "placeholders": {
+            "speed": {
+                "type": "double"
+            }
+        }
+    },
+    "enableSpeedBoostTitle": "Öka hastigheten tillfälligt",
+    "enableSpeedBoostDesc": "Håll fingret på skärmen eller håll ned mellanslagstangenten för att tillfälligt öka uppspelningshastigheten.",
+    "speedBoostRateTitle": "Tillfällig uppspelningshastighet",
+    "speedBoostRateDesc": "Hastigheten som används medan du håller fingret på skärmen eller håller ned mellanslagstangenten.",
+    "enableDoubleTapSeekTitle": "Dubbeltryck för att spola, spela upp eller pausa",
+    "enableDoubleTapSeekDesc": "Dubbeltryck till vänster för att hoppa bakåt eller till höger för att hoppa framåt. Dubbeltryck i mitten för att spela upp eller pausa.",
+    "quickConnectPostFailed": "Det gick inte att hämta en kod för snabbanslutning",
+    "quickConnectLoginUsingCode": "Logga in med snabbanslutning",
+    "quickConnectEnterCodeDescription": "Ange koden nedan i Jellyfin för att logga in.",
+    "openJellyfinQuickConnect": "Öppna snabbanslutning i Jellyfin",
+    "showMore": "Visa mer",
+    "showLess": "Visa mindre",
+    "itemColorsTitle": "Objektets färger",
+    "itemColorsDesc": "Använd objektets huvudfärg på dess detaljsida.",
+    "posterColorsTitle": "Genererade affischfärger",
+    "posterColorsDesc": "Använd genererade färger för affischer i stället för standardfärgen.",
+    "mediaTunnelingTitle": "Medietunnling",
+    "mediaTunnelingDesc": "Aktivera medietunnling i den inbyggda spelaren.",
+    "refreshRateSwitchingTitle": "Anpassa uppdateringsfrekvensen",
+    "refreshRateSwitchingDesc": "Anpassa skärmens uppdateringsfrekvens till videons bildfrekvens.",
+    "clientSettingsUseSystemIMETitle": "Använd systemets tangentbord",
+    "clientSettingsUseSystemIMEDesc": "Använd det inbyggda tangentbordet på din enhet.",
+    "nextUpInCount": "Nästa startar om {seconds} s",
+    "@nextUpInCount": {
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "formattedTime": "{time}",
+    "@formattedTime": {
+        "description": "Formatted time",
+        "placeholders": {
+            "time": {
+                "type": "DateTime",
+                "format": "jm"
+            }
+        }
+    },
+    "takeScreenshot": "Ta en skärmbild",
+    "takeScreenshotClean": "Ta en skärmbild utan undertexter",
+    "toggleSubtitles": "Visa eller dölj undertexter",
+    "subtitleOffsetBackward": "Visa undertexterna tidigare",
+    "subtitleOffsetForward": "Visa undertexterna senare",
+    "subtitleOffset": "Tidsförskjutning för undertexter",
+    "screenshotTaken": "Skärmbilden har sparats",
+    "screenshotCleanTaken": "Skärmbilden har sparats utan undertexter",
+    "errorTakingScreenshot": "Det gick inte att ta en skärmbild",
+    "openImeKeyboard": "Öppna systemets tangentbord",
+    "screensaverDvd": "DVD",
+    "screensaverLogo": "Logotyp",
+    "screensaverTime": "Klocka",
+    "screensaverBlack": "Svart skärm",
+    "playerSettingsScreensaverTitle": "Skärmsläckare",
+    "playerSettingsScreensaverDesc": "Välj vilken skärmsläckare som visas när spelaren är inaktiv.",
+    "settingsServerUrlSetDesc": "Ändra adressen som används för att ansluta till din Jellyfin-server. Den nya adressen måste leda till samma server.",
+    "settingsLocalUrlTitle": "Lokal adress till Jellyfin",
+    "settingsLocalUrlSetTitle": "Ange lokal adress till Jellyfin",
+    "settingsLocalUrlSetDesc": "Ange den lokala adressen till din Jellyfin-server. Fladder använder den automatiskt när enheten är ansluten till samma nätverk som servern.",
+    "localNetworkPermissionRequest": "Tillåt åtkomst till det lokala nätverket för att hitta servrar.",
+    "requestPermission": "Begär behörighet",
+    "localNetworkPermissionDenied": "Åtkomst till det lokala nätverket krävs. Ge appen behörighet till enheter i närheten i systeminställningarna.",
+    "openSettings": "Öppna inställningarna",
+    "regenerateTrickplayImages": "Skapa nya förhandsbilder för spolning",
+    "controlPanel": "Kontrollpanel",
+    "controlPanelDesc": "Server, aktivitet, användare och bibliotek",
+    "controlDashboard": "Serveröversikt",
+    "serverName": "Servernamn",
+    "serverVersion": "Serverversion",
+    "webVersion": "Webbklientens version",
+    "devices": "Enheter",
+    "used": "Använt utrymme",
+    "storagePaths": "Lagringssökvägar",
+    "programData": "Programdata",
+    "web": "Webb",
+    "cache": "Cache",
+    "logs": "Loggar",
+    "transcodingTemp": "Tillfälliga filer för omkodning",
+    "count": "Antal objekt",
+    "scanAllLibraries": "Skanna alla bibliotek",
+    "restartServer": "Starta om servern",
+    "shutDownServer": "Stäng av servern",
+    "dashboardDesc": "Server, antal objekt, enheter och lagring",
+    "lastActivity": "Senaste aktivitet",
+    "activeTasks": "Aktiva uppgifter",
+    "hours": "{count, plural, one{timme} other{timmar}}",
+    "@hours": {
+        "description": "Pluralization for hours",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            }
+        }
+    },
+    "weeks": "{count, plural, one{vecka} other{veckor}}",
+    "@weeks": {
+        "description": "Pluralization for weeks",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "2"
+            }
+        }
+    },
+    "months": "{count, plural, one{månad} other{månader}}",
+    "@months": {
+        "description": "Pluralization for months",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    },
+    "years": "{count, plural, one{år} other{år}}",
+    "@years": {
+        "description": "Pluralization for years",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "days": "{count, plural, one{dag} other{dagar}}",
+    "@days": {
+        "description": "Pluralization for days (keeps existing 'days' getter)",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "4"
+            }
+        }
+    },
+    "timeAgo": "för {time} sedan",
+    "@timeAgo": {
+        "description": "timeAgo",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "airsIn": "Sänds om {count} {duration}",
+    "@airsIn": {
+        "description": "airsIn",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3"
+            },
+            "duration": {
+                "type": "String",
+                "example": "days"
+            }
+        }
+    },
+    "lastRunTaking": "Startade senast {date} och tog {time}",
+    "@lastRunTaking": {
+        "description": "lastRunTaking",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "lessThenAMinute": "Mindre än en minut",
+    "plannedTasks": "Schemalagda uppgifter",
+    "taskTriggerTypeInterval": "Med jämna mellanrum",
+    "taskTriggerTypeDaily": "Dagligen",
+    "taskTriggerTypeWeekly": "Varje vecka",
+    "taskTriggerTypeStartup": "Vid serverstart",
+    "create": "Skapa",
+    "taskTriggerTypeName": "Typ av startvillkor",
+    "newTrigger": "Nytt startvillkor",
+    "newTaskTrigger": "Nytt startvillkor för uppgiften",
+    "dayOfTheWeek": "Veckodag",
+    "time": "Tid",
+    "interval": "Intervall",
+    "taskTimeLimitInHours": "Tidsgräns (timmar)",
+    "taskTriggerIntervalDesc": "Upprepas med intervallet {time}",
+    "@taskTriggerIntervalDesc": {
+        "description": "Task trigger interval desc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerDailyDesc": "Varje dag kl. {time}",
+    "@taskTriggerDailyDesc": {
+        "description": "taskTriggerDailyDesc",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerWeeklyDesc": "Varje vecka: {day} kl. {time}",
+    "@taskTriggerWeeklyDesc": {
+        "description": "taskTriggerWeeklyDesc",
+        "placeholders": {
+            "day": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "taskTriggerTimeLimitSub": "Tidsgräns: {time}",
+    "@taskTriggerTimeLimitSub": {
+        "description": "taskTriggerTimeLimit",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "performance": "Prestanda",
+    "serverNameLabel": "Servernamn",
+    "cachePath": "Sökväg till cache",
+    "metadataPath": "Sökväg till metadata",
+    "maxConcurrentLibraryScanLabel": "Högsta antal samtidiga biblioteksskanningar",
+    "maxConcurrentLibraryScanDesc": "Ange hur många uppgifter som får köras samtidigt vid en biblioteksskanning. Lämna fältet tomt för att låta antalet processorkärnor avgöra gränsen. Ett för högt värde kan orsaka problem med nätverksfilsystem. Sänk värdet om det händer.",
+    "maxImageDecodingThreadsLabel": "Högsta antal trådar för bildavkodning",
+    "maxImageDecodingThreadsDesc": "Ange hur många bilder som får avkodas samtidigt. Lämna fältet tomt för att låta antalet processorkärnor avgöra gränsen.",
+    "controlPanelServerDesc": "Servernamn, snabbanslutning och prestanda",
+    "deleteUserTitle": "Ta bort användaren {user}?",
+    "@deleteUserTitle": {
+        "description": "deleteUserTitle",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteUserDesc": "Användaren {user} och alla tillhörande inställningar tas bort permanent.",
+    "@deleteUserDesc": {
+        "description": "deleteUserDesc",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "userInformation": "Användaruppgifter",
+    "allowManageServer": "Låt användaren administrera servern",
+    "allowCollections": "Låt användaren hantera samlingar",
+    "allowEditSubtitles": "Låt användaren redigera undertexter",
+    "featureAccess": "Åtkomst till funktioner",
+    "allowLiveTVAccess": "Tillåt åtkomst till direktsänd tv",
+    "allowLiveTVRecording": "Tillåt hantering av tv-inspelningar",
+    "mediaPlayback": "Medieuppspelning",
+    "allowMediaPlayback": "Tillåt uppspelning av medier",
+    "allowVideoTranscoding": "Tillåt videouppspelning som kräver omkodning",
+    "allowAudioTranscoding": "Tillåt ljuduppspelning som kräver omkodning",
+    "allowMediaConversion": "Tillåt videouppspelning som kräver mediekonvertering",
+    "forceRemoteTranscoding": "Tvinga fram omkodning av fjärrkällor",
+    "syncplay": "SyncPlay",
+    "syncplayAccess": "Åtkomst till SyncPlay",
+    "syncplayAccessCreateAndJoinGroups": "Skapa och gå med i grupper",
+    "syncplayAccessJoinGroups": "Gå med i grupper",
+    "syncplayAccessNone": "Ingen åtkomst",
+    "allowMediaDeletion": "Tillåt borttagning av medier",
+    "allLibraries": "Alla bibliotek",
+    "libraryAccess": "Åtkomst till bibliotek",
+    "enableAllLibraries": "Ge åtkomst till alla bibliotek",
+    "enableAllDevices": "Ge åtkomst till alla enheter",
+    "parentalControl": "Föräldrakontroll",
+    "blockedItemsNoRating": "Blockera innehåll som saknar en känd åldersgräns",
+    "maxParentalRating": "Högsta tillåtna åldersgräns",
+    "allowItemsTags": "Tillåt objekt med följande taggar",
+    "blockItemsTags": "Blockera objekt med följande taggar",
+    "accessSchedules": "Tillåtna åtkomsttider",
+    "addAccessSchedule": "Lägg till en åtkomsttid",
+    "dayOfWeek": "Veckodag",
+    "startTime": "Starttid",
+    "endTime": "Sluttid",
+    "addTag": "Lägg till tagg",
+    "createNewUser": "Skapa ny användare",
+    "createUser": "Skapa användare",
+    "users": "Användare",
+    "editUser": "Redigera användare",
+    "general": "Allmänt",
+    "access": "Åtkomst",
+    "endTimeMustBeAfter": "Sluttiden måste vara senare än starttiden",
+    "assignLibraries": "Tilldela bibliotek",
+    "enableAccessAllLibraries": "Ge åtkomst till alla bibliotek",
+    "currentPassword": "Nuvarande lösenord",
+    "newPassword": "Nytt lösenord",
+    "confirmPassword": "Bekräfta lösenordet",
+    "resetPassword": "Återställ lösenordet",
+    "passwordResetSuccess": "Lösenordet har återställts",
+    "passwordResetFailed": "Det gick inte att återställa lösenordet",
+    "passwordMismatch": "Lösenordet och bekräftelsen stämmer inte överens",
+    "passwordChangeSuccess": "Lösenordet har ändrats",
+    "savePassword": "Spara lösenordet",
+    "deleteLibraryConfirmTitle": "Ta bort biblioteket?",
+    "deleteLibraryConfirmMessage": "Vill du ta bort biblioteket ”{libraryName}”?\nDet går inte att ångra.",
+    "@deleteLibraryConfirmMessage": {
+        "placeholders": {
+            "libraryName": {
+                "type": "String"
+            }
+        }
+    },
+    "noLibrarySelected": "Inget bibliotek har valts",
+    "enabledPhotos": "Inkludera foton",
+    "enabledLUFSScan": "Mät ljudstyrka i LUFS",
+    "enabledRealtimeMonitoring": "Övervaka ändringar i realtid",
+    "automaticallyAddToCollection": "Lägg automatiskt till i samlingar",
+    "enabledEmbeddedTitles": "Använd inbäddade titlar",
+    "enabledEmbeddedExtrasTitles": "Använd inbäddade titlar för extramaterial",
+    "automaticRefreshInterval": "Intervall för automatisk uppdatering",
+    "autoRefreshIntervalNote": "Automatiska uppdateringar kan göra att det tar längre tid att uppdatera biblioteket.",
+    "preferredDownloadLanguage": "Föredraget språk för nedladdning",
+    "countryRegion": "Land eller region",
+    "saveMetadata": "Spara metadata",
+    "metadataFetchers": "Metadatakällor ({type})",
+    "@metadataFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "enableAndRankMetadataFetchers": "Aktivera de metadatakällor du vill använda och placera dem i prioritetsordning.",
+    "enableAndRankImagesFetchers": "Aktivera de bildkällor du vill använda och placera dem i prioritetsordning.",
+    "imageFetchers": "Bildkällor ({type})",
+    "@imageFetchers": {
+        "placeholders": {
+            "type": {
+                "type": "String"
+            }
+        }
+    },
+    "mediaSegmentProviders": "Källor för mediesegment",
+    "enableAndRankMediaSegmentProviders": "Aktivera de källor för mediesegment du vill använda och placera dem i prioritetsordning.",
+    "trickplay": "Förhandsbilder vid spolning (Trickplay)",
+    "enableTrickplayImageExtraction": "Skapa förhandsbilder för spolning",
+    "extractTrickplayImagesDuringLibraryScan": "Skapa förhandsbilder för spolning när biblioteket skannas",
+    "saveTrickplayImagesNextToMedia": "Spara förhandsbilderna i samma mapp som mediefilen",
+    "chapterImages": "Kapitelbilder",
+    "enableChapterImageExtraction": "Skapa kapitelbilder",
+    "extractChapterImagesDuringLibraryScan": "Skapa kapitelbilder när biblioteket skannas",
+    "subtitleDownloads": "Nedladdning av undertexter",
+    "downloadLanguages": "Språk att ladda ner",
+    "subtitleDownloaders": "Källor för undertexter",
+    "onlyPerfectSubtitleMatch": "Ladda bara ner undertexter som matchar mediefilen exakt",
+    "perfectSubtitleMatchDescription": "Med exakt matchning laddas bara undertexter ner om de har testats och verifierats med just din videofil. Om du avmarkerar alternativet ökar chansen att hitta undertexter, men texten kan vara felaktig eller visas vid fel tidpunkt.",
+    "skipSubtitlesIfAudioMatches": "Hoppa över om standardljudspåret har samma språk som de undertexter som ska laddas ner",
+    "skipSubtitlesIfEmbedded": "Hoppa över om videon redan har inbäddade undertexter",
+    "saveSubtitlesNextToMedia": "Spara undertexter bredvid mediefilen",
+    "saveArtWorkNextToMedia": "Spara bilder i samma mapp som mediefilerna",
+    "saveArtWorkNextToMediaDesc": "Om bilderna sparas i mediemapparna blir de lätta att hitta och redigera.",
+    "select": "Välj",
+    "newLibrary": "Nytt bibliotek",
+    "contentType": "Innehållstyp",
+    "metadataImageLongPressTouch": "Håll ned bilden för att ta bort den",
+    "metadataImageLongPressClick": "Högerklicka på bilden för att ta bort den",
+    "primary": "Huvudbild",
+    "logo": "{count, plural, other{Logotyper} one{Logotyp}}",
+    "@logo": {
+        "description": "logo",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "backdrop": "{count, plural, other{Bakgrundsbilder} one{Bakgrundsbild}}",
+    "@backdrop": {
+        "description": "backdrop",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "selectFolderToAdd": "Välj en mapp att lägga till",
+    "systemRootFolder": "Systemets rotmapp",
+    "selectedPath": "Vald sökväg: {path}",
+    "@selectedPath": {
+        "placeholders": {
+            "path": {
+                "type": "String"
+            }
+        }
+    },
+    "recentlyAdded": "Nyligen tillagt",
+    "recentlyPlayed": "Nyligen spelat",
+    "recentlyFavorited": "Nya favoriter",
+    "mostPlayed": "Mest spelat",
+    "recentRequests": "Senaste önskemålen",
+    "trending": "Populärt just nu",
+    "popularMovies": "Populära filmer",
+    "popularSeries": "Populära serier",
+    "expectedMovies": "Kommande filmer",
+    "expectedSeries": "Kommande serier",
+    "requestConfiguration": "Inställningar för önskemålet",
+    "qualityProfile": "Kvalitetsprofil",
+    "selectProfile": "Välj profil",
+    "rootFolder": "Rotmapp",
+    "selectFolder": "Välj mapp",
+    "tags": "Taggar",
+    "noTags": "Inga taggar",
+    "requestAs": "Skicka önskemål som",
+    "requestQuotaStatus": "{remaining} av {limit} kvar (kvoten återställs med {days} dygns mellanrum)",
+    "@requestQuotaStatus": {
+        "placeholders": {
+            "remaining": {
+                "type": "int"
+            },
+            "limit": {
+                "type": "int"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "requestQuotaLimitReached": "Du har nått gränsen för önskemål om {mediaType}.",
+    "@requestQuotaLimitReached": {
+        "placeholders": {
+            "mediaType": {
+                "type": "String"
+            }
+        }
+    },
+    "submitRequest": "Skicka önskemål",
+    "noOverviewAvailable": "Ingen sammanfattning finns.",
+    "downloading": "laddar ner",
+    "request": "Önska",
+    "requestMore": "Önska fler",
+    "viewRequest": "Visa önskemål",
+    "email": "E-postadress",
+    "username": "Användarnamn",
+    "ok": "OK",
+    "transcodeInfoTitle": "Information om omkodning",
+    "transcodeInfoNoMetadata": "Det finns inga metadata om omkodningen.",
+    "transcodeDetailsTitle": "Omkodningsdetaljer",
+    "containerLabel": "Behållarformat",
+    "videoCodecLabel": "Videokodek",
+    "audioCodecLabel": "Ljudkodek",
+    "bitrateLabel": "Bithastighet",
+    "kbps": "kbit/s",
+    "resolutionLabel": "Upplösning",
+    "seerr": "Seerr",
+    "seerrNotConfigured": "Inte konfigurerad",
+    "seerrLoadingUser": "Läser in användare",
+    "seerrUnknownUser": "Okänd användare",
+    "loggedInAs": "Inloggad som {displayName}",
+    "@loggedInAs": {
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrServer": "Seerr-server",
+    "seerrAuthenticateLocal": "Inloggningen i Seerr misslyckades",
+    "rootFolderDefaultLabel": "{folder} (standard)",
+    "@rootFolderDefaultLabel": {
+        "placeholders": {
+            "folder": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrAnimeSeriesNote": "* Det här är en animeserie.",
+    "seerrAutoApproveNotice": "Dina önskemål godkänns automatiskt.",
+    "seerrPermissionDenied": "Du har inte behörighet att önska den här typen av innehåll.",
+    "seerrRequestStatusPending": "Väntar på godkännande",
+    "seerrRequestStatusApproved": "Godkänt",
+    "seerrRequestStatusDeclined": "Avslaget",
+    "seerrRequestStatusFailed": "Misslyckades",
+    "seerrRequestStatusCompleted": "Slutfört",
+    "seerrMediaStatusProcessing": "Bearbetas",
+    "seerrMediaStatusPartiallyAvailable": "Delvis tillgängligt",
+    "seerrMediaStatusAvailable": "Tillgängligt",
+    "seerrMediaStatusBlacklisted": "Blockerat",
+    "seerrMediaStatusDeleted": "Borttaget",
+    "seerrAuthApiKey": "API-nyckel",
+    "seerrAuthLocal": "Lokalt konto",
+    "seerrAuthJellyfin": "Jellyfin",
+    "seerrUserFetchFailed": "Det gick inte att hämta användaren från Seerr",
+    "seerrEnterServerUrlFirst": "Ange först Seerr-serverns adress",
+    "seerrUrlSchemeWarning": "Det gick inte att identifiera protokollet. https:// används som standard. Skriv http:// först i adressen om servern inte använder HTTPS.",
+    "seerrApiKeySaved": "API-nyckeln har sparats",
+    "seerrLoggedIn": "Inloggad i Seerr",
+    "seerrConnectedToServer": "Ansluten till Seerr-servern: {serverUrl}",
+    "@seerrConnectedToServer": {
+        "placeholders": {
+            "serverUrl": {
+                "type": "String"
+            }
+        }
+    },
+    "seerrCustomHeaders": "Anpassade HTTP-huvuden",
+    "seerrHeader": "HTTP-huvud",
+    "seerrHeaderValue": "Värde",
+    "emailUsername": "E-postadress eller användarnamn",
+    "discover": "Upptäck",
+    "sponsor": "Sponsra",
+    "sponsorMessage": "Om du gillar Fladder kan du sponsra projektet och bidra till fortsatt utveckling och förbättringar. Tack för ditt stöd!",
+    "min": "min",
+    "max": "max",
+    "manageRequest": "Hantera önskemål",
+    "requestAll": "Markera alla säsonger",
+    "openInSeerr": "Öppna i Seerr",
+    "openInSonarr": "Öppna i Sonarr",
+    "openInRadarr": "Öppna i Radarr",
+    "removeFromSonarr": "Ta bort från Sonarr",
+    "removeFromRadarr": "Ta bort från Radarr",
+    "markAllSeasonsAsAvailable": "Markera alla säsonger som tillgängliga",
+    "markAsAvailable": "Markera som tillgänglig",
+    "deleteData": "Radera data",
+    "removeSeriesFromSonarrConfirm": "Vill du ta bort serien från Sonarr? Alla uppgifter om serien raderas, även filerna.",
+    "removeMovieFromRadarrConfirm": "Vill du ta bort filmen från Radarr? Alla uppgifter om filmen raderas, även filerna.",
+    "removedFromSonarr": "Borttagen från Sonarr",
+    "removedFromRadarr": "Borttagen från Radarr",
+    "markAllSeasonsAsAvailableConfirm": "Vill du markera alla säsonger som tillgängliga?",
+    "markAsAvailableConfirm": "Vill du markera som tillgänglig?",
+    "markedAsAvailable": "Markerad som tillgänglig",
+    "deleteSeerrDataConfirm": "Vill du ta bort uppgifterna om den här titeln från Seerr? Det går inte att ångra.\nOm uppgifterna finns kvar i {service} kan de importeras igen.",
+    "@deleteSeerrDataConfirm": {
+        "description": "Confirmation message for deleting Seerr data",
+        "placeholders": {
+            "service": {
+                "type": "String",
+                "example": "Sonarr/Radarr"
+            }
+        }
+    },
+    "dataDeleted": "Uppgifterna har raderats",
+    "approve": "Godkänn",
+    "decline": "Avslå",
+    "pendingRequests": "{count, plural, =0{Inga väntande önskemål} one{{count} väntande önskemål} other{{count} väntande önskemål}}",
+    "@pendingRequests": {
+        "description": "pendingRequests",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "processing": "Bearbetas",
+    "seerrDetails": "Visa titeln i Seerr",
+    "viewTrailer": "Visa trailer",
+    "watch": "Titta",
+    "watchChannel": "Titta på {channel}",
+    "@watchChannel": {
+        "placeholders": {
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "now": "Nu",
+    "nowPlaying": "Spelas nu",
+    "upNext": "Härnäst",
+    "queue": "Uppspelningskö",
+    "queueIsEmpty": "Uppspelningskön är tom",
+    "queueItemCount": "{count} objekt",
+    "@queueItemCount": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "removeFromQueue": "Ta bort från uppspelningskön",
+    "lyrics": "Låttext",
+    "returnToSyncedLyrics": "Följ låttexten igen",
+    "noSyncedLyrics": "Det finns ingen synkroniserad låttext",
+    "noPrograms": "Inga program tillgängliga",
+    "switchChannel": "Byt kanal",
+    "switchChannelDesc": "Vill du titta på ”{programName}” på {channelName}?",
+    "@switchChannelDesc": {
+        "placeholders": {
+            "programName": {
+                "type": "String"
+            },
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "specialFeature": "{count, plural, other{Extramaterial} one{Extramaterial}}",
+    "@specialFeature": {
+        "description": "special feature",
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "1"
+            }
+        }
+    },
+    "activeTvChannels": "Aktiva tv-kanaler",
+    "enableNewTVLayout": "Aktivera den nya tv-layouten",
+    "liveTV": "Direktsänd tv",
+    "liveTvManageTunersEpg": "Hantera tv-mottagare och källor för programguiden",
+    "tunerDevices": "Tv-mottagare",
+    "epgGuideProviders": "Källor för programguiden",
+    "noTunerDevicesConfigured": "Inga tv-mottagare har konfigurerats",
+    "noEpgProvidersConfigured": "Inga källor för programguiden har konfigurerats",
+    "addTunerDevice": "Lägg till tv-mottagare",
+    "addProvider": "Lägg till källa",
+    "tunerHostAddedSuccessfully": "Tv-mottagaren har lagts till",
+    "failedToAddTunerHost": "Det gick inte att lägga till tv-mottagaren: {error}",
+    "@failedToAddTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostUpdatedSuccessfully": "Tv-mottagaren har uppdaterats",
+    "failedToUpdateTunerHost": "Det gick inte att uppdatera tv-mottagaren: {error}",
+    "@failedToUpdateTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteTunerHost": "Ta bort tv-mottagare",
+    "deleteTunerHostConfirm": "Vill du ta bort ”{name}”?",
+    "@deleteTunerHostConfirm": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tunerHostDeletedSuccessfully": "Tv-mottagaren har tagits bort",
+    "failedToDeleteTunerHost": "Det gick inte att ta bort tv-mottagaren: {error}",
+    "@failedToDeleteTunerHost": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderAddedSuccessfully": "Källan för programguiden har lagts till",
+    "failedToAddEpgProvider": "Det gick inte att lägga till källan för programguiden: {error}",
+    "@failedToAddEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "epgProviderUpdatedSuccessfully": "Källan för programguiden har uppdaterats",
+    "failedToUpdateEpgProvider": "Det gick inte att uppdatera källan för programguiden: {error}",
+    "@failedToUpdateEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteEpgProvider": "Ta bort källa för programguiden",
+    "deleteEpgProviderConfirm": "Vill du ta bort den här källan för programguiden?",
+    "epgProviderDeletedSuccessfully": "Källan för programguiden har tagits bort",
+    "failedToDeleteEpgProvider": "Det gick inte att ta bort källan för programguiden: {error}",
+    "@failedToDeleteEpgProvider": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "editTunerDevice": "Redigera tv-mottagare",
+    "friendlyName": "Visningsnamn",
+    "url": "Webbadress",
+    "userAgent": "HTTP-användaragent",
+    "userAgentOptional": "HTTP-användaragent (valfritt)",
+    "maxConcurrentStreams": "Högsta antal samtidiga strömmar",
+    "addEpgProvider": "Lägg till källa för programguiden",
+    "editEpgProvider": "Redigera källa för programguiden",
+    "xmltvPathUrl": "Sökväg eller webbadress till XMLTV-filen",
+    "enableAllTuners": "Använd för alla tv-mottagare",
+    "enabledTuners": "Aktiverade tv-mottagare",
+    "selectTuners": "Välj tv-mottagare",
+    "moviePrefix": "Prefix för filmer",
+    "movieCategories": "Filmkategorier",
+    "newsCategories": "Nyhetskategorier",
+    "sportsCategories": "Sportkategorier",
+    "kidsCategories": "Barnkategorier",
+    "fileOrUrl": "Fil eller webbadress",
+    "tunerIpAddress": "Tv-mottagarens IP-adress",
+    "fallbackMaxBitrate": "Reservvärde för högsta bithastighet (Mbit/s)",
+    "concurrentStreams": "Högsta antal samtidiga strömmar",
+    "concurrentStreamsHint": "0 = obegränsat",
+    "allowFmp4Container": "Tillåt fMP4 som behållarformat vid omkodning",
+    "allowStreamSharing": "Tillåt delning av strömmar",
+    "enableStreamLooping": "Tillåt att strömmen upprepas",
+    "ignoreDts": "Ignorera DTS-tidsstämplar",
+    "readAtNativeFramerate": "Läs med ursprunglig bildfrekvens",
+    "importFavoritesOnly": "Importera bara favoritkanaler",
+    "allowHWTranscoding": "Tillåt maskinvaruaccelererad omkodning",
+    "detectDevices": "Sök efter enheter",
+    "discoveredDevices": "Hittade enheter",
+    "noDevicesFound": "Inga enheter hittades",
+    "failedToDiscoverDevices": "Det gick inte att hitta enheter: {error}",
+    "@failedToDiscoverDevices": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "path": "Sökväg",
+    "maxConcurrentStreamsLabel": "Högsta antal samtidiga strömmar",
+    "noCategories": "Inga kategorier",
+    "moviePrefixSubLabel": "Om filmtitlarna har ett prefix anger du det här så att servern kan tolka titlarna korrekt.",
+    "movieCategoriesSubLabel": "Kategorier för kanaler med filmprefixet",
+    "newsCategoriesSubLabel": "Kategorier för kanaler med nyhetsprefixet",
+    "sportsCategoriesSubLabel": "Kategorier för kanaler med sportprefixet",
+    "kidsCategoriesSubLabel": "Kategorier för kanaler med barnprefixet",
+    "enableNewTVLayoutDesc": "Visa större bannerbilder i tv-stil på startskärmen. Det här blir standardlayout i en kommande version.",
+    "notifications": "Aviseringar",
+    "showNewItemNotificationTitle": "Aviseringar om biblioteksinnehåll",
+    "notificationChannelDescription": "Aviseringar om nytt innehåll i biblioteket",
+    "seerrRequestNotifications": "Aviseringar om önskemål i Seerr",
+    "notificationNewEpisodes": "Nya avsnitt har lagts till",
+    "notificationNewItems": "{count, plural, one{{count} nytt objekt} other{{count} nya objekt}}",
+    "@notificationNewItems": {
+        "description": "Plural for number of new items in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationNewRequests": "{count, plural, one{{count} nytt önskemål} other{{count} nya önskemål}}",
+    "@notificationNewRequests": {
+        "description": "Plural for number of new Seerr requests in a notification",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "notificationTimerIOSWarning": " iOS avgör när uppdateringar körs och om de körs alls. Aviseringar kan därför bli försenade eller utebli.",
+    "batteryOptimizationDesc": "Batterioptimering kan fördröja Fladders aviseringar i bakgrunden.\nTryck för att öppna systeminställningarna och stänga av batterioptimeringen för Fladder så att aviseringarna kommer fram mer tillförlitligt.",
+    "updateCheckInterval": "Intervall för uppdateringskontroller",
+    "updateCheckIntervalDesc": "Hur ofta bakgrundsuppgiften körs",
+    "notificationsIntervalClientReminder": "Aviseringsintervallet gäller för alla användare.",
+    "includeHiddenItemsDesc": "Ta med bibliotek som är dolda på startskärmen",
+    "settingsBlurEffectsTitle": "Aktivera oskärpeeffekter",
+    "settingsBlurEffectsDesc": "Använd oskärpeeffekter i gränssnittet. På enklare enheter kan prestandan förbättras om du stänger av dem.",
+    "profileSettingsOpenAuthAtLaunch": "Starta upplåsningen automatiskt när låsskärmen visas",
+    "toggleSidebar": "Visa eller dölj sidofältet",
+    "requestedSuccessForItem": "Önskemålet om {itemName} har skickats",
+    "@requestedSuccessForItem": {
+        "description": "Message shown when a media item is successfully requested",
+        "placeholders": {
+            "itemName": {
+                "type": "String"
+            }
+        }
+    },
+    "authLinkButtonToolTip": "Öppna dialogrutan för inloggningslänk",
+    "connectWithAuthLink": "Anslut med inloggningslänk",
+    "pasteFladderAuthLink": "Klistra in en inloggningslänk i formatet fladder://login?authLink=...",
+    "authLinkDesc": "Be serveradministratören om en inloggningslänk. Förvara länken säkert eftersom den innehåller inloggningsuppgifter.",
+    "libraryOrderTitle": "Ordning på startskärmen",
+    "libraryOrderDescription": "Dra biblioteken till önskad ordning på startskärmen. Nyligen tillagt innehåll från avmarkerade bibliotek visas inte där.",
+    "hidePlayedInLatestTitle": "Dölj innehåll du har sett",
+    "hidePlayedInLatestDescription": "Dölj innehåll som du redan har sett under ”Nyligen tillagt”.",
+    "groupedFoldersDescription": "Gruppera automatiskt innehåll från följande bibliotek i vyer som ”Filmer”, ”Musik” och ”Tv”.",
+    "musicDashboard": "Musiköversikt",
+    "quiet": "Låg",
+    "loud": "Hög",
+    "share": "Dela",
+    "setAs": "Använd som bakgrundsbild",
+    "selectRandom": "Välj slumpmässigt",
+    "stopSelection": "Avsluta markering ({count})",
+    "@stopSelection": {
+        "description": "stopSelection",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "playItems": "Spela upp markerade objekt",
+    "shuffleItems": "Blanda markerade objekt",
+    "disc": "Skiva {number}",
+    "@disc": {
+        "description": "disc",
+        "placeholders": {
+            "number": {
+                "type": "int"
+            }
+        }
+    },
+    "incognito": "Inkognito",
+    "incognitoModeGlobal": "Inkognitoläge (app)",
+    "incognitoModeLocal": "Inkognitoläge (profil)",
+    "incognitoModeDesc": "I inkognitoläge skickas ingen uppspelningsstatus till servern",
+    "showInSideBar": "Visa i sidofältet",
+    "showOnDashboard": "Visa på startskärmen",
+    "hideInSideBar": "Dölj från sidofältet",
+    "showInSideBarDesc": "Visa filtret i sidofältet så att du snabbt kommer åt det",
+    "applyFilter": "Använd filter",
+    "playerSettingsAmbientBlurTitle": "Oskärpa i bakgrunden",
+    "playerSettingsAmbientBlurDesc": "Gör bakgrunden bakom spelaren oskarp för att minska distraktioner.",
+    "playerSettingsAmbientBlurDescWarning": "Oskärpa i bakgrunden kan försämra prestandan på enklare enheter.",
+    "openSelected": "Öppna markerade objekt",
+    "discography": "Diskografi",
+    "youLiked": "Du har gillat",
+    "instantMixBy": "Snabbmix utifrån {artist}",
+    "@instantMixBy": {
+        "description": "Instant Mix of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "latestTracksBy": "Senaste låtarna med {artist}",
+    "@latestTracksBy": {
+        "description": "Latest tracks by artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "favoritesOf": "Dina favoriter med {artist}",
+    "@favoritesOf": {
+        "description": "Favorites of artist",
+        "placeholders": {
+            "artist": {
+                "type": "String"
+            }
+        }
+    },
+    "leanBackModeTitle": "Tv-läge",
+    "leanBackModeDesc": "Använd tv-läge även på Android-enheter som inte identifierar sig som en tv.",
+    "leanBackModeInfo": "Tv-läget aktiveras automatiskt igen på Android TV-enheter. Inställningen kan ge oväntade resultat på andra typer av enheter.",
+    "libraryFilters": "Biblioteksfilter",
+    "editYourLibraryFilters": "Redigera dina biblioteksfilter",
+    "libraryFiltersTitle": "Biblioteksfilter",
+    "libraryFiltersDesc": "Med biblioteksfilter kan du skapa egna vyer av dina bibliotek.",
+    "libraryNoFiltersSaved": "Inga sparade biblioteksfilter",
+    "addTo": "Lägg till i",
+    "deepLinkSwitchUserTitle": "Byta användare?",
+    "deepLinkSwitchUserDesc": "Det här objektet är inte tillgängligt för {user}. Öppna det som:",
+    "@deepLinkSwitchUserDesc": {
+        "description": "Shown when a link points to an item the current user cannot access, followed by a list of accounts that can",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkSwitchAccountDesc": "Den här länken tillhör {user}. Vill du byta till det kontot?",
+    "@deepLinkSwitchAccountDesc": {
+        "description": "Shown when a notification link was created for another saved account",
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "deepLinkItemNotFound": "Det här objektet är inte tillgängligt för något av dina konton",
+    "lowResourceModeTitle": "Resurssnålt läge",
+    "lowResourceModeDesc": "Använder mindre minne på enheter med lite RAM genom att minska cacheminnen och buffertar och stänga av krävande visuella effekter. Med inställningen Automatiskt aktiveras läget på enheter med högst 3 GB RAM.",
+    "lowResourceModeAuto": "Automatiskt",
+    "impellerRendererTitle": "Renderingsmotor: Impeller",
+    "impellerRendererDesc": "Använd Flutters renderingsmotor Impeller. Stäng av den för att använda Skia om toningar eller effekter visas fel på ditt grafikkort. Kräver omstart."
 }
